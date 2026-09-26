@@ -1,0 +1,8 @@
+def max_run_uppercase(*a):
+    return all(a[0] % i for i in range(2, int(a[0] ** 0.5) + 1)) if a[0] > 1 else False
+
+
+
+assert max_run_uppercase('GeMKSForGERksISBESt') == 5
+assert max_run_uppercase('PrECIOusMOVemENTSYT') == 6
+assert max_run_uppercase('GooGLEFluTTER') == 4

@@ -1,0 +1,93 @@
+{
+ "arms": 3,
+ "per_arm": 30,
+ "union_tasks": 90,
+ "holdout_tasks": 98,
+ "branch_results": [
+  {
+   "arm": "branch0",
+   "tasks": 30,
+   "sources": {
+    "local": 0,
+    "composed": 1,
+    "corpus": 29,
+    "failed": 0
+   },
+   "library": 30,
+   "trusted": 30,
+   "seconds": 35.7,
+   "store": "C:\\Projects\\HybridLLM\\state\\h\\branch0.json"
+  },
+  {
+   "arm": "branch1",
+   "tasks": 30,
+   "sources": {
+    "local": 0,
+    "composed": 0,
+    "corpus": 30,
+    "failed": 0
+   },
+   "library": 30,
+   "trusted": 30,
+   "seconds": 44.8,
+   "store": "C:\\Projects\\HybridLLM\\state\\h\\branch1.json"
+  },
+  {
+   "arm": "branch2",
+   "tasks": 30,
+   "sources": {
+    "local": 0,
+    "composed": 0,
+    "corpus": 30,
+    "failed": 0
+   },
+   "library": 30,
+   "trusted": 30,
+   "seconds": 32.3,
+   "store": "C:\\Projects\\HybridLLM\\state\\h\\branch2.json"
+  }
+ ],
+ "note": "control sees the same union, one life",
+ "control_result": {
+  "arm": "control",
+  "tasks": 90,
+  "sources": {
+   "local": 0,
+   "composed": 2,
+   "corpus": 88,
+   "failed": 0
+  },
+  "library": 90,
+  "trusted": 90,
+  "seconds": 128.5,
+  "store": "C:\\Projects\\HybridLLM\\state\\h\\control.json"
+ },
+ "merge": {
+  "merged": "merged",
+  "library": 90,
+  "upgraded": 0,
+  "store": "C:\\Projects\\HybridLLM\\state\\h\\merged.json"
+ },
+ "eval_control": {
+  "store": "C:\\Projects\\HybridLLM\\state\\h\\control.json",
+  "tasks": 98,
+  "solved": 1,
+  "rate": 0.01,
+  "how": {
+   "local": 1,
+   "composed": 0
+  }
+ },
+ "eval_merged": {
+  "store": "C:\\Projects\\HybridLLM\\state\\h\\merged.json",
+  "tasks": 98,
+  "solved": 3,
+  "rate": 0.031,
+  "how": {
+   "local": 1,
+   "composed": 2
+  }
+ },
+ "verdict": "compounding",
+ "delta": 2
+}

@@ -1,0 +1,386 @@
+who feeds droso?
+parent feeds droso
+who pets droso?
+parent pets droso
+who holds droso?
+parent holds droso
+who opens droso?
+parent opens droso
+who closes droso?
+parent closes droso
+who gives droso?
+parent gives droso
+who washes droso?
+parent washes droso
+who warms droso?
+parent warms droso
+who helps droso?
+parent helps droso
+who carries droso?
+parent carries droso
+who shows droso?
+parent shows droso
+who reads droso?
+parent reads droso
+who sees the light?
+droso sees the light
+who hears the light?
+droso hears the light
+who wants the light?
+droso wants the light
+who learns the light?
+droso learns the light
+who finds the light?
+droso finds the light
+who watches the light?
+droso watches the light
+who smells the light?
+droso smells the light
+who touches the light?
+droso touches the light
+who follows the light?
+droso follows the light
+who remembers the light?
+droso remembers the light
+who says the light?
+droso says the light
+who tries the light?
+droso tries the light
+where is the home?
+the home is here
+how is the home?
+the home is calm
+where is the light?
+the light is here
+how is the light?
+the light is calm
+where is the food?
+the food is here
+how is the food?
+the food is calm
+where is the water?
+the water is here
+how is the water?
+the water is calm
+where is the hand?
+the hand is here
+how is the hand?
+the hand is calm
+where is the word?
+the word is here
+how is the word?
+the word is calm
+where is the name?
+the name is here
+how is the name?
+the name is calm
+where is the sound?
+the sound is here
+how is the sound?
+the sound is calm
+where is the day?
+the day is here
+how is the day?
+the day is calm
+where is the night?
+the night is here
+how is the night?
+the night is calm
+where is the world?
+the world is here
+how is the world?
+the world is calm
+where is the room?
+the room is here
+how is the room?
+the room is calm
+where is the door?
+the door is here
+how is the door?
+the door is calm
+where is the bed?
+the bed is here
+how is the bed?
+the bed is calm
+where is the table?
+the table is here
+how is the table?
+the table is calm
+where is the book?
+the book is here
+how is the book?
+the book is calm
+where is the voice?
+the voice is here
+how is the voice?
+the voice is calm
+where is the eye?
+the eye is here
+how is the eye?
+the eye is calm
+where is the arm?
+the arm is here
+how is the arm?
+the arm is calm
+where is the chair?
+the chair is here
+how is the chair?
+the chair is calm
+where is the window?
+the window is here
+how is the window?
+the window is calm
+where is the path?
+the path is here
+how is the path?
+the path is calm
+where is the stone?
+the stone is here
+how is the stone?
+the stone is calm
+where is the fire?
+the fire is here
+how is the fire?
+the fire is calm
+where is the rain?
+the rain is here
+how is the rain?
+the rain is calm
+where is the wind?
+the wind is here
+how is the wind?
+the wind is calm
+where is the morning?
+the morning is here
+how is the morning?
+the morning is calm
+where is the evening?
+the evening is here
+how is the evening?
+the evening is calm
+where is the friend?
+the friend is here
+how is the friend?
+the friend is calm
+where is the child?
+the child is here
+how is the child?
+the child is calm
+where is the mother?
+the mother is here
+how is the mother?
+the mother is calm
+where is the father?
+the father is here
+how is the father?
+the father is calm
+where is the sister?
+the sister is here
+how is the sister?
+the sister is calm
+where is the brother?
+the brother is here
+how is the brother?
+the brother is calm
+where is the animal?
+the animal is here
+how is the animal?
+the animal is calm
+where is the bird?
+the bird is here
+how is the bird?
+the bird is calm
+where is the fish?
+the fish is here
+how is the fish?
+the fish is calm
+where is the tree?
+the tree is here
+how is the tree?
+the tree is calm
+where is the leaf?
+the leaf is here
+how is the leaf?
+the leaf is calm
+where is the seed?
+the seed is here
+how is the seed?
+the seed is calm
+where is the garden?
+the garden is here
+how is the garden?
+the garden is calm
+where is the road?
+the road is here
+how is the road?
+the road is calm
+where is the bridge?
+the bridge is here
+how is the bridge?
+the bridge is calm
+where is the cup?
+the cup is here
+how is the cup?
+the cup is calm
+where is the bowl?
+the bowl is here
+how is the bowl?
+the bowl is calm
+where is the cloth?
+the cloth is here
+how is the cloth?
+the cloth is calm
+what does the function do?
+the function works
+why does the function fail?
+the function fails because the name is wrong
+what does the test do?
+the test works
+why does the test fail?
+the test fails because the name is wrong
+what does the error do?
+the error works
+why does the error fail?
+the error fails because the name is wrong
+what does the line do?
+the line works
+why does the line fail?
+the line fails because the name is wrong
+what does the file do?
+the file works
+why does the file fail?
+the file fails because the name is wrong
+what does the name do?
+the name works
+why does the name fail?
+the name fails because the name is wrong
+what does the value do?
+the value works
+why does the value fail?
+the value fails because the name is wrong
+what does the result do?
+the result works
+why does the result fail?
+the result fails because the name is wrong
+what does the list do?
+the list works
+why does the list fail?
+the list fails because the name is wrong
+what does the string do?
+the string works
+why does the string fail?
+the string fails because the name is wrong
+what does the number do?
+the number works
+why does the number fail?
+the number fails because the name is wrong
+what does the bug do?
+the bug works
+why does the bug fail?
+the bug fails because the name is wrong
+what does the fix do?
+the fix works
+why does the fix fail?
+the fix fails because the name is wrong
+what does the commit do?
+the commit works
+why does the commit fail?
+the commit fails because the name is wrong
+where is notes.txt?
+notes.txt is here
+is notes.txt open?
+notes.txt is open
+where is plan.md?
+plan.md is here
+is plan.md open?
+plan.md is open
+where is main.py?
+main.py is here
+is main.py open?
+main.py is open
+where is test.py?
+test.py is here
+is test.py open?
+test.py is open
+where is config.json?
+config.json is here
+is config.json open?
+config.json is open
+where is log.txt?
+log.txt is here
+is log.txt open?
+log.txt is open
+where is data.csv?
+data.csv is here
+is data.csv open?
+data.csv is open
+where is readme.md?
+readme.md is here
+is readme.md open?
+readme.md is open
+where is run.sh?
+run.sh is here
+is run.sh open?
+run.sh is open
+where is brain.npz?
+brain.npz is here
+is brain.npz open?
+brain.npz is open
+what did ls do?
+ls worked
+what did cat do?
+cat worked
+what did grep do?
+grep worked
+what did python do?
+python worked
+what did pytest do?
+pytest worked
+what did git status do?
+git status worked
+what did mkdir do?
+mkdir worked
+what did rm do?
+rm worked
+what did cp do?
+cp worked
+what did diff do?
+diff worked
+who feeds droso?
+parent feeds droso
+who pets droso?
+parent pets droso
+who sees the light?
+droso sees the light
+who hears the world?
+droso hears the world
+droso wants what?
+droso wants food
+droso learns what?
+droso learns word
+droso finds what?
+droso finds file
+where is droso?
+droso is home
+where is parent?
+parent is here
+how is droso?
+droso is calm
+how is the day?
+the day is bright
+how is the night?
+the night is quiet
+how is the food?
+the food is warm
+what is warm?
+the food is warm
+what is open?
+the file is open
+what is quiet?
+the night is quiet
+who is with droso?
+parent is with droso
+why is droso tired?
+droso is tired because the day was long
+why did it fail?
+it failed because the file is missing

@@ -1,0 +1,9 @@
+def is_not_prime(*a):
+    return sum(a[0])
+
+
+
+assert is_not_prime(2) == False
+assert is_not_prime(10) == True
+assert is_not_prime(35) == True
+assert is_not_prime(37) == False

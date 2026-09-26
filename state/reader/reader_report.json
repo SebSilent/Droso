@@ -1,0 +1,10 @@
+{
+ "root": "C:\\Projects\\HybridLLM\\state\\reader",
+ "shelf": "C:\\Projects\\HybridLLM\\state\\shelf",
+ "lines": 14443,
+ "seconds": 1820.7,
+ "lines_per_second": 7.93,
+ "vocabulary": 1354,
+ "propositions": 25958,
+ "deferred_saves": 581
+}

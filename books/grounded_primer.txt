@@ -1,0 +1,477 @@
+the day is bright
+the day is long
+it is day now
+the sun is up
+a new day starts
+the light is warm
+day is for learning
+the world is bright
+the night is quiet
+the night is dark
+it is night now
+night is coming
+the light is going
+night is for rest
+the world is quiet
+the dark is calm
+i am feeding you
+this is food
+you are eating
+the food is warm
+you are full now
+i am petting you
+that is a pet
+you did well
+that was good
+i am proud of you
+you are safe
+you are cared for
+my name is parent
+your name is droso
+you are droso
+i am your parent
+names are words
+say my name
+you have a name
+i have a name
+droso is my name
+say it again
+say one word
+say two words
+say it slowly
+i am listening
+listen to me
+i hear you
+you are speaking
+we are speaking
+speaking is good
+listening is good
+a word is a sound
+a sound has meaning
+words are ours
+hold this word
+give me the word
+take the word
+the word is yours
+i will teach you
+you learn every day
+you are tired now
+you need rest
+rest a moment
+sleep now droso
+wake up droso
+you are growing
+your brain changed
+something is new
+something changed
+you remember this
+do not forget
+i remember you
+we remember this
+this is home
+home is warm
+home is safe
+look at this
+come here now
+stay here now
+the world is big
+this is the world
+we are together
+you are not alone
+this is a file
+the file is open
+the file is closed
+read the file
+write the word
+that was a task
+the work is done
+you did the work
+i am working
+we are working
+who feeds droso?
+parent feeds droso
+who pets droso?
+parent pets droso
+who warms food?
+parent warms food
+who holds light?
+parent holds light
+who opens file?
+parent opens file
+who sees light?
+droso sees light
+who hears world?
+droso hears world
+who learns word?
+droso learns word
+droso sees what?
+droso sees light
+droso wants what?
+droso wants food
+droso hears what?
+droso hears sound
+droso learns what?
+droso learns word
+droso finds what?
+droso finds file
+parent opens what?
+parent opens file
+where is droso?
+droso is home
+where is parent?
+parent is here
+where is light?
+light is here
+where is food?
+food is here
+where is file?
+file is here
+how is droso?
+droso is calm
+how is parent?
+parent is warm
+how is day?
+day is bright
+how is night?
+night is quiet
+how is food?
+food is warm
+parent gives droso
+parent helps droso
+parent feeds droso
+parent carries droso
+parent pets droso
+parent closes droso
+parent warms droso
+parent opens droso
+parent holds droso
+parent washes droso
+parent feeds the night
+parent pets the word
+parent warms the day
+parent feeds the name
+parent feeds the sound
+parent closes the day
+parent warms the world
+parent pets the world
+parent feeds the day
+parent feeds the work
+parent closes the water
+parent opens the hand
+parent opens the world
+parent feeds the home
+parent gives the day
+parent opens the day
+parent carries the water
+parent pets the hand
+parent holds the file
+parent washes the light
+parent carries the sound
+parent gives the name
+parent pets the night
+parent closes the name
+parent closes the book
+parent is new
+parent is calm
+parent is safe
+parent is dark
+parent is open
+parent is good
+parent is warm
+parent is done
+parent is quiet
+parent is bright
+parent is here
+parent is closed
+droso follows the home
+droso finds the hand
+droso sees the name
+droso touches the work
+droso follows the name
+droso watches the book
+droso smells the word
+droso follows the sound
+droso touches the light
+droso watches the name
+droso learns the light
+droso touches the name
+droso sees the home
+droso sees the word
+droso hears the name
+droso smells the task
+droso wants the book
+droso follows the water
+droso remembers the file
+droso hears the book
+droso follows the world
+droso follows the file
+droso finds the book
+droso learns the world
+droso sees the work
+droso wants it
+droso remembers you
+droso finds me
+droso follows that
+droso follows you
+droso touches home
+droso learns home
+droso finds home
+droso hears that
+droso wants that
+droso sees this
+droso remembers that
+droso finds it
+droso smells it
+droso learns it
+droso wants you
+droso touches this
+droso smells that
+droso hears me
+droso touches that
+droso smells me
+droso watches this
+droso is lonely
+droso is happy
+droso is curious
+droso is hungry
+droso is awake
+droso is calm
+droso is tired
+i gives you
+i closes you
+i opens you
+i feeds you
+i washes you
+i pets you
+i holds you
+i helps you
+i feeds the task
+i feeds the light
+i feeds the book
+i gives the home
+i warms the file
+i washes the work
+i holds the night
+i washes the task
+i washes the night
+i pets the water
+i holds the word
+i washes the sound
+i holds the home
+i pets the world
+i feeds the word
+i pets the work
+i carries the light
+i opens the water
+i gives the sound
+i closes the sound
+i gives the world
+i carries the food
+i warms the night
+i gives the file
+i am awake
+i am hungry
+i am curious
+i am tired
+i am happy
+i am calm
+you sees the name
+you learns the sound
+you remembers the name
+you touches the word
+you hears the light
+you sees the day
+you sees the work
+you finds the work
+you wants the water
+you watches the water
+you smells the world
+you sees the task
+you smells the sound
+you sees the file
+you wants the word
+you hears the file
+you sees the book
+you touches the light
+you watches the night
+you finds the task
+you follows the book
+you smells the night
+you sees the sound
+you remembers the light
+you finds the word
+you are happy
+you are calm
+you are awake
+you are lonely
+you are hungry
+you are curious
+you are tired
+you are quiet
+you are new
+you are bright
+you are good
+you are closed
+you are done
+you are dark
+you are open
+you are here
+we say the word
+we find the world
+we learn the day
+we find the name
+we see the name
+we open the day
+we hear the work
+we see the light
+we find the water
+we see the file
+we say the hand
+we learn the work
+we hear the word
+we learn the book
+we hold the book
+we learn the night
+we want the water
+we read the hand
+we read the word
+we close the hand
+we hear the water
+we say the work
+we read the light
+we close the task
+we read the home
+we see the water
+we are closed
+we are done
+we are dark
+we are bright
+we are open
+we are safe
+we are new
+we are calm
+we are quiet
+we are warm
+we are here
+is droso hungry
+is droso tired
+is droso calm
+is droso curious
+is droso lonely
+is droso awake
+is droso happy
+is the food warm
+is the name dark
+is the night safe
+is the sound here
+is the book dark
+is the file done
+is the hand bright
+is the name calm
+is the food quiet
+is the home calm
+is the water done
+is the work good
+is the day done
+is the world open
+is the file safe
+is the light open
+is the work done
+is the word here
+is the food done
+is the book here
+is the food closed
+is the name warm
+is the work quiet
+is the work here
+do not learns the home
+do not hears the sound
+do not remembers the water
+do not wants the water
+do not learns the task
+do not remembers the food
+do not watches the water
+do not touches the word
+do not follows the night
+do not wants the day
+do not finds the home
+do not hears the book
+do not follows the book
+do not follows the work
+do not watches the work
+do not follows the task
+do not smells the word
+do not touches the sound
+do not remembers the file
+do not remembers the work
+do not smells the home
+do not smells the night
+do not watches the book
+do not sees the word
+do not follows the name
+look at the world
+look at the work
+look at the name
+look at the night
+look at the task
+look at the day
+look at the file
+look at the water
+look at the hand
+look at the sound
+look at the light
+look at the food
+look at the book
+say that
+say this
+say me
+say home
+say you
+say it
+this is the book
+this is the work
+this is the hand
+this is the name
+this is the word
+this is the task
+this is the food
+this is the file
+this is the light
+this is the day
+this is the sound
+the world is new
+the food is done
+the book is new
+the name is new
+the world is closed
+the file is dark
+the water is safe
+the hand is done
+the sound is new
+the book is calm
+the work is good
+the day is open
+the water is calm
+the work is quiet
+the name is quiet
+the water is open
+the light is calm
+the world is safe
+the food is dark
+the world is warm
+the sound is open
+the task is done
+the food is calm
+parent and droso are dark
+parent and droso are warm
+parent and droso are good
+parent and droso are bright
+parent and droso are calm
+parent and droso are safe
+parent and droso are done
+parent and droso are here
+parent and droso are new
+parent and droso are quiet
+parent and droso are open
+i see you
+you see me

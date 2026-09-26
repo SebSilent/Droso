@@ -1,0 +1,735 @@
+{
+ "procedures": {
+  "character find least long string which word": {
+   "signature": "character find least long string which word",
+   "task": "Write a function to find all words which are at least 4 characters long in a string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import re\ndef find_char_long(text):\n  return (re.findall(r\"\\b\\w{4,}\\b\", text))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320104.0485334
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320104.0485334,
+   "language": "python",
+   "last_used": 1790320104.318356,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "accord ascend given matrix order rows sort": {
+   "signature": "accord ascend given matrix order rows sort",
+   "task": "Write a function to sort a given matrix in ascending order according to the sum of its rows.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def sort_matrix(M):\n    result = sorted(M, key=sum)\n    return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320104.3163462
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320104.3163462,
+   "language": "python",
+   "last_used": 1790320104.3163462,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "character first present remove second string which": {
+   "signature": "character first present remove second string which",
+   "task": "Write a function to remove characters from the first string which are present in the second string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "NO_OF_CHARS = 256\ndef str_to_list(string): \n\ttemp = [] \n\tfor x in string: \n\t\ttemp.append(x) \n\treturn temp \ndef lst_to_string(List): \n\treturn ''.join(List) \ndef get_char_count_array(string): \n\tcount = [0] * NO_OF_CHARS \n\tfor i in string: \n\t\tcount[ord(i)] += 1\n\treturn count \ndef remove_dirty_chars(string, second_string): \n\tcount = get_char_count_array(second_string) \n\tip_ind = 0\n\tres_ind = 0\n\ttemp = '' \n\tstr_list = str_to_list(string) \n\twhile ip_ind != len(str_list): \n\t\ttemp = str_list[ip_ind] \n\t\tif count[ord(temp)] == 0: \n\t\t\tstr_list[res_ind] = str_list[ip_ind] \n\t\t\tres_ind += 1\n\t\tip_ind+=1\n\treturn lst_to_string(str_list[0:res_ind]) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320104.8556838
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320104.8556838,
+   "language": "python",
+   "last_used": 1790320104.8556838,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check given number woodball": {
+   "signature": "check given number woodball",
+   "task": "Write a function to check if the given number is woodball or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_woodall(x): \n\tif (x % 2 == 0): \n\t\treturn False\n\tif (x == 1): \n\t\treturn True\n\tx = x + 1 \n\tp = 0\n\twhile (x % 2 == 0): \n\t\tx = x/2\n\t\tp = p + 1\n\t\tif (p == x): \n\t\t\treturn True\n\treturn False",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320105.9638813
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320105.9638813,
+   "language": "python",
+   "last_used": 1790320105.9658813,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "check given less number python reverse than twice": {
+   "signature": "check given less number python reverse than twice",
+   "task": "Write a python function to check if a given number is one less than twice its reverse.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def rev(num):    \n    rev_num = 0\n    while (num > 0):  \n        rev_num = (rev_num * 10 + num % 10) \n        num = num // 10  \n    return rev_num  \ndef check(n):    \n    return (2 * rev(n) == n + 1)  ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320107.4690485
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320107.4690485,
+   "language": "python",
+   "last_used": 1790320107.4690485,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "digit find form given largest list number python": {
+   "signature": "digit find form given largest list number python",
+   "task": "Write a python function to find the largest number that can be formed with the given list of digits.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_Max_Num(arr) : \n    n = len(arr)\n    arr.sort(reverse = True) \n    num = arr[0] \n    for i in range(1,n) : \n        num = num * 10 + arr[i] \n    return num ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320108.5204237
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320108.5204237,
+   "language": "python",
+   "last_used": 1790320108.5224264,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "find number octagonal": {
+   "signature": "find number octagonal",
+   "task": "Write a function to find the nth octagonal number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_octagonal(n): \n\treturn 3 * n * n - 2 * n ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320109.9683816
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320109.9683816,
+   "language": "python",
+   "last_used": 1790320109.9683816,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "available between difference find given list maximum pair": {
+   "signature": "available between difference find given list maximum pair",
+   "task": "Write a function to find the maximum difference between available pairs in the given tuple list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def max_difference(test_list):\n  temp = [abs(b - a) for a, b in test_list]\n  res = max(temp)\n  return (res) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320111.1072645
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320111.1072645,
+   "language": "python",
+   "last_used": 1790320122.0004568,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "equal find given have length tuple whether": {
+   "signature": "equal find given have length tuple whether",
+   "task": "Write a function to find whether all the given tuples have equal length or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_equal_tuple(Input):\n  k = 0 if not Input else len(Input[0])\n  flag = 1\n  for tuple in Input:\n    if len(tuple) != k:\n      flag = 0\n      break\n  return flag\ndef get_equal(Input):\n  return find_equal_tuple(Input) == 1",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320112.3612754
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320112.3612754,
+   "language": "python",
+   "last_used": 1790320112.3612754,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check difference given number python represent square whether": {
+   "signature": "check difference given number python represent square whether",
+   "task": "Write a python function to check whether the given number can be represented as the difference of two squares or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def dif_Square(n): \n    if (n % 4 != 2): \n        return True\n    return False",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320113.3594272
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320113.3594272,
+   "language": "python",
+   "last_used": 1790320114.6564443,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "array check follow given pattern sequence whether": {
+   "signature": "array check follow given pattern sequence whether",
+   "task": "Write a function to check whether it follows the sequence given in the patterns array.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_samepatterns(colors, patterns):    \n    if len(colors) != len(patterns):\n        return False    \n    sdict = {}\n    pset = set()\n    sset = set()    \n    for i in range(len(patterns)):\n        pset.add(patterns[i])\n        sset.add(colors[i])\n        if patterns[i] not in sdict.keys():\n            sdict[patterns[i]] = []\n\n        keys = sdict[patterns[i]]\n        keys.append(colors[i])\n        sdict[patterns[i]] = keys\n\n    if len(pset) != len(sset):\n        return False   \n\n    for values in sdict.values():\n\n        for i in range(len(values) - 1):\n            if values[i] != values[i+1]:\n                return False\n\n    return True",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320113.5035748
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320113.5035748,
+   "language": "python",
+   "last_used": 1790320113.5035748,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find number tetrahedral": {
+   "signature": "find number tetrahedral",
+   "task": "Write a function to find the nth tetrahedral number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def tetrahedral_number(n): \n\treturn (n * (n + 1) * (n + 2)) / 6",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320114.6534479
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320114.6534479,
+   "language": "python",
+   "last_used": 1790320114.6534479,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check given number undulat whether": {
+   "signature": "check given number undulat whether",
+   "task": "Write a function to check whether the given number is undulating or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_undulating(n): \n\tn = str(n)\n\tif (len(n) <= 2): \n\t\treturn False\n\tfor i in range(2, len(n)): \n\t\tif (n[i - 2] != n[i]): \n\t\t\treturn False\n\treturn True",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320116.2524378
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320116.2524378,
+   "language": "python",
+   "last_used": 1790320116.2524378,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "first given list return second smallest tuple value": {
+   "signature": "first given list return second smallest tuple value",
+   "task": "Given a list of tuples, write a function that returns the first value of the tuple with the smallest second value.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "from operator import itemgetter \ndef index_minimum(test_list):\n  res = min(test_list, key = itemgetter(1))[0]\n  return (res) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320117.3860948
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320117.3860948,
+   "language": "python",
+   "last_used": 1790320117.3860948,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find length list python smallest": {
+   "signature": "find length list python smallest",
+   "task": "Write a python function to find the length of the smallest list in a list of lists.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def Find_Min_Length(lst):  \n    minLength = min(len(x) for x in lst )\n    return minLength ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320118.4624956
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320118.4624956,
+   "language": "python",
+   "last_used": 1790320118.4624956,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "divisor find given integer number python": {
+   "signature": "divisor find given integer number python",
+   "task": "Write a python function to find the number of divisors of a given integer.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def divisor(n):\n  for i in range(n):\n    x = len([i for i in range(1,n+1) if not n % i])\n  return x",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320119.4492984
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320119.4492984,
+   "language": "python",
+   "last_used": 1790320119.4492984,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "divide length list multiply number": {
+   "signature": "divide length list multiply number",
+   "task": "Write a function to multiply all the numbers in a list and divide with the length of the list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def multiply_num(numbers):  \n    total = 1\n    for x in numbers:\n        total *= x  \n    return total/len(numbers) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320120.6147785
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320120.6147785,
+   "language": "python",
+   "last_used": 1790320120.6147785,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "list merge single sort three": {
+   "signature": "list merge single sort three",
+   "task": "Write a function to merge three lists into a single sorted list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import heapq\ndef merge_sorted_list(num1,num2,num3):\n  num1=sorted(num1)\n  num2=sorted(num2)\n  num3=sorted(num3)\n  result = heapq.merge(num1,num2,num3)\n  return list(result)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320120.7661998
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320120.7661998,
+   "language": "python",
+   "last_used": 1790320126.2771568,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "common element find given list nest": {
+   "signature": "common element find given list nest",
+   "task": "Write a function to find the common elements in given nested lists.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def common_in_nested_lists(nestedlist):\n    result = list(set.intersection(*map(set, nestedlist)))\n    return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320121.9974604
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320121.9974604,
+   "language": "python",
+   "last_used": 1790320121.9974604,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "between binary difference find given maximum number string": {
+   "signature": "between binary difference find given maximum number string",
+   "task": "Write a function to find the maximum difference between the number of 0s and number of 1s in any sub-string of the given binary string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_length(string): \n\tn = len(string)\n\tcurrent_sum = 0\n\tmax_sum = 0\n\tfor i in range(n): \n\t\tcurrent_sum += (1 if string[i] == '0' else -1) \n\t\tif current_sum < 0: \n\t\t\tcurrent_sum = 0\n\t\tmax_sum = max(current_sum, max_sum) \n\treturn max_sum if max_sum else 0",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320123.847616
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320123.847616,
+   "language": "python",
+   "last_used": 1790320123.847616,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "calculate given list negative number": {
+   "signature": "calculate given list negative number",
+   "task": "Write a function to calculate the sum of the negative numbers of a given list of numbers.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def sum_negativenum(nums):\n  sum_negativenum = list(filter(lambda nums:nums<0,nums))\n  return sum(sum_negativenum)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320124.9814126
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320124.9814126,
+   "language": "python",
+   "last_used": 1790320124.9814126,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find hexagonal number": {
+   "signature": "find hexagonal number",
+   "task": "Write a function to find the nth hexagonal number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def hexagonal_num(n): \n\treturn n*(2*n - 1) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320126.2704582
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320126.2704582,
+   "language": "python",
+   "last_used": 1790320126.2704582,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "flatten list number single": {
+   "signature": "flatten list number single",
+   "task": "Write a function to flatten the list of lists into a single set of numbers.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def extract_singly(test_list):\n  res = []\n  temp = set()\n  for inner in test_list:\n    for ele in inner:\n      if not ele in temp:\n        temp.add(ele)\n        res.append(ele)\n  return (res) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320127.8896873
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320127.8896873,
+   "language": "python",
+   "last_used": 1790320127.8896873,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find given list number present tuple": {
+   "signature": "find given list number present tuple",
+   "task": "Write a function to find number of lists present in the given tuple.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_lists(Input): \n\tif isinstance(Input, list): \n\t\treturn 1\n\telse: \n\t\treturn len(Input) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320128.8725655
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320128.8725655,
+   "language": "python",
+   "last_used": 1790320128.8725655,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "area calculate given length number polygon regular side": {
+   "signature": "area calculate given length number polygon regular side",
+   "task": "Write a function to calculate the area of a regular polygon given the length and number of its sides.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "from math import tan, pi\ndef area_polygon(s, l):\n  area = s * (l ** 2) / (4 * tan(pi / s))\n  return area",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320129.9755316
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320129.9755316,
+   "language": "python",
+   "last_used": 1790320133.3528342,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "array element given length majority more occur return": {
+   "signature": "array element given length majority more occur return",
+   "task": "Write a function that takes in a sorted array, its length (n), and an element and returns whether the element is the majority element in the given sorted array. (The majority element is the element that occurs more than n/2 times.)",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_majority(arr, n, x):\n\ti = binary_search(arr, 0, n-1, x)\n\tif i == -1:\n\t\treturn False\n\tif ((i + n//2) <= (n -1)) and arr[i + n//2] == x:\n\t\treturn True\n\telse:\n\t\treturn False\ndef binary_search(arr, low, high, x):\n\tif high >= low:\n\t\tmid = (low + high)//2 \n\t\tif (mid == 0 or x > arr[mid-1]) and (arr[mid] == x):\n\t\t\treturn mid\n\t\telif x > arr[mid]:\n\t\t\treturn binary_search(arr, (mid + 1), high, x)\n\t\telse:\n\t\t\treturn binary_search(arr, low, (mid -1), x)\n\treturn -1",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320130.999814
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320130.999814,
+   "language": "python",
+   "last_used": 1790320130.999814,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "binary bits count digit given number python value": {
+   "signature": "binary bits count digit given number python value",
+   "task": "Write a python function to count the number of set bits (binary digits with value 1) in a given number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def count_Set_Bits(n): \n    count = 0\n    while (n): \n        count += n & 1\n        n >>= 1\n    return count ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320132.232468
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320132.232468,
+   "language": "python",
+   "last_used": 1790320132.232468,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "among appear arrange array before element first given": {
+   "signature": "among appear arrange array before element first given",
+   "task": "Write a function that takes in an array and an integer n, and re-arranges the first n elements of the given array so that all negative elements appear before positive ones, and where the relative order among negative and positive elements is preserved.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def re_arrange_array(arr, n):\n  j=0\n  for i in range(0, n):\n    if (arr[i] < 0):\n      temp = arr[i]\n      arr[i] = arr[j]\n      arr[j] = temp\n      j = j + 1\n  return arr",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320133.348838
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320133.348838,
+   "language": "python",
+   "last_used": 1790320133.348838,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "cube find given length side volume": {
+   "signature": "cube find given length side volume",
+   "task": "Write a function to find the volume of a cube given its side length.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def volume_cube(l):\n  volume = l * l * l\n  return volume",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320135.0028987
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320135.0028987,
+   "language": "python",
+   "last_used": 1790320135.0028987,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "array find intersection": {
+   "signature": "array find intersection",
+   "task": "Write a function to find the intersection of two arrays.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def intersection_array(array_nums1,array_nums2):\n result = list(filter(lambda x: x in array_nums1, array_nums2)) \n return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320136.208448
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320136.208448,
+   "language": "python",
+   "last_used": 1790320136.208448,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  }
+ },
+ "adopted": {},
+ "discarded": {},
+ "min_confidence": 0.7,
+ "saved": 1790320136.2
+}

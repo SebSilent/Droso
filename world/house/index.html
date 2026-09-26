@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Droso</title>
+<link rel="stylesheet" href="/static/style.css?v=13">
+</head>
+<body>
+<div id="app">
+
+  <header id="header">
+    <div class="brand-row">
+      <div class="brand">
+        <span class="glyph"></span>
+        <div>
+          <h1>Droso</h1>
+          <p class="sub" id="house-sub">drosophila connectome</p>
+        </div>
+      </div>
+      <div id="world-speed">
+        <svg id="ws-ring" width="30" height="30" viewBox="0 0 36 36">
+          <circle class="ring-bg" cx="18" cy="18" r="15.5" fill="none"/>
+          <circle id="ws-ring-fill" class="ring-fill" cx="18" cy="18" r="15.5"
+                  fill="none" stroke-dasharray="97.39" stroke-dashoffset="97.39"
+                  transform="rotate(-90 18 18)"/>
+          <text id="ws-ring-pct" x="18" y="21.5" text-anchor="middle">%</text>
+        </svg>
+        <span id="ws-readout">world: ?</span>
+        <button class="ws-btn" data-mode="paused">pause</button>
+        <button class="ws-btn" data-mode="1x">1x</button>
+        <button class="ws-btn active" data-mode="max">max</button>
+      </div>
+      <div id="consciousness-badge" class="badge">
+        <span id="state-indicator" class="state-idle">UNKNOWN</span>
+        <span id="thought-count" title="thoughts this life, counted since boot">0 thoughts</span>
+      </div>
+    </div>
+    <div class="tabs-row">
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-view="chat">World</button>
+        <button class="tab" data-view="language">Language</button>
+        <button class="tab" data-view="learning">Learning</button>
+        <button class="tab" data-view="brain">Brain</button>
+        <button class="tab" data-view="organs">Organs</button>
+        <button class="tab" data-view="harness">Harness</button>
+      </nav>
+      <button id="config-open" class="ghost">Config</button>
+    </div>
+  </header>
+
+  <div id="refusal-banner" class="banner" hidden></div>
+
+  <div id="wrap">
+  <div id="main">
+
+    <section id="chat-panel" class="view active" data-view="chat">
+      <div class="world-row" id="row-air">
+        <div class="world-row-title">AIR
+          <span class="row-actions">
+            <button class="ws-btn tog" id="tog-parent" title="hide or show the parents">parents</button>
+            <button class="ws-btn tog" id="tog-book" title="hide or show the books">books</button>
+          </span></div>
+        <div id="chat-messages" aria-live="polite"></div>
+        <div id="chat-input-area">
+          <textarea id="chat-input" rows="2" placeholder="speak into the world"></textarea>
+          <button id="chat-send">speak</button>
+        </div>
+      </div>
+      <div class="world-row" id="row-inner">
+        <div class="world-row-title">INNER STATE</div>
+        <div class="meters" id="inner-meters">
+          <div class="meter" data-k="mood"><span class="meter-label">mood</span><div class="meter-track"><div class="meter-fill" id="mf-mood"></div></div><span class="meter-val" id="mv-mood">?</span></div>
+          <div class="meter" data-k="lonely"><span class="meter-label">lonely</span><div class="meter-track"><div class="meter-fill warn" id="mf-lonely"></div></div><span class="meter-val" id="mv-lonely">?</span></div>
+          <div class="meter" data-k="bored"><span class="meter-label">bored</span><div class="meter-track"><div class="meter-fill warn" id="mf-bored"></div></div><span class="meter-val" id="mv-bored">?</span></div>
+          <div class="meter" data-k="energy"><span class="meter-label">energy</span><div class="meter-track"><div class="meter-fill" id="mf-energy"></div></div><span class="meter-val" id="mv-energy">?</span></div>
+        </div>
+      </div>
+      <div class="world-row" id="row-worldlog">
+        <div class="world-row-title">WORLD LOG</div>
+        <div id="world-log" aria-live="off"></div>
+      </div>
+      <div class="world-row" id="row-mind">
+        <div class="world-row-title">MIND</div>
+        <div id="mind-stream" aria-live="off"></div>
+      </div>
+      <div id="task-progress" hidden>
+        <div id="progress-steps"></div>
+      </div>
+      <div id="chat-toggles">
+        <label class="check"><input id="toggle-llm" type="checkbox"> LLM enabled</label>
+        <span id="mental-state" class="muted small"></span>
+      </div>
+    </section>
+
+    <section id="language-panel" class="view" data-view="language">
+      <div class="panel-head">
+        <h2>Language</h2>
+      </div>
+      <div class="learn-grid">
+        <div class="card">
+          <h3>Vocabulary <span class="muted" id="lang-vocab-count"></span></h3>
+          <input id="lang-filter" type="search" placeholder="search words">
+          <div id="lang-vocab" class="scroll tall"></div>
+        </div>
+        <div class="card">
+          <h3>KC pattern <span class="muted small" id="lang-pattern-word">pick a word</span></h3>
+          <div id="lang-kc" class="scroll kc-scroll"></div>
+          <div id="lang-pool" class="small muted"></div>
+          <button id="lang-forget" class="ghost" disabled>forget selected word</button>
+        </div>
+        <div class="card">
+          <h3>Competence</h3>
+          <div id="lang-state"></div>
+          <div id="lang-gloss" class="small muted"></div>
+        </div>
+        <div class="card">
+          <h3>Vocabulary growth</h3>
+          <svg id="vocab-chart" viewBox="0 0 600 70" preserveAspectRatio="none">
+            <line class="grid-line" x1="0" y1="17.5" x2="600" y2="17.5"/>
+            <line class="grid-line" x1="0" y1="35" x2="600" y2="35"/>
+            <line class="grid-line" x1="0" y1="52.5" x2="600" y2="52.5"/>
+            <polygon id="vocab-area" class="growth-area" points=""/>
+            <polyline id="vocab-line" class="growth-line" points=""/>
+          </svg>
+          <span class="muted small" id="vocab-now"></span>
+        </div>
+      </div>
+    </section>
+
+    <section id="learning-panel" class="view" data-view="learning">
+      <div class="subtabs" id="learn-subtabs">
+        <button class="stab active" data-lsub="parents">Parents</button>
+        <button class="stab" data-lsub="voice">Voice</button>
+        <button class="stab" data-lsub="books">Books</button>
+        <button class="stab" data-lsub="memory">Memory</button>
+      </div>
+
+      <div id="lsub-parents" class="lsub active">
+        <div class="learn-grid">
+          <div class="card">
+            <div class="chips">
+              <div class="chip"><span class="k">phase</span><span class="v" id="par-phase">?</span></div>
+              <div class="chip"><span class="k">care</span><span class="v" id="par-care">none</span></div>
+              <div class="chip"><span class="k">phrases</span><span class="v" id="par-total">?</span></div>
+              <div class="chip"><span class="k">attention</span><span class="v" id="par-att">?</span></div>
+            </div>
+            <div id="par-events" class="scroll"></div>
+            <div id="par-status" class="small"></div>
+          </div>
+          <div class="card par-wide">
+            <h3>What they say <span class="muted small" id="par-count"></span></h3>
+            <div id="par-lessons" class="scroll tall"></div>
+            <div class="row3">
+              <input id="par-new-sentence" placeholder="a new phrase" style="flex:1">
+              <select id="par-new-tag" title="when this phrase may be said"></select>
+              <select id="par-new-care" title="care act spoken together with it">
+                <option value="">no care act</option>
+                <option value="feed">feed</option>
+                <option value="pet">pet</option>
+                <option value="praise">praise</option>
+              </select>
+              <button id="par-add" class="ghost">add</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Controls</h3>
+            <button id="par-start" class="ghost">say something now</button>
+            <div class="row3">
+              <label>attention <input id="par-attention" type="number" step="0.05" min="0" max="1"></label>
+              <label>reward <input id="par-reward" type="number" step="0.05" min="0"></label>
+              <button id="par-dials" class="ghost">apply</button>
+            </div>
+            <div id="par-msg" class="small muted"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="lsub-voice" class="lsub" hidden>
+        <div class="learn-grid">
+          <div class="card">
+            <h3>Voice</h3>
+            <label class="check"><input id="voice-enabled" type="checkbox"> voice prosthesis <span id="voice-status" class="muted"></span></label>
+            <div class="row3">
+              <label>max words <input id="voice-max" type="number" min="1" max="16"></label>
+              <button id="voice-apply" class="ghost">apply</button>
+              <button id="voice-try" class="ghost">say something</button>
+            </div>
+            <div id="voice-out" class="small"></div>
+          </div>
+          <div class="card">
+            <h3>Growth architect (LLM)</h3>
+            <button id="grow-consult" class="ghost">ask how to improve the brain</button>
+            <div id="consult-out" class="small muted"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="lsub-books" class="lsub" hidden>
+        <div class="learn-grid">
+          <div class="card">
+            <h3>Book exposure</h3>
+            <label class="check"><input id="lg-exp" type="checkbox"> read books from /books</label>
+            <div class="row3">
+              <label>world-s / line <input id="lg-exp-speed" type="number" step="0.5" min="0.5"></label>
+              <label>words / line <input id="lg-exp-int" type="number" min="3"></label>
+              <label>hearings / word <input id="lg-exp-thr" type="number" min="1"></label>
+            </div>
+            <div class="row3">
+              <label>book reward <input id="rw-exposure" type="number" step="0.01" min="0"></label>
+              <label>reply reward <input id="rw-social" type="number" step="0.05" min="0"></label>
+              <label>babble reward <input id="rw-babble" type="number" step="0.01" min="0"></label>
+            </div>
+            <div id="lg-exp-status" class="muted small"></div>
+          </div>
+          <div class="card">
+            <h3>Progress</h3>
+            <div class="chips" id="book-chips"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="lsub-memory" class="lsub" hidden>
+        <div class="panel-head">
+          <input id="learn-filter" type="search" placeholder="a word or a person">
+        </div>
+        <div class="learn-grid">
+          <div class="card">
+            <h3>People</h3>
+            <div id="mem-people" class="scroll tall"></div>
+          </div>
+          <div class="card">
+            <h3>Wired to <span class="muted small" id="mem-assoc-q"></span></h3>
+            <div id="mem-assoc" class="scroll tall"></div>
+          </div>
+          <div class="card">
+            <h3>Active now</h3>
+            <div id="mem-now" class="scroll"></div>
+          </div>
+          <div class="card">
+            <h3>Pools <span class="muted small" id="mem-syn"></span></h3>
+            <div id="mem-pools" class="scroll tall"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="brain-panel" class="view" data-view="brain">
+      <div class="subtabs" id="brain-subtabs">
+        <button class="stab active" data-subtab="consciousness">Consciousness</button>
+        <button class="stab" data-subtab="neural">Neural core</button>
+        <button class="stab" data-subtab="growth">Growth</button>
+      </div>
+
+      <div id="brain-consciousness" class="learn-grid">
+        <div class="card">
+          <h3>Thought stream</h3>
+          <div id="thought-stream" class="scroll tall"></div>
+        </div>
+        <div class="card">
+          <h3>Gaps &amp; research queue</h3>
+          <div id="gaps-list" class="scroll"></div>
+          <h3>Self-assessment</h3>
+          <div id="self-assessment" class="scroll"></div>
+        </div>
+        <div class="card">
+          <h3>Sandbox</h3>
+          <div id="sandbox-box"></div>
+          <h3>Awaiting a human</h3>
+          <div id="approvals" class="scroll"></div>
+          <h3>Audit log</h3>
+          <div id="audit-log" class="scroll"></div>
+        </div>
+        <div class="card">
+          <h3>Circuit breaker &amp; fast route</h3>
+          <div id="breaker-box"></div>
+          <div id="router-box"></div>
+          <h3>Guarantee</h3>
+          <div id="guarantee"></div>
+          <span id="guarantee-verdict" class="muted small"></span>
+          <div id="guarantee-limits" class="muted small"></div>
+          <button id="breaker-reset" class="ghost">Reset breaker</button>
+        </div>
+      </div>
+
+      <div id="brain-neural" class="learn-grid" hidden>
+        <div class="card">
+          <h3>Substrate</h3>
+          <div id="neural-substrate"></div>
+        </div>
+        <div class="card">
+          <h3>Lived neural time <span class="muted small" id="neural-lived-note"></span></h3>
+          <div id="neural-lived"></div>
+        </div>
+      </div>
+      <div class="card mt" id="brain-neural-2" hidden>
+        <h3>Recent pulses <span class="muted small" id="neural-drive-note"></span></h3>
+        <div id="neural-spark" class="spark"></div>
+        <div id="neural-activity" class="scroll tall"></div>
+      </div>
+
+      <div id="brain-growth" class="learn-grid" hidden>
+        <div class="card">
+          <h3>Structure</h3>
+          <div class="chips" id="grow-chips"></div>
+          <div id="grow-last" class="muted small"></div>
+        </div>
+        <div class="card">
+          <h3>Controls</h3>
+          <div class="row3">
+            <label>Grow synapses <input id="grow-syn" type="number" value="100" min="1"></label>
+            <label>Prune below <input id="grow-prune" type="number" step="0.001" value="0.004"></label>
+            <label>New pool neurons <input id="grow-pool" type="number" value="8" min="1"></label>
+          </div>
+          <div class="row3">
+            <button id="grow-do-syn" class="ghost">grow synapses</button>
+            <button id="grow-do-prune" class="ghost">prune</button>
+            <button id="grow-do-pool" class="ghost">grow pool</button>
+          </div>
+          <div id="grow-msg" class="small muted"></div>
+        </div>
+        <div class="card">
+          <h3>Model growth advisor</h3>
+          <button id="grow-consult" class="ghost">ask the model how to improve the brain</button>
+          <div id="consult-out" class="small muted"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="organs-panel" class="view" data-view="organs">
+      <div class="panel-head">
+        <h2>Organs</h2>
+        <input id="organ-filter" type="search" placeholder="filter">
+        <span class="muted" id="organ-count"></span>
+      </div>
+      <div id="organs-list"></div>
+    </section>
+
+        <section id="harness-panel" class="view" data-view="harness">
+      <div class="panel-head">
+        <h2>Harness</h2>
+      </div>
+      <div class="harness-grid">
+<div id="hsub-reason" class="hcol hcol-reason">
+      <div class="panel-head">
+        <h2>Reasoning</h2>
+        <button class="ghost" id="reason-refresh">refresh</button>
+        <span class="muted" id="reason-loop-state"></span>
+      </div>
+
+      <div class="learn-grid">
+        <div class="card">
+          <h3>Task</h3>
+          <textarea id="reason-task" rows="2" placeholder="Write a function to find the largest number in a given list."></textarea>
+          <textarea id="reason-check" rows="3" placeholder="assert largest([1,5,3]) == 5&#10;assert largest([-1,-9]) == -1"></textarea>
+          <div class="row3">
+            <button class="ws-btn" id="reason-solve">solve</button>
+          </div>
+          <div id="reason-recent" class="chips"></div>
+          <div id="reason-result" class="scroll tall"></div>
+        </div>
+
+        <div class="card">
+          <h3>Search</h3>
+          <div class="chips">
+            <div class="chip"><span class="k">episodes</span><span class="v" id="rs-episodes">?</span></div>
+            <div class="chip"><span class="k">attempts</span><span class="v" id="rs-attempts">?</span></div>
+            <div class="chip"><span class="k">solved</span><span class="v" id="rs-solved">?</span></div>
+            <div class="chip"><span class="k">candidates tried</span><span class="v" id="rs-tried">?</span></div>
+            <div class="chip"><span class="k">engine wired</span><span class="v" id="rs-engine">?</span></div>
+          </div>
+          <h3>Outcome head</h3>
+          <div class="chips">
+            <div class="chip"><span class="k">updates</span><span class="v" id="oh-updates">?</span></div>
+            <div class="chip"><span class="k">error first 10</span><span class="v" id="oh-first">?</span></div>
+            <div class="chip"><span class="k">error last 10</span><span class="v" id="oh-last">?</span></div>
+            <div class="chip"><span class="k">trending down</span><span class="v" id="oh-trend">?</span></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Library</h3>
+          <div class="chips">
+            <div class="chip"><span class="k">procedures</span><span class="v" id="lib-total">?</span></div>
+            <div class="chip"><span class="k">trusted &ge;0.70</span><span class="v" id="lib-trusted">?</span></div>
+          </div>
+          <div id="lib-evidence" class="scroll"></div>
+        </div>
+
+        <div class="card">
+          <h3>Oracle</h3>
+          <div class="chips">
+            <div class="chip"><span class="k">provider</span><span class="v" id="orc-provider">?</span></div>
+            <div class="chip"><span class="k">model</span><span class="v" id="orc-model">?</span></div>
+            <div class="chip"><span class="k">mode</span><span class="v" id="orc-mode">?</span></div>
+            <div class="chip"><span class="k">key</span><span class="v" id="orc-key">?</span></div>
+          </div>
+          <h3>Curriculum</h3>
+          <div class="chips">
+            <div class="chip"><span class="k">total</span><span class="v" id="cur-total">?</span></div>
+            <div class="chip"><span class="k">train</span><span class="v" id="cur-train">?</span></div>
+            <div class="chip"><span class="k">holdout</span><span class="v" id="cur-hold">?</span></div>
+            <div class="chip"><span class="k">with gold</span><span class="v" id="cur-gold">?</span></div>
+          </div>
+          <h3>Reader</h3>
+          <div class="chips">
+            <div class="chip"><span class="k">started</span><span class="v" id="rd-started">?</span></div>
+            <div class="chip"><span class="k">vocabulary</span><span class="v" id="rd-vocab">?</span></div>
+            <div class="chip"><span class="k">lines/s</span><span class="v" id="rd-rate">?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+<div id="hsub-terminal" class="hcol hcol-terminal">
+    <div class="split">
+      <div class="panel-head">
+        <h3>Terminal</h3>
+      </div>
+      <div id="terminal-output" class="scroll tall"></div>
+      <div id="terminal-input-area">
+        <span class="prompt">$</span>
+        <input id="terminal-input" type="text" spellcheck="false">
+        <button id="terminal-run">Run</button>
+      </div>
+    </div>
+    </div>
+<div id="hsub-files" class="hcol hcol-files">
+    <div class="split">
+      <div class="panel-head">
+        <h3>Files</h3>
+        <button id="files-refresh" class="ghost">&#8635;</button>
+        <span class="muted" id="file-note"></span>
+      </div>
+      <div class="split-row">
+        <div id="file-tree" class="scroll tall"></div>
+        <div id="file-view">
+          <div class="file-head">
+            <span id="file-path" class="muted">no file selected</span>
+            <button id="file-edit" class="ghost" disabled>Edit</button>
+            <button id="file-save" class="ghost" disabled hidden>Save</button>
+            <button id="file-cancel" class="ghost" disabled hidden>Cancel</button>
+          </div>
+          <pre id="file-content" class="scroll"></pre>
+          <textarea id="file-editor" class="scroll" hidden spellcheck="false"></textarea>
+          <div id="file-msg" class="small"></div>
+        </div>
+      </div>
+    </div>
+    </div>
+          </div>
+</section>
+        </div>
+
+  <aside id="mind">
+    <div class="panel-head"><h3>MIND</h3>
+      <span class="muted small" id="mind-core"></span></div>
+    <div id="mind-body">
+      <div class="meter"><span class="meter-label">mood</span><div class="meter-track"><div class="meter-fill" data-mood="mood"></div></div></div>
+      <div class="meter"><span class="meter-label">lonely</span><div class="meter-track"><div class="meter-fill warn" data-mood="lonely"></div></div></div>
+      <div class="meter"><span class="meter-label">bored</span><div class="meter-track"><div class="meter-fill warn" data-mood="bored"></div></div></div>
+      <div class="meter"><span class="meter-label">energy</span><div class="meter-track"><div class="meter-fill" data-mood="energy"></div></div></div>
+      <div class="mindline" id="mind-phase">phase: ?</div>
+    </div>
+    <div id="mind-neurons" class="mindrow"></div>
+    <canvas id="mind-canvas" width="316" height="190"></canvas>
+    <div class="mindhead">activity</div>
+    <div id="mind-activity" class="scroll"></div>
+    <div class="mindhead">thought stream</div>
+    <div id="mind-thoughts" class="scroll"></div>
+    <div class="mindhead">last output</div>
+    <div id="mind-output" class="scroll"></div>
+    <div class="mindhead">brain growth</div>
+    <div id="mind-growth"></div>
+    <div class="mindhead">lived neural time</div>
+    <div id="mind-lived" class="small muted"></div>
+  </aside>
+  </div>
+
+  <div id="config-modal" class="modal" hidden>
+    <div class="modal-box">
+      <div class="modal-head">
+        <h2>Configuration</h2>
+        <button id="config-close" class="ghost">&#10005;</button>
+      </div>
+      <div id="config-form">
+        <fieldset>
+          <legend>Oracle</legend>
+          <label>Provider
+            <select id="config-provider">
+              <option value="zai">Z.AI</option>
+              <option value="zai-paas">Z.AI (per-token)</option>
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic</option>
+              <option value="qwen">Qwen</option>
+              <option value="groq">Groq</option>
+              <option value="openrouter">OpenRouter</option>
+              <option value="ollama">Ollama / local</option>
+              <option value="custom">Custom</option>
+            </select>
+          </label>
+          <label>Base URL <input id="config-base-url" type="text"></label>
+          <label>API key <span class="muted" id="key-state"></span>
+            <input id="config-api-key" type="password" autocomplete="off">
+          </label>
+          <label>Model <input id="config-model" type="text"></label>
+          <div class="row3">
+            <label>Tokens / query <input id="budget-query" type="number" min="1"></label>
+            <label>Tokens / task <input id="budget-task" type="number" min="1"></label>
+            <label>Tokens / day <input id="budget-day" type="number" min="1"></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Fence</legend>
+          <label class="check"><input id="sb-enabled" type="checkbox"> sandbox enabled</label>
+          <label class="check"><input id="sb-network" type="checkbox"> child processes may use the network</label>
+          <label class="check"><input id="sb-writes" type="checkbox"> auto-approve new files outside the workzone</label>
+        </fieldset>
+        <fieldset>
+          <legend>Heartbeat</legend>
+          <label class="check"><input id="hb-enabled" type="checkbox"> thinking enabled</label>
+          <div class="row3">
+            <label>Think interval (s) <input id="hb-interval" type="number" min="1"></label>
+            <label>Sleep after (s) <input id="hb-sleep" type="number" min="1"></label>
+            <label class="check" style="align-self:end"><input id="hb-research" type="checkbox"> auto-research</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Loop ceilings</legend>
+          <div class="row3">
+            <label>Max retries <input id="cn-retries" type="number" min="1"></label>
+            <label>Tokens / task <input id="cn-tokens" type="number" min="1"></label>
+            <label>Seconds / task <input id="cn-time" type="number" min="1"></label>
+          </div>
+          <label>Max context tokens <input id="cn-context" type="number" min="1"></label>
+          <label class="check"><input id="cn-fast" type="checkbox"> fast path enabled</label>
+        </fieldset>
+      </div>
+      <div class="modal-foot">
+        <span id="config-msg" class="small"></span>
+        <button id="config-save">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <footer id="footer">
+    <span id="foot-state" class="muted">connecting...</span>
+    <span class="spacer"></span>
+    <span class="muted" id="foot-note"></span>
+  </footer>
+</div>
+
+<script src="/static/app.js?v=20"></script>
+<script src="/static/chat.js?v=20"></script>
+<script src="/static/organs.js?v=20"></script>
+<script src="/static/config.js?v=20"></script>
+<script src="/static/files.js?v=20"></script>
+<script src="/static/terminal.js?v=20"></script>
+<script src="/static/learning.js?v=20"></script>
+<script src="/static/language.js?v=20"></script>
+<script src="/static/neural.js?v=20"></script>
+<script src="/static/mind.js?v=20"></script>
+<script src="/static/reason.js?v=20"></script>
+</body>
+</html>

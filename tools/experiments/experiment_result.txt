@@ -1,0 +1,94 @@
+== HybridLLM bring-up experiment (budget 500 steps) ==
+-- resumed tranche: 465 steps, 39 episodes already done --
+[step    0] EMBED_SEARCH      -> ['Ġzdecyd', 'å®£åĪ¤', 'à¦¤à§ĭ', 'ĠNotification', 'ĠÐ¿ÑĢÐ¸Ð½ÑıÑĤÐ¸Ñı',  r=-0.30 rpe=0.026
+[step    1] PROJECT_TO_VOCAB  -> ['ogg', 'BITS', 'endent', 'vfs', 'ĠFolha', 'ERC', 'å¤§ç¥ŀ', 'æĤ¬æµ®'] r=-0.30 rpe=0.000
+[step    2] EMBED_SEARCH      -> ['fono', 'Ġpregunta', 'Ġdistinc', 'ĠNgo', 'ç»ŁæĪĺ', 'QÄĲ', 'ĠØ§ÙĤØªØµØ r=-0.30 rpe=0.021
+[step    3] EMBED_SEARCH      -> ['ĠmodÃ¨le', 'ÑĢÐ¾Ð±Ñĸ', 'ĠÐ²ÑĭÐ±ÐµÑĢ', 'à¹Ģà¸ªà¸£à¸µ', 'æĪĳä»¬å¿ħé¡»' r=-0.30 rpe=0.017
+[step    4] EMBED_SEARCH      -> ['faculty', 'usters', 'à¸Ħà¸¸à¸ĵà¸ªà¸²à¸¡à¸²à¸£à¸ĸ', 'Ġxo', 'ĠÄĲÃ³ng', r=-0.30 rpe=0.013
+[step    5] EMBED_SEARCH      -> ['à¸Ħà¸¸à¸ĵà¸ªà¸²à¸¡à¸²à¸£à¸ĸ', 'Ġà¸Ľà¸¥à¸²', 'ĠØ§ÙĦØ¬ÙħØ¹', 'Ġtrom',  r=-0.30 rpe=0.011
+[step    6] EMBED_SEARCH      -> ['Ġsecretaria', 'Canada', 'æį¢çĥŃ', 'åĨ²è¿Ľ', 'Ġzest', 'ï¼Ĭ', 'makta', r=-0.30 rpe=0.009
+[step    7] EMBED_SEARCH      -> ['Ġunge', 'åĨ²è¿Ľ', 'åıªèĥ½çĶ¨', 'æį¢çĥŃ', 'makta', '_PCIE', 'éķ¶', 'Ġ r=-0.30 rpe=0.007
+[step    8] EMBED_SEARCH      -> ['ĠimageData', 'à¹Ģà¸«à¸¡à¸²à¸°', 'Ġassessed', 'ãĤ³ãĥ³ãĤµãĥ¼ãĥĪ', 'Ġng r=-0.30 rpe=0.005
+[step    9] ASK_USER          -> (no reply) r=-0.30 rpe=0.000
+[step   10] EMBED_SEARCH      -> ['åıªèĥ½çĶ¨', 'Ġcanyon', '_mi', 'ĠÐ¸ÑģÑĤÐ¾ÑĢÐ¸', 'ãĤ³ãĥ³ãĤµãĥ¼ãĥĪ', 'Ġ r=-0.30 rpe=0.004
+[step   11] EMBED_SEARCH      -> ['Ġserialize', 'à¸Ħà¸¸à¸ĵà¸ªà¸²à¸¡à¸²à¸£à¸ĸ', 'ĠhÉĻr', 'åľ¨ä¿Ŀè¯ģ', 'Ġ r=-0.30 rpe=0.004  || EPISODE END: steps=12 wasted=2 success=False (172s)
+[step   12] FFN_PROBE         -> [{'neuron': 7219, 'activation': 0.0005408714059740305}, {'neuron': 146 r=-0.30 rpe=0.291
+[step   13] FFN_PROBE         -> [{'neuron': 14217, 'activation': 0.0006315903156064451}, {'neuron': 45 r=-0.30 rpe=0.233
+[step   14] FFN_PROBE         -> [{'neuron': 14217, 'activation': 0.0006315903156064451}, {'neuron': 45 r=-0.30 rpe=0.186
+[step   15] FFN_PROBE         -> [{'neuron': 12894, 'activation': 0.0006207871483638883}, {'neuron': 92 r=-0.30 rpe=0.149
+[step   16] FFN_PROBE         -> [{'neuron': 12894, 'activation': 0.0006207871483638883}, {'neuron': 92 r=-0.30 rpe=0.119
+[step   17] FFN_PROBE         -> [{'neuron': 9889, 'activation': 0.0005382936797104776}, {'neuron': 721 r=-0.30 rpe=0.095
+[step   18] FFN_PROBE         -> [{'neuron': 9889, 'activation': 0.0005382936797104776}, {'neuron': 721 r=-0.30 rpe=0.076
+[step   19] FFN_PROBE         -> [{'neuron': 6617, 'activation': 0.0005977911059744656}, {'neuron': 200 r=-0.30 rpe=0.061
+[step   20] FFN_PROBE         -> [{'neuron': 6617, 'activation': 0.0005977911059744656}, {'neuron': 200 r=-0.30 rpe=0.049
+[step   21] FFN_PROBE         -> [{'neuron': 15076, 'activation': 0.0004975614720024168}, {'neuron': 74 r=-0.30 rpe=0.039
+[step   22] FFN_PROBE         -> [{'neuron': 15076, 'activation': 0.0004975614720024168}, {'neuron': 74 r=-0.30 rpe=0.031
+[step   23] RECALL_SEMANTIC   -> [{'key': 'probe_the_middle_ffn_layer_with', 'value': "Probe the middle r=-0.30 rpe=0.000  || EPISODE END: steps=12 wasted=1 success=False (174s)
+[step   24] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.162
+[step   25] ASK_USER          -> (no reply) r=-0.30 rpe=0.000
+[step   26] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.129
+[step   27] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.103
+[step   28] EXECUTE_TERMINAL  -> ping r=-0.30 rpe=0.000
+[step   29] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.083
+[step   30] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.066
+[step   31] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.053
+[step   32] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.042
+[step   33] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.034
+[step   34] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.027
+
+-- ran 500 steps in 172.4s (2 episodes, 0 successes) --
+
+episode | steps-to-submit | wasted actions | success
+      0 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+      1 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+      2 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+      3 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  4 ████        | lose
+      4 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    | 12 ████████████| lose
+      5 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+      6 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+      7 | 11 ▓▓▓▓▓▓▓▓▓▓▓     |  1 █           | WIN
+      8 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+      9 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    | 12 ████████████| lose
+     10 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     11 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+     12 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     13 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+     14 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  4 ████        | lose
+     15 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    | 12 ████████████| lose
+     16 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     17 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     18 | 11 ▓▓▓▓▓▓▓▓▓▓▓     |  1 █           | WIN
+     19 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     20 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    | 12 ████████████| lose
+     21 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     22 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  0             | lose
+     23 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     24 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+     25 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+     26 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     27 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+     28 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  4 ████        | lose
+     29 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    | 12 ████████████| lose
+     30 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     31 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     32 | 11 ▓▓▓▓▓▓▓▓▓▓▓     |  1 █           | WIN
+     33 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     34 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    | 12 ████████████| lose
+     35 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     36 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  0             | lose
+     37 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+     38 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+     39 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  2 ██          | lose
+     40 | 12 ▓▓▓▓▓▓▓▓▓▓▓▓    |  1 █           | lose
+
+first third : avg steps-to-submit 11.92 | wasted 3.15 | success 8%
+last third  : avg steps-to-submit 11.92 | wasted 3.00 | success 8%
+delta       : steps +0.00 | wasted -0.15 | success +0%
+
+-- three-factor plasticity verification --
+grown KC×MBON block : nonzero 2262 -> 2284 | L1 2535.179 -> 2607.035
+  synapses changed  : 1083 (0.332% of 326400 potential)
+measured carve      : 2983 measured plastic KC->MBON synapses; 2981 changed by dopamine-gated reinforce()
+  |Δw| sum          : 85.585512
+
+RESULT: SYNAPSES ARE MOVING - the loop is closed and learning.

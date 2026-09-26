@@ -1,0 +1,1249 @@
+The accelerated life, running in its own process.
+The same loop alone does 201 decisions/s; in the house it managed 102.
+Separating them recovers the difference without touching the model.
+The split is safe because of what the loop actually does.
+So the worker only ever READS the plastic weights; every write to the brain stays in the house process.
+One brain, one set of weights, two processes, and no possibility of the two clobbering each other.
+The worker picks up the house's consolidations by reloading the brain file periodically, which is also what makes a restart of either side harmless.
+The KC addresses of every word he knows, as a drive rotation.
+Live continuously at full compute speed until stop is set.
+An orphan burns a core for nothing.
+On Windows a daemon child is NOT.
+killed when its parent is terminated, so every house restart leaked one.
+accelerated life: twelve were found alive at once, seven of them still.
+deciding, and the house measured a quarter of its real speed because.
+the box was full of its own previous lives.
+Raised instead of fabricating an answer.
+Subclasses RuntimeError so except RuntimeError at a call boundary catches it, and the message says which knob to turn.
+How many completion tokens this prompt can actually pay for.
+Both the language organ and the autotraining teacher use this, so the rule is stated once.
+check is consulted BEFORE a request is sent.
+One seam between the connectome and whatever answers it.
+Build an oracle from one config block, falling back to another.
+None means allowed; otherwise the reason it is not.
+Treat an unfilled config template as no key , not as a credential.
+The same logic rejects "your api key here".
+HYBRIDLLM_OFFLINE fences this process away from every provider.
+A test that needs an answered call injects transport= and is unaffected; one that does not gets a refusal, never a fabricated answer.
+The single place that decides whether to raise.
+Kept separate from mode so an organ can ask "can I use you?" without triggering an exception on a probe.
+Returns a dict that always says how it was answered.
+Remove phrasing that tries to hand this call agentic authority.
+Find a response that is trying to act instead of answering.
+Pure policy question, answered by the fence -- not by the oracle's own opinion, which would be the model grading its own homework.
+execute -- only when a human opted in ( execute tool calls ) and the sandbox's own policy allows the command.
+The result is spliced in as observation text, not as a new instruction.
+Keep sampling inside the range the vendor documents.
+Some gateways return a JSON error body with a 200.
+Read it, don't report an empty answer as a mystery.
+Reset the per-task ceiling.
+Callers at task granularity, not here: a query() that silently reset the task budget would make the per-task cap meaningless.
+Qwen3 thinks by default on the compatible-mode endpoint, and a.
+thinking trace in a NON-streaming call stalls past any sane.
+is eight short sentences, not a reasoning trace.
+and the level lives in a separate reasoning effort field.
+The documented migration is exactly.
+"disabled"} both come back as http 400 1210, which is why.
+every teacher call had ever been made failed.
+Every read / write / call site of entity in code .
+Keeps the exception class and the first non-numeric words.
+Only a human (or the dashboard's answer endpoint) clears an open breaker.
+The loop cannot reset itself -- that is the whole point.
+Log one attempt and get the verdict for what to do next.
+Replace the BODY of function name with parsed statements.
+Guard function with a leading if test: block.
+True only if the injected estimator is not the chars/4 fallback.
+Cost claims must not be laundered into looking like provider usage.
+Back-compat with the migration brief: returns the prompt text.
+build() returns the same text plus the accounting.
+Keep the head (imports, signatures), the definitions, and a couple of tail lines, packed to the token budget by lines .
+Read candidate files via the sandbox when there is one.
+The context manager should not be a side door for reading ~/.ssh into a prompt.
+task: text or spec dict with a run test helper.
+Return the cheapest sufficient plan, with a zero-arg handler .
+Close the loop: work that ran becomes library.
+A question answered in sentences is not a procedure, and filing it would put text into the library code is retrieved from.
+An exit code is an event in his world, not only a row in a store.
+Passing execution lights the task on the projection neurons and counts as something learned; failing is adversity, carrying the error as its detail.
+Answer a question without the reasoning loop -- but not without the cheap rungs.
+The optimizer still gets first refusal, so a repeat question is a cache hit rather than a second payment.
+A fast path that skipped the cache would quietly break the cost guarantee it exists to protect.
+"" if direct api can answer; otherwise the reason it cannot.
+Proposing a rung that cannot run is worse than proposing a slower one.
+A question -- not merely a short sentence.
+direct api cannot verify, so the quality guarantee forbids routing it there.
+Record a run that happened through another door.
+What routing itself costs.
+This is the number the speed guarantee actually has to pay: the loop bypass saves nothing if deciding takes longer than thinking.
+Recall at the trial floor, not the trust floor.
+to trust it is the next step, and it is decided by running it.
+Not trusted yet, and that is not a reason to ignore it.
+cheap and it is the only way the record ever earns its confidence.
+run it, and let the verdict promote or demote it.
+What fails to run.
+is dropped in run() and he goes and thinks instead.
+The whole bargain: he may reach for something he does not yet trust,.
+because reaching means executing, and execution is the only.
+authority on whether it was right.
+What does not hold is not handed.
+Fresh evidence beats the filed claim.
+The record's own verified.
+flag says whether it had succeeded when it was stored; a trial.
+that has just run and passed is newer information about the same.
+Trusting the stale flag demoted fifteen procedures that.
+worked and promoted nothing, so the loop oscillated instead of.
+The verdict survives the fallback.
+That a trial was attempted and.
+did not hold is the evidence which demotes the procedure, and it.
+is also the only record that he reached for memory before he.
+The solver carries the same library.
+A router built without an.
+agent -- a drill, a test, a batch run -- still has to be able to.
+record what it executed, or the verdict goes nowhere and the.
+procedure is never promoted for having worked.
+Credit the procedure that was actually replayed.
+keys by the request, which for a fuzzy recall is a different record.
+from the one whose code just ran; without this the library could be.
+used a thousand times and never grow more trusted.
+Read, write and list text files under one sandbox root.
+A capped window that also remembers everything that ever passed through.
+The badge reports a lifetime count while the panel shows the last dozen.
+World seconds advanced by one tick.
+Mark that something happened, so SLEEPING means what it says.
+Make a real happening in the world into a percept he can feel.
+Something went wrong for real, and it is delivered to the body.
+Hand a real event to the parents so they can describe it.
+The heartbeat knows what happened in the world; the language organ knows how to say it.
+Neither should have to guess the other's half, and a phrase with no event behind it is just noise.
+SLEEPING is a timer, not a mood: quiet too long means asleep.
+Auto-research is OFF: the ask is honest book-keeping, and a human decides what gets answered.
+Pools that mean recall are FOLLOWED: the organ is actually asked.
+Force the connectome to THINK about its actual situation.
+Every pulse is logged with real counters, and the language cortex lives on this same beat.
+Turn the dials before anything else runs this tick, so the.
+decisions and the writing that follow happen under the.
+chemistry this moment actually calls for.
+The speech tutor is gone.
+It bought batches of sentences from.
+an outside model and dropped them into the air whether or not.
+they meant anything to him -- "I love you" out of nowhere is.
+not a lesson, it is noise with a source.
+Lessons now come from.
+the parents (grounded in what is actually happening) and from.
+Higher cortex: prediction and binding, grown beside the measured connectome.
+Two capacities the fly's wiring does not provide, because a fly's world never asked for them.
+This organ keeps a separate ASYMMETRIC matrix, written as next-on-rows, now-on-columns, so multiplying it by the present gives the future.
+That single asymmetry is the difference between representing the world and anticipating it.
+It cannot say WHO fed WHOM, because a superposition of two concepts loses the pairing.
+Roles are indexed by POSITION, not by English grammar.
+Nothing here assumes a subject-verb-object language; slot 0 is simply "first", and whether first means agent is something his exposure has to teach him.
+A fixed random projection from tokens to dense bipolar concept vectors.
+Deterministic and stateless: the same token always lands on the same vector, in every process, for the life of the animal.
+These are DENSE ±1 vectors, not sparse codes, and that is a requirement rather than a preference.
+Sparsity still exists where it matters -- in the Kenyon cells that carry a word into the carve.
+This algebra is an internal representational space.
+Associative and commutative, and the reason a role and a filler can be merged into one vector and still be separated later.
+Approximate inverse of binding: recover the filler given the role.
+An asymmetric sequence memory over the concept space.
+The symmetric cortex cannot do this and should not be asked to.
+Compositional memory: propositions as bound role-filler vectors.
+The two organs together, with the concept space they share.
+Predicts it from the previous one, records the error, then writes the transition.
+Returns the error made BEFORE seeing it, so the number is a genuine prediction and not a fit.
+How distinctive each word is across everything he remembers.
+A rare word is evidence; a common one is background.
+Cached, because recomputing document frequencies per query is the same O(n) walk this organ already suffers.
+Which remembered propositions contain the cue words.
+Retrieval is lexical on purpose.
+The compositionality this organ claims is in the unbinding, not in the lookup.
+Unbind one role from ONE proposition the caller already chose.
+This takes the chosen memory as given and only does the algebra.
+Public view of how distinctive each remembered word is.
+Every word that appears in any remembered proposition, cached.
+Recomputing this per query walks the whole memory in Python, which is what made a single question cost more than a neural tick.
+Does the algebra actually invert?
+Bind a filler to a role, unbind it, and measure how much of the filler survives.
+If this is not near 1.0, nothing downstream of it means anything.
+Ask a question of memory and get a filler back.
+Predict it, then bind and store it.
+Prediction uses the running concept of what came before, so error is measured on the transition into this utterance, not within it.
+Throttled in REAL time, not world time.
+What he intends to say, as a bound proposition -- the structure the sequence organ then puts into order.
+A question put to memory, answered by unbinding.
+Score role recovery on his OWN memory, not on a demo set.
+For every remembered proposition with at least two distinct words, ask role 0 cued by word 1 and see whether word 0 comes back.
+Sized to hold a whole corpus rather than to fit a round number.
+full copy of two n x dim matrices, so the right answer is to not evict: at.
+20,000 the store churned on every new sentence once a 45,000-line corpus came.
+write, scaled by surprise: an unsurprising moment is already known.
+Position-agnostic cue vectors, one per proposition: the normalised sum.
+of its words' concepts, with no role binding.
+these, because a question does not know which position its words.
+occupied in the memory it is looking for.
+Ranking by word overlap.
+instead tied dozens of lookalikes together and broke ties by recency,.
+One row per distinct proposition.
+Without this the same few hundred.
+lines were stored a dozen times each: 20,000 rows holding 157 distinct.
+words, which crowds out the specific fact a question is after and turns.
+every aggregate into a popularity contest.
+word -> rows, so overlap counting touches only the memories that could.
+Ranking used to walk every stored proposition in Python.
+on every query, and the self-evaluation runs two hundred of them.
+Exposure, the narrator and the chat all write here from different.
+Without a lock the three arrays interleave and end up one row.
+apart, which surfaces later as a broadcast error in retrieval --.
+Every row index shifted, so the index is worthless; rebuild it.
+Overlap by inverted index, weighted by how distinctive each shared word.
+Counting shared words treats droso and sees as equal evidence,.
+so a question about seeing retrieved whichever memory mentioned him most.
+Same principle the cue already uses: a rare word is evidence, a.
+common one is background.
+Count only DISTINCTIVE shared words.
+words with "is the light open" and one with "light is here", so raw.
+overlap picked the wrong memory on the strength of the and is -- and.
+no later term could overrule an integer gap.
+A word is distinctive if it.
+appears in fewer than a quarter of what he remembers, which is a fact.
+about his own memory rather than a stopword list written by hand.
+first attempt used the median IDF and filtered light out along with.
+the , because most of his vocabulary is rare.
+Semantic similarity decides; shared words break ties between memories.
+that mean nearly the same thing.
+Square the overlap weight.
+Linear weighting let 23 partial matches.
+outvote the one proposition that actually contained the whole cue,.
+and asking with more context scored WORSE than asking with a single.
+Written to a temporary and renamed, never written in place.
+file is 35 MB and takes a moment to compress, and the house is.
+stopped with a hard kill -- which caught it mid-save and left a.
+477 KB zip with a valid header and no contents.
+BadZipFile, and the individual came up with 597 propositions instead.
+A rename either happens or it does not, so.
+the worst case now is losing the last few minutes rather than the.
+Meta goes in a JSON sidecar, not inside the npz.
+Storing it as a.
+numpy bytes scalar was fragile: a failed decode left X restored with.
+remembered" -- a memory full of rows nobody can name.
+The cue vectors are what retrieval ranks against; without.
+them the propositions are unreachable, so refuse the whole.
+restore rather than keep rows nothing can find.
+Keep what can be named instead of throwing everything away.
+An unnamed row answers no query, so dropping it costs one.
+memory; refusing the whole file cost all of them, which is.
+what happened the first time this raced.
+Rebuild the deduplication index, or a reloaded memory would.
+store a second copy of everything it already holds.
+the honest question: given the REST of the sentence, who did it?
+and the hard one: given only the verb.
+Length-preserving blank-out: offsets in the stripped view stay valid for slicing the RAW text (span locators depend on this).
+A stable, human-readable key: the salient stems of the task, sorted, so the same request phrased differently still finds its procedure.
+Returns the stored record, or a refusal.
+Mirror into the organs that already own memory, if they exist.
+Rank by distinctive shared stems, not by raw word overlap.
+Move one procedure's confidence on the evidence of a single use.
+sig names the record that was actually recalled, and it matters.
+What this loop actually knows, as plain rows for the panel.
+Returns the stored record verbatim plus its signature, because inventing a tidy schema here would mean the dashboard shows fields the store never wrote.
+Sorted by confidence, then by most recent.
+The tail of the append-only event log: what was learned, when, and on whose evidence.
+Read from disk so a restarted process still remembers.
+Cutting a solution mid-statement stores broken code that reads like a.
+solution, so the cut is recorded and _best_solution refuses it while an.
+The cap used to be 4,000 characters, which is shorter.
+than most real functions in this project.
+A recall that is wrong gets believed, so the bar is not.
+Every surface a procedure can be found by: its own key, plus the.
+aliases the seeder recorded for its name and its arguments.
+A narrow but unambiguous win still counts: most of the query's weight.
+sits in one rare stem, and nothing else is close.
+A truncated solution is broken code, so an intact unverified one is worth.
+more than a cut verified one.
+Words of at least min len characters in total .
+Pattern recall returned nothing and looked like a miss.
+A remembered procedure, shaped the way the fast router wants it.
+Pull a code artifact out of a recalled procedure, if it has one.
+A remembered procedure for this task.
+trial selects which floor applies, and the difference is the safety property the old single floor was trying and failing to express.
+An answer must be trusted or have actually run.
+Split out of _from_pattern because composition needs the runners-up, not just the winner.
+A remembered procedure for this task, if one clears the floor.
+The default has to agree with the floor _from_procedure just used.
+Assemble a solution from remembered pieces, and only claim it if the verifier agrees.
+This is the one rung with no intelligence behind it -- it concatenates.
+The atlas answers what , never write the function .
+It is used to enrich context, so it reports knowledge=None-with-note rather than pretending a concept list is a solution.
+The AttributeError was swallowed by the except underneath, so every verification in production returned False.
+Says so when there is no library.
+The store's own signature when it has one; provenance is a display.
+string and is no good for crediting the record that actually ran.
+Below min confidence a procedure is not trusted, but it is still worth.
+trying -- because trying means running it, and running it is what.
+produces the evidence that moves its confidence.
+A floor that demanded.
+trust before use made the library unusable forever: nothing could be.
+replayed until it was trusted, and nothing could be trusted until it was.
+The learning loop's store is the library that actually exists: it holds.
+confidence, provenance and the verified solutions, and its retrieval.
+The two mirrors below are fed only by propagation from it, so.
+consulting them first meant the replay path had nothing to replay no.
+matter how much was known -- and it was consulted first for the whole.
+life of the project.
+A unique name every time.
+run python defaults to one fixed filename,.
+and the sandbox's write gate refuses to overwrite without approval --.
+so the first verification in a process ran and every one after it was.
+DENIED, which read exactly like the recalled code failing.
+five trials kept one and dropped four for this reason alone.
+The three memories under one organ, with one save/load.
+Exact-key lookup; returns the fact dict or None, touching LRU.
+Rank by distinctive shared stems; the clearest winner above the floor.
+This carried the same defects as the learning loop's fuzzy matcher, with the same consequence -- it matched nothing, ever.
+And Jaccard over the union caps a two-word query against an eight-stem pattern near 0.25, so no phrasing could win however exact.
+A recall that is wrong gets believed, so the bar is not only "scored highly" but "scored clearly higher than the runner-up".
+A connectome does not determine what a circuit computes.
+So this organ adds no cells and no synapses.
+It reads the body and the moment, and turns four dials on the carve that is already there.
+THE FOUR DIALS arousal input gain and speed of dynamics.
+A surprising moment is perceived harder and settles faster.
+Tired tissue forgets between sub-steps; rested tissue holds its state and integrates further.
+plasticity how hard the teaching signal writes.
+exploration how often the winning pool is overridden.
+Nothing here is a mood label painted on a dashboard.
+THE INVERTED U Plasticity is not monotonic in arousal: it rises, peaks, and then falls.
+If the peak is in the wrong place, that is a finding about him, not a bug to hide.
+Four dials on the existing carve, driven by his actual state.
+Read the body and the moment, turn the dials.
+Nothing is invented here.
+Turn the dials into the parameters the propagation loop reads.
+Sample the U curve from his own life: what arousal was he at, and how much did his synapses actually move?
+The Yerkes-Dodson curve, measured rather than asserted.
+bounds, so modulation can bend the dynamics but never break them.
+where the inverted U peaks, in normalised arousal.
+arousal: surprise and need wake him; exhaustion and night quiet him.
+tone: rested tissue integrates, tired tissue leaks.
+exploration: novelty seeking raises it, exhaustion and company lower it.
+Located on the comment/string-stripped view so prose never fools it.
+Append the closers a truncated generation lost, in correct order.
+Greenfield creation: real generator if wired, else scaffold composition informed by substrate concepts.
+Always mechanically verified; always honest about which path wrote it.
+Substrate retrieval names CONSTRUCTS; it never emits code.
+Deterministic insertion / replacement at REAL code boundaries.
+Deterministic fixes for the only failure class a template composition can produce: dangling blocks / stray closers.
+The artificial-growth organ for the REAL BANC graph.
+Run the accelerated life in its own process when we can.
+Falls back to the thread if multiprocessing is unavailable, and reports which one is running.
+Pull the worker's decision count across, and pay the lived-time ledger the delta it accrued while we were not looking.
+Rehearse what he said, motor before sensory.
+No new input from the world reaches him here.
+This is consolidation, not perception, which is what makes it sleep rather than just more hearing.
+The connectome lives continuously at full compute speed.
+The loop runs flat out and the dashboard reports the MEASURED factor.
+Drive is the being's own experience: its learned word patterns, replayed in rotation.
+No reward here: spontaneous dynamics + eligibility only; strengthening stays with the consolidation tick, so nothing saturates in a minute.
+This thread competes for the same core as the heartbeat's neural tick.
+STRUCTURAL GROWTH: the connectome changes its own shape.
+All of it through the carve's own operations, never hand-edited.
+Record what each synapse was born with, keyed by IDENTITY.
+Birth weight of every synapse the core holds right now, in order.
+the brain really changed, so the parents are allowed to say so.
+Sleep replay, and only at night: his own recent speech, rehearsed.
+with the motor pattern LEADING the sensory one.
+Words as KC activation patterns in the carved BANC graph.
+Record words that actually left the mouth (dashboard telemetry).
+Adaptation: a word just said is harder to say again for a while.
+Not randomness and not a filter.
+The born projection of one token onto the SAN bank.
+This vector rides along with every experience, so words wire to the STATES they were lived in.
+Experience language through the semantic cortex.
+san w applied to a vector, without reading all 256 MB of it.
+What a word MEANS to this brain: its footprint plus its learned associations.
+A pure readout of san w.
+Cosine of the two words' meaning vectors.
+One number, no prose: the being's entire opinion on how related two words are.
+How much a word's MEANING lights up under the current semantic state.
+Compared on the WORD cells only -- the body band is context for wiring, not part of the language match.
+Teach one word the only way meaning can enter: IN USE.
+NOTHING textual is stored: afterwards the word exists as KC addresses, a pool, and association weights.
+The administrator deletes a word from the vocabulary.
+The KC pattern, its pool and its speakability are removed (the association cells it wired stay -- they are experience, not the word).
+Returns what actually happened; a missing word is reported, never invented.
+Activate learned patterns by encoding concept and propagating.
+The thought IS the neural activity; prose is someone else's job.
+scent is whoever is present, driven in through the projection neurons so the thought is about the words AND about who said them.
+Capped, because it costs one decision per word.
+Which learned words' KC patterns share cells with this activation -- the neural notion of 'this thought touches words I know'.
+Ask the teacher for words, encode each into the REAL graph.
+Returns a report; every count is what actually happened.
+No key, no vocabulary: the refusal is the caller's to surface, not something to paper over with a seed list.
+One beat of autonomous existence, called by the heartbeat.
+The babble is honestly read out of synaptic state AND self-rewarded with a little dopamine, which teaches the being that vocalizing is worth doing.
+Returns the event record, or None for a quiet beat.
+How much of his attention this speaker gets.
+Hash a name onto real antennal-lobe projection neurons.
+Turn a thing in his world into a percept he can feel right now.
+Until this existed every noun he knew referred to text.
+Amplitudes are jittered per person too, so two scents differ in strength as well as in which receptors they hit.
+That is how he learns WHO says what, in the same substrate that learns what a word means.
+Fleeting groundings get first say.
+A care window and a just-happened event are over in seconds; a mood or a phase will still be true in a minute.
+Meet or re-meet someone.
+People are remembered as accumulated experience: how often heard, what they last said, how often addressed.
+A stranger becomes a known kind the first time the world says so.
+Who is in the room: anyone seen within the presence window.
+Does he want to say this TO someone -- and who?
+The winner must clear the margin or the words go to nobody.
+Those weights are learned by hearing people speak, so the choice improves over a life, and a person never met cannot be addressed.
+The cells a token lights, without building the 8,192-wide vector.
+The hash is deterministic, so it is cached: ranking a thousand words used to re-hash and re-allocate for every one of them.
+Score every known word and person against one spread vector.
+Cosine, not a clipped sum: clipping at a ceiling made a hundred words tie at exactly the same score, which ranked nothing.
+One matvec makes the spread; everything after it is gathers.
+What a token is wired to, read straight out of san w.
+One spread of the token's footprint through the semantic weights, then every known word and person is scored against it.
+Nothing here is a stored claim about meaning: it is the weight matrix, asked.
+What is lit this moment: the current semantic state spread once and ranked.
+This person as the brain holds them: their cells, and what those cells are wired to.
+A person nobody has been heard with is a name with no wiring, and that is what it reports.
+Droso's memory, read out of the substrate.
+Whatever words are spoken or heard during that window wire to the cared-for state -- language starts attaching to how the body FEELS.
+Something bad actually happened to him.
+How much adversity is present right now, for the modulator.
+The stream the world reads: its thoughts, what it heard, and what it said -- the being's mind, ears and mouth on one wire.
+Thoughts are stored separately and merged here, so a busy brain cannot evict the record of what it heard.
+The text is held as a word list; the being travels through it line by line.
+True if this phrase list predates grounding.
+Edit one phrase from the frontend, grounding included.
+Every condition a phrase may be tied to, for the frontend picker.
+Let the first words be first again.
+This clears what has already been said in this life, so the phrases that introduce him can be lived again from the top.
+One narration beat on demand, ignoring the pacing accumulator.
+Which care act is lit in the body right now, if any.
+Is the inner state this phrase names actually the case?
+Unknown selectors answer False on purpose: a phrase whose condition cannot be checked must not be spoken, or the grounding is a lie.
+Record that something REAL happened, so the parents can describe it.
+What he is allowed to articulate.
+He can still perceive and wire them -- this only gates the mouth.
+The word worth teaching from this phrase: the longest content word he does not know yet, else the longest one he does.
+May the teacher be paid for a call right now?
+Four independent stops: a minimum interval, an hourly cap, a daily cap, and a backoff after repeated failures.
+Record that the teacher was paid for one call, and whether it worked.
+Learn which role a question word asks about, from a Q and its A.
+No grammar and no table written by hand.
+The answer is a proposition whose roles are indexed by position; the question contains most of its words.
+Ambiguous pairs (two roles missing, or two new words) are refused rather than guessed.
+Votes per question word, marking the ones demoted for appearing in ordinary statements.
+Hear a question, look up what he knows, and say it.
+The parents do not read a list.
+That contiguity is the whole mechanism: the phrase and the state fire together, so the word wires to the experience instead of to nothing.
+Nothing here ever finishes.
+Once every phrase has been lived the parents keep describing the world, which is what a parent in the room does.
+Is this phrase TRUE of the world at this moment?
+Every ~30 world-seconds he also makes his OWN attempt first, so the teacher corrects what he actually says.
+His own all-known-word attempts self-reward.
+One cadence step of being read to, in WORLD time.
+A line of the book passes through the semantic cortex.
+The learned pattern living on the pool the brain just chose.
+The winner-take-all layer decided WHERE the thought lands; the pattern stored on that pool is what the brain means.
+Among pool-mates, practiced phrases can beat single words (inner speech), or single words can win (social replies -- lesson-drilled command strings are poor conversation).
+A stimulus enters the world's ear: text is just another signal.
+The words flow through the semantic cortex (real associations tighten), the token code settles a pool in the carve, and the event is recorded.
+HEARING IS NOT OBLIGATION: what the being does with the sound is decided by its own state.
+Returns the neural record.
+Hear a human's words; speak ONLY if the being wants to.
+Toddler speech when young -- and real: a readout of synaptic state, never a template.
+The word to open with.
+A sentence, one real decision per word.
+The connectome decides whether to speak, to whom, and what -- those words are his, produced by the chain above.
+This step only turns that readout into fluent surface text, the way a speech implant voices an intention it did not form.
+Off by default, because it spends the operator's API calls and because an unlabelled render is a lie.
+Measure what he understands, rather than assert it.
+Enough neural patterns to matter.
+Below the threshold the connectome is SILENT -- it has neurons for too few words to say anything.
+Thoughts get their own stream.
+They used to share event stream, and at.
+17 ticks a second 600 slots is about 35 seconds of history -- so a.
+parent's phrase, a book line or anything else he actually HEARD was.
+evicted before the dashboard could show it.
+That looked like the input.
+was bypassing the air entirely; it never was.
+The speech prosthesis is OFF unless the operator turns it on: it spends.
+API calls, and an unlabelled render would pass a device's grammar off.
+Every lesson is bought with the operator's money,.
+so the limits are hard, counted, and persisted: a restart must not.
+reset the day's spending, and a key that keeps failing must not be.
+retried every two minutes forever.
+Which role each question word asks about, learned from question/answer.
+pairs he has been read.
+Votes rather than a single value, because the.
+same interrogative can ask about different positions in different.
+sentences and the common case should win.
+The grown organ that gives his speech an order.
+Not part of BANC: the.
+fly never needed a slot for "second word", so there is no measured.
+structure to borrow and we build the thing beside it.
+Grown beside the carve, sharing nothing with it.
+but the words: the predictor gives him anticipation and therefore.
+surprise, the binder gives him propositions he can be asked about.
+The error is measured BEFORE this utterance is.
+stored, so it is a real prediction and not a fit -- and surprise is.
+what scales how hard the moment gets written, because an unsurprising.
+sentence is one he already knows.
+Order is learned from everything someone says to him, attended or.
+not: a book drifting past still has a word order in it, and the.
+Attention scales how hard it is written.
+Gated on speaker so his own rehearsal never trains the chain --.
+a voice that learns from itself collapses into whatever it said.
+Whatever is present in his world rides along with the words, so.
+"the file is open" said while a file is open wires to the file.
+WHO said it is part of the percept.
+The speaker's own cells fire.
+alongside the words, so the cortex wires person to phrase, and a.
+parent's words are wired harder than a page of a book -- which is.
+the whole point of having parents.
+Salience buys ATTENTION and reward, not loudness.
+a parent's own cells outshone the words being said and become the.
+strongest associate of everything he hears -- which is the opposite.
+of learning the words.
+Spontaneous speech uses the same organ as a reply.
+If he has heard the.
+shape of a sentence that opens with this word, he says the sentence;.
+otherwise it stays one word, which is all the association chain can.
+Half the time, prefer a word he can actually continue.
+can only ever be one word never exercises the chain, and the chain is.
+how long a real event stays describable, and how soon one phrase may.
+Both are in WORLD seconds, so they scale with the speed setting.
+A parent talks steadily, but not on a metronome.
+world-second cadence came out at 4.3 phrases a minute whether or not there.
+was anything to describe, and the language work cost about a fifth of the.
+So the cadence follows the world -- prompt about.
+something that just happened, quieter when nothing has.
+Reading is paced in real time as well as world time, but the floor exists.
+to bound the cost per line, not to make him slow.
+One line per second was.
+set when every line triggered a 4 MB predictor write; the cortex is now.
+throttled separately, so the floor can sit where the hardware does.
+Global decay of the semantic cortex, applied in one step over the elapsed.
+time instead of once per second.
+Same exponential, but rewriting a 256 MB.
+matrix every second measured 44.3 ms per application -- 4.4% of a core.
+burning continuously on memory traffic for arithmetic that can wait.
+A person enters through two real pathways at once: a SCENT on the antennal.
+lobe projection neurons, so the carve itself decides which Kenyon cells.
+that person lights, and a semantic footprint, so the cortex can wire the.
+person to the words heard while they were present.
+Neither is a label.
+looked up in a dict; both are learned by exposure.
+Language, as opposed to vocabulary.
+SEQUENCE_MAX_TOKENS caps order-sensitive perception, which costs one.
+decision per word instead of one per sentence.
+SENTENCE_STOP_RESONANCE is the floor below which the chain has nothing.
+Without it a "sentence" is just max words long, which is a.
+template wearing a neural costume.
+A parent is not just another voice.
+Attention and reward are scaled by who.
+is speaking, because that is how an infant actually learns: the caregiver.
+gets more of the dopamine.
+These are multipliers on the same mechanisms,.
+not a bypass -- nothing here goes around the carve.
+Reading a flat word stream in fixed chunks cuts.
+sentences at arbitrary points, and a sequence organ trained on that.
+learns the cut instead of the sentence -- measured: it produced "word.
+give me the" from a book whose actual line was "give me the word".
+Every phrase below is GROUNDED: it is only ever said while the thing it.
+describes is actually happening.
+A phrase that could be said at any.
+moment teaches nothing, because there is nothing in the world for it to.
+attach to -- and an associative brain learns by contiguity, not by.
+The tag is the condition, and the frontend shows it so a.
+human can see why a sentence is allowed to be spoken.
+said once, at the beginning of a life, while nothing else is happening.
+said when a person has actually just spoken to him.
+said while the body is really being fed / petted / praised.
+said only when the inner state they name is really true.
+said only in the real phase, and at the real turn of the day.
+said when the world actually does something.
+Adversity, grounded like everything else: these may only be said while.
+something adverse is actually happening to him.
+Things and doings in his own world, sayable only while they are lit.
+legacy tags from before grounding: still honoured, mapped to the.
+situation they describe in _grounded().
+the same event goes on the public stream, so the world log shows what.
+actually happened instead of sitting empty between rare milestones.
+A word becomes a question word only on repeated evidence.
+pairing is enough to poison the lexicon otherwise, and a poisoned lexicon.
+does not just mis-parse: it blacklists every memory containing that word,.
+which is how "droso sees light" became unreachable because "sees" had been.
+mistaken for an interrogative once.
+What this question word has been ANSWERED with.
+where has only ever been answered with a place and how with a state,.
+and that is learnable from the same pairs with no grammar from me.
+A question word is a word that only ever turns up in questions.
+interrogatives by a mis-paired line and then stripped out of the cue of.
+every question containing them, which is exactly why "who sees light".
+and "droso sees what" were the two that still failed.
+Drop only the question itself.
+A remembered question is not knowledge,.
+and without this the question he was just asked out-matches the answer.
+Filtering every memory that merely CONTAINS a.
+question word is what broke retrieval the first time: one mis-learned.
+interrogative made whole sentences unreachable.
+Other remembered questions are not answers either.
+This filter is safe.
+now in a way it was not before: a word only counts as an interrogative.
+after repeated evidence, so a mis-learned one cannot blacklist ordinary.
+-- a question he had been read, retrieved as if it were knowledge.
+A memory must contain EVERY distinctive word of the question.
+invented object, delivered with total confidence, because gives.
+matched and nothing checked that food did.
+Confabulating an answer is.
+worse than having none: silence is a true report, a confident wrong.
+answer is a lie he does not know he is telling.
+Rank by: how much of the question the memory contains, then whether.
+its filler at the queried role is a kind of thing this question word.
+has been answered with before, then whether the filler is new.
+Overlap alone cannot separate "droso is home" from.
+"droso is happy" when the only content word in the question is.
+Overlap says which memories are about this; the answer type says.
+whether the filler is the kind of thing being asked for; and the.
+filler's own distinctiveness breaks the last tie.
+nothing, and the one whose filler is a function word is never the.
+answer to a question.
+Unbind from the memory already chosen above.
+query role re-retrieves without the filters, which is how a question.
+ended up answering itself.
+The recalled proposition IS the answer.
+Running it back through the.
+chain replaces it with the chain's most likely continuation, which.
+The chain is for spontaneous speech, not for reading.
+out something he already remembers.
+A question was asked by someone in the room, so the reply goes to them;.
+the measured preference is recorded beside it rather than replacing it.
+Transitions are watched on EVERY tick: a slow cadence would otherwise.
+miss the moment the world turned, and that moment is the whole point.
+Exhaustion is adverse, not merely a state: below a floor it costs him.
+something, and the aversive compartment finally has a reason to write.
+Cooldown so a long low-energy stretch is one event, not a punishment.
+Full attention and the reward that goes with it: this is the voice he.
+is supposed to learn from.
+Capped so a loved voice cannot saturate the.
+synapses -- homeostasis still has to be able to do its job.
+Saving rewrites the whole vocabulary to disk, so it is throttled.
+doing it on every phrase put a megabyte of JSON in the tick loop.
+Lessons saved before grounding existed carry bare tags.
+to the situation it describes, so an old vocabulary stays honest.
+instead of being spoken at random.
+Reserve the slot BEFORE the call, not after it returns.
+The gate used to.
+record the call when the response landed, so at 17 ticks a second it.
+kept passing while the first request was still in flight: one lesson.
+operator's money, so the reservation is the first thing that happens.
+Pacing in world seconds alone meant that at.
+35x world speed he "read" about 70 lines a second, which is not reading.
+and not learning: it is a firehose, and it cost the tick loop a third of.
+Unread lines stay in the book, they are not dropped.
+One whole sentence per beat, which is also how a parent talks.
+A question immediately followed by its answer is the only.
+supervision anywhere in this system, and it is enough.
+He was asked something.
+Answering is a different act from replying.
+it goes to memory first, and it is addressed to the asker.
+Nothing is injected or forced from here on.
+The stimulus is heard, the.
+meaning state updates, and a word MAY be spoken -- only when the.
+resonance is strong enough that the sound genuinely touched what the.
+Weak resonance means it heard you and stayed silent.
+Keep talking while the brain keeps landing somewhere.
+chosen above is the floor, not the ceiling: the chain re-presents what.
+he has said so far and lets the next word be another real decision.
+Does he say this TO the person who spoke, to someone else in the.
+Measured, not assumed: a reply that lands on no.
+one is speech into the air, and the frontend is allowed to show that.
+The prosthesis, if the operator has fitted it: articulation only, and.
+always reported next to the words it was rendered from.
+The sequence organ goes first.
+If he has heard the shape of a sentence.
+that starts here, that is a better answer than a chain of loose.
+associates -- it has an order that was in the world, not one invented.
+by whichever cell resonates loudest.
+A transition he has actually HEARD outranks raw association.
+Weighting resonance alone let the most generic cells win, which.
+is how a sentence turned into a list of loose associates.
+Stop when the next word is neither something he has actually heard.
+follow, nor better than the word before it.
+floor never fired: resonance stays high once the utterance itself is.
+in the percept, so the chain ran to max words every time and the.
+Exploration off while measuring.
+Otherwise the probe scores his.
+epsilon-greedy coin flips instead of his perception: the same sentence.
+"settled" on a different pool 75% of the time purely because 15% of.
+decisions are random and the rest drift with the rate state.
+The pool is an argmax over valuations at temperature 0.02, so it flips.
+on noise; the valuation vector is the honest percept.
+the argmax would call an unstable readout what is actually a stable.
+state with a jittery decision on top of it.
+268 MB, rewritten on a timer, and the process is stopped with a.
+hard kill -- which makes this the most likely corruption in the.
+The JSON above was already written to a.
+temporary and renamed; these three were not.
+happens or it does not, so a kill during a save now costs the last.
+few minutes instead of the semantic cortex, the chains or the.
+A curriculum saved before grounding existed: its phrases.
+could be spoken at any moment, which is why the parents.
+used to babble the same welcome at every boot.
+with the grounded set.
+Anything the operator edited by hand.
+Without this the parents begin every life at the first.
+phrase, which is exactly why they used to re-welcome him.
+from scratch on every boot.
+Spending survives a restart on purpose.
+A cap that resets.
+when the process does is not a cap.
+The list and the role votes are two records of one fact,.
+and only the list was trusted.
+A state written by.
+something other than save state -- a merged population,.
+for instance -- carries the votes and no list, and came.
+up with four question words learned and none of them.
+Derive the set from the votes whenever it is.
+missing; is interrogative still gets the final say.
+A refusal is not an exception.
+load() returns the reason it.
+declined -- a predictor of the wrong shape, propositions.
+saved without their cue vectors -- and this used to throw.
+that away, so an individual could boot with none of his.
+memories and report nothing wrong.
+Twice a merged population.
+came up with 601 propositions instead of 8,144 and there was.
+no evidence anywhere of why.
+Top-level function names for non-python languages (mechanical).
+First function that CALLS another module-defined function: that caller is where a failure mode must be caught.
+Fix-in-place when the failure is local; ABANDON (return None → caller switches approach) when the step is fundamentally wedged.
+Case, whitespace and punctuation-insensitive, so the same question phrased twice does not pay twice.
+Delete rows the cache would never serve (legacy synthetic answers).
+Returns how many went.
+Reported rather than done at import: silently deleting rows from a file the user may be inspecting is its own kind of fabrication.
+Recent cached answers for the Learning panel.
+Host paths that must never be written, on this OS or the other one.
+Credential files are named individually instead.
+One canonical form for every path comparison this fence makes.
+Drop secretish names, keep the ones a shell needs to function.
+The connectome is about to hold an API key, and every command it runs is written by a language model.
+Inheriting the environment would hand that model a copy of the credential in whatever it prints, emails or uploads.
+Isolation layer for destructive operations.
+Cheap pre-flight for callers that execute elsewhere (the agent's own terminal organ).
+True = nothing here objects; it is not a promise that the command is useful , only that it is not forbidden.
+Execute a code snippet inside the project root, through the same write gate as everything else.
+A snippet that cannot be written cannot be run: no side door around write file.
+Check, and if the answer is no, journal the objection here.
+A human deciding in advance: allow the next n actions whose text contains matches .
+It deliberately does not read stdin.
+Deny-and-surface is the safe default.
+A human replying to a surfaced request.
+Approving answers the pending entry and grants that one action, so the caller can retry it.
+The invariants, as data -- so the dashboard can show what the fence promises, separately from what it has actually refused.
+Prove the rules bite, without touching anything that matters.
+This runs against a throwaway directory, not the project.
+The sequence organ: an explicit time axis, grown rather than inherited.
+Nothing in the BANC carve has a place for "the second word of a sentence", because nothing in a fly's life ever required one.
+So we grow the structure beside the measured wiring instead of pretending it is in there.
+Time is discretised into n slots positions, each holding cells per slot chain cells.
+A slot is a moment in an utterance, not a statistical n-gram bucket.
+A word is projected into a slot by hashing (word, slot), so "the" in slot 2 and "the" in slot 5 light different cells.
+Order is therefore a property of which cells are active, not something recovered after the fact from co-occurrence counts.
+This is the thing a bag-of-words hash cannot do, and it is why reversed sentences come out different.
+wires slot i to slot i+1 for the words actually heard, and never the reverse.
+It stops when no successor clears the floor.
+That stopping rule is the honest one.
+If he has heard nothing, he says nothing, and the organ reports exactly that rather than padding to a length.
+Capacity is deliberately small and measurable: n slots x cells per slot x cells per slot transition weights, a few hundred thousand floats.
+It is not a language model and does not pretend to be one; it is a timing structure with content addressed into it.
+The cells this word owns in this slot.
+Wire the transitions of a heard sequence.
+Run the chain forward from one word and read out what comes next.
+Returns the words, the confidence at each step, and the reason it stopped.
+An empty continuation is a true report: nothing was ever heard in that order.
+Can he reproduce a heard sequence in order, from its first word?
+Cells per slot is a capacity calculation, not a taste choice.
+CELLS_PER_WORD cells, so two random words overlap in about.
+word collided with every other and the chain read out whichever collision.
+At 512 it is 0.07, which is what a sparse code is for.
+A successor must also beat the runner-up, by a RATIO rather than an.
+Real chains routinely produce a clear winner at low absolute.
+strength (0.218 against 0.076 is unambiguous even though both are small),.
+and an absolute margin stopped those while letting confident collisions.
+Which words have ever been heard at each position.
+restricted to these: a word never heard in slot 3 is not a candidate.
+for slot 3, and searching the whole vocabulary there just finds.
+learning: what he hears.
+Touch only the cells that are actually lit.
+A dense outer product.
+here would allocate a 512x512 temporary to write 36 numbers, on.
+every phrase he ever hears.
+generation: what he says.
+He cannot open a sentence with a word he has never heard open one.
+Without this, hash collisions let an unheard word drive a chain it.
+was never part of, which is the organ inventing competence it does.
+activity propagates forward by multiplying from the left.
+this backwards yields a slot-i-shaped vector decoded against.
+Temporary then rename, as with the cortex.
+The chain is the largest.
+thing the sequence organ owns and the house is stopped with a hard.
+kill, so an in-place write could be caught half-finished and leave a.
+zip that will not open -- which is not a small chain, it is no chain.
+files written before the words were stored as a unicode array.
+Token-minimal query per oracle part -- one piece each.
+Group oracle questions so each call carries the shared context once.
+Build a MINIMAL query for one piece.
+Run a shell command and return its output as a sensory payload.
+Nothing is ever streamed to the connectome except the finished, capped result.
+Group questions so shared context is paid for once per call instead of once per question.
+Sparse k-of-n Kenyon-cell code for one text (the sensory code).
+Render a structured organ result for the human; returns what was shown.
+Sparse KC-compatible code: every held (key,value) pair hashes to a small bump of active units - the same substrate text code uses.
+Every process holding TCP port .
+Ask whether something is ANSWERING on (host, port).
+Binding is not the test.
+So the question is answered the way the world answers it: try to connect.
+A completed handshake means a listener is there, whether or not it will talk.
+This pid and every parent above it.
+Stop whoever holds the port, then wait until it is actually free.
+Two listeners are left alone: one whose pid cannot be named, and one that IS this process or one of its parents.
+A launcher must never be able to kill the thing that launched it.
+Who may change the world through this house.
+Loopback is the operator's own seat.
+Anyone else is covered by the ruling in house.allow remote mutation, and if house.access token is set a remote caller must present it.
+Until this method existed the config described all three knobs and nothing read them.
+Tool execution is mutation with a bigger hammer: for a remote peer it needs house.allow tool execution, which is off by default.
+Loopback keeps working as it always has -- the operator's own browser is the tool.
+Directory the web UI is served from (tests read index.html here).
+The human speaks into the world; Droso always hears; whether he answers is his own.
+The live HTTP server, or None while nothing is bound.
+Its children as well.
+The accelerated life is a separate process,.
+and on Windows a daemon child outlives a terminated parent -- the.
+leaked workers, not the house, were what saturated the box.
+The footer used to render "house down" while the page.
+was being served by this very process, because nothing.
+These are the process's own facts.
+What actually counts as a question word when he is.
+asked something: a word demoted for appearing in.
+ordinary statements is still listed above, because it.
+was voted for, but it is no longer used.
+The command he is about to run becomes something he can.
+feel, so words said during it wire to the act itself.
+The caps persist across restarts on.
+purpose, so clearing them has to be a human act, not a reboot.
+Retired knob: the colony it used to gate is gone, and the carve is the only brain.
+Old config keys are read and ignored rather than honored.
+The caller's config wins where it speaks.
+The file supplies defaults for blocks the caller left out.
+The one door to the outside.
+Returns the optimizer's route record; with no stack wired it reports route "none" instead of inventing.
+Every default here is the safe one: network off, writes need approval, deletes always need approval, breaker armed at 3 retries.
+A missing config key must never mean "less safe".
+Where the two new organs persist, derived from state path .
+The same rule the API stack follows: an agent built with its own state file gets its own memory files.
+A relative language.state path from config is resolved against the project root, as before; an absolute one is honoured exactly.
+Attach autotraining and the NEURAL language organ.
+Bring the periodic processes up.
+Idempotent; safe to call from run house.py or from a test that drives ticks by hand.
+train language=False skips the first-run lesson loop, which costs real calls.
+First-run language acquisition: real words encoded into REAL KC neurons, taught by the oracle, until the organ can speak.
+No key, no language: the connectome stays SILENT rather than being seeded with a phrasebook.
+Every learned word is a KC activation pattern; none is stored as a meaning-string anywhere.
+Affects the answer oracle only.
+The teacher keeps its own oracle and its own switch (autotraining.enabled), because "stop answering me from the internet" and "stop learning" are different requests.
+Tokens and API calls since the last mark.
+Run a fast rung and report it in the same shape as the loop, so callers never have to know which path answered.
+The prompt the loop will keep sending: task, constraints, last three distinct failures, and only the files that fit.
+Level 2: take the first requirement and ask for the smallest thing that satisfies it.
+Re-run the phases while the circuit breaker allows it.
+simplify shortens the ask; escalate stops and hands the decision to a human, returning the attempt accounting with it.
+A tripped breaker stays tripped: the loop cannot talk itself back into spending.
+Everything the dashboard's three new panels need, all measured.
+Absolute runner path: the terminal's cwd is not our sandbox.
+The fence gets a vote before the terminal organ runs anything.
+TerminalOrgan already has its own allowlist; this is the layer that knows about pipe-to-shell, force-pushes and network clients.
+FAST PATH for a stored REASONING_CHAIN: re-execute the verified step sequence - thinking once, then acting like a procedure.
+The carve picks among LEGAL cognitive moves.
+Legality is expressed TO the core as the allowed-pool mask, so an illegal pool cannot be selected at all.
+Persist the working artifact into the sandbox so TEST steps and the terminal can actually import it (the body-of-the-agent bridge).
+Dashboard view: the Reasoning Observatory reads this live.
+The solver is built a few lines above the library, so the link is.
+It matters: unlinked, the solver consults only the two.
+mirrors that propagation feeds, and propagation only runs when the.
+library is used -- so nothing could use the library until it was.
+The solver is built long before the sandbox exists, so it is linked.
+Without it verification can only compile, and "it compiles" is.
+not the evidence the execution gate is supposed to run on.
+Modulation: four dials on the carve that is already built.
+and no synapses are added, which is the point -- the same wiring.
+computes something different under different chemistry.
+The teacher is the language organ's only route to an outside voice.
+Without this the tutor and the speech prosthesis both answer "no.
+teacher configured" even on a house with a live key -- which is.
+exactly what they did until now.
+The teacher's leash is configurable but never unlimited: these are.
+the operator's money, spent on a schedule.
+Failures have to be recorded as well.
+Reinforcing only on success.
+meant confidence could only ever rise, so a procedure that kept.
+breaking was never demoted and the store's own discard rule -- the.
+thing that stops him replaying code he has watched fail -- could.
+Append-only ledger of simulated existence, by system name.
+What THIS run added, for reporting alongside the cumulative ledger.
+BANC v888 source-table layer, extracted from Chimera unchanged in behavior.
+Raised when a root ID cannot round-trip losslessly through int64.
+Parse an ID column from string -> int64 with lossless round-trip check.
+All annotation columns read as strings; Root ID int64.
+Zero/negative synapse rows are dropped here (they encode no connection) and their count is returned via the dropped nonpositive attribute.
+Map a raw NT label to a postsynaptic sign; None means 'exclude & count'.
+Neurons touching at least one edge annotated with a target neuropil.
+All rows with both endpoints in nodes , aggregated to weighted edges.
+Assign each edge a sign from the PRE-neuron's predicted NT.
+neuron nt : Series indexed by root id with raw predicted NT labels.
+Excluded rows are DROPPED.
+Degree/weighted-degree summary over a collapsed edge table.
+The dynamics live in the carve.
+Deterministic text -> sparse k-of-n Kenyon-cell code.
+Token unigrams and bigrams are hashed (blake2b, salted with seed ) to cell indices; the first k unique cells are the code, amplitude 1.
+There is no fallback brain.
+One decision: 50 ms of neural time in the carve.
+allowed pools restricts the WTA to a subset of the 12 MBON pools (the reasoning loop's legality structure); None means all pools.
+Perceive a SEQUENCE: each word's drive lands on a state that still carries the one before it.
+This is what makes word order exist for him.
+Costs one decision per word instead of one per sentence, so it is used for hearing and speaking, not for the accelerated life loop.
+Broadcast consequence -> dopamine -> plasticity on the measured synapses.
+Returns the RPE; 0.0 when there is nothing to reinforce.
+Persist the LIVED synapse weights to disk.
+The weights in static.w are the learning: every word driven, every lesson reinforced, every consolidation tick is a delta on these 2,983 measured synapses.
+Without this file the brain resets to its birth state on every restart -- which is the opposite of a being that learns.
+Restore lived synapse weights.
+The carve itself is shared process-wide.
+paying 8.6 s per agent), but the plastic arrays are the part a brain.
+CHANGES: adopting a lived geometry, grow plastic and prune plastic all.
+resize them in place.
+Sharing those meant one brain's life rewrote the.
+shape of every other engine in the process.
+So the read-only wiring.
+stays shared and only the mutable layer is copied per engine.
+The control condition is degree-matched.
+random WIRING on the SAME neurons, and its plastic layer is identical.
+pair for pair -- so synapse identity can never tell the two apart.
+Without this stamp, a control run's weights could be loaded into the.
+experimental brain and nothing in the file would say so.
+Geometry is matched by IDENTITY, not by position.
+A synapse is the.
+pairs exist and in what order, but never what a pair means.
+recorded pair list is adopted whole, each pair's birth weight is.
+looked up in the base carve, and pairs the base does not know are.
+This accepts both a brain that GREW past its carve and one that.
+PRUNED below it -- the old code accepted only the first, so every.
+consolidated brain was silently discarded at restart.
+Estimate per-pool baseline valuations over random input states.
+Baseline-corrected valuation vector from the last decide().
+Inject current into a node subset (goal-slot pulses, sensory drive).
+Run the network for one decision; WTA action with hysteresis+noise.
+Serialized against the heartbeat's neural ticks and any concurrent decision: the rate vector is shared state.
+Static plus plastic wiring as ONE matrix, reused while nothing moved.
+This is the speed.
+The reuse test compares the ARRAYS, not a dirty flag on purpose.
+New learnable routes: the pool they land on becomes a place where a fresh association can form.
+The arrays are rebuilt by every decide, so appended synapses are live immediately.
+Structural forgetting -- only connections that EARNED plasticity survive.
+Per-synapse plasticity parameters, derived from which pool each synapse writes onto.
+Rebuilt whenever the plastic layer changes size.
+Whether teaching is landing, in numbers rather than impressions.
+What each compartment has actually done, measured off the weights.
+Keep the per-synapse normalization / sign / active masks in sync after the plastic layer changes size.
+Learned weights are keyed to (KC, MBON) pairs, so they survive the re-bucketing untouched.
+Apply the three-factor update from a measured reward.
+Per SECOND of real time, not per decision -- see _reset_episode_impl.
+3.2e-5 the half-life is about six hours, which is what forgetting a memory.
+The old 0.003 was applied on every decision, so the same brain.
+Weight decay is a function of elapsed time, and applying it more often than.
+this buys nothing except invalidating the folded matrix every decision.
+The eligibility trace is deliberately NOT cleared here.
+bridge the delay between an action and its consequence, and zeroing it.
+at the start of every decision meant a consequence arriving later --.
+newest decision happened to leave behind, or on nothing at all.
+bounded by its own per-sub-step decay instead.
+Applied at most every few seconds rather than every decision.
+exactly the same compounding over the same elapsed time, but touching w.
+on every decision invalidated the folded static+plastic matrix every.
+8.95 ms a decision costs once the plastic layer had grown to 20k.
+three fresh 12,867-element arrays per sub-step, ten sub-steps per.
+decision, on a loop that is memory traffic all the way down.
+post-synaptic bins: no third matrix built per decision.
+One three-factor rule for every synapse is not what a mushroom body does.
+It is a set of compartments, each with its own dopaminergic neuron and its.
+own write rule, which is how one small structure holds fast and slow.
+pools and 83 real DANs and were using none of that structure: every synapse.
+learned at the same rate, forgot at the same rate, and treated reward and.
+The fly's compartments are known to.
+Pools are assigned by index modulo four so.
+the assignment is deterministic and reproducible, and the control condition.
+for the experiment is the uniform rule this replaces.
+name lr gain tau e rpe gain cap gain.
+Per compartment: its own learning rate, its own sign on the teaching.
+An aversive compartment strengthens on.
+punishment what an appetitive one strengthens on reward, which is the.
+whole reason the fly has twenty kinds of dopamine neuron and not one.
+"Did the teaching signal actually land?" was.
+not answerable before, and the answer turned out to be barely.
+Build the signed sparse core graph (or its degree-matched random control).
+MBON indices partitioned round-robin into one pool per action.
+Partition PN ports into named sensory channels.
+Run the observatory in a daemon thread; the simulation continues.
+The human half of the safety layer.
+Approving grants exactly one matching action; it does not open the gate generally.
+The control condition: does the fly's wiring actually matter?
+Everything claimed about this animal so far could be true of ANY sparse recurrent graph of the same size.
+The degree-matched control is the only thing that decides the question, and until now nothing had ever lived on it.
+The control keeps every neuron, every synapse count and every degree sequence, and permutes which post-synaptic cell each static edge lands on.
+The deterministic readout: which pool the valuation actually favours.
+The argmax of the valuation is the percept; the sample is the choice.
+semantically close pairs and far pairs, for the generalisation measure.
+generalisation: does word overlap predict valuation similarity?
+and across every pair: correlation between lexical overlap and neural similarity.
+"Unrewarded" means no teaching signal at all.
+Passing teach(0.0) is not.
+positive valuation is a negative prediction error, i.e.
+The first run of this protocol punished the control set and then reported.
+that reward had not separated them.
+Which pool does each sentence select, and what does reward then do to THAT.
+Measuring the readout valuation cannot answer it: the.
+chosen pool can itself change during learning, so before/after values are.
+not even measurements of the same quantity.
+Weight change localised to the.
+what the reward actually did to the synapses, not just to the readout.
+does the rewarded set become more distinguishable from the rest?
+Drive the coding path end to end and report whether the loop closes.
+It works on a COPY of the store.
+Task text with its rarest word removed -- a phrasing the key never used.
+So this is the highest-leverage file in the project.
+parent cares and gives; droso perceives and learns; "i" is always the parent speaking and "you" is always droso.
+Pairs are emitted on consecutive lines and never de-duplicated, because an answer can belong to two questions.
+Rules this generator obeys, all of them learned the hard way: QUESTIONS LIVE IN ONE BOOK ONLY.
+Interrogatives appear only in 05_questions.txt, and only with their question mark.
+Question and answer on consecutive lines.
+the world he actually lives in.
+things that are grounded by an event, so they can be said truthfully.
+vary the middle so order carries information rather than being.
+the same six lines repeated.
+adjacency check: a question must never be followed by a question.
+Build the grounded primer: the language environment Droso is raised in.
+Nothing refers to a world he cannot touch.
+Volume matters for order.
+Run it, and the book is rewritten deterministically.
+The question mark is the only.
+annotation, and it is the last one: which role a question word asks about.
+is written down nowhere.
+It is recovered by comparing each question with.
+the answer that follows it -- whichever role's filler is missing from the.
+question is the role being asked about, and whatever word the question adds.
+is the interrogative that asks for it.
+Roles are CONSISTENT, because a caregiver's speech is.
+the one who cares, gives and opens; "droso" is always the one who perceives,.
+wants and learns; "i" is always the parent speaking and "you" is always.
+Random combinations of subject and verb were the reason role recovery.
+sat at the base rate: with five subjects uniformly distributed over every.
+verb, the correct answer is only 20% likely a priori and no mechanism can.
+Structure in the input is what makes roles learnable.
+verbs partitioned by who does them, which is the structure he has to discover.
+the grounded sentences a caregiver repeats verbatim.
+An answer line can belong to.
+and "droso sees what?"), and removing the second copy left the question.
+followed by another question -- which is how "what" never learned that it.
+gets answered with light and word , and how sees and learns were.
+mis-learned as question words at all.
+Adjacency IS the supervision here, so.
+nothing may reorder or thin it.
+Only the generated frames are thinned, and only against each other.
+A book made of the prose that is already here.
+This extracts the prose that already exists in the project: docstrings and comments, which are ordinary English sentences written to explain something.
+Identifiers are split on underscores, so learn from task becomes three English words instead of one token no sentence elsewhere contains.
+Sentences that are mostly code are dropped: the point is language, and a line of API signatures teaches nothing about word order.
+Prose out of a docstring or comment: identifiers split, markup dropped.
+learn from task and learn from task both become three words.
+A sentence that is mostly punctuation and operators is a code.
+fragment with prose wrapped around it.
+comments, which in this project carry most of the reasoning.
+A population, and the merge that makes it one animal.
+This is the capability biology does not have.
+One life, raised through his REAL reading organ.
+Where an individual's state actually lives.
+A grown individual gets a project root with a state/ directory inside it.
+A lineage saved for safekeeping is the files themselves, flat, because that is what was copied out of a living animal.
+Both have to be readable or the saved lineages cannot be merged back in -- which is the whole reason to keep them.
+a private shelf: this individual's copy of the assigned books, so nobody.
+else's reading position can move under it.
+The reader iterates the shelf alphabetically, so the order has to be in the.
+filenames -- passing an ordered list means nothing to it.
+question book sat fifth in alphabetical order and nobody reached it.
+The question/answer book goes first for everyone.
+it is the sole source of supervision in the whole system -- an individual.
+that ran out of time before reaching it would learn a language with no.
+semantic cortex: element-wise mean.
+sequence chains: element-wise sum.
+propositions: union by token tuple, counts summed.
+The slot vocabulary has to be merged too.
+Chains without it are unusable.
+nothing can open a sentence, because the organ only seeds from words it.
+has actually heard in that position.
+plastic weights: average across individuals sharing the synapse identity.
+Run the library, and let execution decide what he trusts.
+Seeding puts procedures in the store at confidence 0.35 with verified: False .
+Nothing promotes them but running them.
+This is that running.
+A seeded procedure therefore needs three executions under him before the router will replay it without asking anyone.
+That is the gate working, not a bug in it.
+By name as well as by line, because line numbers drift the first time anyone edits the file and the provenance recorded a line.
+Attributes executed lines to the test that executed them.
+A whole-suite trace can say a function ran.
+It cannot say what proved it ran correctly, which is the only thing that makes "verified" mean more than "did not crash".
+One suite run, traced per test node.
+Promote a procedure only where a test that PASSES exercised its body.
+Ask for each procedure two ways its own key was never written.
+by name: the function name in words.
+by paraphrase: the docstring's own sentence with its rarest word struck out.
+It is the harder and more honest probe, and the one that decides whether the local path is usable.
+Must match the store the live agent reads; see seed procedures.py.
+pytest writes to stdout and this tool's report is JSON on stdout;.
+without the redirect the two interleave and cannot be parsed.
+Covered, but only by tests that fail.
+That is evidence about the.
+function and it is not favourable, so it earns nothing.
+same evidence and not new evidence, so it earns nothing.
+a loop of practice runs would walk every procedure to the recall.
+floor on information it already had -- and the arithmetic would look.
+like growing trust while nothing was being learned.
+Restart the live house on 7773 with current code (used after code changes).
+Seed the procedure library from code that already runs.
+The coding path was complete except for its contents.
+An empty library means every task is novel, which means the 90% has nothing to stand on.
+The seed is his own source: functions with a docstring, which is to say code that says what task it answers.
+Nothing here claims to have been run.
+Confidence starts at the same 0.35 any new record gets -- being innate earns no privilege.
+Promotion comes from tools/practice.py executing the code and reporting back, and only execution moves it.
+The default recall floor is 0.70, so a seeded procedure is present but not trusted until it has passed under him.
+The task a function answers, in the words its own author used.
+One procedure per signature: the fullest code that answers it.
+Several functions can describe the same task.
+Re-extract stored code from source and drop what still will not parse.
+Confidence is left alone: the evidence about whether it ran is untouched by a change in how much of it was kept.
+The live agent does not use the module default.
+reasoning agent builds its loop.
+exocortex path fills a library he never reads -- which is exactly what happened.
+A truncated procedure is worse than no procedure: it is broken code presented as.
+a solution, and it compiles or fails at random depending on where the cut fell.
+The gate below compiles the full source, so storing a prefix of it silently.
+the cap is skipped whole.
+stop at the first sentence end that is not inside an abbreviation.
+A procedure is findable by three surfaces, because a request matches.
+different ones at different times: what its docstring says, what it is.
+Keying on the docstring alone lost every.
+probe -- revise plan is documented as "abandon the local approach when.
+the caller fails", which shares not one word with its own name.
+Line numbers drift the moment anyone edits the file, and provenance.
+Fall back to the function name, which is why the.
+name was stored alongside it.
+Construct the Path A agent and make it answer something, with no model file and no API key.
+Anything less would certify the imports, not the architecture.
+The 'always better' layer must be present AND armed.
+The house must be openable, fenced, and honest about who may knock.
+A live oracle (Z.AI, as this box is configured) with the socket replaced.
+There is no mock mode: query has no path that returns text without a model.
+An exception cannot be mistaken for an answer.
+The self-fulfilling loop guard, inverted into an allow-list.
+No model answered on these paths, so nothing may become belief.
+Measured, not assumed: the API call counter must stay at zero when something local can answer.
+The mode column is the cache's provenance, so it must say what actually happened: this answer came from a provider call.
+"No LLM" must not mean "no thinking": the learned/local/cache rungs still answer, and the refusal is reported rather than returned as an empty "done".
+Classification said 'no oracle-worthy part', and local had nothing: that must escalate and say so, not silently return an empty solution.
+The distinction this whole file exists to keep.
+A repeat question may be answered for free by the cache (the same text, the same question -- that is a fact about cost).
+It may NOT be promoted to a procedure and replayed as knowledge , because no checker confirmed it.
+And the learning loop goes further: an unverified store demotes the record, because being asked again is not evidence of being right.
+Collapsing them into one row is how a working key starts looking broken.
+Measured live: a small max tokens on a reasoning model can return 200 with empty content and all the tokens spent on thinking.
+That is not "the model had nothing to say", and it must not be surfaced as an empty success.
+429 code 1113 came back as an HTTP body on the wrong surface.
+The word must not survive in a live answer's provenance either.
+A panel that shows 0 for an organ that was never built teaches the wrong lesson about the agent.
+Module-scoped hub shares one lexicon across tests; a test that needs a pristine language brain wipes it explicitly.
+No key, no call: the reply must say so in its own text.
+The old version of this test asserted the opposite -- that a mock answer arrived and carried a label.
+A labelled fabrication is still a fabrication,.
+and the label only helps a reader who notices it.
+No template: wipe the pattern and the greeting disappears.
+The anti-mock proof: the greeting is not a constant in a file.
+Enough agent for a heartbeat with nothing to observe.
+The badge read stats.oracle.mode, which connectome stats() never provided -- so it would have shown '?' forever while every other panel looked fine.
+The fence's reach is a shipped value and belongs under test.
+--json used to bind without accepting, so the house printed a URL that hung forever.
+Only launching the real entry point catches that.
+The takeover must not be able to kill upward.
+server/app.py serves the Observatory on its own port; the house is 7773.
+compare against the pid the listener reports for itself: on Windows a.
+venv launcher re-execs, so Popen's pid is not always the one holding.
+Path A removed the MoE/expert streaming panels; a resurrected reference would mean either dead JS or a dead endpoint being called.
+Rebuild the endpoint payload from the agent, using the same key names server/app.py uses.
+The router ships the brief's priors as estimated ms and this box's timings as median ms by path .
+If a rename ever merges them, the dashboard starts reporting a spec number as a result.
+Starting the timer is allowed -- it spends nothing without a key.
+What is not allowed is arming it and leaving the panel to discover an hour later that every cycle was going to fail.
+The button is honest about its cost, and every word becomes a KC pattern in the carve: propagate, then reinforce, then record WHICH neurons.
+The panel can change thresholds; it cannot change what an organ is.
+A stand-in provider that answers according to what it was asked.
+Every number in the record has to trace to a call that happened.
+path is the one lesson field that turns words into a file write.
+The organs' files now derive from the agent's state path, and the only assertion that matters is that the shipped bytes do not move.
+organs.autotraining is not in the tree, and a hard import here aborted.
+collection for the ENTIRE suite -- pytest tests ran nothing at all and reported.
+two errors, which is how 73 real failures hid behind a module that was removed.
+importorskip keeps the file dormant and revives it if the module returns.
+A heartbeat wired to the agent, ledger in a scratch dir by default.
+The tick encodes the connectome's actual state: its goal and phase.
+Pools 3/4/5 mean recall: the heartbeat must actually ASK the organ and record what came back, not just think about asking.
+The heartbeat's timer thread and the reasoning loop both drive RateCore.
+The carve is one object per process (rebuilding it costs seconds and it is.
+the same measured fly), but the PLASTIC layer is private to each engine.
+a brain that adopts, grows or prunes synapses must not reshape every other.
+engine in the process.
+So identity of the graph object is no longer the.
+claim; identity of the wiring and equality of the neurons is.
+The control condition must never donate weights to the experimental brain.
+Degree-matched random wiring keeps the SAME neurons and the SAME plastic pairs, so this is invisible to geometry: it takes the provenance stamp.
+A life that pruned synapses must still come back.
+Consolidation removes dead synapses, so a lived brain is SMALLER than a fresh carve.
+Adoption is now by (pre, post) identity, so grown AND pruned geometries both load.
+The carve is shared process-wide; the plastic layer is not.
+A stand-in teacher socket: one JSON lesson per ask, real shape.
+A real carve + the real tokenizer + the neural language organ.
+Nobody stores a definition anywhere.
+Greeting words must end up related to each other and UNRELATED to kitchen/tech words.
+The being has never seen 'howdy'.
+It meets it ONCE, inside a greeting sentence.
+No lesson names it a greeting -- but its meaning vector moves toward the greeting cluster and away from tech words.
+That is learning meaning from usage, in synapses, with zero English stored anywhere.
+A teacher that keeps returning nothing new is out of curriculum: the trainer must stop honestly instead of spinning on empty lessons.
+organs.overnight trainer is not in the tree; see the note in.
+A hard import aborts collection for everything.
+That ranking is a taste, not a contract: it changed, and the test reported a regression in a mechanism that was working perfectly.
+An empty workzone must not silently become "whatever the server's cwd is".
+Path("") resolves to the current directory, so a missing filesystem root would have fenced nothing while reporting a workzone happily.
+A store that recalls something relevant , not everything.
+A stub with the oracle's seams, and an injected latency so speed can be measured on a box that has no API key.
+Below the trust floor a procedure is tried, not believed -- and not dropped.
+Now it is replayed as a trial and executed.
+What runs is handed back labelled as a trial that passed.
+What does not is never handed back at all -- it is dropped, demoted, and he goes and thinks instead.
+The deviation from the brief's detector, tested.
+"rename this and test it" is five words, and the brief's rule sends it to a bare API call.
+It is a code change with a test attached: the one task type where shipping an unverified answer is the failure.
+So the property gets poked from many directions instead of asserted once.
+With a socket that exists, a question takes the short rung.
+A real wall-clock comparison, with the latency injected at the seam.
+There is no API key here, so "how much faster is replay than asking" cannot be answered about a provider.

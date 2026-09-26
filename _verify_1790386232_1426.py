@@ -1,0 +1,7 @@
+def reverse(s):
+    return s[::-1]
+
+
+assert text_starta_endb("aabbbb")
+assert not text_starta_endb("aabAbbbc")
+assert not text_starta_endb("accddbbjjj")

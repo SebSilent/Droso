@@ -1,0 +1,732 @@
+{
+ "procedures": {
+  "element find given list shar": {
+   "signature": "element find given list shar",
+   "task": "Write a function to find the shared elements from the given two lists.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def similar_elements(test_tup1, test_tup2):\n  res = tuple(set(test_tup1) & set(test_tup2))\n  return (res) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320023.4944832
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320023.4944832,
+   "language": "python",
+   "last_used": 1790320023.4963682,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "descend find given integer largest list number order": {
+   "signature": "descend find given integer largest list number order",
+   "task": "Write a function to find the n largest integers from a given list of numbers, returned in descending order.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import heapq as hq\ndef heap_queue_largest(nums,n):\n  largest_nums = hq.nlargest(n, nums)\n  return largest_nums",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320024.2856355
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320024.2856355,
+   "language": "python",
+   "last_used": 1790320024.2856355,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find greater minimum number python requir rotation same": {
+   "signature": "find greater minimum number python requir rotation same",
+   "task": "Write a python function to find the minimum number of rotations (greater than 0) required to get the same string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_Rotations(str): \n    tmp = str + str\n    n = len(str) \n    for i in range(1,n + 1): \n        substring = tmp[i: i+n] \n        if (str == substring): \n            return i \n    return n ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320024.4441361
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320024.4441361,
+   "language": "python",
+   "last_used": 1790320024.4441361,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "character first given last occurrence python remove string": {
+   "signature": "character first given last occurrence python remove string",
+   "task": "Write a python function to remove first and last occurrence of a given character from the string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def remove_Occ(s,ch): \n    for i in range(len(s)): \n        if (s[i] == ch): \n            s = s[0 : i] + s[i + 1:] \n            break\n    for i in range(len(s) - 1,-1,-1):  \n        if (s[i] == ch): \n            s = s[0 : i] + s[i + 1:] \n            break\n    return s ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320025.3852854
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320025.3852854,
+   "language": "python",
+   "last_used": 1790320025.3852854,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find prism python triangular volume": {
+   "signature": "find prism python triangular volume",
+   "task": "Write a python function to find the volume of a triangular prism.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_Volume(l,b,h) : \n    return ((l * b * h) / 2) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320025.522488
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320025.522488,
+   "language": "python",
+   "last_used": 1790320025.522488,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "given input length perimeter return side square": {
+   "signature": "given input length perimeter return side square",
+   "task": "Write a function that returns the perimeter of a square given its side length as input.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def square_perimeter(a):\n  perimeter=4*a\n  return perimeter",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320026.2325022
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320026.2325022,
+   "language": "python",
+   "last_used": 1790320051.607842,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "array contain duplicate element find given integer whether": {
+   "signature": "array contain duplicate element find given integer whether",
+   "task": "Write a function to find whether a given array of integers contains any duplicate element.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def test_duplicate(arraynums):\n    nums_set = set(arraynums)    \n    return len(arraynums) != len(nums_set)     ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320027.2184744
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320027.2184744,
+   "language": "python",
+   "last_used": 1790320027.2184744,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "bell find number partition ways": {
+   "signature": "bell find number partition ways",
+   "task": "Write a function to find the number of ways to partition a set of Bell numbers.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def bell_number(n):   \n    bell = [[0 for i in range(n+1)] for j in range(n+1)] \n    bell[0][0] = 1\n    for i in range(1, n+1): \n        bell[i][0] = bell[i-1][i-1]  \n        for j in range(1, i+1): \n            bell[i][j] = bell[i-1][j-1] + bell[i][j-1]   \n    return bell[n][0] ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320028.189496
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320028.189496,
+   "language": "python",
+   "last_used": 1790320028.189496,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check length python whether word": {
+   "signature": "check length python whether word",
+   "task": "Write a python function to check whether the length of the word is odd or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def word_len(s): \n    s = s.split(' ')   \n    for word in s:    \n        if len(word)%2!=0: \n            return True  \n        else:\n          return False",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320029.139311
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320029.139311,
+   "language": "python",
+   "last_used": 1790320029.139311,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "dictionary element frequency list return": {
+   "signature": "dictionary element frequency list return",
+   "task": "Write a function to get the frequency of all the elements in a list, returned as a dictionary.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import collections\ndef freq_count(list1):\n  freq_count= collections.Counter(list1)\n  return freq_count",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320030.2881496
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320030.2881496,
+   "language": "python",
+   "last_used": 1790320030.2881496,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "closest find number smaller than": {
+   "signature": "closest find number smaller than",
+   "task": "Write a function to find the closest smaller number than n.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def closest_num(N):\n  return (N - 1)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320031.2978635
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320031.2978635,
+   "language": "python",
+   "last_used": 1790320031.2978635,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check given list present string substr value": {
+   "signature": "check given list present string substr value",
+   "task": "Write a function to check if a string is present as a substring in a given list of string values.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_substring(str1, sub_str):\n   if any(sub_str in s for s in str1):\n       return True\n   return False",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320032.3371112
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320032.3371112,
+   "language": "python",
+   "last_used": 1790320032.3371112,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "binary convert decimal equivalent given lead number represent": {
+   "signature": "binary convert decimal equivalent given lead number represent",
+   "task": "Write a function to convert the given decimal number to its binary equivalent, represented as a string with no leading zeros.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def decimal_to_binary(n): \n    return bin(n).replace(\"0b\",\"\") ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320033.2929866
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320033.2929866,
+   "language": "python",
+   "last_used": 1790320033.2929866,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "camel case convert snake string": {
+   "signature": "camel case convert snake string",
+   "task": "Write a function to convert a snake case string to camel case string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def snake_to_camel(word):\n        import re\n        return ''.join(x.capitalize() or '_' for x in word.split('_'))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320034.5471623
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320034.5471623,
+   "language": "python",
+   "last_used": 1790320034.5471623,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "boolean count given list python true": {
+   "signature": "boolean count given list python true",
+   "task": "Write a python function to count true booleans in the given list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def count(lst):   \n    return sum(lst) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320035.4954286
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320035.4954286,
+   "language": "python",
+   "last_used": 1790320035.4954286,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "binary find given number python rotat string time": {
+   "signature": "binary find given number python rotat string time",
+   "task": "Write a python function to find the number of numbers with an odd value when rotating a binary string the given number of times.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def odd_Equivalent(s,n): \n    count=0\n    for i in range(0,n): \n        if (s[i] == '1'): \n            count = count + 1\n    return count ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320036.5702739
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320036.5702739,
+   "language": "python",
+   "last_used": 1790320036.5702739,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check integer represent string": {
+   "signature": "check integer represent string",
+   "task": "Write a function to check if a string represents an integer or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def check_integer(s):\n    s = s.split(' ')\n    for word in s:\n        if len(word) % 2 != 0:\n            return True\n        else:\n            return False",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320036.7016988
+    }
+   ],
+   "source": "composed",
+   "created": 1790320036.7016988,
+   "language": "python",
+   "last_used": 1790320036.7016988,
+   "source_history": [
+    "composed"
+   ],
+   "last_evidence": "task_check"
+  },
+  "amicable number specifi": {
+   "signature": "amicable number specifi",
+   "task": "Write a function to sum all amicable numbers from 1 to a specified number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def amicable_numbers_sum(limit):\n    if not isinstance(limit, int):\n        return \"Input is not an integer!\"\n    if limit < 1:\n        return \"Input must be bigger than 0!\"\n    amicables = set()\n    for num in range(2, limit+1):\n        if num in amicables:\n            continue\n        sum_fact = sum([fact for fact in range(1, num) if num % fact == 0])\n        sum_fact2 = sum([fact for fact in range(1, sum_fact) if sum_fact % fact == 0])\n        if num == sum_fact2 and num != sum_fact:\n            amicables.add(num)\n            amicables.add(sum_fact2)\n    return sum(amicables)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320045.3063478
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320045.3063478,
+   "language": "python",
+   "last_used": 1790320045.3063478,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "common divisor find given number python": {
+   "signature": "common divisor find given number python",
+   "task": "Write a python function to find the sum of common divisors of two given numbers.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def sum(a,b): \n    sum = 0\n    for i in range (1,min(a,b)): \n        if (a % i == 0 and b % i == 0): \n            sum += i \n    return sum",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320045.4409654
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320045.4409654,
+   "language": "python",
+   "last_used": 1790320045.4409654,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "calculate magic matrix square whether": {
+   "signature": "calculate magic matrix square whether",
+   "task": "Write a function to calculate whether the matrix is a magic square.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def magic_square_test(my_matrix):\n    iSize = len(my_matrix[0])\n    sum_list = []\n    sum_list.extend([sum (lines) for lines in my_matrix])   \n    for col in range(iSize):\n        sum_list.append(sum(row[col] for row in my_matrix))\n    result1 = 0\n    for i in range(0,iSize):\n        result1 +=my_matrix[i][i]\n    sum_list.append(result1)      \n    result2 = 0\n    for i in range(iSize-1,-1,-1):\n        result2 +=my_matrix[i][i]\n    sum_list.append(result2)\n    if len(set(sum_list))>1:\n        return False\n    return True",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320046.7717416
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320046.7717416,
+   "language": "python",
+   "last_used": 1790320049.9332564,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "check given number power python represent whether zero": {
+   "signature": "check given number power python represent whether zero",
+   "task": "Write a python function to check whether the given number can be represented as sum of non-zero powers of 2 or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_Sum_Of_Powers_Of_Two(n): \n    if (n % 2 == 1): \n        return False\n    else: \n        return True",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320047.9316034
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320047.9316034,
+   "language": "python",
+   "last_used": 1790320047.9316034,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "exist integer none return satisfy solution tuple": {
+   "signature": "exist integer none return satisfy solution tuple",
+   "task": "Write a function that returns integers x and y that satisfy ax + by = n as a tuple, or return None if no solution exists.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_solution(a, b, n):\n\ti = 0\n\twhile i * a <= n:\n\t\tif (n - (i * a)) % b == 0: \n\t\t\treturn (i, (n - (i * a)) // b)\n\t\ti = i + 1\n\treturn None",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320048.9228137
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320048.9228137,
+   "language": "python",
+   "last_used": 1790320048.9228137,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "another element given list present remove": {
+   "signature": "another element given list present remove",
+   "task": "Write a function to remove all elements from a given list present in another list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def remove_elements(list1, list2):\n    result = [x for x in list1 if x not in list2]\n    return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320049.9292564
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320049.9292564,
+   "language": "python",
+   "last_used": 1790320049.9292564,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "calculate instance until": {
+   "signature": "calculate instance until",
+   "task": "Write a function to calculate the sum (n - 2*i) from i=0 to n // 2, for instance n + (n-2) + (n-4)... (until n-x =< 0).",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def sum_series(n):\n  if n < 1:\n    return 0\n  else:\n    return n + sum_series(n - 2)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320051.6048448
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320051.6048448,
+   "language": "python",
+   "last_used": 1790320051.6048448,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find length pentagon perimeter regular side": {
+   "signature": "find length pentagon perimeter regular side",
+   "task": "Write a function to find the perimeter of a regular pentagon from the length of its sides.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import math\ndef perimeter_pentagon(a):\n  perimeter=(5*a)\n  return perimeter",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320053.0848708
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320053.0848708,
+   "language": "python",
+   "last_used": 1790320053.0848708,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "bits check given python range unset whether": {
+   "signature": "bits check given python range unset whether",
+   "task": "Write a python function to check whether all the bits are unset in the given range or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def all_Bits_Set_In_The_Given_Range(n,l,r):  \n    num = (((1 << r) - 1) ^ ((1 << (l - 1)) - 1)) \n    new_num = n & num\n    if (new_num == 0): \n        return True\n    return False",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320054.1745749
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320054.1745749,
+   "language": "python",
+   "last_used": 1790320054.179088,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "bits even given number python": {
+   "signature": "bits even given number python",
+   "task": "Write a python function to set all even bits of a given number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def even_bit_set_number(n): \n    count = 0;res = 0;temp = n \n    while(temp > 0): \n        if (count % 2 == 1): \n            res |= (1 << count)\n        count+=1\n        temp >>= 1\n    return (n | res) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320055.641536
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320055.641536,
+   "language": "python",
+   "last_used": 1790320055.641536,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "dictionary each list mapp number occur return take": {
+   "signature": "dictionary each list mapp number occur return take",
+   "task": "Write a function that takes in a list of tuples and returns a dictionary mapping each unique tuple to the number of times it occurs in the list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "from collections import Counter \ndef check_occurences(test_list):\n  res = dict(Counter(tuple(ele) for ele in map(sorted, test_list)))\n  return  (res) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320056.8485632
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320056.8485632,
+   "language": "python",
+   "last_used": 1790320056.8485632,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "count empty given number python string substring": {
+   "signature": "count empty given number python string substring",
+   "task": "Write a python function to count the number of non-empty substrings of a given string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def number_of_substrings(str): \n\tstr_len = len(str); \n\treturn int(str_len * (str_len + 1) / 2); ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320057.9159138
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320057.9159138,
+   "language": "python",
+   "last_used": 1790320057.9159138,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "character count number string total": {
+   "signature": "character count number string total",
+   "task": "Write a function to count the total number of characters in a string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def count_charac(str1):\n total = 0\n for i in str1:\n    total = total + 1\n return total",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320058.9914808
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320058.9914808,
+   "language": "python",
+   "last_used": 1790320058.9914808,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  }
+ },
+ "adopted": {},
+ "discarded": {},
+ "min_confidence": 0.7,
+ "saved": 1790320059.0
+}

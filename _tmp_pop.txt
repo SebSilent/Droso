@@ -1,0 +1,55 @@
+{
+ "holdout": 98,
+ "slice_geometry": 5,
+ "slice_number": 8,
+ "unkeyed_or_other": 85,
+ "note": "slices are small; see caveat",
+ "arm_a": {
+  "tasks": 5,
+  "facts_filed": 1,
+  "channel": {
+   "asked": 11,
+   "accepted": 2,
+   "refused": 1,
+   "facts_filed": 1,
+   "facts_skipped": 1,
+   "call_failures": 2,
+   "retries": 6,
+   "tokens": 884,
+   "accept_rate": 0.182,
+   "provider": "ollama_cloud",
+   "model": "deepseek-v4.1-flash"
+  }
+ },
+ "arm_b": {
+  "tasks": 8,
+  "facts_filed": 1,
+  "channel": {
+   "asked": 19,
+   "accepted": 1,
+   "refused": 3,
+   "facts_filed": 1,
+   "facts_skipped": 0,
+   "call_failures": 4,
+   "retries": 11,
+   "tokens": 1498,
+   "accept_rate": 0.053,
+   "provider": "ollama_cloud",
+   "model": "deepseek-v4.1-flash"
+  }
+ },
+ "arm_a_alone_on_slice_B": 0,
+ "arm_b_alone_on_slice_A": 0,
+ "arm_a_control_on_slice_B": 0,
+ "arm_a_merged_on_slice_B": 1,
+ "merged_solved_by": {
+  "system1_fact": 1,
+  "unsolved": 7
+ },
+ "control_solved_by": {
+  "unsolved": 8
+ },
+ "seconds": 224.0,
+ "delta": 1,
+ "verdict": "COMPOUNDING: 1 of 8 tasks in slice B are solvable with the other life's facts and 0 without"
+}

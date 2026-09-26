@@ -1,0 +1,733 @@
+{
+ "procedures": {
+  "check differ number only position python whether": {
+   "signature": "check differ number only position python whether",
+   "task": "Write a python function to check whether the two numbers differ at one bit position only or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_Power_Of_Two (x): \n    return x and (not(x & (x - 1))) \ndef differ_At_One_Bit_Pos(a,b): \n    return is_Power_Of_Two(a ^ b)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320059.18331
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320059.18331,
+   "language": "python",
+   "last_used": 1790320061.805679,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 2
+  },
+  "each list second sort tuple using value": {
+   "signature": "each list second sort tuple using value",
+   "task": "Write a function to sort a list of tuples using the second value of each tuple.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def subject_marks(subjectmarks):\n#subject_marks = [('English', 88), ('Science', 90), ('Maths', 97), ('Social sciences', 82)])\n subjectmarks.sort(key = lambda x: x[1])\n return subjectmarks",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320059.30849
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320059.30849,
+   "language": "python",
+   "last_used": 1790320085.1150818,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 2
+  },
+  "element flatten list": {
+   "signature": "element flatten list",
+   "task": "Write a function to flatten a list and sum all of its elements.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def recursive_list_sum(data_list):\n\ttotal = 0\n\tfor element in data_list:\n\t\tif type(element) == type([]):\n\t\t\ttotal = total + recursive_list_sum(element)\n\t\telse:\n\t\t\ttotal = total + element\n\treturn total",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320060.4747596
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320060.4747596,
+   "language": "python",
+   "last_used": 1790320060.4747596,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "count list number positive python": {
+   "signature": "count list number positive python",
+   "task": "Write a python function to count the number of positive numbers in a list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def pos_count(list):\n  pos_count= 0\n  for num in list: \n    if num >= 0: \n      pos_count += 1\n  return pos_count ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320061.8036795
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320061.8036795,
+   "language": "python",
+   "last_used": 1790320061.8036795,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "array check given monotonic python whether": {
+   "signature": "array check given monotonic python whether",
+   "task": "Write a python function to check whether the given array is monotonic or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_Monotonic(A): \n    return (all(A[i] <= A[i + 1] for i in range(len(A) - 1)) or\n            all(A[i] >= A[i + 1] for i in range(len(A) - 1))) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320063.0926735
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320063.0926735,
+   "language": "python",
+   "last_used": 1790320063.0926735,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "divisible element find given have list tuple which": {
+   "signature": "divisible element find given have list tuple which",
+   "task": "Write a function to find tuples which have all elements divisible by k from the given list of tuples.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_tuples(test_list, K):\n  res = [sub for sub in test_list if all(ele % K == 0 for ele in sub)]\n  return res",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320063.2243993
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320063.2243993,
+   "language": "python",
+   "last_used": 1790320102.428879,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 2
+  },
+  "divisible find number python whether": {
+   "signature": "divisible find number python whether",
+   "task": "Write a python function to find whether a number is divisible by 11.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def is_Diff(n): \n    return (n % 11 == 0) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320064.73018
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320064.73018,
+   "language": "python",
+   "last_used": 1790320064.73018,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find sphere volume": {
+   "signature": "find sphere volume",
+   "task": "Write a function to find the volume of a sphere.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import math\ndef volume_sphere(r):\n  volume=(4/3)*math.pi*r*r*r\n  return volume",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320065.7755594
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320065.7755594,
+   "language": "python",
+   "last_used": 1790320065.7755594,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "conway find newman number sequence": {
+   "signature": "conway find newman number sequence",
+   "task": "Write a function to find the nth number in the newman conway sequence.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def sequence(n): \n\tif n == 1 or n == 2: \n\t\treturn 1\n\telse: \n\t\treturn sequence(sequence(n-1)) + sequence(n-sequence(n-1))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320066.803146
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320066.803146,
+   "language": "python",
+   "last_used": 1790320066.803146,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "center find hexagonal number": {
+   "signature": "center find hexagonal number",
+   "task": "Write a function to find nth centered hexagonal number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def centered_hexagonal_number(n):\n  return 3 * n * (n - 1) + 1",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320067.8508563
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320067.8508563,
+   "language": "python",
+   "last_used": 1790320067.8508563,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "dictionary merge single three": {
+   "signature": "dictionary merge single three",
+   "task": "Write a function to merge three dictionaries into a single dictionary.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import collections as ct\ndef merge_dictionaries_three(dict1,dict2, dict3):\n    merged_dict = dict(ct.ChainMap({},dict1,dict2,dict3))\n    return merged_dict",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320067.996028
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320067.996028,
+   "language": "python",
+   "last_used": 1790320067.996028,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find integer next palindrome return smallest specifi": {
+   "signature": "find integer next palindrome return smallest specifi",
+   "task": "Write a function to find the next smallest palindrome of a specified integer, returned as an integer.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "import sys\ndef next_smallest_palindrome(num):\n    numstr = str(num)\n    for i in range(num+1,sys.maxsize):\n        if str(i) == str(i)[::-1]:\n            return i",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320083.9855242
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320083.9855242,
+   "language": "python",
+   "last_used": 1790320091.689094,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "array based element find given index using": {
+   "signature": "array based element find given index using",
+   "task": "Write a function to find the kth element in the given array using 1-based indexing.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def kth_element(arr, k):\n  n = len(arr)\n  for i in range(n):\n    for j in range(0, n-i-1):\n      if arr[j] > arr[j+1]:\n        arr[j], arr[j+1] == arr[j+1], arr[j]\n  return arr[k-1]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320085.1075935
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320085.1075935,
+   "language": "python",
+   "last_used": 1790320085.1075935,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "each given list sort string sublist": {
+   "signature": "each given list sort string sublist",
+   "task": "Write a function to sort each sublist of strings in a given list of lists.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def sort_sublists(input_list):\n    result = [sorted(x, key = lambda x:x[0]) for x in input_list] \n    return result\n",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320086.6280463
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320086.6280463,
+   "language": "python",
+   "last_used": 1790320086.6280463,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check dictionary empty list whether": {
+   "signature": "check dictionary empty list whether",
+   "task": "Write a function to check whether all dictionaries in a list are empty or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def empty_dit(list1):\n empty_dit=all(not d for d in list1)\n return empty_dit",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320087.7221375
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320087.7221375,
+   "language": "python",
+   "last_used": 1790320087.7221375,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "convert convertible element float list possible": {
+   "signature": "convert convertible element float list possible",
+   "task": "Write a function to convert all possible convertible elements in a list of lists to floats.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def list_to_float(test_list):\n  res = []\n  for tup in test_list:\n    temp = []\n    for ele in tup:\n      if ele.isalpha():\n        temp.append(ele)\n      else:\n        temp.append(float(ele))\n    res.append((temp[0],temp[1])) \n  return res",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320088.65545
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320088.65545,
+   "language": "python",
+   "last_used": 1790320088.65545,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "character convert list space split string": {
+   "signature": "character convert list space split string",
+   "task": "Write a function to convert a string to a list of strings split on the space character.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def string_to_list(string): \n    lst = list(string.split(\" \")) \n    return lst",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320089.5543435
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320089.5543435,
+   "language": "python",
+   "last_used": 1790320094.8658147,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check",
+   "reuses": 1
+  },
+  "appear array element find once only python sort": {
+   "signature": "appear array element find once only python sort",
+   "task": "Write a python function to find the element that appears only once in a sorted array.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def search(arr):\n    n = len(arr)\n    XOR = 0\n    for i in range(n) :\n        XOR = XOR ^ arr[i]\n    return (XOR)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320090.6535761
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320090.6535761,
+   "language": "python",
+   "last_used": 1790320090.6535761,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "absolute between find given list maximum number pair": {
+   "signature": "absolute between find given list maximum number pair",
+   "task": "Write a function to find the maximum absolute product between numbers in pairs of tuples within a given list.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def max_product_tuple(list1):\n    result_max = max([abs(x * y) for x, y in list1] )\n    return result_max",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320091.6860957
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320091.6860957,
+   "language": "python",
+   "last_used": 1790320091.6860957,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "integer multiply": {
+   "signature": "integer multiply",
+   "task": "Write a function to multiply two integers.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def multiply_int(x, y):\n    if y < 0:\n        return -multiply_int(x, -y)\n    elif y == 0:\n        return 0\n    elif y == 1:\n        return x\n    else:\n        return x + multiply_int(x, y - 1)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320092.9623828
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320092.9623828,
+   "language": "python",
+   "last_used": 1790320092.9623828,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "character find given list longer than word": {
+   "signature": "character find given list longer than word",
+   "task": "Write a function to find words that are longer than n characters from a given list of words.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def long_words(n, str):\n    word_len = []\n    txt = str.split(\" \")\n    for x in txt:\n        if len(x) > n:\n            word_len.append(x)\n    return word_len\t",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320093.9093957
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320093.9093957,
+   "language": "python",
+   "last_used": 1790320093.9093957,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "given only python reverse string vowel where": {
+   "signature": "given only python reverse string vowel where",
+   "task": "Write a python function to reverse only the vowels of a given string (where y is not a vowel).",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def reverse_vowels(str1):\n\tvowels = \"\"\n\tfor char in str1:\n\t\tif char in \"aeiouAEIOU\":\n\t\t\tvowels += char\n\tresult_string = \"\"\n\tfor char in str1:\n\t\tif char in \"aeiouAEIOU\":\n\t\t\tresult_string += vowels[-1]\n\t\t\tvowels = vowels[:-1]\n\t\telse:\n\t\t\tresult_string += char\n\treturn result_string",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320094.862813
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320094.862813,
+   "language": "python",
+   "last_used": 1790320094.862813,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "convert string tuple": {
+   "signature": "convert string tuple",
+   "task": "Write a function to convert a tuple to a string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def tup_string(tup1):\n  str =  ''.join(tup1)\n  return str",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320096.244834
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320096.244834,
+   "language": "python",
+   "last_used": 1790320096.244834,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "array find integer ratio zeroe": {
+   "signature": "array find integer ratio zeroe",
+   "task": "Write a function to find the ratio of zeroes to non-zeroes in an array of integers.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "from array import array\ndef zero_count(nums):\n    n = len(nums)\n    n1 = 0\n    for x in nums:\n        if x == 0:\n            n1 += 1\n        else:\n          None\n    return n1/(n-n1)",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320097.1863587
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320097.1863587,
+   "language": "python",
+   "last_used": 1790320097.1863587,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "count given identical item list number position same": {
+   "signature": "count given identical item list number position same",
+   "task": "Write a function to count number items that are identical in the same position of three given lists.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def count_samepair(list1,list2,list3):\n    result = sum(m == n == o for m, n, o in zip(list1,list2,list3))\n    return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320098.1986759
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320098.1986759,
+   "language": "python",
+   "last_used": 1790320098.1986759,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "count even integer list number pair": {
+   "signature": "count even integer list number pair",
+   "task": "Write a function that counts the number of pairs of integers in a list that xor to an even number.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def find_even_pair(A): \n  count = 0\n  for i in range(0, len(A)): \n    for j in range(i+1, len(A)): \n        if ((A[i] ^ A[j]) % 2 == 0): \n          count += 1\n\n  return count",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320099.1752625
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320099.1752625,
+   "language": "python",
+   "last_used": 1790320099.1752625,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "equal find greater power python smallest than": {
+   "signature": "equal find greater power python smallest than",
+   "task": "Write a python function to find the smallest power of 2 greater than or equal to n.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def next_power_of_2(n): \n  if n and not n & (n - 1):\n    return n\n\n  count = 0\n  while n != 0: \n    n >>= 1\n    count += 1\n\n  return 1 << count; ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320100.2698555
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320100.2698555,
+   "language": "python",
+   "last_used": 1790320100.2698555,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "find indice list number range specifi within": {
+   "signature": "find indice list number range specifi within",
+   "task": "Write a function to find the sum of numbers in a list within a range specified by two indices.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def sum_range_list(list1, m, n):                                                                                                                                                                                                \n    sum_range = 0                                                                                                                                                                                                         \n    for i in range(m, n+1, 1):                                                                                                                                                                                        \n        sum_range += list1[i]                                                                                                                                                                                                  \n    return sum_range   ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320101.351708
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320101.351708,
+   "language": "python",
+   "last_used": 1790320101.351708,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "count given number occurence string": {
+   "signature": "count given number occurence string",
+   "task": "Write a function to count the number of occurence of the string 'std' in a given string.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def count_occurance(s):\n  count = 0\n  for i in range(len(s) - 2):\n    if (s[i] == 's' and s[i+1] == 't' and s[i+2] == 'd'):\n      count = count + 1\n  return count",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320102.424511
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320102.424511,
+   "language": "python",
+   "last_used": 1790320102.424511,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  },
+  "check data element have same tuple type": {
+   "signature": "check data element have same tuple type",
+   "task": "Write a function to check if all the elements in tuple have same data type or not.",
+   "tries": 1,
+   "successes": 1,
+   "failures": 0,
+   "confidence": 0.7,
+   "solutions": [
+    {
+     "text": "def check_type(test_tuple):\n  res = True\n  for ele in test_tuple:\n    if not isinstance(ele, type(test_tuple[0])):\n      res = False\n      break\n  return (res) ",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790320103.849432
+    }
+   ],
+   "source": "corpus",
+   "created": 1790320103.849432,
+   "language": "python",
+   "last_used": 1790320103.849432,
+   "source_history": [
+    "corpus"
+   ],
+   "last_evidence": "task_check"
+  }
+ },
+ "adopted": {},
+ "discarded": {},
+ "min_confidence": 0.7,
+ "saved": 1790320103.9
+}

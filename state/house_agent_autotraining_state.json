@@ -1,0 +1,12 @@
+{
+  "cycle_count": 5,
+  "total_cycles": 5,
+  "successful_trainings": 5,
+  "failed_trainings": 0,
+  "procedures_learned": 4,
+  "patterns_learned": 1,
+  "words_learned": 0,
+  "tokens_spent": 3421,
+  "cost_usd": 0.000976,
+  "saved_at": 1789651556.5695667
+}

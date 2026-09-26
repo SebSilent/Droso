@@ -1,0 +1,11 @@
+def count_divisors(s):
+    n = len(s)
+    for i in range(1, n):
+        if s[i] != s[0]:
+            return False
+    return True
+
+
+assert count_divisors(10)
+assert not count_divisors(100)
+assert count_divisors(125)

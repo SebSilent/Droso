@@ -1,0 +1,8 @@
+def count_Substrings(*a):
+    return min(a[0])
+
+
+
+assert count_Substrings('112112') == 6
+assert count_Substrings('111') == 6
+assert count_Substrings('1101112') == 12

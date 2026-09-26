@@ -1,0 +1,41 @@
+gold inner functions: ['cube_Sum']
+gold outer functions: ['next_Perfect_Square']
+A_only -> {'outcome': 'refused', 'candidate': 'None', 'store_size': 678, 'reason': 'None'}
+B_only -> {'outcome': 'refused', 'candidate': 'None', 'store_size': 678, 'reason': 'None'}
+merged -> {'outcome': 'refused', 'candidate': 'None', 'store_size': 679, 'reason': 'None'}
+{
+ "base_store": 677,
+ "seed_inner": {
+  "stored": true,
+  "attempt": true,
+  "why": "None"
+ },
+ "A_only": {
+  "outcome": "refused",
+  "candidate": "None",
+  "store_size": 678,
+  "reason": "None"
+ },
+ "seed_outer": {
+  "stored": true,
+  "attempt": true,
+  "why": "None"
+ },
+ "B_only": {
+  "outcome": "refused",
+  "candidate": "None",
+  "store_size": 678,
+  "reason": "None"
+ },
+ "merged": {
+  "outcome": "refused",
+  "candidate": "None",
+  "store_size": 679,
+  "reason": "None"
+ },
+ "hand_composed": [
+  81,
+  289,
+  841
+ ]
+}

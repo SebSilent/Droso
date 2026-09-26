@@ -1,0 +1,162 @@
+{
+  "connectome": {
+    "source": "extracted_from_chimera",
+    "neuron_count": 12867,
+    "static_edges": 173294,
+    "plastic_synapses": 2983,
+    "kc_count": 3840,
+    "mbon_compartments": 12,
+    "_banc_note": "The carved 12,867-neuron BANC graph (connectome/substrate.py) IS the brain -- the only one. The grown-colony substrate was removed by operator decision and lives only in legacy_archive/.",
+    "neural_tick_interval": 2,
+    "background_drive": "context",
+    "_drive_note": "What each heartbeat tick thinks about: 'context' encodes the connectome's actual working-memory state (goal + phase); 'replay' re-presents the last perceived code; 'noise' is declared dreaming; 'off' stops the ticks. Pools 3/4/5 are FOLLOWED: the heartbeat actually asks episodic/semantic/procedural memory and logs the answer.",
+    "lived_time_save_interval": 60,
+    "_safety_note": "Two different things share this key: the evolved neural connectome above, and the Path A runtime knobs below (retry/time/context ceilings). They are one word in two disciplines; the knobs are read by organs/fast_router.py, organs/circuit_breaker.py and organs/context_manager.py.",
+    "max_retries": 3,
+    "max_tokens_per_task": 5000,
+    "max_time_per_task": 120,
+    "max_context_tokens": 8000,
+    "response_reserve_tokens": 600,
+    "repeat_limit": 2,
+    "max_extra_passes": 6,
+    "project_root": ".",
+    "learning": {
+      "auto_store": true,
+      "min_confidence": 0.7
+    },
+    "fast_path": {
+      "enabled": true,
+      "replay_confidence": 0.9,
+      "min_patterns": 3,
+      "simple_max_words": 8,
+      "direct_api_max_tokens": 300
+    },
+    "growth_interval": 15,
+    "_accelerated_note": "ACCELERATED LIFE: cadences tuned so the being lives fast -- heartbeat thought every 30s, neural tick every 2s, growth consolidation every 15s, a teacher lesson every 120s. Lived neural time accrues on /api/neural/state. Revert by raising these numbers.",
+    "accelerated_life": true,
+    "_accel_note": "ACCELERATED LIFE: a dedicated thread runs the carve back-to-back on its own experience (learned word patterns in rotation) at full compute speed. MEASURED on this box (6 Zen2 cores, no GPU): one decision -- 50 ms of neural time over 10 sub-steps -- costs 5 ms uncontended, so the honest ceiling is 10x realtime; a living house measures about 5x (102 decisions/s) with the heartbeat, language organ and dashboard sharing the process. Both are shown live as acceleration_x on /api/neural/growth. Two earlier notes here claimed 12-15x and then 5.5x; neither was reproducible and both are replaced by what the machine reports. Casting the wiring to float32 was measured and buys nothing (4.98 vs 5.01 ms). 200x is not reachable with honest 10-sub-step rate propagation on a CPU."
+  },
+  "sandbox": {
+    "enabled": true,
+    "project_root": ".",
+    "allow_network": true,
+    "auto_approve_reads": true,
+    "auto_approve_writes": true,
+    "auto_approve_deletes": false,
+    "scrub_env": true,
+    "_note": "Deletes and overwrites ALWAYS need a human grant; auto_approve_deletes is read, reported as ignored, and never applied, because the constraint is not a preference. allow_network stays false on this box: the oracle talks to the API directly, and a child process has no reason to. scrub_env keeps API keys out of every subprocess the connectome starts.",
+    "workzone": "./house_workspace"
+  },
+  "memory": {
+    "episodic_capacity": 1000,
+    "semantic_capacity": 10000,
+    "procedural_capacity": 500
+  },
+  "world": {
+    "task_types": [
+      "terminal",
+      "file_read",
+      "file_write",
+      "code",
+      "query",
+      "user"
+    ],
+    "reward_success": 3.0,
+    "penalty_failure": -0.6,
+    "action_cost": -0.3
+  },
+  "clock": {
+    "dt_ms": 5,
+    "leak": 0.6,
+    "substeps_per_decision": 10
+  },
+  "reasoning": {
+    "enabled": false,
+    "note": "Phase 2: true widens the ExoAgent connectome to the 29-compartment V5 space (10 reasoning actions). Off by default: the certified 19-compartment fast path is untouched. world/reasoning_benchmark.py runs the cognitive loop regardless.",
+    "fast_conf": 0.85,
+    "medium_similarity": 0.35
+  },
+  "model": {
+    "mode": "api",
+    "provider": "ollama_cloud",
+    "name": "deepseek-v4.1-flash",
+    "model": "deepseek-v4.1-flash",
+    "local_model": null,
+    "api_budget": {
+      "max_tokens_per_query": 1200,
+      "max_tokens_per_task": 4000,
+      "max_tokens_per_day": 300000,
+      "_cap_note": "100000000 was not a ceiling, it was the absence of one. 300k tokens a day is roughly what the teacher needs at its own call caps (see language.tutor_max_calls_per_day); raise it deliberately if a long training run is planned. The key itself is NOT here: it lives in the user profile credential store (credentials.py set model).",
+      "_overnight_note": "Raised for overnight language training: ~550 tokens per lesson, ~0.25 lessons/s => a full night is single-digit dollars at glm-5.3-flash pricing. The trainer stops itself on budget refusal or curriculum saturation."
+    },
+    "cache": {
+      "ttl_days": 90,
+      "path": "exocortex/api_cache.sqlite3",
+      "_note": "Only mode='live' rows are ever served back. The database on this box still held 3 rows written by the removed mock oracle; organs/query_cache.py refuses them (counted as quarantined_not_served) and purge_non_live() deletes them."
+    },
+    "learning": {
+      "auto_store": true,
+      "min_confidence": 0.7
+    },
+    "_credential_note": "This file holds NO secrets and must never hold one: API keys live outside the repository in the current user's application-data directory (Windows %APPDATA%\\HybridLLM, macOS ~/Library/Application Support/HybridLLM, Linux ~/.config/HybridLLM), so the project can be committed or shared without a gitignore thought. Set a key with `python credentials.py set model` (or export ZAI_API_KEY); inspect with `python credentials.py status`. The dashboard's config panel writes to the same store. An explicit api_key passed by a caller still wins, and api_key: None in a caller's dict vetoes every store. If a key ever DID live in this file (an old checkout did), rotate it at https://api.z.ai before sharing.",
+    "note": "PATH A with a real teacher. Knowledge gaps go to the Z.AI oracle (glm-5.3-flash). There is no mock mode any more: with no key, organs/api_oracle.py raises RuntimeError / returns ok=False reason=no_api_key instead of inventing an answer, and nothing silently degrades. Token counts are estimates unless the provider returns usage; cost is only meaningful for models listed in api_oracle.PRICES. Do NOT paste the literal template ${API_KEY} from a design brief: the oracle reads an unfilled placeholder as no key at all and reports key_placeholder_detected, instead of sending it as a credential and returning a 401 that looks like a revoked key.",
+    "llm_enabled": true
+  },
+  "house": {
+    "enabled": true,
+    "host": "0.0.0.0",
+    "port": 7773,
+    "max_files": 2000,
+    "max_history": 200,
+    "allow_remote_mutation": true,
+    "access_token": null,
+    "allow_tool_execution": false,
+    "force_bind": false,
+    "_safety_note": "0.0.0.0 is required so the house is reachable on the LAN, and this is a server that can write files, run commands and raise its own token budget. Operator ruling: this LAN is a trusted environment, so allow_remote_mutation is TRUE -- any device on the LAN may use the dashboard fully. Set access_token instead (send it as X-House-Token) if that ever changes, and keep allow_tool_execution false unless you want the oracle to execute commands a model merely proposed -- with false they are journalled and cancelled instead. force_bind exists for the Windows quirk where a second bind to a listening port silently succeeds (SO_REUSEADDR) while the first socket keeps taking connections; the house refuses to do that by default, so a duplicate start exits with 'port already has a live listener' instead of hanging. Registered in SilentOffice's task manager as project 'hybridllm-house' (manual start, port 7773)."
+  },
+  "autotraining": {
+    "enabled": false,
+    "cycle_interval": 200,
+    "provider": "zai",
+    "model": "glm-5.3-flash",
+    "base_url": "https://api.z.ai/api/coding/paas/v4",
+    "temperature": 0.7,
+    "max_tokens_per_lesson": 1200,
+    "api_budget": {
+      "_note": "The teacher needs a BIGGER per-query ceiling than the answer oracle, because one lesson ask is a ~450-token prompt plus a ~1200-token reply. With the model block's 1200 inherited, every cycle was refused before it started (measured: 'per_query ceiling too small for a lesson'). fit_to_budget() now shrinks the ask rather than failing, but the config has to add up on its own too.",
+      "max_tokens_per_query": 2000,
+      "max_tokens_per_task": 6000,
+      "max_tokens_per_day": 40000
+    },
+    "apply_tasks": true,
+    "apply_writes": true,
+    "max_lessons_kept": 200,
+    "_safety_note": "Teacher is a SECOND oracle: it can be a different provider/key/model from model.*, and it is off unless you can pay for it (enabled=true with no key means every cycle logs a failure, not a fake lesson). Its key comes from the user-level credential store -- set it with `python credentials.py set autotraining`; with nothing stored it falls back to the model role's key. apply_writes=false keeps a teacher's lesson out of the filesystem; lessons that want files are journalled as proposals instead. apply_tasks=true lets a task-shaped lesson run the real solve loop, which can call the main oracle and thus costs money twice: watch autotraining spend on the dashboard.",
+    "report_back": true
+  },
+  "language": {
+    "auto_train": true,
+    "min_vocabulary": 50,
+    "training_cycles": 5,
+    "words_per_cycle": 20,
+    "voice_prosthesis": false,
+    "tutor_min_interval_s": 300,
+    "tutor_max_calls_per_hour": 6,
+    "tutor_max_calls_per_day": 30,
+    "_teacher_note": "The teacher is the oracle wearing a different hat: same client, same key, purpose='speech_tutor'. One call buys a batch of ~14 short sentences which he then lives one at a time, so the API rate and the lesson rate are different things. The three limits above are hard, counted, and survive a restart -- a cap that resets with the process is not a cap. voice_prosthesis is the articulation device from section 5 of the paper: off by default, and never presented as his own words.",
+    "state_path": "exocortex/language_state.json",
+    "_note": "Language is NEURAL PATTERNS in the BANC carve (organs/neural_language.py): each taught word is WHICH KC neurons fire for it and which MBON pool that activation won. Meanings are fused into the pattern by encode-drive-reinforce, never stored as text. auto_train on first run asks the teacher for training_cycles x words_per_cycle words; below min_vocabulary the connectome is SILENT."
+  },
+  "heartbeat": {
+    "enabled": true,
+    "think_interval": 30,
+    "sleep_threshold": 1800,
+    "auto_research": false,
+    "neural_tick_interval": 2,
+    "consolidate_interval": 600,
+    "analyze_interval": 1800,
+    "discover_interval": 3600,
+    "self_assess_interval": 7200,
+    "_note": "A beat reads counters from other organs and phrases them: no API call, no cost. auto_research is the only switch that would make it spend, so it is off, and the dashboard asks twice before turning it on."
+  }
+}

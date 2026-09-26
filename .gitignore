@@ -1,0 +1,70 @@
+# Secrets & Configs
+.env
+credentials.json
+*.key
+
+# Local Data/State
+.cache/
+agent_state/
+state/*.npy
+state/*.sqlite3
+house_stdout.log
+lived_time.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local working paper
+PAPER.md
+
+# Derived neural state. Regenerable from books/ via tools/population.py, and far
+# too large for git: san.npy is 268 MB and cortex.npz 61 MB for one individual.
+# Lineages are kept on disk under state/lineage/ instead, where a lived individual
+# can be restored without a clone.
+# These were anchored at one level, so state/reader/state/language_state.san.npy --
+# 268 MB, nested two deep -- matched nothing and `git add -A state/` swept 421 MB of
+# binaries into a commit. A glob with a single * does not mean "under here", it
+# means "exactly here", and the reader keeps its own full copy of the state.
+state/*.san.npy
+state/*.cortex.npz
+state/*.cortex.meta.json
+state/*.cortex.facts.json
+state/*.seq.npz
+state/*.seq.slots.json
+state/**/*.san.npy
+state/**/*.cortex.npz
+state/**/*.cortex.meta.json
+state/**/*.cortex.facts.json
+state/**/*.seq.npz
+state/**/*.seq.slots.json
+state/**/*.npy
+state/**/*.npz
+state/**/*.sqlite3
+state/reader/state/
+state/lineage/
+state/population/
+state/merged/
+
+# Public-domain books fetched by tools/make_library.py. Tens of megabytes of
+# somebody else's prose, reproducible exactly from a URL and a script.
+books/gutenberg_*.txt
+
+# Runtime artefacts: lineages, pooled individuals, fitness snapshots, reading
+# shelves. All regenerable from the corpus, the tools and the clock.
+state/merged*/
+state/reading/
+state/shelf/
+state/fitness/
+state/population/
+state/reader.log
+state/lineage/
+state/drill_store.json

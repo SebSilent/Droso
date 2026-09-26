@@ -1,0 +1,28 @@
+== HybridLLM bring-up experiment (budget 30 steps) ==
+[step    0] READ_FILE         -> error: no such file: docker r=-0.30 rpe=0.000
+[step    1] PROJECT_TO_VOCAB  -> ['Ġdur', 'ÉĻr', 'leta', 'å¤§ä¸ī', 'wer', '_processing', 'eyond', 'anny r=-0.30 rpe=0.000
+[step    2] STORE_MEMORY      -> ok r=-0.30 rpe=0.000
+[step    3] WRITE_FILE        -> ok r=-0.30 rpe=0.000
+[step    5] EMBED_SEARCH      -> ['æº¶æ¶²çļĦ', '__),', 'ĠÃ¼ret', 'ehend', 'âĢĶâĢĶâĢĶâĢĶ', 'è£ħé¥°è®¾è®¡ r=-0.30 rpe=0.000
+[step    6] EMBED_SEARCH      -> ['áĥļáĥĺáĥ¡', '_idxs', 'å¤ıèĩ³', '_IDENTIFIER', 'Ġhely', 'Ġzzgl', 'ĠHa r=-0.30 rpe=0.000
+[step    7] PROJECT_TO_VOCAB  -> ['ä¸įè¿ľ', 'èºģ', 'turn', 'inion', 'éªļ', 'å±Ĥæ¬¡', 'o', 'book'] r=-0.30 rpe=0.000
+[step    8] EXECUTE_TERMINAL  -> error: command 'terminal' not in allowlist r=-0.30 rpe=0.000
+[step    9] ASK_USER          -> (no reply) r=-0.30 rpe=0.000
+[step   10] FFN_PROBE         -> [{'neuron': 17321, 'activation': 0.000633792020380497}, {'neuron': 150 r=-0.30 rpe=0.800
+[step   11] FFN_PROBE         -> [{'neuron': 2003, 'activation': 0.0005323096993379295}, {'neuron': 684 r=-0.30 rpe=0.640
+[step   12] FFN_PROBE         -> [{'neuron': 14931, 'activation': 0.0005101553979329765}, {'neuron': 13 r=-0.30 rpe=0.512
+[step   13] FFN_PROBE         -> [{'neuron': 115, 'activation': 0.0005954614607617259}, {'neuron': 6617 r=-0.30 rpe=0.410
+[step   14] FFN_PROBE         -> [{'neuron': 6617, 'activation': 0.0005451659671962261}, {'neuron': 111 r=-0.30 rpe=0.328
+[step   15] FFN_PROBE         -> [{'neuron': 2003, 'activation': 0.0005811320734210312}, {'neuron': 103 r=-0.30 rpe=0.262
+[step   17] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.800
+[step   18] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.640
+[step   19] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.512
+[step   20] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.410
+[step   21] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.328
+[step   22] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.262
+[step   23] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.210
+[step   24] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.168
+[step   25] ASK_USER          -> (no reply) r=-0.30 rpe=0.000
+[step   26] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.134
+[step   27] RECALL_SEMANTIC   -> [{'key': 'recall_if_we_have_seen_python', 'value': "Recall if we have  r=-0.30 rpe=0.107
+[step   29] RECALL_SEMANTIC   -> [{'key': 'execute_terminal_command_echo_hello', 'value': 'Execute term r=-0.30 rpe=0.000

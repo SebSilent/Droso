@@ -1,0 +1,12 @@
+import math
+import math
+
+def circle_circumference(r):
+    volume = 4 / 3 * math.pi * r * r * r
+    return volume
+
+
+import math
+assert math.isclose(circle_circumference(10), 62.830000000000005, rel_tol=0.001)
+assert math.isclose(circle_circumference(5), 31.415000000000003, rel_tol=0.001)
+assert math.isclose(circle_circumference(4), 25.132, rel_tol=0.001)

@@ -1,0 +1,158 @@
+{
+ "split": "holdout",
+ "tasks": 25,
+ "columns_never_merged": true,
+ "pass1_local_only": 10,
+ "pass2_local": 10,
+ "pass2_oracle": 3,
+ "pass2_refused": 12,
+ "pass3_local_only": 13,
+ "gained_in_pass3": 3,
+ "of_which_recall": 3,
+ "of_which_transfer": 0,
+ "recall_tasks": [
+  "Write a python function to identify non-prime numbers.",
+  "Write a function to find the surface area of a sphere.",
+  "Write a function to find frequency of each element in a flattene"
+ ],
+ "transfer_tasks": [],
+ "channel": {
+  "asked": 36,
+  "accepted": 3,
+  "refused": 4,
+  "call_failures": 8,
+  "retries": 21,
+  "tokens": 2546,
+  "accept_rate": 0.083,
+  "provider": "ollama_cloud",
+  "model": "deepseek-v4.1-flash"
+ },
+ "seconds": 250.1,
+ "detail": [
+  {
+   "task": "Write a python function to identify non-prime numbers.",
+   "column": "oracle",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to find squares of individual elements in a list.",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to that returns true if the input string contains seq",
+   "column": "neither",
+   "reason": "the answer did not read as code"
+  },
+  {
+   "task": "Write a python function to check whether the given two integers have o",
+   "column": "neither",
+   "reason": "empty_completion"
+  },
+  {
+   "task": "Write a python function to count the number of substrings with the sum",
+   "column": "neither",
+   "reason": "empty_completion"
+  },
+  {
+   "task": "Write a python function to find smallest number in a list.",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to check whether a list contains the given sublist or",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to sort a list of elements.",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a python function to find the character made by adding the ASCII",
+   "column": "neither",
+   "reason": "empty_completion"
+  },
+  {
+   "task": "Write a function to find the surface area of a sphere.",
+   "column": "oracle",
+   "reason": ""
+  },
+  {
+   "task": "Write a python function to find the length of the longest word.",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to calculate the value of 'a' to the power 'b'.",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to find frequency of each element in a flattened list",
+   "column": "oracle",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to find the Eulerian number a(n, m).",
+   "column": "neither",
+   "reason": "empty_completion"
+  },
+  {
+   "task": "Write a function to append the given list to the given tuples.",
+   "column": "neither",
+   "reason": "ine 3, in add_lists\n    return a[1] + tuple(a[0])\n                  ^^^^^^^^^^^\nTypeError:"
+  },
+  {
+   "task": "Write a function to convert a given tuple of positive integers into a ",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to get the angle of a complex number.",
+   "column": "neither",
+   "reason": "empty_completion"
+  },
+  {
+   "task": "Write a function to find the item with maximum frequency in a given li",
+   "column": "neither",
+   "reason": "empty_completion"
+  },
+  {
+   "task": "Write a function to find the circumference of a circle.",
+   "column": "neither",
+   "reason": "le_circumference\n    return 2 * 3.1415 * a[0]\n                        ~^^^\nTypeError: 'int"
+  },
+  {
+   "task": "Write a function to sort a list of elements.",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a python function to find the maximum difference between any two",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a function to determine if the sum of the divisors of two intege",
+   "column": "neither",
+   "reason": "empty_completion"
+  },
+  {
+   "task": "Write a function to count the number of characters in a string that oc",
+   "column": "neither",
+   "reason": "the answer did not read as code"
+  },
+  {
+   "task": "Write a function to count the number of occurrences of a number in a g",
+   "column": "local",
+   "reason": ""
+  },
+  {
+   "task": "Write a python function to remove the characters which have odd index ",
+   "column": "neither",
+   "reason": "empty_completion"
+  }
+ ]
+}
