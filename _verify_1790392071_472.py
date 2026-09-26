@@ -1,8 +1,0 @@
-def rear_extract(test_list):
-  res = [lis[-1] for lis in test_list]
-  return (res) 
-
-
-assert division_elements((10, 4, 6, 9),(5, 2, 3, 3)) == (2, 2, 2, 3)
-assert division_elements((12, 6, 8, 16),(6, 3, 4, 4)) == (2, 2, 2, 4)
-assert division_elements((20, 14, 36, 18),(5, 7, 6, 9)) == (4, 2, 6, 2)

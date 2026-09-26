@@ -4,6 +4,8 @@ import subprocess
 import time
 from pathlib import Path
 
+from organs import tempstore
+
 BLOCKED_COMMANDS = (
     "rm -rf /", "rm -rf ~", "rm -rf /*", "sudo rm", "mkfs", "dd if=",
     "chmod 777", "chown -r", "shutdown", "reboot", "halt", "init 0",
@@ -113,6 +115,12 @@ class Sandbox:
         self.workzone = Path(workzone).resolve() if workzone else \
             self.project_root / "agent_work"
         self.workzone_key = canon(self.workzone)
+        # Where ephemeral run snippets live. ONE folder for the whole project
+        # rather than the workzone: `_tmp/` is gitignored and swept by
+        # organs.tempstore, so nothing that must be consulted belongs there.
+        # See run_python.
+        self.temp_root = tempstore.temp_root(self.project_root)
+        self.scratch = tempstore.scratch_dir(self.project_root)
         self.allow_network = bool(allow_network)
         self.approver = approver
         self.auto_approve_reads = bool(auto_approve_reads)
@@ -141,6 +149,7 @@ class Sandbox:
         self.executed_commands: list[dict] = []
         self.file_writes: list[dict] = []
         self.file_deletes: list[dict] = []
+        self.file_reclaims: list[dict] = []
         self.file_reads: list[dict] = []
         self.refusals: list[dict] = []
         self.approvals: list[dict] = []
@@ -286,14 +295,32 @@ class Sandbox:
 
     def run_python(self, code: str, timeout: float = 15,
                    name: str = "_sandbox_run.py") -> dict:
-        """Execute a code snippet inside the project root, through the same
-        write gate as everything else. A snippet that cannot be written cannot
-        be run: no side door around write_file."""
-        w = self.write_file(name, str(code or ""), reason="run_python")
+        """Execute a code snippet through the same write gate as everything
+        else. A snippet that cannot be written cannot be run: no side door
+        around write_file.
+
+        The snippet is EPHEMERAL. It is written under `_tmp/sandbox/` and removed
+        again once the run returns. It used to be written at the bare relative
+        name, which `_resolve` anchors at the PROJECT ROOT -- never the workzone
+        -- so every verification dropped a fresh `_verify_<ts>_<seq>.py` into the
+        repo root and nothing ever removed it. 4,905 of them accumulated, and
+        with no ignore pattern covering them they rode into the repo on the next
+        `git add -A`. A sandbox that leaves its own scratch on the floor is a
+        sandbox that eventually commits the floor.
+        """
+        target = self.scratch_path(name)
+        tempstore.ensure(self.scratch)
+        w = self.write_file(str(target), str(code or ""), reason="run_python")
         if not w.get("success"):
             return {"success": False, "error": w.get("error"),
                     "stage": "write"}
-        r = self.execute_command(f'python "{name}"', timeout=timeout)
+        try:
+            r = self.execute_command(f'python "{target}"', timeout=timeout)
+        finally:
+            self._reclaim(target)
+            # Whatever a killed run left behind is swept here, on a timer, so the
+            # folder cannot grow without bound even if a process dies mid-run.
+            tempstore.sweep_if_due(self.temp_root)
         r["stage"] = "run"
         ok = bool(r.get("success", r.get("ok", False))) and \
             int(r.get("returncode", r.get("exit_code", 0)) or 0) == 0
@@ -609,6 +636,30 @@ class Sandbox:
         if not p.is_absolute():
             p = self.project_root / p
         return Path(canon(p))
+
+    def scratch_path(self, name: str = "_sandbox_run.py") -> Path:
+        """Absolute path for an ephemeral run snippet. The basename only, so a
+        caller cannot walk a name out of the scratch directory."""
+        return self.scratch / Path(str(name)).name
+
+    def _reclaim(self, path) -> bool:
+        """Remove a snippet the sandbox itself wrote for one execution.
+
+        Not `delete_file`: that is the approval-gated path for the being asking
+        to remove something of his own, and it stays default-deny. This is the
+        sandbox reclaiming its own temporary file, so it is journalled rather
+        than gated."""
+        p = Path(str(path))
+        try:
+            if p.is_file():
+                p.unlink()
+                self._push(self.file_reclaims, {"path": str(p),
+                                                "reason": "ephemeral run",
+                                                "timestamp": time.time()})
+                return True
+        except Exception:
+            pass
+        return False
 
     def _is_inside_project(self, path: Path) -> bool:
         try:

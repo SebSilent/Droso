@@ -10,6 +10,8 @@ import numpy as np
 
 from connectome.clock import LivedTime
 
+from organs import tempstore
+
 
 class CountingDeque(deque):
     """A capped window that also remembers everything that ever passed through.
@@ -151,6 +153,17 @@ class Heartbeat:
 
     def _fire(self):
         try:
+            # Housekeeping rides the pulse: the temp folder is swept on a timer
+            # here, so it cannot grow without bound while the house is up. The
+            # whole thing is guarded -- a cleaner that can fail a pulse is worse
+            # than the mess it was written to prevent.
+            try:
+                root = getattr(getattr(self.agent, "sandbox", None),
+                               "temp_root", None)
+                if root is not None:
+                    tempstore.sweep_if_due(root)
+            except Exception:
+                pass
             self._tick()
         except Exception as e:
             self.errors += 1

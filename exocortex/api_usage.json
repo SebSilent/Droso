@@ -1755,3 +1755,11 @@
 {"ts": 1790392455.32, "mode": "live", "ok": false, "purpose": "knowledge", "prompt_tokens_est": 151, "completion_tokens_est": 320, "latency_s": 3.1262}
 {"ts": 1790392458.968, "mode": "live", "ok": false, "purpose": "knowledge", "prompt_tokens_est": 151, "completion_tokens_est": 320, "latency_s": 2.135}
 {"ts": 1790392463.822, "mode": "live", "ok": true, "purpose": "knowledge", "prompt_tokens_est": 151, "completion_tokens_est": 320, "latency_s": 1.8546}
+{"ts": 1790397776.345, "mode": "live", "ok": true, "purpose": "oracle", "prompt_tokens_est": 6, "completion_tokens_est": 7, "latency_s": 0.0}
+{"ts": 1790397776.347, "mode": "live", "ok": true, "purpose": "oracle", "prompt_tokens_est": 2, "completion_tokens_est": 4, "latency_s": 0.0}
+{"ts": 1790397776.349, "mode": "live", "ok": false, "purpose": "oracle", "prompt_tokens_est": 1, "completion_tokens_est": 0, "latency_s": 0.0001}
+{"ts": 1790397776.351, "mode": "live", "ok": false, "purpose": "oracle", "prompt_tokens_est": 1, "completion_tokens_est": 0, "latency_s": 0.0}
+{"ts": 1790398000.863, "mode": "live", "ok": true, "purpose": "oracle", "prompt_tokens_est": 6, "completion_tokens_est": 7, "latency_s": 0.0}
+{"ts": 1790398000.865, "mode": "live", "ok": true, "purpose": "oracle", "prompt_tokens_est": 2, "completion_tokens_est": 4, "latency_s": 0.0}
+{"ts": 1790398000.867, "mode": "live", "ok": false, "purpose": "oracle", "prompt_tokens_est": 1, "completion_tokens_est": 0, "latency_s": 0.0001}
+{"ts": 1790398000.869, "mode": "live", "ok": false, "purpose": "oracle", "prompt_tokens_est": 1, "completion_tokens_est": 0, "latency_s": 0.0}

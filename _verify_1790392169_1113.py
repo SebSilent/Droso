@@ -1,8 +1,0 @@
-def replace_spaces(str1,ch,newch):
- str2 = str1.replace(ch, newch)
- return str2
-
-
-assert replace_spaces("My Name is Dawood") == 'My%20Name%20is%20Dawood'
-assert replace_spaces("I am a Programmer") == 'I%20am%20a%20Programmer'
-assert replace_spaces("I love Coding") == 'I%20love%20Coding'

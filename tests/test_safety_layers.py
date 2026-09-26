@@ -148,11 +148,23 @@ def test_sandbox_network_gate(box, tmp_path):
     assert open_box.check_command("echo hello")["allow"] is True
 
 def test_sandbox_run_python_goes_through_the_write_gate(box, tmp_path):
+    """A snippet cannot be run without first passing write_file. It is scratch,
+    so it lives under `_tmp/sandbox/` -- gitignored, swept by organs.tempstore,
+    and removed the moment the run returns -- rather than in the project root,
+    where `_resolve` anchors a bare relative name and a fresh uniquely-named
+    `_verify_*.py` used to accumulate on every call and never be deleted."""
+    seen = []
+    real = box.write_file
+    box.write_file = lambda p, c, reason="": (
+        seen.append(str(p)), real(p, c, reason=reason))[1]
     r = box.run_python("print('hi')")
     assert r["success"] is False and r["stage"] == "write"
     box.grant("WRITE _sandbox_run.py")
     r2 = box.run_python("print('hi')")
     assert r2["success"] is True and r2["stdout"].strip() == "hi", r2
+    assert seen and seen[0] == str(box.scratch_path("_sandbox_run.py")), seen
+    assert seen[0].startswith(str(box.temp_root)), seen
+    assert not Path(seen[0]).exists(), "run_python left its scratch on disk"
 
 def test_sandbox_root_is_the_project_not_the_cwd(tmp_path):
     b = Sandbox(project_root=tmp_path)

@@ -23,6 +23,21 @@ venv/
 .DS_Store
 Thumbs.db
 
+# Temporal files. ONE folder for throwaway work: sandbox verification snippets,
+# one-off test scripts, battery runs. Nothing that must be consulted belongs
+# here -- it is swept (Heartbeat._fire, Sandbox.run_python, tools/temp_clean.py)
+# once a file is older than the TTL.
+#
+# This replaces the old behaviour, where a verification wrote a fresh uniquely-
+# named `_verify_*.py` into the repo ROOT -- `Sandbox._resolve` anchors a bare
+# relative name at the project root -- and nothing ever removed it: 4,905 of them
+# accumulated and rode into the repo on the next `git add -A`. The `_verify_*`
+# and `_battery_*` patterns are kept as a belt for anything that regresses.
+_tmp/
+_verify_*.py
+_battery_*.py
+_sandbox_run.py
+
 # Local working paper
 PAPER.md
 

@@ -1,8 +1,0 @@
-def extract_nth_element(list1, n):
-    result = [x[n] for x in list1]
-    return result
-
-
-assert add_lists([5, 6, 7], (9, 10)) == (9, 10, 5, 6, 7)
-assert add_lists([6, 7, 8], (10, 11)) == (10, 11, 6, 7, 8)
-assert add_lists([7, 8, 9], (11, 12)) == (11, 12, 7, 8, 9)
