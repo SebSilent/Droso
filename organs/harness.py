@@ -66,7 +66,16 @@ class Harness:
         self.counts: dict = {}
 
     # ------------------------------------------------------------------ the entry
-    def solve(self, task, check: str = "", *, learn: bool = True) -> dict:
+    def solve(self, task, check: str = "", *, learn: bool = True,
+              oracle: bool = True) -> dict:
+        """`oracle=False` is the fence, and it is checked here rather than at the caller.
+
+        The house may only reach the oracle when the request asks for it. A harness that
+        escalated the hole regardless would be a SECOND door into the same ledger, and the
+        whole reason the ledger exists is that there is exactly one place the oracle is
+        reachable. Offline tools default to True because measuring the hole is what they
+        are for.
+        """
         t0 = time.time()
         # 1. A snippet is not a task. Repair it with the mechanism that exists.
         if is_code_chunk(task, check):
@@ -108,10 +117,14 @@ class Harness:
 
         # 4. SYSTEM 2 WITH A HOLE — the task keys to a fact we do not have. Escalate the
         #    HOLE, not the task, and slot the answer into the shape the task asked for.
-        hole = self._fill_hole(task_text, check)
-        if hole.get("solved"):
-            self._count("system2_oracle_hole")
-            return self._done(task_text, "system2_oracle_hole", hole.get("code"), t0, hole)
+        if not oracle:
+            hole = {"solved": False, "reason": "oracle not requested"}
+        else:
+            hole = self._fill_hole(task_text, check)
+            if hole.get("solved"):
+                self._count("system2_oracle_hole")
+                return self._done(task_text, "system2_oracle_hole", hole.get("code"),
+                                  t0, hole)
 
         self._count("unsolved")
         return {"solved": False, "branch": "unsolved", "task": task_text[:80],
@@ -155,7 +168,13 @@ class Harness:
         concept, subject = extract_concept_subject(task, check)
         if not concept or not subject:
             return {"solved": False, "reason": "the task does not key to a fact"}
-        kr = self.channel.ask(task, check, failures=None)
+        # Ask about the FAILURES, not the task in the abstract: these are the errors the
+        # search actually produced, in order, and they are what make the prompt specific
+        # enough to be answerable.
+        trace = getattr(self.loop, "trace", None) or []
+        fails = [t.get("why") for t in list(trace)[-6:]
+                 if isinstance(t, dict) and t.get("why")]
+        kr = self.channel.ask(task, check, failures=fails or None)
         if not kr.get("accepted"):
             return {"solved": False, "reason": "the oracle's answer did not pass",
                     "key": [concept, subject], "why": str(kr.get("why")

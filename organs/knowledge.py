@@ -114,13 +114,23 @@ class KnowledgeChannel:
     """Ask the oracle for a missing fact; keep it only if the assertions accept it."""
 
     def __init__(self, *, oracle, loop, learning=None, ledger: Path | None = LEDGER,
-                 max_calls_per_task: int = 1, max_tokens: int = 320,
+                 max_calls_per_task: int = 1, max_tokens: int = 1000,
                  retries: int = 2, retry_delay: float = 1.5):
         self.oracle = oracle
         self.loop = loop
         self.learning = learning if learning is not None else getattr(loop, "learning", None)
         self.ledger = ledger
         self.max_calls_per_task = int(max_calls_per_task)
+        # MEASURED, NOT CHOSEN. The provider is a REASONING model: deepseek-v4.1-flash
+        # writes a hidden trace of 2,052-2,764 characters and only then emits the answer.
+        # At 320 tokens the trace consumed the entire budget, finish_reason came back
+        # "length" with completion_tokens == max_tokens, and the content was empty --
+        # 0 of 5 tasks produced text. The successful calls in the same sweep used 680-803
+        # completion tokens, so 320 was unreachable by construction and the ~48%
+        # `empty_completion` rate was this, not a flaky provider. 1000 clears the trace
+        # with room for the answer and still fits the config's 1200 per-query ceiling.
+        # NOTE: the field carrying the trace is `reasoning`, not `reasoning_content`; see
+        # api_oracle._live.
         self.max_tokens = int(max_tokens)
         # An empty completion is not an answer, and asking again is not fabricating: the
         # provider was asked and returned nothing. On the first measured run 12 of 15 calls
@@ -140,6 +150,10 @@ class KnowledgeChannel:
         self.call_failures = 0
         self.tokens = 0
         self.last: dict | None = None
+        # When this channel started. `at` is wall-clock; session-elapsed is what tells a
+        # quota/session-pressure failure (which would cluster as the session ages) apart
+        # from a token-budget one (which does not).
+        self.t0 = time.time()
 
     # ------------------------------------------------------------- the question
     @staticmethod
@@ -382,7 +396,14 @@ class KnowledgeChannel:
                "model": (res or {}).get("model"),
                "tokens": out.get("tokens"),
                "latency_s": (res or {}).get("latency_s"),
-               "stored": bool(out.get("stored"))}
+               "stored": bool(out.get("stored")),
+               # The three fields a failure needs to be diagnosable instead of guessed
+               # at: whether the call was truncated, whether the model was thinking, and
+               # how long this session had been running when it happened.
+               "finish_reason": (res or {}).get("finish_reason"),
+               "reasoning_chars": (res or {}).get("reasoning_chars"),
+               "max_tokens": getattr(self, "max_tokens", None),
+               "session_elapsed": round(time.time() - getattr(self, "t0", time.time()), 1)}
         self.last = row
         if self.ledger is None:
             return

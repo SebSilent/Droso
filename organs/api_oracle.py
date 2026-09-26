@@ -643,7 +643,14 @@ class APIOracle:
             choice = (resp.get("choices") or [{}])[0]
             msg = choice.get("message") or {}
             text = (msg.get("content") or "").strip()
-            reasoning = str(msg.get("reasoning_content") or "")
+            # THE FIELD IS NAMED DIFFERENTLY BY DIFFERENT PROVIDERS. ollama_cloud's
+            # deepseek-v4.1-flash puts the hidden trace in `reasoning`; the OpenAI
+            # convention is `reasoning_content`. Reading only the second meant the field
+            # that would have NAMED the failure was silently discarded, and every
+            # budget-exhausted call came back looking like an empty completion. Measured:
+            # the trace is 2,052-2,764 chars of visible-in-the-payload text that the old
+            # parser threw away.
+            reasoning = str(msg.get("reasoning_content") or msg.get("reasoning") or "")
             usage = resp.get("usage", {}) or {}
             details = usage.get("completion_tokens_details") or {}
             rt = int(details.get("reasoning_tokens", 0) or 0)
@@ -665,6 +672,14 @@ class APIOracle:
                                      "raise max_tokens or set thinking='disabled'")
                 elif choice.get("finish_reason") == "content_filter":
                     out["reason"] = "content_filter"
+                elif choice.get("finish_reason") == "length":
+                    # A reasoning model that spent the whole budget on a trace the
+                    # provider does not report lands exactly here: finish_reason
+                    # "length", completion_tokens == max_tokens, no content. That is
+                    # TRUNCATED, not empty, and the two need different fixes -- the
+                    # first needs a bigger budget, the second needs a different prompt.
+                    out["reason"] = (f"truncated_by_max_tokens: the {max_tokens}-token "
+                                     "budget was spent before any visible answer")
                 else:
                     out["reason"] = "empty_completion"
             return out

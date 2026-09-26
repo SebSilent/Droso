@@ -75,8 +75,14 @@ def failing_tests() -> list:
     """
     r = _run([sys.executable, "-m", "pytest", "tests", "--tb=line", "-q", "--no-header",
               "-p", "no:cacheprovider"])
+    # The path prefix is a DRIVE LETTER OR A SLASH -- `[A-Za-z]:|/`, not `[A-Za-z]:\|/`.
+    # The escaped pipe made it match the literal text `C:|/`, so no failure line ever
+    # matched, `errs` fell back to `[""] * len(failed)` below, and every test was
+    # classified from an empty error string -- which is why all 22 came back as one
+    # uniform bucket with `error: ""`, and why a genuine `AttributeError: no attribute
+    # '_oracle_sandbox_hook'` was reported as "no missing symbol".
     errs = [l.strip() for l in (r.stdout or "").splitlines()
-            if re.match(r"^(?:[A-Za-z]:\|/).*\.py:\d+:", l.strip())]
+            if re.match(r"^(?:[A-Za-z]:|/).*\.py:\d+:", l.strip())]
     failed = []
     for line in (r.stdout or "").splitlines():
         m = re.match(r"^FAILED\s+(\S+?)::(\S+)", line.strip())

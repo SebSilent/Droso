@@ -6,3 +6,4 @@ uvicorn
 pydantic
 psutil
 pytest
+pyarrow

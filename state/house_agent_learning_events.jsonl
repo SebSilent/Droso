@@ -4345,3 +4345,93 @@
 {"ts": 1790391997.94, "kind": "recall", "signature": "dedupe first item order preserv seen", "confidence": 0.98}
 {"ts": 1790391997.942, "kind": "reinforce", "signature": "dedupe first item order preserv seen", "success": true, "confidence": 0.98}
 {"ts": 1790391998.164, "kind": "learn", "signature": "dedupe first item order preserv seen", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399292.152, "kind": "recall", "signature": "above best floor match procedure success task", "confidence": 0.98}
+{"ts": 1790399292.16, "kind": "reinforce", "signature": "above best floor match procedure success task", "success": true, "confidence": 0.98}
+{"ts": 1790399294.716, "kind": "learn", "signature": "above best floor match procedure success task", "verified": true, "confidence": 0.98, "source": "trial_replay"}
+{"ts": 1790399294.807, "kind": "recall", "signature": "fibonacci number return", "confidence": 0.98}
+{"ts": 1790399294.807, "kind": "reinforce", "signature": "fibonacci number return", "success": true, "confidence": 0.98}
+{"ts": 1790399296.941, "kind": "learn", "signature": "fibonacci number return", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399298.405, "kind": "recall", "signature": "revers reverse string", "confidence": 0.98}
+{"ts": 1790399298.405, "kind": "reinforce", "signature": "revers reverse string", "success": true, "confidence": 0.98}
+{"ts": 1790399300.229, "kind": "learn", "signature": "revers reverse string", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399300.313, "kind": "recall", "signature": "dict frequency lowercas return text word word_count", "confidence": 0.98}
+{"ts": 1790399300.313, "kind": "reinforce", "signature": "dict frequency lowercas return text word word_count", "success": true, "confidence": 0.98}
+{"ts": 1790399301.52, "kind": "learn", "signature": "dict frequency lowercas return text word word_count", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399302.503, "kind": "recall", "signature": "flatten level nest", "confidence": 0.98}
+{"ts": 1790399302.505, "kind": "reinforce", "signature": "flatten level nest", "success": true, "confidence": 0.98}
+{"ts": 1790399305.41, "kind": "learn", "signature": "flatten level nest", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399305.483, "kind": "recall", "signature": "case ignor is_palindrome space", "confidence": 0.98}
+{"ts": 1790399305.483, "kind": "reinforce", "signature": "case ignor is_palindrome space", "success": true, "confidence": 0.98}
+{"ts": 1790399309.687, "kind": "learn", "signature": "case ignor is_palindrome space", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399309.768, "kind": "recall", "signature": "chunk group item list splitt", "confidence": 0.98}
+{"ts": 1790399309.768, "kind": "reinforce", "signature": "chunk group item list splitt", "success": true, "confidence": 0.98}
+{"ts": 1790399311.155, "kind": "learn", "signature": "chunk group item list splitt", "verified": true, "confidence": 0.98, "source": "trial_replay"}
+{"ts": 1790399311.994, "kind": "recall", "signature": "none return safe_div zero", "confidence": 0.98}
+{"ts": 1790399311.996, "kind": "reinforce", "signature": "none return safe_div zero", "success": true, "confidence": 0.98}
+{"ts": 1790399316.646, "kind": "learn", "signature": "none return safe_div zero", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399320.384, "kind": "recall", "signature": "json line object pars path read_json_line", "confidence": 0.98}
+{"ts": 1790399320.384, "kind": "reinforce", "signature": "json line object pars path read_json_line", "success": true, "confidence": 0.98}
+{"ts": 1790399321.968, "kind": "learn", "signature": "json line object pars path read_json_line", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399323.782, "kind": "recall", "signature": "dedupe first item order preserv seen", "confidence": 0.98}
+{"ts": 1790399323.782, "kind": "reinforce", "signature": "dedupe first item order preserv seen", "success": true, "confidence": 0.98}
+{"ts": 1790399325.384, "kind": "learn", "signature": "dedupe first item order preserv seen", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399333.022, "kind": "recall", "signature": "above best floor match procedure success task", "confidence": 0.98}
+{"ts": 1790399333.024, "kind": "reinforce", "signature": "above best floor match procedure success task", "success": true, "confidence": 0.98}
+{"ts": 1790399336.373, "kind": "learn", "signature": "above best floor match procedure success task", "verified": true, "confidence": 0.98, "source": "trial_replay"}
+{"ts": 1790399338.039, "kind": "recall", "signature": "fibonacci number return", "confidence": 0.98}
+{"ts": 1790399338.042, "kind": "reinforce", "signature": "fibonacci number return", "success": true, "confidence": 0.98}
+{"ts": 1790399340.749, "kind": "learn", "signature": "fibonacci number return", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399341.556, "kind": "recall", "signature": "revers reverse string", "confidence": 0.98}
+{"ts": 1790399341.556, "kind": "reinforce", "signature": "revers reverse string", "success": true, "confidence": 0.98}
+{"ts": 1790399344.793, "kind": "learn", "signature": "revers reverse string", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399344.896, "kind": "recall", "signature": "dict frequency lowercas return text word word_count", "confidence": 0.98}
+{"ts": 1790399344.896, "kind": "reinforce", "signature": "dict frequency lowercas return text word word_count", "success": true, "confidence": 0.98}
+{"ts": 1790399345.983, "kind": "learn", "signature": "dict frequency lowercas return text word word_count", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399346.764, "kind": "recall", "signature": "flatten level nest", "confidence": 0.98}
+{"ts": 1790399346.764, "kind": "reinforce", "signature": "flatten level nest", "success": true, "confidence": 0.98}
+{"ts": 1790399352.328, "kind": "learn", "signature": "flatten level nest", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399354.361, "kind": "recall", "signature": "case ignor is_palindrome space", "confidence": 0.98}
+{"ts": 1790399354.363, "kind": "reinforce", "signature": "case ignor is_palindrome space", "success": true, "confidence": 0.98}
+{"ts": 1790399359.5, "kind": "learn", "signature": "case ignor is_palindrome space", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399360.333, "kind": "recall", "signature": "chunk group item list splitt", "confidence": 0.98}
+{"ts": 1790399360.333, "kind": "reinforce", "signature": "chunk group item list splitt", "success": true, "confidence": 0.98}
+{"ts": 1790399364.068, "kind": "learn", "signature": "chunk group item list splitt", "verified": true, "confidence": 0.98, "source": "trial_replay"}
+{"ts": 1790399364.948, "kind": "recall", "signature": "none return safe_div zero", "confidence": 0.98}
+{"ts": 1790399364.948, "kind": "reinforce", "signature": "none return safe_div zero", "success": true, "confidence": 0.98}
+{"ts": 1790399369.218, "kind": "learn", "signature": "none return safe_div zero", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399371.198, "kind": "recall", "signature": "json line object pars path read_json_line", "confidence": 0.98}
+{"ts": 1790399371.198, "kind": "reinforce", "signature": "json line object pars path read_json_line", "success": true, "confidence": 0.98}
+{"ts": 1790399372.977, "kind": "learn", "signature": "json line object pars path read_json_line", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790399374.592, "kind": "recall", "signature": "dedupe first item order preserv seen", "confidence": 0.98}
+{"ts": 1790399374.594, "kind": "reinforce", "signature": "dedupe first item order preserv seen", "success": true, "confidence": 0.98}
+{"ts": 1790399379.123, "kind": "learn", "signature": "dedupe first item order preserv seen", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403820.949, "kind": "recall", "signature": "above best floor match procedure success task", "confidence": 0.98}
+{"ts": 1790403820.949, "kind": "reinforce", "signature": "above best floor match procedure success task", "success": true, "confidence": 0.98}
+{"ts": 1790403825.447, "kind": "learn", "signature": "above best floor match procedure success task", "verified": true, "confidence": 0.98, "source": "trial_replay"}
+{"ts": 1790403825.585, "kind": "recall", "signature": "fibonacci number return", "confidence": 0.98}
+{"ts": 1790403825.585, "kind": "reinforce", "signature": "fibonacci number return", "success": true, "confidence": 0.98}
+{"ts": 1790403826.727, "kind": "learn", "signature": "fibonacci number return", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403828.686, "kind": "recall", "signature": "revers reverse string", "confidence": 0.98}
+{"ts": 1790403828.688, "kind": "reinforce", "signature": "revers reverse string", "success": true, "confidence": 0.98}
+{"ts": 1790403830.913, "kind": "learn", "signature": "revers reverse string", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403831.838, "kind": "recall", "signature": "dict frequency lowercas return text word word_count", "confidence": 0.98}
+{"ts": 1790403831.838, "kind": "reinforce", "signature": "dict frequency lowercas return text word word_count", "success": true, "confidence": 0.98}
+{"ts": 1790403835.573, "kind": "learn", "signature": "dict frequency lowercas return text word word_count", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403835.679, "kind": "recall", "signature": "flatten level nest", "confidence": 0.98}
+{"ts": 1790403835.679, "kind": "reinforce", "signature": "flatten level nest", "success": true, "confidence": 0.98}
+{"ts": 1790403838.988, "kind": "learn", "signature": "flatten level nest", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403841.071, "kind": "recall", "signature": "case ignor is_palindrome space", "confidence": 0.98}
+{"ts": 1790403841.073, "kind": "reinforce", "signature": "case ignor is_palindrome space", "success": true, "confidence": 0.98}
+{"ts": 1790403842.882, "kind": "learn", "signature": "case ignor is_palindrome space", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403844.932, "kind": "recall", "signature": "chunk group item list splitt", "confidence": 0.98}
+{"ts": 1790403844.932, "kind": "reinforce", "signature": "chunk group item list splitt", "success": true, "confidence": 0.98}
+{"ts": 1790403848.964, "kind": "learn", "signature": "chunk group item list splitt", "verified": true, "confidence": 0.98, "source": "trial_replay"}
+{"ts": 1790403849.098, "kind": "recall", "signature": "none return safe_div zero", "confidence": 0.98}
+{"ts": 1790403849.098, "kind": "reinforce", "signature": "none return safe_div zero", "success": true, "confidence": 0.98}
+{"ts": 1790403850.779, "kind": "learn", "signature": "none return safe_div zero", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403850.902, "kind": "recall", "signature": "json line object pars path read_json_line", "confidence": 0.98}
+{"ts": 1790403850.904, "kind": "reinforce", "signature": "json line object pars path read_json_line", "success": true, "confidence": 0.98}
+{"ts": 1790403854.666, "kind": "learn", "signature": "json line object pars path read_json_line", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}
+{"ts": 1790403854.784, "kind": "recall", "signature": "dedupe first item order preserv seen", "confidence": 0.98}
+{"ts": 1790403854.786, "kind": "reinforce", "signature": "dedupe first item order preserv seen", "success": true, "confidence": 0.98}
+{"ts": 1790403859.284, "kind": "learn", "signature": "dedupe first item order preserv seen", "verified": true, "confidence": 0.98, "source": "reasoning_loop"}

@@ -985,6 +985,36 @@ class ConnectomeHouse:
             learning=getattr(self.agent, "learning_loop", None))
         return self._kchannel
 
+    def _harness(self):
+        """One harness per agent, and it is the front door.
+
+        Before this the live route called `loop.step` directly and built its own oracle
+        path, so every property the harness exists to give -- fact-first, the HOLE
+        escalating instead of the task, and the branch breakdown that IS the 90/10
+        number -- lived only in offline tools. The being's actual behaviour was
+        unmeasured.
+
+        It is wired to the SAME channel `_knowledge_channel()` already made: a second
+        KnowledgeChannel would be a second ledger, and a second answer to "how much did
+        the oracle do".
+        """
+        h = getattr(self, "_harness_obj", None)
+        if h is not None:
+            return h
+        loop = getattr(self.agent, "reasoning_loop", None)
+        if loop is None:
+            return None
+        try:
+            from organs.harness import Harness
+        except Exception:
+            return None
+        self._harness_obj = Harness(
+            loop=loop, solver=getattr(loop, "solver", None),
+            sandbox=getattr(loop, "sandbox", None),
+            learning=getattr(self.agent, "learning_loop", None),
+            channel=self._knowledge_channel())
+        return self._harness_obj
+
     def route_get(self, path: str, query: dict | None = None) -> tuple:
         q = query or {}
         g = lambda k, d=None: (q.get(k) or [d])[0] if k in q else d
@@ -1347,6 +1377,10 @@ class ConnectomeHouse:
             out["curriculum"] = _cached_state("curriculum", _cs)
             from tools.reader import status as _rs
             out["reader"] = _cached_state("reader", _rs)
+            # THE 90/10 NUMBER, LIVE. Offline tools could report it; the dashboard could
+            # not, because the branch that fired was never recorded on the live path.
+            _h = self._harness()
+            out["harness"] = _h.report() if _h is not None else None
             return 200, out
         return 404, {"error": f"no such endpoint: {path}"}
 
@@ -1730,30 +1764,43 @@ class ConnectomeHouse:
                              "reason": "no check: without assertions nothing "
                                        "can be verified, and nothing "
                                        "unverified is ever kept"}
-            out = loop.step(task, check,
-                            learn=bool(data.get("learn", True)))
-            local = out.get("outcome") == "solved"
-            out["ok"] = local
-            out["columns"] = {"local": local, "oracle": False}
-            # THE ONE PLACE THE ORACLE IS REACHABLE, and only after the search has already
-            # refused. The columns stay separate on purpose: an oracle-assisted solve is
-            # not a local solve, and a number that merges them is a number that lies.
-            if not local and bool(data.get("oracle")):
-                ch = self._knowledge_channel()
-                if ch is None:
-                    out["knowledge"] = {"asked": False,
-                                        "reason": "no oracle on this agent"}
-                else:
-                    # Ask about the failure, not the task in the abstract: these are the
-                    # errors the search actually produced, in order.
-                    fails = [t.get("why") for t in loop.trace[-6:] if t.get("why")]
-                    kr = ch.ask(task, check, failures=fails)
-                    out["knowledge"] = kr
-                    out["columns"]["oracle"] = bool(kr.get("accepted"))
-                    out["ok"] = bool(kr.get("accepted"))
-                    out["knowledge_stats"] = ch.stats()
+            out = self._solve_via_harness(loop, task, check, data)
             return 200, out
         return 404, {"error": f"no such endpoint: {path}"}
+
+    def _solve_via_harness(self, loop, task: str, check: str, data: dict) -> dict:
+        """The live solve path, through the harness, shape-compatible with the frontend.
+
+        The panel reads the loop's own fields flat off the response (`outcome`, `attempt`,
+        `candidate`, `stored`), so the harness's `loop` payload is re-flattened underneath
+        and the harness keys win. The oracle only fires when the request asks for it --
+        the harness is told, rather than deciding.
+        """
+        want_oracle = bool(data.get("oracle"))
+        h = self._harness()
+        if h is None:
+            # No harness (no solver/channel): the loop alone, as before.
+            out = loop.step(task, check, learn=bool(data.get("learn", True)))
+            out["ok"] = out.get("outcome") == "solved"
+            out["columns"] = {"local": out["ok"], "oracle": False}
+            out["branch"] = "system2_local" if out["ok"] else "unsolved"
+            return out
+        r = h.solve(task, check, learn=bool(data.get("learn", True)),
+                    oracle=want_oracle)
+        out = dict(r.get("loop") or {})
+        out.update({k: v for k, v in r.items() if k != "loop"})
+        branch = r.get("branch")
+        out["branch"] = branch
+        out["outcome"] = "solved" if r.get("solved") else "refused"
+        out["ok"] = bool(r.get("solved"))
+        out["columns"] = {
+            "local": branch in ("system1_fact", "system1_recall",
+                                "system2_local", "code_repair"),
+            "oracle": branch == "system2_oracle_hole"}
+        if not want_oracle and not r.get("solved"):
+            out.setdefault("reason", r.get("reason") or r.get("hole"))
+        out["harness"] = h.report()
+        return out
 
     def start(self, force_bind: bool | None = None) -> dict:
         if self._httpd is not None:

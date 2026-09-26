@@ -950,3 +950,44 @@ def test_the_observatory_and_the_house_do_not_collide():
     """server/app.py serves the Observatory on its own port; the house is 7773."""
     srv = (ROOT / "server" / "app.py").read_text(encoding="utf-8")
     assert "7773" not in srv, "two servers on one port is one dead server"
+
+
+def test_live_solve_goes_through_the_harness_and_reports_its_branch(hub):
+    """The harness is the front door, and the branch that fired is recorded LIVE.
+
+    Before this the route called `loop.step` directly and built its own oracle path, so
+    every property the harness exists to give -- fact-first, the hole escalating instead
+    of the task, and the branch breakdown that IS the 90/10 number -- existed only in
+    offline tools. The being's real behaviour was unmeasurable: nothing live recorded
+    which branch ran.
+    """
+    house, _, _ = hub
+    status, out = house.route_post(
+        "/api/reasoning/solve",
+        {"task": "write a function add(a, b) returning the sum of two numbers",
+         "check": "assert add(2, 3) == 5", "learn": False})
+    assert status == 200, out
+    assert out.get("branch") in ("system1_fact", "system1_recall", "system2_local",
+                                 "system2_oracle_hole", "code_repair",
+                                 "unsolved"), out
+    assert "columns" in out and "harness" in out, out
+    # The fence: a request that did not ask for the oracle must not reach it.
+    assert out["columns"]["oracle"] is False, out
+    # The report is on the state endpoint, and it reflects what actually happened --
+    # the same counts, not a freshly-zeroed view.
+    _, state = house.route_get("/api/reasoning/state")
+    rep = state.get("harness")
+    assert rep and rep["attempts"] >= 1, rep
+    assert rep["counts"] == out["harness"]["counts"], (rep, out)
+
+
+def test_live_solve_refuses_without_assertions(hub):
+    """No check means nothing can be verified, and nothing unverified is ever kept.
+
+    Refused at the door rather than returning something that looks solved and is not.
+    """
+    house, _, _ = hub
+    status, out = house.route_post("/api/reasoning/solve",
+                                   {"task": "add two numbers", "check": ""})
+    assert status == 200 and out.get("ok") is False, out
+    assert "no check" in str(out.get("reason")), out

@@ -11715,8 +11715,8 @@
   "above best floor match procedure success task": {
    "signature": "above best floor match procedure success task",
    "task": "match a task to the best procedure above a success floor",
-   "tries": 31,
-   "successes": 31,
+   "tries": 37,
+   "successes": 37,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
@@ -11724,43 +11724,43 @@
      "text": "def match(self, task: str) -> list:\n    \"\"\"Every pattern hit at or above the confidence floor, best first, as\n        (confidence, code, key) triples. Split out of `_from_pattern` because\n        composition needs the runners-up, not just the winner.\"\"\"\n    if self.patterns is None:\n        return []\n    key = _short_key(task)\n    found = []\n    try:\n        direct = self.patterns.query(key)\n        if direct:\n            found.append(direct)\n        for sub in sorted(_words(task), key=len, reverse=True)[:6]:\n            for hit in self.patterns.search(sub, limit=3):\n                if hit not in found:\n                    found.append(hit)\n    except Exception:\n        return []\n    out = []\n    for h in found:\n        val = h.get('value') if isinstance(h, dict) else h\n        if not val:\n            continue\n        conf = float((h or {}).get('confidence', 0.0) or 0.0) if isinstance(h, dict) else 0.0\n        code = val if isinstance(val, str) and _looks_like_code(val) else _embedded_code(val)\n        if code and conf >= self.min_confidence:\n            out.append((conf, code, str(h.get('key') if isinstance(h, dict) else '')))\n    out.sort(key=lambda t: -t[0])\n    return out",
      "verified": true,
      "truncated": false,
-     "ts": 1790385945.4089696
-    },
-    {
-     "text": "def match(self, task: str) -> list:\n    \"\"\"Every pattern hit at or above the confidence floor, best first, as\n        (confidence, code, key) triples. Split out of `_from_pattern` because\n        composition needs the runners-up, not just the winner.\"\"\"\n    if self.patterns is None:\n        return []\n    key = _short_key(task)\n    found = []\n    try:\n        direct = self.patterns.query(key)\n        if direct:\n            found.append(direct)\n        for sub in sorted(_words(task), key=len, reverse=True)[:6]:\n            for hit in self.patterns.search(sub, limit=3):\n                if hit not in found:\n                    found.append(hit)\n    except Exception:\n        return []\n    out = []\n    for h in found:\n        val = h.get('value') if isinstance(h, dict) else h\n        if not val:\n            continue\n        conf = float((h or {}).get('confidence', 0.0) or 0.0) if isinstance(h, dict) else 0.0\n        code = val if isinstance(val, str) and _looks_like_code(val) else _embedded_code(val)\n        if code and conf >= self.min_confidence:\n            out.append((conf, code, str(h.get('key') if isinstance(h, dict) else '')))\n    out.sort(key=lambda t: -t[0])\n    return out",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385951.1290545
-    },
-    {
-     "text": "def match(self, task: str) -> list:\n    \"\"\"Every pattern hit at or above the confidence floor, best first, as\n        (confidence, code, key) triples. Split out of `_from_pattern` because\n        composition needs the runners-up, not just the winner.\"\"\"\n    if self.patterns is None:\n        return []\n    key = _short_key(task)\n    found = []\n    try:\n        direct = self.patterns.query(key)\n        if direct:\n            found.append(direct)\n        for sub in sorted(_words(task), key=len, reverse=True)[:6]:\n            for hit in self.patterns.search(sub, limit=3):\n                if hit not in found:\n                    found.append(hit)\n    except Exception:\n        return []\n    out = []\n    for h in found:\n        val = h.get('value') if isinstance(h, dict) else h\n        if not val:\n            continue\n        conf = float((h or {}).get('confidence', 0.0) or 0.0) if isinstance(h, dict) else 0.0\n        code = val if isinstance(val, str) and _looks_like_code(val) else _embedded_code(val)\n        if code and conf >= self.min_confidence:\n            out.append((conf, code, str(h.get('key') if isinstance(h, dict) else '')))\n    out.sort(key=lambda t: -t[0])\n    return out",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391988.2158434
-    },
-    {
-     "text": "def match(self, task: str) -> list:\n    \"\"\"Every pattern hit at or above the confidence floor, best first, as\n        (confidence, code, key) triples. Split out of `_from_pattern` because\n        composition needs the runners-up, not just the winner.\"\"\"\n    if self.patterns is None:\n        return []\n    key = _short_key(task)\n    found = []\n    try:\n        direct = self.patterns.query(key)\n        if direct:\n            found.append(direct)\n        for sub in sorted(_words(task), key=len, reverse=True)[:6]:\n            for hit in self.patterns.search(sub, limit=3):\n                if hit not in found:\n                    found.append(hit)\n    except Exception:\n        return []\n    out = []\n    for h in found:\n        val = h.get('value') if isinstance(h, dict) else h\n        if not val:\n            continue\n        conf = float((h or {}).get('confidence', 0.0) or 0.0) if isinstance(h, dict) else 0.0\n        code = val if isinstance(val, str) and _looks_like_code(val) else _embedded_code(val)\n        if code and conf >= self.min_confidence:\n            out.append((conf, code, str(h.get('key') if isinstance(h, dict) else '')))\n    out.sort(key=lambda t: -t[0])\n    return out",
-     "verified": true,
-     "truncated": false,
      "ts": 1790391994.3162441
+    },
+    {
+     "text": "def match(self, task: str) -> list:\n    \"\"\"Every pattern hit at or above the confidence floor, best first, as\n        (confidence, code, key) triples. Split out of `_from_pattern` because\n        composition needs the runners-up, not just the winner.\"\"\"\n    if self.patterns is None:\n        return []\n    key = _short_key(task)\n    found = []\n    try:\n        direct = self.patterns.query(key)\n        if direct:\n            found.append(direct)\n        for sub in sorted(_words(task), key=len, reverse=True)[:6]:\n            for hit in self.patterns.search(sub, limit=3):\n                if hit not in found:\n                    found.append(hit)\n    except Exception:\n        return []\n    out = []\n    for h in found:\n        val = h.get('value') if isinstance(h, dict) else h\n        if not val:\n            continue\n        conf = float((h or {}).get('confidence', 0.0) or 0.0) if isinstance(h, dict) else 0.0\n        code = val if isinstance(val, str) and _looks_like_code(val) else _embedded_code(val)\n        if code and conf >= self.min_confidence:\n            out.append((conf, code, str(h.get('key') if isinstance(h, dict) else '')))\n    out.sort(key=lambda t: -t[0])\n    return out",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399294.7142875
+    },
+    {
+     "text": "def match(self, task: str) -> list:\n    \"\"\"Every pattern hit at or above the confidence floor, best first, as\n        (confidence, code, key) triples. Split out of `_from_pattern` because\n        composition needs the runners-up, not just the winner.\"\"\"\n    if self.patterns is None:\n        return []\n    key = _short_key(task)\n    found = []\n    try:\n        direct = self.patterns.query(key)\n        if direct:\n            found.append(direct)\n        for sub in sorted(_words(task), key=len, reverse=True)[:6]:\n            for hit in self.patterns.search(sub, limit=3):\n                if hit not in found:\n                    found.append(hit)\n    except Exception:\n        return []\n    out = []\n    for h in found:\n        val = h.get('value') if isinstance(h, dict) else h\n        if not val:\n            continue\n        conf = float((h or {}).get('confidence', 0.0) or 0.0) if isinstance(h, dict) else 0.0\n        code = val if isinstance(val, str) and _looks_like_code(val) else _embedded_code(val)\n        if code and conf >= self.min_confidence:\n            out.append((conf, code, str(h.get('key') if isinstance(h, dict) else '')))\n    out.sort(key=lambda t: -t[0])\n    return out",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399336.3731906
+    },
+    {
+     "text": "def match(self, task: str) -> list:\n    \"\"\"Every pattern hit at or above the confidence floor, best first, as\n        (confidence, code, key) triples. Split out of `_from_pattern` because\n        composition needs the runners-up, not just the winner.\"\"\"\n    if self.patterns is None:\n        return []\n    key = _short_key(task)\n    found = []\n    try:\n        direct = self.patterns.query(key)\n        if direct:\n            found.append(direct)\n        for sub in sorted(_words(task), key=len, reverse=True)[:6]:\n            for hit in self.patterns.search(sub, limit=3):\n                if hit not in found:\n                    found.append(hit)\n    except Exception:\n        return []\n    out = []\n    for h in found:\n        val = h.get('value') if isinstance(h, dict) else h\n        if not val:\n            continue\n        conf = float((h or {}).get('confidence', 0.0) or 0.0) if isinstance(h, dict) else 0.0\n        code = val if isinstance(val, str) and _looks_like_code(val) else _embedded_code(val)\n        if code and conf >= self.min_confidence:\n            out.append((conf, code, str(h.get('key') if isinstance(h, dict) else '')))\n    out.sort(key=lambda t: -t[0])\n    return out",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403825.4468398
     }
    ],
    "source": "trial_replay",
    "created": 1790296708.5581195,
    "language": "python",
-   "last_used": 1790391994.3162441,
+   "last_used": 1790403825.4468398,
    "source_history": [
     "procedure_replay",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 15
+   "reuses": 18
   },
   "chunk group item list splitt": {
    "signature": "chunk group item list splitt",
    "task": "write a function chunk(items, n) splitting a list into groups of n",
-   "tries": 24,
-   "successes": 23,
+   "tries": 30,
+   "successes": 29,
    "failures": 1,
    "confidence": 0.98,
    "solutions": [
@@ -11768,359 +11768,359 @@
      "text": "def chunk(items, n):\n    return [items[i:i + n] for i in range(0, len(items), n)]",
      "verified": true,
      "truncated": false,
-     "ts": 1790385947.4566665
-    },
-    {
-     "text": "def chunk(items, n):\n    return [items[i:i + n] for i in range(0, len(items), n)]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385953.0609126
-    },
-    {
-     "text": "def chunk(items, n):\n    return [items[i:i + n] for i in range(0, len(items), n)]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391990.179826
-    },
-    {
-     "text": "def chunk(items, n):\n    return [items[i:i + n] for i in range(0, len(items), n)]",
-     "verified": true,
-     "truncated": false,
      "ts": 1790391997.1758776
+    },
+    {
+     "text": "def chunk(items, n):\n    return [items[i:i + n] for i in range(0, len(items), n)]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399311.1545572
+    },
+    {
+     "text": "def chunk(items, n):\n    return [items[i:i + n] for i in range(0, len(items), n)]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399364.067906
+    },
+    {
+     "text": "def chunk(items, n):\n    return [items[i:i + n] for i in range(0, len(items), n)]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403848.962309
     }
    ],
    "source": "trial_replay",
    "created": 1790296709.142086,
    "language": "python",
-   "last_used": 1790391997.1758776,
+   "last_used": 1790403848.962309,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "fibonacci number return": {
    "signature": "fibonacci number return",
    "task": "write a function fib(n) returning the nth fibonacci number",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
-    {
-     "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385945.7277532
-    },
-    {
-     "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385951.4304545
-    },
-    {
-     "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391988.5537822
-    },
     {
      "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
      "verified": true,
      "truncated": false,
      "ts": 1790391994.6611197
+    },
+    {
+     "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399296.9407372
+    },
+    {
+     "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399340.7487853
+    },
+    {
+     "text": "def fib(n):\n    a, b = 0, 1\n    for _ in range(n):\n        a, b = b, a + b\n    return a",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403826.7274241
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302253.7214077,
    "language": "python",
-   "last_used": 1790391994.6611197,
+   "last_used": 1790403826.7274241,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "revers reverse string": {
    "signature": "revers reverse string",
    "task": "write a function reverse(s) that reverses a string",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
-    {
-     "text": "def reverse(s):\n    return s[::-1]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385946.1244755
-    },
-    {
-     "text": "def reverse(s):\n    return s[::-1]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385951.7474906
-    },
-    {
-     "text": "def reverse(s):\n    return s[::-1]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391988.8725972
-    },
     {
      "text": "def reverse(s):\n    return s[::-1]",
      "verified": true,
      "truncated": false,
      "ts": 1790391995.011231
+    },
+    {
+     "text": "def reverse(s):\n    return s[::-1]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399300.2285316
+    },
+    {
+     "text": "def reverse(s):\n    return s[::-1]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399344.7905357
+    },
+    {
+     "text": "def reverse(s):\n    return s[::-1]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403830.9126067
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302254.7437792,
    "language": "python",
-   "last_used": 1790391995.011231,
+   "last_used": 1790403830.9126067,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "dict frequency lowercas return text word word_count": {
    "signature": "dict frequency lowercas return text word word_count",
    "task": "write a function word_counts(text) returning a dict of word frequencies, lowercased",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
-    {
-     "text": "import re\nfrom collections import Counter\n\ndef word_counts(text):\n    return dict(Counter(re.findall(r\"[a-z0-9']+\", text.lower())))",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385946.4222326
-    },
-    {
-     "text": "import re\nfrom collections import Counter\n\ndef word_counts(text):\n    return dict(Counter(re.findall(r\"[a-z0-9']+\", text.lower())))",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385952.079087
-    },
-    {
-     "text": "import re\nfrom collections import Counter\n\ndef word_counts(text):\n    return dict(Counter(re.findall(r\"[a-z0-9']+\", text.lower())))",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391989.1587698
-    },
     {
      "text": "import re\nfrom collections import Counter\n\ndef word_counts(text):\n    return dict(Counter(re.findall(r\"[a-z0-9']+\", text.lower())))",
      "verified": true,
      "truncated": false,
      "ts": 1790391996.2009165
+    },
+    {
+     "text": "import re\nfrom collections import Counter\n\ndef word_counts(text):\n    return dict(Counter(re.findall(r\"[a-z0-9']+\", text.lower())))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399301.517542
+    },
+    {
+     "text": "import re\nfrom collections import Counter\n\ndef word_counts(text):\n    return dict(Counter(re.findall(r\"[a-z0-9']+\", text.lower())))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399345.983039
+    },
+    {
+     "text": "import re\nfrom collections import Counter\n\ndef word_counts(text):\n    return dict(Counter(re.findall(r\"[a-z0-9']+\", text.lower())))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403835.5726237
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302255.8986816,
    "language": "python",
-   "last_used": 1790391996.2009165,
+   "last_used": 1790403835.5726237,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "flatten level nest": {
    "signature": "flatten level nest",
    "task": "write a function flatten(nested) that flattens one level of nesting",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
-    {
-     "text": "def flatten(nested):\n    result = []\n    for item in nested:\n        if isinstance(item, list):\n            result.extend(item)\n        else:\n            result.append(item)\n    return result",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385946.7568052
-    },
-    {
-     "text": "def flatten(nested):\n    result = []\n    for item in nested:\n        if isinstance(item, list):\n            result.extend(item)\n        else:\n            result.append(item)\n    return result",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385952.4308774
-    },
-    {
-     "text": "def flatten(nested):\n    result = []\n    for item in nested:\n        if isinstance(item, list):\n            result.extend(item)\n        else:\n            result.append(item)\n    return result",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391989.5301518
-    },
     {
      "text": "def flatten(nested):\n    result = []\n    for item in nested:\n        if isinstance(item, list):\n            result.extend(item)\n        else:\n            result.append(item)\n    return result",
      "verified": true,
      "truncated": false,
      "ts": 1790391996.5186367
+    },
+    {
+     "text": "def flatten(nested):\n    result = []\n    for item in nested:\n        if isinstance(item, list):\n            result.extend(item)\n        else:\n            result.append(item)\n    return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399305.4099479
+    },
+    {
+     "text": "def flatten(nested):\n    result = []\n    for item in nested:\n        if isinstance(item, list):\n            result.extend(item)\n        else:\n            result.append(item)\n    return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399352.3275962
+    },
+    {
+     "text": "def flatten(nested):\n    result = []\n    for item in nested:\n        if isinstance(item, list):\n            result.extend(item)\n        else:\n            result.append(item)\n    return result",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403838.9881392
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302256.9924912,
    "language": "python",
-   "last_used": 1790391996.5186367,
+   "last_used": 1790403838.9881392,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "case ignor is_palindrome space": {
    "signature": "case ignor is_palindrome space",
    "task": "write a function is_palindrome(s) ignoring case and spaces",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
-    {
-     "text": "def is_palindrome(s):\n    t = ''.join(c.lower() for c in s if not c.isspace())\n    return t == t[::-1]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385947.0642378
-    },
-    {
-     "text": "def is_palindrome(s):\n    t = ''.join(c.lower() for c in s if not c.isspace())\n    return t == t[::-1]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385952.7660956
-    },
-    {
-     "text": "def is_palindrome(s):\n    t = ''.join(c.lower() for c in s if not c.isspace())\n    return t == t[::-1]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391989.8583827
-    },
     {
      "text": "def is_palindrome(s):\n    t = ''.join(c.lower() for c in s if not c.isspace())\n    return t == t[::-1]",
      "verified": true,
      "truncated": false,
      "ts": 1790391996.8499024
+    },
+    {
+     "text": "def is_palindrome(s):\n    t = ''.join(c.lower() for c in s if not c.isspace())\n    return t == t[::-1]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399309.6870239
+    },
+    {
+     "text": "def is_palindrome(s):\n    t = ''.join(c.lower() for c in s if not c.isspace())\n    return t == t[::-1]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399359.4977086
+    },
+    {
+     "text": "def is_palindrome(s):\n    t = ''.join(c.lower() for c in s if not c.isspace())\n    return t == t[::-1]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403842.881671
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302258.1059012,
    "language": "python",
-   "last_used": 1790391996.8499024,
+   "last_used": 1790403842.881671,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "none return safe_div zero": {
    "signature": "none return safe_div zero",
    "task": "write a function safe_div(a, b) returning None when b is zero",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
-    {
-     "text": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385947.7797227
-    },
-    {
-     "text": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385953.3711278
-    },
-    {
-     "text": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391990.4922721
-    },
     {
      "text": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b",
      "verified": true,
      "truncated": false,
      "ts": 1790391997.483486
+    },
+    {
+     "text": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399316.6455977
+    },
+    {
+     "text": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399369.2183242
+    },
+    {
+     "text": "def safe_div(a, b):\n    if b == 0:\n        return None\n    return a / b",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403850.7788863
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302260.611006,
    "language": "python",
-   "last_used": 1790391997.483486,
+   "last_used": 1790403850.7788863,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "json line object pars path read_json_line": {
    "signature": "json line object pars path read_json_line",
    "task": "write a function read_json_lines(path) parsing one json object per line",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
-    {
-     "text": "import json\n\ndef read_json_lines(path):\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        return [json.loads(line) for line in f if line.strip()]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385948.166405
-    },
-    {
-     "text": "import json\n\ndef read_json_lines(path):\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        return [json.loads(line) for line in f if line.strip()]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385953.7357273
-    },
-    {
-     "text": "import json\n\ndef read_json_lines(path):\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        return [json.loads(line) for line in f if line.strip()]",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391990.8198006
-    },
     {
      "text": "import json\n\ndef read_json_lines(path):\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        return [json.loads(line) for line in f if line.strip()]",
      "verified": true,
      "truncated": false,
      "ts": 1790391997.838073
+    },
+    {
+     "text": "import json\n\ndef read_json_lines(path):\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        return [json.loads(line) for line in f if line.strip()]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399321.9680297
+    },
+    {
+     "text": "import json\n\ndef read_json_lines(path):\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        return [json.loads(line) for line in f if line.strip()]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399372.9766488
+    },
+    {
+     "text": "import json\n\ndef read_json_lines(path):\n    with open(path, \"r\", encoding=\"utf-8\") as f:\n        return [json.loads(line) for line in f if line.strip()]",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403854.6664317
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302261.9234653,
    "language": "python",
-   "last_used": 1790391997.838073,
+   "last_used": 1790403854.6664317,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "dedupe first item order preserv seen": {
    "signature": "dedupe first item order preserv seen",
    "task": "write a function dedupe(items) preserving first-seen order",
-   "tries": 23,
-   "successes": 23,
+   "tries": 29,
+   "successes": 29,
    "failures": 0,
    "confidence": 0.98,
    "solutions": [
@@ -12128,38 +12128,38 @@
      "text": "def dedupe(items):\n    return list(dict.fromkeys(items))",
      "verified": true,
      "truncated": false,
-     "ts": 1790385948.5008774
-    },
-    {
-     "text": "def dedupe(items):\n    return list(dict.fromkeys(items))",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790385954.0699255
-    },
-    {
-     "text": "def dedupe(items):\n    return list(dict.fromkeys(items))",
-     "verified": true,
-     "truncated": false,
-     "ts": 1790391991.1282253
-    },
-    {
-     "text": "def dedupe(items):\n    return list(dict.fromkeys(items))",
-     "verified": true,
-     "truncated": false,
      "ts": 1790391998.1643865
+    },
+    {
+     "text": "def dedupe(items):\n    return list(dict.fromkeys(items))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399325.3841665
+    },
+    {
+     "text": "def dedupe(items):\n    return list(dict.fromkeys(items))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790399379.1233678
+    },
+    {
+     "text": "def dedupe(items):\n    return list(dict.fromkeys(items))",
+     "verified": true,
+     "truncated": false,
+     "ts": 1790403859.2844229
     }
    ],
    "source": "reasoning_loop",
    "created": 1790302263.0444765,
    "language": "python",
-   "last_used": 1790391998.1643865,
+   "last_used": 1790403859.2844229,
    "source_history": [
     "procedure_replay",
     "reasoning_loop",
     "trial_replay"
    ],
    "last_evidence": "task_check",
-   "reuses": 11
+   "reuses": 14
   },
   "element find given list shar": {
    "signature": "element find given list shar",
@@ -22033,5 +22033,5 @@
  "adopted": {},
  "discarded": {},
  "min_confidence": 0.7,
- "saved": 1790391998.2
+ "saved": 1790403859.3
 }
