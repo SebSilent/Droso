@@ -99,6 +99,14 @@ def _needs_imports(src: str) -> str:
     The oracle writes `math.pi` and its own example imports math; the body alone does not
     carry the import, and the check is appended to a definition in a fresh file. Importing
     only what is referenced keeps the candidate honest about what it depends on.
+
+    THIS MUST BE ASKED ABOUT WHAT WILL ACTUALLY BE EMITTED, not about the oracle's raw
+    answer. When the answer is `import cmath` + `def f(a): ... cmath.phase ...`, the
+    caller rebuilds the source from the function BODY alone, so the module-level import is
+    dropped -- and asking about `body + code` then found the import still present in `code`
+    and DECLINED to re-add it. The emitted function referenced cmath with no import, the
+    fact failed with `NameError: name 'cmath' is not defined`, and a correct answer was
+    thrown away as though the oracle had been wrong.
     """
     head = []
     for mod in ("math", "cmath", "collections", "itertools", "functools", "re", "string"):
@@ -228,7 +236,7 @@ class KnowledgeChannel:
                                        for i, nm in enumerate(names))
                 ind = "\n".join(("    " + ln) if ln.strip() else ln
                                 for ln in body.splitlines())
-                src = "%sdef %s(*a):\n%s\n%s\n" % (_needs_imports(body + code),
+                src = "%sdef %s(*a):\n%s\n%s\n" % (_needs_imports(body),
                                                    target, binds, ind)
                 return src
         # Not a function. If it reads as one expression, that is the whole answer; if it

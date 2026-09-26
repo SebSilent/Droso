@@ -113,14 +113,54 @@ def _eval_no_oracle(arm: dict, tasks, extra_facts=None, store=None) -> dict:
     return rep
 
 
-def run(limit: int | None = None) -> dict:
+def _screen(rows) -> tuple:
+    """Admit only the tasks the being CANNOT already solve.
+
+    WHY THE LAST DISJOINTNESS CHECK FAILED, measured rather than guessed. The geometry/
+    number split was never disjoint once the tools read the real brain: arm B, which had
+    never seen a geometry task, solved "find the surface area of a sphere" -- and the branch
+    was `system2_local`, NOT `system1_recall`. So it was not a recalled procedure and not a
+    fact: his own 60,000 propositions let local composition answer a geometry question. A
+    split by CONCEPT LABEL cannot be disjoint when the memory behind it already generalises
+    across that label.
+
+    So the pool is screened first, against the real state with the oracle and the fact store
+    both OFF, and only tasks that fail there are admitted. Expect a much smaller pool than
+    the holdout, and expect it to be harder -- that is the point.
+    """
+    from tools.curriculum_run import _loop_agent
+    from organs.harness import Harness
+    agent = _loop_agent()
+    loop = agent.reasoning_loop
+    h = Harness(loop=loop, solver=loop.solver, sandbox=loop.sandbox,
+                learning=getattr(agent, "learning_loop", None), channel=None)
+    keep, solved, branches = [], 0, {}
+    for r in rows:
+        out = h.solve(r["task"], r["check"], learn=False, oracle=False)
+        b = out.get("branch")
+        branches[b] = branches.get(b, 0) + 1
+        if out.get("solved"):
+            solved += 1
+        else:
+            keep.append(r)
+    return keep, {"input": len(rows), "solved_already": solved,
+                  "survivors": len(keep), "branches": branches,
+                  "note": "screened with the oracle and the fact store OFF, against the "
+                          "real 60,000-proposition state"}
+
+
+def run(limit: int | None = None, screen: bool = True) -> dict:
     from tools.make_curriculum import load
     rows = load("holdout")
     if limit:
         rows = rows[:int(limit)]
+    screen_info = None
+    if screen:
+        rows, screen_info = _screen(rows)
     A, B, other = slice_by_fact(rows)
     out = {"holdout": len(rows), "slice_geometry": len(A), "slice_number": len(B),
-           "unkeyed_or_other": len(other), "note": "slices are small; see caveat"}
+           "unkeyed_or_other": len(other), "screening": screen_info,
+           "note": "slices are small; see caveat"}
 
     t0 = time.time()
     arm_a = _run_arm(A, "geometry")
@@ -186,8 +226,9 @@ def run(limit: int | None = None) -> dict:
 
 
 def main() -> int:
-    lim = int(sys.argv[1]) if len(sys.argv) > 1 else None
-    res = run(lim)
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    lim = int(args[0]) if args else None
+    res = run(lim, screen="--no-screen" not in sys.argv)
     print(json.dumps(res, indent=1))
     return 0
 

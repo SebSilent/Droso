@@ -1008,3 +1008,4 @@
 {"ts": 1790200104.005, "mode": "live", "ok": true, "purpose": "speech_tutor", "prompt_tokens_est": 115, "completion_tokens_est": 54, "latency_s": 3.093}
 {"ts": 1790200407.063, "mode": "live", "ok": true, "purpose": "speech_tutor", "prompt_tokens_est": 115, "completion_tokens_est": 53, "latency_s": 2.7698}
 {"ts": 1790200802.794, "mode": "live", "ok": true, "purpose": "speech_tutor", "prompt_tokens_est": 115, "completion_tokens_est": 56, "latency_s": 2.5588}
+{"ts": 1790407434.065, "mode": "live", "ok": true, "purpose": "knowledge", "prompt_tokens_est": 147, "completion_tokens_est": 32, "latency_s": 0.6615}

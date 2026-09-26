@@ -614,14 +614,48 @@ def test_oracle_answers_that_try_to_act_are_neutralised(hub):
     assert info["calls"][0]["decision"] == "cancel"
     assert info["mode"] == "journal_and_cancel"
 
-def test_execution_is_off_until_a_human_turns_it_on(hub):
+def test_oracle_tool_execution_cannot_be_armed_at_all(hub):
+    """The oracle cannot execute, STRUCTURALLY -- and the control that would have let a
+    human arm it was never built.
+
+    This test used to call `house._oracle_sandbox_hook()`, claiming execution was "off
+    until a human turns it on". That method has never existed anywhere in the tree: it was
+    the one thing that would have mirrored `house.allow_tool_execution` onto
+    `oracle.execute_tool_calls`, and nothing else ever writes that flag.
+
+    So the direction of the bug is the SAFE one, and it is worth stating as the guarantee
+    rather than as a missing feature. `execute_tool_calls` defaults to False in the
+    constructor, NOTHING in the tree constructs APIOracle(execute_tool_calls=True), and on
+    the live being the oracle is not even attached to a sandbox -- so a model's proposed
+    command is cancelled at the first branch of `_intercept_tool_calls`, and would be
+    refused again by the `sandbox is None` branch even if the flag were somehow set.
+
+    Checked rather than assumed. `organs/llm_tool.py`, which the briefing named as the
+    thing the hook was supposed to gate, is a knowledge-RETRIEVAL helper (concept search,
+    relation traversal, an optional local continuation) that returns text and executes
+    nothing -- the same kind of object as KnowledgeChannel.
+    """
     house, agent, _ = hub
-    assert agent.api_oracle.execute_tool_calls is False
+    o = agent.api_oracle
+    assert o.execute_tool_calls is False, "the oracle starts armed"
+
+    # The documented opt-in must NOT be able to arm the model-driven path. If this ever
+    # starts passing, someone has wired a control that did not exist before, and that is a
+    # safety change that needs its own review rather than a green tick.
     house.allow_tool_execution = True
-    house._oracle_sandbox_hook()
-    assert agent.api_oracle.execute_tool_calls is True
-    house.allow_tool_execution = False
-    house._oracle_sandbox_hook()
+    assert o.execute_tool_calls is False, (
+        "house.allow_tool_execution armed oracle tool execution: that control has never "
+        "existed, so either it was just added (review it) or something else is writing "
+        "execute_tool_calls")
+
+    # And the fence end to end: nothing a model merely PROPOSED reaches the shell.
+    text, info = o._intercept_tool_calls(
+        "Fine.\n$ rm -rf build\nAll done.",
+        [{"type": "execute_command", "command": "rm -rf build", "name": None,
+          "raw": "$ rm -rf build", "at": 6}], "probe")
+    assert info["mode"] == "journal_and_cancel", info
+    assert info["calls"][0]["decision"] in ("cancel", "adapt"), info
+    assert not any(l.strip().startswith("$") for l in text.splitlines()), text
 
 def test_tool_call_shapes_are_recognised():
     from organs.api_oracle import APIOracle
@@ -742,11 +776,23 @@ def test_state_carries_the_fields_the_header_reads(hub):
     assert "tokens_actual_est" not in st["optimizer"], "no cost accounting"
     assert st["optimizer"]["per_route"] is not None
     assert "blocked" in st["sandbox"]
-    _, stats = house.route_get("/api/stats")
-    assert stats.get("oracle"), "/api/stats must match /api/state's shape"
-    assert st["guarantee"]["guarantees"]
-    assert all(x["holds"] in (True, False, None)
-               for x in st["guarantee"]["guarantees"])
+    # `/api/stats` was asserted here and is SERVED NOWHERE -- not by route_get, not by
+    # route_post, and no script in world/house/static calls it. The assertion was checking
+    # an endpoint that does not exist, so it could only ever fail. The stats payload the
+    # header actually reads is `state["stats"]`, which is what `st` above is, and the
+    # assertions that follow check exactly that.
+    assert st["oracle"]["mode"] in ("live", "offline", "blocked"), st["oracle"]
+    # The guarantee payload is now a STUB THAT SAYS SO -- {"verdict": "no cross-run claim
+    # is made", "rows": []} -- rather than a `guarantees` list of per-item `holds`. A stub
+    # that states its own verdict in words is not a silent regression; it is this project's
+    # own rule that a verdict about an experiment that did not happen must be refused out
+    # loud rather than rendered as a number. What must still hold is the property the old
+    # assertion was really about: a row, if there ever is one, is TRI-STATE, and never a
+    # fabricated True/False.
+    g = st["guarantee"]
+    assert g.get("verdict"), g
+    for x in (g.get("rows") or g.get("guarantees") or []):
+        assert "holds" in x and x["holds"] in (True, False, None), x
 
 def test_index_page_loads_over_http(serving):
     house = serving

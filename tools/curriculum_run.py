@@ -200,7 +200,19 @@ def _loop_agent():
     os.environ.setdefault("HYBRIDLLM_OFFLINE", "1")
     from world.connectome_house import build_house_agent
     cfg = {"model": {"api_key": None, "provider": "qwen"},
-           "language": {"auto_train": False},
+           # POINT THE TOOL AT THE BEING'S ACTUAL BRAIN.
+           # `build_house_agent` sets the agent's own state to state/house_agent.json, which
+           # is NOT the library default, and `_mental_state_paths` therefore resolves a
+           # configured language path to `<agent_state_dir>/<name>` -- i.e. exactly the file
+           # the live house uses. Omitting the language block (as this cfg used to) makes it
+           # fall back to `state/house_agent_language_state.json`, A FILE THAT DOES NOT
+           # EXIST, so every tool here ran with an EMPTY binder: 0 propositions against the
+           # being's 60,000. Every fact-store, transfer and role-recovery number produced by
+           # these tools was therefore about a blank head, not about him.
+           # READ-ONLY: persist=False below, and `_forbid_writes` replaces the write path
+           # itself, because a flag is not a guard. See Invariant #1.
+           "language": {"auto_train": False,
+                        "state_path": str(ROOT / "state" / "language_state.json")},
            "connectome": {"accelerated_life": False},
            "sandbox": {"auto_approve_writes": True},
            "house": {"enabled": False}}
@@ -224,6 +236,7 @@ def _loop_agent():
                 _o.persist = False
             except Exception:
                 pass
+    _forbid_writes(agent)
     for name in ("heartbeat", "autotraining", "neural_growth"):
         organ = getattr(agent, name, None)
         if organ is not None and hasattr(organ, "stop"):
@@ -231,7 +244,86 @@ def _loop_agent():
                 organ.stop()
             except Exception:
                 pass
+    _warn_if_brain_is_blank(agent)
     return agent
+
+
+def _make_refusal(organ, meth):
+    def _refused(*a, **k):
+        print("READ-ONLY GUARD: refused %s.%s() -- a tool may READ the being's state and "
+              "must never WRITE it." % (type(organ).__name__, meth))
+        return {"saved": False,
+                "reason": "read-only tool agent: write refused by _forbid_writes"}
+    return _refused
+
+
+def _forbid_writes(agent) -> list:
+    """Make a read-only tool organ MECHANICALLY unable to write itself.
+
+    `persist=False` is a convention, and Invariant #1 is the story of what a convention
+    is worth here: a tool rooted at the project root saved its own small binder over the
+    live one and 30,091 propositions became 86 with `load_error: None` and
+    `last_error: None`, because the save succeeded and so did the load of the smaller
+    file. Nothing raised. A flag that is set once and never re-read is not a guard.
+
+    So the write path itself is replaced. This matters more now than it did yesterday:
+    the tools read the REAL 5.8 MB / 344 MB state, so the blast radius of getting this
+    wrong is the being's whole memory rather than a throwaway file.
+
+    Returns the list of methods it replaced, so a caller (or a test) can assert the guard
+    is actually installed rather than assumed.
+    """
+    lang = getattr(agent, "language", None)
+    organs = [lang,
+              getattr(lang, "cortex", None),
+              getattr(lang, "sequence", None),
+              getattr(agent, "learning_loop", None)]
+    guarded = []
+    for organ in organs:
+        if organ is None:
+            continue
+        for meth in ("save_state", "save", "flush"):
+            fn = getattr(organ, meth, None)
+            if fn is None or not callable(fn):
+                continue
+            try:
+                setattr(organ, meth, _make_refusal(organ, meth))
+                guarded.append("%s.%s" % (type(organ).__name__, meth))
+            except Exception:
+                pass
+    return guarded
+
+
+def _warn_if_brain_is_blank(agent) -> bool:
+    """Say so when the tool is measuring a head with nothing in it.
+
+    The guard is not cosmetic. Every tool here builds its agent from a MINIMAL cfg that
+    omits the language block, so the organ falls back to
+    `state/house_agent_language_state.json` -- a file that DOES NOT EXIST. The tool
+    therefore runs with an empty binder: 0 propositions against the being's 60,000.
+
+    Separating tool state from his is deliberate and correct (a tool may READ his state
+    and must never WRITE it), but silence is not: a transfer verdict or a role-recovery
+    number computed over an empty binder looks exactly like a result about him. This is
+    the same shape as the collapsed candidate pool that made `binding` read 0.0 by
+    construction -- an answer to a question nobody asked.
+
+    Returns True when the brain is blank.
+    """
+    try:
+        cortex = getattr(getattr(agent, "language", None), "cortex", None)
+        held = int(getattr(cortex.binder, "X", None).shape[0]) if cortex is not None else 0
+        where = getattr(getattr(agent, "language", None), "state_path", None)
+    except Exception:
+        return False
+    if held:
+        print("tool agent: %s propositions loaded READ-ONLY from %s" % (f"{held:,}", where))
+        return False
+    print("NOTE: this tool is measuring an EMPTY binder (0 propositions). Tools build a "
+          "separate, non-existent state file (state/house_agent_language_state.json), so "
+          "anything read from the binder here -- facts, role recovery, transfer -- is "
+          "about a blank head, not about the being (60,000 propositions).")
+    return True
 
 
 def run_loop(split: str = "holdout", limit: int | None = None,

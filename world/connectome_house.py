@@ -27,6 +27,21 @@ STATIC_DIR = ROOT / "world" / "house"
 # is not re-stat-ed on every poll either.
 _STATE_CACHE: dict = {}
 _STATE_TTL_S = 15.0
+# `/api/cortex` is not a parse, it is a COMPUTATION: `self_evaluate` runs 800 recalls and
+# each recall is a (60,000 x 1024) matvec -- ~49 billion MACs, measured at 87.5 s against
+# the live house. Uncached, every dashboard poll and every `tools/fitness.py` run paid it
+# again AND blocked the single-threaded house for the duration, which is why the composite
+# number could not be reproduced on demand. The binder moves slowly, so a stale-by-ten-
+# minutes reading is worth far more than a fresh one that nobody can afford to ask for.
+_CORTEX_TTL_S = 600.0
+
+
+def _cortex_state(lang) -> dict:
+    """Everything `/api/cortex` answers, split out so it can be cached by the caller."""
+    st = lang.cortex.stats()
+    st["algebra_self_test"] = lang.cortex.binder.self_test()
+    st["role_recovery_on_own_memory"] = lang.cortex.self_evaluate()
+    return st
 
 
 def _cached_state(key: str, fn, ttl: float = _STATE_TTL_S):
@@ -760,8 +775,23 @@ class ConnectomeHouse:
         ostats = (oracle.stats() if oracle is not None
                   and hasattr(oracle, "stats") else {})
         opt = getattr(self.agent, "token_optimizer", None)
-        ostats2 = (opt.stats() if opt is not None
-                   and hasattr(opt, "stats") else {})
+        # `TokenOptimizer` exposes report(), NOT stats(). The endpoint asked for a method
+        # the class has never had, so `hasattr` was False, `ostats2` was an EMPTY DICT, and
+        # the optimizer panel reported "present, and about nothing" on every single poll.
+        # That is the same shape as the badge that read `stats.oracle.mode` before it was
+        # provided -- a panel that looks alive while it says nothing. reasoning_agent.py
+        # already calls `report()`; this is the one place that did not.
+        ostats2: dict = {}
+        if opt is not None:
+            for _meth in ("report", "stats"):
+                _fn = getattr(opt, _meth, None)
+                if not callable(_fn):
+                    continue
+                try:
+                    ostats2 = _fn() or {}
+                except Exception:
+                    ostats2 = {}
+                break
         out = {"house": {"port": self.port,
                          "host": self.host,
                          "url": self.url(),
@@ -1123,10 +1153,8 @@ class ConnectomeHouse:
             lang = getattr(self.agent, "language", None)
             if lang is None:
                 return 200, {"present": False}
-            st = lang.cortex.stats()
-            st["algebra_self_test"] = lang.cortex.binder.self_test()
-            st["role_recovery_on_own_memory"] = lang.cortex.self_evaluate()
-            return 200, st
+            return 200, _cached_state("cortex", lambda: _cortex_state(lang),
+                                      ttl=_CORTEX_TTL_S)
         if path == "/api/language/exposure":
             lang = getattr(self.agent, "language", None)
             if lang is None:

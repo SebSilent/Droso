@@ -257,8 +257,17 @@ def test_the_language_endpoints_serve_the_neural_contract(tmp_path):
     row = v["vocabulary"][0]
     assert row["word"] == "verify" and len(row["kc"]) == 16
     a.api_oracle.api_key = None
+    # THE ENDPOINT WAS DELIBERATELY REMOVED. `GET /api/language/train` returns 410 with
+    # `gone: True` -- "cron teaching removed; teachers are connected by the administrator"
+    # -- and POST is not routed at all. The old assertion checked a `success`/`no_api_key`
+    # shape the endpoint no longer has, which made a deliberate removal look like a
+    # regression. What must still hold is that it does not silently pretend to train.
+    gcode, g = house.route_get("/api/language/train")
+    assert gcode == 410 and g.get("gone") is True, (gcode, g)
+    assert "removed" in str(g.get("reason")), g
     code, r = house.route_post("/api/language/train", {})
-    assert r["success"] is False and r["reason"] == "no_api_key"
+    assert code in (404, 410), (code, r)
+    assert "success" not in r, "a removed endpoint must not report success"
 
 def test_agent_start_trains_language_and_reports(tmp_path, monkeypatch):
     import os
