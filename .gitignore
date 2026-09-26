@@ -23,16 +23,7 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Temporal files. ONE folder for throwaway work: sandbox verification snippets,
-# one-off test scripts, battery runs. Nothing that must be consulted belongs
-# here -- it is swept (Heartbeat._fire, Sandbox.run_python, tools/temp_clean.py)
-# once a file is older than the TTL.
-#
-# This replaces the old behaviour, where a verification wrote a fresh uniquely-
-# named `_verify_*.py` into the repo ROOT -- `Sandbox._resolve` anchors a bare
-# relative name at the project root -- and nothing ever removed it: 4,905 of them
-# accumulated and rode into the repo on the next `git add -A`. The `_verify_*`
-# and `_battery_*` patterns are kept as a belt for anything that regresses.
+# Temporal files
 _tmp/
 _verify_*.py
 _battery_*.py
@@ -40,15 +31,10 @@ _sandbox_run.py
 
 # Local working paper
 PAPER.md
+PLAN.md
 
 # Derived neural state. Regenerable from books/ via tools/population.py, and far
-# too large for git: san.npy is 268 MB and cortex.npz 61 MB for one individual.
-# Lineages are kept on disk under state/lineage/ instead, where a lived individual
-# can be restored without a clone.
-# These were anchored at one level, so state/reader/state/language_state.san.npy --
-# 268 MB, nested two deep -- matched nothing and `git add -A state/` swept 421 MB of
-# binaries into a commit. A glob with a single * does not mean "under here", it
-# means "exactly here", and the reader keeps its own full copy of the state.
+# too large for git. Lineages on state/lineage/ where a lived individual can be restored without a clone.
 state/*.san.npy
 state/*.cortex.npz
 state/*.cortex.meta.json
@@ -69,12 +55,11 @@ state/lineage/
 state/population/
 state/merged/
 
-# Public-domain books fetched by tools/make_library.py. Tens of megabytes of
-# somebody else's prose, reproducible exactly from a URL and a script.
-books/gutenberg_*.txt
+# Public-domain books fetched by tools/make_library.py.
+# Reproducible exactly from a URL and a script.
+books/*.txt
 
-# Runtime artefacts: lineages, pooled individuals, fitness snapshots, reading
-# shelves. All regenerable from the corpus, the tools and the clock.
+# Runtime artefacts: All regenerable from the corpus, the tools and the clock.
 state/merged*/
 state/reading/
 state/shelf/
