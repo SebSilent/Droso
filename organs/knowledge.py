@@ -114,7 +114,7 @@ class KnowledgeChannel:
     """Ask the oracle for a missing fact; keep it only if the assertions accept it."""
 
     def __init__(self, *, oracle, loop, learning=None, ledger: Path | None = LEDGER,
-                 max_calls_per_task: int = 1, max_tokens: int = 1000,
+                 max_calls_per_task: int = 1, max_tokens: int = 700,
                  retries: int = 2, retry_delay: float = 1.5):
         self.oracle = oracle
         self.loop = loop
@@ -122,15 +122,16 @@ class KnowledgeChannel:
         self.ledger = ledger
         self.max_calls_per_task = int(max_calls_per_task)
         # MEASURED, NOT CHOSEN. The provider is a REASONING model: deepseek-v4.1-flash
-        # writes a hidden trace of 2,052-2,764 characters and only then emits the answer.
-        # At 320 tokens the trace consumed the entire budget, finish_reason came back
-        # "length" with completion_tokens == max_tokens, and the content was empty --
-        # 0 of 5 tasks produced text. The successful calls in the same sweep used 680-803
-        # completion tokens, so 320 was unreachable by construction and the ~48%
-        # `empty_completion` rate was this, not a flaky provider. 1000 clears the trace
-        # with room for the answer and still fits the config's 1200 per-query ceiling.
-        # NOTE: the field carrying the trace is `reasoning`, not `reasoning_content`; see
-        # api_oracle._live.
+        # writes a hidden trace of 2,052-2,764 characters before emitting anything. At
+        # max_tokens=320 that trace consumed the ENTIRE budget (finish_reason "length",
+        # completion_tokens == max_tokens), content came back empty, and it was logged as
+        # `empty_completion` -- the ~48% loss was this, not a flaky provider, and not
+        # quota pressure (failures were per-call, interleaved with successes).
+        #
+        # The real fix is to stop the trace: this call passes no_reasoning=True, which
+        # sends `reasoning_effort: "none"` and took the same question from 320 tokens with
+        # no content to 61 tokens with the full answer. 700 is then generous headroom
+        # (11x the observed length), not a workaround for the trace.
         self.max_tokens = int(max_tokens)
         # An empty completion is not an answer, and asking again is not fabricating: the
         # provider was asked and returned nothing. On the first measured run 12 of 15 calls
@@ -213,7 +214,18 @@ class KnowledgeChannel:
                         ast.Module(body=list(fn.body), type_ignores=[])))
                 except Exception:
                     return None
-                binds = "\n".join("    %s = a[%d]" % (nm, i) for i, nm in enumerate(names))
+                # THE MODEL MAY ALREADY USE THE DOCUMENTED CONVENTION. The prompt says the
+                # function "receives its arguments positionally in the tuple a, so the first
+                # argument is a[0]" -- so `def f(a): ... a[0] ...` is a CORRECT answer, and
+                # rebinding `a = a[0]` on top of it unwraps the tuple twice. Measured: four
+                # of seven oracle answers died with "'int' object is not subscriptable" on a
+                # line reading `n = a[0]`, and the fact was discarded as though the oracle
+                # had been wrong. A parameter literally named `a` IS the tuple.
+                if names == ["a"]:
+                    binds = ""
+                else:
+                    binds = "\n".join("    %s = a[%d]" % (nm, i)
+                                       for i, nm in enumerate(names))
                 ind = "\n".join(("    " + ln) if ln.strip() else ln
                                 for ln in body.splitlines())
                 src = "%sdef %s(*a):\n%s\n%s\n" % (_needs_imports(body + code),
@@ -272,7 +284,7 @@ class KnowledgeChannel:
             attempts += 1
             try:
                 res = self.oracle.query(q, max_tokens=self.max_tokens, temperature=0.0,
-                                        purpose="knowledge")
+                                        purpose="knowledge", no_reasoning=True)
             except Exception as exc:
                 res = {"ok": False,
                        "reason": "%s: %s" % (type(exc).__name__, str(exc)[:110])}

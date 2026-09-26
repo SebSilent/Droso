@@ -350,7 +350,7 @@ class APIOracle:
 
     def query(self, question: str, context: str = "", max_tokens: int = 180,
               temperature: float = 0.0, purpose: str = "oracle",
-              style: str | None = None) -> dict:
+              style: str | None = None, no_reasoning: bool = False) -> dict:
         """Ask one thing. Returns a dict that always says how it was answered.
 
         Raises NoAPIKeyError (a RuntimeError) when no credential is configured:
@@ -381,7 +381,7 @@ class APIOracle:
                     "prompt_tokens_est": pt}
         self.calls += 1
         t0 = time.perf_counter()
-        res = self._live(prompt, max_tokens, temperature)
+        res = self._live(prompt, max_tokens, temperature, no_reasoning=no_reasoning)
         lat = time.perf_counter() - t0
         ct = int(res.get("completion_tokens_est", 0) or 0)
         self.budget.commit(pt + ct)
@@ -582,7 +582,8 @@ class APIOracle:
             return f"{resp.get('code')}: {str(resp.get('message'))[:160]}"
         return None
 
-    def _live(self, prompt: str, max_tokens: int, temperature: float) -> dict:
+    def _live(self, prompt: str, max_tokens: int, temperature: float,
+              no_reasoning: bool = False) -> dict:
         temp = self._clamp_temperature(temperature)
         try:
             if self.provider == "anthropic":
@@ -634,6 +635,23 @@ class APIOracle:
                                                    "enabled": "high"}.get(t, t)
                 else:
                     payload["thinking"] = {"type": t}
+            if no_reasoning and not (str(self.provider).lower().startswith("zai")
+                                     or "glm" in str(self.model).lower()):
+                # THE ONE FIELD THAT ACTUALLY STOPS THE HIDDEN TRACE, measured side by side
+                # on the same prompt at max_tokens=320:
+                #
+                #   (base)                    finish=length  ctok=320  content=0
+                #   think=False               finish=length  ctok=320  content=0
+                #   thinking={type:disabled}  finish=length  ctok=320  content=0
+                #   enable_thinking=False     finish=length  ctok=320  content=0
+                #   reasoning_effort="none"   finish=stop    ctok=61   content=173
+                #
+                # A reasoning model spends its whole budget on a trace the provider does
+                # not report in reasoning_tokens, and content comes back empty -- which is
+                # why ~48% of knowledge calls looked like `empty_completion`. The other
+                # four spellings are accepted and ignored; only this one works. Set it
+                # AFTER the thinking block above so nothing can overwrite it.
+                payload["reasoning_effort"] = "none"
             path = self._spec.get("chat_path", "/chat/completions")
             resp = self._post(self.base_url.rstrip("/") + path,
                               self._headers(), payload)

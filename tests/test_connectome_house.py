@@ -991,3 +991,30 @@ def test_live_solve_refuses_without_assertions(hub):
                                    {"task": "add two numbers", "check": ""})
     assert status == 200 and out.get("ok") is False, out
     assert "no check" in str(out.get("reason")), out
+
+
+def test_live_and_offline_paths_are_the_same_front_door(hub):
+    """The dashboard and tools/*.py must not be two different front doors.
+
+    This is the check §1 names: if the live route and the offline harness report
+    different branches for the same task, then wiring the harness in only appeared to
+    work. They share one Harness implementation, so the same task must land on the same
+    branch either way.
+    """
+    house, agent, _ = hub
+    task = "write a function add(a, b) returning the sum of two numbers"
+    check = "assert add(2, 3) == 5"
+    _, live = house.route_post("/api/reasoning/solve",
+                               {"task": task, "check": check, "learn": False})
+    from organs.harness import Harness
+    loop = agent.reasoning_loop
+    offline = Harness(loop=loop, solver=loop.solver, sandbox=loop.sandbox,
+                      learning=getattr(agent, "learning_loop", None),
+                      channel=house._knowledge_channel())
+    off = offline.solve(task, check, learn=False, oracle=False)
+    assert live.get("branch") == off.get("branch"), (live.get("branch"),
+                                                      off.get("branch"))
+    assert bool(live.get("ok")) == bool(off.get("solved"))
+    # And the live route must not have reached the oracle for a request that did not
+    # ask for it -- the fence is checked inside Harness.solve, not at the caller.
+    assert live["columns"]["oracle"] is False, live
