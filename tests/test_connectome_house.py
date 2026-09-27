@@ -379,6 +379,26 @@ def test_grant_then_write_lands_once(hub, tmp_path):
     assert second["success"] is False and "approval" in str(second).lower()
     assert (tp / "grant_me.txt").read_text(encoding="utf-8") == "1"
 
+
+def test_an_approval_for_an_unknown_op_reports_failure(hub):
+    """Success must be claimed only where something was actually done.
+
+    This is the honesty half of the fix, pinned separately from the write half. The executor
+    used to set `ok = True` around a `{"note": "unknown op"}` while performing nothing, so
+    a missing `op` produced a success report for every approval. A record that names no
+    operation must fail loudly and touch nothing.
+    """
+    house, _, tp = hub
+    sb = house._sandbox()
+    target = tp / "mystery.txt"
+    sb.pending_approvals.append({"action": "MYSTERY mystery.txt", "path": str(target),
+                                 "op": None, "requested": 0, "answered": False})
+    out = house.answer_approval({"matches": "mystery.txt", "approved": True})
+    assert out["ok"] is False, out
+    assert "unknown op" in str(out.get("result")), out
+    assert not target.exists(), "nothing may be written for an operation we cannot name"
+
+
 def test_answering_by_content_beats_answering_by_position(hub):
     house, agent, _ = hub
     r = house.route_post("/api/sandbox_answer",
@@ -454,11 +474,26 @@ def test_terminal_never_runs_without_a_fence(tmp_path):
     assert ("sandbox" in str(r.get("reason", "")).lower()
             or "terminal" in str(r.get("reason", "")).lower()), r
 
-def test_approval_endpoint_answers_by_index(hub):
-    house, agent, _ = hub
+def test_approval_answers_by_content_not_position(hub):
+    """The protocol that is actually used -- and it is used BECAUSE position is unsafe.
+
+    This test used to post `{"index": 0}`. `answer_approval` has NEVER handled `index`: with
+    no id and no match it falls through to "take the first pending row", i.e. ANSWER BY
+    POSITION -- which that function's own comment names as the bug the content protocol
+    exists to prevent. It passed anyway because the executor treated an unrecorded `op` as a
+    no-op that reported success, so nothing had to happen for the assertion to hold. Fixing
+    the executor is what exposed it: the same call now picks an OVERWRITE of the house root
+    pended by an earlier test and fails honestly with Permission denied.
+
+    terminal.js -- the only real caller -- sends `matches`. That is what is tested here, and
+    it asserts the approved write actually LANDED rather than that a response looked right.
+    """
+    house, agent, tp = hub
     house.route_post("/api/file/write", {"path": "approve_me.txt", "content": "1"})
-    st, r = house.route_post("/api/sandbox_answer", {"index": 0, "approved": True})
-    assert st == 200 and r.get("ok") is not False
+    st, r = house.route_post("/api/sandbox_answer",
+                             {"matches": "approve_me.txt", "approved": True})
+    assert st == 200 and r.get("ok") is True, r
+    assert (tp / "approve_me.txt").read_text(encoding="utf-8") == "1"
     assert agent.sandbox.stats()["grants_consumed"] >= 0
 
 def test_api_key_is_never_echoed_back(hub, tmp_path, monkeypatch):
@@ -656,6 +691,29 @@ def test_oracle_tool_execution_cannot_be_armed_at_all(hub):
     assert info["mode"] == "journal_and_cancel", info
     assert info["calls"][0]["decision"] in ("cancel", "adapt"), info
     assert not any(l.strip().startswith("$") for l in text.splitlines()), text
+
+
+def test_allow_tool_execution_gates_remote_peers_not_the_oracle(hub):
+    """The knob is LIVE, and it guards a different door than its note used to claim.
+
+    `may_execute` is called from the live request path and guards /api/terminal, /api/code
+    and /api/execute for REMOTE peers. It was briefly suspected of being dead code left
+    over from the oracle gate -- it is not: deleting it as "inert" would OPEN that door.
+    Pinned here so a future cleanup cannot remove a working gate, with the companion test
+    above pinning the other half (it cannot arm the oracle).
+    """
+    house, _, _ = hub
+    # The operator's own browser is the tool; loopback is always allowed.
+    assert house.may_execute("127.0.0.1", "/api/terminal")[0] is True
+    # A remote peer is refused the tool endpoints while the knob is off ...
+    house.allow_tool_execution = False
+    ok, why = house.may_execute("10.0.0.9", "/api/terminal")
+    assert ok is False and "allow_tool_execution" in why, (ok, why)
+    # ... and admitted once a human turns it on. If this half ever stops holding, the knob
+    # has quietly become inert and remote tool access is being decided by something else.
+    house.allow_tool_execution = True
+    ok2, why2 = house.may_execute("10.0.0.9", "/api/terminal")
+    assert ok2 is True, (ok2, why2)
 
 def test_tool_call_shapes_are_recognised():
     from organs.api_oracle import APIOracle

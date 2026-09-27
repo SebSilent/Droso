@@ -118,6 +118,81 @@ def _needs_imports(src: str) -> str:
     return ("\n".join(head) + "\n\n") if head else ""
 
 
+def file_fact(loop, task: str, check: str, source: str = "unknown") -> dict:
+    """File an already-verified result under its (concept, subject, shape) key.
+
+    THE ONE PLACE A FACT IS FILED, from either source. It used to be
+    `KnowledgeChannel.distill_fact` alone, which meant a fact could only ever come from the
+    ORACLE -- so a solution the being worked out HIMSELF, by composition over his own memory,
+    was thrown away the moment the task ended and had to be re-derived from scratch the next
+    time anything needed it.
+
+    Nothing about the discipline changes for the second source, and that is the point: the
+    caller must already have run the result through `task_check`, so this adds a second INDEX
+    to something already trusted rather than making a new trust decision. A self-distilled
+    fact is re-verified against the assertions on every future task it is tried against, so
+    one that does not generalise simply fails to help -- it cannot produce a wrong answer.
+
+    Three guards, all load-bearing:
+
+    * `keyable` -- a composition that solved this one task but keys to nothing general is a
+      one-off, not a fact. A guessed key would be retrieved for the wrong task later, and a
+      fact that arrives when it should not is worse than one that never arrives.
+    * THE REFERENCE MUST RESOLVE -- `ref` is the learning store's own signature, and
+      `recall_fact` hands it back for the solver to turn into code. If the procedure was
+      never STORED (a solve with learn=False, which is how the measuring tools run), the fact
+      would point at nothing, and that reads as a BROKEN fact rather than an absent one.
+    * `bind_fact` refuses an existing key, so a second, equally-correct answer for the same
+      key leaves the first one in place rather than overwriting it.
+
+    Never raises: filing is best-effort, and it must not fail a solve that already succeeded.
+    """
+    try:
+        from .concepts import extract_key, keyable
+        from .learning_loop import signature
+        concept, subject, shape = extract_key(task, check)
+        if not keyable(task, check):
+            return {"filed": False, "concept": concept, "subject": subject,
+                    "shape": shape,
+                    "reason": "no usable key -- not filing on a guess (a 'mixed' shape "
+                              "means the assertions disagree about what the answer IS)"}
+        cortex = getattr(getattr(loop, "language", None), "cortex", None)
+        binder = getattr(cortex, "binder", None)
+        if binder is None or not hasattr(binder, "bind_fact"):
+            return {"filed": False, "concept": concept, "subject": subject,
+                    "reason": "no binder to file into"}
+        ref = signature(task)
+        store = getattr(getattr(loop, "learning", None), "store", None)
+        if isinstance(store, dict) and ref not in store:
+            return {"filed": False, "concept": concept, "subject": subject,
+                    "shape": shape, "ref": ref,
+                    "reason": "the procedure was not stored, so the fact would point "
+                              "at nothing"}
+        filed = bool(binder.bind_fact(concept, subject, ref, shape, source=source))
+        return {"filed": filed, "concept": concept, "subject": subject, "shape": shape,
+                "ref": ref, "source": source,
+                "reason": "filed" if filed else "already filed for this key"}
+    except Exception as exc:                                   # pragma: no cover
+        return {"filed": False, "reason": "%s: %s" % (type(exc).__name__, str(exc)[:80])}
+
+
+def fact_source(loop, concept: str, subject: str, shape: str = "unknown") -> str:
+    """Where the fact under this key came from: "self", "oracle", or "unknown".
+
+    Read-only, never raises, and here rather than at the call site so the two places that
+    ask the question do not each invent their own way to reach the binder -- which is the
+    shape of bug this project has paid for more than once.
+    """
+    try:
+        cortex = getattr(getattr(loop, "language", None), "cortex", None)
+        binder = getattr(cortex, "binder", None)
+        sources = getattr(binder, "fact_sources", None) or {}
+        key = (str(concept), str(subject), str(shape or "unknown"))
+        return str(sources.get(key) or "unknown")
+    except Exception:
+        return "unknown"
+
+
 class KnowledgeChannel:
     """Ask the oracle for a missing fact; keep it only if the assertions accept it."""
 
@@ -329,15 +404,15 @@ class KnowledgeChannel:
         fact = None
         if ok:
             self.accepted += 1
-            # The answer passed the task's own assertions, so its fact is now something
-            # already trusted. Filing does not depend on whether THIS task needed it: the
-            # complaint about the last measurement was that an answer keyed to its task
-            # transferred to nothing, and this is the second key.
-            try:
-                fact = self.distill_fact(task, check, code)
-            except Exception as exc:
-                fact = {"filed": False, "reason": "%s: %s"
-                        % (type(exc).__name__, str(exc)[:80])}
+            # STORE FIRST, THEN FILE. A fact's reference is the learning store's own
+            # signature for the procedure, and `learn_from_task` is what puts it there -- so
+            # filing before storing asks `file_fact` to verify a reference that cannot exist
+            # yet, and it is refused. That ordering was harmless while filing was
+            # unconditional, because the fact was only ever RECALLED later, by which time
+            # the store had been populated. It became fatal the moment `file_fact` started
+            # refusing a reference it cannot resolve: measured, 25 accepted answers, 25
+            # skipped, 0 facts filed, and every merge downstream read zero because there was
+            # nothing to carry.
             if self.learning is not None:
                 try:
                     self.learning.learn_from_task(
@@ -347,6 +422,11 @@ class KnowledgeChannel:
                     stored = True
                 except Exception:
                     stored = False
+            try:
+                fact = self.distill_fact(task, check, code)
+            except Exception as exc:
+                fact = {"filed": False, "reason": "%s: %s"
+                        % (type(exc).__name__, str(exc)[:80])}
         else:
             self.refused += 1
         out = {"asked": True, "accepted": bool(ok), "call_ok": True, "stored": stored,
@@ -372,27 +452,12 @@ class KnowledgeChannel:
         key would be retrieved for the wrong task later, and a fact that arrives when it
         should not is worse than a fact that never arrives.
         """
-        from .concepts import extract_key, keyable
-        from .learning_loop import signature
-        concept, subject, shape = extract_key(task, check)
-        if not keyable(task, check):
-            self.facts_skipped += 1
-            return {"filed": False, "concept": concept, "subject": subject,
-                    "shape": shape,
-                    "reason": "no usable key -- not filing on a guess (a 'mixed' shape "
-                              "means the assertions disagree about what the answer IS)"}
-        cortex = getattr(getattr(self.loop, "language", None), "cortex", None)
-        binder = getattr(cortex, "binder", None)
-        if binder is None or not hasattr(binder, "bind_fact"):
-            self.facts_skipped += 1
-            return {"filed": False, "concept": concept, "subject": subject,
-                    "reason": "no binder to file into"}
-        ref = signature(task)
-        filed = bool(binder.bind_fact(concept, subject, ref, shape))
-        if filed:
+        out = file_fact(self.loop, task, check, source="oracle")
+        if out.get("filed"):
             self.facts_filed += 1
-        return {"filed": filed, "concept": concept, "subject": subject, "shape": shape,
-                "ref": ref, "reason": "filed" if filed else "already filed for this key"}
+        else:
+            self.facts_skipped += 1
+        return out
 
     # --------------------------------------------------------------- the ledger
     def _record(self, task: str, target: str, out: dict, res=None) -> None:

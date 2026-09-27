@@ -86,6 +86,45 @@ Object.assign(House, {
       });
     }
 
+    // THE HARNESS'S OWN REPORT -- the only place the branch breakdown exists, and until now
+    // it was returned by /api/reasoning/state and drawn nowhere.
+    //
+    // BOTH AUTONOMIES, SIDE BY SIDE, ON PURPOSE. They answer different questions and the
+    // harness insists on the distinction: over ATTEMPTS, "he solved nothing and needed no
+    // oracle" reads as perfect autonomy, so collapsing them into one number would let an
+    // empty run look like a clean one. `autonomy / attempts` is 1 - the oracle's share, and
+    // is '?' when nothing was attempted rather than a confident 1.0.
+    const h = s.harness || {};
+    const hc = h.counts || {};
+    House._rSet('har-attempts', h.attempts);
+    House._rSet('har-solved', h.solved);
+    House._rSet('har-auto-att', h.attempts
+      ? (1 - (h.oracle_share_of_attempts || 0)).toFixed(3) : null);
+    House._rSet('har-auto-sol', h.autonomy_over_solves);
+    House._rSet('har-s1f', hc.system1_fact || 0);
+    House._rSet('har-s1r', hc.system1_recall || 0);
+    House._rSet('har-s2l', hc.system2_local || 0);
+    House._rSet('har-s2o', hc.system2_oracle_hole || 0);
+    House._rSet('har-uns', hc.unsolved || 0);
+    // THE CONVERSION LOG: System 2 taught it, System 1 now answers from the file. Key only --
+    // the task sentence is not the unit of knowledge here and would be noise.
+    const rec = House.byId('har-recent');
+    if (rec) {
+      rec.textContent = '';
+      (h.conversions || []).forEach(k => {
+        const d = document.createElement('div');
+        d.className = 'chip';
+        const kk = document.createElement('span');
+        kk.className = 'k';
+        kk.textContent = 's2\u2192s1';
+        const vv = document.createElement('span');
+        vv.className = 'v';
+        vv.textContent = '(' + (k || []).join(', ') + ')';
+        d.appendChild(kk); d.appendChild(vv);
+        rec.appendChild(d);
+      });
+    }
+
     const o = s.oracle || {};
     House._rSet('orc-provider', o.provider);
     House._rSet('orc-model', o.model);

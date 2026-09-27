@@ -357,6 +357,20 @@ class ConnectomeHouse:
                 "allow_remote_mutation", True))
         self.access_token = ((self.config.get("house", {}) or {})
                              .get("access_token") or None)
+        # WHAT THIS IS, AND WHAT IT IS NOT. It gates REMOTE peers' HTTP access to the tool
+        # endpoints -- `may_execute` is called from the live request path (see the router at
+        # the bottom of this file) and guards /api/terminal, /api/code, /api/execute. That
+        # gate is real, it works, and removing it would OPEN a door rather than close one.
+        #
+        # It does NOT, and cannot, arm the oracle. The config note used to claim it governed
+        # "the oracle executing commands a model merely proposed", and that has not been true
+        # since `_oracle_sandbox_hook` -- the one method that would have mirrored this onto
+        # `APIOracle.execute_tool_calls` -- stopped existing. Oracle tool execution is off
+        # STRUCTURALLY: execute_tool_calls defaults False, nothing in the tree constructs
+        # `APIOracle(execute_tool_calls=True)`, and the live oracle is not attached to a
+        # sandbox at all. Do not "close the gap" by wiring the two together. The gap is the
+        # safe state, and making this knob functional is the one change that would reopen a
+        # question that is currently closed.
         self.allow_tool_execution = bool(
             (self.config.get("house", {}) or {}).get(
                 "allow_tool_execution", False))
@@ -391,7 +405,11 @@ class ConnectomeHouse:
     def may_execute(self, peer: str, path: str, token: str | None = None):
         """Tool execution is mutation with a bigger hammer: for a remote peer it
         needs house.allow_tool_execution, which is off by default. Loopback keeps
-        working as it always has -- the operator's own browser is the tool."""
+        working as it always has -- the operator's own browser is the tool.
+
+        REMOTE HTTP ONLY -- this is the PEER's access to the tool endpoints. It is not the
+        oracle's: a command a model merely proposed never reaches this function, and
+        `allow_tool_execution` cannot arm it. See the note where that flag is set."""
         ok, why = self.may_mutate(peer, token)
         if not ok:
             return ok, why
@@ -422,10 +440,21 @@ class ConnectomeHouse:
     def pending_actions(self) -> list[dict]:
         sb = self._sandbox()
         rows = list(getattr(sb, "pending_approvals", []) or [])
-        return [{"id": a.get("id"), "op": a.get("op", "WRITE"),
-                 "what": ("write " + str(a.get("path", ""))
-                          if a.get("op") != "DELETE"
-                          else "delete " + str(a.get("path", "")))}
+
+        def _label(a) -> str:
+            # The display used to DEFAULT a missing op to "WRITE", so a queued RUN or DELETE
+            # was shown to the human as a write. The executor read the same field with no
+            # default at all. Two readers, two shapes, one of them a lie -- so the label is
+            # derived from the op that is now always recorded, and an absent one is not
+            # dressed up as a write.
+            op = str(a.get("op") or "?")
+            if op == "DELETE":
+                return "delete " + str(a.get("path", ""))
+            if op in ("WRITE", "OVERWRITE"):
+                return "write " + str(a.get("path", ""))
+            return (op.lower() + " " + str(a.get("path", ""))).strip()
+
+        return [{"id": a.get("id"), "op": a.get("op") or "?", "what": _label(a)}
                 for a in rows]
 
     def process_chat(self, message: str) -> dict:
@@ -975,18 +1004,29 @@ class ConnectomeHouse:
             return {"success": True, "ok": True, "approved": False, "action": pick}
         op = pick.get("op")
         path = Path(pick.get("path", ""))
+        # AN UNKNOWN OP IS A FAILURE, NOT A NOTE. This branch used to set `ok = True` around
+        # a `{"note": "unknown op"}` while performing nothing -- so an approval could report
+        # success for an action that never happened, which is what a missing `op` produced
+        # EVERY time. Success is now claimed only where something was actually done, and a
+        # write with no recorded content says so instead of writing an empty file.
+        ok = False
         try:
-            if op == "WRITE":
-                path.parent.mkdir(parents=True, exist_ok=True)
-                path.write_text(pick.get("content", ""), encoding="utf-8")
-                result = {"written": str(path)}
+            if op in ("WRITE", "OVERWRITE"):
+                if "content" not in pick:
+                    result = {"error": "no content recorded for this pending write; an "
+                                       "approval cannot reconstruct it"}
+                else:
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_text(pick.get("content") or "", encoding="utf-8")
+                    result = {"written": str(path)}
+                    ok = True
             elif op == "DELETE":
                 if path.exists():
                     path.unlink()
                 result = {"deleted": str(path)}
+                ok = True
             else:
-                result = {"note": f"unknown op {op}"}
-            ok = True
+                result = {"error": "unknown op %r: nothing was performed" % (op,)}
         except OSError as e:
             ok = False
             result = {"error": str(e)[:120]}

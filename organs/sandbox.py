@@ -220,7 +220,7 @@ class Sandbox:
         if not v.get("allow") and v.get("code") != "approval_required":
             return self._refuse("command", v, command)
         if v.get("approval_required"):
-            if not self._request_approval(f"RUN {command}"):
+            if not self._request_approval(f"RUN {command}", op="RUN"):
                 return self._refuse("command", {
                     "code": "denied",
                     "reason": "DENIED: human approval required"}, command)
@@ -362,8 +362,10 @@ class Sandbox:
         in_zone = self._in_workzone(p)
         if not in_zone and (existed or not self.auto_approve_writes):
             what = f"OVERWRITE {p.name}" if existed else f"WRITE {p.name}"
-            if not self._request_approval(what, path=str(p),
-                                          destructive=bool(existed)):
+            if not self._request_approval(
+                    what, path=str(p), destructive=bool(existed),
+                    op="OVERWRITE" if existed else "WRITE",
+                    content=str(content)):
                 return self._refuse("write", {
                     "code": "denied",
                     "reason": "DENIED: overwrite requires approval" if existed
@@ -387,7 +389,7 @@ class Sandbox:
         if not p.exists():
             return {"success": False, "error": f"nothing to delete: {p}"}
         if not self._request_approval(f"DELETE {p.name}", path=str(p),
-                                      destructive=True):
+                                      destructive=True, op="DELETE"):
             return self._refuse("delete", {"code": "denied",
                                            "reason": "DENIED: deletion denied"},
                                 str(path))
@@ -433,13 +435,25 @@ class Sandbox:
         return before - len(self._grants)
 
     def _request_approval(self, action: str, path: str = "",
-                          destructive: bool = False) -> bool:
+                          destructive: bool = False, op: str = "",
+                          content: str | None = None) -> bool:
         """Approvals resolve in one order: an explicit human grant, then the
         injected approver (dashboard/CLI), then DENY.
 
         It deliberately does not read stdin. The naive version of this function
         blocks forever inside a server request, and a hanging prompt is not a
         safety rail -- it is an outage. Deny-and-surface is the safe default.
+
+        THE PENDING RECORD IS A CONTRACT, AND IT WAS INVENTED TWICE. A deferred approval is
+        RECORDED here and PERFORMED later by `ConnectomeHouse.answer_approval`, and the two
+        disagreed about the shape: this record carried `action`/`path` but no `op`, so the
+        executor read `None`, fell through to its "unknown op" branch -- WHICH SET ok = True
+        -- and reported success for a write that never happened. It also never carried the
+        CONTENT, so even a correct op would have written an empty file.
+
+        `op` and `content` are therefore captured AT REQUEST TIME, because this is the only
+        moment either exists: `write_file` holds the content here, and nothing retains it
+        afterwards. The executor reads exactly what this writes, which is the whole point.
         """
         a = normalise_cmd(action)
         for g in self._grants:
@@ -463,6 +477,8 @@ class Sandbox:
             return ans
         self._push(self.pending_approvals, {"action": action, "path": path,
                                             "destructive": destructive,
+                                            "op": (op or action.split(" ")[0]).upper(),
+                                            "content": content,
                                             "requested": time.time(),
                                             "answered": False})
         return False

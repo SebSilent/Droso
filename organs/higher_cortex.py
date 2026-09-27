@@ -283,6 +283,12 @@ class Binder:
         # exactly what collapsed the role-recovery candidate pool to one and turned a real
         # metric into a zero.
         self.facts: dict = {}
+        # WHERE EACH FACT CAME FROM. A `system1_fact` hit in a merge result is not one claim
+        # but two: a fact the ORACLE supplied, or one the being DISCOVERED by composing over
+        # his own memory. Those say different things about what compounds, so the source is
+        # recorded at filing time -- the only moment it is known -- rather than reconstructed
+        # afterwards from which code path happens to be calling.
+        self.fact_sources: dict = {}
         self.beta = float(beta)
         self.X = np.zeros((0, space.dim), dtype=np.float32)
         # Position-agnostic cue vectors, one per proposition: the normalised sum
@@ -628,7 +634,7 @@ class Binder:
 
     # ------------------------------------------------------------------ facts
     def bind_fact(self, concept: str, subject: str, proc_ref: str,
-                  shape: str = "unknown") -> bool:
+                  shape: str = "unknown", source: str = "unknown") -> bool:
         """File a verified procedure under concept+subject. True if newly bound.
 
         Both halves are required. A fact with only one of them is not fileable, because
@@ -642,6 +648,7 @@ class Binder:
         if key in self.facts:
             return False
         self.facts[key] = str(proc_ref)
+        self.fact_sources[key] = str(source or "unknown")
         return True
 
     def recall_fact(self, concept: str, subject: str, shape: str = "unknown"):
@@ -789,9 +796,10 @@ class HigherCortex:
             # losing it costs a retrieval path rather than his memory.
             fside = p.with_suffix(".facts.json")
             ftmp = fside.with_name(fside.name + ".tmp")
-            ftmp.write_text(json.dumps([[c, s, r, sh] for (c, s, sh), r
-                                        in self.binder.facts.items()]),
-                            encoding="utf-8")
+            ftmp.write_text(json.dumps(
+                [[c, s, r, sh, self.binder.fact_sources.get((c, s, sh), "unknown")]
+                 for (c, s, sh), r in self.binder.facts.items()]),
+                encoding="utf-8")
             os.replace(str(ftmp), str(fside))
             errs = np.array(self.predictor.errors[-2000:], dtype=np.float32)
             if errs.size:
@@ -831,7 +839,12 @@ class HigherCortex:
                     for row in json.loads(fside.read_text(encoding="utf-8")):
                         if isinstance(row, (list, tuple)) and len(row) >= 3:
                             sh = str(row[3]) if len(row) > 3 else "unknown"
-                            self.binder.facts[(str(row[0]), str(row[1]), sh)] = str(row[2])
+                            k = (str(row[0]), str(row[1]), sh)
+                            self.binder.facts[k] = str(row[2])
+                            # Four-field rows are the pre-provenance format; they load with
+                            # an unknown source rather than being rejected.
+                            if len(row) > 4:
+                                self.binder.fact_sources[k] = str(row[4])
                 except Exception:
                     pass
             if X.size and X.shape[1] == self.space.dim:

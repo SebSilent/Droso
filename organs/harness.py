@@ -64,6 +64,12 @@ class Harness:
         self.channel = channel
         self.log: list = log if log is not None else []
         self.counts: dict = {}
+        # A rolling log of the LAST FEW `system2_local -> system1_fact` conversions: solves
+        # where System 1 answered from a file that the being's own composition put there.
+        # Until now that conversion was only measurable after the fact, by running the same
+        # task twice and diffing branch reports. Key only -- a task sentence would be noise,
+        # and the (concept, subject, shape) is the unit of knowledge here.
+        self.conversions: list = []
 
     # ------------------------------------------------------------------ the entry
     def solve(self, task, check: str = "", *, learn: bool = True,
@@ -101,6 +107,7 @@ class Harness:
                                          check)
             if ok:
                 self._count("system1_fact")
+                self._note_conversion(task_text, check)
                 return self._done(task_text, "system1_fact", fact["code"], t0,
                                   {"key": [fact.get("concept"), fact.get("subject")]})
 
@@ -112,8 +119,22 @@ class Harness:
                       else "system1_recall" if lbl.startswith("library:")
                       else "system2_local")
             self._count(branch)
-            return self._done(task_text, branch, out.get("code"), t0,
-                              {"candidate": lbl, "loop": out})
+            if branch == "system1_fact":
+                self._note_conversion(task_text, check)
+            extra = {"candidate": lbl, "loop": out}
+            # SYSTEM 2 TEACHES SYSTEM 1. A deliberate solve that passed `task_check` is
+            # evidence of exactly the same kind as an oracle answer that passed it, so it is
+            # filed by the same function under the same key -- no new trust path and no new
+            # gate. Next time a task keys to this (concept, subject, shape), System 1 answers
+            # from the file instead of re-deriving it, and if the fact does not generalise it
+            # simply fails the assertions and the task falls back to here again.
+            if branch == "system2_local":
+                from .knowledge import file_fact
+                # source="self": this one the being worked out for himself, and that is a
+                # different claim about what compounds than a fact the oracle supplied.
+                extra["self_distilled"] = file_fact(self.loop, task_text, check,
+                                                    source="self")
+            return self._done(task_text, branch, out.get("code"), t0, extra)
 
         # 4. SYSTEM 2 WITH A HOLE — the task keys to a fact we do not have. Escalate the
         #    HOLE, not the task, and slot the answer into the shape the task asked for.
@@ -215,4 +236,29 @@ class Harness:
                 "oracle_share_of_solves": (round(oracle / solved, 3) if solved else None),
                 "autonomy_over_solves": (round(1.0 - oracle / solved, 3)
                                          if solved else None),
-                "branches_seen": sorted(self.counts)}
+                "branches_seen": sorted(self.counts),
+                # Only conversions onto a SELF-filed fact: one the oracle supplied is
+                # System 1 answering from the oracle's notes, which is a different claim.
+                "conversions": [list(k) for k in self.conversions[-8:]]}
+
+    def _note_conversion(self, task: str, check: str) -> None:
+        """Log a `system2_local -> system1_fact` conversion, key only. Never raises.
+
+        This is the self-distillation claim made visible WHILE it happens rather than
+        inferred afterwards: System 1 answered from a file, and the file was put there by
+        the being's own composition rather than by the oracle.
+        """
+        try:
+            from .concepts import extract_key
+            from .knowledge import fact_source
+            c, s, sh = extract_key(task, check)
+            if not c or not s:
+                return
+            if fact_source(self.loop, c, s, sh) != "self":
+                return
+            entry = [c, s, str(sh or "unknown")]
+            if not self.conversions or self.conversions[-1] != entry:
+                self.conversions.append(entry)
+                del self.conversions[:-8]
+        except Exception:
+            pass
