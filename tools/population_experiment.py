@@ -262,8 +262,88 @@ def _pool(name: str) -> list:
     return load("holdout")
 
 
+def merge_arms(arms: dict, givers) -> tuple:
+    """Pool several lives' knowledge into one: facts, sources, AND learning stores.
+
+    THE STORE MERGES TOO, and leaving it out is why every merge once read 0. A fact's value
+    is a REFERENCE into the learning store it was filed from, so facts from another life
+    resolve to nothing unless that life's store comes with them -- `recall_fact` finds the
+    key and then reports "the fact points at a procedure with no code". A fact with no store
+    behind it is indistinguishable from a fact that was never filed until something tries to
+    resolve it, which is why this is a module-level function with its own test rather than a
+    closure nobody can reach.
+    """
+    f, s, st = {}, {}, {}
+    for g in givers:
+        f.update(arms[g]["facts"])
+        s.update(arms[g]["fact_sources"])
+        st.update(arms[g]["store"])
+    return f, s, st
+
+
+def _screen_selfdistill(rows) -> tuple:
+    """THE COMPLEMENT OF `_screen`: tasks the being CAN solve, but only slowly.
+
+    The screened pool cannot answer the compounding question, BY CONSTRUCTION. Screening
+    removes every task local composition can solve, so an arm never gets the chance to work
+    anything out for itself -- which means the `self=0` in the last multi-arm run was close
+    to guaranteed by how the pool was built rather than a finding about self-distillation.
+
+    This pool is the other side of it: tasks where deliberate composition SUCCEEDS but has
+    not yet been compiled into a fact. That is exactly the set where a fact one life worked
+    out could let a different life skip its own slow search.
+
+    Tasks whose key already resolves through `recall_fact` are excluded, because System 1
+    would answer those and no slow search would happen at all.
+    """
+    from tools.curriculum_run import _loop_agent
+    from organs.harness import Harness
+    agent = _loop_agent()
+    loop = agent.reasoning_loop
+    h = Harness(loop=loop, solver=loop.solver, sandbox=loop.sandbox,
+                learning=getattr(agent, "learning_loop", None), channel=None)
+    keep, already_fact, unsolved, branches = [], 0, 0, {}
+    for r in rows:
+        if h.solver.recall_fact(r["task"], r["check"]).get("found"):
+            already_fact += 1
+            continue
+        out = h.solve(r["task"], r["check"], learn=False, oracle=False)
+        b = str(out.get("branch"))
+        branches[b] = branches.get(b, 0) + 1
+        if out.get("solved") and b == "system2_local":
+            keep.append(r)
+        elif not out.get("solved"):
+            unsolved += 1
+    return keep, {"input": len(rows), "already_a_fact": already_fact,
+                  "unsolved": unsolved, "survivors": len(keep), "branches": branches,
+                  "note": "solved by slow composition and NOT yet compiled into a fact"}
+
+
+def slice_alternating(rows, names):
+    """Round-robin across lives, NOT by concept.
+
+    THE CONCEPT SPLIT CANNOT ANSWER THE SELF-DISTILLATION QUESTION, and that is structural
+    rather than an unlucky sample. A fact is keyed by (concept, subject, shape), so an arm
+    whose slice is geometry files geometry facts -- and an arm whose slice is numbers holds
+    no task those facts can apply to. The split that makes disjointness hold is the SAME
+    split that makes cross-life transfer impossible. Two runs measured `self=0` and were
+    certain to.
+
+    Round-robin gives every life a mix of the same concepts, so a fact one life works out
+    CAN apply to another's task. Disjointness is NOT expected to hold here -- everyone can
+    solve their own slice by composition, which is the point of this pool -- so it is
+    reported rather than assumed, and the quantity that matters is the BRANCH: whether a
+    life skips its own slow search because another life already compiled the fact.
+    """
+    buckets = {n: [] for n in names}
+    for i, r in enumerate(sorted(rows, key=lambda x: str(x.get("id")))):
+        buckets[names[i % len(names)]].append(r)
+    return buckets, []
+
+
 def run_multi(limit: int | None = None, pool: str = "holdout", screen: bool = True,
-              cache: str | None = None,
+              cache: str | None = None, screen_mode: str = "unsolved",
+              slice_mode: str = "concept",
               groups=("geometry", "number", "string", "collection")) -> dict:
     """N lives, each alone on its own slice, then merged -- with provenance.
 
@@ -277,9 +357,12 @@ def run_multi(limit: int | None = None, pool: str = "holdout", screen: bool = Tr
         rows = rows[:int(limit)]
     screen_info = None
     if screen:
-        rows, screen_info = _screen(rows, cache=cache)
-    slices, other = slice_multi(rows, list(groups))
+        rows, screen_info = (_screen_selfdistill(rows) if screen_mode == "selfdistill"
+                             else _screen(rows, cache=cache))
+    slices, other = (slice_alternating(rows, list(groups)) if slice_mode == "alternate"
+                     else slice_multi(rows, list(groups)))
     out = {"mode": "multi", "pool": pool, "groups": [g for g in groups],
+           "screen_mode": screen_mode, "slice_mode": slice_mode,
            "survivors": len(rows), "slice_sizes": {k: len(v) for k, v in slices.items()},
            "unkeyed_or_other": len(other), "screening": screen_info}
     arms = {g: _run_arm(slices[g], g) for g in groups if slices[g]}
@@ -288,24 +371,14 @@ def run_multi(limit: int | None = None, pool: str = "holdout", screen: bool = Tr
                                          if v == "self"),
                        "oracle_facts": sum(1 for v in a["fact_sources"].values()
                                            if v == "oracle"),
+                       # The KEYS, so a plateau can be checked for redundancy rather than
+                       # guessed at: overlapping keys between two arms are the same answer
+                       # filed twice, which is a diversity problem, not a ceiling.
+                       "fact_keys": sorted("%s|%s|%s" % k for k in a["facts"]),
                        "channel": a["channel"]} for g, a in arms.items()}
 
     def _others(not_g):
         return [g for g in groups if g != not_g and slices.get(g)]
-
-    def _merge_from(target, givers):
-        # THE STORE MERGES TOO, and leaving it out is why every merge read 0. A fact's value
-        # is a REFERENCE into the learning store it was filed from, so facts from another
-        # life resolve to nothing unless that life's store comes with them -- `recall_fact`
-        # finds the key and then reports "the fact points at a procedure with no code". The
-        # pairwise version always merged the store; this one did not, and the resolvability
-        # guard turns that omission into a zero rather than a wrong answer.
-        f, s, st = {}, {}, {}
-        for g in givers:
-            f.update(arms[g]["facts"])
-            s.update(arms[g]["fact_sources"])
-            st.update(arms[g]["store"])
-        return f, s, st
 
     # DISJOINTNESS, every ordered pair. If any arm can already do another's work, the split
     # bought nothing and no merge number below is about sharing knowledge between lives.
@@ -326,7 +399,7 @@ def run_multi(limit: int | None = None, pool: str = "holdout", screen: bool = Tr
             # out the facts that actually answer these tasks, so every merge read 0 and
             # looked like a finding instead of a bug. The pairwise version never made that
             # mistake: it gives A the facts of B, and B IS the owner of the slice.
-            mf, ms, mst = _merge_from(h, _others(g))
+            mf, ms, mst = merge_arms(arms, _others(g))
             mrg = _eval_no_oracle(a, slices[h], extra_facts=mf, extra_sources=ms,
                                   store=mst)
             merges["%s_on_%s" % (g, h)] = {
@@ -442,7 +515,8 @@ def main() -> int:
     # Flags take a VALUE, so the value of `--pool mbpp_all` must not be mistaken for the
     # positional task limit. (It was: `--pool mbpp_all` parsed as `int("mbpp_all")`.)
     argv = sys.argv[1:]
-    flags = {"--pool", "--pairing", "--cache", "--groups"}
+    flags = {"--pool", "--pairing", "--cache", "--groups", "--screen-mode",
+             "--slice-mode"}
     opts: dict = {}
     positionals: list = []
     i = 0
@@ -474,6 +548,8 @@ def main() -> int:
         res = run_multi(lim, pool=opts.get("--pool") or "holdout",
                         screen="--no-screen" not in argv,
                         cache=opts.get("--cache"),
+                        screen_mode=opts.get("--screen-mode") or "unsolved",
+                        slice_mode=opts.get("--slice-mode") or "concept",
                         groups=tuple(x.strip() for x in str(gl).split(",") if x.strip()))
     else:
         res = run(lim, screen="--no-screen" not in argv,

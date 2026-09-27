@@ -319,6 +319,7 @@ class ConnectomeHouse:
         "connectome.project_root": str,
         "connectome.background_drive": str,
         "connectome.neural_tick_interval": (int, float),
+        "connectome.max_retries": int,
         "connectome.lived_time_save_interval": (int, float),
         "heartbeat.think_interval": (int, float),
         "heartbeat.sleep_threshold": (int, float),
@@ -932,19 +933,69 @@ class ConnectomeHouse:
                 hb.background_drive = str(value).lower()
             if key == "connectome.lived_time_save_interval" and hb is not None:
                 hb._lived_save_interval = max(5.0, float(value))
+            # THE CONFIG ITSELF, WHICH WAS NEVER WRITTEN. `applied.append(key)` ran for every
+            # key whose TYPE validated, while nothing assigned anything: `self.config` was
+            # untouched, `_save_config()` then rewrote the old config back to disk, and the
+            # only keys that reached a live object were three hardcoded heartbeat ones. So
+            # the endpoint reported `applied: [...]` for changes that did not exist -- the
+            # same shape as an approval reporting success for a write that never happened.
+            self._set_config_value(key, value)
+            # A live object read its value from config at BUILD time, so a change has to be
+            # pushed for it to take effect now rather than at the next restart.
+            if key == "connectome.max_retries":
+                cb = getattr(self.agent, "circuit_breaker", None)
+                if cb is not None:
+                    cb.max_retries = int(value)
+            if key in ("model.provider", "model.model", "model.base_url"):
+                o = getattr(self.agent, "api_oracle", None)
+                if o is not None:
+                    try:
+                        setattr(o, key.split(".")[1], value)
+                    except Exception:
+                        pass
             applied.append(key)
         self._save_config()
         return {"applied": applied, "refused": refused,
                 "warnings": warnings}
 
-    def _save_config(self) -> None:
+    def _set_config_value(self, key: str, value) -> None:
+        """Write a dotted key into `self.config`, creating the section if it is missing."""
+        parts = str(key).split(".")
+        node = self.config
+        for p in parts[:-1]:
+            nxt = node.get(p)
+            if not isinstance(nxt, dict):
+                nxt = {}
+                node[p] = nxt
+            node = nxt
+        node[parts[-1]] = value
+
+    def _save_config(self) -> bool:
+        """Write the live config to disk, MERGED over whatever the file already holds.
+
+        It returned None and OVERWROTE. A caller could not tell success from failure, and any
+        key the file carried but this process had not loaded was silently destroyed. Merging
+        is the safe direction: a key on disk this process does not know about is somebody
+        else's setting, not stale. Returns True only when the file was written.
+        """
         if self.config_path is None:
-            return
+            return False
+        merged: dict = {}
         try:
-            self.config_path.write_text(
-                json.dumps(self.config, indent=1), encoding="utf-8")
+            if self.config_path.exists():
+                on_disk = json.loads(self.config_path.read_text(encoding="utf-8"))
+                if isinstance(on_disk, dict):
+                    merged = on_disk
+        except (OSError, ValueError):
+            merged = {}
+        merged.update(self.config or {})
+        try:
+            self.config_path.parent.mkdir(parents=True, exist_ok=True)
+            self.config_path.write_text(json.dumps(merged, indent=1), encoding="utf-8")
+            return True
         except OSError as e:
             self.errors.append(f"config save: {e}"[:80])
+            return False
 
     def _pend(self, op: str, path: Path, extra: dict | None = None) -> dict:
         sb = self._sandbox()
@@ -972,6 +1023,18 @@ class ConnectomeHouse:
             return False
 
     def answer_approval(self, data: dict) -> dict:
+        # AN UNSUPPORTED FIELD IS A FAILURE, NOT SOMETHING TO DROP. `index` was accepted and
+        # silently ignored: with no id and no match, the lookup below falls through to "take
+        # the first pending row", so a caller answering by POSITION had its answer applied to
+        # whatever happened to be first in the queue -- and got a success back for it. The
+        # protocol answers by `matches` (the only thing terminal.js sends) or by `id`; a
+        # caller using anything else must be told, not quietly accommodated.
+        _known = {"answer", "decision", "approved", "matches", "id"}
+        _unknown = sorted(k for k in (data or {}) if k not in _known)
+        if _unknown:
+            return {"success": False, "ok": False,
+                    "reason": "unsupported field(s): %s -- approvals are answered by `matches` "
+                              "or `id`, never by position" % ", ".join(_unknown)}
         answer = str(data.get("answer", data.get("decision", "")) or "")
         # `matches` is the older protocol and the better one: the human answers with the
         # NAME of the thing they are approving rather than an index, so an approval cannot
@@ -1806,7 +1869,17 @@ class ConnectomeHouse:
             enabled = bool(data.get("enabled", True))
             try:
                 setattr(organ, "enabled", enabled)
-                return 200, {"success": True, "organ": name, "enabled": enabled}
+                # HONEST ABOUT WHAT THIS DOES. Nothing in the tree CONSULTS `enabled` -- the
+                # only reader is `get_organs_state()`, which renders it as a status label. So
+                # this changes what the panel SAYS and nothing else, and a bare
+                # `success: True` for that is a claim about an effect that does not exist:
+                # the same accepted-and-never-applied shape as the approval and config bugs.
+                # Wiring it to real behaviour is a deliberate change, not a side effect of
+                # fixing a response shape, so it says what it is instead.
+                return 200, {"success": True, "organ": name, "enabled": enabled,
+                             "applies_to": "display only",
+                             "note": "no organ consults `enabled` today, so behaviour is "
+                                     "unchanged -- this only relabels the organ in the panel"}
             except Exception as e:
                 return 200, {"success": False, "reason": str(e)[:120]}
         if path == "/api/research":

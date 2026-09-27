@@ -496,6 +496,44 @@ def test_approval_answers_by_content_not_position(hub):
     assert (tp / "approve_me.txt").read_text(encoding="utf-8") == "1"
     assert agent.sandbox.stats()["grants_consumed"] >= 0
 
+def test_approval_rejects_an_unsupported_field_instead_of_dropping_it(hub):
+    """An unrecognized field must FAIL the request, not be quietly ignored.
+
+    `index` was accepted and silently dropped: with no id and no match the handler fell
+    through to "take the first pending row", so a caller answering by POSITION had its
+    answer applied to whatever happened to be first in the queue -- and got a success back
+    for it. That is the same accepted-and-not-applied shape as the approval and config
+    bugs, and the fix is the same: say so.
+    """
+    house, _, _ = hub
+    st, r = house.route_post("/api/sandbox_answer", {"index": 0, "approved": True})
+    assert st == 200, r
+    assert r.get("ok") is False, r
+    assert "index" in str(r.get("reason")), r
+
+
+def test_organ_toggle_is_honest_that_it_changes_nothing(hub):
+    """The toggle sets a flag nothing consults. It must not report a bare success.
+
+    The only reader of `enabled` anywhere in organs/ or world/ is `get_organs_state()`, which
+    renders it as a status label. So the toggle changes what the panel SAYS and nothing else,
+    and `{success: True}` for that is a claim about an effect that does not exist.
+    """
+    house, agent, _ = hub
+    organ = getattr(agent, "language", None)
+    assert organ is not None
+    before = getattr(organ, "enabled", True)
+    st, r = house.route_post("/api/organ/toggle", {"organ": "language", "enabled": False})
+    assert st == 200, r
+    assert r.get("success") is True, r
+    # the flag is set ...
+    assert getattr(organ, "enabled", True) is False
+    # ... and the response says plainly that nothing consults it.
+    assert r.get("applies_to") == "display only", r
+    assert "consults" in str(r.get("note")).lower() or "behaviour" in str(r.get("note")), r
+    organ.enabled = before
+
+
 def test_api_key_is_never_echoed_back(hub, tmp_path, monkeypatch):
     """api_key in the project config is scrubbed on read; the reported
     presence comes from the user-level store, whose value is shown only as a
