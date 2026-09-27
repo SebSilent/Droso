@@ -146,6 +146,12 @@ def load(split: str | None = None, source: str | None = None) -> list:
             _s.path.insert(0, str(ROOT))
         from tools.make_exercism import load as _ex
         return _ex(split)
+    if source == "codecontests":
+        # The HARD corpus, for the screened pool. Program-shaped tasks: an input string and an
+        # expected output, judged by running the candidate with stdin piped in. See
+        # organs/program_task.py and tools/make_codecontests.py.
+        from tools.make_codecontests import load as _cc
+        return _cc(split)
     p = OUT / "mbpp.jsonl"
     if not p.exists():
         return []

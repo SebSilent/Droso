@@ -42,6 +42,8 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from organs.program_task import encode as encode_program_task   # noqa: E402
+
 OUT = ROOT / "state" / "curriculum"
 LICENCE = "cc-by-4.0 (DeepMind, google-deepmind/code_contests)"
 SENTINEL = "# ---END-CANDIDATE---"
@@ -210,7 +212,7 @@ def build(rows: int = 600, holdout_pct: float = 0.2, cap: int = 4) -> dict:
             admitted.append({
                 "id": tid, "source": "codecontests", "licence": LICENCE,
                 "task": str(p.get("description") or "")[:1200],
-                "check": bridge_check(tests, cap),
+                "check": encode_program_task(tests),
                 "gold": gold, "split": _split(tid, holdout_pct),
                 "challenge": str(p.get("difficulty")),
             })

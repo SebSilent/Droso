@@ -256,6 +256,8 @@ def _pool(name: str) -> list:
     from tools.make_curriculum import load
     if name == "mbpp_all":
         return load("train") + load("holdout")
+    if name == "codecontests":
+        return load("train", "codecontests") + load("holdout", "codecontests")
     if name == "all":
         return (load("train") + load("holdout")
                 + load("train", "exercism") + load("holdout", "exercism"))

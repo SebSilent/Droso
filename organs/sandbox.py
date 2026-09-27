@@ -215,7 +215,8 @@ class Sandbox:
         the command is *useful*, only that it is not forbidden."""
         return self.check_command(command).get("allow", False)
 
-    def execute_command(self, command: str, timeout: float = 30) -> dict:
+    def execute_command(self, command: str, timeout: float = 30,
+                        stdin_text: str | None = None) -> dict:
         v = self.check_command(command)
         if not v.get("allow") and v.get("code") != "approval_required":
             return self._refuse("command", v, command)
@@ -237,10 +238,18 @@ class Sandbox:
             proc = subprocess.Popen(
                 command, shell=True, stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE, text=True,
+                # stdin=PIPE ONLY when there is something to send. `communicate(input=...)`
+                # with no stdin pipe is SILENTLY IGNORED, so the first version of the
+                # program mode ran every candidate against an empty stdin -- and the only
+                # reason that was caught is that the positive control has to pass before
+                # anything else in the mode is allowed to mean anything.
+                stdin=(subprocess.PIPE if stdin_text is not None else None),
                 cwd=str(self.project_root), env=self._child_env(),
                 creationflags=(0x00000200 if os.name == "nt" else 0))
             try:
-                out_s, err_s = proc.communicate(timeout=float(timeout))
+                out_s, err_s = proc.communicate(
+                    input=None if stdin_text is None else str(stdin_text),
+                    timeout=float(timeout))
             except subprocess.TimeoutExpired:
                 killed = self._kill_tree(proc.pid)
                 try:
@@ -331,6 +340,34 @@ class Sandbox:
                 # An experience that cannot be recorded must never fail an
                 # execution. The run is the fact; the memory of it is best-effort.
                 pass
+        return r
+
+    def run_program(self, code: str, stdin_text: str = "", timeout: float = 15,
+                    name: str = "_sandbox_prog.py") -> dict:
+        """Run a candidate as a PROGRAM: stdin piped in, stdout captured.
+
+        THE SAME PATH AS `run_python`, extended by one argument. The write goes through the
+        same gate, the run goes through `execute_command` -- so it inherits the approval
+        check, the environment scrubbing, the journal AND the kill-tree. That last one is the
+        reason this is an extension rather than a second implementation: `_kill_tree` exists
+        because `subprocess.run`'s timeout killed the shell and left the grandchild burning a
+        core, and a second Popen path would have been a second place to get that wrong.
+
+        Like `run_python`, the snippet is EPHEMERAL: written under `_tmp/sandbox/` and
+        reclaimed once the run returns.
+        """
+        target = self.scratch_path(name)
+        tempstore.ensure(self.scratch)
+        w = self.write_file(str(target), str(code or ""), reason="run_program")
+        if not w.get("success"):
+            return {"success": False, "error": w.get("error"), "stage": "write"}
+        try:
+            r = self.execute_command(f'python "{target}"', timeout=timeout,
+                                     stdin_text=stdin_text)
+        finally:
+            self._reclaim(target)
+            tempstore.sweep_if_due(self.temp_root)
+        r["stage"] = "run"
         return r
 
     def read_file(self, path) -> dict:

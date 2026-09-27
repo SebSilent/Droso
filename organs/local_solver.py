@@ -724,6 +724,46 @@ class LocalSolver:
         if not code.strip():
             return False, ""
         sb = getattr(self, "sandbox", None)
+        # PROGRAM-SHAPED TASK: stdin in, stdout out, judged by comparison.
+        #
+        # A program cannot be verified by appending an assertion to it, and not because the
+        # assertion would be written badly: the candidate's module-level code executes FIRST,
+        # so a program that reads stdin hits real, empty stdin and dies before any appended
+        # check gets a turn. Measured, with a positive control failing while both negative
+        # controls passed.
+        #
+        # It returns the SAME kind a function-mode execution pass returns, so the promotion
+        # weights are identical and the harness's branch attribution does not change. One
+        # gate, one set of weights, whichever shape produced the pass.
+        try:
+            from .program_task import decode as _pt_decode, outputs_match as _pt_match
+            _pt_tests = _pt_decode(task)
+        except Exception:
+            _pt_tests = []
+        if _pt_tests:
+            if sb is None or not hasattr(sb, "run_program"):
+                return False, ""
+            self._last_verify_error = ""
+            for _i, (_inp, _exp) in enumerate(_pt_tests):
+                try:
+                    r = sb.run_program(code, stdin_text=_inp,
+                                       timeout=self.verify_timeout,
+                                       name="_verify_prog_%d.py" % _i)
+                except Exception as exc:
+                    self._last_verify_error = "%s: %s" % (type(exc).__name__,
+                                                           str(exc)[:80])
+                    return False, "execution"
+                if not isinstance(r, dict) or \
+                        int(r.get("returncode", 1) or 0) != 0:
+                    self._last_verify_error = str(
+                        (r or {}).get("stderr") or (r or {}).get("error") or "")[-200:]
+                    return False, "execution"
+                if not _pt_match(r.get("stdout"), _exp):
+                    self._last_verify_error = (
+                        "test %d: got %r, expected %r"
+                        % (_i, str(r.get("stdout"))[:70], str(_exp)[:70]))
+                    return False, "execution"
+            return True, "execution"
         if sb is not None and hasattr(sb, "run_python"):
             self._last_verify_error = ""
             # A unique name every time. run_python defaults to one fixed filename,
