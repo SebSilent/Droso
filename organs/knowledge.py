@@ -232,6 +232,20 @@ class KnowledgeChannel:
         self.facts_skipped = 0
         self.refused = 0
         self.call_failures = 0
+        # EVERY WAY A QUESTION CAN DIE GETS ITS OWN COUNTER, and `entered` counts the
+        # call itself before any early return can happen.
+        #
+        # WHY. `ask` returned "no target name in the assertions" WITHOUT incrementing
+        # anything, so a three-arm experiment over 94 tasks reported `asked: 0` -- the same
+        # number the channel produces when it was never called at all. The difference
+        # between "never engaged" and "engaged and could not proceed" had to be recovered
+        # by reading the source. A report that cannot tell those apart will eventually be
+        # read as a plateau, which is exactly what nearly happened here.
+        self.entered = 0
+        self.no_target = 0
+        self.refused_offline = 0
+        self.empty_completion = 0
+        self.unverified = 0
         self.tokens = 0
         self.last: dict | None = None
         # When this channel started. `at` is wall-clock; session-elapsed is what tells a
@@ -335,8 +349,10 @@ class KnowledgeChannel:
     def ask(self, task: str, check: str, failures=None) -> dict:
         """One question, and the task's own assertions as the only judge."""
         t0 = time.time()
+        self.entered += 1
         target = self.target_of(check)
         if not target:
+            self.no_target += 1
             return {"asked": False, "accepted": False,
                     "reason": "no target name in the assertions"}
         # THE CEILING IS PER TASK, AND NOTHING WAS RESETTING IT. Budget.check enforces
@@ -383,6 +399,14 @@ class KnowledgeChannel:
             reason = str(res.get("reason") or "")
             if not reason or (res.get("ok") and not str(res.get("text") or "").strip()):
                 reason = "empty_completion"
+            low = reason.lower()
+            if reason == "empty_completion":
+                self.empty_completion += 1
+            if "offline" in low or "budget" in low or "no_key" in low or "not set" in low:
+                # The oracle was reachable in principle but closed to us: the fence, a spent
+                # budget, or a missing key. Counted apart from a provider that failed,
+                # because those two call for opposite responses.
+                self.refused_offline += 1
             out = {"asked": True, "accepted": False, "call_ok": False,
                    "reason": reason[:120], "attempts": attempts, "hole": _hole,
                    "seconds": round(time.time() - t0, 2)}
@@ -429,6 +453,7 @@ class KnowledgeChannel:
                         % (type(exc).__name__, str(exc)[:80])}
         else:
             self.refused += 1
+            self.unverified += 1
         out = {"asked": True, "accepted": bool(ok), "call_ok": True, "stored": stored,
                "target": target, "code": code, "fact": fact, "hole": _hole,
                "why": (why or "")[:160],
@@ -504,6 +529,14 @@ class KnowledgeChannel:
                 "facts_filed": self.facts_filed, "facts_skipped": self.facts_skipped,
                 "call_failures": self.call_failures, "retries": self.retry_count,
                 "tokens": self.tokens,
+                # `entered` vs `asked` IS the diagnostic: entered-with-asked-0 means the
+                # channel was reached and stopped before it could count a call, and
+                # `no_target` says why. Without these a broken pool and an idle channel
+                # report the same zero.
+                "entered": self.entered, "no_target": self.no_target,
+                "refused_offline": self.refused_offline,
+                "empty_completion": self.empty_completion,
+                "unverified": self.unverified,
                 "accept_rate": (round(self.accepted / self.asked, 3)
                                 if self.asked else None),
                 "provider": getattr(self.oracle, "provider", None),

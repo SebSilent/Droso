@@ -106,6 +106,12 @@ Object.assign(House, {
     House._rSet('har-s2l', hc.system2_local || 0);
     House._rSet('har-s2o', hc.system2_oracle_hole || 0);
     House._rSet('har-uns', hc.unsolved || 0);
+    // THE FACT STORE, BY PROVENANCE. A total alone would hide the only number that shows
+    // compounding -- how many facts the being filed for HIMSELF. A store that is entirely
+    // oracle-supplied has been copied, not grown, and those deserve different words.
+    const fs = h.fact_store || {};
+    House._rSet('har-facts', fs.facts
+      ? fs.facts + ' (' + (fs.self || 0) + ' self)' : null);
     // THE CONVERSION LOG: System 2 taught it, System 1 now answers from the file. Key only --
     // the task sentence is not the unit of knowledge here and would be noise.
     const rec = House.byId('har-recent');

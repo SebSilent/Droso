@@ -1,0 +1,387 @@
+{
+ "tasks": 20,
+ "rows": [
+  {
+   "id": "gen:d2cc4b5f6b",
+   "task": "Write a function to find the cubes of individual elements in",
+   "rederive_s": 4.718,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 1,
+    "loop.candidates": 46,
+    "loop.episodes": 1
+   },
+   "recall_s": 0.557,
+   "recall_branch": "system2_local",
+   "recall_solved": true,
+   "recall_cands": {
+    "loop.attempts_total": 3,
+    "loop.candidates": 46,
+    "loop.episodes": 3
+   },
+   "ratio": 8.47
+  },
+  {
+   "id": "gen:61e74621fa",
+   "task": "Write a python function to find the largest number in a list",
+   "rederive_s": 10.676,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 6,
+    "loop.candidates": 34,
+    "loop.episodes": 4
+   },
+   "recall_s": 0.223,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 47.98
+  },
+  {
+   "id": "gen:c568e5de14",
+   "task": "Write a function to remove all duplicate values from a list ",
+   "rederive_s": 0.513,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 16,
+    "loop.candidates": 37,
+    "loop.episodes": 6
+   },
+   "recall_s": 0.207,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 2.48
+  },
+  {
+   "id": "gen:9b6a418b71",
+   "task": "Write a function to find the volume of a cylinder given its ",
+   "rederive_s": 0.484,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 18,
+    "loop.candidates": 19,
+    "loop.episodes": 8
+   },
+   "recall_s": 0.181,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 2.68
+  },
+  {
+   "id": "gen:91c9c9da2e",
+   "task": "Write a function to convert a given tuple of lowercase lette",
+   "rederive_s": 0.671,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 20,
+    "loop.candidates": 34,
+    "loop.episodes": 10
+   },
+   "recall_s": 0.171,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 3.93
+  },
+  {
+   "id": "gen:3855e9e354",
+   "task": "Write a python function to find the minimum difference betwe",
+   "rederive_s": 10.42,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 26,
+    "loop.candidates": 34,
+    "loop.episodes": 12
+   },
+   "recall_s": 0.196,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 53.12
+  },
+  {
+   "id": "gen:998d563a3b",
+   "task": "Write a python function to determine whether a given integer",
+   "rederive_s": 0.455,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 28,
+    "loop.candidates": 33,
+    "loop.episodes": 14
+   },
+   "recall_s": 0.259,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 1.76
+  },
+  {
+   "id": "gen:f4d1b7ad38",
+   "task": "Write a python function to keep only even numbers from a giv",
+   "rederive_s": 0.502,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 30,
+    "loop.candidates": 41,
+    "loop.episodes": 16
+   },
+   "recall_s": 0.18,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 2.79
+  },
+  {
+   "id": "gen:5a80e1eb67",
+   "task": "Write a python function to find the string with the most vow",
+   "rederive_s": 0.671,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 32,
+    "loop.candidates": 33,
+    "loop.episodes": 18
+   },
+   "recall_s": 0.253,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 2.65
+  },
+  {
+   "id": "gen:292ae6804a",
+   "task": "Write a function to find the elements that appear in both gi",
+   "rederive_s": 0.881,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 34,
+    "loop.candidates": 19,
+    "loop.episodes": 20
+   },
+   "recall_s": 0.181,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 4.87
+  },
+  {
+   "id": "gen:69ac4862d1",
+   "task": "Write a function that returns the area of a rectangle given ",
+   "rederive_s": 0.519,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 36,
+    "loop.candidates": 19,
+    "loop.episodes": 22
+   },
+   "recall_s": 0.197,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 2.64
+  },
+  {
+   "id": "gen:45200195d5",
+   "task": "Write a function to determine whether a given string contain",
+   "rederive_s": 0.647,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 38,
+    "loop.candidates": 33,
+    "loop.episodes": 24
+   },
+   "recall_s": 0.215,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 3.0
+  },
+  {
+   "id": "gen:eab8c8cb1a",
+   "task": "Write a function to check if the given number is a Harshad (",
+   "rederive_s": 1.134,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 40,
+    "loop.candidates": 33,
+    "loop.episodes": 26
+   },
+   "recall_s": 0.58,
+   "recall_branch": "system2_local",
+   "recall_solved": true,
+   "recall_cands": {
+    "loop.attempts_total": 42,
+    "loop.candidates": 33,
+    "loop.episodes": 28
+   },
+   "ratio": 1.95
+  },
+  {
+   "id": "gen:f560a4bde1",
+   "task": "Write a function to find the largest product of the two numb",
+   "rederive_s": 0.733,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 43,
+    "loop.candidates": 36,
+    "loop.episodes": 29
+   },
+   "recall_s": 0.227,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 3.23
+  },
+  {
+   "id": "gen:e0303e8fe8",
+   "task": "Write a function to sort a list of tuples by the first value",
+   "rederive_s": 5.036,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 45,
+    "loop.candidates": 35,
+    "loop.episodes": 31
+   },
+   "recall_s": 0.278,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 18.09
+  },
+  {
+   "id": "gen:b66c8bf017",
+   "task": "Write a python function to count the number of even numbers ",
+   "rederive_s": 8.25,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 48,
+    "loop.candidates": 48,
+    "loop.episodes": 33
+   },
+   "recall_s": 0.246,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 33.6
+  },
+  {
+   "id": "gen:db0685f7e6",
+   "task": "Write a python function to check whether a number is even or",
+   "rederive_s": 0.483,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 51,
+    "loop.candidates": 41,
+    "loop.episodes": 35
+   },
+   "recall_s": 0.234,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 2.06
+  },
+  {
+   "id": "gen:a8a74ac5c6",
+   "task": "Write a function to count how many times each word appears i",
+   "rederive_s": 0.658,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 53,
+    "loop.candidates": 44,
+    "loop.episodes": 37
+   },
+   "recall_s": 0.196,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 3.36
+  },
+  {
+   "id": "gen:13774c3cf5",
+   "task": "Write a function to return the nth character of a given stri",
+   "rederive_s": 5.163,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 55,
+    "loop.candidates": 19,
+    "loop.episodes": 39
+   },
+   "recall_s": 0.264,
+   "recall_branch": "system1_fact",
+   "recall_solved": true,
+   "recall_cands": null,
+   "ratio": 19.54
+  },
+  {
+   "id": "gen:2141db6465",
+   "task": "Write a function to find the elements that appear in every o",
+   "rederive_s": 1.151,
+   "rederive_branch": "system2_local",
+   "rederive_solved": true,
+   "rederive_cands": {
+    "loop.attempts_total": 57,
+    "loop.candidates": 34,
+    "loop.episodes": 41
+   },
+   "recall_s": 1.013,
+   "recall_branch": "system2_local",
+   "recall_solved": true,
+   "recall_cands": {
+    "loop.attempts_total": 59,
+    "loop.candidates": 34,
+    "loop.episodes": 43
+   },
+   "ratio": 1.14
+  }
+ ],
+ "field_probe": [
+  "branch",
+  "candidate",
+  "code",
+  "loop",
+  "seconds",
+  "self_distilled",
+  "solved",
+  "task"
+ ],
+ "summary": {
+  "n": 20,
+  "rederive_median_s": 0.702,
+  "recall_median_s": 0.225,
+  "ratio_median": 3.12,
+  "ratio_min": 1.14,
+  "ratio_max": 53.12,
+  "rederive_median_cands": 35.0,
+  "recall_median_cands": 42,
+  "rederive_max_cands": 57,
+  "branches_rederive": {
+   "system2_local": 20
+  },
+  "branches_recall": {
+   "system2_local": 3,
+   "system1_fact": 17
+  },
+  "solved_rederive": 20,
+  "solved_recall": 20
+ }
+}

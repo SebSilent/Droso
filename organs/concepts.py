@@ -61,9 +61,49 @@ CONCEPTS = (
     ("sum", ("sum", "total", "add up", "adds up", "summation")),
     ("reverse", ("reverse", "reversed", "backward", "backwards")),
     ("sort", ("sort", "sorted", "ascending", "descending", "in order")),
-    ("unique", ("unique", "distinct", "duplicates", "deduplicate")),
+    ("unique", ("unique", "distinct", "duplicate", "duplicates", "deduplicate",
+                "repeated character", "repeated characters", "without repeating")),
     ("power", ("power", "exponent", "raised to the")),
     ("length", ("length",)),
+    # ---------------------------------------------------------------- THE CONCEPT HOLE.
+    # 73 of 168 generated tasks keyed to concept=None (43%), and every one of them was an
+    # operation this table had no phrase for. The tasks named themselves perfectly clearly --
+    # "remove all duplicate values", "perfect square", "even numbers", "the nth character",
+    # "appear in both" -- so the hole was never the oracle's output nor a regex; it was this
+    # vocabulary. An alternating split separates arms BY CONCEPT, so a task with concept=None
+    # cannot be placed by the thing the split is made of.
+    ("cube", ("cube", "cubed", "cubes")),
+    ("even_odd", ("even number", "odd number", "even numbers", "odd numbers",
+                  "even or odd", "evenly divisible", "is even", "is odd", "are even",
+                  "are odd")),
+    ("perfect_square", ("perfect square", "perfect squares")),
+    ("divisible", ("divisible", "divisibility", "multiple of")),
+    ("intersection", ("appear in both", "appear in every", "common elements",
+                      "elements in common", "common to both", "intersection",
+                      "in both given", "both given")),
+    ("join", ("join", "concatenate", "into a single string", "into one string")),
+    ("index", ("nth character", "n-th character", "zero based indexing", "indexing")),
+    ("vowel", ("vowel", "vowels")),
+    ("palindrome", ("palindrome", "palindromic")),
+    ("anagram", ("anagram", "anagrams")),
+    # Second pass, from the 50 that still keyed to None after the first: every one named a
+    # standard operation this table had simply never listed. "n'th Fibonacci number", "the
+    # remainder when one number is divided by another", "split a sentence into a list of its
+    # words", "rotate a list to the right", "the squares of individual elements".
+    ("fibonacci", ("fibonacci",)),
+    ("modulo", ("remainder", "modulo", "modulus", "remainder when")),
+    ("split", ("split", "into a list of its words", "into words", "separable")),
+    ("rotate", ("rotate", "rotation", "rotated", "rotating")),
+    ("square", ("squares", "squared", "square of", "square each")),
+    ("median", ("median",)),
+    ("mode", ("most frequent", "mode of")),
+    ("hcf_lcm", ("least common multiple", "lowest common multiple", "lcm")),
+    ("merge", ("merge", "merged", "merging")),
+    ("slice", ("slice", "sublist", "sub list", "subarray")),
+    ("swap", ("swap", "swapping", "exchanged")),
+    ("zip", ("zip", "pair up", "paired")),
+    ("binary", ("binary", "base 2", "bit")),
+    ("digit", ("digit", "digits", "numeric character")),
 )
 
 # canonical subject -> phrases. The subject is what the fact is ABOUT, and it is the slot
@@ -129,7 +169,16 @@ def _best(table, text: str):
         canonical, phrases = row[0], row[1]
         prio = row[2] if len(row) > 2 else 0
         for phrase in phrases:
-            for form in (phrase, phrase + "s"):
+            # BOTH DIRECTIONS. This tried `phrase` and `phrase + "s"` only, so a table entry
+            # written in the plural never matched the singular in the task: `unique` lists
+            # "duplicates" while the task says "remove all duplicate values", and the task
+            # keyed to concept=None because of one letter. Singularising is tried too now.
+            forms = {phrase, phrase + "s"}
+            if phrase.endswith("s"):
+                forms.add(phrase[:-1])
+            if phrase.endswith("es"):
+                forms.add(phrase[:-2])
+            for form in forms:
                 p = " " + re.sub(r"[^a-z0-9]+", " ", form.strip().lower()).strip() + " "
                 if p in text:
                     key = (prio, len(phrase))

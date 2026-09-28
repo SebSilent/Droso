@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import hashlib
 import json
 import os
@@ -14,6 +15,38 @@ ROOT = Path(__file__).resolve().parents[1]
 USAGE_FILE = ROOT / "exocortex" / "api_usage.json"
 
 OFFLINE_ENV = "HYBRIDLLM_OFFLINE"
+
+
+@contextlib.contextmanager
+def oracle_open():
+    """Scoped, explicit oracle access. The default stays CLOSED.
+
+    WHY A CONTEXT MANAGER RATHER THAN A POP. Three separate failures came from a tool
+    popping `HYBRIDLLM_OFFLINE` and a later step silently re-arming it -- `_loop_agent` calls
+    `os.environ.setdefault`, which undoes a pop made before it. A generator reported
+    `generated: 0`, a probe reported a 15% solve rate, and a knowledge ledger reported
+    `asked: 0`; in each case the tool was correct and the ordering was not.
+
+    A pop is a global edit that any later line can undo. This restores the previous state on
+    exit, so nesting is safe and no tool can leave the fence open by forgetting to close it.
+    """
+    prior = os.environ.pop(OFFLINE_ENV, None)
+    # SET, NOT POPPED -- AND SET TO EMPTY. `os.environ.setdefault("HYBRIDLLM_OFFLINE", "1")`
+    # is how `_loop_agent` arms the fence, and setdefault only acts when the key is ABSENT.
+    # So a plain pop is re-armed by the next local agent built inside this block, which is
+    # exactly what happened: `scale()` opens the fence, then calls `seeds()`, which builds a
+    # tool agent and turns the fence back on -- and every generation call after that came
+    # back `offline_mode` while looking like a failing provider. An empty string keeps the
+    # key PRESENT, so setdefault cannot overwrite it, and is FALSY, so `_env_key` and
+    # `offline` both treat the oracle as open.
+    os.environ[OFFLINE_ENV] = ""
+    try:
+        yield
+    finally:
+        if prior is not None:
+            os.environ[OFFLINE_ENV] = prior
+        else:
+            os.environ.pop(OFFLINE_ENV, None)
 
 class NoAPIKeyError(RuntimeError):
     """Raised instead of fabricating an answer. Subclasses RuntimeError so
@@ -209,9 +242,18 @@ class APIOracle:
             self._spec = dict(PROVIDERS[self.provider])
             self.custom_provider = False
         self.model = model or self._default_model()
-        raw_key = api_key if api_key is not None else self._env_key()
         self.key_placeholder = None
-        self.api_key = self._clean_key(raw_key)
+        # THE KEY IS RESOLVED AT CALL TIME, NOT HERE. `_env_key()` returns None while
+        # HYBRIDLLM_OFFLINE is set, and this used to be read ONCE -- so an oracle built while
+        # the fence was up stayed keyless FOREVER, and popping the fence afterwards changed
+        # nothing. Measured: 20 of 20 probe calls raised NoAPIKeyError from an oracle built one
+        # line after a local agent had armed the fence, while the identical call sequence with
+        # the oracle built first answered normally. A 15% "solve rate" was one line away from
+        # being reported as the oracle's capability. That is the third silent zero from an
+        # ordering dependence on the fence, so the dependence is removed rather than
+        # documented: a live property cannot be left stale by anyone else's earlier step.
+        self._injected = api_key is not None
+        self._injected_key = self._clean_key(api_key) if api_key is not None else None
         self.base_url = base_url or self._default_base()
         self.timeout = float(timeout)
         self.thinking = (thinking or "disabled").lower() \
@@ -278,6 +320,22 @@ class APIOracle:
         if self.provider == "openai":
             return os.environ.get("OPENAI_BASE_URL") or self._spec["base"]
         return self._spec["base"]
+
+    @property
+    def api_key(self):
+        """Resolved on every read. See __init__ for why this is not assigned once.
+
+        An injected key is a deliberate act and is kept; only the environment is re-read.
+        """
+        if self._injected:
+            return self._injected_key
+        return self._clean_key(self._env_key() or "")
+
+    @api_key.setter
+    def api_key(self, value):
+        # Kept so anything that assigns it still works; from now on it means "injected".
+        self._injected = value is not None
+        self._injected_key = self._clean_key(value) if value is not None else None
 
     @property
     def has_key(self) -> bool:
@@ -357,7 +415,11 @@ class APIOracle:
         there is nothing honest to return in that case except an exception, and
         a dict with ok=False is too easy for a caller to read as "try again".
         """
-        self.require_key(f"query purpose={purpose}")
+        # OFFLINE IS REPORTED, NOT RAISED. The order matters: `require_key` runs on the LIVE
+        # key now, and while the fence is up `_env_key()` returns None -- so checking the key
+        # first turns a fenced oracle into NoAPIKeyError, which reads as "misconfigured" and
+        # hides the fact that the fence was the cause. Fenced and keyless are different
+        # conditions and they must not share an error.
         if self.offline:
             self.errors += 1
             self.last_error = "offline_mode"
@@ -366,6 +428,7 @@ class APIOracle:
                     "purpose": purpose,
                     "reason": f"offline_mode: {OFFLINE_ENV} is set, so no "
                               "provider call was made. Inject transport="}
+        self.require_key(f"query purpose={purpose}")
         question, stripped = self._strip_agentic_instructions(question)
         if stripped:
             self.stripped_fragments += len(stripped)

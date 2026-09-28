@@ -1,0 +1,1 @@
+{"name": "exp_selftransfer", "pid": 31856, "started": 1790601747.2, "cmd": ["tools/population_experiment.py", "--pool", "generated_selfdistill", "--multi", "--slice-mode", "alternate", "--screen-mode", "selfdistill"], "log": "C:\\Projects\\HybridLLM\\state\\exp_selftransfer.log"}

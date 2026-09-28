@@ -1,0 +1,39 @@
+{
+ "tasks": 149,
+ "distinct_keys": 51,
+ "multi_member_keys": 27,
+ "sibling_pairs": 433,
+ "sample": 20,
+ "oracle": {
+  "calls": 20,
+  "empty": 0,
+  "accepted": 15,
+  "rejected": 5,
+  "solve_rate": 0.75
+ },
+ "pair_results": {
+  "sibling_tested": 101,
+  "sibling_hits": 0,
+  "control_tested": 154,
+  "control_hits": 0
+ },
+ "accepted_ids": [
+  "cc:1475_D. Cleaning the Phone",
+  "cc:615_A. Bulbs",
+  "cc:691_D. Swaps in Permutation",
+  "cc:1301_B. Motarack's Birthday",
+  "cc:248_A. Cupboards",
+  "cc:5_A. Chat Server's Outgoing Traffic",
+  "cc:1344_A. Hilbert's Hotel",
+  "cc:1230_A. Dawid and Bags of Candies",
+  "cc:268_A. Games",
+  "cc:1191_C. Tokitsukaze and Discard Items",
+  "cc:157_A. Game Outcome",
+  "cc:1189_A. Keanu Reeves",
+  "cc:1236_A. Stones",
+  "cc:938_B. Run For Your Prize",
+  "cc:1443_A. Kids Seating"
+ ],
+ "notes": [],
+ "hit_pairs_sample": []
+}

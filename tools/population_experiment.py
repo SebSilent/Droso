@@ -258,6 +258,23 @@ def _pool(name: str) -> list:
         return load("train") + load("holdout")
     if name == "codecontests":
         return load("train", "codecontests") + load("holdout", "codecontests")
+    if name in ("generated_selfdistill", "generated_screened"):
+        # THE GENERATOR'S POOLS. These are function-shaped and oracle-verified, which is what
+        # makes them usable for fact transfer at all -- the CodeContests probe measured zero
+        # sibling hits out of 101 because program-shaped facts have no shared calling
+        # convention to port.
+        from pathlib import Path
+        import json as _json
+        p = Path(__file__).resolve().parents[1] / "state" / "curriculum" / f"{name}.jsonl"
+        if not p.exists():
+            return []
+        rows = []
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                r = _json.loads(line)
+                r.setdefault("split", "train")
+                rows.append(r)
+        return rows
     if name == "all":
         return (load("train") + load("holdout")
                 + load("train", "exercism") + load("holdout", "exercism"))

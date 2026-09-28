@@ -1,0 +1,491 @@
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+READ-ONLY GUARD: refused LearningLoop.save() -- a tool may READ the being's state and must never WRITE it.
+{
+ "mode": "multi",
+ "pool": "generated_screened",
+ "groups": [
+  "geometry",
+  "number",
+  "string",
+  "collection"
+ ],
+ "screen_mode": "unsolved",
+ "slice_mode": "concept",
+ "survivors": 99,
+ "slice_sizes": {
+  "geometry": 7,
+  "number": 17,
+  "string": 15,
+  "collection": 25
+ },
+ "unkeyed_or_other": 35,
+ "screening": {
+  "input": 99,
+  "solved_already": 0,
+  "survivors": 99,
+  "branches": {
+   "unsolved": 99
+  },
+  "note": "screened with the oracle and the fact store OFF, against the real 60,000-proposition state"
+ },
+ "arms": {
+  "geometry": {
+   "tasks": 7,
+   "facts": 6,
+   "self_facts": 0,
+   "oracle_facts": 5,
+   "fact_keys": [
+    "cube|cube|int",
+    "length|triangle|float",
+    "sort|list|list",
+    "surface_area|cone|float",
+    "surface_area|cylinder|float",
+    "surface_area|rectangle|int"
+   ],
+   "channel": {
+    "asked": 7,
+    "accepted": 7,
+    "refused": 0,
+    "facts_filed": 5,
+    "facts_skipped": 2,
+    "call_failures": 0,
+    "retries": 0,
+    "tokens": 1347,
+    "entered": 7,
+    "no_target": 0,
+    "refused_offline": 0,
+    "empty_completion": 0,
+    "unverified": 0,
+    "accept_rate": 1.0,
+    "provider": "ollama_cloud",
+    "model": "deepseek-v4.1-flash"
+   }
+  },
+  "number": {
+   "tasks": 17,
+   "facts": 13,
+   "self_facts": 0,
+   "oracle_facts": 12,
+   "fact_keys": [
+    "count|integer|int",
+    "digit|number|bool",
+    "divisible|number|bool",
+    "even_odd|number|int",
+    "minimum|number|int",
+    "perfect_square|integer|int",
+    "product|number|int",
+    "sort|list|list",
+    "square|number|int",
+    "sum_of_distinct|number|bool",
+    "sum_of_squares|integer|int",
+    "sum|integer|int",
+    "unique|number|int"
+   ],
+   "channel": {
+    "asked": 17,
+    "accepted": 14,
+    "refused": 3,
+    "facts_filed": 12,
+    "facts_skipped": 2,
+    "call_failures": 0,
+    "retries": 0,
+    "tokens": 3427,
+    "entered": 17,
+    "no_target": 0,
+    "refused_offline": 0,
+    "empty_completion": 0,
+    "unverified": 3,
+    "accept_rate": 0.824,
+    "provider": "ollama_cloud",
+    "model": "deepseek-v4.1-flash"
+   }
+  },
+  "string": {
+   "tasks": 15,
+   "facts": 9,
+   "self_facts": 0,
+   "oracle_facts": 8,
+   "fact_keys": [
+    "count|string|int",
+    "length|string|bool",
+    "length|string|int",
+    "length|string|list",
+    "sort|list|list",
+    "sort|string|list",
+    "split|string|list",
+    "unique|string|bool",
+    "vowel|string|int"
+   ],
+   "channel": {
+    "asked": 12,
+    "accepted": 12,
+    "refused": 0,
+    "facts_filed": 8,
+    "facts_skipped": 4,
+    "call_failures": 0,
+    "retries": 0,
+    "tokens": 2322,
+    "entered": 12,
+    "no_target": 0,
+    "refused_offline": 0,
+    "empty_completion": 0,
+    "unverified": 0,
+    "accept_rate": 1.0,
+    "provider": "ollama_cloud",
+    "model": "deepseek-v4.1-flash"
+   }
+  },
+  "collection": {
+   "tasks": 25,
+   "facts": 17,
+   "self_facts": 0,
+   "oracle_facts": 16,
+   "fact_keys": [
+    "count|dictionary|dict",
+    "count|list|int",
+    "divisible|list|bool",
+    "elementwise_sum|tuple|expr",
+    "even_odd|list|float",
+    "even_odd|list|int",
+    "even_odd|list|list",
+    "maximum|tuple|expr",
+    "maximum|tuple|str",
+    "minimum|list|expr",
+    "minimum|list|int",
+    "minimum|list|list",
+    "product|list|int",
+    "sort|list|bool",
+    "sort|list|int",
+    "sort|list|list",
+    "unique|dictionary|dict"
+   ],
+   "channel": {
+    "asked": 24,
+    "accepted": 21,
+    "refused": 3,
+    "facts_filed": 16,
+    "facts_skipped": 5,
+    "call_failures": 0,
+    "retries": 0,
+    "tokens": 5064,
+    "entered": 24,
+    "no_target": 0,
+    "refused_offline": 0,
+    "empty_completion": 0,
+    "unverified": 3,
+    "accept_rate": 0.875,
+    "provider": "ollama_cloud",
+    "model": "deepseek-v4.1-flash"
+   }
+  }
+ },
+ "disjoint": {
+  "geometry_alone_on_number": 0,
+  "geometry_alone_on_string": 0,
+  "geometry_alone_on_collection": 1,
+  "number_alone_on_geometry": 0,
+  "number_alone_on_string": 0,
+  "number_alone_on_collection": 0,
+  "string_alone_on_geometry": 0,
+  "string_alone_on_number": 0,
+  "string_alone_on_collection": 0,
+  "collection_alone_on_geometry": 0,
+  "collection_alone_on_number": 0,
+  "collection_alone_on_string": 0
+ },
+ "disjoint_max": 1,
+ "merges": {
+  "geometry_on_number": {
+   "n": 17,
+   "control": 0,
+   "merged": 13,
+   "delta": 13,
+   "provenance": {
+    "system1_fact:oracle": 11,
+    "system2_local": 2
+   }
+  },
+  "geometry_on_string": {
+   "n": 15,
+   "control": 0,
+   "merged": 15,
+   "delta": 15,
+   "provenance": {
+    "system1_fact:oracle": 10,
+    "system2_local": 5
+   }
+  },
+  "geometry_on_collection": {
+   "n": 25,
+   "control": 1,
+   "merged": 22,
+   "delta": 21,
+   "provenance": {
+    "system1_fact:oracle": 16,
+    "system2_local": 6
+   }
+  },
+  "number_on_geometry": {
+   "n": 7,
+   "control": 0,
+   "merged": 7,
+   "delta": 7,
+   "provenance": {
+    "system2_local": 2,
+    "system1_fact:oracle": 5
+   }
+  },
+  "number_on_string": {
+   "n": 15,
+   "control": 0,
+   "merged": 15,
+   "delta": 15,
+   "provenance": {
+    "system1_fact:oracle": 10,
+    "system2_local": 5
+   }
+  },
+  "number_on_collection": {
+   "n": 25,
+   "control": 0,
+   "merged": 22,
+   "delta": 22,
+   "provenance": {
+    "system1_fact:oracle": 16,
+    "system2_local": 6
+   }
+  },
+  "string_on_geometry": {
+   "n": 7,
+   "control": 0,
+   "merged": 7,
+   "delta": 7,
+   "provenance": {
+    "system2_local": 2,
+    "system1_fact:oracle": 5
+   }
+  },
+  "string_on_number": {
+   "n": 17,
+   "control": 0,
+   "merged": 13,
+   "delta": 13,
+   "provenance": {
+    "system1_fact:oracle": 11,
+    "system2_local": 2
+   }
+  },
+  "string_on_collection": {
+   "n": 25,
+   "control": 0,
+   "merged": 22,
+   "delta": 22,
+   "provenance": {
+    "system1_fact:oracle": 16,
+    "system2_local": 6
+   }
+  },
+  "collection_on_geometry": {
+   "n": 7,
+   "control": 0,
+   "merged": 7,
+   "delta": 7,
+   "provenance": {
+    "system2_local": 2,
+    "system1_fact:oracle": 5
+   }
+  },
+  "collection_on_number": {
+   "n": 17,
+   "control": 0,
+   "merged": 13,
+   "delta": 13,
+   "provenance": {
+    "system1_fact:oracle": 11,
+    "system2_local": 2
+   }
+  },
+  "collection_on_string": {
+   "n": 15,
+   "control": 0,
+   "merged": 15,
+   "delta": 15,
+   "provenance": {
+    "system1_fact:oracle": 10,
+    "system2_local": 5
+   }
+  }
+ },
+ "marginal": {
+  "geometry": {
+   "n": 7,
+   "curve": [
+    {
+     "lives_giving": 1,
+     "solved": 7,
+     "provenance": {
+      "system2_local": 2,
+      "system1_fact:oracle": 5
+     }
+    },
+    {
+     "lives_giving": 2,
+     "solved": 7,
+     "provenance": {
+      "system2_local": 2,
+      "system1_fact:oracle": 5
+     }
+    },
+    {
+     "lives_giving": 3,
+     "solved": 7,
+     "provenance": {
+      "system2_local": 2,
+      "system1_fact:oracle": 5
+     }
+    }
+   ]
+  },
+  "number": {
+   "n": 17,
+   "curve": [
+    {
+     "lives_giving": 1,
+     "solved": 14,
+     "provenance": {
+      "system1_fact:oracle": 12,
+      "system2_local": 2
+     }
+    },
+    {
+     "lives_giving": 2,
+     "solved": 13,
+     "provenance": {
+      "system1_fact:oracle": 11,
+      "system2_local": 2
+     }
+    },
+    {
+     "lives_giving": 3,
+     "solved": 13,
+     "provenance": {
+      "system1_fact:oracle": 11,
+      "system2_local": 2
+     }
+    }
+   ]
+  },
+  "string": {
+   "n": 15,
+   "curve": [
+    {
+     "lives_giving": 1,
+     "solved": 0,
+     "provenance": {}
+    },
+    {
+     "lives_giving": 2,
+     "solved": 15,
+     "provenance": {
+      "system1_fact:oracle": 10,
+      "system2_local": 5
+     }
+    },
+    {
+     "lives_giving": 3,
+     "solved": 15,
+     "provenance": {
+      "system1_fact:oracle": 10,
+      "system2_local": 5
+     }
+    }
+   ]
+  },
+  "collection": {
+   "n": 25,
+   "curve": [
+    {
+     "lives_giving": 1,
+     "solved": 1,
+     "provenance": {
+      "system2_local": 1
+     }
+    },
+    {
+     "lives_giving": 2,
+     "solved": 1,
+     "provenance": {
+      "system2_local": 1
+     }
+    },
+    {
+     "lives_giving": 3,
+     "solved": 22,
+     "provenance": {
+      "system1_fact:oracle": 16,
+      "system2_local": 6
+     }
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,1 @@
+{"name": "gen_topup", "pid": 32684, "started": 1790602525.9, "cmd": ["tools/make_generated_pool.py", "--scale-self", "100", "--max-attempts", "200"], "log": "C:\\Projects\\HybridLLM\\state\\gen_topup.log"}

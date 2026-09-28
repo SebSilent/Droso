@@ -45,9 +45,19 @@ def cache(tmp_path):
 def stub_oracle(tmp_path):
     return keyed(tmp_path, name="usage.jsonl")
 
-def test_no_key_raises_rather_than_answering(tmp_path):
+def test_no_key_raises_rather_than_answering(tmp_path, monkeypatch):
     """There is no mock mode: `query` has no path that returns text without a
-    model. An exception cannot be mistaken for an answer."""
+    model. An exception cannot be mistaken for an answer.
+
+    THE FENCE IS LIFTED DELIBERATELY. `conftest.py` arms HYBRIDLLM_OFFLINE for the whole
+    session, so this test used to pass because the fence made the oracle keyless -- it was
+    asserting about the fence, not about a missing credential. Now that `query` reports a
+    fenced oracle as `offline_mode` and reserves the exception for a genuinely absent key,
+    the two conditions must be separated or this asserts the wrong one.
+    """
+    monkeypatch.delenv("HYBRIDLLM_OFFLINE", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    monkeypatch.delenv("LLM_API_KEY", raising=False)
     o = APIOracle(api_key=None, usage_path=tmp_path / "usage.jsonl")
     assert o.mode == "blocked" and o.has_key is False
     with pytest.raises(RuntimeError) as e:

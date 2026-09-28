@@ -1,0 +1,1 @@
+{"name": "smoke", "pid": 31120, "started": 1790561372.6, "cmd": ["python", "-c", "import time;time.sleep(40)"], "log": "C:\\Projects\\HybridLLM\\state\\smoke.log"}

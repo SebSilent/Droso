@@ -1,0 +1,45 @@
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+{
+ "attempted": 15,
+ "generated": 10,
+ "duplicate": 0,
+ "verification_failed": 0,
+ "empty": 5,
+ "known": 0,
+ "too_hard": 4,
+ "self_distill": 6,
+ "stopped": "oracle returned 5 empty completions in a row at attempt 15",
+ "oracle_empties_recent": [
+  11,
+  12,
+  13,
+  14,
+  15
+ ],
+ "self_distill_final": 6,
+ "screened_final": 4,
+ "distribution_self_distill": {
+  "histogram": {
+   "None|string|None": 2,
+   "None|cube|None": 1,
+   "maximum|list|int": 1,
+   "None|list|None": 1,
+   "volume|cylinder|float": 1
+  },
+  "distinct_keys": 5,
+  "keys_with_repeats": 1,
+  "max_repeat": 2
+ },
+ "distribution_screened": {
+  "histogram": {
+   "minimum|list|int": 1,
+   "sum|integer|int": 1,
+   "sort|list|list": 1,
+   "maximum|list|mixed": 1
+  },
+  "distinct_keys": 4,
+  "keys_with_repeats": 0,
+  "max_repeat": 1
+ }
+}

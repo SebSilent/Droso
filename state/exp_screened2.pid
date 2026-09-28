@@ -1,0 +1,1 @@
+{"name": "exp_screened2", "pid": 34036, "started": 1790609527.0, "cmd": ["tools/population_experiment.py", "--pool", "generated_screened", "--multi"], "log": "C:\\Projects\\HybridLLM\\state\\exp_screened2.log"}

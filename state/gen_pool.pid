@@ -1,0 +1,1 @@
+{"name": "gen_pool", "pid": 30324, "started": 1790563471.6, "cmd": ["tools/make_generated_pool.py", "--scale", "100", "--max-attempts", "400"], "log": "C:\\Projects\\HybridLLM\\state\\gen_pool.log"}

@@ -239,7 +239,32 @@ class Harness:
                 "branches_seen": sorted(self.counts),
                 # Only conversions onto a SELF-filed fact: one the oracle supplied is
                 # System 1 answering from the oracle's notes, which is a different claim.
-                "conversions": [list(k) for k in self.conversions[-8:]]}
+                "conversions": [list(k) for k in self.conversions[-8:]],
+                "fact_store": self._fact_store_size()}
+
+    def _fact_store_size(self) -> dict:
+        """How much is in the fact store, split by WHO filed it.
+
+        The total alone would hide the only number that shows compounding: how many facts the
+        being filed for himself. A store that is entirely oracle-supplied has been copied, not
+        grown -- and those two states deserve different words in a dashboard.
+        """
+        out = {"facts": 0, "self": 0, "oracle": 0, "unknown": 0}
+        try:
+            binder = getattr(getattr(self, "solver", None), "fact_store", None)
+            facts = getattr(binder, "facts", None)
+            if facts is None and getattr(self, "loop", None) is not None:
+                binder = getattr(getattr(self.loop, "solver", None), "fact_store", None)
+                facts = getattr(binder, "facts", None)
+            if facts is None:
+                return out
+            out["facts"] = len(facts)
+            for v in (getattr(binder, "fact_sources", None) or {}).values():
+                k = str(v or "unknown")
+                out[k] = out.get(k, 0) + 1
+        except Exception:
+            pass
+        return out
 
     def _note_conversion(self, task: str, check: str) -> None:
         """Log a `system2_local -> system1_fact` conversion, key only. Never raises.

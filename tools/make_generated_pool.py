@@ -94,16 +94,37 @@ Reply with JSON only, exactly:
 """
 
 
-def generate(oracle, seed: dict, tries: int = 2) -> dict | None:
-    """One candidate: a task, its assertions, and the oracle's own reference solution."""
+def generate(oracle, seed: dict, tries: int = 2, diag: dict | None = None) -> dict | None:
+    """One candidate: a task, its assertions, and the oracle's own reference solution.
+
+    `diag` collects WHY a call produced nothing. Without it the scale run reported five
+    consecutive `empty`s and stopped, and the reason -- `task_budget_exceeded`, from a missing
+    `start_task()` -- was unrecoverable from the report. A stop signal that cannot say what it
+    saw is a stop signal that will be misread as provider degradation, which is exactly what
+    happened here.
+    """
     prompt = _PROMPT % (seed["task"], seed["check"])
     for attempt in range(tries):
+        # EACH CANDIDATE IS ITS OWN TASK. `Budget.task_spent` accumulates until this clears
+        # it, so without this call every candidate was billed against the first one's 4000
+        # token ceiling -- roughly ten candidates, then a wall of `task_budget_exceeded` that
+        # the clustering guard correctly read as a broken oracle. Same defect as the probe's
+        # (15 of 20 empty) and knowledge.py's (15 of 15 refused).
+        try:
+            oracle.budget.start_task()
+        except Exception:
+            pass
         try:
             res = oracle.query(prompt, max_tokens=700, temperature=0.3,
                                purpose="generated_task", no_reasoning=True)
-        except Exception:
+        except Exception as exc:
+            if diag is not None:
+                diag["reason"] = "%s: %s" % (type(exc).__name__, str(exc)[:70])
             return None
         text = str(res.get("text") or "")
+        if diag is not None:
+            diag["reason"] = str(res.get("reason") or res.get("finish_reason") or
+                                 ("ok" if text else "empty_text"))[:90]
         m = re.search(r"\{.*\}", text, re.S)
         if not m:
             continue
@@ -120,12 +141,20 @@ def generate(oracle, seed: dict, tries: int = 2) -> dict | None:
 
 
 def verify(agent, task: str, check: str, gold: str) -> bool:
-    """The same execution bar as every public corpus: run it, don't assume it."""
+    """The same execution bar as every public corpus: run it, don't assume it.
+
+    THE CHECK MUST BE APPENDED. `_verify_detail(code, task)` runs `code` ALONE -- and when
+    that code merely defines functions and exits 0 it returns (True, "definitional"), so
+    passing the gold by itself reports every solution as correct. Measured with a battery of
+    deliberately wrong solutions: constant, first argument, and `return None` all came back
+    accepted. The first pilot's "verified 10 of 10" was therefore a vacuous zero, and it took
+    a separate battery to notice. The real callers build `code + "\n\n" + check`; so does this.
+    """
     from organs.harness import Harness
     loop = agent.reasoning_loop
     if loop.solver.sandbox is None:
         return False
-    ok, _kind = loop.solver._verify_detail(gold, check)
+    ok, _kind = loop.solver._verify_detail(gold + "\n\n" + str(check), check)
     return bool(ok)
 
 
@@ -203,11 +232,187 @@ def pilot(n: int = 12, seed_limit: int = 40) -> dict:
     return report
 
 
+def _norm(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", str(text).lower())
+
+
+def existing_texts() -> set:
+    """Everything already in a corpus. A generated task must not duplicate one of these."""
+    from tools.make_curriculum import load
+    out = set()
+    for src in ("holdout", "train", "mbpp_all", "codecontests"):
+        try:
+            for r in load(src):
+                out.add(_norm(r.get("task", "")))
+        except Exception:
+            pass
+    return out
+
+
+def distribution(rows) -> dict:
+    """The (concept, subject, shape) histogram.
+
+    An ALTERNATING split needs concepts that RECUR, because a concept seen once has nothing
+    to transfer to; so the count of keys and the count of repeat keys both matter and the
+    histogram has to be reported, not summarised into one number.
+    """
+    from collections import Counter
+    from organs.concepts import extract_key
+    hist = Counter()
+    for r in rows:
+        try:
+            hist[tuple(extract_key(r["task"], r["check"]))] += 1
+        except Exception:
+            hist[("unknown", "unknown", "unknown")] += 1
+    return {"histogram": {"%s|%s|%s" % k: v for k, v in hist.most_common()},
+            "distinct_keys": len(hist),
+            "keys_with_repeats": sum(1 for v in hist.values() if v > 1),
+            "max_repeat": max(hist.values()) if hist else 0}
+
+
+def _load(path: Path) -> list:
+    if not path.exists():
+        return []
+    out = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if line.strip():
+            try:
+                out.append(json.loads(line))
+            except Exception:
+                pass
+    return out
+
+
+def scale(target_self: int = 100, target_screened: int = 100,
+          max_attempts: int = 400, seed_limit: int = 250,
+          append: bool = True) -> dict:
+    """Generate until both buckets are full, watching the oracle for degradation.
+
+    STOPS RATHER THAN PUSHING THROUGH A DEGRADED ORACLE. If empty completions or refusals
+    start clustering, the run ends and says so -- whether to throttle or pay for more quota
+    is a decision for the human, and it is not made here by quietly retrying.
+    """
+    from organs.api_oracle import oracle_open
+    from tools.make_curriculum import load
+    from organs.concepts import extract_key
+
+    with oracle_open():
+        agent = _agent()
+        os.environ.pop("HYBRIDLLM_OFFLINE", None)
+        oracle = getattr(agent, "api_oracle", None)
+        if oracle is None or not getattr(oracle, "has_key", False):
+            return {"error": "no oracle key"}
+        rows = load("holdout") + load("train")
+        sds = seeds(rows, seed_limit)
+        os.environ.pop("HYBRIDLLM_OFFLINE", None)
+        if not sds:
+            return {"error": "no self_distill seeds found"}
+
+        known = existing_texts()
+        seen = set()
+        kept, routed = [], []
+        # APPEND, DO NOT OVERWRITE. `_write` replaces the file wholesale, so a top-up run
+        # would have destroyed the pool while an experiment was reading it. The existing rows
+        # are loaded first, their texts seeded into the duplicate filter, and the union is
+        # written back -- so a top-up adds material and can never remove it.
+        if append:
+            kept = _load(OUT / "generated_selfdistill.jsonl")
+            routed = _load(OUT / "generated_screened.jsonl")
+        for r in kept + routed:
+            seen.add(_norm(r.get("task", "")))
+        rep = {"attempted": 0, "generated": 0, "duplicate": 0,
+               "existing_self_distill": len(kept), "existing_screened": len(routed),
+               "verification_failed": 0, "empty": 0, "known": 0, "too_hard": 0,
+               "self_distill": 0, "stopped": None, "oracle_empties_recent": []}
+        empties = 0
+        i = 0
+        while (len(kept) < target_self or len(routed) < target_screened) \
+                and rep["attempted"] < max_attempts:
+            seed = sds[i % len(sds)]
+            i += 1
+            rep["attempted"] += 1
+            diag: dict = {}
+            cand = generate(oracle, seed, diag=diag)
+            if not cand:
+                rep["empty"] += 1
+                empties += 1
+                rep["oracle_empties_recent"].append(
+                    {"attempt": rep["attempted"], "reason": diag.get("reason")})
+                # CLUSTERING IS THE STOP SIGNAL, and it now carries the reason for each
+                # failure so the report can distinguish a spent budget from a dead provider.
+                if empties >= 5:
+                    rep["stopped"] = ("oracle returned %d empty completions in a row at "
+                                      "attempt %d: %s"
+                                      % (empties, rep["attempted"],
+                                         diag.get("reason")))
+                    break
+                continue
+            empties = 0
+            rep["generated"] += 1
+            key = _norm(cand["task"])
+            if key in known or key in seen:
+                rep["duplicate"] += 1
+                continue
+            if not verify(agent, cand["task"], cand["check"], cand["gold"]):
+                rep["verification_failed"] += 1
+                continue
+            bucket = classify(agent, cand["task"], cand["check"])
+            rec = dict(cand)
+            rec["id"] = "gen:" + hashlib.sha256(cand["task"].encode()).hexdigest()[:10]
+            rec["source"] = "generated"
+            rec["licence"] = LICENCE
+            rec["seed_key"] = seed["key"]
+            rec["bucket"] = bucket
+            rec["split"] = "train"
+            if bucket == "known":
+                rep["known"] += 1
+                continue
+            seen.add(key)
+            if bucket == "self_distill" and len(kept) < target_self:
+                kept.append(rec)
+                rep["self_distill"] += 1
+            elif target_screened and len(routed) < target_screened:
+                routed.append(rec)
+                rep[bucket] = rep.get(bucket, 0) + 1
+            # Write as we go: a run that dies at hour two must not lose hour one.
+            _write(OUT / "generated_selfdistill.jsonl", kept)
+            _write(OUT / "generated_screened.jsonl", routed)
+        rep["self_distill_final"] = len(kept)
+        rep["screened_final"] = len(routed)
+        rep["distribution_self_distill"] = distribution(kept)
+        rep["distribution_screened"] = distribution(routed)
+    return rep
+
+
+def _write(path: Path, rows: list) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("\n".join(json.dumps(r) for r in rows), encoding="utf-8")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--pilot", type=int, default=12)
     ap.add_argument("--seeds", type=int, default=40)
+    ap.add_argument("--scale", type=int, default=0,
+                    help="generate this many of each bucket")
+    ap.add_argument("--scale-self", type=int, default=0,
+                    help="top up ONLY the self_distill bucket to this size, appending")
+    ap.add_argument("--max-attempts", type=int, default=400)
     a = ap.parse_args()
+    if a.scale_self:
+        rep = scale(target_self=a.scale_self, target_screened=0,
+                    max_attempts=a.max_attempts, append=True)
+        Path("state/generator_topup.json").write_text(json.dumps(rep, indent=1),
+                                                      encoding="utf-8")
+        print(json.dumps(rep, indent=1))
+        return 0
+    if a.scale:
+        rep = scale(target_self=a.scale, target_screened=a.scale,
+                    max_attempts=a.max_attempts)
+        Path("state/generator_scale.json").write_text(json.dumps(rep, indent=1),
+                                                     encoding="utf-8")
+        print(json.dumps(rep, indent=1))
+        return 0
     print(json.dumps(pilot(a.pilot, a.seeds), indent=1))
     return 0
 
