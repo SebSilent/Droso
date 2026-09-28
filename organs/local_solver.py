@@ -736,10 +736,12 @@ class LocalSolver:
         # weights are identical and the harness's branch attribution does not change. One
         # gate, one set of weights, whichever shape produced the pass.
         try:
-            from .program_task import decode as _pt_decode, outputs_match as _pt_match
-            _pt_tests = _pt_decode(task)
+            from .program_task import decode_meta as _pt_meta, outputs_match as _pt_match
+            _pt_meta_d = _pt_meta(task)
+            _pt_tests = _pt_meta_d["tests"]
+            _pt_strict = bool(_pt_meta_d.get("strict"))
         except Exception:
-            _pt_tests = []
+            _pt_tests, _pt_strict = [], False
         if _pt_tests:
             if sb is None or not hasattr(sb, "run_program"):
                 return False, ""
@@ -758,7 +760,7 @@ class LocalSolver:
                     self._last_verify_error = str(
                         (r or {}).get("stderr") or (r or {}).get("error") or "")[-200:]
                     return False, "execution"
-                if not _pt_match(r.get("stdout"), _exp):
+                if not _pt_match(r.get("stdout"), _exp, _pt_strict):
                     self._last_verify_error = (
                         "test %d: got %r, expected %r"
                         % (_i, str(r.get("stdout"))[:70], str(_exp)[:70]))

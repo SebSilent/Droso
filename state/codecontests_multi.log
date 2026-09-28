@@ -1,0 +1,199 @@
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+{
+ "mode": "multi",
+ "pool": "codecontests",
+ "groups": [
+  "geometry",
+  "number",
+  "string"
+ ],
+ "screen_mode": "unsolved",
+ "slice_mode": "concept",
+ "survivors": 149,
+ "slice_sizes": {
+  "geometry": 5,
+  "number": 69,
+  "string": 20
+ },
+ "unkeyed_or_other": 55,
+ "screening": {
+  "input": 149,
+  "solved_already": 0,
+  "survivors": 149,
+  "branches": {
+   "unsolved": 149
+  },
+  "note": "screened with the oracle and the fact store OFF, against the real 60,000-proposition state"
+ },
+ "arms": {
+  "geometry": {
+   "tasks": 5,
+   "facts": 1,
+   "self_facts": 0,
+   "oracle_facts": 0,
+   "fact_keys": [
+    "sort|list|list"
+   ],
+   "channel": {
+    "asked": 0,
+    "accepted": 0,
+    "refused": 0,
+    "facts_filed": 0,
+    "facts_skipped": 0,
+    "call_failures": 0,
+    "retries": 0,
+    "tokens": 0,
+    "accept_rate": null,
+    "provider": "ollama_cloud",
+    "model": "deepseek-v4.1-flash"
+   }
+  },
+  "number": {
+   "tasks": 69,
+   "facts": 1,
+   "self_facts": 0,
+   "oracle_facts": 0,
+   "fact_keys": [
+    "sort|list|list"
+   ],
+   "channel": {
+    "asked": 0,
+    "accepted": 0,
+    "refused": 0,
+    "facts_filed": 0,
+    "facts_skipped": 0,
+    "call_failures": 0,
+    "retries": 0,
+    "tokens": 0,
+    "accept_rate": null,
+    "provider": "ollama_cloud",
+    "model": "deepseek-v4.1-flash"
+   }
+  },
+  "string": {
+   "tasks": 20,
+   "facts": 1,
+   "self_facts": 0,
+   "oracle_facts": 0,
+   "fact_keys": [
+    "sort|list|list"
+   ],
+   "channel": {
+    "asked": 0,
+    "accepted": 0,
+    "refused": 0,
+    "facts_filed": 0,
+    "facts_skipped": 0,
+    "call_failures": 0,
+    "retries": 0,
+    "tokens": 0,
+    "accept_rate": null,
+    "provider": "ollama_cloud",
+    "model": "deepseek-v4.1-flash"
+   }
+  }
+ },
+ "disjoint": {
+  "geometry_alone_on_number": 0,
+  "geometry_alone_on_string": 0,
+  "number_alone_on_geometry": 0,
+  "number_alone_on_string": 0,
+  "string_alone_on_geometry": 0,
+  "string_alone_on_number": 0
+ },
+ "disjoint_max": 0,
+ "merges": {
+  "geometry_on_number": {
+   "n": 69,
+   "control": 0,
+   "merged": 0,
+   "delta": 0,
+   "provenance": {}
+  },
+  "geometry_on_string": {
+   "n": 20,
+   "control": 0,
+   "merged": 0,
+   "delta": 0,
+   "provenance": {}
+  },
+  "number_on_geometry": {
+   "n": 5,
+   "control": 0,
+   "merged": 0,
+   "delta": 0,
+   "provenance": {}
+  },
+  "number_on_string": {
+   "n": 20,
+   "control": 0,
+   "merged": 0,
+   "delta": 0,
+   "provenance": {}
+  },
+  "string_on_geometry": {
+   "n": 5,
+   "control": 0,
+   "merged": 0,
+   "delta": 0,
+   "provenance": {}
+  },
+  "string_on_number": {
+   "n": 69,
+   "control": 0,
+   "merged": 0,
+   "delta": 0,
+   "provenance": {}
+  }
+ },
+ "marginal": {
+  "geometry": {
+   "n": 5,
+   "curve": [
+    {
+     "lives_giving": 1,
+     "solved": 0,
+     "provenance": {}
+    },
+    {
+     "lives_giving": 2,
+     "solved": 0,
+     "provenance": {}
+    }
+   ]
+  },
+  "number": {
+   "n": 69,
+   "curve": [
+    {
+     "lives_giving": 1,
+     "solved": 0,
+     "provenance": {}
+    },
+    {
+     "lives_giving": 2,
+     "solved": 0,
+     "provenance": {}
+    }
+   ]
+  },
+  "string": {
+   "n": 20,
+   "curve": [
+    {
+     "lives_giving": 1,
+     "solved": 0,
+     "provenance": {}
+    },
+    {
+     "lives_giving": 2,
+     "solved": 0,
+     "provenance": {}
+    }
+   ]
+  }
+ }
+}

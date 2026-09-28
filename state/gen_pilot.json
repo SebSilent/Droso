@@ -1,0 +1,65 @@
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+{
+ "seeds_found": 40,
+ "attempted": 10,
+ "generated": 10,
+ "verification_failed": 0,
+ "known": 0,
+ "too_hard": 5,
+ "self_distill": 5,
+ "seed_keys": [
+  [
+   null,
+   "list",
+   null
+  ],
+  [
+   "minimum",
+   "list",
+   "int"
+  ],
+  [
+   null,
+   "list",
+   null
+  ],
+  [
+   "sort",
+   "list",
+   "list"
+  ],
+  [
+   "surface_area",
+   "sphere",
+   "float"
+  ],
+  [
+   "length",
+   null,
+   null
+  ],
+  [
+   "power",
+   null,
+   null
+  ],
+  [
+   null,
+   "tuple",
+   null
+  ],
+  [
+   "sort",
+   "list",
+   "list"
+  ],
+  [
+   "maximum",
+   "list",
+   "int"
+  ]
+ ],
+ "self_distill_path": "C:\\Projects\\HybridLLM\\state\\curriculum\\generated_selfdistill.jsonl",
+ "screened_path": "C:\\Projects\\HybridLLM\\state\\curriculum\\generated_screened.jsonl"
+}
