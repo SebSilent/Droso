@@ -1,0 +1,163 @@
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+{
+ "attempted": 112,
+ "generated": 109,
+ "duplicate": 0,
+ "verification_failed": 52,
+ "empty": 3,
+ "reasons": {
+  "unparseable json": 2,
+  "no json object": 1
+ },
+ "admitted": 57,
+ "weak": 0,
+ "band": {
+  "by_candidates_only": {
+   "n": 54,
+   "distinct_concepts": 13,
+   "concepts_recurring": 11,
+   "histogram": {
+    "unique": 10,
+    "intersection": 6,
+    "count": 6,
+    "join": 6,
+    "digit": 6,
+    "even_odd": 4,
+    "sort": 4,
+    "maximum": 3,
+    "frequency": 3,
+    "minimum": 2,
+    "sum": 2,
+    "reverse": 1,
+    "vowel": 1
+   }
+  },
+  "by_time_only": {
+   "n": 52,
+   "distinct_concepts": 13,
+   "concepts_recurring": 11,
+   "histogram": {
+    "unique": 10,
+    "intersection": 6,
+    "count": 6,
+    "digit": 6,
+    "even_odd": 4,
+    "sort": 4,
+    "join": 4,
+    "maximum": 3,
+    "frequency": 3,
+    "minimum": 2,
+    "sum": 2,
+    "reverse": 1,
+    "vowel": 1
+   }
+  },
+  "by_both": {
+   "n": 52,
+   "distinct_concepts": 13,
+   "concepts_recurring": 11,
+   "histogram": {
+    "unique": 10,
+    "intersection": 6,
+    "count": 6,
+    "digit": 6,
+    "even_odd": 4,
+    "sort": 4,
+    "join": 4,
+    "maximum": 3,
+    "frequency": 3,
+    "minimum": 2,
+    "sum": 2,
+    "reverse": 1,
+    "vowel": 1
+   }
+  },
+  "by_either": {
+   "n": 54,
+   "distinct_concepts": 13,
+   "concepts_recurring": 11,
+   "histogram": {
+    "unique": 10,
+    "intersection": 6,
+    "count": 6,
+    "join": 6,
+    "digit": 6,
+    "even_odd": 4,
+    "sort": 4,
+    "maximum": 3,
+    "frequency": 3,
+    "minimum": 2,
+    "sum": 2,
+    "reverse": 1,
+    "vowel": 1
+   }
+  },
+  "cand_only_not_time": [
+   "Write a function merge_intervals(items) that takes",
+   "Write a function `merge_intervals(intervals)` that"
+  ],
+  "time_only_not_cand": []
+ },
+ "rederive_median_s": 6.239,
+ "band_added": 54,
+ "band_pool_size": 54
+}
+
+per task:
+   even_odd       cands=  14  16.43s  Write a function even_odd(nums) that returns a new list in which
+   even_odd       cands=  14  14.00s  Write a function even_odd(nums) that returns a new list where ev
+   even_odd       cands=  14  14.80s  Write a function even_odd that takes a list of integers and retu
+   even_odd       cands=  14   7.85s  Write a function even_odd(lst) that returns a new list where eac
+   unique         cands=   5   5.69s  Write a function `stable_unique_sorted(lst)` that returns a new 
+   unique         cands=  14  11.30s  Write a function unique_ordered_pairs(nums) that returns a new l
+   unique         cands=  14  10.58s  Write a function merge_intervals(intervals) that takes a list of
+   unique         cands=  14   5.77s  Write a function `unique_preserving_order` that, given a list, r
+   unique         cands=  14   7.66s  Write a function unique_ordered(lst) that returns a new list con
+   unique         cands=  14   6.24s  Write a function `unique_ordered_pairs(lst)` that returns, in or
+   unique         cands=   6   3.31s  Write a function `unique_preserving_order(lst)` that returns a n
+   sort           cands=  14   7.70s  Write a function sort_intervals(intervals) that takes a list of 
+   sort           cands=  14   4.25s  Write a function `merge_intervals(intervals)` that takes a list 
+   sort           cands=  14  13.42s  Write a function that takes a list of integers and a target inte
+   sort           cands=  14   4.28s  Write a function merge_intervals(lst) that takes a list of inter
+   intersection   cands=  14   9.31s  Write a function `list_intersection(lists)` that takes a list of
+   intersection   cands=  14   7.96s  Write a function `intersect_ranges(a, b)` that takes two lists o
+   intersection   cands=  14   5.28s  Write a function intersection(list1, list2) that returns the mul
+   intersection   cands=   5   3.13s  Write a function list_intersection(a, b) that returns a new list
+   intersection   cands=  14   5.94s  Write a function `common_prefixes(lists)` that takes a list of l
+   intersection   cands=  14   7.24s  Write a function intersection(a, b) that returns a list of the d
+   minimum        cands=  14   8.58s  Write a function min_gap(nums) that, given a list of at least tw
+   minimum        cands=  14   5.08s  Write a function min_second_smallest_positive(lst) that returns 
+   maximum        cands=  14   7.83s  Write a function max_gap_indices(nums) that returns a tuple (i, 
+   maximum        cands=  14   8.06s  Given a list of integers, find the largest value that appears at
+   maximum        cands=  14   6.73s  Write a function max_in_windows(nums, k) that returns a list whe
+   count          cands=  14   8.70s  Write a function count_between(s, lo, hi) that returns the numbe
+   count          cands=  14   9.02s  Write a function max_nonoverlapping that takes a string s and a 
+   count          cands=  14   6.22s  Write a function count(s) that returns the number of times the s
+   count          cands=  14   7.07s  Write a function `count_runs(s)` that returns the number of maxi
+   count          cands=  14   8.57s  Write a function count_pattern(s, p) that returns the number of 
+   count          cands=  14   7.38s  Write a function count_freq(s, ch) that returns how many times t
+   frequency      cands=  14   6.11s  Write a function `frequency(items)` that returns a dict mapping 
+   frequency      cands=  14   6.22s  Given a dictionary whose keys are arbitrary hashable values and 
+   frequency      cands=  14   6.39s  Write a function `freq_partition(numbers, k)` that returns a dic
+   sum            cands=  14   6.82s  Write a function max_sum_two_intervals(nums) that returns the ma
+   sum            cands=  14   5.69s  Write a function max_sum_of_two_non_overlapping_sublists(nums) t
+   reverse        cands=   1   2.00s  Write a function `reverse_words(s)` that reverses the order of t
+   reverse        cands=   1   0.32s  Write a function reverse_words(s) that reverses the order of the
+   reverse        cands=  14  11.91s  Write a function `reverse_words_and_swap_case(s)` that reverses 
+   reverse        cands=   1   0.32s  Write a function reverse_vowels_preserving_case that, given a st
+   unique         cands=  14   5.23s  Write a function `longest_unique_run(s)` that returns the longes
+   unique         cands=  14   5.12s  Write a function `unique_runs(s)` that returns the string formed
+   unique         cands=  14   6.23s  Write a function unique_chars(s) that returns a new string conta
+   vowel          cands=  14   5.49s  Write a function vowel(s) that returns True if s contains at lea
+   join           cands=  14   2.61s  Write a function merge_intervals(items) that takes a list of (st
+   join           cands=  14   2.73s  Write a function `merge_intervals(intervals)` that takes a list 
+   join           cands=  14   4.33s  Write a function join_ranges(intervals) that takes a list of int
+   join           cands=  14   8.64s  Write a function join_parts(parts, sep) that joins the strings i
+   join           cands=  14   3.66s  Write a function `merge_intervals(intervals)` that takes a list 
+   join           cands=  14   7.48s  Write a function `join_runs(s, sep)` that splits `s` into maxima
+   digit          cands=  14   7.75s  Write a function digit(n, i) that returns the i-th digit of the 
+   digit          cands=  14   8.03s  Write a function digit_at(number, position) that returns the dig
+   digit          cands=  14   4.21s  Write a function digit(number, position) that returns the digit 
+   digit          cands=  14   5.25s  Write a function digit(n, k) that returns the k-th digit (1-inde
+   digit          cands=  14   5.14s  Write a function digit(number, index) that, treating the decimal
+   digit          cands=  14   4.57s  Write a function digit(number, k) that returns the k-th digit of

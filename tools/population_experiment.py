@@ -258,7 +258,7 @@ def _pool(name: str) -> list:
         return load("train") + load("holdout")
     if name == "codecontests":
         return load("train", "codecontests") + load("holdout", "codecontests")
-    if name in ("generated_selfdistill", "generated_screened"):
+    if name in ("generated_selfdistill", "generated_screened", "generated_band"):
         # THE GENERATOR'S POOLS. These are function-shaped and oracle-verified, which is what
         # makes them usable for fact transfer at all -- the CodeContests probe measured zero
         # sibling hits out of 101 because program-shaped facts have no shared calling
@@ -281,6 +281,58 @@ def _pool(name: str) -> list:
     return load("holdout")
 
 
+class MergeCollision(RuntimeError):
+    """Two lives filed DIFFERENT procedures under the same store signature.
+
+    MEASURED, NOT HYPOTHETICAL. The number slice's 1L->2L drop was one task whose fact ref,
+    'divisible find number python whether', resolved to 51 characters of code at one life and
+    42 at two. The 51-character procedure passed the task's own assertions; the 42-character
+    one did not. `dict.update` let the later life's procedure win silently, the fact's
+    reference never changed, and the task went from solved to UNSOLVED because MORE knowledge
+    was merged in. An earlier search for this measured collisions on `signature(task_text)`
+    and found none -- the real store key comes from whatever text `learn_from_task` was
+    called with, so the proxy was looking in the wrong place while the bug was in plain sight.
+    """
+
+
+LAST_MERGE_COLLISIONS: list = []
+
+
+def merge_stores(arms: dict, givers, strict: bool = False):
+    """Union the lives' learning stores, KEEPING THE FIRST procedure on a collision.
+
+    THE POLICY IS DELIBERATE. A fact's value is a store key, so overwriting that key changes
+    what an already-filed fact RESOLVES TO without changing the fact. That is how a merge
+    removed a solve. Refusing the overwrite keeps every existing reference meaning what it
+    meant when it was filed; the collision is then recorded rather than swallowed, because a
+    silent choice is what this whole defect was.
+
+    The complete fix is to namespace store keys per life, so two lives can never share one.
+    That is a larger change than a guard and is NOT made here -- the guard is here so the
+    condition is loud until that decision is taken.
+    """
+    st: dict = {}
+    owner: dict = {}
+    collisions: list = []
+    for g in givers:
+        for k, v in (arms[g]["store"] or {}).items():
+            if k in st and st[k] != v:
+                collisions.append({"key": k, "kept_from": owner.get(k), "dropped_from": g})
+                if strict:
+                    raise MergeCollision(
+                        "two lives filed different code under store key %r (%s vs %s)"
+                        % (k, owner.get(k), g))
+                continue
+            st[k] = v
+            owner.setdefault(k, g)
+    if collisions:
+        LAST_MERGE_COLLISIONS.extend(collisions)
+        print("MERGE COLLISION: %d store key(s) filed by more than one life with differing "
+              "code; kept the first, dropped the rest -- %s"
+              % (len(collisions), [c["key"] for c in collisions[:4]]))
+    return st, collisions
+
+
 def merge_arms(arms: dict, givers) -> tuple:
     """Pool several lives' knowledge into one: facts, sources, AND learning stores.
 
@@ -296,7 +348,11 @@ def merge_arms(arms: dict, givers) -> tuple:
     for g in givers:
         f.update(arms[g]["facts"])
         s.update(arms[g]["fact_sources"])
-        st.update(arms[g]["store"])
+    # THE STORE IS THE ONE THAT MATTERS. Facts and sources are keyed by (concept, subject,
+    # shape) which is narrow and does not collide; the STORE is keyed by a signature of the
+    # text a procedure was learned from, and two lives can land on the same signature with
+    # different code. That is the collision that cost a solve.
+    st, _cols = merge_stores(arms, givers)
     return f, s, st
 
 
@@ -437,17 +493,41 @@ def run_multi(limit: int | None = None, pool: str = "holdout", screen: bool = Tr
         if rpair is None:
             continue
         recv_g, receiver = rpair
-        curve, acc_f, acc_s, acc_st = [], {}, {}, {}
-        # The receiver's OWN facts are excluded so the curve measures what OTHER lives add.
-        for g in _others(recv_g):
-            acc_f.update(arms[g]["facts"])
-            acc_s.update(arms[g]["fact_sources"])
-            acc_st.update(arms[g]["store"])
-            r = _eval_no_oracle(receiver, slices[h], extra_facts=dict(acc_f),
-                                extra_sources=dict(acc_s), store=dict(acc_st))
-            curve.append({"lives_giving": len(curve) + 1, "solved": r["solved"],
-                          "provenance": r.get("provenance")})
-        marginal[h] = {"n": len(slices[h]), "curve": curve}
+        # WHAT THIS CURVE MEANS IS NOW STATED, NOT IMPLIED.
+        #
+        # KEEP-OWN IS THE HEADLINE. The project's thesis is lives merging what they learned
+        # into one, ADDITIVELY -- not lives being stripped down to only what was handed to
+        # them. From-empty is kept as a labelled secondary because it answers a different,
+        # narrower question: how much does a specific life's knowledge contribute ALONE.
+        # Both were computed on the existing data and agreed on the anomaly, so nothing is
+        # re-run for this; it is a reporting change.
+        def _build(start_from_own: bool) -> list:
+            acc_f, acc_s, acc_st = {}, {}, {}
+            if start_from_own:
+                acc_f.update(receiver["facts"])
+                acc_s.update(receiver["fact_sources"])
+                acc_st.update(receiver["store"])
+            out_curve = []
+            for g in _others(recv_g):
+                acc_f.update(arms[g]["facts"])
+                acc_s.update(arms[g]["fact_sources"])
+                # THE GUARD GOES HERE TOO -- this accumulator is exactly where the drop was
+                # seen. Merging the running store with `g`'s keeps the first writer on a
+                # collision instead of letting the last life silently win.
+                _st, _cols = merge_stores({"prev": {"store": acc_st}, g: arms[g]},
+                                          ["prev", g])
+                acc_st = _st
+                r = _eval_no_oracle(receiver, slices[h], extra_facts=dict(acc_f),
+                                    extra_sources=dict(acc_s), store=dict(acc_st))
+                out_curve.append({"lives_giving": len(out_curve) + 1,
+                                  "solved": r["solved"],
+                                  "provenance": r.get("provenance")})
+            return out_curve
+
+        marginal[h] = {"n": len(slices[h]),
+                       "semantics": "keep_own",
+                       "curve": _build(True),
+                       "curve_from_empty": _build(False)}
     out["marginal"] = marginal
     return out
 
@@ -485,7 +565,12 @@ def run(limit: int | None = None, screen: bool = True, pool: str = "holdout",
     merged_facts = dict(arm_a["facts"])
     merged_facts.update(arm_b["facts"])
     merged_store = dict(arm_a["store"])
-    merged_store.update(arm_b["store"])
+    # SAME GUARD ON THE PAIRWISE PATH. All three merge paths now refuse the overwrite, so a
+    # fact's reference cannot silently start resolving to a different life's procedure.
+    _cols_before = len(LAST_MERGE_COLLISIONS)
+    merged_store, _pair_cols = merge_stores(
+        {"a": {"store": merged_store}, "b": {"store": arm_b["store"]}}, ["a", "b"])
+    out["store_collisions"] = _pair_cols
     a_merged_on_b = _eval_no_oracle(arm_a, B, extra_facts=merged_facts,
                                     store=merged_store)
 

@@ -1,0 +1,1 @@
+{"name": "exp_selftransfer_band", "pid": 30228, "started": 1790657566.5, "cmd": ["tools/population_experiment.py", "--pool", "generated_band", "--multi", "--slice-mode", "alternate", "--screen-mode", "selfdistill"], "log": "C:\\Projects\\HybridLLM\\state\\exp_selftransfer_band.log"}

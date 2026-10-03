@@ -1,0 +1,1277 @@
+{
+ "target_slice": "number",
+ "receiver_arm": "geometry",
+ "n": 17,
+ "arm_sizes": {
+  "geometry": 7,
+  "number": 17,
+  "string": 15,
+  "collection": 25
+ },
+ "from_empty": [
+  {
+   "lives_giving": 1,
+   "solved": 16,
+   "map": {
+    "gen:ae2837ffd4": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first integer positive",
+      "ref_in_store": true,
+      "code_len": 60
+     }
+    },
+    "gen:66125d3fd3": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "concatenat digit find form given number ",
+      "ref_in_store": true,
+      "code_len": 111
+     }
+    },
+    "gen:1d99d0f3f4": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:ca7d4a9c1d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisible find number python whether",
+      "ref_in_store": true,
+      "code_len": 51
+     }
+    },
+    "gen:3622d0c21a": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "center find number square",
+      "ref_in_store": true,
+      "code_len": 76
+     }
+    },
+    "gen:29fbc12b10": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "alternate between check decreas digit gi",
+      "ref_in_store": true,
+      "code_len": 279
+     }
+    },
+    "gen:9e0feb9404": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "count given integer less many number pri",
+      "ref_in_store": true,
+      "code_len": 281
+     }
+    },
+    "gen:3827142533": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find given integer multiple perfect posi",
+      "ref_in_store": true,
+      "code_len": 177
+     }
+    },
+    "gen:0089727eb1": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "check distinct given number power python",
+      "ref_in_store": true,
+      "code_len": 182
+     }
+    },
+    "gen:064bf96a47": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first given instance number wh",
+      "ref_in_store": true,
+      "code_len": 49
+     }
+    },
+    "gen:02e7eda3ba": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "choose collection count distinct item nu",
+      "ref_in_store": true,
+      "code_len": 67
+     }
+    },
+    "gen:cdc6b8b70d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "first integer positive return square tak",
+      "ref_in_store": true,
+      "code_len": 87
+     }
+    },
+    "gen:63610a4ba7": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "adjacent board count dominoe number such",
+      "ref_in_store": true,
+      "code_len": 330
+     }
+    },
+    "gen:1c08045745": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisor less number product proper retur",
+      "ref_in_store": true,
+      "code_len": 130
+     }
+    },
+    "gen:5d1edc8937": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find minimum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:617bc40e0c": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find largest number three",
+      "ref_in_store": true,
+      "code_len": 58
+     }
+    },
+    "gen:da036a5c57": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find maximum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    }
+   }
+  },
+  {
+   "lives_giving": 2,
+   "solved": 15,
+   "map": {
+    "gen:ae2837ffd4": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first integer positive",
+      "ref_in_store": true,
+      "code_len": 60
+     }
+    },
+    "gen:66125d3fd3": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "concatenat digit find form given number ",
+      "ref_in_store": true,
+      "code_len": 111
+     }
+    },
+    "gen:1d99d0f3f4": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:ca7d4a9c1d": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisible find number python whether",
+      "ref_in_store": true,
+      "code_len": 42
+     }
+    },
+    "gen:3622d0c21a": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "center find number square",
+      "ref_in_store": true,
+      "code_len": 76
+     }
+    },
+    "gen:29fbc12b10": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "alternate between check decreas digit gi",
+      "ref_in_store": true,
+      "code_len": 279
+     }
+    },
+    "gen:9e0feb9404": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "count given integer less many number pri",
+      "ref_in_store": true,
+      "code_len": 281
+     }
+    },
+    "gen:3827142533": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find given integer multiple perfect posi",
+      "ref_in_store": true,
+      "code_len": 177
+     }
+    },
+    "gen:0089727eb1": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "check distinct given number power python",
+      "ref_in_store": true,
+      "code_len": 182
+     }
+    },
+    "gen:064bf96a47": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first given instance number wh",
+      "ref_in_store": true,
+      "code_len": 49
+     }
+    },
+    "gen:02e7eda3ba": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "choose collection count distinct item nu",
+      "ref_in_store": true,
+      "code_len": 67
+     }
+    },
+    "gen:cdc6b8b70d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "first integer positive return square tak",
+      "ref_in_store": true,
+      "code_len": 87
+     }
+    },
+    "gen:63610a4ba7": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "adjacent board count dominoe number such",
+      "ref_in_store": true,
+      "code_len": 330
+     }
+    },
+    "gen:1c08045745": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisor less number product proper retur",
+      "ref_in_store": true,
+      "code_len": 130
+     }
+    },
+    "gen:5d1edc8937": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find minimum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:617bc40e0c": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find largest number three",
+      "ref_in_store": true,
+      "code_len": 58
+     }
+    },
+    "gen:da036a5c57": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find maximum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    }
+   }
+  },
+  {
+   "lives_giving": 3,
+   "solved": 15,
+   "map": {
+    "gen:ae2837ffd4": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first integer positive",
+      "ref_in_store": true,
+      "code_len": 60
+     }
+    },
+    "gen:66125d3fd3": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "concatenat digit find form given number ",
+      "ref_in_store": true,
+      "code_len": 111
+     }
+    },
+    "gen:1d99d0f3f4": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:ca7d4a9c1d": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisible find number python whether",
+      "ref_in_store": true,
+      "code_len": 42
+     }
+    },
+    "gen:3622d0c21a": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "center find number square",
+      "ref_in_store": true,
+      "code_len": 76
+     }
+    },
+    "gen:29fbc12b10": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "alternate between check decreas digit gi",
+      "ref_in_store": true,
+      "code_len": 279
+     }
+    },
+    "gen:9e0feb9404": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "count given integer less many number pri",
+      "ref_in_store": true,
+      "code_len": 281
+     }
+    },
+    "gen:3827142533": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find given integer multiple perfect posi",
+      "ref_in_store": true,
+      "code_len": 177
+     }
+    },
+    "gen:0089727eb1": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "check distinct given number power python",
+      "ref_in_store": true,
+      "code_len": 182
+     }
+    },
+    "gen:064bf96a47": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first given instance number wh",
+      "ref_in_store": true,
+      "code_len": 49
+     }
+    },
+    "gen:02e7eda3ba": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "choose collection count distinct item nu",
+      "ref_in_store": true,
+      "code_len": 67
+     }
+    },
+    "gen:cdc6b8b70d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "first integer positive return square tak",
+      "ref_in_store": true,
+      "code_len": 87
+     }
+    },
+    "gen:63610a4ba7": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "adjacent board count dominoe number such",
+      "ref_in_store": true,
+      "code_len": 330
+     }
+    },
+    "gen:1c08045745": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisor less number product proper retur",
+      "ref_in_store": true,
+      "code_len": 130
+     }
+    },
+    "gen:5d1edc8937": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find minimum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:617bc40e0c": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find largest number three",
+      "ref_in_store": true,
+      "code_len": 58
+     }
+    },
+    "gen:da036a5c57": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find maximum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    }
+   }
+  }
+ ],
+ "keep_own": [
+  {
+   "lives_giving": 1,
+   "solved": 16,
+   "map": {
+    "gen:ae2837ffd4": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first integer positive",
+      "ref_in_store": true,
+      "code_len": 60
+     }
+    },
+    "gen:66125d3fd3": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "concatenat digit find form given number ",
+      "ref_in_store": true,
+      "code_len": 111
+     }
+    },
+    "gen:1d99d0f3f4": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:ca7d4a9c1d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisible find number python whether",
+      "ref_in_store": true,
+      "code_len": 51
+     }
+    },
+    "gen:3622d0c21a": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "center find number square",
+      "ref_in_store": true,
+      "code_len": 76
+     }
+    },
+    "gen:29fbc12b10": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "alternate between check decreas digit gi",
+      "ref_in_store": true,
+      "code_len": 279
+     }
+    },
+    "gen:9e0feb9404": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "count given integer less many number pri",
+      "ref_in_store": true,
+      "code_len": 281
+     }
+    },
+    "gen:3827142533": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find given integer multiple perfect posi",
+      "ref_in_store": true,
+      "code_len": 177
+     }
+    },
+    "gen:0089727eb1": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "check distinct given number power python",
+      "ref_in_store": true,
+      "code_len": 182
+     }
+    },
+    "gen:064bf96a47": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first given instance number wh",
+      "ref_in_store": true,
+      "code_len": 49
+     }
+    },
+    "gen:02e7eda3ba": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "choose collection count distinct item nu",
+      "ref_in_store": true,
+      "code_len": 67
+     }
+    },
+    "gen:cdc6b8b70d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "first integer positive return square tak",
+      "ref_in_store": true,
+      "code_len": 87
+     }
+    },
+    "gen:63610a4ba7": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "adjacent board count dominoe number such",
+      "ref_in_store": true,
+      "code_len": 330
+     }
+    },
+    "gen:1c08045745": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisor less number product proper retur",
+      "ref_in_store": true,
+      "code_len": 130
+     }
+    },
+    "gen:5d1edc8937": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find minimum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:617bc40e0c": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find largest number three",
+      "ref_in_store": true,
+      "code_len": 58
+     }
+    },
+    "gen:da036a5c57": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find maximum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    }
+   }
+  },
+  {
+   "lives_giving": 2,
+   "solved": 15,
+   "map": {
+    "gen:ae2837ffd4": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first integer positive",
+      "ref_in_store": true,
+      "code_len": 60
+     }
+    },
+    "gen:66125d3fd3": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "concatenat digit find form given number ",
+      "ref_in_store": true,
+      "code_len": 111
+     }
+    },
+    "gen:1d99d0f3f4": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:ca7d4a9c1d": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisible find number python whether",
+      "ref_in_store": true,
+      "code_len": 42
+     }
+    },
+    "gen:3622d0c21a": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "center find number square",
+      "ref_in_store": true,
+      "code_len": 76
+     }
+    },
+    "gen:29fbc12b10": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "alternate between check decreas digit gi",
+      "ref_in_store": true,
+      "code_len": 279
+     }
+    },
+    "gen:9e0feb9404": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "count given integer less many number pri",
+      "ref_in_store": true,
+      "code_len": 281
+     }
+    },
+    "gen:3827142533": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find given integer multiple perfect posi",
+      "ref_in_store": true,
+      "code_len": 177
+     }
+    },
+    "gen:0089727eb1": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "check distinct given number power python",
+      "ref_in_store": true,
+      "code_len": 182
+     }
+    },
+    "gen:064bf96a47": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first given instance number wh",
+      "ref_in_store": true,
+      "code_len": 49
+     }
+    },
+    "gen:02e7eda3ba": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "choose collection count distinct item nu",
+      "ref_in_store": true,
+      "code_len": 67
+     }
+    },
+    "gen:cdc6b8b70d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "first integer positive return square tak",
+      "ref_in_store": true,
+      "code_len": 87
+     }
+    },
+    "gen:63610a4ba7": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "adjacent board count dominoe number such",
+      "ref_in_store": true,
+      "code_len": 330
+     }
+    },
+    "gen:1c08045745": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisor less number product proper retur",
+      "ref_in_store": true,
+      "code_len": 130
+     }
+    },
+    "gen:5d1edc8937": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find minimum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:617bc40e0c": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find largest number three",
+      "ref_in_store": true,
+      "code_len": 58
+     }
+    },
+    "gen:da036a5c57": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find maximum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    }
+   }
+  },
+  {
+   "lives_giving": 3,
+   "solved": 15,
+   "map": {
+    "gen:ae2837ffd4": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first integer positive",
+      "ref_in_store": true,
+      "code_len": 60
+     }
+    },
+    "gen:66125d3fd3": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "concatenat digit find form given number ",
+      "ref_in_store": true,
+      "code_len": 111
+     }
+    },
+    "gen:1d99d0f3f4": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:ca7d4a9c1d": {
+     "solved": false,
+     "branch": "unsolved",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisible find number python whether",
+      "ref_in_store": true,
+      "code_len": 42
+     }
+    },
+    "gen:3622d0c21a": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "center find number square",
+      "ref_in_store": true,
+      "code_len": 76
+     }
+    },
+    "gen:29fbc12b10": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "alternate between check decreas digit gi",
+      "ref_in_store": true,
+      "code_len": 279
+     }
+    },
+    "gen:9e0feb9404": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "count given integer less many number pri",
+      "ref_in_store": true,
+      "code_len": 281
+     }
+    },
+    "gen:3827142533": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find given integer multiple perfect posi",
+      "ref_in_store": true,
+      "code_len": 177
+     }
+    },
+    "gen:0089727eb1": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "check distinct given number power python",
+      "ref_in_store": true,
+      "code_len": 182
+     }
+    },
+    "gen:064bf96a47": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "calculate first given instance number wh",
+      "ref_in_store": true,
+      "code_len": 49
+     }
+    },
+    "gen:02e7eda3ba": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "choose collection count distinct item nu",
+      "ref_in_store": true,
+      "code_len": 67
+     }
+    },
+    "gen:cdc6b8b70d": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "first integer positive return square tak",
+      "ref_in_store": true,
+      "code_len": 87
+     }
+    },
+    "gen:63610a4ba7": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "adjacent board count dominoe number such",
+      "ref_in_store": true,
+      "code_len": 330
+     }
+    },
+    "gen:1c08045745": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "divisor less number product proper retur",
+      "ref_in_store": true,
+      "code_len": 130
+     }
+    },
+    "gen:5d1edc8937": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find minimum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    },
+    "gen:617bc40e0c": {
+     "solved": true,
+     "branch": "system1_fact",
+     "candidate": "",
+     "fact": {
+      "found": true,
+      "reason": "fact",
+      "ref": "find largest number three",
+      "ref_in_store": true,
+      "code_len": 58
+     }
+    },
+    "gen:da036a5c57": {
+     "solved": true,
+     "branch": "system2_local",
+     "candidate": "lib:find maximum number python three",
+     "fact": {
+      "found": false,
+      "reason": "nothing filed for this key",
+      "ref": "None",
+      "ref_in_store": null,
+      "code_len": 0
+     }
+    }
+   }
+  }
+ ],
+ "receiver_own_facts": 6,
+ "receiver_own_store": 685
+}

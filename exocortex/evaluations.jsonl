@@ -2632,3 +2632,59 @@
 {"task": "must implement the impossible thing", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790609645.905472, "op_rate": 0.72}
 {"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790609646.5771701, "op_rate": 0.717}
 {"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790609646.6227448, "op_rate": 0.717}
+{"task": "sort the rows by key and write the result", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790628537.231902, "op_rate": 0.72}
+{"task": "check for empty or invalid x: guard the function", "approach": "guard_clauses", "op": "ADD_CONDITION", "progress": 1.0, "success": true, "ts": 1790628574.200629, "op_rate": 1.0}
+{"task": "What is a monad?", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790628654.7052495, "op_rate": 0.72}
+{"task": "must parse the csv file and must handle quotes", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790628654.8634448, "op_rate": 0.72}
+{"task": "must implement the impossible thing", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790628655.0546434, "op_rate": 0.72}
+{"task": "must implement the impossible thing", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790628655.1215427, "op_rate": 0.72}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790628655.4214718, "op_rate": 0.717}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790628655.4530473, "op_rate": 0.717}
+{"task": "sort the rows by key and write the result", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790651983.4782228, "op_rate": 0.72}
+{"task": "check for empty or invalid x: guard the function", "approach": "guard_clauses", "op": "ADD_CONDITION", "progress": 1.0, "success": true, "ts": 1790652024.4837725, "op_rate": 1.0}
+{"task": "What is a monad?", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790652070.1542788, "op_rate": 0.72}
+{"task": "must parse the csv file and must handle quotes", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790652070.4386482, "op_rate": 0.72}
+{"task": "must implement the impossible thing", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790652070.6316557, "op_rate": 0.72}
+{"task": "must implement the impossible thing", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790652070.7471564, "op_rate": 0.72}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790652071.2711382, "op_rate": 0.717}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790652071.3179991, "op_rate": 0.717}
+{"task": "sort the rows by key and write the result", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790657600.8348143, "op_rate": 0.72}
+{"task": "check for empty or invalid x: guard the function", "approach": "guard_clauses", "op": "ADD_CONDITION", "progress": 1.0, "success": true, "ts": 1790657644.7621362, "op_rate": 1.0}
+{"task": "What is a monad?", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790657700.5580041, "op_rate": 0.719}
+{"task": "must parse the csv file and must handle quotes", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790657700.7790377, "op_rate": 0.719}
+{"task": "must implement the impossible thing", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790657700.9593868, "op_rate": 0.72}
+{"task": "must implement the impossible thing", "approach": "try_except_wrap_3", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790657701.0463698, "op_rate": 0.72}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790657701.6051252, "op_rate": 0.717}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 1.0, "success": false, "ts": 1790657701.6507819, "op_rate": 0.717}
+{"task": "sort the rows by key and write the result", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973312.921061, "op_rate": 1.0}
+{"task": "check for empty or invalid x: guard the function", "approach": "guard_clauses", "op": "ADD_CONDITION", "progress": 1.0, "success": true, "ts": 1790973359.746826, "op_rate": 1.0}
+{"task": "What is a monad?", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973419.388167, "op_rate": 1.0}
+{"task": "must parse the csv file and must handle quotes", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973419.5784237, "op_rate": 1.0}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973419.8073652, "op_rate": 1.0}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973419.8866832, "op_rate": 1.0}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790973420.4581463, "op_rate": 0.833}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790973420.4999409, "op_rate": 0.833}
+{"task": "sort the rows by key and write the result", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973777.5241523, "op_rate": 0.75}
+{"task": "check for empty or invalid x: guard the function", "approach": "guard_clauses", "op": "ADD_CONDITION", "progress": 1.0, "success": true, "ts": 1790973814.1124942, "op_rate": 1.0}
+{"task": "What is a monad?", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973881.9956543, "op_rate": 0.778}
+{"task": "must parse the csv file and must handle quotes", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973882.1848483, "op_rate": 0.8}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973882.384284, "op_rate": 0.818}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790973882.4654725, "op_rate": 0.818}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790973882.9889812, "op_rate": 0.769}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790973883.0362957, "op_rate": 0.769}
+{"task": "sort the rows by key and write the result", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974319.0984397, "op_rate": 0.733}
+{"task": "check for empty or invalid x: guard the function", "approach": "guard_clauses", "op": "ADD_CONDITION", "progress": 1.0, "success": true, "ts": 1790974355.5768938, "op_rate": 1.0}
+{"task": "What is a monad?", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974421.2187243, "op_rate": 0.75}
+{"task": "must parse the csv file and must handle quotes", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974421.4013216, "op_rate": 0.765}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974421.6008759, "op_rate": 0.778}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974421.6817746, "op_rate": 0.778}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790974422.131762, "op_rate": 0.75}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790974422.1622515, "op_rate": 0.75}
+{"task": "sort the rows by key and write the result", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974510.396971, "op_rate": 0.727}
+{"task": "check for empty or invalid x: guard the function", "approach": "guard_clauses", "op": "ADD_CONDITION", "progress": 1.0, "success": true, "ts": 1790974546.8140955, "op_rate": 1.0}
+{"task": "What is a monad?", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974625.1460273, "op_rate": 0.739}
+{"task": "must parse the csv file and must handle quotes", "approach": "try_except_wrap", "op": "WRAP_TRY_EXCEPT", "progress": 0.0, "success": true, "ts": 1790974625.3557324, "op_rate": 0.718}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974625.5057778, "op_rate": 0.75}
+{"task": "must implement the impossible thing", "approach": "memoized_fast_path_2", "op": "ADD_VARIABLE", "progress": 0.33, "success": true, "ts": 1790974625.5771182, "op_rate": 0.75}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790974625.9795985, "op_rate": 0.731}
+{"task": "must call the OAuth endpoint and handle the expiry", "approach": "memoized_fast_path_3", "op": "ADD_VARIABLE", "progress": 1.0, "success": false, "ts": 1790974626.0117705, "op_rate": 0.731}

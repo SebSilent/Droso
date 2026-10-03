@@ -1,0 +1,1 @@
+{"name": "gen_band", "pid": 37700, "started": 1790651953.2, "cmd": ["tools/concept_band_pilot.py", "--per-concept", "8"], "log": "C:\\Projects\\HybridLLM\\state\\gen_band.log"}

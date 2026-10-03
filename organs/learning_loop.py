@@ -51,10 +51,34 @@ _STOPWORDS = {"the", "and", "for", "with", "that", "this", "should", "must",
 
 def signature(text: str, limit: int = 8) -> str:
     """A stable, human-readable key: the salient stems of the task, sorted, so
-    the same request phrased differently still finds its procedure."""
-    w = {_stem(x) for x in
-         re.findall(r"[a-z_][a-z_0-9]{3,}", str(text or "").lower())}
+    the same request phrased differently still finds its procedure.
+
+    NUMERALS ARE PART OF THE KEY, AND THEY WERE NOT BEFORE. Measured: two generated tasks
+    shared one store key --
+
+        "...the nth character of a given string using 0-based indexing"  ->  s[n]
+        "...the nth character of a given string using 1-based indexing"  ->  s[n - 1]
+
+    -- different answers, one key, WITHIN A SINGLE LIFE and with no merge involved. Their
+    stem sets are identical because the stem regex requires a letter start, so the `0` and
+    the `1`, the only things that distinguish them, were discarded. One life would store the
+    second over the first, and every later recall of that key would answer the wrong
+    question and fail the other task's assertions.
+
+    Erring toward FRAGMENTING is deliberate: a collision serves a silently wrong procedure,
+    while a missed reuse costs only a re-derivation. Two tasks differing only in a number are
+    different questions with different answers; they should not share a procedure.
+
+    THIS CHANGES KEYS FOR TASKS CONTAINING NUMERALS, so procedures already stored under the
+    old key for such a task become unreachable and get re-derived. That direction is safe --
+    nothing is corrupted -- and tasks with no numerals keep exactly the key they had.
+    """
+    t = str(text or "").lower()
+    w = {_stem(x) for x in re.findall(r"[a-z_][a-z_0-9]{3,}", t)}
     keep = sorted(w - _STOPWORDS)[:limit]
+    nums = sorted({n for n in re.findall(r"\d+", t)})
+    if nums:
+        keep = keep + ["#" + ",".join(nums[:6])]
     return " ".join(keep) or "general"
 
 class LearningLoop:

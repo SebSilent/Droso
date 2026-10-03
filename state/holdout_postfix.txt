@@ -1,0 +1,49 @@
+tool agent: 60,000 propositions loaded READ-ONLY from C:\Projects\HybridLLM\state\language_state.json
+{
+ "split": "holdout",
+ "tasks": 98,
+ "solved": 21,
+ "solve_rate": 0.214,
+ "outcomes": {
+  "solved": 21,
+  "refused": 77,
+  "no_candidates": 0,
+  "below_floor": 0
+ },
+ "seconds": 610.7,
+ "per_task_s": 6.23,
+ "outcome_head": {
+  "dim": 1024,
+  "updates": 1038,
+  "predictions": 4114,
+  "nonzero_weights": 1024,
+  "mean_error_first_10": 0.0366,
+  "mean_error_last_10": 0.0205,
+  "trending_down": true
+ },
+ "solved_by": [
+  "prog:squares+square",
+  "compose:rename",
+  "compose:rename",
+  "compose:rename",
+  "lib:area find sphere surface",
+  "compose:rename",
+  "hint:power",
+  "compose:rename",
+  "compose:rename",
+  "compose:rename",
+  "prog:count+element",
+  "hint:contains"
+ ],
+ "refused": [
+  "mbpp:3",
+  "mbpp:16",
+  "mbpp:58",
+  "mbpp:61",
+  "mbpp:83",
+  "mbpp:97",
+  "mbpp:103",
+  "mbpp:106"
+ ],
+ "note": "held out: never learned from, measured only"
+}
