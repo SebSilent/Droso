@@ -157,18 +157,23 @@ Three changes against the key that lost the benchmark:
   end ("the box is on the shelf"), so a where-question's filler is the
   last token. A narrow version of the findings' proposal #1: fixes the
   where-case without touching role votes.
-- **session-fresh term** (neural_language.py:2023-2024, `session_t0` at
-  :73). A proposition heard this session outranks a corpus-only one at
-  equal overlap. Proposal #3 done as a sort term instead of a weight
-  decay: the 2651-vote training prior can no longer beat something the
-  user said two turns ago, because the prior is now compared only within
-  the fresh tier (or within the not-fresh tier).
-- **key order**: `expected` stays above `filler_idf`, but the fresh tier
-  sits above both; that is what actually decided failure 2.
+- **session-fresh term** (neural_language.py:2071-2073, `session_t0` at
+  :107). A proposition heard this session outranks a corpus-only one at
+  equal overlap. Proposal #3 done as a graded sort term instead of a
+  weight decay: `fresh` is 1.0 for a proposition the user spoke this
+  session, decaying with age for older user speech, 0.0 for own speech
+  and the corpus. The 2651-vote training prior can no longer beat
+  something the user said two turns ago when the two overlap the question
+  equally, but the term is graded, not tiered: a corpus row with
+  strictly more overlap still wins, because `overlap` is the first key.
+- **key order**: `(overlap, fresh, expected, filler_idf, …)`
+  (neural_language.py:2081-2085). `expected` stays above `filler_idf`,
+  and `fresh` sits above both but below `overlap`; that is what actually
+  decided failure 2.
 
 The property that makes this safe cold: when no session proposition is in
 the pool, `fresh` is a constant and the sort behaves exactly as before
-(comment at neural_language.py:2020-2022). Nothing that was not already in
+(comment at neural_language.py:2055-2058). Nothing that was not already in
 the session changes its answer.
 
 Not applied from the findings' list: #1 proper (role votes conditioned on
@@ -187,7 +192,7 @@ row is therefore double-posted; the next bind's rebuild wipes it and
 double-posts the new newest row, so exactly one row is ever wrong and the
 corruption walks forward one row per bind.
 
-Probe (`_tmp/debug_postings.py`, output `_tmp/debug_postings_out.txt`):
+Probe (`docs/evidence/debug_postings.py`, output `docs/evidence/debug_postings_out.txt`):
 row 59999 ("where is the box", the newest) shows `raw postings x2, stem
 postings x2` for every word of its key; every older row shows x1. Effect
 measured through `recall()`: it walks posting lists without dedup
@@ -233,3 +238,175 @@ the question's own object), a pre-existing gap newly measured, not a
 regression. The connectome delta keeps the reference-session shape
 (bigrams +14, binder 6 added / 6 evicted, everything else flat); the
 nnz trace metric (findings #5) is still unapplied.
+
+## The cross-session lever and the contamination-control set (2026-10-26)
+
+### What was applied (the "floor" fix)
+
+Two guards in `answer()`'s candidate pool (organs/neural_language.py),
+shaped against the warm/cold benchmark and the cross-session harness:
+
+- **freshness floor** (`freshness_key`, neural_language.py:51-65;
+  `FRESH_FLOOR_S = 300` at :34): the sfW fix's graded term had a flaw
+  within one conversation: every teaching is seconds old, and
+  `exp(-age/tau)` separated them by thousandths, an ordering with no
+  meaning in it, which is how the freshest-by-accident teaching won a
+  question it could not answer. The floor ties all user-spoken
+  propositions under 300 s at 1.0 so the answer-type term decides among
+  them; decay bites only past the floor, i.e. across a session boundary,
+  which is the only place the age is real information. The term stays a
+  sort key, second after `overlap`: it is not a pool filter, the vote
+  count is not in the key, and a corpus row with strictly more overlap
+  still wins. What the floor fixes is ordering *among teachings*, not
+  teaching-vs-corpus.
+- **echo guard** (`_echoes`, neural_language.py:1935-1942): the
+  question's own echo ("droso says ...") is excluded from candidates
+  outright, not merely outranked: a hit whose token sequence appears
+  contiguously in the question's stems is dropped before the sort.
+
+Cold-safety property, same argument as the sfW fix: with no session
+proposition in the pool every `fresh` is 0.0 and the sort behaves exactly
+as before, so cold behaviour cannot move. The fix can only change
+answers when something was actually said this session.
+
+### The cross-session harness
+
+`tools/benchmark_cross_session.py`: for each script, run the same script
+three ways: **warm** (state as it is), **cold** (fresh agent, nothing
+taught), and **cross** (teach script A's tells in session 1, ask script
+B's questions in session 2). The number that matters is cross vs cold:
+cross above cold means session memory is doing work that training memory
+cannot; cross below cold means the memory is *hurting*: the failure the
+baseline found.
+
+Design points: every run is a separate `converse.py` process against the
+live read-only state (hardlink, never written); each run records
+`live_files_untouched` (mtime+size of the live state files before/after)
+so contamination is per-run visible, not assumed; `--scripts` accepts any
+scripts file, so the contamination-control set below runs through the
+same harness unchanged; `--only`/`--phase`/`--name` allow single-cell
+re-runs; the report carries the interpreter string, because of the
+pitfall below.
+
+### The interpreter pitfall
+
+The harness and `script_benchmark.py` spawn `converse.py` with
+`sys.executable`. Run under the PATH default (Python 3.12) every run dies
+with `ModuleNotFoundError: numpy`: the venv-less 3.12 has no numpy, and
+the failure surfaces only per-run, minutes in. The suite must run under
+the 3.10 interpreter (`C:\Users\Silen\AppData\Local\Programs\Python\
+Python310\python.exe`, numpy 2.2.6). `benchmark_cross_session.py` now
+fails fast at startup if numpy is missing, instead of after the first
+run.
+
+### The baseline anomaly (pre-fix)
+
+`state/fitness/cross_session_20261025_224101.json` (pre-fix, seen set):
+
+    script          warm  cold  cross  cross-cold
+    reference       1.00  1.00  1.00   +0.00
+    accumulation    1.00  1.00  0.50   -0.50   <- memory hurts
+    discrimination  1.00  1.00  0.50   -0.50   <- memory hurts
+    role_chain      1.00  0.50  1.00   +0.50
+    switch_back     1.00  1.00  1.00   +0.00
+    override        1.00  1.00  1.00   +0.00
+
+(session_context has no row here: it was added to `tools/scripts.json`
+after this run.) Two scripts scored *below* their own cold baseline:
+teaching the session made the answer worse. Diagnosis: the corpus prior
+outvoted the session proposition in the candidate pool: exactly the case
+the freshness floor targets.
+
+### Results
+
+Seen set, post-fix. The full warm/cold rerun
+(`script_benchmark_20261026_012938.json`) matches the pre-fix rerun on
+every shared script (warm 1.000, cold 0.929, the one cold miss still
+role_chain's pre-existing corpus-fragment leak) and adds session_context
+(warm 1.0, cold 1.0). The full cross suite
+(`cross_session_20261026_014346.json`):
+
+    script          warm  cold  cross  cross-cold
+    reference       1.00  1.00  1.00   +0.00
+    accumulation    1.00  1.00  1.00   +0.00   (was -0.50 pre-fix)
+    discrimination  1.00  1.00  1.00   +0.00   (was -0.50 pre-fix)
+    role_chain      1.00  0.50  1.00   +0.50
+    switch_back     1.00  1.00  1.00   +0.00
+    override        1.00  1.00  1.00   +0.00
+    session_context 1.00  1.00  1.00   +0.00
+
+The two memory-hurts cells are cured and nothing else moved: every
+script now scores at or above its own cold baseline, all 14 runs report
+`live_files_untouched=True`, and the role_chain cold miss is the
+documented pre-existing gap (findings proposal #1), not a regression.
+
+Contamination-control set (`tools/scripts_fresh.json`): same seven
+kinds, same turn structure, same ask forms, every content word new
+(owl/calls/dusk, candle/burns/night, coat/wet/torn/hook, forest/dark,
+meadow/bright, fox/teaches/hare, hare/guards/fox, silver/spoon/smooth,
+wooden/bowl/rough/light, tea/bitter/sour/green, brass/sounds/sunrise).
+Vocabulary gate: `tools/check_script_words.py --scripts
+tools/scripts_fresh.json`: all words owned, turn counts 4,5,4,4,5,5,4,
+matching the seen set. The lever was shaped against the seen set; if the
+fresh set shows the same cross-vs-cold lift, the lever generalises; if
+the fresh set stays flat while the seen set jumps, the lever was
+overfit.
+
+### Fresh-set results
+
+Warm/cold from the fallback baselines (`conversation_script_*_fresh_
+{warm,cold}.json`), cross from `cross_session_20261026_013730.json`,
+all under the 3.10 interpreter:
+
+    script                  warm  cold  cross  cross-cold  live
+    reference_fresh         1.00  1.00  1.00   +0.00       ok
+    accumulation_fresh      1.00  0.00  1.00   +1.00       ok
+    discrimination_fresh    1.00  1.00  1.00   +0.00       ok
+    role_chain_fresh        1.00  1.00  1.00   +0.00       ok
+    switch_back_fresh       1.00  1.00  1.00   +0.00       ok
+    override_fresh          1.00  1.00  1.00   +0.00       ok
+    session_context_fresh   1.00  1.00  1.00   +0.00       ok
+    overall                 1.00  0.86  1.00
+
+Six of seven: clean cold baseline, cross at ceiling. The lever does no
+harm on corpus-novel content, and there is no lift to measure at a
+ceiling that cold already reaches. The generalisation claim rests on the
+seventh cell, which needs reading carefully.
+
+**accumulation_fresh cold=0.00 is a flaw in the control set, not a
+harder test.** The corpus already holds the taught fact: binder row
+33878, `who="book"`, count 1, tokens "brown coat so that it is all torn"
+(`state/language_state.json.cortex.meta.json`). Cold, with nothing
+taught, that row wins recall for "how is the coat" (overlap 2,
+overlap_idf 9.86, the trace in `docs/evidence/coldtrace.json`) and leaks "torn"
+onto the must_not list. The vocabulary gate checked that the *words* are
+owned; nothing checked that the *fact* is corpus-novel: the seen set's
+clean cold baseline (its box rows contain none of heavy/red/shelf) was
+luck, not design. Fix shape, not applied: a corpus-novelty gate next to
+the vocabulary gate, scanning the binder meta for subject-word and
+expect-word co-occurrence and failing the set before it runs.
+
+The same cell's cross=1.00 is nonetheless the strongest evidence the
+floor has produced: the session teaching ("the coat is torn") had to
+outrank a corpus row that is nearly the teaching itself, and did. But
+the +1.00 must not be read as memory-vs-no-memory: the cold baseline
+here measures a corpus leak, not absent memory. The honest summary: on
+corpus-novel content the lever is inert-safe (six cells), and on the one
+cell where a corpus near-duplicate competed with the teaching, the
+teaching won.
+
+### Harness fallback fix, verified by execution
+
+`ensure_baseline` (tools/benchmark_cross_session.py:212-231) ran its
+cold fallback as `("cold", ["--cold"])`, but `--cold` takes the scripts
+file as its value (tools/converse.py:592); the fallback could not
+produce a cold baseline at all. It now passes `str(scripts_path)` and
+reads the report per mode. Verified by the fresh-set run itself: the
+cold reports carry the *fresh* scripts' turns (cold_ask "how is the
+coat"), which only the fixed argument produces, and the fresh table's
+cold column is populated end to end.
+
+Probe note: the 02:04 cold probe (`build()` with no `project_root`)
+reproduced the known `banc_brain.npz` no-op churn (debt entry 6): mtime
+moved, arrays identical. No live-state contamination; the guard-window
+gap remains open as logged.

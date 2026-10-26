@@ -4,6 +4,7 @@ A script word he does not own cannot be bound, cannot be answered with, and
 cannot be scored -- the script would measure nothing.  This check runs
 before the benchmark and fails loudly if any word is missing.
 """
+import argparse
 import json
 import re
 import sys
@@ -18,7 +19,13 @@ agent = build(ROOT / "state" / "sessions" / "wordcheck")
 lang = agent.language
 vocab = set(lang.word_patterns)
 
-scripts = json.loads((ROOT / "tools" / "scripts.json").read_text(
+ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+ap.add_argument("--scripts", default=str(ROOT / "tools" / "scripts.json"),
+                help="scripts file to check (default tools/scripts.json)")
+args = ap.parse_args()
+scripts_path = Path(args.scripts)
+
+scripts = json.loads(scripts_path.read_text(
     encoding="utf-8"))["scripts"]
 
 missing = {}
@@ -39,6 +46,6 @@ if missing:
     for name, miss in missing.items():
         print(f"MISSING in {name}: {miss}")
     raise SystemExit(1)
-print("all script words owned by Droso")
+print(f"all script words owned by Droso ({scripts_path.name})")
 print(f"scripts: {[s['name'] for s in scripts]}")
 print(f"turn counts: {[len(s['turns']) for s in scripts]}")

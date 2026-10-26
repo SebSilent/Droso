@@ -217,6 +217,6 @@ logged change.
   `_build(use_library, learn)` threads the flag down. learn=False now means
   zero writes, in memory and on disk. Verified: full suite 365 passed /
   3 skipped in-process, house down; the 30-day regression re-run through
-  `_tmp/verify_seal.py` gives 12/12 (all router rung, 0 oracle calls) with
+  `docs/evidence/verify_seal.py` gives 12/12 (all router rung, 0 oracle calls) with
   the store sha256 and the events line count (5108) byte-identical
   before/after.

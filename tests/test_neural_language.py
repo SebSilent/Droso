@@ -352,3 +352,41 @@ def test_agent_start_trains_language_and_reports(tmp_path, monkeypatch):
     assert out2["words_learned"] >= 20
     assert a.language.can_speak() is False or out2["vocabulary_size"] >= 20
     assert seen["n"] >= 1
+
+
+def test_freshness_floor_ties_one_conversation_and_decays_across():
+    """THE FLOOR. exp(-age/tau) on ages of a few seconds is an ordering with
+    no meaning in it: the freshest-by-accident teaching won a question it
+    could not answer (cross_session baseline 2026-10-25 22:41, accumulation
+    how-ask). Ages under FRESH_FLOOR_S must tie at exactly 1.0 -- inside a
+    conversation the answer-type and distinctiveness terms decide -- and
+    decay must bite only past the floor, where the age is real information."""
+    import math
+    from organs.neural_language import (FRESH_FLOOR_S, FRESH_TAU_S,
+                                        freshness_key)
+    # Inside the floor: every age is the same conversation.
+    assert freshness_key(0.0, "you") == 1.0
+    assert freshness_key(10.0, "you") == 1.0
+    assert freshness_key(FRESH_FLOOR_S, "you") == 1.0
+    # Past the floor: decay bites, and only there.
+    assert freshness_key(FRESH_FLOOR_S + 60.0, "you") < 1.0
+    one_tau = freshness_key(FRESH_FLOOR_S + FRESH_TAU_S, "you")
+    assert abs(one_tau - math.exp(-1.0)) < 1e-12, one_tau
+    # Not testimony at all: his own echo, the corpus, an unknown mouth.
+    for who in ("droso", "book", "", "parent"):
+        assert freshness_key(0.0, who) == 0.0, who
+
+
+def test_two_teachings_seconds_apart_tie_and_the_answer_type_decides(tmp_path):
+    """The end-to-end shape of the floor's purpose: two user teachings heard
+    seconds apart, then a question. Unfloored, the second teaching won on
+    freshness alone even though it could not answer the question's type; the
+    floor ties them and the answer-type term picks the teaching that can."""
+    nl = make(tmp_path)
+    nl.question_roles["how"] = {"3": 5}
+    nl.answer_types["how"] = {"heavy": 5}
+    nl.hear("the box is heavy", speaker="you")
+    nl.hear("the box is red", speaker="you")  # heard last: fresher by accident
+    r = nl.respond("how is the box")
+    said = str(r.get("utterance") or r.get("response") or "")
+    assert "heavy" in said, (said, r.get("retrieval"))

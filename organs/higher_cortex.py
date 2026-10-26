@@ -378,9 +378,19 @@ class Binder:
         with self._lock:
             at = self._seen.get(key)
             if at is not None and at < len(self.meta):
-                # Heard again: stronger, not duplicated.
+                # Heard again: stronger, not duplicated. But the timestamp is
+                # testimony, not familiarity: it is what the recall sort reads
+                # as "when this was last told to him". Re-echoing a row under a
+                # different mouth must not re-date it -- droso repeating "the
+                # box is heavy" in his own reply is the row being FAMILIAR, and
+                # bumping `when` there made his echo outrank the user's actual
+                # teaching seconds later (cross_session baseline 2026-10-25
+                # 22:41, accumulation how-ask). Strength accrues to whoever
+                # said it; the date moves only when the same witness says it
+                # again.
                 self.meta[at]["count"] = int(self.meta[at].get("count", 1)) + 1
-                self.meta[at]["when"] = row["when"]
+                if str(who or "") == str(self.meta[at].get("who") or ""):
+                    self.meta[at]["when"] = row["when"]
                 self.stored += 1
                 return {"stored": True, "repeat": True,
                         "count": self.meta[at]["count"],

@@ -40,6 +40,27 @@ def test_postings_equal_a_rebuild_past_capacity():
     assert b._stem_postings == stems, (b._stem_postings, stems)
 
 
+def test_an_echo_by_another_mouth_does_not_redate_the_teaching():
+    """THE ECHO GUARD. remember() bumped `when` on every repeat, so droso's
+    own reply -- an echo of the user's teaching, bound seconds later -- was
+    re-dated to NOW and outranked the actual teaching in the next ask
+    (cross_session baseline 2026-10-25 22:41, accumulation how-ask). Strength
+    accrues to whoever said it; the date moves only when the same witness
+    says it again."""
+    space = ConceptSpace(dim=64, seed=0)
+    b = Binder(space, max_roles=4, capacity=8)
+    b.remember(["the", "box", "is", "heavy"], who="you", when=100.0)
+    b.remember(["the", "box", "is", "heavy"], who="droso", when=200.0)
+    row = b.meta[b._seen[("the", "box", "is", "heavy")]]
+    assert row["count"] == 2, row          # heard again: stronger
+    assert row["when"] == 100.0, row       # but not re-dated by another mouth
+    assert row["who"] == "you", row        # provenance stays the first witness
+    b.remember(["the", "box", "is", "heavy"], who="you", when=300.0)
+    row = b.meta[b._seen[("the", "box", "is", "heavy")]]
+    assert row["when"] == 300.0, row       # same witness: the date moves
+    assert row["count"] == 3, row
+
+
 def test_no_row_is_posted_twice_for_one_word():
     """The visible symptom, stated directly: one index, one posting."""
     space = ConceptSpace(dim=64, seed=0)

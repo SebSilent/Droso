@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ page.title }} &middot; Droso</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alumni+Sans:wght@100;300;400&family=Albert+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ site.baseurl }}/assets/kinpaku.css">
+</head>
+<body>
+<header class="site-head">
+  <div class="wrap head-row">
+    <a class="brand" href="{{ site.baseurl }}/">
+      <svg class="mark" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <rect x="1" y="1" width="28" height="28" fill="var(--ks-kinpaku)"/>
+        <line x1="24" y1="4" x2="6" y2="26" stroke="var(--ks-lacquer)" stroke-width="2.5"/>
+      </svg>
+      <span class="wordmark">Droso</span>
+    </a>
+    <nav class="site-nav">
+      {% assign pages = "speech_log|Speech log|/speech_log.html;cross_session_design|Cross session design|/cross_session_design.html;benchmark_findings|Benchmark findings|/benchmark_findings.html;debt_log|Debt log|/debt_log.html;mine_criteria|Mining criteria|/mine_criteria.html" | split: ";" %}
+      {% for p in pages %}
+        {% assign parts = p | split: "|" %}
+        <a href="{{ site.baseurl }}{{ parts[2] }}"{% if page.url == parts[2] %} class="is-active"{% endif %}>{{ parts[1] }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+{{ content }}
+</main>
+<footer class="site-foot">
+  <div class="wrap foot-row">
+    <span class="foot-label">Droso project notes</span>
+    <a class="foot-link" href="https://github.com/SebSilent/Droso">github.com/SebSilent/Droso</a>
+  </div>
+</footer>
+</body>
+</html>

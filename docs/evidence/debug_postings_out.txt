@@ -1,0 +1,39 @@
+
+prop 'where is the box': row=59999 count=1 when=1792961049.2790415
+   'the': raw postings x2, stem postings x2 (list len 22388/22388)
+   'where': raw postings x2, stem postings x2 (list len 175/175)
+   'box': raw postings x2, stem postings x2 (list len 46/46)
+   'is': raw postings x2, stem postings x2 (list len 3952/3952)
+prop 'droso says the box is heavy': row=59998 count=1 when=1792961048.5081604
+   'droso': raw postings x1, stem postings x1 (list len 889/889)
+   'is': raw postings x1, stem postings x1 (list len 3952/3952)
+   'the': raw postings x1, stem postings x1 (list len 22388/22388)
+   'heavy': raw postings x1, stem postings x1 (list len 71/71)
+   'says': raw postings x1, stem postings x1 (list len 557/557)
+   'box': raw postings x1, stem postings x1 (list len 46/46)
+prop 'the box is heavy': row=59991 count=1 when=1792961033.243663
+   'the': raw postings x1, stem postings x1 (list len 22388/22388)
+   'box': raw postings x1, stem postings x1 (list len 46/46)
+   'heavy': raw postings x1, stem postings x1 (list len 71/71)
+   'is': raw postings x1, stem postings x1 (list len 3952/3952)
+prop 'the box is on the shelf': row=59995 count=1 when=1792961042.4720113
+   'is': raw postings x1, stem postings x1 (list len 3952/3952)
+   'the': raw postings x1, stem postings x1 (list len 22388/22388)
+   'on': raw postings x1, stem postings x1 (list len 2687/2687)
+   'shelf': raw postings x1, stem postings x1 (list len 12/12)
+   'box': raw postings x1, stem postings x1 (list len 46/46)
+prop 'how is the box': row=59997 count=1 when=1792961046.8557944
+   'the': raw postings x1, stem postings x1 (list len 22388/22388)
+   'box': raw postings x1, stem postings x1 (list len 46/46)
+   'how': raw postings x1, stem postings x1 (list len 497/497)
+   'is': raw postings x1, stem postings x1 (list len 3952/3952)
+
+recall now:
+  ov=4 where is the box
+  ov=2 how is the box
+  ov=2 the box is red
+  ov=2 the box is heavy
+  ov=2 droso says the box is heavy
+  ov=2 the box is on the shelf
+  ov=1 in that box one was of the most
+  ov=1 myself that you were not of the box

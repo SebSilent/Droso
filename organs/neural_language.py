@@ -31,6 +31,15 @@ FRESH_TAU_S = 3600.0         # testimony-freshness half-life for the sort key
                              #  tau without a --delay option on the ask phase
                              #  -- cross_session_design.md, lever a. 3600 s is
                              #  the first cut, not a measured constant.)
+FRESH_FLOOR_S = 300.0        # ages under this count as "just heard". Within one
+                             # conversation every teaching is seconds old and
+                             # exp(-age/tau) separates them by thousandths --
+                             # an ordering with no meaning in it, which is how
+                             # the freshest-by-accident teaching won a question
+                             # it could not answer. The floor makes them tie at
+                             # 1.0 so the answer-type term decides; decay bites
+                             # only across a session boundary, which is the
+                             # only place the age is real information.
 POOL_SETTLE_MIN_WINS = 3     # same pool must win this many decisions in a row
 POOL_SETTLE_MAX_ROUNDS = 24  # cap on decide+teach rounds while settling
 SAN_TOP_K = 512              # strongest co-activations kept per Hebb write
@@ -38,6 +47,23 @@ SAN_ROW_CAP = 1024.0         # homeostatic cap on any SAN row's total weight
                              # (sweep 25-10: cap 64 halved multi-word speech 0.64->0.44
                              #  while cap 1024 recovers 0.65 and keeps A~C 2.6x under
                              #  the dense matrix's 0.34; top-k exonerated by control)
+
+def freshness_key(age_s: float, who: str) -> float:
+    """The testimony term of the answer sort: 1.0 for what the user said
+    inside the floor window, decaying past it, 0.0 for everything else.
+
+    Ages under FRESH_FLOOR_S are not evidence of order -- they are the same
+    conversation. Tie them at 1.0 and let the answer type and the filler's
+    distinctiveness decide, as they do when no session proposition is in the
+    pool at all. Decay bites only across a session boundary, which is the
+    only place the age is real information. Own speech and the corpus are
+    not testimony at all: the echo must not outrank the teaching, and the
+    corpus is a prior, not a verdict.
+    """
+    if who != "you":
+        return 0.0
+    return math.exp(-max(0.0, age_s - FRESH_FLOOR_S) / FRESH_TAU_S)
+
 
 class NeuralLanguage:
     """Words as KC activation patterns in the carved BANC graph."""
@@ -2044,8 +2070,7 @@ class NeuralLanguage:
                 # restriction is exactly "what the user said, decaying".
                 who = str(h.get("who") or "")
                 age = self.session_t0 - float(h.get("when", 0.0) or 0.0)
-                fresh = (1.0 if age <= 0 else math.exp(-age / FRESH_TAU_S)) \
-                    if who == "you" else 0
+                fresh = freshness_key(age, who)
                 # Overlap says which memories are about this; the answer type says
                 # whether the filler is the kind of thing being asked for; and the
                 # filler's own distinctiveness breaks the last tie. Without that

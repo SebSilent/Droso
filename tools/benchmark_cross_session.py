@@ -212,7 +212,9 @@ def ensure_baseline(name: str, scripts_path: Path, base: dict) -> dict | None:
     # table's other two columns exist for it too.
     print(f"[cross] {name}: no warm/cold baseline; running the script "
           f"benchmark for it")
-    for mode, flag in (("warm", []), ("cold", ["--cold"])):
+    rates = {}
+    for mode, flag in (("warm", []),
+                       ("cold", ["--cold", str(scripts_path)])):
         tag = f"script_{name}_{mode}"
         cmd = [sys.executable, str(ROOT / "tools" / "converse.py"),
                "--scripts", str(scripts_path), "--name", name,
@@ -221,11 +223,12 @@ def ensure_baseline(name: str, scripts_path: Path, base: dict) -> dict | None:
         if rc != 0:
             print(f"[cross] {name}: {mode} baseline run failed (exit {rc})")
             return None
-    rep = FITNESS / f"conversation_{tag}.json"
-    if not rep.exists():
-        return None
-    b = json.loads(rep.read_text(encoding="utf-8")).get("benchmark", {})
-    return {"warm": b.get("pass_rate"), "cold": b.get("pass_rate"),
+        rep = FITNESS / f"conversation_{tag}.json"
+        if not rep.exists():
+            return None
+        b = json.loads(rep.read_text(encoding="utf-8")).get("benchmark", {})
+        rates[mode] = b.get("pass_rate")
+    return {"warm": rates["warm"], "cold": rates["cold"],
             "source": "run now"}
 
 

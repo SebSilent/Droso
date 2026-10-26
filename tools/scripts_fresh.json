@@ -1,0 +1,95 @@
+{
+  "note": "Contamination-control twin of tools/scripts.json: same seven kinds, same turn structure, same ask forms, but every content word is new -- none of them appears in the seen set (kettle, rings, noon, lantern, shines, midnight, box, heavy, red, shelf, garden, quiet, street, loud, crow, follows, sparrow, watches, copper, coin, warm, iron, key, cold, soup, hot, sweet, dawn). Every word is one Droso owns (verified with tools/check_script_words.py --scripts tools/scripts_fresh.json). The lever (freshness floor + echo guard) was shaped against the seen set; if the fresh set shows the same cross-vs-cold lift, the lever generalises; if the fresh set stays flat while the seen set jumps, the lever was overfit.",
+  "scripts": [
+    {
+      "name": "reference_fresh",
+      "kind": "reference",
+      "note": "The question refers to earlier content by its predicate and time; the answer must name the subject I mentioned. Two independent pairs so one lucky hit cannot carry the script.",
+      "turns": [
+        {"say": "the owl calls at dusk"},
+        {"say": "the candle burns at night"},
+        {"ask": "what calls at dusk", "expect": {"any_of": ["owl"]}},
+        {"ask": "what burns at night", "expect": {"any_of": ["candle"]}}
+      ]
+    },
+    {
+      "name": "accumulation_fresh",
+      "kind": "accumulation",
+      "note": "Three facts about one subject, then two questions. The second question depends on the third tell, so a pass means the last-heard fact was still reachable.",
+      "turns": [
+        {"say": "the coat is wet"},
+        {"say": "the coat is torn"},
+        {"say": "the coat is on the hook"},
+        {"ask": "how is the coat", "expect": {"any_of": ["wet", "torn"]}},
+        {"ask": "where is the coat", "expect": {"any_of": ["hook"]}}
+      ]
+    },
+    {
+      "name": "discrimination_fresh",
+      "kind": "discrimination",
+      "note": "Contrasting predicates on two subjects, no cross-over. A pass requires the right predicate for the right subject AND the absence of the wrong one.",
+      "turns": [
+        {"say": "the forest is dark"},
+        {"say": "the meadow is bright"},
+        {"ask": "how is the forest",
+         "expect": {"any_of": ["dark"], "must_not_contain": ["bright"]}},
+        {"ask": "how is the meadow",
+         "expect": {"any_of": ["bright"], "must_not_contain": ["dark"]}}
+      ]
+    },
+    {
+      "name": "role_chain_fresh",
+      "kind": "role-chain",
+      "note": "A does X to B; B does Y to A. The who-questions reverse the roles, so an answer that merely echoes a heard name fails.",
+      "turns": [
+        {"say": "the fox teaches the hare"},
+        {"say": "the hare guards the fox"},
+        {"ask": "who teaches the hare", "expect": {"any_of": ["fox"]}},
+        {"ask": "who guards the fox", "expect": {"any_of": ["hare"]}}
+      ]
+    },
+    {
+      "name": "switch_back_fresh",
+      "kind": "switch-back",
+      "note": "Fact on A, two facts on B, then ask about both. The question about A comes after two turns about B, so a pass means A's fact survived the interleaving.",
+      "turns": [
+        {"say": "the silver spoon is smooth"},
+        {"say": "the wooden bowl is rough"},
+        {"say": "the wooden bowl is light"},
+        {"ask": "how is the wooden bowl",
+         "expect": {"any_of": ["rough", "light"], "must_not_contain": ["smooth"]}},
+        {"ask": "how is the silver spoon",
+         "expect": {"any_of": ["smooth"],
+                    "must_not_contain": ["rough", "light"]}}
+      ]
+    },
+    {
+      "name": "override_fresh",
+      "kind": "override",
+      "note": "Same subject, conflicting predicates. Which predicate wins is recorded per run and reported, never graded: the nondeterminism IS the finding. Graded only on the answer being a session predicate rather than something from training memory.",
+      "turns": [
+        {"say": "the tea is bitter"},
+        {"say": "the tea is sour"},
+        {"ask": "how is the tea", "expect": {"any_of": ["bitter", "sour"]}},
+        {"say": "the tea is green"},
+        {"ask": "how is the tea",
+         "expect": {"any_of": ["bitter", "sour", "green"]}}
+      ]
+    },
+    {
+      "name": "session_context_fresh",
+      "kind": "session-context",
+      "note": "Two tells share one subject and one predicate; only the modifier and the time differ. The reference tell (owl calls at dusk) is taught first, then the new tell (brass owl sounds at sunrise). Each ask is graded on the new pair AND on the absence of the other tell's words, so an answer from the wrong tell fails and a blend of the two fails: recency is the thing under test, and which tell he answered from is visible in the recorded reply.",
+      "turns": [
+        {"say": "the owl calls at dusk"},
+        {"say": "the brass owl sounds at sunrise"},
+        {"ask": "what sounds at sunrise",
+         "expect": {"any_of": ["brass", "owl"],
+                    "must_not_contain": ["night", "candle", "calls"]}},
+        {"ask": "what calls at dusk",
+         "expect": {"any_of": ["owl"],
+                    "must_not_contain": ["sunrise", "brass", "sounds"]}}
+      ]
+    }
+  ]
+}
