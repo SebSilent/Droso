@@ -599,6 +599,34 @@ comparison table is assembled from the report files directly. The
 seen-set suite is unaffected: its baselines come from the full
 `script_benchmark_*.json` report, so the fallback never fires there.
 
+Assembled, same day ~08:00: the fresh-set comparison table, from the
+report files directly as promised above — warm/cold from
+`conversation_script_*_fresh_{warm,cold}.json` (run 01:16-01:35 and
+01:45-01:51), ask from `cross_session_20261026_013730.json` (01:37),
+x-cold = ask − cold; assembler `tmp_fresh_table.py`.
+
+    script                  warm  cold   ask  x-cold
+    accumulation_fresh       1.0   0.0   1.0   +1.00
+    discrimination_fresh     1.0   1.0   1.0   +0.00
+    override_fresh           1.0   1.0   1.0   +0.00
+    reference_fresh          1.0   1.0   1.0   +0.00
+    role_chain_fresh         1.0   1.0   1.0   +0.00
+    session_context_fresh    1.0   1.0   1.0   +0.00
+    switch_back_fresh        1.0   1.0   1.0   +0.00
+    overall                1.000 0.857 1.000   +0.14
+
+Every fresh cross-session ask is at ceiling: the tell-taught state
+transfers to a fresh ask session on all seven scripts, including
+accumulation_fresh, whose cold baseline is 0.0 — the where-cell of
+entry 5, which the question-shape parser later fixed (0/2 -> 1/2, its
+entry's table). All components predate the parser (it landed 07:15,
+commit 780c514): the table is the pre-parser cross-session state the
+01:37 report was measured against, and the parser's post-parser
+warm/cold numbers live in its own entry. The 013730 report's
+`live_files_untouched` verdicts predate the guard-window change, so
+they cover turns only; the wider build+turns window is entry 6a's,
+verified separately.
+
 #### 6. Live-file guard is blind to build-time writes; banc_brain.npz mtime churns every run (measured, no action yet)
 
 Both guard windows start **after** the agent is built:
