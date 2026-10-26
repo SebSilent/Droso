@@ -62,6 +62,29 @@ state/merged/
 # Reproducible exactly from a URL and a script.
 books/*.txt
 
+# Live runtime state: the individual's own memory, kept on disk, never in git.
+# Committing it again would snapshot a multi-MB brain on every commit.
+state/language_state.json
+state/language_state.json.*
+state/banc_brain.npz
+state/_learning_backup_*
+state/house_agent_*
+state/knowledge_ledger.jsonl
+state/h/
+state/*.log
+state/*.pid
+state/battery_*.txt
+state/holdout_*.txt
+exocortex/api_cache.sqlite3
+exocortex/api_usage.json
+exocortex/evaluations.jsonl
+exocortex/learning_events.jsonl
+exocortex/reasoning_state.json
+exocortex/snippet_vault.db
+exocortex/speed_routing.json
+exocortex/stream_progress.json
+exocortex/learned_procedures.json
+
 # Runtime artefacts: All regenerable from the corpus, the tools and the clock.
 state/sessions/
 state/merged*/
