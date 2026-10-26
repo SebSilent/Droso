@@ -1006,3 +1006,114 @@ behaviour-preserving as designed. The delta-diff fields now in each row
 record what one session actually moved (reference tell: 8 bigrams, 3
 binder propositions added/3 removed, 8145 SAN rows touched with
 `new_edges: 0` -- decay, not growth).
+
+## 2026-10-26 — storage, closed for good
+
+The delta handover (previous entry) fixed the benchmark's own writes.
+Everything else that saves still writes full state trees, nothing
+deletes them, and every save failure is printed and swallowed -- which
+is how a full disk manufactured two fake 0.0 regressions on 2026-10-26
+10:07. This entry closes all three holes.
+
+### The writers of bytes (measured 2026-10-26, before this entry)
+
+- `state/language_state*` 383.4 MB -- the live brain. Legitimate; this
+  is the organ. Full saves on throttle, delta saves at boundaries.
+- `state/lineage/live_2026-10-26` 389.3 MB -- a population.py lineage
+  copy of the live brain made the same day. Pure duplication; deleted.
+- `state/reader/state/*` 391.1 MB -- the reader's own brain, but its
+  SAN predates the compressed-npz change: 237.8 MB dense where the
+  live brain stores 4.9 MB. One-off conversion to the compressed
+  format; future reader saves are compressed already.
+- `state/sessions/*` -- every harness's session copies. converse.py,
+  serve.py and drift_check.py still save full trees (the delta change
+  only reached benchmark_cross_session.py). Probes and one-offs write
+  here too and nothing ever swept them.
+- `state/fitness/*` -- reports, kilobytes. Keep.
+- `.git` 444 MB -- history blobs from when the brain was tracked.
+  Left alone; rewriting history is destructive and was declined.
+
+### Design
+
+1. **One shared module, `tools/state_hygiene.py`.** Three things:
+   `require_saved(res, what)` -- raises SystemExit on a failed save,
+   the one place that makes a save failure fatal; `save_session_state`
+   -- `save_state(delta=True)` plus require_saved, the one save path
+   for session copies (save_state already falls back to a full save
+   when the delta refuses, so only real I/O failures reach the check);
+   `prune_sessions(keep)` -- retention sweep over `state/sessions` and
+   `state/lineage`: group by kind (the directory name minus its
+   trailing timestamp), keep the newest N per kind, delete older,
+   report real bytes freed (hardlink trees count once).
+2. **Every writer converted.** converse.py's end-of-run save and its
+   interactive `:save` go through the delta path; a failed end-of-run
+   save exits nonzero. serve.py's shutdown save and drift_check.py's
+   save likewise. benchmark_cross_session.py's run_phase replaces
+   print-and-continue with require_saved (the phase process dies
+   nonzero, the orchestrator already marks the row errored), and
+   run_suite returns 1 if any row errored -- a suite that scored
+   against half-saved sessions can no longer exit 0. script_benchmark
+   inherits fatality through converse's exit code.
+3. **Retention on report-write.** Every report-writing site (converse,
+   script_benchmark, the cross suite, serve, drift_check) calls
+   prune_sessions after writing: keep the last 3 session dirs per
+   kind, the last 2 lineage copies, delete older. Probes and one-offs
+   are swept by the same stroke.
+4. **Proof.** Footprint before, one full cross-suite run, footprint
+   after. The bound to hold: live state + small deltas, no new
+   hundred-MB directories.
+
+## 2026-10-26 — storage, proof run and two corrections
+
+### Corrections to the entry above
+
+1. **The reader's SAN is not a format problem.** The writers-of-bytes
+   list said its 237.8 MB SAN "predates the compressed-npz change"
+   and planned a one-off conversion. Wrong twice over. The file was
+   already a compressed npz -- recompressing it reproduced the bytes
+   bit-identically at the same size. The size is the information: the
+   matrix is ~97% dense with real weights (median |v| 0.14, ~198k
+   unique values in a sampled block), while the live SAN's nonzeros
+   are 97.7% the denormal 1.4e-44 -- decayed-to-dust weights that
+   zlib crushes. The live brain's 4.9 MB is an artifact of decay, not
+   a superior format. Nothing to reclaim without altering weights;
+   the reader's values were left untouched.
+2. **The 404.90 GiB sessions backlog was already gone before this
+   work began.** The harness's own pruning during the 18:53 green run
+   had emptied `state/sessions`; the disk crisis was over (C: had
+   183.55 GB free) before the first line of this entry's code was
+   written. What this entry closes is the cause -- writers that save
+   full trees, save failures that print and continue, nothing that
+   sweeps -- not a lingering effect.
+
+### Proof (2026-10-26 20:06, `cross_session_20261026_200621.json`)
+
+Full pytest suite first: 407 passed, 3 skipped, including the nine
+new `tests/test_state_hygiene.py` tests. Then the cross suite, 465 s,
+exit 0:
+
+- all seven scripts ask pass_rate 1.0 (2/2 asked, 2/2 passed),
+  baselines warm/cold 1.0;
+- `tell_save_ok` and `ask_save_ok` true on every row -- the fatal-save
+  path never fired because nothing failed, and a failure now would
+  kill the phase instead of printing;
+- live files untouched on all 14 phases;
+- `session_pruned` true on every row -- the retention sweep ran after
+  the report and deleted the previous run's directories.
+
+### What a suite run costs now
+
+`state/sessions` after the run holds one tell dir (4.2 MB of deltas),
+one ask dir (0.0 MB) and one shadow (756.5 MB apparent, 0.0 MB real:
+every file is a hardlink into the live tree -- `fsutil hardlink list`
+shows 2 links on the shadow's cortex npz -- and the only new bytes are
+the overlay deltas). The footprint scanner counts apparent bytes and
+double-counts hardlinks; the real cost of a full suite run is about
+5 MB. C: free after: 188.48 GB, up from 183.55 before the run -- the
+sweep freed more than the run wrote.
+
+### Committed
+
+Three commits, pushed: the hygiene module with its tests; the five
+writer conversions (converse, serve, drift_check,
+benchmark_cross_session, script_benchmark); this entry.
