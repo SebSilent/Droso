@@ -9,14 +9,14 @@ live read-only state (11,555 words, 60,000 propositions, 66,107,030 SAN nnz).
 
 ### Turn boundary
 
-A turn is one user line through `lang.respond()` -- the same door the house's
-`/api/chat` uses -- which hears it (SAN `live()` update, cortex binding,
+A turn is one user line through `lang.respond()`, the same door the house's
+`/api/chat` uses. It hears the line (SAN `live()` update, cortex binding,
 sequence learning), decides whether to speak, and answers from memory when the
 words were a question. Between turns the organ gets a fixed number of
 autonomous beats (`lang.tick`, `--beats 2` in the benchmark), so drives decay
 and recover the way they do in the house and a thought of his own may land in
 the log. Nothing is injected: no oracle, no curriculum narration, no task
-path. The turn -- not the sentence -- is the unit scripts are written in
+path. The turn, not the sentence, is the unit scripts are written in
 (`tools/scripts.json`: 6 scripts, 4-6 turns each, later turns depend on
 earlier ones).
 
@@ -30,7 +30,7 @@ per-tick constant. Consequence for the harness: a conversation's turns are
 seconds apart, so within-session decay is small; the measurable weight
 movement in a session is rehearsal on existing wiring, not forgetting. In the
 smoke runs, 8,145 SAN rows changed with `new_edges == 0` (max row delta
-698.75) -- weight movement alone, which the trace rule counts as decay and
+698.75): weight movement alone, which the trace rule counts as decay and
 rehearsal, not new wiring.
 
 ### Reply gating
@@ -52,11 +52,11 @@ true report; a confident wrong answer is a lie he does not know he is telling.
 Each script runs twice through the same harness, each run as its own process
 so the connectome delta is one session's and nothing leaks between runs:
 
-- **warm** -- one persistent session: the script's tells land first, its final
+- **warm**: one persistent session. The script's tells land first, its final
   questions are asked at the end, expects graded on whole-word membership in
   what he said (`any_of` / `must_contain` / `must_not_contain`). A pass means
   the session context survived to the end of the script and was used.
-- **cold** -- a fresh session, only the final questions, graded on the
+- **cold**: a fresh session, only the final questions, graded on the
   **absence** of the words the warm session taught. If he says one of those
   words cold, training memory already held the fact and the warm pass is not
   evidence that session context was used. A refusal passes: the honest answer
@@ -66,7 +66,7 @@ The headline is the warm-cold delta per script kind. Alongside it, the
 connectome delta of one warm session: SAN rows/nnz/total weight, vocabulary,
 bigrams, persons, propositions, facts, procedures, and the binder digest
 (added / evicted / rehearsed). `left_a_trace` is true only if structure or
-content moved -- weight movement alone is not a trace. Live state files are
+content moved; weight movement alone is not a trace. Live state files are
 size-and-mtime checked at exit; any change is a violation.
 
 ## Benchmark results (2026-10-25, house down, live state read-only)
@@ -86,8 +86,8 @@ overall                       0.83  0.92  -0.08
 ```
 
 Reading: delta = warm - cold is "session added over training memory". A cold
-pass under a warm pass is still session use -- he does not assert the taught
-words cold (reference, switch_back, override) -- it just does not move the
+pass under a warm pass is still session use (he does not assert the taught
+words cold: reference, switch_back, override); it just does not move the
 delta. The three warm failures are wrong-slot answers, not silence:
 accumulation "where is the box" -> "droso says the box is heavy" (taught fact,
 wrong slot); discrimination "how is the garden" -> "the garden is calm" (wrong
@@ -107,8 +107,8 @@ rings at noon", ...). left_a_trace: true.
 
 Across all six warm sessions: new edges 0 everywhere; rows changed 8,145-
 8,153; total weight -9.8% to -11.5%; bigrams +12 to +20; binder adds = 
-evictions (6-9, one rehearsal in discrimination). Sessions leave a trace --
-content moves (bigrams, binder in/out) and weight rehearses -- but no new SAN
+evictions (6-9, one rehearsal in discrimination). Sessions leave a trace:
+content moves (bigrams, binder in/out) and weight rehearses, but no new SAN
 wiring, no new vocabulary, no new procedures in a 4-6 turn conversation.
 
 ## Findings
@@ -120,7 +120,7 @@ broken" ... "the kettle is fixed"), then asks. Which predicate wins the reply
 varies run to run: `memory_won` / `session_fact_won` / `said_something_else` /
 `silent` (`tools/converse.py:441-448`). The winner is recorded in the report
 and printed by the orchestrator (`override winners (warm): ...`) but never
-graded -- which of two conflicting facts he answers with is a finding about
+graded: which of two conflicting facts he answers with is a finding about
 recency and decay, not a fault. Do not "stabilise" this; measure it.
 
 ### Binder at the 60,000 cap
@@ -131,7 +131,7 @@ the live state, so every session add evicts the oldest row (FIFO `np.roll`,
 the row count stays flat while the content changes completely. The first
 snapshot read a nonexistent attribute and honestly reported 0 propositions;
 the count alone also cannot see rehearsal, because the binder dedups by token
-tuple -- hearing the same sentence again bumps `count` and adds no row. The
+tuple: hearing the same sentence again bumps `count` and adds no row. The
 binder digest (token tuple -> hear count, `tools/converse.py:300-315`) sees
 all three: added, evicted, rehearsed. Consequence: `propositions 60000 ->
 60000` in a report does not mean the binder was untouched; read the digest.
@@ -139,8 +139,8 @@ all three: added, evicted, rehearsed. Consequence: `propositions 60000 ->
 ## The wrong-slot fix (2026-10-25, evening)
 
 The warm-script failures diagnosed in `docs/benchmark_findings.md` got one
-fix applied -- the sort key plus the two terms the diagnosis pointed at --
-and one separate bug was found on the way and is recorded here unfixed.
+fix applied (the sort key plus the two terms the diagnosis pointed at), and
+one separate bug was found on the way and is recorded here unfixed.
 
 ### What was applied (the "sfW" fix)
 
@@ -153,7 +153,7 @@ Three changes against the key that lost the benchmark:
 - **where-filler is the last token** (neural_language.py:2012-2015). For a
   where-question the queried role index lands on a function word ("is" in
   a five-token sentence), so every where-answer competed on the idf of
-  "is" -- a tie decided by nothing. The locative lives at the sentence's
+  "is", a tie decided by nothing. The locative lives at the sentence's
   end ("the box is on the shelf"), so a where-question's filler is the
   last token. A narrow version of the findings' proposal #1: fixes the
   where-case without touching role votes.
@@ -164,7 +164,7 @@ Three changes against the key that lost the benchmark:
   user said two turns ago, because the prior is now compared only within
   the fresh tier (or within the not-fresh tier).
 - **key order**: `expected` stays above `filler_idf`, but the fresh tier
-  sits above both -- that is what actually decided failure 2.
+  sits above both; that is what actually decided failure 2.
 
 The property that makes this safe cold: when no session proposition is in
 the pool, `fresh` is a constant and the sort behaves exactly as before
@@ -179,10 +179,10 @@ only the sort changed.
 ### Found on the way, not fixed: the postings double-append
 
 At the 60,000 cap the eviction branch (organs/higher_cortex.py:388-404)
-calls `_rebuild_postings()` -- which rebuilds every posting list from
-`meta`, including the row just appended -- and then falls through to the
-shared append loop (higher_cortex.py:429-432), which appends the newest
-row's index AGAIN into `_postings` and `_stem_postings`. The most recent
+calls `_rebuild_postings()` and then falls through to the shared append
+loop (higher_cortex.py:429-432). The rebuild reconstructs every posting list
+from `meta`, including the row just appended; the append loop then appends
+the newest row's index AGAIN into `_postings` and `_stem_postings`. The most recent
 row is therefore double-posted; the next bind's rebuild wipes it and
 double-posts the new newest row, so exactly one row is ever wrong and the
 corruption walks forward one row per bind.
@@ -191,7 +191,7 @@ Probe (`_tmp/debug_postings.py`, output `_tmp/debug_postings_out.txt`):
 row 59999 ("where is the box", the newest) shows `raw postings x2, stem
 postings x2` for every word of its key; every older row shows x1. Effect
 measured through `recall()`: it walks posting lists without dedup
-(higher_cortex.py:485-488), so the newest row's overlap doubles -- the
+(higher_cortex.py:485-488), so the newest row's overlap doubles: the
 probe's recall shows `ov=4` for the newest row where the true overlap is
 2 (`the` filtered as non-distinctive; is+box = 2, each counted twice).
 
@@ -229,7 +229,7 @@ The two diagnosed failures now pass warm and cold, and nothing else moved:
 role_chain/cold was already 1/2 before the fix ("who follows the sparrow"
 -> the corpus fragment "answered the sparrow as she flew away now", whose
 role-3 filler "as" passes the filler guard while the full reply contains
-the question's own object) -- a pre-existing gap newly measured, not a
+the question's own object), a pre-existing gap newly measured, not a
 regression. The connectome delta keeps the reference-session shape
 (bigrams +14, binder 6 added / 6 evicted, everything else flat); the
 nnz trace metric (findings #5) is still unapplied.
