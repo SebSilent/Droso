@@ -249,6 +249,29 @@ python tools/converse.py --benchmark      # fixed script, scored
 python tools/converse.py --benchmark --save mytag
 ```
 
+### Talking to him over HTTP
+
+`tools/serve.py` is the same door as an OpenAI-compatible endpoint, for
+clients that already speak that format. The ingest rule is the same one
+the CLI applies: the last user message's content is the utterance,
+verbatim; everything else in the request (system prompts, temperatures,
+earlier turns) is ignored, because a conversation with Droso is one
+utterance per turn, not a transcript. A spoken reply arrives as
+`choices[0].message.content`; a silent turn arrives as an empty content,
+never as a reason dressed up as speech. The server is deliberately
+single-threaded: one session, one turn at a time.
+
+```bash
+python tools/serve.py                     # 127.0.0.1:8080
+python tools/serve.py --port 9000         # any OpenAI-format client
+```
+
+`POST /v1/chat/completions` with `{"messages": [{"role": "user",
+"content": "..."}]}`; `GET /v1/models` lists him. The live-file guard
+covers the whole run, including the build; the known no-op churn of
+`state/banc_brain.npz` (debt entry 6) is named and its content
+re-verified rather than silently whitelisted.
+
 The benchmark scores a fixed script -- greeting, question, follow-up,
 contradiction, recall probe, unknowable question -- on three things:
 `answered` (probes that got speech), `self_consistent` (the same question
