@@ -1,0 +1,376 @@
+[
+ {
+  "ask": "how is the coat",
+  "said": "brown coat so that it is all torn",
+  "source": "recalled proposition",
+  "retrieval": {
+   "cue": [
+    "is",
+    "the",
+    "coat"
+   ],
+   "role": 3,
+   "recalled": [
+    {
+     "tokens": [
+      "brown",
+      "coat",
+      "so",
+      "that",
+      "it",
+      "is",
+      "all",
+      "torn"
+     ],
+     "overlap": 2,
+     "overlap_idf": 9.8632,
+     "similarity": 0.4795
+    },
+    {
+     "tokens": [
+      "my",
+      "coat",
+      "and",
+      "thought",
+      "a",
+      "little",
+      "more",
+      "in"
+     ],
+     "overlap": 1,
+     "overlap_idf": 7.1414,
+     "similarity": 0.6181
+    },
+    {
+     "tokens": [
+      "the",
+      "little",
+      "pocket",
+      "of",
+      "his",
+      "coat",
+      "with",
+      "as"
+     ],
+     "overlap": 1,
+     "overlap_idf": 7.1414,
+     "similarity": 0.584
+    },
+    {
+     "tokens": [
+      "with",
+      "hardly",
+      "a",
+      "coat",
+      "to",
+      "his",
+      "back",
+      "or"
+     ],
+     "overlap": 1,
+     "overlap_idf": 7.1414,
+     "similarity": 0.5776
+    },
+    {
+     "tokens": [
+      "his",
+      "coat",
+      "with",
+      "as",
+      "many",
+      "as",
+      "he",
+      "could"
+     ],
+     "overlap": 1,
+     "overlap_idf": 7.1414,
+     "similarity": 0.5603
+    }
+   ],
+   "ranked": [
+    {
+     "tokens": [
+      "brown",
+      "coat",
+      "so",
+      "that",
+      "it",
+      "is",
+      "all",
+      "torn"
+     ],
+     "key": [
+      2,
+      0.0,
+      0,
+      2.194,
+      1
+     ]
+    },
+    {
+     "tokens": [
+      "traveling",
+      "coat",
+      "without",
+      "epaulettes",
+      "had",
+      "been",
+      "packing",
+      "with"
+     ],
+     "key": [
+      1,
+      0.0,
+      0,
+      10.086,
+      1
+     ]
+    },
+    {
+     "tokens": [
+      "coat",
+      "which",
+      "was",
+      "weighted",
+      "by",
+      "the",
+      "coppers",
+      "which"
+     ],
+     "key": [
+      1,
+      0.0,
+      0,
+      9.13,
+      1
+     ]
+    },
+    {
+     "tokens": [
+      "window",
+      "that",
+      "he",
+      "wore",
+      "a",
+      "blue",
+      "coat",
+      "and"
+     ],
+     "key": [
+      1,
+      0.0,
+      0,
+      7.889,
+      1
+     ]
+    },
+    {
+     "tokens": [
+      "with",
+      "hardly",
+      "a",
+      "coat",
+      "to",
+      "his",
+      "back",
+      "or"
+     ],
+     "key": [
+      1,
+      0.0,
+      0,
+      7.141,
+      0
+     ]
+    }
+   ]
+  }
+ },
+ {
+  "ask": "where is the coat",
+  "said": "brown coat so that it is all torn",
+  "source": "recalled proposition",
+  "retrieval": {
+   "cue": [
+    "is",
+    "the",
+    "coat"
+   ],
+   "role": 3,
+   "recalled": [
+    {
+     "tokens": [
+      "droso",
+      "says",
+      "brown",
+      "coat",
+      "so",
+      "that",
+      "it",
+      "is"
+     ],
+     "overlap": 2,
+     "overlap_idf": 9.8632,
+     "similarity": 0.5692
+    },
+    {
+     "tokens": [
+      "brown",
+      "coat",
+      "so",
+      "that",
+      "it",
+      "is",
+      "all",
+      "torn"
+     ],
+     "overlap": 2,
+     "overlap_idf": 9.8632,
+     "similarity": 0.4795
+    },
+    {
+     "tokens": [
+      "my",
+      "coat",
+      "and",
+      "thought",
+      "a",
+      "little",
+      "more",
+      "in"
+     ],
+     "overlap": 1,
+     "overlap_idf": 7.1414,
+     "similarity": 0.6181
+    },
+    {
+     "tokens": [
+      "the",
+      "little",
+      "pocket",
+      "of",
+      "his",
+      "coat",
+      "with",
+      "as"
+     ],
+     "overlap": 1,
+     "overlap_idf": 7.1414,
+     "similarity": 0.584
+    },
+    {
+     "tokens": [
+      "with",
+      "hardly",
+      "a",
+      "coat",
+      "to",
+      "his",
+      "back",
+      "or"
+     ],
+     "overlap": 1,
+     "overlap_idf": 7.1414,
+     "similarity": 0.5776
+    }
+   ],
+   "ranked": [
+    {
+     "tokens": [
+      "brown",
+      "coat",
+      "so",
+      "that",
+      "it",
+      "is",
+      "all",
+      "torn"
+     ],
+     "key": [
+      2,
+      0.0,
+      0,
+      8.032,
+      1
+     ]
+    },
+    {
+     "tokens": [
+      "droso",
+      "says",
+      "brown",
+      "coat",
+      "so",
+      "that",
+      "it",
+      "is"
+     ],
+     "key": [
+      2,
+      0.0,
+      0,
+      2.722,
+      0
+     ]
+    },
+    {
+     "tokens": [
+      "prince",
+      "andrew",
+      "in",
+      "a",
+      "traveling",
+      "coat",
+      "without",
+      "epaulettes"
+     ],
+     "key": [
+      1,
+      0.0,
+      0,
+      10.086,
+      1
+     ]
+    },
+    {
+     "tokens": [
+      "an",
+      "old",
+      "coat",
+      "going",
+      "to",
+      "bring",
+      "the",
+      "flesh"
+     ],
+     "key": [
+      1,
+      0.0,
+      0,
+      7.889,
+      1
+     ]
+    },
+    {
+     "tokens": [
+      "though",
+      "i",
+      "see",
+      "you",
+      "have",
+      "got",
+      "his",
+      "coat"
+     ],
+     "key": [
+      1,
+      0.0,
+      0,
+      7.141,
+      0
+     ]
+    }
+   ]
+  }
+ }
+]
