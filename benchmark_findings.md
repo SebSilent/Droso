@@ -28,8 +28,8 @@ is a retrieval/ranking failure.
 Three mechanisms stack:
 
 1. **The role vote cannot express "location".** `role_for('where') = 3`
-   (votes: role 2 x133, role 3 x3142) and `role_for('how') = 3` (2:79, 3:2754)
-   -- the same slot for both question words, because the graded corpus answered
+   (votes: role 2 x133, role 3 x3142) and `role_for('how') = 3` (2:79, 3:2754):
+   the same slot for both question words, because the graded corpus answered
    both with short 4-token propositions ("the garden is here" -> role 3 =
    "here"). In the 6-token location proposition `the box is on the shelf`,
    role 3 is "**on**" (idf 3.106); the location word "shelf" sits at role 5,
@@ -37,7 +37,7 @@ Three mechanisms stack:
    the weakest possible answer word.
 2. **His own rehearsed answer is a proposition.** The earlier reply "the box is
    heavy" was heard back and bound as `droso says the box is heavy`. Its
-   role-3 filler is "**box**" -- the question's own word, idf 7.326, the
+   role-3 filler is "**box**", the question's own word, idf 7.326, the
    highest of any candidate.
 3. **The informative sort ranks filler idf above the not-in-cue guard.** The
    key is `(overlap, expected, filler_idf, not_in_cset)` descending
@@ -49,7 +49,7 @@ Three mechanisms stack:
 
 The learned answer-type prior (`answer_types['where'] = {'here': 3216,
 'home': 59}`) gives every candidate here `expected = 0`, so it does not decide
-this one -- filler idf does.
+this one; filler idf does.
 
 ## Failure 2: "how is the garden" -> "the garden is calm" (session fact loses)
 
@@ -70,7 +70,7 @@ has no "loud" entry, so both candidates sat at expected = 0 and idf decided.)
 
 ## Failure 3: SAN nnz unchanged (66,107,030 -> 66,107,030)
 
-Not a broken write -- a saturated graph. The word-cell pair matrix is 49.5%
+Not a broken write: a saturated graph. The word-cell pair matrix is 49.5%
 occupied (66.1M of 133.5M possible pairs), and every cross-cell pair between
 the footprint cells of the scripts' words is already nonzero before the
 session, mostly as residual weights from decayed training writes:
@@ -107,15 +107,15 @@ row-weight movement (which did happen) is the live signal.
 
 ## Where a fix would go (not implemented)
 
-1. Role assignment: `role_for`/`answer_types` (neural_language.py:1791-1817)
-   -- "where" needs a location role, which for long propositions is not role
+1. Role assignment: `role_for`/`answer_types` (neural_language.py:1791-1817).
+   "where" needs a location role, which for long propositions is not role
    3; either per-proposition role inference or a role vote conditioned on
    proposition length.
 2. Sort key order (neural_language.py:2004-2008): `not_in_cset` should outrank
-   `filler_idf` -- a filler that is the question's own word is never the
+   `filler_idf`: a filler that is the question's own word is never the
    answer.
 3. Answer-type prior weight: the `expected` term (0.5) should decay with
-   session recency -- a fact heard this session should outrank a 2651-vote
+   session recency: a fact heard this session should outrank a 2651-vote
    training prior, or at least the prior should be normalized (2651 vs 59 is
    a corpus repetition artifact, not a knowledge difference).
 4. Self-rehearsal propositions ("droso says ...") should be marked at bind
@@ -142,7 +142,7 @@ recall it.
   stray penny my"). The cold grader auto-derives `must_not` from the taught
   words, so both pass by absence.
 
-The pass counts therefore do not discriminate warm from cold -- the reply
+The pass counts therefore do not discriminate warm from cold; the reply
 content does. Warm answers with the taught proposition; cold is silent or
 answers with a corpus fragment that shares only the question's own words. The
 `must_not_contain` guards are what make the warm passes meaningful: an answer
@@ -150,7 +150,7 @@ from the wrong tell, or a blend of the two, would have failed.
 
 Harness hardening in the same session: the probe guard in `tools/converse.py`
 watched nine named files, one of which (`language_state.json.san.npy`) does not
-exist -- the real SAN file is `language_state.san.npy` (the save code's
+exist: the real SAN file is `language_state.san.npy` (the save code's
 `with_suffix` replaces ".json" instead of appending), so a session that wrote
 the Hebbian weights would have gone unreported. The guard now snapshots the
 whole `state/` tree minus the harness's own outputs (`sessions/`, `fitness/`)
