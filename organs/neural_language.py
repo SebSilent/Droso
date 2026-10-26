@@ -1806,6 +1806,35 @@ class NeuralLanguage:
     # he will answer from it. Below this he says the closest memory covers only
     # part of the question, which is a true report and not a guess.
     ANSWER_COVERAGE_FLOOR = 0.6
+    # The question-shape parser's word sets. Deliberately NOT stemming.STOPWORDS:
+    # that set is baked into 295 stored procedure signatures and is tuned for
+    # cue-building, not for finding the content word a question asks about. The
+    # "verb" of a shape is whatever stands after the interrogative once these are
+    # set aside -- no table of verbs, so the parser stays word-agnostic and works
+    # on words it has never been told about.
+    SHAPE_FUNCTION_WORDS = frozenset({
+        "the", "a", "an", "of", "to", "in", "on", "at", "for", "with", "by",
+        "from", "up", "about", "into", "over", "after", "is", "are", "was",
+        "were", "be", "been", "being", "am", "and", "or", "but", "nor", "so",
+        "yet", "that", "this", "these", "those", "it", "its", "he", "she",
+        "his", "her", "him", "they", "them", "their", "we", "us", "our",
+        "you", "your", "i", "my", "me", "as", "than", "then", "there",
+        "here", "not", "no", "yes", "do", "does", "did", "done", "doing",
+        "have", "has", "had", "having", "will", "would", "shall", "should",
+        "can", "could", "may", "might", "must", "very", "too", "also",
+        "just", "now", "still", "even"})
+    SHAPE_COPULAS = frozenset(
+        {"is", "are", "was", "were", "be", "been", "being", "am"})
+    SHAPE_DO_SUPPORT = frozenset({"does", "do", "did"})
+    # A place is stated with a preposition after the copula. This is a closed
+    # class like the function words above, not a table of content: the
+    # word-agnostic claim covers the verbs and the fillers, which are found,
+    # not looked up.
+    SHAPE_LOCATIVE_PREPS = frozenset({
+        "in", "on", "at", "under", "over", "behind", "beside", "near", "by",
+        "with", "among", "against", "beneath", "above", "below", "across",
+        "through", "toward", "towards", "upon", "within", "inside", "outside",
+        "off", "onto", "between", "beyond", "along", "around"})
 
     def learn_qa(self, q_tokens, a_tokens) -> dict:
         """Learn which role a question word asks about, from a Q and its A.
@@ -1885,6 +1914,185 @@ class NeuralLanguage:
         if sum(int(v) for v in votes.values()) >= self.INTERROGATIVE_STRONG_VOTES:
             return True
         return w not in self.statement_words
+
+    def _question_shape(self, q_tokens) -> dict:
+        """Classify a question into a shape the answer-checker can verify.
+
+        Returns None (abstain) when the question has no checkable shape; the
+        binder's own ranking then stands unchanged. Three shapes are checkable,
+        each defining where the filler -- the word that answers the question --
+        lives in a proposition that has that shape:
+
+        subject_unknown  who/what + VERB + tail: the filler is the first
+                         content word BEFORE the verb, and the tail's stems
+                         follow the verb in order ("who follows the sparrow"
+                         is answered by "the crow follows the sparrow").
+        object_unknown   who/what + does/do/did + SUBJECT + VERB: the filler
+                         is the first content word AFTER the verb, the
+                         subject's stem before it. Without this shape a taught
+                         object fact ("droso wants food") is vetoed by a
+                         misparse that reads the subject as the verb.
+        locative_unknown where + COPULA + subject: the filler is the last
+                         content word AFTER the copula, the subject's stem
+                         before it, and a preposition stands between the
+                         copula and the filler ("where is the box" by "the
+                         box is on the shelf"). The preposition is what
+                         separates a place from a state: without it "the box
+                         is heavy" has the shape of a place too.
+
+        Abstain rules, each of which leaves the binder's answer untouched:
+
+        - no who/what/where in the question (how/why/when ask for no role
+          this parser can check);
+        - who/what followed immediately by a copula ("what is the box", "who
+          is droso", "who is the one holding the light"): the question asks
+          for the copula's complement, whose subject is not a role filler
+          this parser can find without the kind of parse that made retrieval
+          a liability before. The binder's own ranking answers these or
+          refuses;
+        - no content token after the interrogative, or the verb is the
+          question's last token ("what is for dinner" reads "dinner" as its
+          verb, and "dinner" is the complement the question is about, not a
+          role filler);
+        - a where-question with no copula, or no subject after it.
+
+        Known limits, accepted: a passive-voice answer ("the book was wrote by
+        him" to "who wrote the book") has the right structure in a voice this
+        matcher cannot check and would be vetoed; and a preposition-less
+        locative ("the box is downstairs") is refused with it. Both refusals
+        are true reports about the parser's own verification, not about the
+        absence of an answer; extending the matcher to the passive is future
+        work, not silent tolerance.
+        """
+        q = [str(t).strip().lower() for t in (q_tokens or []) if str(t).strip()]
+        inter = next((w for w in q if w in ("who", "what", "where")), None)
+        if inter is None:
+            return None
+        rest = q[q.index(inter) + 1:]
+        if not rest:
+            return None
+        if inter == "where":
+            if rest[0] not in self.SHAPE_COPULAS:
+                return None
+            # The subject is the FIRST content token after the copula, not
+            # every one: "where is the box kept" has "kept" standing after
+            # the copula too, and "kept" is not part of the subject. Taking
+            # only the first keeps that shape checkable ("the box is kept in
+            # the pantry" answers it) instead of vetoing it.
+            subject = [t for t in rest[1:]
+                       if t not in self.SHAPE_FUNCTION_WORDS][:1]
+            if not subject:
+                return None
+            return {"kind": "locative_unknown", "copula": rest[0],
+                    "subject": subject}
+        # who/what + copula asks for the copula's complement ("what is the
+        # box", "who is droso", "who is the one holding the light"): the
+        # subject is not a role filler this parser can find without the kind
+        # of parse that made retrieval a liability before. The binder's own
+        # ranking answers these or refuses.
+        if rest[0] in self.SHAPE_COPULAS:
+            return None
+        if rest[0] in self.SHAPE_DO_SUPPORT and len(rest) >= 3:
+            subject = [t for t in rest[1:-1]
+                       if t not in self.SHAPE_FUNCTION_WORDS][:1]
+            if not subject:
+                return None
+            return {"kind": "object_unknown", "subject": subject,
+                    "verb": rest[-1], "tail": []}
+        verb_i = next((i for i, t in enumerate(rest)
+                       if t not in self.SHAPE_FUNCTION_WORDS), None)
+        if verb_i is None or verb_i >= len(rest) - 1:
+            return None
+        tail = [t for t in rest[verb_i + 1:]
+                if t not in self.SHAPE_FUNCTION_WORDS]
+        return {"kind": "subject_unknown", "verb": rest[verb_i],
+                "tail": tail}
+
+    def _shape_matches(self, shape: dict, tokens) -> str:
+        """Does this proposition have the queried shape?
+
+        Returns the filler -- the word that answers the question -- or None.
+        Matching is stem-based (organs/stemming.py: follows -> follow,
+        holding -> hold, watches -> watch), so inflection does not defeat it.
+        """
+        toks = [str(t).strip().lower() for t in (tokens or []) if str(t).strip()]
+        if not toks:
+            return None
+        stems = [stem(t) for t in toks]
+        kind = shape["kind"]
+        if kind == "subject_unknown":
+            vs = stem(shape["verb"])
+            vi = next((i for i, s in enumerate(stems) if s == vs), None)
+            if vi is None:
+                return None
+            before = [t for t in toks[:vi]
+                      if t not in self.SHAPE_FUNCTION_WORDS]
+            if not before:
+                return None
+            pos = vi + 1
+            for t in shape["tail"]:
+                ts = stem(t)
+                nxt = next((i for i, s in enumerate(stems[pos:], start=pos)
+                            if s == ts), None)
+                if nxt is None:
+                    return None
+                pos = nxt + 1
+            return before[0]
+        if kind == "object_unknown":
+            vs = stem(shape["verb"])
+            vi = next((i for i, s in enumerate(stems) if s == vs), None)
+            if vi is None:
+                return None
+            for t in shape["subject"]:
+                ts = stem(t)
+                if not any(s == ts for s in stems[:vi]):
+                    return None
+            after = [t for t in toks[vi + 1:]
+                     if t not in self.SHAPE_FUNCTION_WORDS]
+            if not after:
+                return None
+            return after[0]
+        # locative_unknown. A place is stated with a preposition after the
+        # copula ("is on the shelf", "is kept in the pantry"); a state ("is
+        # heavy", "is red") has none. Requiring one keeps a state from having
+        # the shape of a place, which is what let "the box is heavy" answer
+        # "where is the box" before. The cost, accepted: a preposition-less
+        # locative ("the box is downstairs") is refused too, an honest report
+        # about the matcher's own verification.
+        cs = stem(shape["copula"])
+        ci = next((i for i, s in enumerate(stems) if s == cs), None)
+        if ci is None:
+            return None
+        for t in reversed(shape["subject"]):
+            ts = stem(t)
+            if not any(s == ts for s in stems[:ci]):
+                return None
+        tail = toks[ci + 1:]
+        if not any(t in self.SHAPE_LOCATIVE_PREPS for t in tail):
+            return None
+        after = [t for t in tail
+                 if t not in self.SHAPE_FUNCTION_WORDS]
+        if not after:
+            return None
+        return after[-1]
+
+    def _arbitrate_shape(self, shape: dict, hits: list) -> tuple:
+        """First hit in the informative order that has the queried shape.
+
+        agree    the binder's own best match has the shape: no change; the
+                 two brains concurred.
+        override a lower hit has it: the ranking shared the words and missed
+                 the structure; the lower hit becomes the answer.
+        veto     nothing has the shape: the best match is a neighbour that
+                 shares vocabulary and not structure, and answering from it
+                 is the confabulation the coverage floor cannot see. He
+                 refuses, which is a true report.
+        """
+        for i, h in enumerate(hits):
+            filler = self._shape_matches(shape, h["tokens"])
+            if filler is not None:
+                return h, ("agree" if i == 0 else "override"), filler
+        return None, "veto", None
 
     def answer(self, question, speaker: str = "you") -> dict:
         """Hear a question, look up what he knows, and say it.
@@ -2086,7 +2294,25 @@ class NeuralLanguage:
             hits.sort(key=informative, reverse=True)
             trace["ranked"] = [{"tokens": h["tokens"], "key": informative(h)}
                                for h in hits[:5]]
-        best = hits[0]
+        # The binder ranks by shared words and cannot see sentence structure;
+        # the parser checks the one thing the ranking cannot: does the best of
+        # these have the shape of an answer? Three verdicts -- agree (no
+        # change), override (a lower hit has the shape the best match lacks),
+        # veto (nothing does; answering from a shapeless neighbour is the
+        # confabulation the coverage floor cannot see). An abstention -- a
+        # question with no checkable shape -- changes nothing by construction.
+        shape = self._question_shape(q)
+        if shape is not None:
+            best, verdict, shape_filler = self._arbitrate_shape(shape, hits)
+            trace["parser"] = {"shape": shape, "verdict": verdict,
+                               "filler": shape_filler}
+            if best is None:
+                return {"answered": False, "spoken": False,
+                        "reason": "nothing he remembers has that shape",
+                        "cue": content, "parser": {"shape": shape,
+                                                   "verdict": "veto"}}
+        else:
+            best = hits[0]
         tokens = [str(t) for t in best["tokens"]]
         filler = None
         score = None

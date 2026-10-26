@@ -347,7 +347,10 @@ meadow/bright, fox/teaches/hare, hare/guards/fox, silver/spoon/smooth,
 wooden/bowl/rough/light, tea/bitter/sour/green, brass/sounds/sunrise).
 Vocabulary gate: `tools/check_script_words.py --scripts
 tools/scripts_fresh.json`: all words owned, turn counts 4,5,4,4,5,5,4,
-matching the seen set. The lever was shaped against the seen set; if the
+matching the seen set. Corpus-novelty gate (added after the flaw below
+was diagnosed): `tools/check_script_novelty.py --scripts
+tools/scripts_fresh.json` -- see the flaw section for its findings.
+The lever was shaped against the seen set; if the
 fresh set shows the same cross-vs-cold lift, the lever generalises; if
 the fresh set stays flat while the seen set jumps, the lever was
 overfit.
@@ -371,7 +374,11 @@ all under the 3.10 interpreter:
 Six of seven: clean cold baseline, cross at ceiling. The lever does no
 harm on corpus-novel content, and there is no lift to measure at a
 ceiling that cold already reaches. The generalisation claim rests on the
-seventh cell, which needs reading carefully.
+seventh cell, which needs reading carefully. (Revised below by the
+corpus-novelty gate: "clean" here means the cold run leaked nothing;
+at the fact level five of the seven sets hold corpus near-duplicates,
+so only role_chain_fresh and override_fresh are corpus-novel in the
+strong sense.)
 
 **accumulation_fresh cold=0.00 is a flaw in the control set, not a
 harder test.** The corpus already holds the taught fact: binder row
@@ -382,9 +389,36 @@ overlap_idf 9.86, the trace in `docs/evidence/coldtrace.json`) and leaks "torn"
 onto the must_not list. The vocabulary gate checked that the *words* are
 owned; nothing checked that the *fact* is corpus-novel: the seen set's
 clean cold baseline (its box rows contain none of heavy/red/shelf) was
-luck, not design. Fix shape, not applied: a corpus-novelty gate next to
-the vocabulary gate, scanning the binder meta for subject-word and
-expect-word co-occurrence and failing the set before it runs.
+luck, not design. The corpus-novelty gate is now applied:
+`tools/check_script_novelty.py --scripts <set>` scans the binder meta
+for propositions sharing two or more content stems with a single
+teaching and fails the set before it runs, with the offending rows on
+the record. The logged fix shape said "subject-word and expect-word
+co-occurrence"; that rule is unusable as written -- the vocabulary gate
+guarantees every script word is owned, so single-word co-occurrence is
+inevitable and the first cut flagged all seven scripts on stray words
+(any "march hare" row hit role_chain_fresh). The working rule is
+fact-level: one shared word is a word the corpus owns by design, two
+shared content stems on one teaching is the taught fact sitting in the
+corpus. On the fresh set the gate flags five of seven: reference_fresh
+(4 rows, e.g. "there was a candle burning just outside" vs "the candle
+burns at night"), accumulation_fresh (2, including row 33878 and
+"tails of my coat were all soaking wet"), discrimination_fresh (2,
+"the left side of the forest was dark"), switch_back_fresh (1,
+"buonaparte was born with a silver spoon"), session_context_fresh (1,
+"distant owl was all the sound"); role_chain_fresh and override_fresh
+are clean. A hit is potential, not proven, contamination -- the row
+must also win recall to leak, which the cold run measures -- so the
+cold 1.00s on the flagged cells are luck to be re-examined, not
+evidence of novelty. The set's fix (new content words for the flagged
+teachings) remains a separate decision. On the seen set the gate flags
+one script: role_chain, "the crows sailing overhead perhaps watched me
+while" vs the teaching "the sparrow watches the crow" (crow+watch) --
+the other six clean. That cell passed cold in practice, so the hit is
+potential, not realized; but the earlier claim that the seen set's
+clean cold baseline rests on box rows lacking heavy/red/shelf is now
+only part of the story -- the crow-watch teaching has a corpus
+neighbour too, and it simply never won recall.
 
 The same cell's cross=1.00 is nonetheless the strongest evidence the
 floor has produced: the session teaching ("the coat is torn") had to
@@ -407,6 +441,378 @@ coat"), which only the fixed argument produces, and the fresh table's
 cold column is populated end to end.
 
 Probe note: the 02:04 cold probe (`build()` with no `project_root`)
-reproduced the known `banc_brain.npz` no-op churn (debt entry 6): mtime
-moved, arrays identical. No live-state contamination; the guard-window
-gap remains open as logged.
+reproduced the known `banc_brain.npz` no-op churn (debt entry 6 below):
+mtime moved, arrays identical. No live-state contamination; the
+guard-window gap remains open as logged below.
+
+### The append-only logs are repo-root organ diagnostics (2026-10-26, the 04:00-04:10 window classified)
+
+During the drift-check window three append-only logs moved:
+`exocortex/evaluations.jsonl` (+8 rows, 04:04:00-04:05:37),
+`state/knowledge_ledger.jsonl` (+3 rows, 04:04:26),
+`exocortex/api_usage.json` (+5 rows, 04:03:55). Classified by reading
+the writers, not by assumption:
+
+- The writers resolve to the repo root by design, not to a session's
+  `project_root`: `organs/evaluator.py:8` hardcodes
+  `EXO = Path("C:/Projects/HybridLLM/exocortex")` and
+  `organs/knowledge.py:80-81` takes `ROOT =
+  Path(__file__).resolve().parents[1]`. Organ diagnostics are global
+  properties of corpus+code, deliberately not per-session state.
+- Harness runs cannot write them: `converse.build()`
+  (tools/converse.py:143-171) stops the background organs (heartbeat,
+  neural_growth, learning_loop, autotraining, exposure_thread), seals
+  the learning loop read-only, and nulls the oracle key ("mode becomes
+  blocked: refusals, never calls"). Both drift sides use it —
+  serve.py:194 included — so the fresh suite (verified first-hand: 0
+  evaluations rows in its 01:37-01:50 window) and the drift runs' own
+  processes wrote nothing.
+- The 04:03:55-04:05:37 entries came from one raw-build process with a
+  live oracle: the api_usage burst contains ok:true calls (6+7, 2+4
+  tokens), which a sealed process cannot make. Its rows are organ
+  self-activity (learning-loop tasks "What is a monad?", procedure
+  holes "surface area of a sphere"), not script or teaching content.
+  Most likely a lost-window probe; the drift runs are exonerated.
+- The agent's behavioural state was guarded throughout: the 04:02:42
+  drift report says `live_files_untouched=True` (only the known
+  banc_brain.npz no-op churn, content identical — debt entry 6 below).
+
+Net: no contamination; the logs are diagnostics by design. One
+residual: the guards snapshot `state/` only, so the two `exocortex/`
+logs sit outside every guard window (the ledger, in `state/` root, is
+inside) — a future bug that wrote memory content into them would go
+unnoticed. Noted, not fixed.
+
+## Debt log, folded in (2026-10-26)
+
+`docs/debt_log.md` is folded here verbatim: dated entries for fixes and
+tests that exist but are not fully verified, or observations that need a
+future decision. Verification status is stated per item; nothing here is
+claimed as proven that is not.
+
+### 2026-10-25
+
+#### 1. Binder postings double-append fix — fixed, regression-tested, mutation-verified
+
+`organs/higher_cortex.py:404-411` (the `_postings` maintenance in
+`Binder.remember`): a re-remember of an existing row appended its postings a
+second time, so the inverted index double-counted rows and recall returned
+duplicates weighted by re-tell count. Fixed by rebuilding the row's postings
+in place. Regression tests added at `tests/test_binder_postings.py`
+(double-append and idempotent re-remember).
+
+Verification: mutation check run today — reverting the fix kills both
+regression tests (2 failed), restoring it passes them (2 passed), and the
+restored file is byte-identical to the working copy. The fix is real and
+guarded.
+
+#### 2. Observatory port-collision tests — present, suite green, arithmetic not fully reconstructible
+
+Two tests exist at `tests/test_connectome_house.py:1006` (port takeover
+detected) and `:1066` (bind refusal on a taken port). Current suite collects
+**372 tests** and is green. At the point the Observatory tests were removed
+from the working tree, the suite collected 367 (364 passed, 3 skipped —
+`docs/evidence/suite_after_deletion.txt`), which is consistent with the tests being
+part of the suite, but the exact batch arithmetic (365 → 367 → 372) cannot be
+reconstructed without version control. What is verifiable stands: the tests
+exist, cover both collision behaviours, and the suite is green with them in.
+
+#### 3. api_oracle HTTPError-without-body fix — fixed, tested, mutation-verified
+
+`organs/api_oracle.py:778-787`: an `HTTPError` with no body made the
+`hasattr(e, "read")` guard crash with `KeyError` (the class's `__getattr__`
+raises for unset attributes when `fp is None`), masking the real status
+instead of reporting `reason="http_<code>"`. Fixed: the body read sits in
+its own try/except, so the HTTP code survives an unreadable body.
+
+Closed: `tests/test_api_organs.py:126-159` covers both shapes — a 429 with
+an empty headers dict and a 500 with `fp=None` — asserting
+`reason == "http_<code>"`, `text == ""` and the error counted. 62 passed on
+both interpreters (3.10 and 3.12). Mutation-verified both ways on 3.10, the
+interpreter where the trap exists: with the guard reverted both tests fail
+with `KeyError: 'file'` from `tempfile.__getattr__`; restored, 62 pass. On
+3.12 the trap does not exist (`hasattr(e, "read")` is True and `read()`
+returns cleanly with `fp=None`), so the test passes either way there — the
+docstring's "measured on this interpreter (3.10)" note is what keeps the
+test honest.
+
+#### 4. SAN global decay, now measured per-phase (observation, no action yet)
+
+The cross-session smoke run
+(`state/fitness/cross_session_20261025_214202.json`) is the first
+instrument to record SAN totals per phase: tell phase moved total weight
+298,817.75 → 281,861.625 (rows_changed 8145, nnz constant 66,107,030, new
+edges 0); ask phase 281,861.625 → 268,988.062 (rows_changed 1818). Roughly
+6% and 5% of total weight decayed per phase with **no rehearsal**
+(`rehearsed_n=0` in both). This is the designed decay, not a bug — but
+repeated sessions without rehearsal will erode old associations, and the
+harness now makes that visible. Watch item: if cross-session battery runs
+show monotone total-weight decline with no rehearsal counter-pressure,
+rehearsal policy needs a look. Related finding from the same day: the sort
+key's only cold-discriminating term (filler-idf) ranks narrative verbs and
+is inert in warm; see `docs/evidence/role_chain_proposal.md` §2a and §4.3.
+
+#### 5. Where-filler fix is state-dependent on question shape (observation, no action yet)
+
+The sfW fix's where-case (organs/neural_language.py:2012-2015) makes a
+where-question's filler its **last token**, on the argument that the
+locative lives at the answer's end. That argument holds for the script
+shapes measured so far ("where is the box" / "where is the coat":
+subject-final questions, locative-final answers). It does not hold for
+questions where the subject is not the last token: "where is the box
+kept" puts the filler on "kept", "where in the house is the box hidden"
+on "hidden": the same tie-on-a-word problem the fix removed, in a
+different guise, and a content verb can actively misrank. No current
+script or ask form hits this (all where-asks in `tools/scripts.json` and
+`tools/scripts_fresh.json` are subject-final), so nothing is broken
+today; the risk is a future script that varies the where-question's
+shape. If one is added, the filler rule needs a role-aware version
+(findings proposal #1, role votes conditioned on proposition length)
+rather than a positional shortcut.
+
+#### 7. ensure_baseline's fallback was broken two ways (fixed 2026-10-26 ~01:31; in-flight fresh suite ran on the old code)
+
+`tools/benchmark_cross_session.py` `ensure_baseline()` falls back to
+running a script's warm/cold baselines when the newest full-suite
+report has no row for it: exactly the fresh-set case, since
+`tools/scripts_fresh.json` scripts never appear in a
+`script_benchmark_*.json` report. Two bugs, the second masked by the
+first:
+
+1. The cold invocation passed `["--cold"]` with no value;
+   `tools/converse.py` `--cold` takes the scripts path as its value,
+   so argparse aborted every cold baseline with `error: argument
+   --cold: expected one argument` (exit 2), `ensure_baseline` returned
+   None, and the suite table lost its warm/cold/x-cold columns.
+2. Had the cold run succeeded, the code read only the *cold* report
+   (the loop's last `tag`) and returned its pass_rate as **both** the
+   warm and the cold number; the warm column would have silently
+   shown cold performance.
+
+Fix: pass the scripts path to `--cold`, and read each mode's own
+report for its own rate. Applied while the 2026-10-26 suites were in
+flight; the running fresh-suite processes hold the old code, so their
+report's warm/cold columns are empty by construction. The fresh warm
+files exist (the fallback's warm leg ran fine); the fresh cold
+baselines are being run separately after the suites land, and the
+comparison table is assembled from the report files directly. The
+seen-set suite is unaffected: its baselines come from the full
+`script_benchmark_*.json` report, so the fallback never fires there.
+
+#### 6. Live-file guard is blind to build-time writes; banc_brain.npz mtime churns every run (measured, no action yet)
+
+Both guard windows start **after** the agent is built:
+`tools/converse.py` main() builds at :612 and snapshots at :618;
+`tools/benchmark_cross_session.py` run_phase() builds at :76 and
+snapshots at :79. Any write during `build()` is outside every guarded
+window, so a per-run `live_files_untouched=True` verdict proves the
+*turns* wrote nothing, not that the *run* wrote nothing.
+
+Measured during the 2026-10-26 suites: the live
+`state/banc_brain.npz` mtime moves in step with every run start
+(01:15:23, 01:16:29, 01:18:29, one per run), while every other live
+file (language_state.json, cortex npz, san npy, seq npz) kept its
+pre-suite mtime. Array-level comparison of two snapshots taken across a
+run boundary (`docs/evidence/cmp_banc.py`) shows **identical content**: the
+write is a no-op rewrite (np.savez embeds zip member timestamps, so
+mtime moves even when arrays do not). The growth organ's first
+consolidation tick saves the brain unconditionally
+(organs/neural_growth.py:361-363), which is the likely writer; the
+60 s timer makes exact attribution inside a busy suite awkward, so the
+trigger is probable, not pinned.
+
+Net assessment: no live-state contamination (content verified
+identical, all other files verified unmoved), but the guard's clean
+verdicts are narrower than they read. Fix shape: take the guard
+snapshot before `build()` in both places and treat the known no-op
+banc_brain.npz churn explicitly (whitelist with a comment, or report it
+as a named known-touch), so the verdict covers the whole run. Not
+applied while the suites are in flight; the running processes hold the
+old code regardless.
+
+## The question-shape parser (2026-10-26, design before implementation)
+
+The binder answers a question from the single best-scoring memory of a
+recall ranked by shared words. That ranking cannot see sentence
+structure, and the one failing benchmark cell is exactly that blindness:
+role_chain cold, "who follows the sparrow", answered
+"answered the sparrow as she flew away now" -- a corpus fragment that
+shares the question's vocabulary and is not an answer to it. The
+coverage floor passed it because every distinctive word of the question
+was covered; nothing downstream asked whether the memory has the *shape*
+of an answer. This entry is the design, written before any code moves.
+
+### Mechanism
+
+A parser sits between the informative sort and the best-match pick in
+`NeuralLanguage.answer()` (organs/neural_language.py, after
+`hits.sort(key=informative, reverse=True)`). It classifies the question
+into one of three checkable shapes or abstains, then issues one of three
+verdicts on the ranked pool. The "verb" is whatever stands after the
+interrogative once function words are set aside -- no table of verbs, no
+table of subjects, so the parser stays word-agnostic and works on words
+it has never been told about.
+
+**Three shapes.**
+
+1. `subject_unknown` -- who/what + VERB + tail ("who follows the
+   sparrow"). The filler is the first content word *before* the verb. A
+   candidate answers it when the verb's stem is present, the tail's
+   stems follow it in order, and at least one content word stands before
+   the verb; that word is the filler.
+2. `object_unknown` -- who/what + does/do/did + SUBJECT + VERB ("what
+   does droso want"). The filler is the first content word *after* the
+   verb. A candidate answers it when the subject's stem precedes the
+   verb's stem and content follows the verb. Needed so a taught object
+   fact ("droso wants food") is not vetoed by a misparse that reads the
+   subject as the verb.
+3. `locative_unknown` -- where + COPULA + subject ("where is the box").
+   The filler is the last content word *after* the copula. A candidate
+   answers it when the copula is present, the subject's stem precedes it
+   (read right-to-left from the copula), and content follows; that
+   content is the filler.
+
+Matching is stem-based (`stem()` from organs/stemming.py: follows ->
+follow, holding -> hold, watches -> watch), so inflection does not
+defeat it.
+
+**Abstain rules** (the parser returns None and the binder's answer
+stands, unchanged):
+
+- no interrogative in the question;
+- the interrogative is how/why/when -- no checkable role;
+- who/what followed immediately by a copula ("what is the box", "who is
+  droso", "who is the one holding the light"): the question asks for the
+  copula's complement, whose subject is not a role filler this parser
+  can find without the kind of parse that turned retrieval into a
+  liability before. The binder's own ranking answers these or refuses;
+- no verb-like token after the function words, or the verb is the
+  question's last token ("what is for dinner" reads "dinner" as its
+  verb; "dinner" is the complement the question is about);
+- where-questions with no copula, or no subject after it.
+
+An abstention changes nothing by construction; the parser only ever
+speaks about shapes it can check.
+
+**Three verdicts** (`_arbitrate_shape`, over the pool in its existing
+informative order, first match wins):
+
+- *agree* -- the binder's own best match has the queried shape. No
+  change; the two brains concurred.
+- *override* -- the best match does not, but a lower one does: the
+  ranking shared the words and missed the structure. The lower hit
+  becomes the answer.
+- *veto* -- nothing in the pool has the shape. The best match is a
+  neighbour that shares vocabulary and not structure, and answering from
+  it is the confabulation the coverage floor cannot see. He refuses:
+  `{"answered": False, "spoken": False, "reason": "nothing he remembers
+  has that shape", "cue": content, "parser": <verdict>}`. The verdict is
+  also written to the turn trace as `trace["parser"]` either way, so
+  every arbitration is on the record.
+
+**Known limits, accepted:** a passive-voice answer ("the book was wrote
+by him" to "who wrote the book") has the right structure in a voice the
+parser cannot check and would be vetoed; and a preposition-less locative
+("the box is downstairs") is refused with it. Both refusals are true
+reports about the parser's own verification, not about the absence of an
+answer; extending the matcher to the passive is future work, not silent
+tolerance.
+
+**Revision, same session:** the locative matcher first took any content
+after the copula, which let a state ("the box is heavy") have the shape
+of a place. The accumulation script is that limit made live: it teaches
+"the box is heavy", "the box is red" and "the box is on the shelf", then
+asks "where is the box" -- under the loose matcher a state memory ranked
+first would be agreed with. The matcher now requires a preposition after
+the copula, so a state no longer has the shape of a place and the
+arbiter overrides to the shelf teaching if the ranking put a state
+first. The cold cell it also fixes: "where is the coat" was answered
+from "brown coat so that it is all torn", a state proposition, leaking
+the taught word "torn"; the corpus holds no coat memory with a
+preposition after its copula, so the veto now fires and he refuses.
+The cost is the preposition-less locative above.
+
+**Verification, executed.** Unit: 28 cases in `tmp_shape_unit.py`
+(parser shapes, matcher fillers, all three verdicts) -- all ok. Corpus
+probe (`tmp_coat_probe.py`): zero memories match
+`locative_unknown(is, [coat])` with a preposition required, so the cold
+"where is the coat" veto fires with no leak risk. Full fresh-set suite
+(`tmp_run_suite.bat`, warm then cold, all seven scripts):
+
+    script                  warm       cold (before -> after)
+    reference_fresh         2/2        2/2 -> 2/2
+    accumulation_fresh      2/2        0/2 -> 1/2   <- where-cell fixed
+    discrimination_fresh    2/2        2/2 -> 2/2
+    role_chain_fresh        2/2        2/2 -> 2/2
+    switch_back_fresh       2/2        2/2 -> 2/2
+    override_fresh          2/2        2/2 -> 2/2
+    session_context_fresh   2/2        2/2 -> 2/2
+    overall                 14/14      10/14 -> 13/14
+
+Warm unchanged at 14/14 (no warm veto, no warm override needed). Cold
+13/14: the remaining miss is "how is the coat", which the parser
+abstains on by design (a how-question names no role it can check), so
+the binder still answers from the corpus row that leaks "torn" -- the
+control-set flaw documented above, unchanged by this lever. The fixed
+where-cell is the veto working as designed: the corpus row about the
+coat's state is not a location, and refusing it is a true report.
+
+Seen set (`tools/scripts.json`, same suite shape, reports
+`conversation_shapes_*.json` / `shapecs_*.json`, tables via
+`tmp_summarize.py`; warm from `tmp_run_seen.bat`, the four cold cells
+the killed job left blank from `tmp_run_seen2.bat`):
+
+    script          warm       cold (before -> after)
+    reference       2/2        2/2 -> 2/2
+    accumulation    2/2        2/2 -> 2/2
+    discrimination  2/2        2/2 -> 2/2
+    role_chain      2/2        1/2 -> 2/2   <- the target cell fixed
+    switch_back     2/2        2/2 -> 2/2
+    override        2/2        2/2 -> 2/2
+    session_context 2/2        2/2 -> 2/2
+    overall         14/14      13/14 -> 14/14
+
+The target cell, role_chain cold "who follows the sparrow", now passes
+with `spoken: false, said: ""` -- the veto, not a lucky answer: the
+corpus probe (`tmp_corpus_probe.py`, the exact matcher the veto uses,
+over all 60,000 propositions) showed zero shape matches for these
+asks, so silence is the arbiter's refusal, and the cold grader
+passes it because it carries no taught word. The warm where-cell
+("where is the box") answers from the shelf teaching. Both suites are
+green: seen warm 14/14, seen cold 14/14, fresh warm 14/14, fresh cold
+13/14, with the one fresh cold miss the documented control-set flaw.
+
+### Why two brains beat one here
+
+The binder and the parser fail in opposite directions, on the same pool.
+The binder ranks by shared words and cannot refuse a fluent neighbour --
+its coverage floor measures *how much* of the question a memory covers,
+never *what role* the covered words play, so "answered the sparrow as
+she flew away now" scores as well as "the crow follows the sparrow" when
+both contain "sparrow". The parser knows the shape of an answer but
+knows nothing about which memory is worth reading -- it cannot rank, and
+run alone it would either answer from an arbitrary candidate or refuse
+everything. Together the division is clean: the binder retrieves and
+ranks the candidate pool (its recall, its coverage floor, its echo and
+question filters all stay); the parser asks one question the binder
+cannot ask -- does the best of these have the shape of an answer? -- and
+its three verdicts are exactly the three things that can be true about
+that pool. One brain answering alone is the measured failure; two brains
+disagreeing is the veto, which is a refusal, which is a true report.
+
+### Success criteria
+
+1. role_chain cold pass rate 0.5 -> 1.0: the failing cell
+   ("who follows the sparrow") is vetoed into silence, which the cold
+   grader passes (cold grading is `must_not_contain` only; silence
+   carries no taught word).
+2. Warm suite unchanged at 14/14: every warm ask either abstains (all
+   how-asks) or agrees (the traced who/what/where asks all have their
+   teaching as the binder's best, which matches the shape). A warm veto
+   or override would be a regression -- silence fails warm grading.
+3. No other cold cell regresses: the 12 passing cells stay passing
+   (silence passes cold), and no cold override may leak a taught word.
+4. Live state untouched: read-only state, no writes outside
+   `state/fitness/` reports.
+5. The full warm+cold suite green, before/after table logged here, then
+   commit and push.
