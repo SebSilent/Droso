@@ -901,3 +901,40 @@ disagreeing is the veto, which is a refusal, which is a true report.
    `state/fitness/` reports.
 5. The full warm+cold suite green, before/after table logged here, then
    commit and push.
+
+### Measured (2026-10-26 09:38, post-parser, both suites green)
+
+Baselines first so the cross harness's `ensure_baseline` picks up
+same-era numbers: `script_benchmark_20261026_083729.json` (seen set,
+warm then cold, all seven scripts). Then the cross suite:
+`cross_session_20261026_093849.json` (tell -> shadow -> ask, seen set).
+Every row used the post-parser baseline (measured_at 1793014649.4);
+every tell and ask phase reports live untouched.
+
+Before/after, per script (pre-parser reports: baselines
+`script_benchmark_20261026_012938.json`, cross
+`cross_session_20261026_014346.json`):
+
+| script          | warm   | cold       | cross | x-cold     |
+|-----------------|--------|------------|-------|------------|
+| reference       | 2->2   | 2->2       | 1.0   | 1.0->1.0   |
+| accumulation    | 2->2   | 2->2       | 1.0   | 1.0->1.0   |
+| discrimination  | 2->2   | 2->2       | 1.0   | 1.0->1.0   |
+| role_chain      | 2->2   | **1->2**   | 1.0   | **0.5->1.0** |
+| switch_back     | 2->2   | 2->2       | 1.0   | 1.0->1.0   |
+| override        | 2->2   | 2->2       | 1.0   | 1.0->1.0   |
+| session_context | 2->2   | 2->2       | 1.0   | 1.0->1.0   |
+
+The parser's whole-suite delta is one cell, twice over: role_chain cold
+1->2 in the baselines and role_chain x-cold 0.5->1.0 in the cross suite
+-- the same failing question ("who follows the sparrow"), cured in both
+harnesses by the subject-unknown veto. No other cell moved. Warm 14/14
+and cold 14/14 overall; cross overall 1.000/1.000/1.000.
+
+Environment note for future runs: a background measurement job does not
+survive a turn boundary -- the first cross-suite attempt died with the
+orchestrator on the last script and its in-memory results were lost (no
+report written; the per-phase session dirs remained). Re-ran in one
+turn, background job polled to completion. A foreground run cannot beat
+the 600s shell cap, so background-plus-polling within one turn is the
+only reliable shape for a full suite.
