@@ -1,0 +1,274 @@
+/* Neo kinpaku tokens, mirrored from C:/Projects/Impeccable DESIGN.md
+   (site/styles/kinpaku-tokens.css is the source of truth there). */
+:root {
+  --ks-kinpaku: oklch(84% 0.19 80.46);
+  --ks-kinpaku-pale: oklch(86% 0.07 84);
+  --ks-patina: oklch(70% 0.12 188);
+  --ks-lacquer: oklch(7% 0.006 95);
+  --ks-lacquer-deep: oklch(4% 0.004 95);
+  --ks-raised: oklch(11% 0.006 95);
+  --ks-champagne: oklch(91% 0 0);
+  --ks-text: oklch(88% 0 0);
+  --ks-muted: oklch(72% 0 0);
+  --ks-faint: oklch(62% 0 0);
+  --ks-rule: oklch(78% 0 0 / 0.16);
+  --ks-rule-strong: oklch(74% 0.09 82 / 0.6);
+  --ks-font-display: "Alumni Sans", "Albert Sans", Arial, sans-serif;
+  --ks-font-body: "Albert Sans", "Avenir Next", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --ks-font-mono: "SFMono-Regular", "Roboto Mono", Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { background: var(--ks-lacquer); }
+
+body {
+  margin: 0;
+  background: var(--ks-lacquer);
+  color: var(--ks-text);
+  font-family: var(--ks-font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* Header: brand lockup + mono nav, hairline bottom. */
+.site-head {
+  border-bottom: 1px solid var(--ks-rule);
+  background: var(--ks-lacquer);
+}
+
+.head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.wordmark {
+  font-family: var(--ks-font-display);
+  font-weight: 400;
+  font-size: 1.125rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ks-champagne);
+  line-height: 1;
+}
+
+.site-nav {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  font-family: var(--ks-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ks-muted);
+}
+
+.site-nav a:hover { color: var(--ks-kinpaku); }
+.site-nav a.is-active { color: var(--ks-kinpaku); }
+
+/* Prose. */
+main { padding-top: 3rem; padding-bottom: 4rem; }
+
+article, main > * { max-width: 72ch; }
+
+h1, h2, h3, h4 { color: var(--ks-champagne); }
+
+h1 {
+  font-family: var(--ks-font-display);
+  font-weight: 100;
+  font-size: clamp(2.6rem, 4vw, 3.4rem);
+  letter-spacing: -0.01em;
+  line-height: 1.04;
+  margin: 0 0 1.5rem;
+}
+
+h2 {
+  font-family: var(--ks-font-display);
+  font-weight: 300;
+  font-size: 1.75rem;
+  letter-spacing: 0;
+  line-height: 1.1;
+  margin: 3rem 0 1rem;
+}
+
+h3 {
+  font-family: var(--ks-font-body);
+  font-weight: 500;
+  font-size: 1.18rem;
+  line-height: 1.35;
+  margin: 2rem 0 0.75rem;
+}
+
+p, li { color: var(--ks-text); }
+
+strong { color: var(--ks-champagne); font-weight: 500; }
+
+a {
+  color: var(--ks-kinpaku);
+  text-decoration: underline;
+  text-decoration-color: var(--ks-rule-strong);
+  text-underline-offset: 3px;
+}
+
+a:hover { color: var(--ks-kinpaku-pale); }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--ks-rule);
+  margin: 3rem 0;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1.25rem;
+  border-left: 1px solid var(--ks-rule-strong);
+  color: var(--ks-muted);
+}
+
+/* Code. */
+code {
+  font-family: var(--ks-font-mono);
+  font-size: 0.8125rem;
+  background: var(--ks-lacquer-deep);
+  border: 1px solid var(--ks-rule);
+  border-radius: 3px;
+  padding: 0.1em 0.35em;
+  color: var(--ks-champagne);
+}
+
+pre {
+  background: var(--ks-raised);
+  border: 1px solid var(--ks-rule);
+  border-radius: 4px;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 0.8125rem;
+  color: var(--ks-text);
+}
+
+/* Tables: mono headers, hairline rows, no card chrome. */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+th {
+  font-family: var(--ks-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ks-muted);
+  text-align: left;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--ks-rule-strong);
+}
+
+td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--ks-rule);
+  color: var(--ks-text);
+  vertical-align: top;
+}
+
+/* Index rows: hairline-separated, flat, no cards. */
+.doc-list { margin: 2.5rem 0 0; padding: 0; list-style: none; }
+
+.doc-list li {
+  padding: 1.25rem 0;
+  border-top: 1px solid var(--ks-rule);
+}
+
+.doc-list li:last-child { border-bottom: 1px solid var(--ks-rule); }
+
+.doc-list a {
+  font-family: var(--ks-font-display);
+  font-weight: 300;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: var(--ks-champagne);
+}
+
+.doc-list a:hover { color: var(--ks-kinpaku); }
+
+.doc-list .doc-sub {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.9375rem;
+  color: var(--ks-muted);
+}
+
+.eyebrow {
+  font-family: var(--ks-font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ks-faint);
+  margin: 0 0 0.75rem;
+}
+
+/* Footer: hairline top, gold seam. */
+.site-foot {
+  border-top: 1px solid var(--ks-rule);
+  background: var(--ks-lacquer-deep);
+}
+
+.foot-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.foot-label {
+  font-family: var(--ks-font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ks-faint);
+}
+
+.foot-link {
+  font-size: 0.875rem;
+  color: var(--ks-muted);
+  text-decoration: none;
+}
+
+.foot-link:hover { color: var(--ks-kinpaku); }
