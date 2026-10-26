@@ -627,7 +627,7 @@ warm/cold numbers live in its own entry. The 013730 report's
 they cover turns only; the wider build+turns window is entry 6a's,
 verified separately.
 
-#### 6. Live-file guard is blind to build-time writes; banc_brain.npz mtime churns every run (measured, no action yet)
+#### 6. Live-file guard is blind to build-time writes; banc_brain.npz mtime churns every run (fixed, see 6a)
 
 Both guard windows start **after** the agent is built:
 `tools/converse.py` main() builds at :612 and snapshots at :618;
