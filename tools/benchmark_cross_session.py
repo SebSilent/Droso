@@ -59,6 +59,7 @@ SESSIONS = STATE / "sessions"
 
 sys.path.insert(0, str(ROOT))
 import tools.converse as converse  # noqa: E402
+from tools import state_hygiene  # noqa: E402
 
 
 # ----------------------------------------------------------------- phases ----
@@ -117,14 +118,13 @@ def run_phase(phase: str, name: str, scripts_path: Path, tag: str,
     # writes the json (vocabulary) plus what this session heard as utterances
     # (kilobytes); the next phase replays them through hear() itself. If the
     # delta refuses, save_state falls back to the full save on its own.
-    save = lang.save_state(delta=True)
-    if not save.get("saved"):
-        reason = str(save.get("reason") or "")
-        hint = " (disk full?)" if "requested and 0 written" in reason else ""
-        print(f"[cross] save failed{hint}: {save}")
-    elif save.get("mode") == "full":
-        print(f"[cross] {phase}: delta refused, full save written: "
-              f"{save.get('delta_refused')}")
+    # Fatal on failure: a half-saved tell session has no cortex file, so the
+    # shadow carries no teachings and the ask phase scores a fake 0.0.
+    # Measured 2026-10-26: disk full, "67108864 requested and 0 written",
+    # shadow overlay_files 2 instead of 8, two rows at 0.0 that looked like
+    # a language regression.  The phase process now dies nonzero and the
+    # orchestrator marks the row errored instead of scoring it.
+    save = state_hygiene.save_session_state(lang, f"{phase} phase")
 
     asks = [t for t in turns if t["kind"] == "ask"]
     passed = sum(1 for t in asks if t.get("pass"))
@@ -383,6 +383,9 @@ def run_suite(names: list[str], scripts_path: Path, keep: bool = False) -> int:
     out = FITNESS / f"{report['tag']}.json"
     out.write_text(json.dumps(report, indent=1, default=str),
                    encoding="utf-8")
+    # Retention: errored rows keep their session dirs (the branches above
+    # leave them for diagnosis), so the sweep bounds how long they stay.
+    state_hygiene.prune_sessions()
 
     print(f"\n{'script':<16} {'warm':>6} {'cross':>6} {'cold':>6} "
           f"{'x-cold':>7}  live")
@@ -416,6 +419,14 @@ def run_suite(names: list[str], scripts_path: Path, keep: bool = False) -> int:
     if total_freed:
         print(f"pruned session artifacts: {total_freed / (1024 * 1024):.1f} MB "
               f"reclaimed (--keep to preserve them)")
+    # The suite-level leak: this used to return 0 no matter what the rows
+    # said, so a suite with two errored rows exited green and the fake 0.0s
+    # sailed into the log as a language regression.  Errored rows now exit 1.
+    errored = [r for r in rows if "error" in r]
+    if errored:
+        print(f"\n{len(errored)} row(s) errored: "
+              f"{', '.join(r['name'] for r in errored)}")
+        return 1
     return 0
 
 

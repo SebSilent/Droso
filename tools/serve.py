@@ -37,6 +37,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import tools.converse as converse  # noqa: E402
+from tools import state_hygiene  # noqa: E402
 
 
 # ------------------------------------------------------------- payloads ----
@@ -223,13 +224,12 @@ def main() -> int:
                   flush=True)
         if unexpected:
             print(f"[serve] LIVE FILES TOUCHED: {unexpected}", flush=True)
-        try:
-            agent.language.save_state()
-            print(f"[serve] session state written under {session_dir}",
-                  flush=True)
-        except Exception as e:
-            print(f"[serve] session save failed: {type(e).__name__}: {e}",
-                  flush=True)
+        # Delta save, fatal on failure: a smoke test that half-saved its
+        # session must exit nonzero, not print and pass.
+        state_hygiene.save_session_state(agent.language, "serve session")
+        print(f"[serve] session state written under {session_dir}",
+              flush=True)
+        state_hygiene.prune_sessions()
     return 0
 
 

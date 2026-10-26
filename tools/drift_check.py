@@ -33,6 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import tools.benchmark_cross_session as cross  # noqa: E402
 import tools.converse as converse  # noqa: E402
+from tools import state_hygiene  # noqa: E402
 
 FITNESS = converse.STATE / "fitness"
 SESSIONS = converse.STATE / "sessions"
@@ -123,7 +124,7 @@ def run_cli_side(script: dict, shadow: Path, session_dir: Path) -> list[dict]:
         said = str(reply.get("utterance") or reply.get("response") or "")
         out.append({"kind": t["kind"], "said": t["said"],
                     "spoken": bool(reply.get("spoken")), "reply_text": said})
-    agent.language.save_state()
+    state_hygiene.save_session_state(agent.language, "drift cli side")
     return out
 
 

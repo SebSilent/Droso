@@ -35,6 +35,10 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+from tools import state_hygiene  # noqa: E402  (needs ROOT on sys.path)
+
 SCRIPTS = ROOT / "tools" / "scripts.json"
 FITNESS = ROOT / "state" / "fitness"
 
@@ -135,6 +139,9 @@ def main() -> int:
     outp = FITNESS / f"script_benchmark_{time.strftime('%Y%m%d_%H%M%S')}.json"
     outp.write_text(json.dumps(out, indent=2), encoding="utf-8")
     print(f"\nreport: {outp}")
+    # converse.py exits nonzero on a failed save, so run_one already raises
+    # SystemExit before this line; the sweep bounds what a green run leaves.
+    state_hygiene.prune_sessions()
     return 0
 
 

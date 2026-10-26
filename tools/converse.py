@@ -55,6 +55,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
+from tools import state_hygiene  # noqa: E402  (needs ROOT on sys.path)
+
 STATE = ROOT / "state"
 # The live state is the whole state/ tree minus the harness's own outputs
 # (sessions/, fitness/).  The guard used to name nine files, and one of
@@ -645,6 +647,7 @@ def main() -> int:
 
     before = snapshot(agent)
     session = Session(agent, beats=args.beats)
+    save_failed = False  # an interactive :save that failed makes exit 1
 
     if args.benchmark:
         report = run_benchmark(session)
@@ -697,9 +700,14 @@ def main() -> int:
                 print(json.dumps(session._state(), indent=2))
                 continue
             if line == ":save":
-                session_dir.mkdir(parents=True, exist_ok=True)
-                lang.save_state()
-                print(f"  session state written under {session_dir}")
+                try:
+                    state_hygiene.save_session_state(lang, "interactive :save")
+                    print(f"  session state written under {session_dir}")
+                except SystemExit as e:
+                    # The conversation stays alive; the failure is loud and
+                    # the process still exits nonzero at the end.
+                    print(f"  SAVE FAILED: {e}")
+                    save_failed = True
                 continue
             if not line:
                 continue
@@ -734,11 +742,10 @@ def main() -> int:
           f"{'yes' if not moved else 'NO: ' + str(moved)}")
 
     if not args.no_save_state:
-        try:
-            lang.save_state()
-            print(f"  session state written under {session_dir}")
-        except Exception as e:
-            print(f"  session state save failed: {type(e).__name__}: {e}")
+        # Delta save: the json plus what this session heard, kilobytes not
+        # gigabytes.  A failed save is fatal -- a harness downstream of this
+        # exit code must never score against a half-saved session.
+        state_hygiene.save_session_state(lang, "session")
 
     if args.save or args.benchmark:
         out = {"tag": tag, "session_dir": str(session_dir),
@@ -755,6 +762,9 @@ def main() -> int:
         outp = ROOT / "state" / "fitness" / f"conversation_{tag}.json"
         outp.write_text(json.dumps(out, indent=2), encoding="utf-8")
         print(f"  report: {outp}")
+        state_hygiene.prune_sessions()
+    if save_failed:
+        return 1
     return 0
 
 
