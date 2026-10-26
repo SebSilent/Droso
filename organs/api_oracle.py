@@ -91,7 +91,18 @@ PROVIDERS = {
     "ollama_cloud": {"base": "https://ollama.com/v1",
                      "model": "deepseek-v4.1-flash", "auth": "bearer",
                      "temp": (0.0, 2.0), "env": ("OLLAMA_CLOUD_API_KEY",),
-                     "chat_path": "/chat/completions"},
+                     "chat_path": "/chat/completions",
+                     # deepseek-v4.1-flash IS a reasoning model (see the note
+                     # above), so without this flag `thinking` defaulted to
+                     # "default" and the hidden trace was never asked to stop:
+                     # knowledge calls came back as thinking_ate_the_budget /
+                     # empty_completion. With the flag, thinking defaults to
+                     # "disabled" (line ~259) and the payload carries
+                     # thinking={"type":"disabled"} -- measured on this
+                     # provider as accepted-and-ignored -- plus
+                     # reasoning_effort="none" when the caller asks for no
+                     # reasoning, which is the field that actually works here.
+                     "reasoning_model": True},
 }
 
 SYSTEM_DEFAULT = ("You are a knowledge oracle for a program-synthesis agent. "
@@ -765,8 +776,15 @@ class APIOracle:
                     out["reason"] = "empty_completion"
             return out
         except urllib.error.HTTPError as e:
-            body = e.read().decode("utf-8", "replace")[:300] \
-                if hasattr(e, "read") else ""
+            try:
+                body = e.read().decode("utf-8", "replace")[:300] \
+                    if hasattr(e, "read") else ""
+            except Exception:
+                # An HTTPError built without a body (fp=None) raises KeyError
+                # from __getattr__ -- hasattr() only swallows AttributeError,
+                # so the old hasattr(e, "read") guard crashed on the very
+                # error it was guarding against.
+                body = ""
             reason = f"http_{e.code}"
             try:
                 parsed = json.loads(body)

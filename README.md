@@ -189,7 +189,6 @@ world/
   connectome_house.py   HTTP interface and dashboard
   reasoning_agent.py     agent assembly
   house/static/          frontend
-server/          application and websocket layer
 tools/
   fitness.py, task_battery.py, curriculum_run.py, knowledge_run.py
                     measurement
@@ -235,6 +234,32 @@ HYBRIDLLM_OFFLINE=1 python tools/fitness.py --repeat 6
 python -m pytest tests -q
 ```
 
+### Talking to him directly
+
+`tools/converse.py` holds Droso in process with the house down: the real
+state is loaded read-only, the session's writes are re-pointed into a
+session directory under `state/sessions/`, and the learning loop is sealed,
+so a conversation can never move the shipped memory. Between turns the
+language organ gets a few autonomous beats, so drives decay and recover as
+they do in the house.
+
+```bash
+python tools/converse.py                  # interactive session
+python tools/converse.py --benchmark      # fixed script, scored
+python tools/converse.py --benchmark --save mytag
+```
+
+The benchmark scores a fixed script -- greeting, question, follow-up,
+contradiction, recall probe, unknowable question -- on three things:
+`answered` (probes that got speech), `self_consistent` (the same question
+asked twice gets the same answer), and `refused_unknowable` (things he
+cannot know are not asserted). It then reports what the conversation
+changed: vocabulary, bigrams, propositions, and SAN wiring, diffed against
+a snapshot taken before the first turn. A conversation with Droso must
+leave a trace; this makes that claim testable. The live state files are
+checksummed before and after every session and any change is reported as a
+violation.
+
 Figures below are a snapshot taken during active development and should be re-measured
 rather than assumed current.
 
@@ -243,9 +268,9 @@ rather than assumed current.
 | Vocabulary | approximately 4,500 words |
 | Propositions in memory | approximately 60,000 |
 | Verified procedures | approximately 680 |
-| Coding tasks solved locally, held out set | close to one in five |
-| Composite fitness score | most recently measured at 0.68 |
-| Test suite | close to 300 passing |
+| Coding tasks solved locally, first-contact set | 0 of 10; all 10 needed the oracle (state/fitness/heldout_firstcontact.json) |
+| Composite fitness score | 0.6834 at SAN_ROW_CAP=1024 (state/fitness/baseline_cap1024.json) |
+| Test suite | 352 passing, 3 skipped |
 
 ## Data credit and citation
 

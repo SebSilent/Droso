@@ -1428,7 +1428,7 @@ class ReasoningAgent:
         self._state(phase, data)
 
     def _state(self, phase, data):
-        """Dashboard view: the Reasoning Observatory reads this live."""
+        """Dashboard view: the house dashboard polls this live."""
         try:
             plan = self.working_memory.retrieve("plan") or []
             chosen = self.working_memory.retrieve("chosen_approach") or {}

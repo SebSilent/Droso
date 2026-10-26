@@ -290,8 +290,15 @@ class FastRouter:
                         pass
                 if hasattr(learning, "reinforce"):
                     try:
-                        learning.reinforce(task, verified, sig=str(rec_sig))
-                        out["reinforced"] = str(rec_sig)[:40]
+                        # The row must not claim a reinforce that did not
+                        # happen: a read_only loop returns known=False, and
+                        # the report said "reinforced" anyway. Measured
+                        # 2026-10-25 -- a --no-learn regression run printed
+                        # 12 reinforced rows while banking 12 reinforces.
+                        res_r = learning.reinforce(task, verified,
+                                                   sig=str(rec_sig))
+                        if res_r.get("known"):
+                            out["reinforced"] = str(rec_sig)[:40]
                     except Exception:
                         pass
                 self._feel_outcome(task, res, verified)

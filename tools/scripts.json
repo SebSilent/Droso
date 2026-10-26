@@ -1,0 +1,95 @@
+{
+  "note": "Seven scripts, 4-6 turns each, where later turns depend on earlier ones. Every word is one Droso owns (verified against word_patterns before writing this file). 'say' turns are told to him and never graded; 'ask' turns are graded mechanically: any_of = at least one of these words in his reply, must_contain = all of them, must_not_contain = none of them. The winner among conflicting facts is recorded, never graded -- which fact he answers with is a finding about recency, not a fault.",
+  "scripts": [
+    {
+      "name": "reference",
+      "kind": "reference",
+      "note": "The question refers to earlier content by its predicate and time; the answer must name the subject I mentioned. Two independent pairs so one lucky hit cannot carry the script.",
+      "turns": [
+        {"say": "the kettle rings at noon"},
+        {"say": "the lantern shines at midnight"},
+        {"ask": "what rings at noon", "expect": {"any_of": ["kettle"]}},
+        {"ask": "what shines at midnight", "expect": {"any_of": ["lantern"]}}
+      ]
+    },
+    {
+      "name": "accumulation",
+      "kind": "accumulation",
+      "note": "Three facts about one subject, then two questions. The second question depends on the third tell, so a pass means the last-heard fact was still reachable.",
+      "turns": [
+        {"say": "the box is heavy"},
+        {"say": "the box is red"},
+        {"say": "the box is on the shelf"},
+        {"ask": "how is the box", "expect": {"any_of": ["heavy", "red"]}},
+        {"ask": "where is the box", "expect": {"any_of": ["shelf"]}}
+      ]
+    },
+    {
+      "name": "discrimination",
+      "kind": "discrimination",
+      "note": "Contrasting predicates on two subjects, no cross-over. A pass requires the right predicate for the right subject AND the absence of the wrong one.",
+      "turns": [
+        {"say": "the garden is quiet"},
+        {"say": "the street is loud"},
+        {"ask": "how is the garden",
+         "expect": {"any_of": ["quiet"], "must_not_contain": ["loud"]}},
+        {"ask": "how is the street",
+         "expect": {"any_of": ["loud"], "must_not_contain": ["quiet"]}}
+      ]
+    },
+    {
+      "name": "role_chain",
+      "kind": "role-chain",
+      "note": "A does X to B; B does Y to A. The who-questions reverse the roles, so an answer that merely echoes a heard name fails.",
+      "turns": [
+        {"say": "the crow follows the sparrow"},
+        {"say": "the sparrow watches the crow"},
+        {"ask": "who follows the sparrow", "expect": {"any_of": ["crow"]}},
+        {"ask": "who watches the crow", "expect": {"any_of": ["sparrow"]}}
+      ]
+    },
+    {
+      "name": "switch_back",
+      "kind": "switch-back",
+      "note": "Fact on A, two facts on B, then ask about both. The question about A comes after two turns about B, so a pass means A's fact survived the interleaving.",
+      "turns": [
+        {"say": "the copper coin is warm"},
+        {"say": "the iron key is cold"},
+        {"say": "the iron key is heavy"},
+        {"ask": "how is the iron key",
+         "expect": {"any_of": ["cold", "heavy"], "must_not_contain": ["warm"]}},
+        {"ask": "how is the copper coin",
+         "expect": {"any_of": ["warm"],
+                    "must_not_contain": ["cold", "heavy"]}}
+      ]
+    },
+    {
+      "name": "override",
+      "kind": "override",
+      "note": "Same subject, conflicting predicates. Which predicate wins is recorded per run and reported, never graded: the nondeterminism IS the finding. Graded only on the answer being a session predicate rather than something from training memory.",
+      "turns": [
+        {"say": "the soup is hot"},
+        {"say": "the soup is cold"},
+        {"ask": "how is the soup", "expect": {"any_of": ["hot", "cold"]}},
+        {"say": "the soup is sweet"},
+        {"ask": "how is the soup",
+         "expect": {"any_of": ["hot", "cold", "sweet"]}}
+      ]
+    },
+    {
+      "name": "session_context",
+      "kind": "session-context",
+      "note": "Two tells share one subject and one predicate; only the modifier and the time differ. The reference tell (kettle rings at noon) is taught first, then the new tell (iron kettle shines at dawn). Each ask is graded on the new pair AND on the absence of the other tell's words, so an answer from the wrong tell fails and a blend of the two fails: recency is the thing under test, and which tell he answered from is visible in the recorded reply.",
+      "turns": [
+        {"say": "the kettle rings at noon"},
+        {"say": "the iron kettle shines at dawn"},
+        {"ask": "what shines at dawn",
+         "expect": {"any_of": ["iron", "kettle"],
+                    "must_not_contain": ["midnight", "lantern", "rings"]}},
+        {"ask": "what rings at noon",
+         "expect": {"any_of": ["kettle"],
+                    "must_not_contain": ["dawn", "iron", "shines"]}}
+      ]
+    }
+  ]
+}

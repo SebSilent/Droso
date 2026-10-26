@@ -45,6 +45,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SNAPS = ROOT / "state" / "fitness"
 BASE = "http://127.0.0.1:7773"
+# The library, read from the store file the house itself reloads on startup.
+# /api/procedures serves the same records but only while the house is up, and
+# the first version of this dimension measured the wrong library entirely:
+# the module default exocortex/learned_procedures.json, which seeding filled
+# with 277 procedures he never reads (1 trusted) -- seed_procedures.py
+# records that mistake. Measured 2026-02-14: the real store holds 679
+# procedures, 555 trusted at >= 0.70.
+LIBRARY = ROOT / "state" / "house_agent_learning.json"
 
 # Questions from the graded corpus, where one memory answers each.
 BATTERY = [
@@ -79,6 +87,30 @@ UNKNOWABLE = [
 def _get(path: str, timeout: float = 200.0):
     with urllib.request.urlopen(BASE + path, timeout=timeout) as r:
         return json.load(r)
+
+
+def _coding() -> dict:
+    """The coding dimension, read from the persistent store file.
+
+    The library is a disk artifact, not a live process: the house reloads
+    this exact file on startup, so measuring it here works while he sleeps
+    and gives the same number across restarts. The endpoint view
+    (/api/procedures) served the in-memory store and needed the house up --
+    the house-down baseline recorded library=2 for a library of 678.
+    """
+    try:
+        d = json.loads(LIBRARY.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {"library": 0, "verified": 0, "trusted_replayable": 0,
+                "trusted_fraction": 0.0, "source": str(LIBRARY)}
+    recs = list((d.get("procedures") or {}).values()) \
+        + list((d.get("adopted") or {}).values())
+    trusted = [r for r in recs if float(r.get("confidence") or 0) >= 0.70]
+    return {"library": len(recs),
+            "verified": sum(1 for r in recs if r.get("successes")),
+            "trusted_replayable": len(trusted),
+            "trusted_fraction": round(len(trusted) / max(1, len(recs)), 3),
+            "source": str(LIBRARY)}
 
 
 def _post(path: str, data: dict, timeout: float = 200.0):
@@ -193,13 +225,7 @@ def measure(sample_seconds: float = 90.0) -> dict:
         "samples": [str(e.get("text"))[:60] for e in mw[-5:]],
         "stream_grew_by": len(ev) - before}
 
-    pr = (_get("/api/procedures?limit=2000") or {}).get("procedures") or []
-    trusted = [r for r in pr if float(r.get("confidence") or 0) >= 0.70]
-    out["coding"] = {
-        "library": len(pr),
-        "verified": sum(1 for r in pr if r.get("verified")),
-        "trusted_replayable": len(trusted),
-        "trusted_fraction": round(len(trusted) / max(1, len(pr)), 3)}
+    out["coding"] = _coding()
 
     out["seconds"] = round(time.time() - t0, 1)
     out["score"] = _score(out)

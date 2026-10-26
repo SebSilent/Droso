@@ -28,6 +28,9 @@ _tmp/
 _verify_*.py
 _battery_*.py
 _sandbox_run.py
+_vocab_check*.py
+/probe_*.py
+tools/_tmp_report_dump.py
 
 # Local working paper
 PAPER.md
@@ -60,6 +63,7 @@ state/merged/
 books/*.txt
 
 # Runtime artefacts: All regenerable from the corpus, the tools and the clock.
+state/sessions/
 state/merged*/
 state/reading/
 state/shelf/

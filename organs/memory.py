@@ -151,6 +151,14 @@ class ProceduralMemory:
             return best
         return None
 
+    def best(self, task_description: str) -> dict | None:
+        """The single best-matching procedure for a task, or None.
+
+        The heartbeat's recall path calls this by name; it is match() under
+        the name the caller expects -- the ranked winner above the floor and
+        the runner-up margin, never a guess."""
+        return self.match(task_description)
+
     def to_list(self) -> list[dict]:
         return list(self.procedures.values())
 

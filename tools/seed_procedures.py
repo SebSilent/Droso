@@ -44,7 +44,7 @@ from organs.learning_loop import LearningLoop, signature  # noqa: E402
 AGENT_STATE = ROOT / "state" / "house_agent_learning.json"
 AGENT_EVENTS = ROOT / "state" / "house_agent_learning_events.jsonl"
 
-SCAN = ("organs", "world", "connectome", "server", "tools")
+SCAN = ("organs", "world", "connectome", "tools")
 MIN_DOC_WORDS = 5
 MIN_CODE_CHARS = 120
 # A truncated procedure is worse than no procedure: it is broken code presented as

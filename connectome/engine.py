@@ -99,6 +99,14 @@ class HybridEngine:
                                    self.params.code_seed)
         return self.last_code
 
+    def kc_nodes_of_code(self, code: np.ndarray) -> np.ndarray:
+        """Graph KC nodes for a code vector: code index i drives KC node
+        kc_idx[i] -- the tokenizer's index space is the first n_input_kc KCs
+        of the carve, not the node indices themselves. Structural calls
+        (wiring, records) need the nodes, not the code indices."""
+        nz = np.nonzero(np.asarray(code))[0]
+        return self._kc_of_code[nz]
+
     def decide(self, code: np.ndarray | None = None, text: str | None = None,
                allowed_pools=None, extra_drive=None) -> int:
         """One decision: 50 ms of neural time in the carve.
@@ -140,7 +148,20 @@ class HybridEngine:
         bag of words: "dog bites man" and "man bites dog" differ only in which
         bigram cells the hash happens to hit. Here the rate vector is not reset
         between words, so the trajectory through the carve depends on the order
-        the words arrived in -- and the final readout is taken after the last one.
+        the words arrived in.
+
+        The readout is the ACCUMULATED valuation over the whole trajectory, not
+        the WTA after the last token. Taking the last word's sampled action made
+        the sentence's answer depend on whichever untrained filler happened to
+        arrive last: the rate vector leaks every sub-step, so by the time "it"
+        in "verify: check it" was read out, the learned word's drive had decayed
+        ~2000x and the thought landed on the default pool instead of the pool
+        the word was taught to. Summing each word's valuation keeps the
+        order-dependent trajectory (every word's valuation is taken from the
+        state the previous words left) while making the readout answer for the
+        whole sentence: a sentence containing a trained word reads out on that
+        word's pool, because its drive is the strongest learned signal in the
+        trajectory and untrained words sit near baseline.
 
         Costs one decision per word instead of one per sentence, so it is used
         for hearing and speaking, not for the accelerated life loop.
@@ -153,16 +174,17 @@ class HybridEngine:
         self.static.reset_episode()
         extra = [(np.asarray(i, dtype=np.int64), np.asarray(a, dtype=float))
                  for i, a in (extra_drive or [])]
-        action = None
+        v_total = None
         for code in seq:
             amp = np.ones(len(self._kc_of_code), dtype=float) * code
             nz = np.nonzero(amp)[0]
             drive = [(self._kc_of_code[nz], amp[nz])] if len(nz) else None
             if extra:
                 drive = (drive or []) + extra
-            action, v = self.static.decide(drive)
-        self.last_action = int(action)
-        self.last_v = np.asarray(v, dtype=float)
+            _, v = self.static.decide(drive)
+            v_total = v if v_total is None else v_total + v
+        self.last_action = int(np.argmax(v_total))
+        self.last_v = np.asarray(v_total, dtype=float)
         z = (self.last_v - self.last_v.max()) / 0.05
         e = np.exp(z)
         self.last_probs = e / e.sum()
@@ -177,6 +199,21 @@ class HybridEngine:
             return 0.0
         rpe = self.static.reinforce(float(reward),
                                     float(self.last_v[self.last_action]), 0.0)
+        self.rpe_last = float(rpe)
+        return self.rpe_last
+
+    def teach_pool(self, pool: int, reward: float) -> float:
+        """Pool-targeted dopamine: reinforce only `pool`'s KC->MBON synapses
+        from the KCs that just fired. The language organ's settle loop uses
+        this instead of teach(): the eligibility path accumulates across
+        decisions and pools, so it strengthens whichever pools happen to
+        hold the most synapses from the word's KCs -- measured, not the pool
+        the WTA sampled. Returns the RPE; 0.0 when there is nothing to
+        reinforce."""
+        if self.last_action is None or self.last_v is None:
+            self.rpe_last = 0.0
+            return 0.0
+        rpe = self.static.reinforce_choice(int(pool), float(reward))
         self.rpe_last = float(rpe)
         return self.rpe_last
 

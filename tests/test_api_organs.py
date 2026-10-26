@@ -134,6 +134,30 @@ def test_http_error_is_reported_not_invented():
     assert r["text"] == "", "a failed call must not fall back to a stub answer"
     assert o.stats()["errors"] == 1
 
+def test_http_error_without_a_body_still_reports_its_code():
+    """fp=None is a shape a transport can hand over, and it is a trap.
+
+    Measured on this interpreter (3.10): HTTPError.__init__ skips
+    addinfourl.__init__ when fp is None, and addinfourl's MRO runs through
+    tempfile._TemporaryFileWrapper -- so the first missing-attribute lookup
+    lands in the tempfile wrapper's __getattr__, which reads
+    self.__dict__['file'] and raises KeyError. hasattr() only swallows
+    AttributeError, so a hasattr(e, 'read') guard crashes on the very error
+    it was guarding against. The guard must read the body inside its own
+    try/except and still report the HTTP code -- never 'parse_error'.
+    """
+    import urllib.error
+
+    def boom(url, headers, payload):
+        raise urllib.error.HTTPError(url, 500, "Internal Server Error", {},
+                                     None)
+    o = APIOracle(api_key="sk-test", transport=boom)
+    r = o.query("anything")
+    assert r["ok"] is False and r["text"] == ""
+    assert r["reason"] == "http_500", \
+        f"the code must survive the unreadable body, got {r['reason']!r}"
+    assert o.stats()["errors"] == 1
+
 def test_transport_error_is_not_mistaken_for_an_answer():
     def boom(url, headers, payload):
         raise OSError("getaddrinfo failed")
@@ -460,6 +484,52 @@ def test_reinforce_updates_belief(learner):
     learner.reinforce("sort rows", False)
     assert learner.store[signature("sort rows")]["confidence"] < before
     assert learner.reinforce("unheard of", True) == {"known": False}
+
+STEM_CODE = "def stem(word):\n    return word\n"
+COUNT_CODE = "def count_words(text):\n    return {}\n"
+REV_CODE = "def reverse_string(s):\n    return s[::-1]\n"
+
+
+def _seed_three(learner):
+    learner.learn_from_task("stem word fold inflection", STEM_CODE,
+                            {"source": "live"}, verified=True)
+    learner.learn_from_task("count word frequency in text", COUNT_CODE,
+                            {"source": "live"}, verified=True)
+    learner.learn_from_task("reverse string characters", REV_CODE,
+                            {"source": "live"}, verified=True)
+
+
+def test_trial_rung_reaches_ranked_first_clear_margin(tmp_path):
+    """A caller asking below the trust floor judges by execution, so a
+    ranked-first, clearly-ahead match must reach it even under the score
+    gates. Measured 2026-10-25: the library's own verified stem procedure
+    ranked first for its own task at 0.264 (runner 0.120, 2.2x) and died at
+    the gates, so the task went to the oracle, which answered with a naive
+    suffix stripper and failed. Here the winner scores 0.250 (runner 0.045,
+    5.5x) -- under both gates, clearly ahead."""
+    ll = LearningLoop(state_path=tmp_path / "l.json",
+                      events_path=tmp_path / "e.jsonl", min_confidence=0.4)
+    _seed_three(ll)
+    q = ("implement a helper utility that returns the stem of each word "
+         "token, folding inflection, documented with examples and usage "
+         "notes included")
+    hit = ll.recall(q, min_confidence=0.35)
+    assert hit and hit["signature"] == signature("stem word fold inflection")
+    # the trusted path keeps its gates: the same query at the trust floor
+    # must not come back as if known
+    assert ll.recall(q, min_confidence=0.4) is None
+
+
+def test_trial_rung_still_requires_clear_margin(tmp_path):
+    """Dominance, not merely rank, is the trial-rung bar: a 1.6x race stays
+    unreached even for a caller that will judge by execution."""
+    ll = LearningLoop(state_path=tmp_path / "l.json",
+                      events_path=tmp_path / "e.jsonl", min_confidence=0.4)
+    _seed_three(ll)
+    q = "stem word count frequency plus extra filler material"
+    assert ll.recall(q, min_confidence=0.35) is None
+    assert ll.recall(q, min_confidence=0.4) is None
+
 
 def test_event_log_is_append_only_and_greppable(tmp_path):
     ev = tmp_path / "ev.jsonl"

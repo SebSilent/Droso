@@ -307,7 +307,13 @@ class NeuralGrowth:
             recent = sorted(lang.word_patterns.values(),
                             key=lambda r: r.get("learned_at", 0),
                             reverse=True)[:self.replay_per_tick]
-            w_before = core.w.copy()
+            # Snapshot and diff under the core's lock: the accelerated-life
+            # thread decides and teaches concurrently, so an unlocked copy can
+            # catch a torn weight vector and an unlocked diff counts OTHER
+            # threads' learning as this replay's effect -- or dies on a
+            # broadcast mismatch if the plastic layer was resized in between.
+            with core._lock:
+                w_before = core.w.copy()
             for pattern in recent:
                 code = np.zeros(core.g.kc_idx.size, dtype=np.float32)
                 kc_of_code = core.g.kc_idx[:len(code)]
@@ -321,7 +327,14 @@ class NeuralGrowth:
                     core.decide(drive)
                     core.reinforce(0.35, 0.0, 0.0)
                     rec["replayed"] += 1
-            rec["synapses_changed"] = int((core.w != w_before).sum())
+            with core._lock:
+                if core.w.shape == w_before.shape:
+                    rec["synapses_changed"] = int((core.w != w_before).sum())
+                else:
+                    # grow/prune resized the layer mid-replay; a positional
+                    # diff is meaningless, so report none rather than crash.
+                    rec["synapses_changed"] = 0
+                    rec["resized_during_replay"] = True
             self.consolidations += rec["replayed"]
             lang = self._language()
             if lang is not None and rec["replayed"] \

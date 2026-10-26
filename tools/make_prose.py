@@ -30,7 +30,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCAN = ("organs", "world", "connectome", "server", "tools", "tests")
+SCAN = ("organs", "world", "connectome", "tools", "tests")
 OUT = ROOT / "books" / "07_prose.txt"
 
 _SENT_SPLIT = re.compile(r"(?<=[.!?])\s+")

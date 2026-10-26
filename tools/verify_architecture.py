@@ -10,7 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-ACTIVE_DIRS = ("organs", "world", "server", "core", "connectome")
+ACTIVE_DIRS = ("organs", "world", "core", "connectome")
 ARCHIVED_MODULES = {
     "moe_expert_streamer", "weight_reader", "dense_expert_loader", "moe_mlp",
     "attention_engine", "forward_kernels", "token_pipeline",

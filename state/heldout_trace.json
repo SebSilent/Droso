@@ -1,0 +1,126 @@
+[
+  {
+    "id": "write a function count_vowels(s) counting",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {}
+  },
+  {
+    "id": "write a function second_largest(items) returning",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {
+      "call shape at step 1": 2
+    }
+  },
+  {
+    "id": "write a function slugify(text) returning",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {
+      "call shape at step 1": 3
+    }
+  },
+  {
+    "id": "write a function intersperse(items, sep)",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {
+      "call shape at step 1": 5
+    }
+  },
+  {
+    "id": "write a function most_common(items) returning",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {
+      "call shape at step 1": 1
+    }
+  },
+  {
+    "id": "write a function flatten_deep(nested) flattening",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": true,
+    "compose_reason": "",
+    "compose_tried": 1,
+    "compose_rejects": {}
+  },
+  {
+    "id": "write a function rot13(s) applying",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {
+      "call shape at step 1": 1
+    }
+  },
+  {
+    "id": "write a function levenshtein(a, b)",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {
+      "call shape at step 1": 6
+    }
+  },
+  {
+    "id": "write a function pig_latin(word) moving",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {
+      "call shape at step 1": 1
+    }
+  },
+  {
+    "id": "write a function running_total(items) returning",
+    "recall": null,
+    "patterns": 0,
+    "route": "reasoning_loop",
+    "route_reason": "code-shaped task: the loop is what buys verification",
+    "compose_ok": false,
+    "compose_reason": "no combination passed",
+    "compose_tried": 8,
+    "compose_rejects": {}
+  }
+]

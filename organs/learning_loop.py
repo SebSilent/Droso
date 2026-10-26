@@ -84,7 +84,8 @@ def signature(text: str, limit: int = 8) -> str:
 class LearningLoop:
     def __init__(self, procedure_store=None, pattern_library=None, cache=None,
                  exocortex=None, memory=None, state_path=None, events_path=None,
-                 min_confidence: float = 0.7, persist: bool = True):
+                 min_confidence: float = 0.7, persist: bool = True,
+                 read_only: bool = False):
         self.procedures = procedure_store if procedure_store is not None else \
             (getattr(memory, "procedural", None) if memory else None)
         self.patterns = pattern_library if pattern_library is not None else \
@@ -95,6 +96,15 @@ class LearningLoop:
         self.state_path = Path(state_path) if state_path else STATE
         self.events_path = Path(events_path) if events_path else EVENTS
         self.persist = bool(persist)
+        # A measurement run that must not write is not honest if "must not bank"
+        # still lets use-counts and aliases drift: measured 2026-10-25, a
+        # --no-learn regression run wrote 12 reinforces through the router's
+        # recall branch (fast_router.reinforce is not the battery's gate), and
+        # an earlier probe batch had done the same to one entry. The flag seals
+        # every writer on this object -- bank, reinforce, alias, save, event --
+        # so learn=False means zero writes, in memory and on disk, not merely a
+        # gated bank path. The battery's store-count guard verifies the seal.
+        self.read_only = bool(read_only)
         self.store: dict[str, dict] = {}
         self.adopted: dict[str, dict] = {}
         self.discarded: dict[str, dict] = {}
@@ -152,7 +162,7 @@ class LearningLoop:
         return added
 
     def save(self):
-        if not self.persist:
+        if not self.persist or self.read_only:
             return
         self.state_path.parent.mkdir(exist_ok=True)
         if self.state_path.exists():
@@ -170,7 +180,7 @@ class LearningLoop:
 
     def _event(self, kind: str, payload: dict):
         self.events += 1
-        if not self.persist:
+        if not self.persist or self.read_only:
             return
         try:
             self.events_path.parent.mkdir(exist_ok=True)
@@ -184,6 +194,8 @@ class LearningLoop:
     def learn_from_task(self, task: str, solution, meta: dict | None = None,
                         verified: bool | None = None) -> dict:
         """Record what worked. Returns the stored record, or a refusal."""
+        if self.read_only:
+            return {"stored": False, "reason": "read_only"}
         meta = dict(meta or {})
         src = str(meta.get("source") or meta.get("mode") or "")
         if src in ("mock", "blocked", "error", "none") or meta.get("mock") \
@@ -339,6 +351,11 @@ class LearningLoop:
         are weighted by how few procedures share them, and the score is the share
         of the *query's* distinctive weight that a procedure accounts for -- so a
         short specific request can win, which is what a short specific request is.
+
+        The score gates above are belief gates: they exist so a wrong recall is
+        never handed back as if known. A caller asking below the trust floor has
+        declared it will judge by execution instead, so for it the gates relax to
+        ranking sanity only -- see the branch at the bottom.
         """
         want = {_stem(w) for w in
                 re.findall(r"[a-z_][a-z_0-9]{3,}", str(task or "").lower())}
@@ -381,6 +398,17 @@ class LearningLoop:
         # sits in one rare stem, and nothing else is close.
         if score >= self.FUZZY_MARGIN_FLOOR and (score - runner) >= self.FUZZY_MARGIN:
             return best
+        # A caller asking below the trust floor is the trial rung: it judges by
+        # execution, not by belief, so the score gates' protection is already
+        # covered by the run that follows. What must still hold is ranking
+        # sanity -- the winner accounts for clearly more of the query's weight
+        # than anything else. Measured 2026-10-25: the library's own verified
+        # stem procedure ranked first for its own task at 0.264 (runner 0.120,
+        # 2.2x) and died at the gates above, so the task went to the oracle,
+        # which answered with a naive suffix stripper and failed. A 1.6x race
+        # (0.347 vs 0.217) still dies here; only dominance passes.
+        if floor < self.min_confidence and score > 0.0 and score >= 2.0 * runner:
+            return best
         return None
 
     def alias_request(self, sig: str, task: str) -> dict:
@@ -393,6 +421,8 @@ class LearningLoop:
         phrasing that found a procedure is evidence about that procedure, and it
         belongs on it.
         """
+        if self.read_only:
+            return {"aliased": False, "reason": "read_only"}
         rec = self.store.get(str(sig))
         if rec is None:
             return {"aliased": False, "reason": "no such procedure"}
@@ -419,6 +449,8 @@ class LearningLoop:
         builds trust, so getting the key wrong meant the library could never earn
         its way past the recall floor.
         """
+        if self.read_only:
+            return {"known": False, "reason": "read_only"}
         key = str(sig) if sig else signature(task)
         rec = self.store.get(key)
         if not rec:

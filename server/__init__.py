@@ -1,1 +1,0 @@
-"""Observatory server (FastAPI + uvicorn, run in a daemon thread)."""

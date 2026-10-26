@@ -33,7 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-SEARCH_DIRS = ("organs", "world", "tools", "connectome", "server")
+SEARCH_DIRS = ("organs", "world", "tools", "connectome")
 # Names that are not "the symbol under test" -- ordinary local variables and helpers.
 IGNORE = {"self", "house", "agent", "h", "a", "tp", "tmp_path", "hub", "serving",
           "light_agent", "monkeypatch", "tmp_path_factory", "print", "len", "range",

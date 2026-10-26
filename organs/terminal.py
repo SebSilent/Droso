@@ -34,7 +34,14 @@ class TerminalOrgan:
             proc = subprocess.run(cmd, shell=True, capture_output=True, text=True,
                                   timeout=self.timeout_s, cwd=self.cwd)
             out = (proc.stdout or "") + (proc.stderr or "")
+            # stdout and stderr are reported separately; `output` stays as the
+            # concatenation the rest of the tree reads. Callers that wanted
+            # stderr were falling back to `output` and getting both streams
+            # mixed together, unable to tell a program's complaint from its
+            # work.
             return {"ok": proc.returncode == 0, "returncode": proc.returncode,
+                    "stdout": (proc.stdout or "")[: self.max_output_chars],
+                    "stderr": (proc.stderr or "")[: self.max_output_chars],
                     "output": out[: self.max_output_chars], "truncated":
                     len(out) > self.max_output_chars}
         except subprocess.TimeoutExpired:

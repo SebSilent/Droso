@@ -356,15 +356,17 @@ class Heartbeat:
         self.ticks += 1
         self.state = self.observed_state()
         made = []
+        waiting_note = None
         sb = getattr(self.agent, "sandbox", None)
         approvals = self.pending_approvals()
         if approvals:
             kinds = sorted({str(a.get("op", a.get("what", "WRITE"))).upper()
                             for a in approvals})
-            made.append(self._note(
+            waiting_note = self._note(
                 "blocked",
                 str(len(approvals)) + " change(s) await a human: "
-                + ", ".join(kinds), ["sandbox"]))
+                + ", ".join(kinds), ["sandbox"])
+            made.append(waiting_note)
         blocked = int(getattr(sb, "blocked", 0) or 0)
         if blocked:
             made.append(self._note(
@@ -378,7 +380,25 @@ class Heartbeat:
                 "curious", str(len(self._research_queue))
                 + " question(s) recorded, awaiting a human", ["heartbeat"]))
         made = [m for m in made if m]
-        return made[-1] if made else None
+        if not made:
+            return None
+        # A human waiting on an approval is the loudest thought in the house.
+        # made[-1] handed the beat to whatever happened to be noted last -- a
+        # blocked-command tally could out-shout the person standing at the
+        # door. The waiting note is carried separately and returned first.
+        if waiting_note is not None:
+            return waiting_note
+        return made[-1]
+
+    def tick(self):
+        """Public beat: one reflection pass, now, not on the timer.
+
+        The house closes every turn with a beat; the timer's `_tick` is the
+        five-minute version. Callers were invoking this name and the missing
+        attribute was being swallowed by broad excepts, so no turn ever left
+        a thought behind.
+        """
+        return self._tick()
 
     def _static_core(self):
         eng = getattr(self.agent, "engine", None)

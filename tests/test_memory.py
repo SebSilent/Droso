@@ -41,6 +41,21 @@ def test_procedural_record_match_and_floor():
     assert match is not None and match["action_sequence"] == [0, 10]
     assert pm.match("write a haiku about flies") is None
 
+def test_procedural_best_is_the_recall_path_the_heartbeat_calls():
+    """The heartbeat's organ-recall path calls procedural.best(ctx) by name.
+    Before the fix that method did not exist, so every procedural recall
+    died into the caller's except and returned {"error": ...} -- the
+    "pools that mean recall are FOLLOWED" promise was broken for exactly
+    this memory."""
+    pm = ProceduralMemory()
+    for _ in range(4):
+        pm.record("run pytest and report the output", [0, 10], True)
+    pm.record("write a haiku", [6], False)
+    best = pm.best("please run pytest and report the output now")
+    assert best is not None and best["action_sequence"] == [0, 10], \
+        "best() must return the matched procedure, not raise"
+    assert pm.best("entirely unrelated gibberish question") is None
+
 def test_memory_organ_save_load(tmp_path):
     path = tmp_path / "mem.json"
     mo = MemoryOrgan({"episodic_capacity": 10, "semantic_capacity": 10,

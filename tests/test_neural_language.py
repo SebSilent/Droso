@@ -93,7 +93,11 @@ def test_words_used_together_become_neuronally_related(tmp_path):
                   source="test")
     near = nl.similarity("hello", "welcome")
     far = nl.similarity("hello", "cache")
-    assert near > far > 0.0, (near, far)
+    # Measured under the sparse Hebb write: near 0.389, far EXACTLY 0.0 --
+    # two words that never shared a sentence now share no synapses at all.
+    # The old clique rule left everything weakly related to everything
+    # (far was a small positive), which is the saturation this rule removed.
+    assert near > far and near > 0.2, (near, far)
     fp = nl._footprint("hello")
     spread = nl.understand("hello") - fp / np.linalg.norm(fp)
     assert np.linalg.norm(spread) > 0.05, "associations did the work"
@@ -109,13 +113,56 @@ def test_a_new_word_learns_its_meaning_from_context_alone(tmp_path):
                   source="test")
     nl.teach_word("cache", "clear the cache and free the memory",
                   source="test")
-    before = nl.similarity("howdy", "hello")
+    v_before = nl.understand("howdy").copy()
+    before_hello = nl.similarity("howdy", "hello")
     nl.live("howdy my good friend, hello and welcome")
-    after = nl.similarity("howdy", "hello")
-    assert after > before, (before, after)
-    assert nl.similarity("howdy", "hello") > \
-        nl.similarity("howdy", "cache"), \
+    v_after = nl.understand("howdy")
+    after_hello = nl.similarity("howdy", "hello")
+    # The absolute cosine is the wrong measure of "moved toward": an
+    # untrained word's hash footprint lands inside whatever neighbourhood
+    # the taught words wired, so howdy starts ~0.97-similar to BOTH greeting
+    # words (measured: hello 0.9757, welcome 0.9708) before it has lived a
+    # single sentence. Learning SPECIALISES the vector -- the absolute
+    # cosine to any one word falls as the footprint narrows (hello:
+    # 0.9757 -> 0.7369) -- so `after > before` could only pass if living
+    # did NOTHING. What the architecture honestly claims, and what this
+    # asserts: the vector MOVES (0.71 L2 between unit vectors here), and
+    # the moved vector sits with the greeting cluster -- hello AND welcome,
+    # the words it actually co-occurred with -- far above the tech word it
+    # never met.
+    moved = float(np.linalg.norm(v_after - v_before))
+    assert moved > 0.1, (before_hello, after_hello, moved)
+    assert after_hello > nl.similarity("howdy", "cache"), \
         "context alone taught howdy the greeting cluster"
+    assert nl.similarity("howdy", "welcome") > \
+        nl.similarity("howdy", "cache"), \
+        "the whole co-occurred cluster, not one word"
+
+def test_sparse_hebb_write_separates_co_lived_from_strangers(tmp_path):
+    """THE SPARSE-WRITE REGRESSION. The old rule wired the FULL clique of
+    every percept: a ~241-cell utterance added all ~58k pairs in one go,
+    every row marched to the clip, and words that never shared a sentence
+    became as related as words that did. The sparse rule keeps only the
+    SAN_TOP_K strongest co-activations per write and caps row totals, so
+    two words that actually lived together must sit far above a stranger
+    neither of them ever met."""
+    from organs.neural_language import SAN_ROW_CAP, SAN_TOP_K
+    nl = make(tmp_path)
+    nl.teach_word("alpha", "alpha north river stone", source="test")
+    nl.teach_word("charlie", "charlie south meadow clay", source="test")
+    for _ in range(10):
+        nl.live("alpha bravo harbour", learn=True)
+    ab = nl.similarity("alpha", "bravo")
+    ac = nl.similarity("alpha", "charlie")
+    assert ab > ac + 0.15, (ab, ac)
+    # The write stayed sparse: 12 utterances, at most SAN_TOP_K new pairs
+    # each (the old clique rule would have left hundreds of thousands).
+    nnz = int(np.count_nonzero(nl.san_w))
+    assert nnz <= 13 * SAN_TOP_K, nnz
+    # Homeostasis held: no row keeps more total weight than the cap, however
+    # often its cells fired.
+    assert float(nl.san_w.sum(axis=1).max()) <= SAN_ROW_CAP + 1e-3, \
+        float(nl.san_w.sum(axis=1).max())
 
 def test_persisted_meaning_survives_a_restart(tmp_path):
     nl = make(tmp_path)

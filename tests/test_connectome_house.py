@@ -1088,12 +1088,6 @@ def test_a_house_never_kills_its_own_launcher(tmp_path):
 # nothing left to refuse it. The fence itself is enforced where writes happen, by the
 # sandbox resolving a path against the project root, and that is tested above.
 
-def test_the_observatory_and_the_house_do_not_collide():
-    """server/app.py serves the Observatory on its own port; the house is 7773."""
-    srv = (ROOT / "server" / "app.py").read_text(encoding="utf-8")
-    assert "7773" not in srv, "two servers on one port is one dead server"
-
-
 def test_live_solve_goes_through_the_harness_and_reports_its_branch(hub):
     """The harness is the front door, and the branch that fired is recorded LIVE.
 

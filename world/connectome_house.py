@@ -353,9 +353,24 @@ class ConnectomeHouse:
         self.project_root = Path(
             (self.config.get("connectome", {}) or {}).get(
                 "project_root", str(ROOT)))
+        # The house's own workzone. The tools and the production config both
+        # name it house_workspace (config/hybrid_config.json points the
+        # sandbox's workzone here); the sandbox's built-in default is
+        # agent_work, a different name the test suite settles separately. The
+        # house makes sure its own directory exists, and says so if it cannot.
+        self.workspace = self.project_root / "house_workspace"
+        try:
+            self.workspace.mkdir(parents=True, exist_ok=True)
+        except OSError as e:
+            self.errors.append(f"workspace: {type(e).__name__}: {e}"[:120])
+        # DEFAULT DENY. When the config says nothing, remote mutation is off:
+        # the shipped config/hybrid_config.json turns it on explicitly, so an
+        # operator who wants the door open says so, and a house that starts
+        # with no config at all starts closed. The old default was True, which
+        # made "loopback-only" a claim the code did not keep.
         self.allow_remote_mutation = bool(
             (self.config.get("house", {}) or {}).get(
-                "allow_remote_mutation", True))
+                "allow_remote_mutation", False))
         self.access_token = ((self.config.get("house", {}) or {})
                              .get("access_token") or None)
         # WHAT THIS IS, AND WHAT IT IS NOT. It gates REMOTE peers' HTTP access to the tool
@@ -411,13 +426,20 @@ class ConnectomeHouse:
         REMOTE HTTP ONLY -- this is the PEER's access to the tool endpoints. It is not the
         oracle's: a command a model merely proposed never reaches this function, and
         `allow_tool_execution` cannot arm it. See the note where that flag is set."""
-        ok, why = self.may_mutate(peer, token)
-        if not ok:
-            return ok, why
-        if not self.is_loopback(peer) and not self.allow_tool_execution \
-                and str(path).startswith(self.TOOL_PATHS):
+        if self.is_loopback(peer):
+            return True, "loopback"
+        if str(path).startswith(self.TOOL_PATHS):
+            # Tool endpoints are governed by their OWN knob, not by
+            # allow_remote_mutation: the refusal must name the knob that
+            # actually decides, and turning the knob on admits a remote peer
+            # to exactly the tools -- to nothing else. (Checking may_mutate
+            # first made the tool reason unreachable whenever the mutation
+            # flag was off, and made the tool knob inert: it could never
+            # admit anyone by itself.)
+            if self.allow_tool_execution:
+                return True, "allow_tool_execution"
             return False, "remote tool execution needs house.allow_tool_execution"
-        return True, "allowed"
+        return self.may_mutate(peer, token)
 
     @property
     def house_dir(self) -> Path:
@@ -481,13 +503,13 @@ class ConnectomeHouse:
             self.set_status("thinking", msg)
             self.note("user", msg)
             t0 = time.perf_counter()
+            lang_notes: list = []
             lang = getattr(self.agent, "language", None)
             if lang is not None and hasattr(lang, "respond") and \
                     len(msg) <= 80 and not self._looks_like_task(msg):
                 reply = None
                 try:
-                    reply = lang.respond(msg, speaker=str(
-                        data.get("speaker") or "you"))
+                    reply = lang.respond(msg, speaker="you")
                 except Exception as e:
                     import traceback as _tb
                     self.errors.append(("language: " + _tb.format_exc())[:600])
@@ -503,7 +525,7 @@ class ConnectomeHouse:
                               f"{reply['utterance']!r} "
                               f"(resonance {reply.get('resonance')})")
                     return {"ok": True, "heard": True, "spoken": True,
-                            "response": reply["utterance"], "path": "world",
+                            "response": reply["utterance"], "path": "language",
                             "ms": ms,
                             "oracle_mode": (self.agent.api_oracle.mode
                                             if self.agent.api_oracle
@@ -515,17 +537,10 @@ class ConnectomeHouse:
                             "mood": reply.get("mood"),
                             "kind": reply.get("kind"),
                             "source": reply.get("source")}
-                return {"ok": True, "heard": True, "spoken": False,
-                        "response": "", "path": "world", "ms": ms,
-                        "oracle_mode": (self.agent.api_oracle.mode
-                                        if self.agent.api_oracle
-                                        else "absent"),
-                        "api_calls": 0,
-                        "notes": [reply.get("reason", "it chose not to "
-                                            "speak")],
-                        "mood": reply.get("mood"),
-                        "best_resonance": reply.get("best_resonance"),
-                        "pool": reply.get("pool")}
+                # He heard and chose not to speak. That is not an answer: the
+                # turn falls through to the ordinary machinery, which may
+                # refuse, and the refusal is the house's, not his silence.
+                lang_notes = [str(reply.get("reason") or "")]
             route = {}
             router = getattr(self.agent, "fast_router", None)
             if router is not None:
@@ -542,21 +557,38 @@ class ConnectomeHouse:
                 self.errors.append(f"solve: {type(e).__name__}"[:80])
                 out = {"success": False, "reason": f"{type(e).__name__}: {e}"}
             ms = round((time.perf_counter() - t0) * 1000, 1)
+            # The loop's answer is called `solution`; the house's reply is
+            # called `response`. Read the field that actually exists.
+            text = str(out.get("response", "") or out.get("solution", "") or "")
             answer = {"ok": bool(out.get("success", True)),
-                      "response": str(out.get("response", "") or ""),
+                      "response": text,
                       "path": route.get("path", "reasoning_loop"),
                       "ms": ms,
                       "oracle_mode": (self.agent.api_oracle.mode
                                       if self.agent.api_oracle else "absent"),
                       "api_calls": int(out.get("api_calls", 0) or 0),
                       "verified": out.get("verified"),
-                      "notes": [str(out.get("reason", ""))]
-                      if out.get("reason") else [],
+                      "notes": (lang_notes
+                                + ([str(out.get("reason", ""))]
+                                   if out.get("reason") else [])),
                       "meta": {k: out[k] for k in out
-                               if k not in ("response",)}
+                               if k not in ("response", "solution")}
                       }
-            if not answer["response"] and out.get("reason"):
-                answer["reason"] = str(out.get("reason"))
+            # A silent oracle must say why, in the reply's own notes. The loop
+            # returns no reason for a blocked or fenced oracle, so the house
+            # states the fact it can see: no credential, or the offline fence.
+            if not answer["response"]:
+                om = answer["oracle_mode"]
+                if om == "blocked":
+                    answer["notes"].append(
+                        "no api key: the oracle is blocked, so no provider "
+                        "answer")
+                elif om == "offline":
+                    answer["notes"].append(
+                        "offline: HYBRIDLLM_OFFLINE fences the oracle, so no "
+                        "provider answer")
+                elif out.get("reason"):
+                    answer["reason"] = str(out.get("reason"))
             self.chat_history.append({"role": "assistant",
                                       "content": answer["response"],
                                       "t": time.time(),
@@ -567,8 +599,8 @@ class ConnectomeHouse:
         finally:
             if hb is not None:
                 try:
-                    hb.end_task()
-                    hb.tick()
+                    hb.tick()      # the beat about the turn, while it is
+                    hb.end_task()  # still the current task
                 except Exception:
                     pass
             self.set_status("idle")
@@ -773,9 +805,9 @@ class ConnectomeHouse:
         return f"http://{self.host}:{self.port}"
 
     def access_mode(self) -> str:
-        return (f"open (allow_remote_mutation={self.allow_remote_mutation})"
-                if self.allow_remote_mutation else
-                "guarded (remote mutation needs approval)")
+        if self.allow_remote_mutation:
+            return f"open (allow_remote_mutation={self.allow_remote_mutation})"
+        return "loopback-only mutations"
 
     def get_config(self) -> dict:
         import copy
@@ -844,6 +876,14 @@ class ConnectomeHouse:
                "current_task": getattr(hb, "current_task", None),
                "seq": self.seq,
                "oracle": ostats,
+               # Token counts everywhere in this payload are estimates: a
+               # chars/4 heuristic plus whatever the provider happens to
+               # report back. Saying so beats letting a reader treat them as
+               # exact accounting.
+               "honesty": {"tokens":
+                           "estimates: token counts come from a chars/4 "
+                           "heuristic and whatever the provider reports; "
+                           "they are not exact accounting"},
                "stats": {"oracle": ostats,
                          "optimizer": ostats2,
                          "sandbox": (sb.stats() if (sb := getattr(self.agent,
@@ -1021,6 +1061,53 @@ class ConnectomeHouse:
             return True
         except ValueError:
             return False
+
+    # Model weights and caches: a listing is for reading the house's text,
+    # not for walking binaries that would crowd out every text file.
+    WEIGHT_SUFFIXES = (".safetensors", ".bin", ".pt", ".pth", ".ckpt", ".h5",
+                       ".hdf5", ".gguf", ".onnx", ".tflite", ".npz", ".pkl",
+                       ".msgpack", ".pyc", ".dmp")
+
+    def list_files(self, path: str = ".", limit: int = 200) -> dict:
+        """A bounded listing under the house root, honest about truncation.
+
+        `count` is what you got and `truncated` says whether there was more;
+        the old /api/files route reported the total as `count` while capping
+        the rows, which read as a promise the list did not keep. The walk
+        skips dot-directories (.git among them), caches and weights.
+        """
+        limit = max(1, int(limit or 200))
+        empty = {"files": [], "count": 0, "truncated": False,
+                 "root": str(self.project_root)}
+        base = self._resolve(str(path or "."))
+        if not self._inside_root(base):
+            return dict(empty, ok=False, error="outside the house")
+        if not base.is_dir():
+            return dict(empty, ok=False, error="not a directory")
+        root = self.project_root.resolve()
+        rows, total = [], 0
+        for f in sorted(base.rglob("*")):
+            if f.is_dir():
+                continue
+            try:
+                rel = f.relative_to(root)
+            except ValueError:
+                continue
+            if any(part.startswith(".") or part == "__pycache__"
+                   for part in rel.parts):
+                continue
+            if f.suffix.lower() in self.WEIGHT_SUFFIXES:
+                continue
+            total += 1
+            if len(rows) >= limit:
+                continue
+            try:
+                rows.append({"path": rel.as_posix(),
+                             "size": f.stat().st_size})
+            except OSError:
+                total -= 1  # a file we cannot stat is not a file we can list
+        return {"ok": True, "files": rows, "count": len(rows),
+                "truncated": total > len(rows), "root": str(root)}
 
     def answer_approval(self, data: dict) -> dict:
         # AN UNSUPPORTED FIELD IS A FAILURE, NOT SOMETHING TO DROP. `index` was accepted and
@@ -1343,27 +1430,10 @@ class ConnectomeHouse:
             return 200, {"events": [e for e in self.progress
                                     if e["seq"] > since]}
         if path == "/api/files":
-            root = self.project_root
-            base = self._resolve(g("path", ".") or ".")
-            if not self._inside_root(base):
-                return 200, {"files": [], "count": 0}
-            rows, total = [], 0
-            for f in sorted(base.rglob("*")):
-                if f.is_dir() or f.suffix in (".pyc", ".npz", ".dmp", ".bin"):
-                    continue
-                rel = f.relative_to(root)
-                if any(part.startswith(".") or part == "__pycache__"
-                       for part in rel.parts):
-                    continue
-                rel = rel.as_posix()
-                if len(rows) < 600:
-                    try:
-                        rows.append({"path": rel,
-                                     "size": f.stat().st_size})
-                    except OSError:
-                        continue
-                total += 1
-            return 200, {"files": rows, "count": total, "root": str(root)}
+            # One listing, one contract: the route and the direct call share
+            # list_files so they cannot drift apart again.
+            return 200, self.list_files(str(g("path", ".") or "."),
+                                        limit=int(g("limit", 200) or 200))
         if path == "/api/file":
             p = self._resolve(g("path", ""))
             if not self._inside_root(p) or not p.exists():
@@ -1534,16 +1604,46 @@ class ConnectomeHouse:
             if term is None:
                 return 200, {"success": False,
                              "reason": "no terminal organ"}
+            cmd = str(data.get("command", ""))
+            # THE FENCE IS ASKED BEFORE THE TOOL IS TOUCHED. The organ has its
+            # own allowlist, but the sandbox knows which commands are outright
+            # forbidden and which merely need a human; the route used to skip
+            # that opinion entirely, so `rm -rf /` came back as a bare
+            # allowlist error with no word for what kind of refusal it was.
+            sb = self._sandbox()
+            if sb is not None and hasattr(sb, "check_command"):
+                v = sb.check_command(cmd)
+                if not v.get("allow"):
+                    if v.get("code") == "approval_required":
+                        entry = self._pend(
+                            "RUN",
+                            Path(cmd.split()[0] if cmd.split() else "command"),
+                            {"command": cmd})
+                        return 200, {"success": False,
+                                     "pending_approval": True,
+                                     "action": entry,
+                                     "reason": str(v.get("reason") or
+                                                   "awaits a human approval"),
+                                     "command": cmd}
+                    return 200, {"success": False, "blocked": True,
+                                 "code": v.get("code"),
+                                 "reason": str(v.get("reason") or "blocked"),
+                                 "command": cmd}
             try:
                 lang = getattr(self.agent, "language", None)
                 if lang is not None and hasattr(lang, "ground"):
                     # The command he is about to run becomes something he can
                     # feel, so words said during it wire to the act itself.
-                    lang.ground("command", str(data.get("command", ""))[:60])
-                r = term.run(str(data.get("command", "")))
+                    lang.ground("command", cmd[:60])
+                r = term.run(cmd)
                 if isinstance(r, dict):
-                    r["command"] = str(data.get("command", ""))
+                    r["command"] = cmd
                     r["success"] = (r.get("returncode") == 0)
+                    # The house's reply contract is stdout/stderr. The organ
+                    # now reports the two streams separately; `output` stays
+                    # as the conflated form the rest of the tree reads.
+                    r.setdefault("stdout", str(r.get("output", "")))
+                    r.setdefault("stderr", "")
                 # The outcome becomes an act he remembers, not only a percept he
                 # feels. A grounded command is something happening now; a
                 # proposition is something that happened, with a doer attached, and
@@ -1794,9 +1894,14 @@ class ConnectomeHouse:
         if path == "/api/sandbox_answer":
             return 200, self.answer_approval(data)
         if path == "/api/file/write":
-            if not self.allow_remote_mutation:
-                return 200, {"success": False,
-                             "reason": "remote mutation is disabled"}
+            # WHO MAY WRITE IS THE HTTP LAYER'S QUESTION, ANSWERED BY PEER.
+            # may_execute() runs on every POST before this route is reached:
+            # loopback is the operator's seat, remote peers need the flag or
+            # the token. This route used to re-check the FLAG alone, which
+            # (a) blocked the operator's own browser whenever the flag was
+            # off, and (b) would have let a remote peer through the moment
+            # the flag was on, token or no token -- a gate that reads the
+            # wrong variable is not a gate.
             p = self._resolve(data.get("path", ""))
             if not self._inside_root(p):
                 return 200, {"success": False, "reason": "outside the house"}

@@ -209,16 +209,27 @@ class RateCore:
         scores = v[cand].copy()
         if self.prev_action is not None and self.prev_action in cand:
             scores[cand == self.prev_action] += p.hysteresis
+        z = (scores - scores.max()) / max(p.temperature, 1e-9)
+        probs = np.exp(z)
+        probs /= probs.sum()
         if self.rng.random() < p.epsilon:
             action = int(self.rng.choice(cand))
         else:
-            z = (scores - scores.max()) / max(p.temperature, 1e-9)
-            probs = np.exp(z)
-            probs /= probs.sum()
             action = int(self.rng.choice(cand, p=probs))
 
         self.e *= self._comp_tau
-        self.e += (self.r[g.plastic_pre] * self.r[g.plastic_post])
+        # Eligibility is the CAUSAL trace: a synapse is eligible in proportion
+        # to how much the WTA's considered choice concentrated on its pool --
+        # the softmax probability the action was sampled from, gated by
+        # pre-synaptic activity. The older traces measured signals the choice
+        # was not made on: post-synaptic ACTIVITY is supplied to loud pools by
+        # the static recurrent graph, and raw plastic DRIVE is dominated by
+        # each pool's baseline, so in both cases every teach strengthened
+        # pools that did not win and the chosen pool's synapses stayed silent.
+        # Probability is the choice signal itself.
+        full = np.zeros(len(pools))
+        full[cand] = probs
+        self.e += (self.r[g.plastic_pre] * full[self._pool_of_post])
 
         self._last_v = v
         self._last_action = action
@@ -286,6 +297,59 @@ class RateCore:
                 [self._pool_of_post,
                  np.array([self._pool_of(int(b)) for b in post],
                           dtype=self._pool_of_post.dtype)])
+        self._sync_plastic_meta()
+        self._sync_compartments()
+        self._assert_structural_alignment()
+        return k
+
+    def wire_pool(self, pre_nodes, pool: int, k_per_pre: int = 4,
+                  w0: float = 0.01) -> int:
+        """Targeted synaptogenesis: sprout synapses from the given presynaptic
+        nodes into `pool`'s MBONs, k per presynaptic node.
+
+        Random synaptogenesis cannot give a word a route into a pool: with a
+        few thousand plastic synapses spread over thousands of KCs and
+        hundreds of MBONs, the chance a given KC already reaches a given pool
+        is ~0.1%, so a freshly taught word had almost nothing to strengthen.
+        This is the activity-dependent sprouting the settle loop needs: the
+        word's KCs are firing, the pool is the compartment being considered,
+        and the new synapses start at w0 and grow under dopamine like any
+        other. Nodes that are not KCs are skipped.
+
+        Structural changes RESIZE the plastic layer, so they take the same
+        lock as decide()/reinforce() -- an unlocked resize once interleaved
+        with a concurrent decide and tore (w, _plastic_norm) apart."""
+        with self._lock:
+            return self._wire_pool_impl(pre_nodes, pool, k_per_pre, w0)
+
+    def _wire_pool_impl(self, pre_nodes, pool: int, k_per_pre: int,
+                        w0: float) -> int:
+        g = self.g
+        self._assert_structural_alignment()
+        k_per_pre = max(1, int(k_per_pre))
+        kc_set = set(int(x) for x in np.asarray(g.kc_idx))
+        pres = np.asarray(sorted({int(n) for n in pre_nodes
+                                  if int(n) in kc_set}), dtype=np.int64)
+        if len(pres) == 0:
+            return 0
+        pools = g.mbon_pools
+        pool = int(pool) % len(pools)
+        posts = np.asarray(pools[pool], dtype=np.int64)
+        pre = np.repeat(pres, k_per_pre)
+        post = posts[self.rng.integers(0, len(posts), len(pre))]
+        k = len(pre)
+        with self._lock:
+            g.plastic_pre = np.concatenate([np.asarray(g.plastic_pre), pre])
+            g.plastic_post = np.concatenate([np.asarray(g.plastic_post), post])
+            g.plastic_w0 = np.concatenate(
+                [np.asarray(g.plastic_w0),
+                 np.full(k, w0, dtype=np.asarray(g.plastic_w0).dtype)])
+            self.w = np.concatenate([self.w,
+                                     np.full(k, w0, dtype=self.w.dtype)])
+            self.e = np.concatenate([self.e, np.zeros(k, dtype=self.e.dtype)])
+            self._pool_of_post = np.concatenate(
+                [self._pool_of_post,
+                 np.full(k, pool, dtype=self._pool_of_post.dtype)])
         self._sync_plastic_meta()
         self._sync_compartments()
         self._assert_structural_alignment()
@@ -491,6 +555,13 @@ class RateCore:
             [self._post_to_pool[int(q)] for q in self.g.plastic_post],
             dtype=self._pool_of_post.dtype)
         self._sync_plastic_meta()
+        # The compartment arrays are per-SYNAPSE and were sized for the old
+        # plastic layer; without this rebuild the next decide multiplies the
+        # grown eligibility vector by a shorter _comp_tau and dies on a
+        # broadcast mismatch. Every other resize path (grow_plastic,
+        # wire_pool, prune_plastic) rebuilds them; grow_pool was the one
+        # that forgot.
+        self._sync_compartments()
         return {"new_neurons": int(nodes),
                 "pool": int(g.n_actions) - 1,
                 "new_synapses": int(len(pre)),
@@ -523,6 +594,41 @@ class RateCore:
         # not answerable before, and the answer turned out to be barely.
         self.teach_count += 1
         self.last_e_mean = round(e_mean, 8)
+        self.last_dw_mean = round(float(np.mean(np.abs(dw))), 10)
+        self.last_rpe = round(float(rpe), 6)
+        cap = self.p.w_cap * self._comp_cap
+        pos = self._w_sign > 0
+        neg = self._w_sign < 0
+        self.w[pos] = np.clip(self.w[pos], 0.0, cap[pos])
+        self.w[neg] = np.clip(self.w[neg], -cap[neg], 0.0)
+        self.w[~self._plastic_active] = 0.0
+        return rpe
+
+    def reinforce_choice(self, action: int, reward: float) -> float:
+        """Dopamine gates plasticity on the synapses INTO the pool the WTA
+        chose, from the KCs that just fired -- the fly's mushroom-body rule:
+        the dopaminergic neuron innervates the chosen compartment, so only
+        its KC->MBON synapses feel the reward. Unlike reinforce(), this does
+        not go through the eligibility trace: the trace accumulates across
+        decisions and pools, which is right for a consequence that arrives
+        late, and wrong for a settle loop that must strengthen exactly the
+        pool it just sampled. Call right after decide(); uses the rates and
+        valuation of that decision. Returns the RPE."""
+        with self._lock:
+            return self._reinforce_choice_impl(action, reward)
+
+    def _reinforce_choice_impl(self, action: int, reward: float) -> float:
+        v = self._last_v if self._last_v is not None \
+            else np.zeros(len(self.g.mbon_pools))
+        rpe = float(np.clip(reward - float(v[int(action)]), -1.0, 1.0))
+        if not self.dopamine:
+            rpe = 0.0
+        mask = self._plastic_active * (self._pool_of_post == int(action))
+        dw = (self.p.lr * rpe * self._comp_lr * self._comp_gain
+              * self.r[self.g.plastic_pre] * mask)
+        self.w += dw
+        self.teach_count += 1
+        self.last_e_mean = round(float(np.mean(np.abs(self.e))), 8)
         self.last_dw_mean = round(float(np.mean(np.abs(dw))), 10)
         self.last_rpe = round(float(rpe), 6)
         cap = self.p.w_cap * self._comp_cap

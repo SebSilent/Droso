@@ -385,6 +385,7 @@ class Binder:
                 return {"stored": True, "repeat": True,
                         "count": self.meta[at]["count"],
                         "propositions": self.X.shape[0]}
+            posted = False
             if self.X.shape[0] >= self.capacity:
                 self._seen.pop(tuple(
                     str(t).strip().lower() for t in self.meta[0]["tokens"]), None)
@@ -401,7 +402,13 @@ class Binder:
                               for k, v in self._seen.items()}
                 self._seen[key] = len(self.meta) - 1
                 # Every row index shifted, so the index is worthless; rebuild it.
+                # The rebuild is the only poster on this path: it reads meta,
+                # which already holds the row appended above. The fall-through
+                # below must not post it again -- it did, and from the first
+                # eviction onward the newest row sat in every posting list for
+                # its words twice, so overlap counting counted its words double.
                 self._rebuild_postings()
+                posted = True
             else:
                 # Appended through a view onto a doubling buffer, not by vstack. The
                 # vstack copied both matrices for every memory -- 130 MB per
@@ -426,10 +433,11 @@ class Binder:
                 self.C = self._cb[:n + 1]
                 self.meta.append(row)
                 self._seen[key] = len(self.meta) - 1
-            for w in set(key):
-                self._postings.setdefault(w, []).append(len(self.meta) - 1)
-                self._stem_postings.setdefault(stem(w), []).append(
-                    len(self.meta) - 1)
+            if not posted:
+                for w in set(key):
+                    self._postings.setdefault(w, []).append(len(self.meta) - 1)
+                    self._stem_postings.setdefault(stem(w), []).append(
+                        len(self.meta) - 1)
             self._cand_cache = None
             self.stored += 1
         return {"stored": True, "propositions": self.X.shape[0]}
@@ -504,6 +512,7 @@ class Binder:
         order = np.argsort(-score)[:int(k)]
         return [{"tokens": meta[int(i)]["tokens"],
                  "who": meta[int(i)].get("who", ""),
+                 "when": float(meta[int(i)].get("when", 0.0) or 0.0),
                  "count": int(meta[int(i)].get("count", 1)),
                  "overlap": int(overlap[int(i)]),
                  "overlap_idf": round(float(weighted[int(i)]), 4),

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
+import math
 import re
 import threading
 import time
@@ -23,6 +24,20 @@ HEBB_LR = 0.10
 SAN_DECAY = 0.999
 SAN_DECAY_PER_S = 0.995
 SAN_SAVE_MIN_S = 600
+FRESH_TAU_S = 3600.0         # testimony-freshness half-life for the sort key
+                             # (sweep 2026-10-25: the harness's tell->ask gap
+                             #  is ~3 min, so any tau in 600-36000 s gives the
+                             #  same ordering; the harness cannot discriminate
+                             #  tau without a --delay option on the ask phase
+                             #  -- cross_session_design.md, lever a. 3600 s is
+                             #  the first cut, not a measured constant.)
+POOL_SETTLE_MIN_WINS = 3     # same pool must win this many decisions in a row
+POOL_SETTLE_MAX_ROUNDS = 24  # cap on decide+teach rounds while settling
+SAN_TOP_K = 512              # strongest co-activations kept per Hebb write
+SAN_ROW_CAP = 1024.0         # homeostatic cap on any SAN row's total weight
+                             # (sweep 25-10: cap 64 halved multi-word speech 0.64->0.44
+                             #  while cap 1024 recovers 0.65 and keeps A~C 2.6x under
+                             #  the dense matrix's 0.34; top-k exonerated by control)
 
 class NeuralLanguage:
     """Words as KC activation patterns in the carved BANC graph."""
@@ -56,6 +71,14 @@ class NeuralLanguage:
         self.recent_words: deque = deque(maxlen=24)
         self.reply_threshold = 0.55
         self.ticks = 0
+        # When this instance came to life. A proposition heard after this
+        # instant is session knowledge -- something someone just told him --
+        # and it outranks what the corpus merely says about the same subject.
+        # The corpus is a prior, not a verdict: read that gardens are calm a
+        # thousand times and the count says "calm" is what gardens are, even
+        # seconds after the user said this garden is quiet. The timestamp is
+        # what lets the answer sort tell those two apart.
+        self.session_t0 = time.time()
         self._last_thought_at = 0.0
         self.world_clock = 0.0
         self._last_thought_world = 0.0
@@ -318,11 +341,43 @@ class NeuralLanguage:
                 self.bigram_counts[bg] = self.bigram_counts.get(bg, 0) + 1
             idx = np.nonzero(act)[0]
             sub = act[idx]
-            block = self.san_w[idx[:, None], idx[None, :]]
-            block += eff_lr * np.outer(sub, sub)
-            np.clip(block, 0.0, 4.0, out=block)
-            block[np.arange(len(idx)), np.arange(len(idx))] = 0.0
-            self.san_w[idx[:, None], idx[None, :]] = block
+            # SPARSE HEBB WRITE. The old rule wired the full clique: a
+            # 241-cell percept added all 58k pairs in one utterance, every
+            # row marched to the clip, and the spread term saturated -- all
+            # words in a context ended up equally related to all others.
+            # Keep only the SAN_TOP_K strongest co-activations (upper
+            # triangle, so each unordered pair at most once): a percept
+            # wires hundreds of edges, the ones the co-activation actually
+            # voted for, and one-off noise pairs are what gets dropped.
+            iu, ju = np.triu_indices(len(idx), 1)
+            vals = sub[iu] * sub[ju]
+            k = min(SAN_TOP_K, vals.size)
+            if k < vals.size:
+                top = np.argpartition(vals, vals.size - k)[-k:]
+                keep = np.zeros(vals.size, dtype=bool)
+                keep[top] = True
+            else:
+                keep = np.ones(vals.size, dtype=bool)
+            ri, rj = idx[iu[keep]], idx[ju[keep]]
+            new = np.clip(self.san_w[ri, rj] + eff_lr * vals[keep],
+                          0.0, 4.0)
+            self.san_w[ri, rj] = new
+            self.san_w[rj, ri] = new      # symmetric by construction
+            # ROW CAP (homeostasis). A cell present in every percept --
+            # the interoceptive band above all -- otherwise accumulates
+            # edges without bound; its row sum dwarfs every word's, and
+            # the /m normalisation in understand() then lets weakly-wired
+            # rows shout as loud as richly-wired ones. Rows over the cap
+            # -- and, to keep the matrix symmetric, their columns -- are
+            # scaled back to it. Scaling only shrinks, so weights stay
+            # inside [0, 4] and the diagonal stays zero.
+            rsum = self.san_w[idx, :].sum(axis=1)
+            over = rsum > SAN_ROW_CAP
+            if over.any():
+                scale = np.ones(len(idx), dtype=np.float32)
+                np.divide(SAN_ROW_CAP, rsum, out=scale, where=over)
+                self.san_w[idx, :] *= scale[:, None]
+                self.san_w[:, idx] *= scale[None, :]
             now = time.time()
             elapsed = min(now - getattr(self, "_last_decay", now),
                           self.SAN_DECAY_INTERVAL_S)
@@ -418,12 +473,47 @@ class NeuralLanguage:
         active = np.nonzero(code)[0]
         if len(active) == 0:
             return None
+        # Settle the pool by living the word. One decision is a softmax sample
+        # among near-tied valuations -- a coin flip, not a choice -- and a
+        # single teach strengthens whichever pools held eligibility, which need
+        # not be the sampled one. So: decide, teach what the WTA actually
+        # chose, repeat until the same pool wins POOL_SETTLE_MIN_WINS decisions
+        # in a row. Each positive teach strengthens that pool's synapses from
+        # this word's KCs, so the choice compounds into a decisive readout --
+        # and the recorded pool is the one the brain will actually pick later,
+        # which is the only thing speak() can read back.
         pool = self.engine.decide(code, extra_drive=[scent] if scent else None)
-        nxt = self.engine.decide(code, extra_drive=[scent] if scent else None)
-        if nxt != pool:
-            pool = nxt
-            self.engine.decide(code, extra_drive=[scent] if scent else None)
-        self.engine.teach(self.reward_teach)
+        wins = 0
+        wired: set[int] = set()
+        for _ in range(POOL_SETTLE_MAX_ROUNDS):
+            nxt = self.engine.decide(code, extra_drive=[scent] if scent else None)
+            if nxt not in wired:
+                # Activity-dependent sprouting: the word's KCs are firing and
+                # this pool is the compartment being considered, so give them
+                # synapses into it. Without a route the teach below has
+                # nothing to strengthen -- measured on a fresh brain, this
+                # word's 16 KCs held 14 plastic synapses in total, mostly
+                # into pools the word never settles on. The KCs must be the
+                # GRAPH nodes the drive actually reaches (kc_nodes_of_code),
+                # not the tokenizer's code indices: wiring the raw indices
+                # silently dropped 12 of 16 KCs through the kc_idx filter.
+                self.engine.static.wire_pool(
+                    self.engine.kc_nodes_of_code(code), nxt, k_per_pre=4)
+                wired.add(nxt)
+            # Pool-targeted dopamine: only the sampled pool's KC->MBON
+            # synapses from the KCs that just fired feel the reward. The
+            # eligibility-trace path (engine.teach) accumulates across
+            # decisions and pools, so it strengthens whichever pools happen
+            # to hold the most synapses from this word's KCs -- measured, not
+            # the pool the WTA sampled.
+            rpe = self.engine.teach_pool(nxt, self.reward_teach)
+            if nxt == pool:
+                wins += 1
+                if wins >= POOL_SETTLE_MIN_WINS:
+                    break
+            else:
+                pool = nxt
+                wins = 0
         self.note_event("word", w)
         rec = {"word": w,
                "kc": [int(i) for i in active],       # WHICH neurons fire
@@ -1908,18 +1998,54 @@ class NeuralLanguage:
                               for h in hits[:5]]}
         if role is not None:
             # Rank by: how much of the question the memory contains, then whether
-            # its filler at the queried role is a kind of thing this question word
-            # has been answered with before, then whether the filler is new
-            # information. Overlap alone cannot separate "droso is home" from
-            # "droso is happy" when the only content word in the question is
-            # "droso"; the answer-type term can.
+            # it was heard in this session, then whether its filler at the queried
+            # role is a kind of thing this question word has been answered with
+            # before, then whether the filler is new information. Overlap alone
+            # cannot separate "droso is home" from "droso is happy" when the only
+            # content word in the question is "droso"; the answer-type term can.
             cset = set(content)
             expected = self.answer_types.get(inter[0], {}) if inter else {}
             idf = self.cortex.binder.idf()
 
             def informative(h):
                 toks = [str(t).lower() for t in h["tokens"]]
-                filler = toks[role] if len(toks) > role else None
+                # "where" asks for the locative, and in what he remembers the
+                # locative sits at the sentence's end -- "the box is on the
+                # shelf" -- not at the queried role index, which for a five-token
+                # sentence is "is". Taking the role-index token as the filler
+                # made every where-answer compete on the idf of "is", a tie
+                # decided by nothing, and the "droso says ..." echo of an older
+                # reply won on its shared subject word. The last token is where
+                # the answer to a where-question actually lives.
+                if inter and inter[0] == "where" and len(toks) > role + 1:
+                    filler = toks[-1]
+                else:
+                    filler = toks[role] if len(toks) > role else None
+                # A proposition heard in this session outranks one that only
+                # lives in the corpus, at equal overlap. The answer-type counts
+                # are a corpus statistic -- the corpus says gardens are calm
+                # 2651 times -- and against something the user said two turns
+                # ago that prior is not evidence, it is inertia. When no session
+                # proposition is in the pool this term is a constant and the
+                # sort behaves exactly as before, so nothing cold changes.
+                #
+                # Graded, and restricted to what the USER said. Two measured
+                # failures shaped this (cross_session baseline 2026-10-25
+                # 22:41): (1) the ask's own echo -- "droso says the box is
+                # heavy", bound seconds before the next ask -- outranked the
+                # teaching, bound minutes before the session ended, because
+                # both were "fresh" and the echo had more overlap; (2) the
+                # corpus prior beat the teaching outright. Grading by age
+                # fixes (2); restricting to who == "you" fixes (1) -- user
+                # speech binds who="you" (respond's default speaker,
+                # neural_language.py:2433), own experience binds who=<actor>
+                # (neural_language.py:886), the corpus binds who="book"
+                # (neural_language.py:2310) and is never promoted, so the
+                # restriction is exactly "what the user said, decaying".
+                who = str(h.get("who") or "")
+                age = self.session_t0 - float(h.get("when", 0.0) or 0.0)
+                fresh = (1.0 if age <= 0 else math.exp(-age / FRESH_TAU_S)) \
+                    if who == "you" else 0
                 # Overlap says which memories are about this; the answer type says
                 # whether the filler is the kind of thing being asked for; and the
                 # filler's own distinctiveness breaks the last tie. Without that
@@ -1928,6 +2054,7 @@ class NeuralLanguage:
                 # nothing, and the one whose filler is a function word is never the
                 # answer to a question.
                 return (int(h.get("overlap", 0)),
+                        fresh,
                         int(expected.get(filler, 0)),
                         round(float(idf.get(filler, 0.0)), 3),
                         1 if filler is not None and filler not in cset else 0)
