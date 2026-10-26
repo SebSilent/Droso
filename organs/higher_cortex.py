@@ -719,9 +719,24 @@ class HigherCortex:
         self.MIN_HEAR_INTERVAL_S = 0.05
         self._last_hear = 0.0
         self.skipped = 0
+        # WHAT THIS CORTEX HAS HEARD SINCE IT LOADED, as utterances rather than
+        # vectors. A conversation teaches a handful of propositions; serializing
+        # 352 MB of dense matrices to carry them across a session boundary is the
+        # mismatch that filled the disk. The delta save writes this list instead,
+        # and the next process replays it through hear() itself -- which is exact,
+        # not approximate, because ConceptSpace.of is a fixed hash: the same token
+        # lands on the same vector in every process, so the replay reproduces the
+        # predictor update, the binder dedup and the windowing by construction.
+        # Capped: a reading session hears tens of thousands of lines, and past the
+        # cap the delta refuses rather than pretend -- the caller falls back to a
+        # full save.
+        self.HEARD_DELTA_CAP = 2000
+        self._heard: list = []
+        self._heard_overflow = False
 
     def hear(self, tokens, who: str = "", surprise_weight: float = 1.0,
-             chunk: bool = True) -> dict:
+             chunk: bool = True, replay: bool = False,
+             when: float = 0.0) -> dict:
         """One utterance arrives. Predict it, then bind and store it.
 
         Prediction uses the running concept of what came before, so error is
@@ -733,21 +748,41 @@ class HigherCortex:
         third. Sampling the stream instead of exhausting it keeps the cost bounded
         and is honest about what it does: the count of skipped utterances is
         reported, not hidden.
+
+        replay=True is the delta path: this utterance was already heard once, in
+        the session that wrote the delta now being applied, and is being heard
+        again to reproduce its effect. It bypasses the real-time throttle (the
+        replay is not bound by the original session's pacing) and is not recorded
+        into _heard again -- the delta a session writes must contain only what
+        THAT session heard, or a third session applying both deltas would store
+        the same teaching twice and bump its counts spuriously. `when` carries
+        the original utterance's wall clock into remember(), so a replayed row
+        keeps the age it had rather than being born at replay time.
         """
         toks = [str(t).strip().lower() for t in (tokens or []) if str(t).strip()]
         if not toks:
             return {"error": None}
         now = time.time()
-        if now - self._last_hear < self.MIN_HEAR_INTERVAL_S:
-            self.skipped += 1
-            return {"error": None, "skipped": True}
-        self._last_hear = now
+        if replay:
+            when = float(when) or now
+        else:
+            if now - self._last_hear < self.MIN_HEAR_INTERVAL_S:
+                self.skipped += 1
+                return {"error": None, "skipped": True}
+            self._last_hear = now
+            if not self._heard_overflow:
+                if len(self._heard) >= self.HEARD_DELTA_CAP:
+                    self._heard_overflow = True
+                    self._heard.clear()
+                else:
+                    self._heard.append([list(toks), str(who or ""), bool(chunk),
+                                        float(surprise_weight), float(now)])
         phrase = self.space.of(" ".join(toks[:6]))
         step = self.predictor.observe(phrase, surprise_weight=surprise_weight)
         self.last_error = step.get("error")
         mr = int(self.binder.max_roles)
         if len(toks) <= mr or not chunk:
-            self.binder.remember(toks, who=who)
+            self.binder.remember(toks, who=who, when=when if replay else 0.0)
         else:
             # A sentence longer than the role count used to lose its tail: the
             # binder kept the first eight words and the rest was never bound at
@@ -757,7 +792,8 @@ class HigherCortex:
             # makes them share structure rather than sit side by side.
             step_w = max(2, mr // 2)
             for i in range(0, max(1, len(toks) - mr + 1), step_w):
-                self.binder.remember(toks[i:i + mr], who=who)
+                self.binder.remember(toks[i:i + mr], who=who,
+                                     when=when if replay else 0.0)
         return {"error": step.get("error"),
                 "predicted_cosine": step.get("predicted_cosine"),
                 "propositions": self.binder.X.shape[0]}
@@ -906,6 +942,91 @@ class HigherCortex:
                     "predictor_updates": self.predictor.updates}
         except Exception as e:
             return {"loaded": False, "reason": f"{type(e).__name__}: {e}"[:160]}
+
+    # ------------------------------------------------------------- delta ----
+    # A conversation teaches a handful of propositions. Writing the full cortex
+    # -- 352 MB of dense vectors -- to carry them across a session boundary is
+    # what filled the disk: every cross-session benchmark phase saved ~640 MB,
+    # and nothing ever deleted a session. The delta is the utterances themselves,
+    # replayed through hear() by the next process. It is exact rather than
+    # approximate because ConceptSpace.of is a fixed hash -- the same token lands
+    # on the same vector in every process -- so the replay reproduces the
+    # predictor update, the binder dedup, the ring-buffer eviction and the
+    # windowing by construction. It also works when the binder is AT capacity:
+    # row-index deltas go stale the moment the ring buffer evicts a row, but an
+    # utterance re-heard through the organ's own path cannot.
+
+    def save_delta(self, path) -> dict:
+        """What this cortex heard since it loaded, as utterances, not vectors.
+
+        Writes a small JSON file: the heard list, the grounded facts and the
+        counters. Refuses rather than pretends if the heard list overflowed its
+        cap -- a reading session hears tens of thousands of lines, and a delta
+        that silently dropped most of them would look like a save and behave
+        like a loss. The caller falls back to a full save on a refusal.
+        """
+        try:
+            import json
+            import os
+            from pathlib import Path as _P
+            if self._heard_overflow:
+                return {"saved": False,
+                        "reason": f"heard past the delta cap "
+                                  f"({self.HEARD_DELTA_CAP}); full save required"}
+            p = _P(str(path))
+            p.parent.mkdir(exist_ok=True, parents=True)
+            doc = {"version": 1,
+                   "heard": self._heard,
+                   # Same row shape as the facts sidecar: [c, s, ref, sh, source].
+                   "facts": [[c, s, r, sh,
+                              self.binder.fact_sources.get((c, s, sh), "unknown")]
+                             for (c, s, sh), r in self.binder.facts.items()],
+                   "counts": [int(self.predictor.updates), int(self.binder.stored)]}
+            tmp = p.with_name(p.name + ".tmp")
+            tmp.write_text(json.dumps(doc), encoding="utf-8")
+            os.replace(str(tmp), str(p))
+            return {"saved": True, "path": str(p), "heard": len(self._heard),
+                    "propositions": int(self.binder.X.shape[0])}
+        except Exception as e:
+            return {"saved": False, "reason": f"{type(e).__name__}: {e}"[:160]}
+
+    def apply_delta(self, path) -> dict:
+        """Replay a delta an earlier session wrote, through hear() itself.
+
+        Every heard utterance goes back in with replay=True: no real-time
+        throttle (the replay is not bound by the original session's pacing), no
+        re-recording (this session's own delta must hold only what IT heard, or
+        a third session applying both would store the same teaching twice), and
+        the original wall clock carried through so a replayed row keeps the age
+        it had. Facts are restored as the mapping they were, not re-derived.
+        """
+        try:
+            import json
+            from pathlib import Path as _P
+            p = _P(str(path))
+            if not p.exists():
+                return {"applied": 0, "reason": "no delta file"}
+            doc = json.loads(p.read_text(encoding="utf-8"))
+            n = 0
+            for row in (doc.get("heard") or []):
+                if not isinstance(row, (list, tuple)) or len(row) < 5:
+                    continue
+                toks, who, chunk, sw, when = row[:5]
+                self.hear(toks, who=str(who or ""), chunk=bool(chunk),
+                          surprise_weight=float(sw), replay=True,
+                          when=float(when))
+                n += 1
+            for row in (doc.get("facts") or []):
+                if isinstance(row, (list, tuple)) and len(row) >= 4:
+                    sh = str(row[3]) if len(row) > 3 else "unknown"
+                    k = (str(row[0]), str(row[1]), sh)
+                    self.binder.facts[k] = str(row[2])
+                    if len(row) > 4:
+                        self.binder.fact_sources[k] = str(row[4])
+            return {"applied": n, "facts": len(self.binder.facts),
+                    "propositions": int(self.binder.X.shape[0])}
+        except Exception as e:
+            return {"applied": 0, "reason": f"{type(e).__name__}: {e}"[:160]}
 
     def _score_props(self, props: list) -> dict:
         if not props:

@@ -46,6 +46,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
 import subprocess
 import sys
 import time
@@ -109,9 +110,21 @@ def run_phase(phase: str, name: str, scripts_path: Path, tag: str,
     if not untouched:
         print(f"[cross] LIVE FILES TOUCHED in {phase} phase: {changed}")
 
-    save = lang.save_state(force_san=True)
+    # delta=True, not force_san=True. force_san wrote the whole 640 MB state
+    # (SAN matrix, chain, binder) twice per script per suite to carry a
+    # conversation's worth of teachings, and nothing ever deleted a session --
+    # that is where 450 GB of state directories came from. The delta save
+    # writes the json (vocabulary) plus what this session heard as utterances
+    # (kilobytes); the next phase replays them through hear() itself. If the
+    # delta refuses, save_state falls back to the full save on its own.
+    save = lang.save_state(delta=True)
     if not save.get("saved"):
-        print(f"[cross] save failed: {save}")
+        reason = str(save.get("reason") or "")
+        hint = " (disk full?)" if "requested and 0 written" in reason else ""
+        print(f"[cross] save failed{hint}: {save}")
+    elif save.get("mode") == "full":
+        print(f"[cross] {phase}: delta refused, full save written: "
+              f"{save.get('delta_refused')}")
 
     asks = [t for t in turns if t["kind"] == "ask"]
     passed = sum(1 for t in asks if t.get("pass"))
@@ -217,6 +230,7 @@ def ensure_baseline(name: str, scripts_path: Path, base: dict) -> dict | None:
     print(f"[cross] {name}: no warm/cold baseline; running the script "
           f"benchmark for it")
     rates = {}
+    sdirs = []
     for mode, flag in (("warm", []),
                        ("cold", ["--cold", str(scripts_path)])):
         tag = f"script_{name}_{mode}"
@@ -230,17 +244,65 @@ def ensure_baseline(name: str, scripts_path: Path, base: dict) -> dict | None:
         rep = FITNESS / f"conversation_{tag}.json"
         if not rep.exists():
             return None
-        b = json.loads(rep.read_text(encoding="utf-8")).get("benchmark", {})
-        rates[mode] = b.get("pass_rate")
+        doc = json.loads(rep.read_text(encoding="utf-8"))
+        rates[mode] = (doc.get("benchmark") or {}).get("pass_rate")
+        # The baseline session's state directory is dead weight the moment its
+        # numbers are in the report; the row prunes it with the rest.
+        if doc.get("session_dir"):
+            sdirs.append(doc["session_dir"])
     return {"warm": rates["warm"], "cold": rates["cold"],
-            "source": "run now"}
+            "source": "run now", "session_dirs": sdirs}
+
+
+# ----------------------------------------------------------------- prune ----
+
+def _reclaimable_bytes(p: Path) -> int:
+    """Bytes a tree actually holds, not the bytes its hardlinks point at.
+
+    The shadow tree is mostly hardlinks into the live state: counting their
+    sizes would report ~660 MB freed by deleting a tree that frees almost
+    nothing. st_nlink == 1 is a real file with its own blocks -- the session
+    directories' state files and the shadow's overlay copies -- and only those
+    are reclaimed.
+    """
+    total = 0
+    try:
+        for f in p.rglob("*"):
+            try:
+                if f.is_file() and f.stat().st_nlink == 1:
+                    total += f.stat().st_size
+            except OSError:
+                pass
+    except OSError:
+        pass
+    return total
+
+
+def prune_artifacts(paths: list) -> int:
+    """Delete session artifacts and report the bytes they were holding.
+
+    The reports keep the transcripts and the scores; the state directories are
+    ~640 MB each and nothing ever read one again. Rows that errored keep their
+    artifacts -- those are the evidence.
+    """
+    freed = 0
+    for p in paths:
+        if not p:
+            continue
+        p = Path(p)
+        if not p.exists():
+            continue
+        freed += _reclaimable_bytes(p)
+        shutil.rmtree(p, ignore_errors=True)
+    return freed
 
 
 # --------------------------------------------------------------- orchestr ----
 
-def run_suite(names: list[str], scripts_path: Path) -> int:
+def run_suite(names: list[str], scripts_path: Path, keep: bool = False) -> int:
     base = newest_benchmark_report() or {}
     rows = []
+    total_freed = 0
     for name in names:
         baseline = ensure_baseline(name, scripts_path, base)
         tell_tag, ask_tag = f"cross_{name}_tell", f"cross_{name}_ask"
@@ -256,6 +318,20 @@ def run_suite(names: list[str], scripts_path: Path) -> int:
             rows.append({"name": name, "error": f"tell phase exit {rc}"})
             continue
         tell = json.loads(tell_rep.read_text(encoding="utf-8"))
+        tell_save = tell.get("save") or {}
+        if not tell_save.get("saved"):
+            # A half-saved tell session has no cortex file, so the shadow
+            # carries no teachings and the ask phase scores a fake 0.0.
+            # Measured 2026-10-26: disk full, "67108864 requested and 0
+            # written", shadow overlay_files 2 instead of 8, two rows at 0.0
+            # that looked like a language regression.
+            print(f"[cross] {name}: tell save failed "
+                  f"({tell_save.get('reason')}); skipping ask")
+            rows.append({"name": name, "baseline": baseline,
+                         "tell": tell["benchmark"], "tell_delta": tell["delta"],
+                         "tell_live_untouched": tell["live_files_untouched"],
+                         "error": f"tell save failed: {tell_save.get('reason')}"})
+            continue
 
         shadow = SESSIONS / f"cross_shadow_{name}_{time.strftime('%Y%m%d_%H%M%S')}"
         shadow_info = build_shadow(Path(tell["session_dir"]), shadow)
@@ -273,16 +349,32 @@ def run_suite(names: list[str], scripts_path: Path) -> int:
                          "error": f"ask phase exit {rc}"})
             continue
         ask = json.loads(ask_rep.read_text(encoding="utf-8"))
+        ask_save = ask.get("save") or {}
 
-        rows.append({"name": name, "kind": ask["benchmark"].get("kind"),
-                     "baseline": baseline,
-                     "tell": tell["benchmark"], "tell_delta": tell["delta"],
-                     "tell_live_untouched": tell["live_files_untouched"],
-                     "shadow": shadow_info,
-                     "ask": ask["benchmark"], "ask_delta": ask["delta"],
-                     "ask_live_untouched": ask["live_files_untouched"],
-                     "tell_session_dir": tell["session_dir"],
-                     "ask_session_dir": ask["session_dir"]})
+        row = {"name": name, "kind": ask["benchmark"].get("kind"),
+               "tell_save_ok": bool(tell_save.get("saved")),
+               "ask_save_ok": bool(ask_save.get("saved")),
+               "baseline": baseline,
+               "tell": tell["benchmark"], "tell_delta": tell["delta"],
+               "tell_live_untouched": tell["live_files_untouched"],
+               "shadow": shadow_info,
+               "ask": ask["benchmark"], "ask_delta": ask["delta"],
+               "ask_live_untouched": ask["live_files_untouched"],
+               "tell_session_dir": tell["session_dir"],
+               "ask_session_dir": ask["session_dir"]}
+        if not keep:
+            # The row is clean: its scores live in the reports, so the session
+            # directories and the shadow tree are dead weight. Delete them now
+            # or they accumulate at ~11 GB a suite -- which is exactly what
+            # filled the disk. Errored rows keep theirs (see the branches above).
+            freed = prune_artifacts([tell["session_dir"], ask["session_dir"],
+                                     (shadow_info or {}).get("shadow")]
+                                    + ((baseline or {}).get("session_dirs")
+                                       or []))
+            if freed:
+                row["session_pruned"] = True
+                total_freed += freed
+        rows.append(row)
 
     report = {"tag": f"cross_session_{time.strftime('%Y%m%d_%H%M%S')}",
               "measured_at": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -321,6 +413,9 @@ def run_suite(names: list[str], scripts_path: Path) -> int:
               f"{(ws / wn if wn else 0):>6.3f} {cs / xn:>6.3f} "
               f"{(xs / cn if cn else 0):>6.3f}")
     print(f"\nreport: {out}")
+    if total_freed:
+        print(f"pruned session artifacts: {total_freed / (1024 * 1024):.1f} MB "
+              f"reclaimed (--keep to preserve them)")
     return 0
 
 
@@ -336,6 +431,11 @@ def main() -> int:
     ap.add_argument("--tag", default=None)
     ap.add_argument("--shadow", default=None,
                     help="project root for the ask phase (the shadow tree)")
+    ap.add_argument("--keep", action="store_true",
+                    help="keep session directories and shadow trees after "
+                         "clean rows (they are pruned by default: the reports "
+                         "hold the scores, and the state directories "
+                         "accumulated 450 GB before pruning existed)")
     args = ap.parse_args()
     scripts_path = Path(args.scripts)
 
@@ -362,7 +462,7 @@ def main() -> int:
     scripts = json.loads(scripts_path.read_text(encoding="utf-8"))["scripts"]
     names = ([n.strip() for n in args.only.split(",")] if args.only
              else [s["name"] for s in scripts])
-    return run_suite(names, scripts_path)
+    return run_suite(names, scripts_path, keep=args.keep)
 
 
 if __name__ == "__main__":

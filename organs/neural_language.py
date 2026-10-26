@@ -172,6 +172,9 @@ class NeuralLanguage:
         # rebuilt his chain from reading still reported a corrupt file from three
         # restarts ago -- the same dishonesty as a silent refusal, only louder.
         self.load_error = None
+        # How many utterances the last load replayed from a cortex delta. Zero
+        # is the normal case: full saves carry no delta.
+        self._delta_applied = 0
         # Phase 5a: somewhere to hold a goal while he works on it.
         self.goal = GoalOrgan(self)
         # How much his unprompted speech is allowed to vary. Zero is the old
@@ -3139,8 +3142,8 @@ class NeuralLanguage:
                         "Hebbian association weights over 256 semantic "
                         "neurons, grown from usage -- no text stored"}
 
-    def save_state(self, *, force_san: bool = False,
-                   force: bool = False) -> dict:
+    def save_state(self, *, force_san: bool = False, force: bool = False,
+                   delta: bool = False) -> dict:
         if not self.persist or self.state_path is None:
             return {"saved": False, "reason": "persist disabled"}
         # Throttled by default. teach_word saved once per new word, which measured 34
@@ -3158,7 +3161,10 @@ class NeuralLanguage:
         # paths elsewhere.
         force_san = bool(force_san or force)
         now = time.time()
-        if not force and not force_san and (now - float(
+        # delta=True bypasses the throttle too: it is an explicit end-of-session
+        # save, and what it writes is kilobytes, not the 640 MB a forced full
+        # save costs.
+        if not force and not force_san and not delta and (now - float(
                 getattr(self, "_last_state_save", 0.0))) < self.SAVE_MIN_REAL_S:
             self._save_deferrals = int(getattr(self, "_save_deferrals", 0)) + 1
             return {"saved": False, "reason": "throttled",
@@ -3206,23 +3212,54 @@ class NeuralLanguage:
             tmp.write_text(json_dumps(doc), encoding="utf-8")
             tmp.replace(self.state_path)
             now = time.time()
-            if force_san or now - self._san_last_save >= SAN_SAVE_MIN_S:
-                # 268 MB, rewritten on a timer, and the process is stopped with a
-                # hard kill -- which makes this the most likely corruption in the
-                # whole state directory. The JSON above was already written to a
-                # temporary and renamed; these three were not. A rename either
-                # happens or it does not, so a kill during a save now costs the last
-                # few minutes instead of the semantic cortex, the chains or the
-                # propositions.
-                sanp = self.state_path.with_suffix(".san.npy")
-                santmp = sanp.with_name(sanp.name + ".tmp.npy")
-                np.save(str(santmp), self.san_w.astype(np.float32))
+            if delta:
+                # DELTA SAVE. A conversation teaches a handful of propositions;
+                # the full save below writes 640 MB to carry them, and the
+                # cross-session benchmark ran that twice per script per suite
+                # with nothing ever deleting a session -- 450 GB of state
+                # directories. The delta writes what THIS session heard as
+                # utterances (kilobytes) beside the json, and skips the SAN
+                # matrix and the chain: a conversation's drift in them is noise
+                # against a corpus-scale base, and the benchmark does not score
+                # them. The json above still carries the vocabulary -- new words
+                # must survive a session boundary -- and the cortex delta
+                # carries the teachings. If the delta refuses (heard past its
+                # cap, disk trouble), fall through to the full save rather than
+                # report success over a loss.
+                dres = self.cortex.save_delta(
+                    str(self.state_path) + ".cortex.delta.json")
+                if dres.get("saved"):
+                    self.last_error = None
+                    return {"saved": True, "path": str(self.state_path),
+                            "mode": "delta", "delta": dres,
+                            "skipped": ["san", "sequence"]}
+            if force_san or delta or now - self._san_last_save >= SAN_SAVE_MIN_S:
+                # The SAN is rewritten on a timer, and the process is stopped
+                # with a hard kill -- which makes this the most likely
+                # corruption in the whole state directory. The JSON above was
+                # already written to a temporary and renamed; these three were
+                # not. A rename either happens or it does not, so a kill during
+                # a save now costs the last few minutes instead of the semantic
+                # cortex, the chains or the propositions.
+                # Stored compressed: the matrix is highly repetitive float32
+                # and zlib takes it 268 MB -> ~5 MB in ~2 s, measured. Every
+                # state copy on disk (live, reader, population, lineage) pays
+                # the raw size otherwise.
+                sanp = self.state_path.with_suffix(".san.npz")
+                santmp = sanp.with_name(sanp.name + ".tmp.npz")
+                np.savez_compressed(str(santmp),
+                                    san=self.san_w.astype(np.float32))
                 santmp.replace(sanp)
                 self.sequence.save(str(self.state_path) + ".seq.npz")
                 self.cortex.save(str(self.state_path) + ".cortex.npz")
                 self._san_last_save = now
             self.last_error = None
-            return {"saved": True, "path": str(self.state_path)}
+            out = {"saved": True, "path": str(self.state_path), "mode": "full"}
+            if delta:
+                # The delta was asked for and refused; the full save is the
+                # fallback, and the refusal is reported, not swallowed.
+                out["delta_refused"] = dres
+            return out
         except OSError as e:
             self.last_error = str(e)[:160]
             return {"saved": False, "reason": self.last_error}
@@ -3386,6 +3423,29 @@ class NeuralLanguage:
                         self.last_error = "higher cortex refused: " + \
                             str(cx.get("reason"))[:120]
                         self.load_error = self.last_error
+                    # The delta rides beside the full state: what the session
+                    # that wrote this state heard SINCE it loaded, as
+                    # utterances. Replaying it through hear() is what carries a
+                    # conversation's teachings across the boundary without
+                    # serializing 352 MB of vectors to do it. A missing delta is
+                    # not an error -- older states and full saves have none.
+                    try:
+                        dl = self.cortex.apply_delta(
+                            str(self.state_path) + ".cortex.delta.json")
+                        if isinstance(dl, dict) and dl.get("applied"):
+                            self._delta_applied = int(dl["applied"])
+                        elif isinstance(dl, dict) and dl.get(
+                                "reason") and dl["reason"] != "no delta file":
+                            # A delta that exists but applies to nothing is the
+                            # same shape of failure as a cortex that refuses to
+                            # load: the individual boots without his teachings
+                            # and reports nothing wrong. Say so.
+                            self.last_error = "cortex delta: " + \
+                                str(dl["reason"])[:100]
+                            self.load_error = self.last_error
+                    except Exception as e:
+                        self.last_error = "cortex delta: " + str(e)[:100]
+                        self.load_error = self.last_error
                 except Exception as e:
                     self.last_error = "higher cortex: " + str(e)[:100]
                 bgc = raw.get("bigram_counts")
@@ -3404,8 +3464,17 @@ class NeuralLanguage:
             except Exception:
                 pass
             try:
+                # .san.npz is the current format (compressed, ~5 MB); .san.npy
+                # is the legacy raw format, still readable so older state
+                # trees and pre-merge lineage copies load unchanged.
+                npz = self.state_path.with_suffix(".san.npz")
                 npy = self.state_path.with_suffix(".san.npy")
-                if npy.exists():
+                if npz.exists():
+                    with np.load(str(npz)) as z:
+                        m = z["san"]
+                    if m.shape == (self.n_san, self.n_san):
+                        self.san_w = m.astype(np.float32)
+                elif npy.exists():
                     m = np.load(str(npy))
                     if m.shape == (self.n_san, self.n_san):
                         self.san_w = m.astype(np.float32)

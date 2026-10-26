@@ -265,7 +265,7 @@ def test_patterns_persist_as_kc_indices_and_resume(tmp_path):
     assert "meaning" not in raw["words"]["stale"], \
         "no English gloss is stored: meaning lives in the SAN matrix"
     nl.save_state(force_san=True)
-    assert f.with_suffix(".san.npy").exists(), \
+    assert f.with_suffix(".san.npz").exists(), \
         "the semantic synapses persist beside the words"
     again = make(tmp_path)
     assert again.vocabulary_size() == 2

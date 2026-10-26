@@ -228,13 +228,24 @@ def merge(n: int, out_dir: str, dirs=None, san_from: int | None = None) -> dict:
         for k, v in (qs.get("statement_words") or {}).items():
             statements[k] = max(int(statements.get(k, 0)), int(v))
         # semantic cortex: element-wise mean
-        sanp = _state_dir(d) / "language_state.san.npy"
+        # .san.npz is the current compressed format; .san.npy is the legacy
+        # raw format still present in older individuals and lineage copies.
+        sanp = _state_dir(d) / "language_state.san.npz"
+        if not sanp.exists():
+            sanp = _state_dir(d) / "language_state.san.npy"
         if sanp.exists():
             if san_from is not None:
                 if k == int(san_from):
                     san_keep = sanp
             else:
-                m = np.load(str(sanp), mmap_mode="r")
+                # mmap_mode is unavailable on npz; a compressed matrix is
+                # ~5 MB on disk and 268 MB resident, which the accumulator
+                # holds anyway.
+                if sanp.suffix == ".npz":
+                    with np.load(str(sanp)) as z:
+                        m = z["san"]
+                else:
+                    m = np.load(str(sanp), mmap_mode="r")
                 if san_acc is None:
                     san_acc = np.zeros(m.shape, dtype=np.float64)
                 if san_acc.shape == m.shape:
@@ -318,10 +329,17 @@ def merge(n: int, out_dir: str, dirs=None, san_from: int | None = None) -> dict:
         # all still unioned or summed -- those grow by pooling. Only the cortex is
         # taken whole, from the individual that actually has one.
         import shutil as _sh
-        _sh.copy(str(san_keep), str(out / "language_state.san.npy"))
+        if san_keep.suffix == ".npz":
+            _sh.copy(str(san_keep), str(out / "language_state.san.npz"))
+        else:
+            # legacy raw input: convert on the way out so merged output is
+            # always in the current compressed format
+            np.savez_compressed(str(out / "language_state.san.npz"),
+                                san=np.asarray(np.load(str(san_keep)),
+                                               dtype=np.float32))
     elif san_acc is not None and san_n:
-        np.save(str(out / "language_state.san.npy"),
-                (san_acc / san_n).astype(np.float32))
+        np.savez_compressed(str(out / "language_state.san.npz"),
+                            san=(san_acc / san_n).astype(np.float32))
 
     if seq_keys:
         # Sum the sparse chains by coordinate. Two lives that heard the same order
