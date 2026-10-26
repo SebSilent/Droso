@@ -9,6 +9,13 @@ unreported.  A named list can only miss; a tree snapshot cannot.  This test
 redirects the snapshot to a scratch tree and asserts the two properties that
 make the guard trustworthy: a write to the real SAN path is caught, and the
 harness's own outputs (sessions/, fitness/) are not.
+
+Debt entry 6 (docs/speech_log.md) adds a third property: the guard window
+starts before build(), and the known no-op churn of state/banc_brain.npz
+(the growth organ's unconditional first-tick save; np.savez embeds zip
+member timestamps, so the mtime moves even when the arrays do not) is
+content-verified, not mtime-trusted -- an identical rewrite is not flagged,
+a content change is.
 """
 import sys
 from pathlib import Path
@@ -46,3 +53,24 @@ def test_the_harnesss_own_outputs_are_not_flagged(tmp_path):
     (tmp_path / "sessions" / "new.json").write_text("{}")
     (tmp_path / "fitness" / "report.json").write_text("{}")
     assert converse.guard_check(before) == []
+
+
+# ---- debt entry 6: the known churn is content-verified, not mtime-trusted ----
+
+def _banc(tmp_path, n: int):
+    import numpy as np
+    np.savez(tmp_path / "banc_brain.npz", w=np.arange(n))
+
+
+def test_banc_churn_with_identical_content_is_not_flagged(tmp_path):
+    _banc(tmp_path, 5)
+    before = converse.guard_live_files("before", root=tmp_path)
+    _banc(tmp_path, 5)  # same arrays, later mtime: the measured no-op churn
+    assert converse.guard_check(before, root=tmp_path) == []
+
+
+def test_a_banc_content_change_is_flagged(tmp_path):
+    _banc(tmp_path, 5)
+    before = converse.guard_live_files("before", root=tmp_path)
+    _banc(tmp_path, 6)  # different arrays: a real write, not churn
+    assert converse.guard_check(before, root=tmp_path) == ["banc_brain.npz"]

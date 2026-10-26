@@ -630,6 +630,63 @@ as a named known-touch), so the verdict covers the whole run. Not
 applied while the suites are in flight; the running processes hold the
 old code regardless.
 
+#### 6a. Debt entry 6 applied to the two remaining entry points (2026-10-26, design before implementation)
+
+serve.py (:191, guard before build; :217-218, the churn named and
+excluded) and drift_check.py (:181, guard before the first build;
+:50-69, array-level content re-verification) already carry the fix
+shape. The two main harness entry points do not: `tools/converse.py`
+main() and `tools/benchmark_cross_session.py` run_phase() still
+snapshot after build. Design, applied next:
+
+1. **The snapshot moves before `build()`** in both entry points, so the
+   verdict covers the whole run.
+2. **The known churn is treated inside the guard, not at the call
+   sites.** `_tree_snapshot` records a *content key* for the root-level
+   `banc_brain.npz` — the zip central directory's per-member CRC-32s
+   and sizes — instead of (size, mtime_ns). np.savez embeds zip member
+   timestamps, so the file's mtime moves on every rewrite even when the
+   arrays are identical; the CRCs are a pure function of the stored
+   bytes (np.savez writes ZIP_STORED, so stored bytes are the raw array
+   bytes), so they move only when content moves. A no-op rewrite then
+   never flags; a content change always flags. This is stronger than
+   serve.py's named-exclusion, which would tolerate a *content* change
+   as a known touch; with the CRC key, serve.py's `known` list goes
+   permanently empty and a real content change lands in `unexpected`.
+   drift_check's independent array-level re-verification stays as the
+   second, deeper check.
+3. **The guard takes the state root as a parameter** (default: the live
+   tree), so the wider window is unit-testable on a scratch tree; the
+   existing tests' `converse.STATE` patching keeps working.
+4. **The reports say what the verdict covers**: `guard_window:
+   "build+turns"` and `guard_known_churn: ["banc_brain.npz"]` join
+   `live_files_untouched` in both entry points' reports. Historical
+   reports keep the old, narrower meaning; the field's semantics are
+   dated by this entry.
+
+Verification plan, before the change is called applied: (a) the guard
+tests extended — a new file caught (already covered), banc_brain.npz
+mtime churn with identical content NOT flagged, a content change
+flagged; (b) the seen suite re-run warm and cold on the new guard —
+14/14 and 14/14 unchanged, every report's `live_files_untouched` true
+under the wider window, `guard_known_churn` naming the file; (c) the
+numbers logged here and the work committed.
+
+Measured, same day ~07:30-07:40: (a) `tests/test_guard_tree.py` now
+collects 5 tests — the three original properties and the two new
+content-key ones — all passing; the full suite is 398 passed, 3
+skipped. (b) The seen suite re-run on the new guard, one process per
+script per mode, 14 runs: 7/7 warm and 7/7 cold print `live state
+files untouched (build+turns): yes`; every
+`state/fitness/conversation_seen_guard2_*.json` report carries
+`guard_window: "build+turns"`, `guard_known_churn: ["banc_brain.npz"]`,
+`live_files_untouched: true`, and every pass_rate is 1.0 — matching the
+previous suite's 14/14 warm + 14/14 cold. The live
+`state/banc_brain.npz` mtime reads 07:37, inside the run window: the
+churn fired on every build and the guard stayed clean because the CRC
+key matched — the no-op rewrite is now tolerated by content, not by a
+whitelist, and a content change would flag. Applied.
+
 ## The question-shape parser (2026-10-26, design before implementation)
 
 The binder answers a question from the single best-scoring memory of a

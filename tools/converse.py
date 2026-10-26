@@ -184,16 +184,41 @@ def build(session_dir: Path, project_root: str | None = None) -> object:
 
 GUARD_EXCLUDE = ("sessions", "fitness")
 
+# Debt entry 6 (docs/speech_log.md): the growth organ's first consolidation
+# tick rewrites the live state/banc_brain.npz unconditionally at run start,
+# and np.savez embeds zip member timestamps, so the file's mtime moves on
+# every build even when the arrays are identical.  The guard therefore
+# records a CONTENT key for it -- the zip directory's per-member CRC-32s
+# and sizes, a pure function of the stored bytes (np.savez writes
+# ZIP_STORED) -- instead of (size, mtime_ns).  A no-op rewrite never
+# flags; a content change always flags.  Named here so the verdict is
+# self-describing; drift_check.py re-verifies the content independently.
+KNOWN_CHURN = ("banc_brain.npz",)
 
-def _tree_snapshot() -> dict:
+
+def _npz_content_key(path: Path):
+    import zipfile
+    try:
+        with zipfile.ZipFile(path) as zf:
+            return tuple(sorted((i.filename, i.CRC, i.file_size)
+                                for i in zf.infolist()))
+    except (OSError, zipfile.BadZipFile):
+        return None
+
+
+def _tree_snapshot(root: Path | None = None) -> dict:
+    root = root if root is not None else STATE
     out = {}
-    for p in sorted(STATE.rglob("*")):
+    for p in sorted(root.rglob("*")):
         if not p.is_file():
             continue
-        rel = p.relative_to(STATE)
+        rel = p.relative_to(root)
         if rel.parts[0] in GUARD_EXCLUDE:
             continue
         try:
+            if str(rel) in KNOWN_CHURN:
+                out[str(rel)] = ("crc", _npz_content_key(p))
+                continue
             st = p.stat()
             out[str(rel)] = (st.st_size, st.st_mtime_ns)
         except OSError:
@@ -201,12 +226,12 @@ def _tree_snapshot() -> dict:
     return out
 
 
-def guard_live_files(tag: str) -> dict:
-    return _tree_snapshot()
+def guard_live_files(tag: str, root: Path | None = None) -> dict:
+    return _tree_snapshot(root)
 
 
-def guard_check(before: dict) -> list:
-    after = _tree_snapshot()
+def guard_check(before: dict, root: Path | None = None) -> list:
+    after = _tree_snapshot(root)
     return [k for k in sorted(set(before) | set(after))
             if before.get(k) != after.get(k)]
 
@@ -607,6 +632,9 @@ def main() -> int:
     tag = args.save or ("benchmark" if args.benchmark else "session")
     session_dir = Path(args.session_dir) if args.session_dir else \
         ROOT / "state" / "sessions" / f"{tag}_{time.strftime('%Y%m%d_%H%M%S')}"
+    # The guard window starts before the build, so the verdict covers the
+    # whole run, not just the turns (debt entry 6's fix shape).
+    guard_before = guard_live_files("before")
     print(f"loading Droso (session dir: {session_dir}) ...", flush=True)
     t0 = time.time()
     agent = build(session_dir)
@@ -615,7 +643,6 @@ def main() -> int:
           f"words, {snapshot(agent)['propositions']} propositions",
           flush=True)
 
-    guard_before = guard_live_files("before")
     before = snapshot(agent)
     session = Session(agent, beats=args.beats)
 
@@ -703,7 +730,8 @@ def main() -> int:
     print(f"  left_a_trace: {d['left_a_trace']}")
 
     moved = guard_check(guard_before)
-    print(f"  live state files untouched: {'yes' if not moved else 'NO: ' + str(moved)}")
+    print(f"  live state files untouched (build+turns): "
+          f"{'yes' if not moved else 'NO: ' + str(moved)}")
 
     if not args.no_save_state:
         try:
@@ -721,7 +749,9 @@ def main() -> int:
                          if k != "san"} | {"san": {k2: v2 for k2, v2 in
                                                    d["san"].items()
                                                    if k2 != "row_sums"}},
-               "live_files_untouched": not moved}
+               "live_files_untouched": not moved,
+               "guard_window": "build+turns",
+               "guard_known_churn": list(KNOWN_CHURN)}
         outp = ROOT / "state" / "fitness" / f"conversation_{tag}.json"
         outp.write_text(json.dumps(out, indent=2), encoding="utf-8")
         print(f"  report: {outp}")

@@ -73,10 +73,12 @@ def run_phase(phase: str, name: str, scripts_path: Path, tag: str,
 
     session_dir = SESSIONS / f"{tag}_{time.strftime('%Y%m%d_%H%M%S')}"
     session_dir.mkdir(parents=True, exist_ok=True)
+    # The guard window starts before the build, so the verdict covers the
+    # whole run, not just the turns (debt entry 6's fix shape).
+    guard_before = converse.guard_live_files(tag)
     agent = converse.build(session_dir, project_root=shadow_root)
     lang = agent.language
 
-    guard_before = converse.guard_live_files(tag)
     before = converse.snapshot(agent)
     session = converse.Session(agent, beats=2)
 
@@ -125,7 +127,9 @@ def run_phase(phase: str, name: str, scripts_path: Path, tag: str,
                   "%Y-%m-%d %H:%M:%S"),
               "benchmark": benchmark, "transcript": session.transcript(),
               "delta": delta, "live_files_untouched": untouched,
-              "live_files_changed": changed, "save": save}
+              "live_files_changed": changed, "save": save,
+              "guard_window": "build+turns",
+              "guard_known_churn": list(converse.KNOWN_CHURN)}
     out = FITNESS / f"conversation_{tag}.json"
     out.write_text(json.dumps(report, indent=1, default=str),
                    encoding="utf-8")
