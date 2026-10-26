@@ -938,3 +938,71 @@ report written; the per-phase session dirs remained). Re-ran in one
 turn, background job polled to completion. A foreground run cannot beat
 the 600s shell cap, so background-plus-polling within one turn is the
 only reliable shape for a full suite.
+
+## Sessions hand over deltas, the SAN compresses 50x (2026-10-26, logged
+## after the code landed -- the working session that wrote it ended
+## before its entry did; this backfill is the record, not a pre-design)
+
+Two storage facts forced the change. First, every session boundary
+copied the full state family -- eight files, ~380 MB -- into the shadow,
+so a fourteen-phase suite wrote ~5 GB and the 450 GB of accumulated
+`state/sessions` was that number multiplied by months of runs. Second,
+the SAN matrix was stored dense: 268.4 MB on disk for a matrix whose
+useful content is its non-zeros.
+
+### What changed (commit 2d85f26)
+
+1. **The SAN is stored as a compressed npz** (`language_state.san.npz`):
+   same keys, same load path, 268.4 MB -> 4.9 MB on disk (98% smaller).
+   The dense `.npy` remains readable; the merge tool accepts both
+   formats so old lineage copies still load.
+2. **A session boundary serialises what the cortex heard, not the
+   matrix it moved.** The tell phase saves with `delta=True`: the full
+   json (vocabulary, bigrams, persons -- the cheap, must-not-lose
+   parts) plus a delta file listing the utterances heard this session.
+   The ask phase's shadow boots from the live files and replays the
+   delta through `hear()`. Exact by construction, because
+   `ConceptSpace.of` is a fixed hash: the same words produce the same
+   vectors, so replaying the utterances reproduces the learning without
+   shipping it.
+3. **The delta has a cap** (3 utterances in the roundtrip test's
+   config): past it the save refuses the delta and demands a full save,
+   so a long session cannot silently grow an unbounded replay file.
+4. **`tools/test_delta_roundtrip.py`** proves both levels: the organ
+   alone (delta 658 bytes, 7 items applied, recall crosses the
+   boundary, past-cap refusal honest) and the house path (delta 744
+   bytes, `cortex.npz` not written by a delta save, stored-vector
+   counts identical after boot).
+
+### Runtime state left git (commit 2b5e344)
+
+The brain (`state/language_state*`), the house logs, and the
+exocortex's own memory (`exocortex/*`) were tracked files -- every
+commit snapshotted a multi-MB brain. They are untracked now, ignored,
+and on disk only. History still holds the old blobs (`.git` 444 MB);
+rewriting it is destructive and was not done.
+
+### The suite re-run under the new regime (2026-10-26 18:53)
+
+`cross_session_20261026_185308.json`, seen set, post-parser baselines,
+one full tell->shadow->ask pass per script. Every shadow received
+`overlay_files: 2` (json + delta) instead of the old 8-file full copy;
+every tell and ask save reports `save_ok: true`; every session dir was
+pruned on report write (58.4 MB reclaimed); live state untouched on all
+14 phases.
+
+| script          | warm | cold | cross | tell_ok | ask_ok | pruned |
+|-----------------|------|------|-------|---------|--------|--------|
+| reference       | 1.0  | 1.0  | 1.0   | yes     | yes    | yes    |
+| accumulation    | 1.0  | 1.0  | 1.0   | yes     | yes    | yes    |
+| discrimination  | 1.0  | 1.0  | 1.0   | yes     | yes    | yes    |
+| role_chain      | 1.0  | 1.0  | 1.0   | yes     | yes    | yes    |
+| switch_back     | 1.0  | 1.0  | 1.0   | yes     | yes    | yes    |
+| override        | 1.0  | 1.0  | 1.0   | yes     | yes    | yes    |
+| session_context | 1.0  | 1.0  | 1.0   | yes     | yes    | yes    |
+
+Identical to the pre-delta numbers on every cell: the delta handover is
+behaviour-preserving as designed. The delta-diff fields now in each row
+record what one session actually moved (reference tell: 8 bigrams, 3
+binder propositions added/3 removed, 8145 SAN rows touched with
+`new_edges: 0` -- decay, not growth).
