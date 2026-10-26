@@ -552,7 +552,7 @@ rehearsal policy needs a look. Related finding from the same day: the sort
 key's only cold-discriminating term (filler-idf) ranks narrative verbs and
 is inert in warm; see `docs/evidence/role_chain_proposal.md` §2a and §4.3.
 
-#### 5. Where-filler fix is state-dependent on question shape (observation, no action yet)
+#### 5. Where-filler fix is state-dependent on question shape (resolved 2026-10-26 by the question-shape parser, see its entry)
 
 The sfW fix's where-case (organs/neural_language.py:2012-2015) makes a
 where-question's filler its **last token**, on the argument that the
