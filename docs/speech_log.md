@@ -528,7 +528,11 @@ its own try/except, so the HTTP code survives an unreadable body.
 Closed: `tests/test_api_organs.py:126-159` covers both shapes — a 429 with
 an empty headers dict and a 500 with `fp=None` — asserting
 `reason == "http_<code>"`, `text == ""` and the error counted. 62 passed on
-both interpreters (3.10 and 3.12). Mutation-verified both ways on 3.10, the
+both interpreters (3.10 and 3.12) — the 3.12 leg via a uv ephemeral env,
+since the venv-less 3.12 has no pytest (`py -3.12 -m pytest` dies with
+`No module named pytest`; `uv run --no-project --python 3.12 --with
+pytest pytest -q tests/test_api_organs.py` re-confirmed 62 passed in
+0.83 s, 2026-10-27). Mutation-verified both ways on 3.10, the
 interpreter where the trap exists: with the guard reverted both tests fail
 with `KeyError: 'file'` from `tempfile.__getattr__`; restored, 62 pass. On
 3.12 the trap does not exist (`hasattr(e, "read")` is True and `read()`
@@ -1966,3 +1970,11 @@ the digit (nnz 66,107,030; real 1,446,352; real_median 7.510650e-02; sum
 334713.1250; strong 72,680; median 1.670433; max 4.0). 72 minutes of
 idle, zero decay — the lazy-decay proof now spans 72 minutes where the
 census identity gave ~6. Idle time does not erode; calls do.
+
+**Acceptance cycle closed (2026-10-27).** The checks re-executed against
+the committed state (`1f5c9e7`): the census check (`tmp_census_check.py`)
+returns the watch census's seven numbers to the digit; the full suite
+407 passed, 3 skipped in 160.61 s (`py -3.10 -m pytest -q`); the api
+file's 3.12 leg 62 passed in 0.83 s (method at debt entry 1). The
+deliverable's execution record stands in the drain and suite reports on
+disk.
