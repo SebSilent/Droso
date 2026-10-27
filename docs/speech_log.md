@@ -536,7 +536,7 @@ returns cleanly with `fp=None`), so the test passes either way there — the
 docstring's "measured on this interpreter (3.10)" note is what keeps the
 test honest.
 
-#### 4. SAN global decay, now measured per-phase (observation, no action yet)
+#### 4. SAN global decay, now measured per-phase (observation; mechanism measured and the consolidator landed 2026-10-27 — update below)
 
 The cross-session smoke run
 (`state/fitness/cross_session_20261025_214202.json`) is the first
@@ -551,6 +551,21 @@ show monotone total-weight decline with no rehearsal counter-pressure,
 rehearsal policy needs a look. Related finding from the same day: the sort
 key's only cold-discriminating term (filler-idf) ranks narrative verbs and
 is inert in warm; see `docs/evidence/role_chain_proposal.md` §2a and §4.3.
+
+**Update 2026-10-27 (the live drain).** The mechanism behind this watch is
+now measured: decay is lazy — it fires only on `live()` calls landing ≥10 s
+after the previous fire (`organs/neural_language.py:437-439`), and the live
+state's census is byte-identical across 72 minutes of idle (03:35 → 04:47:
+nnz 66,107,030, real 1,446,352, strong 72,680, median 1.670433 — unchanged
+from the drain's last post-census). The smoke run's per-phase decline came
+from the session's own calls, not elapsed time. The rehearsal-policy
+question this entry raised now has an instrument:
+`tools/consolidate_live.py` replays the urgent band back above the line,
+and the drain's equilibrium finding (this log, 2026-10-27 late) says the
+urgent pool stabilizes at the replay budget — the taught band holds, the
+dust pool is maintained rather than eliminated. Monotone decline without
+rehearsal remains the risk this entry flags; the consolidator is the
+counter-pressure.
 
 #### 5. Where-filler fix is state-dependent on question shape (resolved 2026-10-26 by the question-shape parser; verified 2026-10-27 by the where_kept script, see both entries)
 
@@ -1909,6 +1924,45 @@ nothing after run 5's census, and pytest is 407/3. The true series above is
 the first record of these numbers; the fabricated figures never landed on
 disk.
 
-The three backup roots (`state/backup_pre_consolidate_*`, ~383 MB each) are
-the rollback and are now gitignored; the killed runs' backups (run06, run08)
-stay as evidence of where the kills landed.
+The three backup roots (`state/backup_pre_consolidate_*`) are the rollback
+and are now gitignored — measured this turn at 105 files (15 run-dirs × 7),
+3.88 GB total; the "~383 MB each" drafted earlier was wrong. They stay
+until the house integration has validated the consolidated state in live
+use, then go (deleting reclaims the 3.88 GB). The killed runs' backups
+(run06, run08) stay as evidence of where the kills landed.
+
+**Addendum (same night) — the refill has two sources, and the +18 is the
+second.** The equilibrium finding above attributes the refill to decayed
+restorations re-crossing the line. The series' shape shows a second
+source, and the code settles a wrong hypothesis first: `consolidate()` is
+"read-only on the binder" (`organs/neural_language.py:467`) — the replay
+writes only the Hebb rule, never the counts — so the scan window's
+composition is stable and the refill is not new window entrants. It is
+the run's own decay fires. Each fire multiplies the whole matrix by
+×0.951 (`:437-439`), and the runs' `elapsed_s` (drain 1: 20.5–32.1 s,
+drain 2: 19.6–51.2 s, of scan+replay) means ~2–5 fires per run — so every
+run pushes the just-above band under the line: rows that were not urgent
+at the run's scan but are urgent at the next. Measured: run 5 ended with
+an inferred pool of 188 (388 − 200 replayed); drain 2's boot scan read
+206 — the +18 is the just-above band crossing during run 5's ~3 fires
+(elapsed_s 31.0 → ×0.86: rows in [0.1, 0.116] fall under between the two
+scans); the closure is exact (188 + 18 = 206). The series' shape
+separates the sources: drain 2's per-transition refill oscillates +16 to
++64 (once −18) through its first six transitions, then jumps to +260 at
+the last — the drain-1 cohort walking back down. The fire ledger: 12
+fires across drain 1's five runs, 20 more across drain 2's seven, so run
+9's scan reads the matrix at ~32 fires — right where the cohort's ~0.5
+landings cross (0.5 × 0.951^32 ≈ 0.10, the line itself); the 0.33
+landings crossed at ~24 fires (drain 2's run 6, where the +64s begin)
+and the 1.32 tail needs ~52 fires, still above the line. Equilibrium at
+the replay budget is the joint steady state of band-eating and the
+cohort's slow walk-down; drain-to-zero is unreachable even within a
+single run.
+
+**Watch census (debt entry 4's second data point).** The live state has
+been idle since run 9's save (03:35); a pure disk read of
+`state/language_state.san.npz` at ~04:47 returns the post-suite census to
+the digit (nnz 66,107,030; real 1,446,352; real_median 7.510650e-02; sum
+334713.1250; strong 72,680; median 1.670433; max 4.0). 72 minutes of
+idle, zero decay — the lazy-decay proof now spans 72 minutes where the
+census identity gave ~6. Idle time does not erode; calls do.
