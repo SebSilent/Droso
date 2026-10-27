@@ -90,6 +90,22 @@
          "expect": {"any_of": ["kettle"],
                     "must_not_contain": ["dawn", "iron", "shines"]}}
       ]
+    },
+    {
+      "name": "where_kept",
+      "kind": "where-shape",
+      "note": "The debt log's entry-5 residual shape: a where-question whose subject is not its last token ('where is the box kept' -- 'kept' is a content verb after the copula). The parser takes only the first content token after the copula as the subject; the ranking's where-case takes the candidate's last token as the filler; the locative matcher requires a preposition. The state tell on the box tests the preposition veto under this shape too (accumulation tests it only subject-final).",
+      "turns": [
+        {"say": "the box is heavy"},
+        {"say": "the box is kept on the shelf"},
+        {"say": "the coat is kept in the closet"},
+        {"ask": "where is the box kept",
+         "expect": {"any_of": ["shelf"],
+                    "must_not_contain": ["heavy", "closet"]}},
+        {"ask": "where is the coat kept",
+         "expect": {"any_of": ["closet"],
+                    "must_not_contain": ["heavy", "shelf"]}}
+      ]
     }
   ]
 }

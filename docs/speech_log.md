@@ -552,7 +552,7 @@ rehearsal policy needs a look. Related finding from the same day: the sort
 key's only cold-discriminating term (filler-idf) ranks narrative verbs and
 is inert in warm; see `docs/evidence/role_chain_proposal.md` §2a and §4.3.
 
-#### 5. Where-filler fix is state-dependent on question shape (resolved 2026-10-26 by the question-shape parser, see its entry)
+#### 5. Where-filler fix is state-dependent on question shape (resolved 2026-10-26 by the question-shape parser; verified 2026-10-27 by the where_kept script, see both entries)
 
 The sfW fix's where-case (organs/neural_language.py:2012-2015) makes a
 where-question's filler its **last token**, on the argument that the
@@ -569,6 +569,17 @@ today; the risk is a future script that varies the where-question's
 shape. If one is added, the filler rule needs a role-aware version
 (findings proposal #1, role votes conditioned on proposition length)
 rather than a positional shortcut.
+
+Update 2026-10-27: the script now exists -- `where_kept` (tools/scripts.json),
+the exact shape this entry named ("where is the box kept" / "where is the
+coat kept", plus the state tell "the box is heavy" so the preposition veto
+is tested under this shape too). Measured warm 2/2, cold 2/2
+(state/fitness/script_benchmark_20261027_024233.json): both asks recalled
+the right locative-final proposition ("shelf" / "closet"), the state tell
+never surfaced, and the cold session leaked neither taught word. The
+positional shortcut held; the role-aware version stays the named fix if a
+shape ever fails it. Design and numbers: the 2026-10-27 entry at the bottom
+of this log.
 
 #### 7. ensure_baseline's fallback was broken two ways (fixed 2026-10-26 ~01:31; in-flight fresh suite ran on the old code)
 
@@ -1615,3 +1626,78 @@ documentation-only; state/backup_f16/ still holds the f32 originals.
 tools/_swing3_probe_f16.py and tools/_swing3_sizes.py stay untracked,
 disposition still open. Re-census after the full 28-session suite: live
 real-count still 573,424 -- the baseline claim holds at N=28.
+
+## 2026-10-27 — the where-filler residual gets its script (design before code)
+
+**Claim under test.** Debt entry 5's heading says the where-filler residual
+was "resolved 2026-10-26 by the question-shape parser"; its body still reads
+as written on 2026-10-25: the filler rule is a positional shortcut, no script
+hits the shape, and a future one "needs a role-aware version ... rather than
+a positional shortcut". Heading and body disagree only if the parser fails
+the very shape it claims to cover -- a measurement question. This entry
+designs the measurement before touching code.
+
+**What the code does today (read this turn, not measured).** Three pieces
+have to hold together for "where is the box kept":
+1. `_question_shape` (organs/neural_language.py:2080-2086) takes the locative
+   subject as the FIRST content token after the copula, not every one; the
+   comment names this exact question -- "kept" is not part of the subject, so
+   the shape stays checkable instead of vetoed.
+2. The ranking key's where-case (organs/neural_language.py:2357-2358) takes
+   the filler from the CANDIDATE's last token, not the question's ("the box
+   is kept on the shelf" -> "shelf") -- which is why "kept" never becomes the
+   filler in the first place.
+3. `_shape_matches`' locative branch (organs/neural_language.py:2158-2180)
+   requires a preposition after the copula, vetoing state-answers ("the box
+   is heavy") -- the original failure-1 mechanism, now under the new shape.
+
+**The script (`where_kept`, tools/scripts.json).** The debt log's exact
+shape: the question's last token is a content verb ("kept"), not the subject.
+Two independent pairs, plus the state tell on the box so the preposition veto
+is tested under this shape too (accumulation tests it only subject-final):
+- tells: "the box is heavy", "the box is kept on the shelf", "the coat is
+  kept in the closet"
+- "where is the box kept" -> any_of [shelf], must_not_contain [heavy, closet]
+- "where is the coat kept" -> any_of [closet], must_not_contain [heavy, shelf]
+
+**Known non-blocker.** learn_qa (organs/neural_language.py, `def learn_qa`)
+refuses the pair "where is the box kept" / "the box is kept on the shelf"
+(two roles missing: the preposition and the place), so the where answer-type
+prior does not learn from these pairs. The shape mechanism does not need the
+prior to answer; the prior only feeds the ranking key's `expected` term,
+which keeps whatever the subject-final pairs taught it.
+
+**Acceptance.**
+- Warm 2/2 and cold 2/2 via `tools/script_benchmark.py --only where_kept`:
+  the residual is closed-by-parser with a number, and entry 5's body gets its
+  "no current script hits this" clause corrected -- a script now hits it and
+  passes.
+- Any fail: the failure mode picks the fix; findings proposal #1 (role votes
+  conditioned on proposition length) is the named candidate. No code changes
+  before the measurement lands.
+
+**Word check first.** "kept" and "closet" appear in no existing script;
+tools/check_script_words.py runs before the benchmark and fails loudly if
+Droso does not own them. If a word is missing, it is swapped for an owned one
+and the substitution is logged here -- the shape property (content verb after
+the copula) is what is under test, not the specific word.
+
+**Measured (2026-10-27, state/fitness/script_benchmark_20261027_024233.json).**
+Warm 2/2, cold 2/2, live files untouched. Warm: "where is the box kept" ->
+"the box is kept on the shelf" (winner "shelf", source: recalled
+proposition); "where is the coat kept" -> "the coat is kept in the closet"
+(winner "closet"). The state tell never surfaced ("heavy" in no reply); the
+report does not show whether the preposition veto fired or overlap ranking
+alone sufficed -- either way the state answer lost. Cold: both asks answered
+with nothing; neither taught word ("shelf", "closet") leaked. Two side
+observations: the coat tell produced no echo (spoken: false) yet still bound
+and was recalled -- echo and binding are separate surfaces; and the warm
+session bound one nonsense echo as a proposition ("droso says toe intimate
+await hammersmith llm communion") -- the known echo nondeterminism,
+harmless here. The SAN drained during the session as the decay finding
+predicts (total 298,817.75 -> 265,816.031 over 8,148 changed rows, on the
+benchmark's copy).
+
+**Resolution.** The residual is closed-by-parser with a number: the
+positional shortcut held on the very shape it was warned about. Debt entry 5
+gets a dated update; no code changed.
