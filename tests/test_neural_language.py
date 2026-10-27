@@ -174,6 +174,11 @@ def test_persisted_meaning_survives_a_restart(tmp_path):
     before = nl.similarity("hello", "welcome")
     again = make(tmp_path)
     assert again.vocabulary_size() == 2
+    # The SAN is stored float32 (deliberately: understand()'s 25% mask
+    # amplifies decayed dust into meaning, and float16 flushes that dust --
+    # docs/speech_log.md, the float16 entry), so the restart round trip is
+    # bit-exact. The property under test is structural survival: a lost or
+    # scrambled SAN moves this similarity by orders of magnitude, not by 1e-6.
     assert abs(again.similarity("hello", "welcome") - before) < 1e-6, \
         "the learned meaning structure survives a restart"
 

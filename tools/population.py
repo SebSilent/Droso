@@ -329,8 +329,16 @@ def merge(n: int, out_dir: str, dirs=None, san_from: int | None = None) -> dict:
         # all still unioned or summed -- those grow by pooling. Only the cortex is
         # taken whole, from the individual that actually has one.
         import shutil as _sh
+        # The SAN stays float32 on disk (compressed): understand() hard-masks
+        # the spread at 25% of its own max, and for words whose real wiring
+        # has decayed away that mask amplifies ~1e-36 dust into the meaning.
+        # float16 flushes the dust and measured 'only'/'of' 0.676 -> 0.000
+        # (docs/speech_log.md, the float16 entry). Any float16 source from
+        # the brief f16 window is upcast back to float32 on the way out.
         if san_keep.suffix == ".npz":
-            _sh.copy(str(san_keep), str(out / "language_state.san.npz"))
+            with np.load(str(san_keep)) as z:
+                m = np.asarray(z["san"], dtype=np.float32)
+            np.savez_compressed(str(out / "language_state.san.npz"), san=m)
         else:
             # legacy raw input: convert on the way out so merged output is
             # always in the current compressed format
@@ -383,7 +391,9 @@ def merge(n: int, out_dir: str, dirs=None, san_from: int | None = None) -> dict:
         meta = [v["meta"] for v in props.values()]
         np.savez_compressed(str(out / "language_state.json") + ".cortex.npz",
                             P=np.zeros((X.shape[1], X.shape[1]), np.float32),
-                            X=X, C=C, counts=np.array([0, len(meta)]))
+                            X=X.astype(np.float16), C=C.astype(np.float16),
+                            counts=np.array([0, len(meta)]),
+                            fmt=np.array(["f16-1"]))
         (out / "language_state.json.cortex.meta.json").write_text(
             json.dumps(meta), encoding="utf-8")
 

@@ -1117,3 +1117,206 @@ sweep freed more than the run wrote.
 Three commits, pushed: the hygiene module with its tests; the five
 writer conversions (converse, serve, drift_check,
 benchmark_cross_session, script_benchmark); this entry.
+
+## 2026-10-26 (late) — task 3, swing 2: the storage floor goes float16
+
+The state floor is 815.6 MB of float32 npz: the live cortex 350.4 MB,
+the reader cortex 153.4 MB, the reader SAN 237.8 MB, the live SAN
+4.9 MB, two seq files 17.4 MB. Every one of those matrices is a
+perception record, not a learning surface: X and C are bound role-filler
+vectors and their cues, the SAN matrices are Hebbian co-activation
+accumulated from reading. Their precision is inherited from numpy's
+default, not chosen. Float16 carries a 4.88e-4 relative rounding step;
+the question is only whether anything downstream can feel that.
+
+### The bit-exact alternative died first
+
+The stronger design -- drop C entirely and recompute it from meta at
+load -- was checked before this one and is dead. `cue_of` folds the
+IDF weights *as they were at write time* (`_idf` is computed over the
+meta that existed when the row was remembered; the corpus was ingested
+incrementally, so every row's cue was built under a different global
+IDF table). C is normalized, so the norm is lost, and projecting
+`of(t) . C_i` recovers each weight only to within a few percent of
+cross-talk from the near-orthogonal concept vectors. The weights are
+not recoverable; recomputing under the final IDF would change cue
+directions. That is a behavioral change, not a storage move. Rejected.
+
+### Pre-flight measurement (tools/_swing3_probe_f16.py, read-only)
+
+Round the real files to float16 and back (store f16, load f32 -- the
+exact trip the new format puts every vector through), then measure the
+damage where it would land:
+
+- **C, through the real `recall()` ranking**: 300 cues drawn from real
+  meta rows. Top-1 flips **0**, top-5 set flips **0**. Raw max
+  |dsims| 2.8e-4. The top-2 sims gap the flips would have to beat:
+  median 3.9e-1, p1 3.4e-2, min 2.3e-4 -- three orders of margin at the
+  median, and the 0.05*overlap and 0.05*log1p(counts) terms only widen
+  it.
+- **X, through the real `unbind` algebra**: 240 (row, role) unbinds
+  scored against the FULL 16,930-word candidate matrix. Answer flips
+  **0**. Max |dscore| 3.1e-5; closest top-2 gap 1.6e-1 -- four orders
+  of margin.
+- **SAN, through both `_spread()` forms** (dense gemv, row-subset
+  gemv): reader matrix 65.0M real weights (0.14-4.0), **zero entries
+  flush to zero**, relative output delta 4.3e-4 / 5.8e-4 -- float16's
+  own precision, no worse. Live matrix: 66.1M stored nonzeros of which
+  **65.5M are denormal dust** (~1e-36, thirty-five orders below the
+  real 610k weights) and flush to zero under float16 -- which is not
+  damage, it is the dust finally being free.
+
+Zero behavioral flips everywhere, error at float16's own relative
+precision, decision margins three to four orders above the noise. The
+swing ships on measurement, not hope.
+
+### The design
+
+Stored float16, resident float32. The save sites downcast; the load
+sites already upcast (`np.asarray(..., dtype=np.float32)` in all three
+loaders -- higher_cortex, neural_language, population -- so the loaders
+do not change). Arithmetic stays float32: every gemv, unbind and
+accumulate runs on upcast arrays exactly as today. Quantization is
+confined to the save/load boundary, once per process lifetime, and its
+bound is the probe's number. P (the predictor's learning surface) and
+the seq files stay float32/int32: P's win is ~1 MB and it is the one
+matrix whose small deltas are the point. The merge writer converts too
+-- one format everywhere, so a merge cannot reintroduce float32 rows.
+
+Predicted floor: live cortex 350.4 -> ~187 MB, reader cortex 153.4 ->
+~83 MB, reader SAN 237.8 -> ~107 MB, live SAN 4.9 -> ~2.5 MB.
+
+## 2026-10-26 (late) — swing 2 landed, cut in half by its own probe
+## (backfilled after the code and validation; the session that did the
+## work ended before its entry did)
+
+The entry above shipped a design with four f16 halves. Two survived
+contact with a behavior probe; two are dead, and the probe that killed
+them is the most instructive result of the swing.
+
+### What shipped: cortex X/C float16, nothing else
+
+`tmp_f16_convert_cortex.py` converted exactly two files, after
+verifying each byte-identical to a preserved float32 backup
+(`state/backup_f16/...`, full relative path layout -- the reader's
+backup lives at `state/backup_f16/reader/state/`, not directly under
+`reader/`), converting in place via temp+rename, and skipping
+already-converted trees on re-run:
+
+- live `state/language_state.json.cortex.npz`: 350.4 -> 222.7 MB
+  (36.4% smaller), max |dX| 6.104e-05, max |dC| 5.437e-05;
+- reader `state/reader/state/language_state.json.cortex.npz`:
+  153.4 -> 98.5 MB (35.8% smaller), max |dX| 6.099e-05,
+  max |dC| 3.052e-05.
+
+182.6 MB reclaimed. Every delta is one float16 rounding step. P, the
+counts, and the seq files were never touched. The save path
+(`higher_cortex.py` writes X/C as f16 with `fmt=["f16-1"]`) and the
+load path (upcast to float32) already agreed with the format, so the
+files and the code now say the same thing.
+
+### What died: the SAN halves, killed by the mask amplifier
+
+The pre-flight measured the SAN through `_spread()` and saw only
+float16's own relative precision (4.3e-4 / 5.8e-4) -- and called that
+harmless. It was measuring the wrong surface. The behavioral probe
+(`tmp_san_mask_probe.py`) asked what f16 does to `similarity()`, the
+SAN-only path the house actually speaks through:
+
+- 'only' and 'of' moved 0.676 -> 0.000 against their f32 selves;
+  23 of 100 tested pairs moved more than 1e-3.
+- Pinning 'only' to its f32 mask collapsed the delta to exactly
+  0.000e+00. The 25% mask is the amplifier and the dust is its input:
+  understand() keeps each word's top quartile of SAN rows and
+  renormalizes, so a word whose real wiring has fully decayed keeps
+  its meaning only through the shape of its renormalized dust.
+- The live SAN's nonzeros are 99.1% sub-1e-6 (65.5M of 66.1M are
+  denormal ~1e-36). Float16 flushes all of it to zero. That is not
+  decay completion; it is erasing the only signal some words have
+  left.
+
+So the dust is load-bearing, the "dust-clear" variant dies with it
+(it zeroes the same entries), and both SANs stay float32 untouched.
+The reader SAN needs no decision: it has zero entries below 1e-6 --
+237.8 MB of real, diverse weights zlib cannot crush -- so f16 there
+was worthless even before the behavioral verdict. (The earlier
+"reader SAN f16 -> 121.6 MB" figure was never squared with the
+density census and is not cited; moot, since nothing happens to that
+file.)
+
+One operational lesson fell out of the reader SAN: a one-off
+recompression of a live individual's state file does not stick while
+its writer process runs. The verified 4.9 MB reader SAN was back at
+237.8 MB by the next measurement -- the running reader re-saved its
+own in-memory matrix. Storage moves are only durable behind a writer
+conversion plus a process restart.
+
+### The merge writer, corrected
+
+The entry above said "the merge writer converts too -- one format
+everywhere". Superseded for the SAN: `tools/population.py` writes
+merged SANs as float32 and upcasts any float16 source on the way in
+(there is a brief f16 window in the lineage to absorb). The cortex
+needs no conversion in the merge at all -- it is taken whole from one
+individual via a byte-for-byte copy, so an f16 cortex source stays
+f16 and an f32 source stays f32.
+
+### Validation
+
+`tmp_f16_ab.py` boots two private trees -- one from the float32
+backups, one from the converted live files -- through the real load
+path, runs a seeded battery (150 recall cues from real meta rows,
+100 similarity pairs), and compares keyed by row identity with the
+trees verified unwritten and the in-memory state drift-checked:
+
+- SAN: bit-exact. 100 pairs, max |ds| 0.000e+00.
+- Recall: 150 cues, 749 top-5 rows matched, max |dsim| 2.000e-04 --
+  one f16 rounding step. One top-5 set flip out of 150 cues, and the
+  flip is a proven tie-break: the f32 score gap between the two
+  swapped rows is 9.690e-05, under the 2.0e-04 perturbation ceiling.
+  The cue was ['devoid','every','me','of','proper','then','thought',
+  'you']; the outgoing row ('you','are','calm') sits at sim 0.066
+  held up by its count (11624) and the incoming
+  ('hieroglyphics','then','that','is','the','proper','word','to') at
+  0.449 -- both near-noise retrievals at the rank-5 boundary, and the
+  f16 ordering is arguably the better one.
+- No checksum drift, no file writes on either side.
+
+The harness's gate was made honest rather than relaxed: a set flip is
+fatal only if the f32 score spread across the swapped rows exceeds
+1e-3 (measured from the f32 side's own ranking fields, score = sim +
+0.05*overlap + 0.05*log1p(count)); a spread inside the tolerance is a
+numerical tie the perturbation may reorder. The battery recalls k=10
+so the rank-6+ rows are visible on the f32 side for that measurement.
+
+Full pytest after the reverts: 407 passed, 3 skipped. The restart
+test's original 1e-6 tolerance was restored (not relaxed) and passes
+bit-exact -- it measures SAN-only similarity, which the f32 SAN makes
+exact again.
+
+### The floor, measured
+
+Live cortex 222.7 MB + live SAN 4.9 MB + seq 14.5 MB; reader cortex
+98.5 MB + reader SAN 237.8 MB + seq 14.5 MB. Total ~593 MB against
+the 815.6 MB the swing started from. The predicted ~187/~83/~107 MB
+figures were optimistic -- zlib does not compress f16 as well as f32
+dust -- and the predicted SAN wins do not exist. The measured numbers
+above are the floor; the remaining 237.8 MB is information, not
+waste.
+
+### The suite, green (2026-10-26 22:31, `script_benchmark_20261026_223112.json`)
+
+The seven-script suite ran to exit 0 in 472.6 s under the final state
+(f16 cortex on disk, f32 SAN, f32 resident): every script warm 1.00 /
+cold 1.00, delta +0.00 across the board, no FAIL lines, override
+winners ['hot', 'hot'] -- deterministic, and reported rather than
+graded. Identical to the pre-swing numbers on every cell.
+
+One operational note, because it cost a re-run: the first launch of
+this suite was killed mid-run when the session driving it was
+interrupted -- the background job registry did not survive, only the
+first script's two reports landed, and the job's stdout died with it.
+The re-run redirected stdout to
+`state/fitness/script_benchmark_out.txt`, which is the only reason
+this table exists. Background jobs here are not durable; anything
+whose result matters writes to a file.

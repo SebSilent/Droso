@@ -3247,8 +3247,18 @@ class NeuralLanguage:
                 # the raw size otherwise.
                 sanp = self.state_path.with_suffix(".san.npz")
                 santmp = sanp.with_name(sanp.name + ".tmp.npz")
-                np.savez_compressed(str(santmp),
-                                    san=self.san_w.astype(np.float32))
+                # Stored float32, deliberately NOT float16: understand()
+                # hard-masks the spread at 25% of its own max and renormalizes
+                # by that max, a discontinuous readout. A 1e-4 rounding nudge
+                # flips boundary cells in or out, and for words whose real
+                # wiring has decayed away the spread is pure dust (~1e-36) --
+                # the mask then keeps the top dust quartile and amplifies it
+                # into the word's meaning. float16 flushes that dust to zero
+                # and measured 'only'/'of' 0.676 -> 0.000 (tmp_san_mask_probe:
+                # pinning the mask collapses the delta to exactly 0.0, so the
+                # mask, not the rounding, is the whole story). The dust is
+                # load-bearing; the SAN stays float32 on disk.
+                np.savez_compressed(str(santmp), san=self.san_w)
                 santmp.replace(sanp)
                 self.sequence.save(str(self.state_path) + ".seq.npz")
                 self.cortex.save(str(self.state_path) + ".cortex.npz")

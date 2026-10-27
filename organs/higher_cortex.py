@@ -833,10 +833,22 @@ class HigherCortex:
             # the worst case now is losing the last few minutes rather than the
             # whole memory.
             tmp = p.with_name(p.name + ".tmp.npz")
+            # X and C are perception records, not learning surfaces: bound
+            # role-filler vectors and their cues, accumulated from hearing.
+            # They are stored float16 -- a 4.88e-4 relative rounding step,
+            # measured harmless on the real files (0 ranking flips in 300
+            # recall cues, 0 answer flips in 240 unbinds; docs/speech_log.md,
+            # the float16 entry) -- and upcast to float32 by load, so every
+            # gemv and unbind still runs in float32. P stays float32: it is
+            # the one matrix whose small deltas are the point. The fmt key
+            # says what a reader is holding instead of making it guess.
             np.savez_compressed(
-                str(tmp), P=self.predictor.P, X=self.binder.X, C=self.binder.C,
+                str(tmp), P=self.predictor.P,
+                X=self.binder.X.astype(np.float16),
+                C=self.binder.C.astype(np.float16),
                 counts=np.array([self.predictor.updates,
-                                 self.binder.stored]))
+                                 self.binder.stored]),
+                fmt=np.array(["f16-1"]))
             os.replace(str(tmp), str(p))
             # Meta goes in a JSON sidecar, not inside the npz. Storing it as a
             # numpy bytes scalar was fragile: a failed decode left X restored with
