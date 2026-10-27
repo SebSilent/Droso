@@ -642,6 +642,8 @@ def main() -> int:
                     help="autonomous ticks between turns")
     ap.add_argument("--no-save-state", action="store_true",
                     help="do not write the session copy of his state")
+    ap.add_argument("--no-consolidate", action="store_true",
+                    help="skip end-of-session consolidation replay")
     args = ap.parse_args()
 
     tag = args.save or ("benchmark" if args.benchmark else "session")
@@ -758,6 +760,23 @@ def main() -> int:
     print(f"  exocortex churn (house or session, unattributed): "
           f"{'none' if not exo_moved else str(exo_moved)}")
 
+    cons = {}
+    if not args.no_save_state and not args.no_consolidate:
+        # End-of-session consolidation: replay the binder's urgent rows
+        # (sparse Hebb, speaker=None -- no episodic record, no salience
+        # inflation, no self-trained order model) and persist with a
+        # forced save -- a delta save skips the SAN and would lose the
+        # replay. The guard window closed above; this write rides out
+        # with the session save, not inside it.
+        cons = lang.consolidate()
+        print(f"  consolidation: {cons['rows_replayed']} rows replayed "
+              f"of {cons['rows_urgent']} urgent "
+              f"(scanned {cons['rows_scanned']}, san_real "
+              f"{cons['san_real_before']} -> {cons['san_real_after']})")
+        sres = lang.save_state(force_san=True)
+        if not sres.get("saved"):
+            raise SystemExit(f"FATAL: consolidation save failed: "
+                             f"{sres.get('reason')}")
     if not args.no_save_state:
         # Delta save: the json plus what this session heard, kilobytes not
         # gigabytes.  A failed save is fatal -- a harness downstream of this
@@ -773,6 +792,7 @@ def main() -> int:
                          if k != "san"} | {"san": {k2: v2 for k2, v2 in
                                                    d["san"].items()
                                                    if k2 != "row_sums"}},
+               "consolidation": cons,
                "live_files_untouched": not moved,
                "guard_window": "build+turns",
                "guard_known_churn": list(KNOWN_CHURN),

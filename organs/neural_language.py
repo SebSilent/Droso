@@ -433,6 +433,106 @@ class NeuralLanguage:
         return {"act": read / n2 if n2 else read,
                 "known_words_fired": known, "tokens": len(toks)}
 
+    # ------------------------------------------------------------------
+    # CONSOLIDATION (sleep phase). The SAN decays: any live() call that
+    # lands >=10s after the previous fire multiplies the whole matrix by
+    # 0.995**min(elapsed,10) -- at most 0.951 per fire (:410-415). Nothing
+    # restores wiring except a new hearing of the same words, so every
+    # real weight marches toward the 1e-6 line and crosses it: measured
+    # 610k -> 573,424 real cells over ~3h of house runtime, and the
+    # damage concentrates in low-count old rows (a parent teaching heard
+    # ~25 times, 17 days old, carries pairs at 2.35e-13 -- dust). High-
+    # count rows survive only because they are re-heard constantly.
+    # consolidate() is the organ's answer: replay high-value propositions
+    # through the REAL learning path -- live() with speaker=None, which
+    # skips the binder write, the person cell and the sequence chain (no
+    # episodic record, no salience inflation, no self-training order
+    # model) and keeps sal=1.0 -- so the same sparse Hebb rule, the same
+    # footprints and the same row cap re-strengthen exactly the pairs
+    # the original hearing wrote. Selection is value-ranked (witness
+    # weight x log1p(count)) and urgency-filtered (a row replays only
+    # when its weakest measured pair weight has fallen below the line):
+    # strong rows are left alone, dust rows are pulled back. The caller
+    # persists with save_state(force_san=True) -- a delta save skips the
+    # SAN and would lose the replay.
+    # ------------------------------------------------------------------
+    WITNESS_W = {"parent": 1.0, "user": 1.0, "teacher": 1.0,
+                 "oracle": 0.8, "book": 0.6, "droso": 0.3}
+
+    def consolidate(self, *, budget: int = 200, passes: int = 3,
+                    attention: float = 0.5, urgency_line: float = 0.1,
+                    scan_top: int = 2000) -> dict:
+        """Replay high-value propositions to hold their wiring above dust.
+
+        Read-only on the binder; writes only through live()'s Hebb rule.
+        The caller decides when to persist, and must use
+        save_state(force_san=True) -- delta saves skip the SAN.
+        """
+        t0 = time.time()
+        binder = getattr(getattr(self, "cortex", None), "binder", None)
+        meta = getattr(binder, "meta", None) or []
+        w = self.san_w
+        real_before = int(np.count_nonzero(w >= 1e-6))
+
+        def value(m):
+            who = str(m.get("who", ""))
+            return self.WITNESS_W.get(who, 0.6) * float(
+                np.log1p(int(m.get("count", 1))))
+
+        # Value-ranked scan window: the taught rows plus the top of the
+        # corpus. The un-scanned bulk is one-time book rows (count=1) --
+        # forgetting them is the design working, not a gap.
+        cands = [m for m in meta if len(m.get("tokens", [])) >= 2]
+        cands.sort(key=value, reverse=True)
+        cands = cands[:scan_top]
+
+        fp = self._fp_idx
+        urgent = []
+        for m in cands:
+            toks = [str(t) for t in m.get("tokens", [])]
+            weakest = None
+            for a, b in zip(toks, toks[1:]):
+                ia, ib = fp(a), fp(b)
+                if ia.size == 0 or ib.size == 0:
+                    continue
+                wmax = float(w[np.ix_(ia, ib)].max())
+                if weakest is None or wmax < weakest:
+                    weakest = wmax
+            if weakest is not None and weakest < urgency_line:
+                urgent.append((value(m), m, weakest))
+        urgent.sort(key=lambda t: t[0], reverse=True)
+        picked = urgent[:budget]
+
+        deltas = []
+        for _val, m, weakest in picked:
+            toks = [str(t) for t in m.get("tokens", [])]
+            for _ in range(passes):
+                self.live(" ".join(toks), learn=True, speaker=None,
+                          attention=attention, announce=False,
+                          readout=False)
+            after = None
+            for a, b in zip(toks, toks[1:]):
+                ia, ib = fp(a), fp(b)
+                if ia.size == 0 or ib.size == 0:
+                    continue
+                wmax = float(w[np.ix_(ia, ib)].max())
+                if after is None or wmax < after:
+                    after = wmax
+            deltas.append({"text": " ".join(toks)[:60],
+                           "who": str(m.get("who", "")),
+                           "count": int(m.get("count", 1)),
+                           "min_pair_before": weakest,
+                           "min_pair_after": after})
+
+        real_after = int(np.count_nonzero(w >= 1e-6))
+        return {"rows_scanned": len(cands), "rows_urgent": len(urgent),
+                "rows_replayed": len(picked), "passes": passes,
+                "attention": attention, "urgency_line": urgency_line,
+                "san_real_before": real_before,
+                "san_real_after": real_after,
+                "deltas": deltas[:20],
+                "elapsed_s": round(time.time() - t0, 1)}
+
     def _spread(self, act) -> np.ndarray:
         """san_w applied to a vector, without reading all 256 MB of it.
 

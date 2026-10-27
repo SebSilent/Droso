@@ -1427,3 +1427,191 @@ Full pytest after the guard fix: 407 passed, 3 skipped, 0 failed,
 five session dirs and conversation_probe.json deleted; the 22:49
 writer-path dir was already swept by the report run's own
 prune_sessions().
+
+## 2026-10-27 — design: the consolidation organ (sleep phase)
+
+Written before any code change, per the standing rule. The four
+machinery questions were settled by measurement first; the design
+follows from them.
+
+### The four machinery answers (measured this turn)
+
+**1. Where SAN weights decay.** A global multiplicative pass,
+call-driven with a refractory: `elapsed = min(now - _last_decay, 10)`;
+fires only when `now - _last_decay >= 10`; applies
+`san_w *= 0.995 ** elapsed` (organs/neural_language.py:410-415). So
+each fire shrinks the whole matrix by at most 0.951, and fires are
+bounded to one per 10 s of live() activity -- not 0.995 per wall
+second. A tight replay burst fires decay at most once (the first call,
+if the last fire was >10 s ago); replay does not self-destroy the
+matrix. The first fire costs -4.9% on everything: accepted, noted.
+Constants: SAN_DECAY_PER_S=0.995 (:25), SAN_DECAY_INTERVAL_S=10.0
+(:826), SAN_ROW_CAP=1024.0 (:46), HEBB_LR=0.10 (:23), SAN_TOP_K=512
+(:45). A second decay site for the cortex sits at :822 (one step over
+elapsed time).
+
+**2. The learn path.** live(text, learn=True, speaker=None,
+attention=A, announce=False, readout=False) is the replay path:
+speaker=None skips the binder write and the person cell (no episodic
+record, no salience inflation) and keeps sal=1.0; readout=False skips
+the second full-width SAN gather (the reading path's discarded half,
+half of the 54% reading time _spread costs). The write itself: sparse
+Hebb over the active set -- upper-triangle co-activations, top-512
+kept, `san_w[ri,rj] += eff_lr * act_i * act_j` clipped [0,4],
+symmetric, then the 1024 row cap on touched rows (:371-409).
+eff_lr = 0.10 * (0.5 + 1.2*attention) * min(2,sal) * min(3,surprise).
+The interoception band rides in act at 0.6x (:288), so replay also
+wires tokens to the current body state -- a known side effect,
+bounded by TOP-K, accepted for the first cut and measured.
+
+**3. What value signals propositions carry.** The binder meta carries
+who (witness), count (hearings), when (last same-witness hearing).
+Measured composition of the live 60,000 rows: 59,515 book / 466
+droso / 19 parent. Count spans 1 to 11,925. High-count rows hold
+strong wiring despite ~11-day ages (counts 3,143-11,925 -> pairs at
+2.5-4.0); decay damage concentrates in low-count old rows (measured:
+"you learned a word" pair at 2.35e-13, "you know more now" pairs at
+9.72e-03 and 2.95e-22 -- parent rows, heard ~25 times, ~17 days old).
+The top-count rows are droso self-echoes, not the teachings: the 19
+parent rows rank by count 24-11,925, and the three oldest (counts
+24-25) are exactly the decayed ones.
+
+**4. Where a sleep phase hooks.** The house is down; the hook is
+end-of-session in tools/converse.py before the final save, plus the
+method on the organ itself. Persistence: save_state(force_san=True)
+writes the SAN -- a delta save skips it (the delta branch returns
+early with skipped=["san","sequence"]), so the hook must force the
+full save after replaying or the replay is lost. The existing
+end-of-run hygiene save then follows as a no-op delta.
+
+### The design
+
+**Problem.** The live SAN drains real weights: 610k -> 573,424 real
+(>=1e-6) over ~3 h of house runtime (-6%); dust grows by the same
+amount. Every real weight marches toward the 1e-6 line and crosses
+it; below the line the weight is indistinguishable from dust and the
+word's wiring is effectively gone. Nothing restores wiring except a
+new hearing of the same words.
+
+**Capability claim.** A sleep phase that replays high-value
+propositions through the real learning path re-strengthens their SAN
+wiring before it decays through the line: the SAN's real-weight
+census stops draining (or drains materially slower) across sessions,
+without changing recall behavior on the suite.
+
+**Value function (initial, to be calibrated).**
+value = witness_w(who) * log1p(count); witness_w: parent=1.0,
+droso=0.3, book=0.6. Parent rows are the teachings, book rows the
+corpus knowledge base, droso rows self-echoes.
+
+**Urgency filter.** A row is urgent when its weakest measured
+token-pair weight < 0.1 (25x below the strong band 2.5-4.0; catches
+9.7e-03 rows and dust rows, skips 0.7+ rows). Pair weights are read
+from the live matrix via the footprints -- the actual current wiring,
+not a decay model.
+
+**Scope cut.** The pair-weight scan runs only over the value-ranked
+top M=2,000 rows (all 485 taught + top-1,515 book by count). The
+un-scanned bulk is one-time book rows (count=1) -- forgetting them is
+the design working, not a gap. Cost: ~2,000 rows x ~45 pair gathers,
+seconds.
+
+**Budget.** K=200 rows per sleep, passes=3, attention=0.5
+(eff_lr ~ 0.11/pass -> ~0.33/pair restored -- inside the band's lower
+reach, 5 orders above the line). The row cap bounds overshoot.
+
+**Hook.** NeuralLanguage.consolidate(...) on the organ (it owns
+san_w, live, meta, footprints); called at end-of-session in
+tools/converse.py before the final save; report fields land in the
+fitness JSON. A standalone CLI comes with the house integration, not
+now.
+
+**Report.** rows_scanned, rows_urgent, rows_replayed,
+san_real_before/after, sample per-row min-pair before->after,
+elapsed_s.
+
+**Acceptance (the A/B, all through the real paths).**
+1. Baseline: real-count 573,424 (measured twice, stable).
+2. A converse session with the hook: rows_replayed > 0; sample deltas
+   show dust pairs restored (e.g. 2.35e-13 -> ~0.3); the suite stays
+   green (replay only adds wiring; the risk is row-cap scaling
+   shifting strong rows -- the suite's pass rates are the check).
+3. The watch across N sessions: real-count >= baseline -- the
+   capability claim, measured by tmp_san_watch.py.
+4. Full pytest green.
+
+**Not in this cut.** No house timer, no CLI, no witness-weight
+calibration beyond the initial values, no SAN float16 (killed earlier
+by the mask amplifier), no dust-clear (killed earlier -- the dust is
+load-bearing for fully-decayed words).
+
+**Verification (measured 2026-10-27, all through the real paths).**
+1. Baseline: real-count 573,424 measured twice -- the A/B probe's
+   loaded census and tmp_san_watch.py's npz census agree exactly;
+   stable across the whole verification window.
+2. Hooked session (hooktest_20261027_004655, 4 turns): rows_replayed
+   200, san_real 574,266 -> 720,882 (+146,616), nnz unchanged
+   66,107,030, san_sum ratio 1.0996; deltas 20/20 restored, 0 flat --
+   parent teachings 2.12e-13 -> 0.33 and 2.66e-22 -> 0.33 (eff_lr 0.11
+   x 3 passes), 0.561/0.66 where footprint cells overlap. Persistence:
+   the session copy's SAN npz on disk carries real 720,882 -- exactly
+   san_real_after; the forced save wrote the consolidated state and it
+   survives the process. Live files untouched (guard: build+turns,
+   banc content-verified). The A/B probe on the live state agrees:
+   573,424 -> 719,534 (+146,110), same shape.
+   Suite with the hook active: 7 scripts x warm 2/2 + cold 2/2 =
+   28/28 (script_benchmark_20261027_014329.json), delta +0.00
+   everywhere, override winners ['hot','hot'], no FAIL lines; warm
+   71.7-89.3 s, cold 58.5-69.0 s (~18 min total, ~+50 s/session hook
+   overhead). Every suite session's report: rows_replayed 200,
+   san_real ~572,450-574,374 -> ~718,104-723,688. The row-cap risk
+   (scaling shifting strong rows) did not materialize: pass rates
+   identical to the pre-hook baseline 28/28.
+3. Watch across N=14 hooked sessions: live real 573,424 -- exactly
+   the baseline, unchanged; nnz unchanged 66,107,030. The live state
+   is untouched by sessions (the guard's claim, confirmed by census);
+   the restore lands in each session's copy. Steady state: in this
+   cut the backlog does not drain -- sessions consolidate their own
+   copies while the live matrix stays untouched, so every session
+   re-finds the same top-200 urgent rows from the unchanged wiring
+   (priority-ordered by witness weight x log(count)). No meta marker
+   is needed for the drain: urgency is re-measured from the live
+   matrix each scan, and a restored row's weakest pair lands ~0.33,
+   above the 0.1 urgency line, so it self-selects out -- once the
+   live state itself consolidates (the house-integration cut), the
+   backlog drains at ~200 rows per run, ~10 runs for the current
+   ~1,892-row urgent set, and decay then re-enters rows on the same
+   self-selecting cycle.
+4. Full pytest: 407 passed, 3 skipped, 0 failed, 146.24 s --
+   identical counts to the pre-hook suite.
+
+**Housekeeping (2026-10-27).** state/backup_f16/ (the four f32
+originals, ~746.5 MB) is kept: the f16 cortex migration is hours old,
+state/ is not in git so these are the only f32 originals, and disk
+pressure is gone (196.9 GB free) -- revisit after the migration has
+soaked. Loose end closed: the seq store's on-disk weight is float32
+(13,079,347 elements) -- the swing-1 f16 conversion was fully
+reverted, and sequence_organ's save forces dtype=float32 while its
+load is a plain np.load, so store and code agree. Scratch swept
+(11 files): the consolidate probe family superseded by the A/B, the
+diag/rt/sizes/pytest2/probe/migrate outputs whose numbers are logged,
+and the broken tmp_f16_migrate.py (the parents[1] crash is documented
+above; the working converter is tmp_f16_convert_cortex.py). Kept:
+tmp_san_watch.py, tmp_consolidate_ab.py + its output (cited above),
+the f16 convert/rollback/ab trio (the live f16 state's
+reproducibility and rollback path), and the earlier-phase probes
+(tmp_flip_gap.py, tmp_footprint.py, tmp_san_mask_probe.py,
+tools/_swing3_probe_f16.py, tools/_swing3_sizes.py) whose disposition
+is not this cut's call.
+
+**Sweep, owner call (2026-10-27).** tmp scratch swept to three keepers:
+tmp_consolidate_ab.py + tmp_consolidate_ab_out.txt (the A/B evidence) and
+tmp_san_watch.py (the watch instrument). Swept: the f16
+convert/rollback/ab trio, tmp_flip_gap.py, tmp_footprint.py,
+tmp_san_mask_probe.py, tmp_save_fatal.py, and the parser-era runners
+(tmp_run_seen.bat, tmp_run_seen2.bat, tmp_run_suite.bat) -- every one's
+numbers are already in this log. The f16 rollback path is now
+documentation-only; state/backup_f16/ still holds the f32 originals.
+tools/_swing3_probe_f16.py and tools/_swing3_sizes.py stay untracked,
+disposition still open. Re-census after the full 28-session suite: live
+real-count still 573,424 -- the baseline claim holds at N=28.
