@@ -58,6 +58,19 @@ sys.path.insert(0, str(ROOT))
 from tools import state_hygiene  # noqa: E402  (needs ROOT on sys.path)
 
 STATE = ROOT / "state"
+# The exocortex is live too, but it is the HOUSE's runtime ground: the house
+# rewrites seven of its nine files in bursts (measured 2026-10-26: bursts at
+# 21:58, 22:00 and 23:45 wrote api_cache, learned_procedures, learning_events,
+# reasoning_state, snippet_vault, speed_routing, stream_progress), and a burst
+# can land inside a session's guard window.  A session turn provably does NOT
+# write here -- one real turn left all nine files byte-identical, and every
+# oracle call path is gated (render_voice behind voice_prosthesis, off by
+# default; learn_from_teacher behind the house's first-run acquisition; the
+# evaluator is not in the turn path).  So exocortex churn is watched and
+# REPORTED, but never verdict-breaking: with two concurrent writers the
+# before/after diff cannot attribute a change, and a false alarm here would
+# burn the guard's credibility the way the disk-full 0.0s did.
+EXO = ROOT / "exocortex"
 # The live state is the whole state/ tree minus the harness's own outputs
 # (sessions/, fitness/).  The guard used to name nine files, and one of
 # them -- language_state.json.san.npy -- does not exist: the real SAN file
@@ -637,6 +650,7 @@ def main() -> int:
     # The guard window starts before the build, so the verdict covers the
     # whole run, not just the turns (debt entry 6's fix shape).
     guard_before = guard_live_files("before")
+    exo_before = guard_live_files("before", EXO)
     print(f"loading Droso (session dir: {session_dir}) ...", flush=True)
     t0 = time.time()
     agent = build(session_dir)
@@ -740,6 +754,9 @@ def main() -> int:
     moved = guard_check(guard_before)
     print(f"  live state files untouched (build+turns): "
           f"{'yes' if not moved else 'NO: ' + str(moved)}")
+    exo_moved = guard_check(exo_before, EXO)
+    print(f"  exocortex churn (house or session, unattributed): "
+          f"{'none' if not exo_moved else str(exo_moved)}")
 
     if not args.no_save_state:
         # Delta save: the json plus what this session heard, kilobytes not
@@ -758,7 +775,8 @@ def main() -> int:
                                                    if k2 != "row_sums"}},
                "live_files_untouched": not moved,
                "guard_window": "build+turns",
-               "guard_known_churn": list(KNOWN_CHURN)}
+               "guard_known_churn": list(KNOWN_CHURN),
+               "exocortex_churn": exo_moved}
         outp = ROOT / "state" / "fitness" / f"conversation_{tag}.json"
         outp.write_text(json.dumps(out, indent=2), encoding="utf-8")
         print(f"  report: {outp}")

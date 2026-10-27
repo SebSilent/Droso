@@ -1320,3 +1320,110 @@ The re-run redirected stdout to
 `state/fitness/script_benchmark_out.txt`, which is the only reason
 this table exists. Background jobs here are not durable; anything
 whose result matters writes to a file.
+
+## 2026-10-26 (late) — the SAN decays through the 1e-6 line (backfilled;
+## the watch turn ended before its entry did)
+
+### The watch (tmp_san_watch.py, read-only)
+
+One data point against the live `state/language_state.san.npz`, archive
+key `san` (not `weight` -- the first run KeyError'd on the guess):
+
+- nnz 66,107,030 -- stable against the 66.1M baseline; nothing is deleted.
+- dust (< 1e-6): 65,533,606; real (>= 1e-6): 573,424 -- down ~6% from the
+  ~610k real weights at the swing probe, and dust grew by the same ~37k.
+- dust max 9.949e-07 -- sitting just under the threshold line.
+
+Mechanism, from those three numbers: weights decay THROUGH the 1e-6
+line, migrating real -> dust at constant nnz.  The decay does not
+delete; it demotes.  Real mass: median 2.448e-02, max 4.0, entries
+>= 1e-1: 250,266.  The reader SAN is stable and has zero dust (nnz
+65,047,556, median 1.403e-01, max 4.0) -- the decay is a live-brain
+process.
+
+### Candidate capability item: a consolidation organ
+
+The live SAN's real wiring erodes monotonically between sessions.  The
+candidate item is a consolidation organ -- a sleep phase that replays
+high-value propositions and re-strengthens their SAN wiring before it
+crosses the 1e-6 line.  This is the AGI-relevant shape, not hygiene:
+consolidation is what sleep does, and without it long-term wiring
+decays to dust that only carries footprint.  Open questions: the rate
+(one data point -- constant, accelerating, or bounded is unknown), and
+no alarm threshold is set.  The watch script exists and is read-only;
+the next data point is one run away.
+
+## 2026-10-26 (late) — writer path settled by measurement; the guard
+## watches exocortex; the exit-save fatality is proven by execution
+
+### The writer-path question: sessions never reach the oracle/evaluator
+
+Three independent gates close every path from a session turn to the
+exocortex writers:
+
+- `render_voice` returns early unless `self.voice_prosthesis` is on
+  (organs/neural_language.py:3003) -- off by default, "because it
+  spends the operator's API calls".
+- `learn_from_teacher` is invoked only by the house's first-run
+  acquisition, never in a session turn.
+- the evaluator is not in the turn path at all.
+
+Empirical check: one real turn ("hello droso") left all nine
+exocortex files byte-identical (SHA-256 before/after).  The oracle is
+wired onto the organ (`set_oracle` at agent init) but never called in
+a session turn.
+
+The house, by contrast, rewrites seven exocortex files in bursts
+(measured bursts at 21:58:59, 22:00:32 and 23:45 local: api_cache,
+learned_procedures, learning_events, reasoning_state, snippet_vault,
+speed_routing, stream_progress) and appends to the two logs
+(api_usage.json, evaluations.jsonl).  Both log tails carried duplicate
+rows (three identical api_usage lines at one timestamp; two
+evaluations rows 22 ms apart) -- a property any timestamp-derived
+write rate must reflect.  Bursts are bursty, not continuous: a ~40
+minute quiet gap preceded the 21:58 burst, so a burst CAN land inside
+a session's guard window.
+
+### The guard fix: exocortex watched, reported, never verdict-breaking
+
+`tools/converse.py` now snapshots `exocortex/` as a second watched
+root alongside `state/` (EXO constant, `exo_before` at build,
+`exo_moved` at the end).  The churn is REPORTED -- a console line and
+an `exocortex_churn` field in the fitness report -- but never breaks
+`live_files_untouched`: with two concurrent writers (house and
+session) the before/after diff cannot attribute a change, and a house
+burst inside a suite window would false-flag every row.  A guard that
+cries wolf gets ignored, the way the disk-full 0.0s were.
+
+No whitelist for the two logs: the rule was to whitelist them only if
+sessions legitimately append -- measured answer is they do not, so
+there is nothing to tolerate.  They are watched like every other
+exocortex file.
+
+### The exit-save fatality, proven by execution (tmp_save_fatal.py)
+
+The wrapper patches `state_hygiene.save_session_state` to raise
+`SystemExit("FATAL: session save failed: forced for evidence")` --
+visible to converse because it binds the module object (`from tools
+import state_hygiene`), so the attribute lookup at the call site
+resolves through the patched module.  Run with stdin at EOF (zero
+turns, straight to the end-of-run save):
+
+- exit code 1 (measured with `cmd /v:on`, `PYEXIT=1` -- the first
+  attempt through a pipe reported findstr's 0, not python's).
+- the FATAL line on stderr, through the real unwrapped call at
+  converse.py:748 and require_saved's SystemExit
+  (tools/state_hygiene.py:138).
+- the new exocortex churn line executed in the same run ("none").
+
+A second run (--save probe, unpatched) verified the report field:
+exit 0, `state/fitness/conversation_probe.json` carries
+`"exocortex_churn": []` beside `live_files_untouched: true`.
+
+### Every shipped test through the deliverable
+
+Full pytest after the guard fix: 407 passed, 3 skipped, 0 failed,
+147 s -- identical to the pre-edit baseline.  Probe artifacts cleaned:
+five session dirs and conversation_probe.json deleted; the 22:49
+writer-path dir was already swept by the report run's own
+prune_sessions().
