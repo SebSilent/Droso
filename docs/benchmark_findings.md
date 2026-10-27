@@ -152,3 +152,41 @@ whole `state/` tree minus the harness's own outputs (`sessions/`, `fitness/`)
 and compares sizes and mtimes before/after; a file that appears or disappears
 counts as moved. Pinned by `tests/test_guard_tree.py`; both runs above report
 `live state files untouched: yes`.
+
+## Addendum (2026-10-27): where these failures stand now
+
+All three failures above are resolved in the current state; the numbers live
+in `docs/speech_log.md`, so only the pointers are recorded here.
+
+- **Failure 1** (where-ask): fixed 2026-10-25 by the sfW fix -- the
+  where-case filler rule (a where-question's filler is the candidate's last
+  token) plus the session-fresh sort-key term. Verified same day:
+  `script_benchmark_20261025_193151.json`, accumulation warm 1/2 -> 2/2 with
+  nothing else moved. Mechanism 1 was bypassed rather than fixed: the filler
+  now comes from the candidate's last token, so "shelf" is reachable without
+  role reassignment; mechanisms 2-3 are answered by the fresh term. The
+  residual the fix left (the question-shape dependence, debt entry 5) was
+  made checkable by the question-shape parser (2026-10-26) and verified
+  2026-10-27 by the where_kept script (warm 2/2, cold 2/2,
+  `script_benchmark_20261027_024233.json`): the positional shortcut held on
+  the exact shape the debt entry warned about.
+- **Failure 2** (session fact loses): fixed 2026-10-25 by the same sfW fix's
+  fresh term, which sits above `expected` and `filler_idf` in the key -- a
+  proposition the user spoke this session outranks a 2651-vote training
+  prior. Verified same day: discrimination warm 1/2 -> 2/2.
+- **Failure 3** (nnz unchanged): was never a failure to fix -- a saturated
+  graph, as this doc says. The trace metric now reports `rows_changed` and
+  total weight alongside `new_edges` (present in
+  `script_benchmark_20261027_024233.json`: rows_changed 8148, total
+  298,817.75 -> 265,816.031), so proposal 5 is applied.
+
+Proposal status: **3 applied** (as the binary fresh term, not a decay);
+**5 applied** (rows_changed). **2 not taken** -- the fresh term achieves
+its effect without reordering: the self-rehearsed "droso says ..." candidate
+loses on `fresh`, not on the guard, and `not_in_cset` is still last in the
+key. **1 and 4 not implemented**: 1 stays the named fix if a question shape
+ever fails the positional shortcut (debt entry 5's 2026-10-27 update); 4 is
+mooted in practice because `fresh` demotes self-rehearsal candidates, but
+they are still bound -- the where_kept warm session bound one nonsense echo
+as a proposition ("droso says toe intimate await hammersmith llm
+communion").
