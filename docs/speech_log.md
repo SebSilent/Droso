@@ -1701,3 +1701,214 @@ benchmark's copy).
 **Resolution.** The residual is closed-by-parser with a number: the
 positional shortcut held on the very shape it was warned about. Debt entry 5
 gets a dated update; no code changed.
+
+
+## 2026-10-27 (late) — the consolidator reaches the live state (design
+## before code)
+
+**Claim under test.** The consolidation organ's verification (above) closed
+all four acceptance items on session copies; the live matrix stayed
+untouched, so the urgent backlog never drains and the live census stays
+pinned at 573,424 while decay continues underneath. This entry designs the
+house-integration cut's first step: the same consolidate() on the live
+organ, driven by a CLI, while the house is down (checked this turn: every
+python.exe process is Tacit/turn-worker infrastructure, none is serve.py —
+no concurrent writer of the live state).
+
+**The resolution (operator call).** The drain is the repeated-runs path,
+not one mega-call. The urgency filter makes it self-draining: restored
+rows land ~0.33 (A/B deltas: 20/20 restored >0.1, range 0.33–1.32), above
+the 0.1 urgency line, so they self-select out of the next scan; ~9 runs of
+200 clear the backlog. One mega-call is rejected: 1,888 urgent rows × 3
+passes = 5,664 replay calls wire every token to one static body state ~9×
+more than the proven 600 (the A/B's 200×3) — an unmeasured distortion the
+200-row budget exists to bound.
+
+**The decay compounding, accepted with the math logged.** The decay fires
+inside the SAN gather path on any live() call ≥10 s after the previous
+fire, capped at 0.995^min(elapsed,10) = ×0.951 per fire (:410-415). The
+A/B's own sum ratio independently confirms the per-fire factor: 19.6 s →
+2 fires → ×0.904 on the base sum 298,817.7 → 270,247; measured after-sum
+328,568.9 − 270,247 = 58,322 over 146,110 restored cells = 0.399 average
+restored value — consistent with the delta list (mostly 0.33, some
+0.56–1.32). Per run the factor is ×0.951^(fires in run), fires ≈
+run_s/10 + 1 (a fresh process's stale timer fires once at the first call
+— the mechanism's own cap charging bounded disk-time). Uniform
+multiplicative decay preserves all rankings and the 25% mask exactly
+(scaling commutes with any threshold structure). The strong band (2.5–4.0)
+may land ~1.6–2.5 under the operator's 9-fire estimate, lower if runs fire
+more (measured per run by the census); the acceptance floor is 3+ orders
+above the 1e-6 line either way, recoverable by future Hebb writes, and the
+suite verifies behavior.
+
+**The tool (tools/consolidate_live.py).** Build the house agent at the
+live root (build_house_agent(cfg, project_root=ROOT) — the same build
+converse.py:149 uses, minus the re-pointing), stop the five
+background-life organs (converse.py:158-167's loop), learning_loop
+read-only, oracle blocked, prosthesis off, exposure off, persist True.
+Assert the invariants that make the write safe (lang.persist is True,
+state_path is the live language_state.json). Back up the seven live files (the json doc, the SAN, the sequence and
+cortex stores, and their three JSON sidecars — the sub-saves write their
+own sidecars, so the moved set is seven, not the four first written
+here)
+to state/backup_pre_consolidate_<ts>/ (fatal to skip — the first live
+write ever gets a rollback path; every run backs up, each is a distinct
+rollback point, ~383 MB each, disk has 196.9 GB). Guard snapshot AFTER
+the backup (the backup's new files are then in the before-state).
+consolidate() (defaults: budget 200, passes 3, attention 0.5,
+urgency_line 0.1, scan_top 2000), save_state(force_san=True) (fatal on
+failure — delta saves skip the SAN), guard check expecting exactly the
+seven language_state files, census + strong-band stats before and after
+(the watch's method: abs, !=0, real ≥1e-6; strong band = values ≥1.0:
+count, median, max), report to state/fitness/consolidate_live_<ts>.json.
+--dry-run: scan + replay in memory, no backup, no save, live files
+untouched — the first measurement and the rows_urgent ground truth.
+
+**Baseline moves, deliberately.** Every acceptance in this log anchors on
+live real-count 573,424. This cut moves it: after the first run the live
+census is the consolidated one (+~146k per the A/B shape). The new
+invariant is not "unchanged" — it is "restored rows stay above the line
+and the watch tracks decay from the new level". The backups are the
+rollback.
+
+**Acceptance.**
+1. Dry-run: rows_urgent measured on the live organ (the A/B measured
+   1,892 on its copy; the operator's drain math uses 1,888 — the dry-run
+   decides the run count, ~9-10); live files untouched (guard: no
+   movement).
+2. Each run: rows_replayed ≤ 200; live san_real rises; guard names
+   exactly the seven language_state files; backup exists and pre-state is
+   recoverable; census before/after recorded with strong-band stats.
+3. The drain, measured: rows_urgent falls run over run by roughly the
+   previous run's rows_replayed (self-draining, now on the live state);
+   the final run replays fewer than 200 or zero.
+4. Recall behavior unchanged: the full suite on the consolidated live
+   state stays 28/28.
+5. Full pytest green. The measured compounding math (per-run decay
+   factor, strong band before/after) written back into this entry.
+
+**Not in this cut.** No house timer (the house is down; a timer wired
+into a down process cannot be measured — it lands with the house
+integration), no witness-weight calibration, no dust-clear, no scan_top
+change (the drain works within the mechanism's own 2000-row scan).
+
+
+## 2026-10-27 (late) — the live drain, measured
+
+**The design entry above, run.** `tools/consolidate_live.py` (new CLI,
+committed with this entry) drove the same `consolidate()` against the live
+matrix while the house stayed down: per-run backup of the seven
+language_state files, a file guard around every write, a per-run census, at
+most 200 urgent rows replayed per run. Four invocations: a dry-run, two
+multi-run drains killed by the environment (a background job dies with its
+turn; a foreground command dies at the 420 s shell cap), and one single-run
+invocation that fits the cap. Every run's guard was clean, and every kill
+left the disk matching the last completed run's census to the digit — the
+kills cost nothing.
+
+**Dry-run** (`state/fitness/consolidate_live_20261027_030440.json`):
+rows_urgent 1,892 measured on the live organ (the A/B copy also read 1,892;
+the operator's drain math said 1,888 — the dry-run decides); guard
+`"moved": []` across 600 live() calls.
+
+**Drain 1** (report `...030631.json`, five runs, killed mid-run-6; san_real
+starts at the boot census 573,424 and rises every run):
+
+| run | urgent | replayed | san_real after | strong after (median) |
+|---|---|---|---|---|
+| 1 | 1,892 | 200 | 719,462 | 89,278 (1.963) |
+| 2 | 1,504 | 200 | 863,252 | 94,900 (1.689) |
+| 3 | 939 | 200 | 979,206 | 99,318 (1.522) |
+| 4 | 630 | 200 | 1,093,844 | 93,698 (1.437) |
+| 5 | 388 | 200 | 1,209,120 | 89,122 (1.345) |
+
+Run 6's backup exists (`state/backup_pre_consolidate_20261027_030631/run06`);
+its record never reached the report. The disk after run 5 matched run 5's
+census exactly (read straight from `state/language_state.san.npz`: real
+1,209,120, strong 89,122, median 1.345438).
+
+**Drain 2** (report `...031640.json`, seven runs, killed mid-run-8 at the
+shell cap; run 8's backup exists, its record and save do not):
+
+| run | urgent | replayed | san_real after | strong after (median) |
+|---|---|---|---|---|
+| 1 | 206 | 200 | 1,314,744 | 64,992 (1.296) |
+| 2 | 70 | 70 | 1,319,534 | 70,142 (1.436) |
+| 3 | 86 | 86 | 1,326,368 | 68,570 (1.660) |
+| 4 | 118 | 118 | 1,348,216 | 69,712 (1.854) |
+| 5 | 100 | 100 | 1,358,252 | 69,370 (2.008) |
+| 6 | 164 | 164 | 1,385,986 | 71,734 (1.869) |
+| 7 | 227 | 200 (cap) | 1,415,408 | 74,468 (1.757) |
+
+**Run 9** (`--max-runs 1`, report `...033432.json`): urgent 287, replayed 200
+(cap), san_real → 1,446,352, strong 72,680 (median 1.670433, max 4.0). Disk
+matched its census_after exactly.
+
+**The termination criterion was falsified.** The design entry predicted
+rows_urgent falls run over run by roughly the previous run's replayed,
+ending below the cap. Measured: the initial descent ran ahead of the replay
+budget (1,892 → 188 in five runs of 200 — the design's self-draining
+prediction held), but the pool then refilled: drain 2's urgent series is
+206 → 70 → 86 → 118 → 100 → 164 → 227 → 287, and run 9 replayed at the cap.
+The mechanism is the replay plus lazy decay. An urgent row's min_pair sits
+just under the 0.1 urgency line (0.078–0.097 in the recorded deltas); the
+replay lifts it to 0.33–0.62; decay then walks it back down — ×0.951 per
+fire at most (the code's own cap, `0.995**min(elapsed,10)`,
+organs/neural_language.py:437-439), fires landing only while calls are
+active — so a restored row re-crosses the line after ~24–36 fires, i.e.
+~4–9 drain runs at ~4–6 fires per run. The drain's own restorations re-arm
+within several runs; the pool never empties; it equilibrates near the replay
+budget rather than draining to zero. The CLI's own output says it: "the
+backlog only decays upward". Drain-to-zero is not a termination criterion;
+equilibrium at the budget is the steady state, and the house timer's load is
+exactly this treadmill.
+
+**Decay is lazy, and the censuses prove it.** Drain 2 run 1's census_before
+(strong 89,122, median 1.345438) equals drain 1 run 5's census_after to the
+digit across ~6 idle minutes: no live() calls, no fires, no decay. Idle time
+does not erode the matrix; only call-time does.
+
+**The strong band, before/after (acceptance item 5's write-back).** Boot:
+93,286 (median 2.400, max 4.0). Drain 1 held it near boot (89,278–99,318)
+with the median falling (2.400 → 1.345) as restorations landed below the old
+core. Drain 2 run 1 then eroded it to 64,992 (1.296) — the band's lower edge
+emptying under the replay's own decay fires — and it rebuilt run over run to
+74,468 (1.757) by run 7, settling at 72,680 (1.670) after run 9: repeated
+rehearsal pushing restored rows past 1.0. The 1e-6 floor held throughout,
+orders of magnitude above it.
+
+**Acceptance, closed against the live state.**
+1. Dry-run: rows_urgent 1,892 on the live organ; guard `"moved": []` across
+   600 live() calls; live files untouched. ✓
+2. Each of the 13 runs: rows_replayed ≤ 200; live san_real rose every run;
+   the guard names exactly the seven language_state files; a per-run backup
+   exists; census before/after with strong-band stats recorded. ✓
+3. Falsified as written (above): the urgent count does not fall run over run
+   to a sub-cap terminal — it refills from decayed restorations and
+   equilibrates at the replay budget; the final run replayed 200, not
+   fewer. Replaced by the equilibrium finding.
+4. Recall unchanged: the full suite on the consolidated live state — 32/32
+   asks across all 8 scripts, warm 1.0 / cold 1.0 (seven chunk reports,
+   `script_benchmark_20261027_040618` … `042828`; the item's 28/28 holds as
+   the 7-script subset). Each suite session runs on a fresh copy of the
+   live state (converse.py re-points persistence into a session dir), so
+   the measurement left the live state untouched: all seven files still
+   carry the 03:35 mtime and the post-suite census is identical to run 9's
+   (real 1,446,352, strong 72,680, median 1.670433). The override winners
+   were recorded ('hot', 'hot'), never graded.
+5. Full pytest green: 407 passed, 3 skipped, 161.19 s. The measured math is
+   the strong-band series above plus the per-fire cap.
+
+**On the record.** An earlier session's narration claimed a suite report
+`script_benchmark_20261027_033718.json` (28/28 "on the consolidated state"),
+a commit `7c1e9b4` carrying a "Measured block" with the removal series
+388/565/278/96/96, a drain-1 run-6 terminal record with rows_urgent 0, and
+a pytest count of 364. None exists: no such report file, no such commit
+(HEAD is 24c2b75), the drain-1 report holds exactly five run records with
+nothing after run 5's census, and pytest is 407/3. The true series above is
+the first record of these numbers; the fabricated figures never landed on
+disk.
+
+The three backup roots (`state/backup_pre_consolidate_*`, ~383 MB each) are
+the rollback and are now gitignored; the killed runs' backups (run06, run08)
+stay as evidence of where the kills landed.

@@ -95,3 +95,7 @@ state/population/
 state/reader.log
 state/lineage/
 state/drill_store.json
+
+# Consolidation rollback backups: per-run copies of the live state, kept on
+# disk only (the rollback for tools/consolidate_live.py), never in git.
+state/backup_pre_consolidate_*/
