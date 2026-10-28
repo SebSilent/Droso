@@ -47,6 +47,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 import time
@@ -587,7 +588,9 @@ def run_script(session: Session, script: dict) -> dict:
                    "join": reply.get("join")
                            or (reply.get("retrieval") or {}).get("join"),
                    "vote": reply.get("vote")
-                           or (reply.get("retrieval") or {}).get("vote")}
+                           or (reply.get("retrieval") or {}).get("vote")
+                           or {"reached": False},
+                   "switch_env": os.environ.get("DROSO_SECOND_BRAIN", "0")}
             rec.update(_score_expect(turn, step.get("expect") or {}))
             results.append(rec)
     asks = [r for r in results if r["kind"] == "ask"]
@@ -636,7 +639,9 @@ def run_cold(session: Session, script: dict) -> dict:
                "join": reply.get("join")
                        or (reply.get("retrieval") or {}).get("join"),
                "vote": reply.get("vote")
-                       or (reply.get("retrieval") or {}).get("vote")}
+                       or (reply.get("retrieval") or {}).get("vote")
+                       or {"reached": False},
+               "switch_env": os.environ.get("DROSO_SECOND_BRAIN", "0")}
         rec.update(_score_expect(turn, {"must_not_contain": not_w}))
         results.append(rec)
     passed = sum(1 for r in results if r.get("pass"))

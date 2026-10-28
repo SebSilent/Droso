@@ -2783,3 +2783,129 @@ no-regression condition and still cannot produce discord on the 11, so it
 does not change the mirror verdict -- it does mean the suite number is not
 yet the clean vote-ON gate I claimed it was. Next cut: find which turns carry
 `on: false` and why, before any further ablation is run through this harness.
+
+### The switch was never lost: that claim was mine, and it was an artifact
+
+Audited the same report properly (`tmp_vote_audit.py`, walking
+`rows[].warm.turns` / `rows[].cold.turns` instead of grepping the file):
+
+| per-turn vote state, suite run `..._034017` | count |
+|---|---|
+| `on: true` | **21** |
+| `on: false` | **0** |
+| no vote record at all | 31 (20 tell turns + 11 refusal-path asks) |
+
+Among the 21: 11 fired with a real provenance contrast, 7 abstained for "no
+provenance contrast in the shortlist", 3 for "one candidate, nothing to rank".
+
+**There is no environment bug.** `subprocess.run` in script_benchmark.py:52
+passes no `env=`, so the child inherits it, and converse.py never reads or
+scrubs `os.environ`. The 11 turns I said "logged the switch off" were 11
+turns where `on` was never written at all, because the refusal paths return
+before the ranking: `answer()` has five `{"answered": False, ...}` returns
+(lines 2556, 2624, 2674, 2688, 2783) and the vote is stamped only on the
+answered path (2776). My count of "32 vote fields" was the same key appearing
+twice per answered turn -- once in the per-turn record, once in the `_clean`
+lift -- and 32 happened to look like the turn count.
+
+So the defect was in the report's legibility, not in the harness, and the
+claim in the commit message was wrong. Fixed at the record sites: a turn
+without a ranking now carries `{"reached": false}` instead of silence, plus
+`switch_env` read from the child's own environment, so absence and off can
+never again be conflated, and a genuine env loss would show as
+`switch_env=1` next to `on: false`. Re-running the suite with the vote ON to
+confirm that on a fresh report.
+
+**What this does to the gate:** the vote-ON 32/32 is measured for the 21
+graded asks that reach a ranking and structurally inapplicable to the 11 that
+refuse -- a refusal has no candidate list to re-rank, so no second brain of
+any kind can act on it. The mirror verdict is unaffected and in fact
+strengthens: 29 votes fired with real contrast across probe and suite
+(18 + 11), and not one of them disagreed with A.
+
+### Axis (b) is closed: that decision point has one voice, logged as exhausted
+
+Both variants of a second ranking at the recall/shape decision are now
+falsified, by opposite branches of the same pre-written test: the **metric**
+cost a correct answer (8/8 -> 7/8, promoting a corpus unicorn line over the
+true tell), the **authority** never disagreed at all (0 discord in 29
+contrast-bearing votes). The finding is architectural, not about rankings:
+
+> A's key is `(overlap, fresh, expected, idf, novel)`. The freshness term
+> already puts session tells above the corpus prior on every ask in this
+> house, so the case a second ordering exists to correct -- a corpus memory
+> sitting above a session tell -- does not occur. A second ranking cannot be
+> informative at a decision point where the first ranking is already right
+> for the reason the second would give.
+
+A third variant (a different distance function, a different priority, a
+different vote) is the same bet a third time. **This decision point is
+logged as exhausted for axis (b). Do not revisit it.** The mechanism stays in
+the tree, default-off and inert, as the negative control.
+
+## Regions that grow on recurrence (2026-10-28): the axis where nothing has to outrank anything
+
+The lesson of the closed axis is that ranking problems are saturated here:
+there is always one right candidate and A already picks it. So the next axis
+is chosen to have no competitor at all. This is a **structural** organ: it
+changes his anatomy, and it is scored as **state**, not as an answer. No
+arbiter, no refusal message, no corpus competition, no candidate list.
+
+**The claim to test:** a concept that recurs in the session stream should leave
+a *place* behind, not just a stronger weight. Repeated teaching of the same
+concept grows a distinct region; the same stream with the repeats removed
+grows none. The measurement is the delta in his own anatomy between two runs
+of one script.
+
+**Substrate, verified in the code rather than assumed:**
+- A word is `{"word", "kc": [...], "pool": int, ...}` (neural_language.py:665)
+  -- a KC pattern plus the compartment it won. `stats()["pools_used"]`
+  (3592-3603) already reports pool -> word count, so compartments are the
+  nearest thing this house has to regions, and today they are a byproduct of
+  which pool a word happens to win, not something allocated on purpose.
+- The growth primitive already exists and is already used: `wire_pool(
+  kc_nodes_of_code(code), pool, k_per_pre=4)` at 647, whose comment calls it
+  "activity-dependent sprouting -- the word's KCs are firing and this pool is
+  the compartment being considered, so give them synapses into it". A region
+  organ should ride that, not invent an allocator.
+- The recurrence signal already exists: memories carry a `count` (541), and
+  `recent_words` is kept. So "recurs past a threshold" is a read of state the
+  house already maintains, not a new statistic.
+- Mass is countable today: `san_real` is `count_nonzero(san_w >= 1e-6)` (545)
+  -- nonzero cells in the Hebbian matrix. Live census at last check: 573,424
+  cells, 1,446,352 after the consolidation drain.
+
+**Baseline, and the confound it exists to catch.** Today there are zero
+regions by the definition above: nothing allocates a compartment on account of
+recurrence. But repeats are not inert in the current anatomy either -- every
+replay strengthens `san_w` cells, so a run with repeats will show MORE mass
+than a run without, and that difference is ordinary Hebbian growth, not a
+region. The baseline instrument must therefore run both variants and report
+region count and mass separately: **if the only thing that moves is cell
+count, the organ has not been built, it has been described.** The number the
+organ must beat is the with-repeats-minus-without-repeats cell delta produced
+by the current anatomy alone.
+
+**Threshold, stated before the code:** a concept recurring >= 3 times in one
+session allocates or grows exactly one region. The scored pair is one script
+run as written, and the same script with the repeated tells removed (same
+concepts, each said once, same turn count where possible). Pass requires:
+regions > 0 in the repeats run, regions == 0 in the de-repeated run, and the
+region mass delta distinguishable from the plain cell delta above.
+
+**Falsification, also stated before the code:**
+- Both variants produce the same region count -> recurrence is not reaching
+  anatomy -> falsified.
+- Regions "grow" but the only measurable change is generic cell count, with
+  no dedicated compartment attributable to the concept -> it is a weight bump
+  wearing the word "region" -> falsified. (This is the likely failure, and it
+  is the reason the baseline is measured first.)
+- The 32-turn suite moves at all -> a structural organ is leaking into the
+  decision point -> revert. This organ must be **invisible to answers**: its
+  only legitimate output is a change in state.
+- pytest must stay at 407 passed, 3 skipped.
+
+**Order of work:** baseline instrument first, its numbers logged, then the
+organ, then the same instrument re-run against it. The design entry is this
+entry; no organ code is written until the baseline is a number and not an
+assumption.
