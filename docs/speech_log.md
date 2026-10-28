@@ -2207,3 +2207,41 @@ rehearsed, or the association floor is set above real wiring), (b) recall
 found the memory but associative coverage still failed the floor, (c) the
 wrong memory won. Each mode is itself a measurement of the band; the entry
 stands as the record either way. Green or falsified — both close the item.
+
+### Measured: the direct baseline (2026-10-28, before any code, system unchanged)
+
+The family (`tools/scripts_band2hop.json`, 4 scripts x 2 asks) through the
+existing per-session runner (`converse.py --scripts/--cold … --beats 2`;
+each session works on a copy of the live state and every run reported
+`live state files untouched: yes`; reports
+`conversation_band2hop_{1..4}_{warm,cold}.json`).
+
+Warm recall: **0/8.** Every ask refused at the coverage floor — coverages
+31–44%: S1 42%/44%, S2 43%/41%, S3 36%/31%, S4 "nothing he remembers has
+that shape" / 38%. No wrong winners anywhere: the floor held the gate
+exactly as bought. The direct path does not answer 2-hop badly — it cannot
+answer 2-hop at all. The gap is total, so the walk's target (≥6/8) is a new
+ability, not a lift.
+
+Cold control: 8/8 — but read `run_cold` (converse.py:597) before believing
+what that number looks like: the cold phase is the contamination control,
+graded on the ABSENCE of the taught words, and a refusal passes by design
+("the honest answer to a question about a conversation that never happened
+is not to assert one"). It carries no recall information. The threshold is
+therefore restated: the recall axis is the warm phase; the cold phase is the
+walk's confabulation gate — after the walk lands, cold must still refuse,
+proving the associative path fires from session wiring, not corpus wiring.
+(The main suite's "cold 1.0" has always meant this control, not recall;
+noted here so no future reader mistakes the acceptance line.)
+
+Two measured constraints on the build, from `tmp_band2hop_vocab.py`
+(read-only, no organ): (1) word membership — 55 of 58 candidates known
+against 10,138 `word_patterns`; bark, drifts, flares are not, and the
+family avoids them. (2) **The band offers no fresh slate.** All 1,485
+candidate pairs carry max |w| ≥ 0.5 over their 12x12 footprint blocks, most
+at 1.9–2.0 — saturation, measured again at pair level. The session's tells
+write ~0.1 per edge, two orders under the corpus background, so the walk
+must rank by normalized spread (as `_rank_by_spread` already does — cosine)
+and never by absolute weight. Whether session-level wiring is separable
+from corpus wiring at all is the first real question the build answers; if
+it is not, falsification mode (a) fires, and that is itself the measurement.

@@ -1,0 +1,49 @@
+{
+  "note": "The band-2hop family (design: speech_log 2026-10-27 late, 'the band answers'). Four scripts, 2 tells + 2 asks each. Every ask is 2-hop by construction: the cue word lives in M1 only, the answer word in M2 only, joined by a bridge token; no question shares a distinctive word with the answer memory at coverage 0.6 or better, so the direct one-hop path must refuse or pick the wrong memory. All words verified known against word_patterns by tmp_band2hop_vocab.py (10,138 entries; bark/drifts/flares are NOT known and are excluded). Graded mechanically like the main suite: any_of = at least one of these words in the reply.",
+  "scripts": [
+    {
+      "name": "band-hop-1",
+      "kind": "band-hop",
+      "note": "M1 bell/noon/rings; M2 noon/owl/spins/salt. Ask1 cue=bell verb=spins -> M2 subject owl. Ask2 cue=owl verb=rings -> M1 subject bell.",
+      "turns": [
+        {"say": "the bell rings at noon"},
+        {"say": "the noon owl spins salt"},
+        {"ask": "what does the bell spin", "expect": {"any_of": ["owl"]}},
+        {"ask": "what does the owl ring", "expect": {"any_of": ["bell"]}}
+      ]
+    },
+    {
+      "name": "band-hop-2",
+      "kind": "band-hop",
+      "note": "M1 drum/frost/hums; M2 frost/gate/drinks/rust.",
+      "turns": [
+        {"say": "the drum hums at frost"},
+        {"say": "the frost gate drinks rust"},
+        {"ask": "what does the drum drink", "expect": {"any_of": ["gate"]}},
+        {"ask": "what does the gate hum", "expect": {"any_of": ["drum"]}}
+      ]
+    },
+    {
+      "name": "band-hop-3",
+      "kind": "band-hop",
+      "note": "M1 lamp/tide/zaps; M2 tide/rope/sings/ash.",
+      "turns": [
+        {"say": "the lamp zaps at tide"},
+        {"say": "the tide rope sings ash"},
+        {"ask": "what does the lamp sing", "expect": {"any_of": ["rope"]}},
+        {"ask": "what does the rope zap", "expect": {"any_of": ["lamp"]}}
+      ]
+    },
+    {
+      "name": "band-hop-4",
+      "kind": "band-hop",
+      "note": "M1 clock/week/glints; M2 week/web/calls/dew.",
+      "turns": [
+        {"say": "the clock glints at week"},
+        {"say": "the week web calls dew"},
+        {"ask": "what does the clock call", "expect": {"any_of": ["web"]}},
+        {"ask": "what does the web glint", "expect": {"any_of": ["clock"]}}
+      ]
+    }
+  ]
+}
