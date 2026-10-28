@@ -2979,12 +2979,29 @@ session_context / where_kept files) returns `switch_env = None` and bare
 absence -- which is precisely the legibility failure this fixed, and it is why
 my regex count read as "11 turns logged the switch off".
 
-**Acceptance item (vote-ON gate): MET** on the per-script evidence for every
-graded ask written so far, and structurally closed: absence can no longer be
-misread as off. The aggregate 32-turn report was still in flight at the
-turn's end; to close it formally later, run `py -3.10 tmp_vote_audit.py` (it
-now takes the newest non-`full` `script_benchmark_*.json` by mtime, prints
-on_true / reached_false / no_record / on_false, and asserts the item).
+**Acceptance item (vote-ON gate): MET**, and closed in full the following
+turn. The full run died at the turn boundary -- process gone, log stopped at
+`=== switch_back ===`, no aggregate report written -- so the remaining four
+scripts were run in **two slices**, each comfortably inside the shell's 600 s
+cap, with `DROSO_SECOND_BRAIN=1` set for the whole run:
+
+| report | scripts | graded | on_true | reached_false | no_record | on_false | switch_env=1 | failed turns | overall |
+|---|---|---|---|---|---|---|---|---|---|
+| `script_benchmark_20261028_043639` | switch_back, override | 8 | 6 | 2 | **0** | **0** | 8/8 | 0 | 1.00 / 1.00 |
+| `script_benchmark_20261028_044350` | session_context, where_kept | 8 | 4 | 4 | **0** | **0** | 8/8 | 0 | 1.00 / 1.00 |
+
+Add the 16 asks the killed run had already written per-script (four scripts,
+verified above) and the suite's **full 32 graded asks** are accounted for:
+every one carries a vote with `on: true` or an explicit `{"reached": false}`,
+every one reads `switch_env == "1"`, and **not one turn records the switch
+off** -- the statement that was missing when I made the wrong claim. Both
+audits print `ACCEPTANCE ITEM: MET`. No regression either: warm 1.00, cold
+1.00, delta 0.00 in both slices, matching the pre-stamp 32/32 run.
+
+The instrument is `tmp_vote_audit.py <report>`; it walks `rows[].warm.turns`
+and `rows[].cold.turns` (graded kinds only), tallies on_true / reached_false /
+no_record / on_false, checks the environment as the *child* sees it, and
+asserts the item instead of asking me to read a count.
 
 Two process facts worth keeping, both learned the hard way this turn:
 the background-job registry does **not** survive across turns -- `bg_output`
