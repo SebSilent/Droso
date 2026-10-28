@@ -3818,3 +3818,11 @@ be made to say one word.
 `state/fitness/script_benchmark_20261028_185939.json`, all 8 scripts, warm and cold, on the tree carrying the crash fix, the instrument fix and the stemmer fold: **warm 1.00, cold 1.00, delta 0.00** -- every script scored 1.0 in both phases. The suite had not run since before `c978cbd` and two `answer()`-touching commits landed in that gap. It cannot show gain; it was run for damage, and there is none.
 
 The stemmer's contract is now under test: `tests/test_stemming_folds.py`, six tests, including that the irregular map is a fixed point of itself (no chains), that the lookup sits before the length guard, and that `spoke` is deliberately absent -- the list grows from a failure that has been seen, not from a table of irregular verbs. The hazard the map documents was checked against the store: every `broke` in `exocortex/learned_procedures.json` sits inside `broken` or `_retry_until_broken`, never a standalone token, so no stored signature can un-match.
+
+## 32-ask guard on the final tree: red under load, green unloaded (2026-10-28)
+
+`state/fitness/script_benchmark_20261028_195822.json`, all 8 scripts on the reverted tree (eggs fold only): **warm 0.812, cold 1.00, delta -0.188** -- `reference` warm 0.0, `accumulation` warm 0.5, the other six at 1.00. It ran concurrently with an 8-ask held-out confirmation and the full pytest.
+
+**Attributed by re-running the two red scripts alone, nothing else on the machine: reference 1.00 warm / 1.00 cold, accumulation 1.00 / 1.00, overall 1.00 / 1.00.** So the red was load, not the fold -- which is also what the content says: neither script contains the word `eggs`, and the fold changes the stem of that one token. Not re-run: the other six, which were already green under load. pytest on this tree: 414 passed, 3 skipped.
+
+Read beside the nondeterminism finding already in this log: a warm score of 0.0 on two asks that pass unloaded is a silent-miss shape, and the guard number is only trustworthy when the machine is quiet. The next guard run happens with nothing else running, and a red guard is not to be booked as a regression until it has been re-run alone.
