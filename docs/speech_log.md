@@ -2265,12 +2265,12 @@ it is the arbiter the wrong-slot fix bought (it vetoes shapeless neighbours
 when the question has a checkable shape), meeting a winner retrieved by a
 route it was never tuned for.
 
-Open question, named for the next cut: "the noon owl spins salt" is a
-subject-verb-object proposition and "what does the bell spin" asks for that
-subject — the shape looks checkable and right, so the veto is either firing
-on the filler's role index or on the cue word the memory lacks by adjacency
-rather than presence. Diagnosing it needs the reply's `parser` trace plumbed
-into the report (converse.py records only kind/ask/spoken/said/pass today).
+Open question, named for the next cut: ~~the veto is either firing on the
+filler's role index or on the cue word the memory lacks~~ — SUPERSEDED
+2026-10-28 (Closed below): the premise was wrong on both halves. The
+arbiter never saw "the noon owl spins salt", and it vetoed correctly.
+Guessing at an arbiter's inputs without reading them is exactly what the
+plumbing was for; the plumbing landed the same day and ended the guessing.
 
 Honest gate status: pytest with the walk in place: 407 passed, 3 skipped,
 163.03 s — held. Suite gate then RUN AND HELD (2026-10-28, tag
@@ -2278,5 +2278,45 @@ band-walk-gate, report `script_benchmark_20261028_013326.json`, against
 committed `749f36e`): **32/32** — zero `"pass": false` anywhere in the
 report, all 16 phase records `asked 2 / passed 2 / pass_rate 1.0`, and 8×
 `live_files_untouched: true`. Wall 1774.2 s. The `answer()` splice is now
-gated, not argued: the walk touches no one-hop outcome. The capability is not delivered; the mechanism
-is live and the failure is localised one station downstream.
+gated, not argued: the walk touches no one-hop outcome.
+
+### Closed: the arbiter was right (2026-10-28, trace evidence)
+
+Plumbing first, permanent: `_clean` (converse.py) now keeps `parser` and
+`band_walk` and lifts `parser` out of the oversized `retrieval` dict on the
+answered path; `run_script`/`run_cold` records carry both. Report
+`conversation_bandwalk_1_diag.json` then showed what the arbiter was handed:
+
+- "what does the bell spin": walk winner **"i do not like to boast of my"**,
+  best_cov **1.0**. Reach sets: bell → {deliverance, her, i, in, to},
+  spin → {boast, latency, owl, you}, does → {affinity, boast, charg, …}.
+  "bell" was covered because the memory contains "i" — a function word in
+  bell's reach set — and "spin" via "boast". Full coverage, zero relevance.
+- "what does the owl ring": walk winner **"a ring to my bell about the
+  hour"**, best_cov 0.746 — corpus text that co-locates ring+bell. Again not
+  the told memory.
+- The parser vetoed both, and the veto was RIGHT: neither sentence answers
+  its question. Yesterday's mode-(b) label above is therefore corrected:
+  the trace shows **mode (c), the wrong memory won** — recall never found
+  the bridged proposition at all.
+
+The design's bet is half-confirmed, half-falsified: the session edge IS
+visible in the band (reach[owl] contains "spin", wired by the tells minutes
+earlier), but under saturation the coverage rule is gameable — reach sets
+are dominated by function words present in nearly every corpus memory, so
+associative coverage scores 1.0 on noise. The signal exists; the scoring
+rule is what failed.
+
+Decision, by the pre-registered rule (arbiter right → falsification closed,
+walk kept as a second brain's competing vote rather than a rescue path):
+the splice now runs the walk at every floor-refusal, records its vote in
+`band_walk`, and returns the original coverage-floor refusal — the mouth
+never carries a walk winner. Verified live
+(`conversation_bandwalk_1_vote.json`): refusals back to 42% / 44% with both
+votes on the record. Gates after the demotion: pytest 407 passed, 3 skipped,
+164.70 s — held. The suite was not re-run for this change: the refusal
+branch is unreachable by a passing ask (all 32 suite asks answer), and the
+return shape is the gated pre-walk form plus one trace key — both endpoint
+states of this branch are measured 32/32. The item is CLOSED as falsified
+rescue. A future walk needs content-word-only reach, session-fresh
+weighting, and a coverage rule that "i" cannot satisfy.

@@ -2386,29 +2386,31 @@ class NeuralLanguage:
                                            if stem(w) in hs) / tot, h))
                     scored.sort(key=lambda t: -t[0])
                     best_cov = scored[0][0]
-                    walk_hit = None
                     if best_cov < self.ANSWER_COVERAGE_FLOOR:
-                        # The direct path refused. One second attempt, and
-                        # only here: what already cleared the floor never
-                        # sees the band, so the one-hop suite is protected
-                        # by construction.
-                        walk_hit, walk_trace = self._band_walk(
+                        # The direct path refused. The walk runs and records
+                        # its vote -- but it does not rescue. Trace evidence
+                        # (conversation_bandwalk_1_diag.json, 2026-10-28):
+                        # presented with "what does the bell spin", it scored
+                        # a corpus sentence "i do not like to boast of my" at
+                        # coverage 1.0, covering "bell" through a reach set
+                        # that contains "i" and "spin" through "boast". The
+                        # parser veto refused it, and the veto was right: that
+                        # sentence is not an answer. Under saturation the
+                        # walk's coverage rule is gameable by function-word
+                        # reach, so its place is the trace, not the mouth.
+                        _, walk_trace = self._band_walk(
                             q, content, must, wq, tot)
                         self.last_band_walk = walk_trace
-                        if walk_hit is not None:
-                            hits = [walk_hit]
-                        else:
-                            return {"answered": False, "spoken": False,
-                                    "reason": "the closest memory of his covers "
-                                              f"{best_cov:.0%} of the question",
-                                    "cue": content, "required": sorted(must),
-                                    "coverage": round(best_cov, 3),
-                                    "band_walk": walk_trace,
-                                    "nearest": [" ".join(h["tokens"])
-                                                for _, h in scored[:3]]}
-                    if walk_hit is None:
-                        hits = [h for c, h in scored
-                                if c >= self.ANSWER_COVERAGE_FLOOR]
+                        return {"answered": False, "spoken": False,
+                                "reason": "the closest memory of his covers "
+                                          f"{best_cov:.0%} of the question",
+                                "cue": content, "required": sorted(must),
+                                "coverage": round(best_cov, 3),
+                                "band_walk": walk_trace,
+                                "nearest": [" ".join(h["tokens"])
+                                            for _, h in scored[:3]]}
+                    hits = [h for c, h in scored
+                            if c >= self.ANSWER_COVERAGE_FLOOR]
         if not hits:
             return {"answered": False, "spoken": False,
                     "reason": "nothing remembered about that", "cue": content}

@@ -329,8 +329,15 @@ def _clean(reply) -> dict | None:
     keep = ("spoken", "answered", "utterance", "response", "source",
             "reason", "resonance", "best_resonance", "threshold", "mood",
             "to", "words", "recovered_filler", "filler_score",
-            "memories_matched", "interrogatives")
-    return {k: reply[k] for k in keep if k in reply}
+            "memories_matched", "interrogatives", "parser", "band_walk")
+    out = {k: reply[k] for k in keep if k in reply}
+    # On the answered path the parser verdict rides inside "retrieval",
+    # which is far too big to keep whole; lift just the arbiter's note.
+    if "parser" not in out:
+        retr = reply.get("retrieval")
+        if isinstance(retr, dict) and "parser" in retr:
+            out["parser"] = retr["parser"]
+    return out
 
 
 # ------------------------------------------------------------ snapshots ----
@@ -566,9 +573,13 @@ def run_script(session: Session, script: dict) -> dict:
                             "spoken": _spoken(turn)})
         else:
             turn = session.ask(step["ask"], kind="ask")
+            reply = turn.get("reply") or {}
             rec = {"kind": "ask", "ask": step["ask"],
                    "spoken": _spoken(turn), "said": _said(turn)[:120],
-                   "source": (turn.get("reply") or {}).get("source")}
+                   "source": reply.get("source"),
+                   "parser": reply.get("parser")
+                             or (reply.get("retrieval") or {}).get("parser"),
+                   "band_walk": reply.get("band_walk")}
             rec.update(_score_expect(turn, step.get("expect") or {}))
             results.append(rec)
     asks = [r for r in results if r["kind"] == "ask"]
@@ -607,9 +618,13 @@ def run_cold(session: Session, script: dict) -> dict:
         if "ask" not in step:
             continue
         turn = session.ask(step["ask"], kind="cold_ask")
+        reply = turn.get("reply") or {}
         rec = {"kind": "cold_ask", "ask": step["ask"],
                "spoken": _spoken(turn), "said": _said(turn)[:120],
-               "source": (turn.get("reply") or {}).get("source")}
+               "source": reply.get("source"),
+               "parser": reply.get("parser")
+                         or (reply.get("retrieval") or {}).get("parser"),
+               "band_walk": reply.get("band_walk")}
         rec.update(_score_expect(turn, {"must_not_contain": not_w}))
         results.append(rec)
     passed = sum(1 for r in results if r.get("pass"))
