@@ -2272,9 +2272,11 @@ on the filler's role index or on the cue word the memory lacks by adjacency
 rather than presence. Diagnosing it needs the reply's `parser` trace plumbed
 into the report (converse.py records only kind/ask/spoken/said/pass today).
 
-Honest gate status: pytest re-run with the walk in place: 407 passed,
-3 skipped, 163.03 s — held. The full suite (32/32) has NOT been re-run this
-cut: the splice fires only where the system already refused, so one-hop
-winners are untouched by construction — but that is an argument, not a
-measurement, and the suite run is the next cut's first act. The capability is not delivered; the mechanism
+Honest gate status: pytest with the walk in place: 407 passed, 3 skipped,
+163.03 s — held. Suite gate then RUN AND HELD (2026-10-28, tag
+band-walk-gate, report `script_benchmark_20261028_013326.json`, against
+committed `749f36e`): **32/32** — zero `"pass": false` anywhere in the
+report, all 16 phase records `asked 2 / passed 2 / pass_rate 1.0`, and 8×
+`live_files_untouched: true`. Wall 1774.2 s. The `answer()` splice is now
+gated, not argued: the walk touches no one-hop outcome. The capability is not delivered; the mechanism
 is live and the failure is localised one station downstream.
