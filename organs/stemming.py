@@ -15,6 +15,24 @@ from __future__ import annotations
 
 _SUFFIXES = ("ations", "ing", "ed")
 
+# Irregular folds: they cannot be derived, so they have to be stated.
+#
+# This list is ONE entry long on purpose. It is not a dictionary of English, it
+# is a log of measured failures: `how many eggs broke?` was refused because the
+# tell says "then two eggs break" and no rule below can turn "broke" into
+# "break" -- the suffixes only ever remove endings, and this pair changes the
+# vowel.
+#
+# Every pair here is a claim that two words are the SAME word, and `stem` is
+# shared with procedure retrieval, whose 295 stored signatures were folded by
+# the function as it stood when they were written. A fold that is harmless for
+# question answering can therefore silently un-match a stored signature. So:
+# grow this from a failure that has actually been seen, never from a list of
+# irregular verbs. Under-folding refuses a question; over-folding gets believed.
+IRREGULAR = {
+    "broke": "break",
+}
+
 # Words that carry no retrieval signal on the question side: function words, the
 # request verbs that surround an ask, and the interrogatives, which are handled
 # separately by the role machinery and must not also be treated as content.
@@ -43,6 +61,8 @@ def stem(word) -> str:
     believed to be the same word, and a wrong recall gets believed.
     """
     w = str(word or "").strip().lower()
+    if w in IRREGULAR:
+        return IRREGULAR[w]        # stated, never derived
     if len(w) <= 4:
         return w
     # class, focus, this -- the trailing s is part of the word

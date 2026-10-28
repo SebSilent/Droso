@@ -3604,3 +3604,78 @@ What the two attempts leave as evidence rather than as a failed guess:
 Next, per the ruling: the **count bucket** (0/8 sequential, the largest unscored
 block) or **gating** (4 failures where recall succeeded and he declined) --
 measured against the independent baseline of 4/24 = 0.167.
+
+## Stemmer: one irregular fold, measured alone (2026-10-28, landed)
+
+`how many eggs broke?` was refused while the tell sat in front of it, because the
+tell says "then two eggs **break**". `stem()` only ever removes endings; a vowel
+change is not an ending, so `broke` and `break` could never meet.
+
+Fixed in `organs/stemming.py` as a **stated closed map**, `IRREGULAR`, with
+**one entry** -- not a dictionary of English. Each pair is a claim that two words
+are the same word, and `stem` is shared with procedure retrieval, whose 295
+stored signatures were folded by the function as it stood when they were
+written; a fold that is harmless for question answering can silently un-match a
+signature. The list grows from a failure that has been seen, never from a list
+of irregular verbs.
+
+**Delta, alone, on the independent bar:**
+
+| | pre-stem | **post-stem** |
+|---|---|---|
+| score | 4/24 = 0.167 | **5/24 = 0.208** |
+| count bucket | 0/8 | **1/8** |
+| recall | 9 | 8 |
+| mouth | 5 | 5 |
+| shape_arbiter | 4 | 4 |
+| gating | 2 | 2 |
+
+**Exactly one ask moved** (`how many eggs broke?`, recall -> PASS); all 23 others
+landed in the same bucket as before. The stemmer is credited with one point and
+nothing more, which is why it was measured before the count work rather than
+inside it.
+
+Recorded, **not** touched: `eggs` does not fold to `egg` -- the `len(w) <= 4`
+guard returns it before the plural rule. Both sides of every current ask say
+"eggs", so nothing breaks today; it is a latent under-fold, not a defect in
+evidence.
+
+## The count cut: design recorded, falsification fired before code
+
+The bar was frozen first: **independent count bucket 1/8**, and the target was
+the shape the arbiter supposedly refuses -- three of eight count asks having died
+one stage downstream of recall.
+
+**The trace's own answer says the premise does not survive the independent run.**
+
+- `_question_shape` classifies **who / what / where** and nothing else. A
+  `how many` question returns `None`, and at `organs/neural_language.py:2808`
+  that means `best = hits[0]`: **the arbiter is skipped, not stumped.** No count
+  ask has ever been refused for want of a quantity shape, because none reaches
+  it. An abstention "changes nothing by construction" -- the parser's own words.
+- The one count row my map labels `shape_arbiter`
+  (`how many eggs are left in the basket?`) is an **artifact of `stage_of`**: it
+  was *spoken*, with a role filler, which is case (c) of that classifier -- not a
+  veto. What it said was `there are four eggs in the basket`, the top-ranked
+  memory replayed whole. The wanted answer is `two`, which is **4 - 2**:
+  arithmetic across two propositions. A shape would not supply it, and a shape
+  that echoed the nearest numeral would answer a question nobody asked.
+- Where the eight actually are: **six at the coverage floor** (45%, 49%, 49%,
+  36%, 42%, and one "not in the mood to babble"), **one at gating** (`did i ever
+  tell you about the moon?` -- understood, declined), **one now passing**.
+
+So the pre-registered falsification -- *if the asks never reach the arbiter with
+a quantity in hand, the defect is upstream after all* -- **fires, on evidence
+already in the journal, before a line of organ code was written.** No quantity
+shape is built. The "three of eight at the arbiter" figure came from the
+frame-cut **sequential** run, which is context only; on the bar the number was
+never three.
+
+What this leaves, recorded rather than answered: the count bucket is blocked by
+the floor (an axis closed by ruling, and the blocker there is frame words in
+`must`), and by arithmetic that no shape in this parser could express. The
+sharper question the traces raise is **whether a numeral is a retrievable role
+at all** in this architecture -- `how many eggs are left` was answered by
+replaying a sentence, and only the mouth's forbid-check noticed the number was
+wrong. That is a question about the answer, not about recall, and it is the next
+one worth paying for.
