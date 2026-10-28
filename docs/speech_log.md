@@ -3679,3 +3679,9 @@ at all** in this architecture -- `how many eggs are left` was answered by
 replaying a sentence, and only the mouth's forbid-check noticed the number was
 wrong. That is a question about the answer, not about recall, and it is the next
 one worth paying for.
+
+## Regression guard: the 32-ask suite, run once (2026-10-28)
+
+`state/fitness/script_benchmark_20261028_185939.json`, all 8 scripts, warm and cold, on the tree carrying the crash fix, the instrument fix and the stemmer fold: **warm 1.00, cold 1.00, delta 0.00** -- every script scored 1.0 in both phases. The suite had not run since before `c978cbd` and two `answer()`-touching commits landed in that gap. It cannot show gain; it was run for damage, and there is none.
+
+The stemmer's contract is now under test: `tests/test_stemming_folds.py`, six tests, including that the irregular map is a fixed point of itself (no chains), that the lookup sits before the length guard, and that `spoke` is deliberately absent -- the list grows from a failure that has been seen, not from a table of irregular verbs. The hazard the map documents was checked against the store: every `broke` in `exocortex/learned_procedures.json` sits inside `broken` or `_retry_until_broken`, never a standalone token, so no stored signature can un-match.
