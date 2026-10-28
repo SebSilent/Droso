@@ -15,13 +15,18 @@ from __future__ import annotations
 
 _SUFFIXES = ("ations", "ing", "ed")
 
-# Irregular folds: they cannot be derived, so they have to be stated.
+# Stated folds: pairs the rules below cannot reach, so they have to be said.
 #
-# This list is ONE entry long on purpose. It is not a dictionary of English, it
-# is a log of measured failures: `how many eggs broke?` was refused because the
-# tell says "then two eggs break" and no rule below can turn "broke" into
-# "break" -- the suffixes only ever remove endings, and this pair changes the
-# vowel.
+# This list is TWO entries long on purpose, and it is not a dictionary of
+# English -- it is a log of measured failures.
+#   `broke` -> `break`  because the suffixes only ever remove endings and this
+#     pair changes the vowel: `how many eggs broke?` was refused while the tell
+#     "then two eggs break" sat in front of it.
+#   `eggs` -> `egg` because the length guard below returns `eggs` before the
+#     plural rule runs. The general fix was REJECTED: folding every four-letter
+#     `-s` word also folds `does` -> `doe`, `news` -> `new` and `its` -> `it`,
+#     three over-folds that make different things look alike and get believed.
+#     A stated entry costs one word; a relaxed guard costs the policy.
 #
 # Every pair here is a claim that two words are the SAME word, and `stem` is
 # shared with procedure retrieval, whose 295 stored signatures were folded by
@@ -31,6 +36,7 @@ _SUFFIXES = ("ations", "ing", "ed")
 # irregular verbs. Under-folding refuses a question; over-folding gets believed.
 IRREGULAR = {
     "broke": "break",
+    "eggs": "egg",
 }
 
 # Words that carry no retrieval signal on the question side: function words, the

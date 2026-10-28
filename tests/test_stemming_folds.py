@@ -45,6 +45,21 @@ def test_the_map_is_consulted_before_the_length_guard():
     assert stem("did") == "did"
 
 
+def test_the_short_plural_fold():
+    """`eggs` is hidden by the length guard, not by an ending.
+
+    The ask says "did any egg break" and the tell says "four eggs". The general
+    fix -- let four-letter `-s` words fold -- was rejected, and this pins the
+    rejection: it would also fold `does` -> `doe`, `news` -> `new` and
+    `its` -> `it`. Three over-folds that get believed, against one measured
+    failure that only ever refuses.
+    """
+    assert stem("eggs") == "egg"
+    assert stem("egg") == "egg"
+    for w in ["does", "news", "its", "eyes", "gas", "this", "less", "class"]:
+        assert stem(w) == w, w
+
+
 def test_regular_folds_still_hold():
     for src, dst in [("holds", "hold"), ("places", "place"),
                      ("watches", "watch"), ("memories", "memory"),

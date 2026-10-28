@@ -3680,6 +3680,139 @@ replaying a sentence, and only the mouth's forbid-check noticed the number was
 wrong. That is a question about the answer, not about recall, and it is the next
 one worth paying for.
 
+## Mouth cut: the render line, designed before code (2026-10-28)
+
+Bar frozen: independent **5/24 = 0.208**, buckets recall 8 / mouth 5 /
+shape_arbiter 4 / gating 2 / PASS 5.
+
+**The path.** `answer()` recovers the requested filler twice and throws both
+away at the render. `organs/neural_language.py:2819` takes the binder's role
+answer into `filler`; `:2800` takes the arbiter's verified answer into
+`shape_filler`. Neither reaches the utterance. Line **2834** is
+`said, source, words = " ".join(tokens), "recalled proposition", tokens`,
+unconditional: the filler is stamped into the event as `recovered_filler`
+(`:2844`) and then ignored. That is why `what turns twice?` -- arbiter verdict
+`agree`, both fillers `bell` -- said `the copper bell turns twice` and tripped
+the forbid on `copper`. Selection was right; the framing overran it.
+
+**The one-line mechanism.** When the arbiter agreed and produced a shape
+filler, say the filler; otherwise the render is untouched. The arbiter's
+filler, not the role filler, because the arbiter is the organ that verified
+the shape against the memory.
+
+**What it deliberately does not touch.** The ruling at `:2828-2833` -- the
+recalled proposition IS the answer, the chain is for spontaneous speech and not
+for reading out something he remembers -- stays in force. Nothing here re-runs
+an answer through `sequence.generate`; that ruling was bought with
+`who pets droso` coming back as `parent feeds droso` and it is not being
+re-litigated. The abstain path (`shape is None`, `:2809`) is also untouched.
+
+**Guard risk checked before spending 21 minutes on it.** Every expect in
+`tools/scripts.json` is `any_of`, with no multi-word `must_contain` anywhere in
+the file, and the bare filler is by construction one of the expected words. So
+the change can only reduce exposure on the `must_not_contain` rows and cannot
+break an `any_of` row.
+
+**Falsification.** If fixing the framing does not move `what turns twice?` to
+PASS without flipping any current PASS to fail, the mouth is not the defect and
+the numeral claim is the next thing to test.
+
+**A finding that changes what "the mouth bucket" means, recorded before code.**
+The five asks my map labels `mouth` are not on this path. `stage_of` labels
+`mouth` when the *output* source matches `meaning resonance` or `chain` -- and
+for all five (`sold`, `sold`, `amethyst solomon tallied`, `sold`,
+`bridle gargery`) the render never had a candidate at all: retrieval fell
+through to resonance babble. The label records where the words came *from*, not
+which stage refused. The asks actually sitting on line 2834 are the four
+labelled `shape_arbiter`. So this cut is aimed at that bucket, and the honest
+consequence if it lands is a re-labelling: my `mouth` bucket is a
+retrieval-fallthrough bucket wearing the mouth's name, and the mouth's real
+defect is one line of framing.
+
+## Stemmer, second entry: `eggs` under the length guard (2026-10-28)
+
+Same defect class as `broke`, now that there is a fold test to extend it: the
+ask says `did any egg break?` and the tell says `four eggs`. `stem()` cannot
+reach this pair -- not because a vowel changed, but because the `len(w) <= 4`
+guard returns `eggs` before the plural rule ever runs.
+
+It goes in the **stated map**, not as a relaxed guard. Lowering the guard to
+fold every four-letter `-s` word would fold `does` -> `doe`, `news` -> `new`
+and `its` -> `it`: three over-folds that make different things look alike and
+get believed, which is the one failure this function's whole policy exists to
+avoid. A stated entry costs one word; a general rule costs the policy.
+
+**Caveat recorded, not assumed away.** Unlike `broke`, which appears only on
+the ask side, `eggs` appears on *both* sides, so the fold merges two tokens that
+were previously distinct. Postings encoded before this change hold `eggs`;
+queries after it hold `egg`, so the live house needs a cortex re-encode before
+the fold helps it -- the independent campaign rebuilds houses from scratch and
+therefore measures the fold honestly. `eggs` appears nowhere in
+`exocortex/learned_procedures.json`, so no stored procedure signature is
+un-matched.
+
+## Mouth cut: measured, falsified, reverted (2026-10-28)
+
+**The stemmer's second entry, alone on the bar: delta zero.** Independent
+campaign, all 24 asks, eggs fold in and nothing else: **5/24 = 0.208**, the same
+five passes in the same buckets as the pre-fold bar. Coverage on the eggs asks
+ticked (36% -> 37%) and none crossed the floor; `did any egg break?` still
+refuses with "not in the mood to babble", which is not a coverage answer. The
+fold is landed on correctness -- a plural should meet its singular, it is pinned
+by tests, and it cannot un-match a stored signature -- but it is **not** a gain
+and is not booked as one. The count bucket is still blocked by the floor.
+
+**The render cut fired its falsification, and the reason is better than the
+prediction.** Two variants were measured, each on the asks the design named:
+
+| ask | whole proposition (before) | arbiter's shape filler | binder's role filler |
+|---|---|---|---|
+| `what turns twice?` | FAIL `the copper bell turns twice` | FAIL **`copper`** | **PASS** `bell` |
+| `what does the frost bite?` | PASS | PASS `latch` | FAIL **`bites`** |
+| `what bites the latch?` | PASS | PASS `frost` | FAIL **`bites`** |
+
+Variant A -- say the filler the arbiter verified, which is what this design
+specified, because the arbiter is the organ that checked the shape -- moved
+**nothing**: it said `copper`. Not a misrendering: `_shape_matches` returns
+`before[0]` for a subject-unknown shape, the *first* content word before the
+verb, so for a multi-word subject ("the copper bell") it names the modifier and
+not the head. The framing was faithfully executing a filler that is chosen by
+position.
+
+Variant B -- say the filler the binder's `role_of` unbound, the one already
+stamped into the event as `recovered_filler` -- moved the target ask to PASS and
+**broke two that were passing**, because on those two `role_of` answered with
+the verb: `bites`. Net one worse than the baseline.
+
+Neither variant satisfies "move `what turns twice?` to PASS without flipping any
+current PASS to fail", so **the mouth is not the defect** and the render is
+reverted (`git checkout -- organs/neural_language.py`, verified by re-running
+the two flipped asks: both PASS again, and `what turns twice?` back to its
+original failure -- the tree is byte-exact the one the 5/24 was measured on).
+
+**What the measurement actually established.** There is no trustworthy "requested
+filler" in this architecture to render. The two organs that each claim to hold
+one disagree, and each is wrong in the other's success: the arbiter gets `latch`
+and `frost` right and `copper` wrong; the role machinery gets `bell` right and
+answers `bites` -- a verb -- when asked *what*. A framing change cannot fix a
+naming disagreement, and picking whichever filler passes this week's asks is
+tuning to the falsification rather than answering it.
+
+**And the bucket labels, as predicted before code.** The five asks labelled
+`mouth` are not on the render path at all: every one of them reached
+`meaning resonance` with no candidate in hand (`sold`, `amethyst solomon
+tallied`, `bridle gargery`). `stage_of` labels the *output* source, so it names
+the organ that spoke, not the stage that refused. The mouth bucket is a
+retrieval-fallthrough bucket; the asks sitting on line 2834 were always the four
+labelled `shape_arbiter`.
+
+**Next, per the condition:** the numeral claim. `how many times does the bell
+turn?` (42% coverage) and `how many eggs are left in the basket?` (answered
+`there are four eggs in the basket` when the wanted word is `two`) are the two
+faces of it -- one never retrieves, one retrieves and replays a sentence. The
+test is whether a numeral is a retrievable role at all, not whether the mouth can
+be made to say one word.
+
 ## Regression guard: the 32-ask suite, run once (2026-10-28)
 
 `state/fitness/script_benchmark_20261028_185939.json`, all 8 scripts, warm and cold, on the tree carrying the crash fix, the instrument fix and the stemmer fold: **warm 1.00, cold 1.00, delta 0.00** -- every script scored 1.0 in both phases. The suite had not run since before `c978cbd` and two `answer()`-touching commits landed in that gap. It cannot show gain; it was run for damage, and there is none.
