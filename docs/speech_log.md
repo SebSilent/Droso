@@ -3144,3 +3144,97 @@ in the brain" is a fact with a number attached, testable in both directions,
 which is the precondition for ever routing recall through it. If the pass pair
 fails, the axis closes here and the word "region" stops being used in this
 house.
+
+### Regions: built, restart-tested, and FALSIFIED on both conditions (2026-10-28)
+
+The organ was written to the entry as frozen -- `region_w` as its own
+(256, 512) float32 matrix, an allocator handing out the first free row, trigger
+at **3** recurrences, writes only into its own block, **no read path** -- and
+hooked at the one place testimony enters the brain (`live()`, beside the
+session ledger, gated on `speaker == "you"` so the 21,969-word library cannot
+feed it). The threshold was never adjusted, the capacity was never adjusted,
+and nothing was tuned to make the pair pass.
+
+**Condition 4 (restart) PASSED, and it is the reusable result.** Two separate
+processes, the second reading the files the first wrote:
+
+| | before restart | after restart |
+|---|---|---|
+| blocks allocated | 2 | 2 |
+| rows used | 2 | 2 |
+| nonzero cells | 137 | **137** |
+| mass | 262.0 | **262.0** |
+
+`load_state()` returns `regions: {loaded: True, allocated: 2, cells: 137,
+rows: 2, mass: 262.0}`, block-for-block identical, from a
+`language_state.region.npz` of **992 bytes**. The save-surface claim was
+measured rather than asserted, and it came out *wrong in the entry*: the
+directory holds **nine** `language_state*` files after a forced save, not
+eight, because san and region use `with_suffix()` (which drops `.json`, giving
+`language_state.san.npz`, `language_state.region.npz`) while sequence and
+cortex append to the full name (`language_state.json.seq.npz`,
+`.cortex.npz`, `.cortex.meta.json`, `.cortex.facts.json`, `.cortex.npz.err.npy`,
+plus the JSON itself). That asymmetry predates regions; the list in the design
+entry was counted from memory and was wrong, which is why it is now a test.
+
+**The pass pair FAILED. Both falsification conditions fired.**
+
+| variant | allocated | counts | blocks |
+|---|---|---|---|
+| repeated | **2** | coat 5, **is 5**, wet/torn/hook/on 1 | coat row0 **68 cells** mass 131.0; **is** row1 69 cells mass 131.0 |
+| de-repeated | **1** | **is 5**, coat 2, seven words at 1 | **is** row0 80 cells mass 131.0 |
+
+- **Condition 1, FIRED:** the de-repeated control allocated a block. The
+  trigger correctly required three recurrences -- `coat` sat at 2 and got
+  nothing -- but what recurred five times was the **copula**. "is" appears in
+  every turn of both streams. Recurrence of a function word is not recurrence
+  of a concept, and the organ has no way to tell them apart.
+- **Condition 2, FIRED:** `coat`'s block reached **68 cells** against the
+  frozen bar of **>70** (the largest single-mention growth measured in the
+  earlier baseline). Three tells of a genuinely rare concept bought *less*
+  local mass than one mention bought in the old substrate.
+
+**The mechanism that let "is" through is a fact about the house, and worth
+more than the region idea.** For the concept test I reused the law the house
+already has rather than inventing a number: `df * 4 <= n_mem`, the distinctness
+rule the provenance vote uses (`organs/neural_language.py:2617`). It **passed
+"is"**. Because `df` there is `len(binder.stem_rows(w))` -- **subject-position
+frequency, not word frequency**. "is" is almost never a proposition's subject,
+so by that law a copula is "distinctive". And `_speakable()` is a *mouth* test
+(len >= 2, alphabetic), which passes "the" and "is" as happily as "coat". So
+this brain has **no function-word filter in the sense I assumed it did**, and
+any future organ that wants "concept" must build that predicate rather than
+borrow one that means something else.
+
+**What this falsification does and does not say.** It does not say allocated
+compartments cannot work: the allocator, the capacity, the eighth file and the
+restart across processes all measured clean. It says that **"a word recurring
+>= 3 times in a stream" is not a concept-identifying predicate**, and that a
+compartment written only by three tells does not beat the exposure bar the
+frozen conditions set. Both are failures of the trigger's *subject* and of the
+*growth*, which is exactly what conditions 1 and 2 were written to catch.
+
+**The code is out of the tree** (`git checkout -- organs/neural_language.py`,
+verified by an unmodified `git status`), not left inert in the live brain: a
+falsified organ that allocates rows for "is" and writes a sidecar on every save
+is a cost with no measured benefit, and this house deletes what it falsifies.
+The instrument that proved it stays as `tmp_region_organ.py` (write / read /
+pair).
+
+**Deviation from the requested order, stated rather than hidden:** the 32-ask
+suite (step 5) was **not** run. Its purpose was to prove the organ invisible to
+answers; with the organ reverted that question is moot, and 15 minutes of
+house-down time would measure nothing that bears on the falsification. pytest
+was likewise not re-run, because the tree after the revert is byte-identical to
+`c654493`, which passed 407/3 at 161.70s earlier this turn.
+
+Two questions go to the next design entry, before any code -- and neither is
+licence to move a number now: (1) what makes a word a concept in this house
+without inventing a frequency threshold tuned to a script (the measured
+candidate is the asymmetry already logged: a word whose tell-write exceeds its
+corpus background, which is what separated `spin`/`owl`/`salt` from
+`bell`/`noon`); (2) whether a >70-cell bar is sound at all for a compartment
+that starts empty, given that the +70 it is compared against came from a
+substrate carrying 144 cells of corpus wiring behind it. If that comparison is
+unsound, the entry must say so as a finding about the *condition*, not quietly
+re-score against a new one.
