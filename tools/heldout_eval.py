@@ -159,21 +159,7 @@ def run_one(script: dict, keep_copies: bool) -> dict:
             recs.append({"kind": "tell", "say": step["say"],
                          "spoken": _spoken(t)})
             continue
-        t = sess.ask(step["ask"], kind="ask")
-        r = t.get("reply") or {}
-        words = _words(_said(t))
-        ok, why = grade(words, _spoken(t), step.get("expect") or {})
-        recs.append({
-            "kind": "ask", "ask": step["ask"], "said": _said(t)[:120],
-            "words": words[:24], "spoken": _spoken(t), "pass": ok, "why": why,
-            "stage": None if ok else stage_of(t, why),
-            "expect": step.get("expect"),
-            "trace": {"reason": r.get("reason"), "source": r.get("source"),
-                      "parser": r.get("parser"), "vote": r.get("vote"),
-                      "join": r.get("join"), "band_walk": r.get("band_walk"),
-                      "recovered_filler": r.get("recovered_filler"),
-                      "filler_score": r.get("filler_score"),
-                      "memories_matched": r.get("memories_matched")}})
+        recs.append(ask_record(sess, step))
     if not keep_copies:
         shutil.rmtree(sd, ignore_errors=True)
     asks = [x for x in recs if x["kind"] == "ask"]
@@ -182,18 +168,99 @@ def run_one(script: dict, keep_copies: bool) -> dict:
             "turns": recs}
 
 
+def ask_record(sess, step) -> dict:
+    """Grade one ask against the session it is put to.
+
+    Shared by the sequential and the independent mode on purpose: the two
+    numbers have to come off the same checker or comparing them is meaningless.
+    """
+    t = sess.ask(step["ask"], kind="ask")
+    r = t.get("reply") or {}
+    words = _words(_said(t))
+    ok, why = grade(words, _spoken(t), step.get("expect") or {})
+    return {
+        "kind": "ask", "ask": step["ask"], "said": _said(t)[:120],
+        "words": words[:24], "spoken": _spoken(t), "pass": ok, "why": why,
+        "stage": None if ok else stage_of(t, why),
+        "expect": step.get("expect"),
+        "trace": {"reason": r.get("reason"), "source": r.get("source"),
+                  "parser": r.get("parser"), "vote": r.get("vote"),
+                  "join": r.get("join"), "band_walk": r.get("band_walk"),
+                  "recovered_filler": r.get("recovered_filler"),
+                  "filler_score": r.get("filler_score"),
+                  "memories_matched": r.get("memories_matched")}}
+
+
+def run_one_independent(script, keep_copies, journal) -> dict:
+    """Every ask scored against a FRESHLY BUILT house.
+
+    The tells that PRECEDE the ask are replayed into a new copy, then that one
+    ask and no other is put to it. So nothing an earlier ask did -- speaking,
+    spending, writing the ledger, changing what he feels like saying -- can move
+    this number. It is the measurement future cuts should be judged against:
+    an unrelated fix inside ask 1 cannot change ask 3's score, which is exactly
+    how the KeyError fix moved `is the coat dry or wet` in the sequential run.
+
+    Cost is one build per ask, so this runs in chunks and journals each result
+    as it lands (a turn boundary kills the process; the journal keeps the work).
+    """
+    turns = script["turns"]
+    idxs = [i for i, s in enumerate(turns) if "ask" in s]
+    recs = []
+    for n, i in enumerate(idxs, 1):
+        sd = (ROOT / "state" / "sessions"
+              / f"heldoutind_{script['name']}_{n}")
+        if sd.exists():
+            shutil.rmtree(sd)
+        agent = build(sd)
+        sess = Session(agent, beats=0)
+        for st in turns[:i]:
+            if "say" in st:
+                sess.ask(st["say"], kind="tell")
+        rec = ask_record(sess, turns[i])
+        recs.append(rec)
+        with journal.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"script": script["name"], "ask": rec["ask"],
+                                 "pass": bool(rec["pass"]),
+                                 "stage": rec["stage"], "said": rec["said"],
+                                 "why": rec["why"]}) + "\n")
+        print(f"   [{script['name'][:16]:16s}] {n}/{len(idxs)} "
+              f"{'PASS' if rec['pass'] else 'fail'}  {rec['ask'][:46]}  "
+              f"stage={rec['stage'] or '-'}", flush=True)
+        if not keep_copies:
+            shutil.rmtree(sd, ignore_errors=True)
+    return {"name": script["name"], "kind": script.get("kind"),
+            "asked": len(recs), "passed": sum(1 for x in recs if x["pass"]),
+            "turns": recs}
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", default=None, help="run scripts whose name matches")
     ap.add_argument("--keep-copies", action="store_true")
+    ap.add_argument("--independent", action="store_true",
+                    help="score every ask against a freshly built house (one "
+                         "build per ask, no shared session state), so an "
+                         "unrelated fix cannot move a later ask's number")
+    ap.add_argument("--journal", default=None,
+                    help="where the independent mode appends one line per ask "
+                         "(default state/fitness/heldout_independent.jsonl)")
     a = ap.parse_args()
     scripts = json.loads(TASKS.read_text(encoding="utf-8"))["scripts"]
     if a.only:
         scripts = [s for s in scripts if a.only in s["name"]]
+    journal = Path(a.journal) if a.journal else (
+        ROOT / "state" / "fitness" / "heldout_independent.jsonl")
+    if a.independent and not a.only and journal.exists():
+        # A whole-campaign run starts fresh; a chunked run (--only) appends,
+        # because 24 builds will not fit inside one turn's wall clock.
+        journal.unlink()
+    journal.parent.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     out = []
     for s in scripts:
-        r = run_one(s, a.keep_copies)
+        r = (run_one_independent(s, a.keep_copies, journal) if a.independent
+             else run_one(s, a.keep_copies))
         out.append(r)
         print(f"[{r['name']:24s}] {r['passed']}/{r['asked']}"
               f"   ({time.time() - t0:.0f}s)", flush=True)
@@ -232,7 +299,8 @@ def main() -> int:
                       f"verdict={(tr['parser'] or {}).get('verdict') if isinstance(tr['parser'], dict) else tr['parser']!r} "
                       f"filler={tr['recovered_filler']!r} mem={tr['memories_matched']}")
     ts = time.strftime("%Y%m%d_%H%M%S")
-    rep = ROOT / "state" / "fitness" / f"heldout_{ts}.json"
+    tag = "ind_" if a.independent else ""
+    rep = ROOT / "state" / "fitness" / f"heldout_{tag}{ts}.json"
     rep.parent.mkdir(parents=True, exist_ok=True)
     rep.write_text(json.dumps({"at": ts, "score": f"{passed}/{asked}",
                                "rate": round(passed / max(1, asked), 3),

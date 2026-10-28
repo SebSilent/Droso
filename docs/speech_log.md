@@ -3526,3 +3526,81 @@ Measured on the held-out set against the frozen bar 4/24 = 0.167. Tasks byte-ide
 **Standing bar: 4/24 = 0.167, unchanged, with the pre-cut composition** (recall 8, shape_arbiter 5, gating 4, mouth 3, engine_error 0). The recall bucket's ceiling is not the floor: three of the eight now show they would reach the arbiter and still have nowhere to put a count. Two things this rules out rather than merely fails: lowering ANSWER_COVERAGE_FLOOR would buy the same three gains and the scarf regression together, since the floor is what is holding the guard; and a bigger hand-written frame list is not available, because the word that would have to go on it next is the interrogative itself.
 
 **Cheapest open question from this cut, not taken:** what `is_interrogative` is allowed to know. It is earned from ?-lines in the corpus, so an ask written without one is judged as if it were a statement -- that is a defect in evidence, not a missing organ, and it sits under 3 of the 8 recall failures.
+
+## Instrument fix: the asks now carry punctuation (2026-10-28, ruled)
+
+The missing `?` was an instrument defect, not a task change: `is_interrogative`
+is **learned from corpus lines carrying a `?`**, so unpunctuated asks were
+presenting Droso with input that never occurs in his training. **23 of the 24
+asks got a `?`** -- the imperative `say exactly the copper bell turns twice`
+kept none, because it is not a question. The words of the questions, the answer
+checks and the forbid lists are unchanged; the file's diff looks large only
+because the rewrite reflowed the JSON, not because tasks changed.
+
+**Sequential cold re-run: 4/24 = 0.167 -- the number did not move at all.** Same
+four passes, same twenty failures, same stage map (recall 8, shape_arbiter 5,
+gating 4, mouth 3). So the interrogative-pronoun hypothesis is **falsified as a
+score blocker**: with punctuation present, the floor refused exactly what it
+refused before.
+
+## Method fix: the independent mode (path-dependence, ruled on)
+
+Two runs in a row exposed the same thing -- a fix inside one ask moved a later
+ask's answer, because the later ask saw a house that had just spoken.
+
+`--independent` scores **every ask against a freshly built house**: the tells
+that *precede* that ask are replayed into a new copy, then that one ask and no
+other is put to it. Nothing an earlier ask did -- speaking, spending, writing
+the ledger, changing what he feels like saying -- can move the number. One build
+per ask (~46s), so each result is **journaled** to
+`state/fitness/heldout_independent.jsonl` as it lands and the campaign survives
+chunking across turns. `ask_record()` is shared by both modes on purpose: the
+two numbers must come off the same checker or comparing them is meaningless.
+
+| | sequential | **independent** |
+|---|---|---|
+| score | 4/24 = 0.167 | **4/24 = 0.167** |
+| recall | 8 | **9** |
+| shape_arbiter | 5 | 4 |
+| gating | 4 | **2** |
+| mouth | 3 | **5** |
+
+Same score, same four passing asks -- **but the map differs, and two items moved
+bucket.** Two asks that refused after understanding (gating) reach the mouth
+when isolated; mouth failures rise 3 -> 5. So path-dependence does not have to
+change a score to change what the failure map says. **The independent number is
+the bar future cuts are measured against**; the sequential number is reported
+alongside it, and where they disagree about *why* something failed, the
+independent one is the truth about the ask and the sequential one is the truth
+about the conversation.
+
+## The recall cut, second and last attempt: reverted again, axis closed
+
+Frame-word exclusion **plus** the `?` together, as ruled. Sequential:
+**4/24 = 0.167 -- the score did not rise (condition 1 FAILED).** `count 0/8 ->
+1/8` (the `how many eggs did i mention first` gain) and `invariant 2/4 -> 1/4`
+(the `where did i say the scarf is` refusal lost), recall 8 -> 5, shape_arbiter
+5 -> 8. **The predicted interaction did not materialise**: the same item gained,
+the same item flipped, at the same coverage numbers as the unpunctuated run.
+
+Per the ruling the recall axis is now **closed** -- no third cut on it without a
+different mechanism. The mechanism is reverted (`git checkout --
+organs/neural_language.py`); the `?` fix and the independent mode stay.
+
+What the two attempts leave as evidence rather than as a failed guess:
+
+- **The floor is not the blocker for the count family.** Taking the uncoverable
+  frame words out of the denominator moved three asks out of `recall` and they
+  died **one stage later at the arbiter, which has no shape for a quantity**.
+  That is where count work lives.
+- **The frame words are load-bearing for the absence guard.** Both attempts
+  flipped `where did i say the scarf is` from a correct refusal to asserting
+  `the scarf is wet`: excluding `say` let the memory that *names* the scarf
+  clear the floor. Any future mechanism that touches `must` must carry its own
+  absence test rather than inherit the floor's.
+- **`how many eggs broke` (`must` = {egg, broke}) is a stemming defect** --
+  `broke` does not stem onto `break`. Untouched by both attempts, still open.
+
+Next, per the ruling: the **count bucket** (0/8 sequential, the largest unscored
+block) or **gating** (4 failures where recall succeeded and he declined) --
+measured against the independent baseline of 4/24 = 0.167.
