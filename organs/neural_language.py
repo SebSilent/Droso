@@ -2270,6 +2270,91 @@ class NeuralLanguage:
         trace["walked"] = " ".join(str(t) for t in scored[0][1]["tokens"])
         return scored[0][1], trace
 
+    def _prop_join(self, must, tot, q_tokens, k: int = 40):
+        """One hop over the PROPOSITION store: two memories that share a
+        distinctive word, each covering part of a question neither covers
+        alone. Design: speech_log 2026-10-28, "the proposition join".
+
+        The weights were tried first and measured unsuitable (same log): a
+        single tell writes ~0.15 onto a pair whose corpus background already
+        sits at 0.048 by the 99th percentile, so bell->noon ranks 627 of
+        11,555 and a top-k reach cannot see it; subtracting the state the
+        session loaded from does not recover the write either, because that
+        session's own decay and consolidation move 1.4M cells -- more mass
+        than the tells wrote. A shared TOKEN is not saturated the way a
+        weight is: it is in both memories or it is not.
+
+        Scope is the safety property, not an optimisation. Sixty thousand
+        corpus memories share content words with each other by the thousand,
+        so an unfiltered join finds a path between anything and would call
+        that reasoning. Restricted to what the user said in this session --
+        the same convention the freshness ranking uses -- this is recall of
+        today's conversation joined in two steps, and nothing more.
+        """
+        if not must or tot <= 0:
+            return None, {"skipped": "no distinctive words"}
+        n_mem = max(1, int(self.cortex.binder.X.shape[0]))
+        qs = {stem(str(t).lower()) for t in q_tokens}
+        pool = {}
+        for w in must:
+            for h in self.cortex.binder.recall([w], k=k):
+                if str(h.get("who") or "") != "you":
+                    continue
+                if float(h.get("when", 0.0) or 0.0) < self.session_t0:
+                    continue
+                pool[tuple(str(t) for t in h["tokens"])] = h
+        if len(pool) < 2:
+            return None, {"skipped": "fewer than two memories said this "
+                                     "session to join", "pool": len(pool)}
+        items = []
+        for h in pool.values():
+            hs = {stem(str(t).lower()) for t in h["tokens"]}
+            items.append((h, hs, {w for w in must if stem(w) in hs}))
+        # What the pool can explain at all. The question's own weight set may
+        # contain a word no memory has ("does" in an auxiliary ask); demanding
+        # it of a PAIR would make every join impossible, so the criterion is
+        # coverage of the reachable subset, by BOTH members together and by
+        # neither alone -- if one memory alone reached it, the direct path
+        # would have answered and this is not its business.
+        reachable = set().union(*[c for _, _, c in items]) if items else set()
+        if not reachable:
+            return None, {"skipped": "no memory of this session covers any "
+                                     "distinctive word", "pool": len(pool)}
+        joins = []
+        covered = 0
+        for a, ha, ca in items:
+            for b, hb, cb in items:
+                if b is a or ca | cb != reachable or ca == reachable \
+                        or cb == reachable:
+                    continue
+                covered += 1
+                # The bridge is any shared content word that is not itself in
+                # the question. It deliberately does NOT have to be rare in
+                # the corpus: what makes the join unique is the session scope
+                # above, not a document-frequency test, and requiring global
+                # rarity discarded the one true bridge "noon" (first run,
+                # conversation_join_all.json: pool 2, reachable
+                # [bell, does, spin], joins 0).
+                bridge = (ha & hb) - qs
+                if bridge:
+                    joins.append((b, sorted(bridge),
+                                  [" ".join(ha), " ".join(hb)]))
+        uniq = {tuple(str(t) for t in j[0]["tokens"]) for j in joins}
+        trace = {"pool": len(pool), "reachable": sorted(reachable),
+                 "joins": len(joins),
+                 "candidates": [" ".join(str(t) for t in j[0]["tokens"])
+                                for j in joins[:5]],
+                 "bridges": [j[1] for j in joins[:5]]}
+        if len(joins) != 1 or len(uniq) != 1:
+            trace["refused"] = (
+                "no unique bridge join" if joins else
+                "no shared bridge outside the question" if covered else
+                "no pair covers the question together")
+            trace["pairs_covering"] = covered
+            return None, trace
+        trace["chosen_bridge"] = joins[0][1]
+        return joins[0][0], trace
+
     def answer(self, question, speaker: str = "you") -> dict:
         """Hear a question, look up what he knows, and say it.
 
@@ -2330,6 +2415,7 @@ class NeuralLanguage:
         # matched and nothing checked that `food` did. Confabulating an answer is
         # worse than having none: silence is a true report, a confident wrong
         # answer is a lie he does not know he is telling.
+        join_trace = None
         if hits and content:
             idf_all = self.cortex.binder.idf()
             n_mem = max(1, int(self.cortex.binder.X.shape[0]))
@@ -2387,35 +2473,42 @@ class NeuralLanguage:
                     scored.sort(key=lambda t: -t[0])
                     best_cov = scored[0][0]
                     if best_cov < self.ANSWER_COVERAGE_FLOOR:
-                        # The direct path refused. The walk runs and records
-                        # its vote -- but it does not rescue. Trace evidence
-                        # (conversation_bandwalk_1_diag.json, 2026-10-28):
-                        # presented with "what does the bell spin", it scored
-                        # a corpus sentence "i do not like to boast of my" at
-                        # coverage 1.0, covering "bell" through a reach set
-                        # that contains "i" and "spin" through "boast". The
-                        # parser veto refused it, and the veto was right: that
-                        # sentence is not an answer. Under saturation the
-                        # walk's coverage rule is gameable by function-word
-                        # reach, so its place is the trace, not the mouth.
-                        _, walk_trace = self._band_walk(
-                            q, content, must, wq, tot)
-                        self.last_band_walk = walk_trace
-                        return {"answered": False, "spoken": False,
-                                "reason": "the closest memory of his covers "
-                                          f"{best_cov:.0%} of the question",
-                                "cue": content, "required": sorted(must),
-                                "coverage": round(best_cov, 3),
-                                "band_walk": walk_trace,
-                                "nearest": [" ".join(h["tokens"])
-                                            for _, h in scored[:3]]}
-                    hits = [h for c, h in scored
-                            if c >= self.ANSWER_COVERAGE_FLOOR]
+                        # The direct path refused: no single memory covers
+                        # enough of the question. Before silence, ask whether
+                        # two memories said THIS session cover it together and
+                        # share a distinctive word. If they do, the memory the
+                        # question points at joins the pool and faces the same
+                        # ranking and the same parser veto a direct hit faces
+                        # -- the join proposes, the arbiter still decides. If
+                        # they do not, the band records its vote and the
+                        # refusal stands (the walk is kept as a competing
+                        # witness, not a rescue: see speech_log 2026-10-28).
+                        join_hit, join_trace = self._prop_join(
+                            must, tot, q)
+                        if join_hit is not None:
+                            hits = [join_hit]
+                        else:
+                            _, walk_trace = self._band_walk(
+                                q, content, must, wq, tot)
+                            self.last_band_walk = walk_trace
+                            return {"answered": False, "spoken": False,
+                                    "reason": "the closest memory of his "
+                                              f"covers {best_cov:.0%} of the "
+                                              "question",
+                                    "cue": content, "required": sorted(must),
+                                    "coverage": round(best_cov, 3),
+                                    "band_walk": walk_trace,
+                                    "join": join_trace,
+                                    "nearest": [" ".join(h["tokens"])
+                                                for _, h in scored[:3]]}
+                    else:
+                        hits = [h for c, h in scored
+                                if c >= self.ANSWER_COVERAGE_FLOOR]
         if not hits:
             return {"answered": False, "spoken": False,
                     "reason": "nothing remembered about that", "cue": content}
         role = self.role_for(inter[0]) if inter else None
-        trace = {"cue": content, "role": role,
+        trace = {"cue": content, "role": role, "join": join_trace,
                  "recalled": [{"tokens": h["tokens"],
                                "overlap": h.get("overlap"),
                                "overlap_idf": h.get("overlap_idf"),

@@ -2318,5 +2318,116 @@ votes on the record. Gates after the demotion: pytest 407 passed, 3 skipped,
 branch is unreachable by a passing ask (all 32 suite asks answer), and the
 return shape is the gated pre-walk form plus one trace key — both endpoint
 states of this branch are measured 32/32. The item is CLOSED as falsified
-rescue. A future walk needs content-word-only reach, session-fresh
-weighting, and a coverage rule that "i" cannot satisfy.
+rescue.
+
+### The band cannot be the 2-hop substrate, measured both ways (2026-10-28)
+
+The closure above named three fixes for a future walk. Two of the three were
+the wrong diagnosis, and a standalone probe on the session copy
+(`tmp_band_rank_probe.py`, reading `bandwalk_1_diag_20261028_014007`, san
+nonzero 1,445,226 — matching the run report) settled it by recomputing the
+organ's own score (`_spread` then `_rank_by_spread`) for every one of the
+11,555 known words.
+
+**Ranking route — falsified, with the exception that survives.** Session
+edges DO reach the top of the ranking when the pair is rare: `spin→owl`
+rank **1**, `owl→salt` rank **2**, `noon→owl` rank **1**, `salt→owl` rank
+**1** of 11,555. They do not when the pair is common: `bell→noon` rank
+**627** (percentile 94.6), `bell→rings` 651, `ring→rings` 6,851, `ring→noon`
+6,727 — absent from bell's top-8 at both exposure cuts, while corpus noise
+holds those slots (`deliverance` 1, `wail` 3, `latency` 6, `affinity` 7) and
+the unrestricted cut is dominated by `i`, `to`, `the`, `her`, `in`. The
+mechanism is one comparison: bell's own score distribution has p99 **0.048**
+and max 0.391, and the told pair scores **0.026** — below p99; owl's p99 is
+0.059 and its told pair scores **0.128** — above it. A single tell writes
+~0.15, so the write is rank-visible only where the corpus background is
+already thin. Filtering function words would not have saved the walk: it
+would have left `deliverance` and `wail` in bell's reach and still lost
+`noon`. **The reach mechanism, not the reach filter, is the wall.**
+
+**Subtraction route — falsified.** If ranking can't see a write, subtracting
+the state the session loaded from its own should: `D = session − live`.
+It does not separate. 1,412,646 cells changed — essentially every nonzero
+cell, because decay is multiplicative and the session fired it many times —
+and the session's own consolidation restored 146,662 cells above 0.01.
+Told pairs show max-block delta 0.1549–1.9934; control pairs never told
+together reach **1.1628** (`owl-kettle`) and sit at **0.4886**
+(`salt-lantern`, `noon-tide`) — the identical value told pairs show, because
+a restored cell landing anywhere in a 12×12 block outvotes a tell's write.
+min(told) 0.0000 < max(control) 1.1628: **OVERLAP**. The session's own
+maintenance moves more mass than the session's experiences, so a
+difference-based freshness readout is not a write signal at this state.
+
+Verdict: at 1,445,226 real cells over 11,555 words the band answers 2-hop
+questions only through rare-word windows. That is a real and narrow property
+of it, and it is not the capability the family needs.
+
+### Design: the proposition join (next item, before code)
+
+The family is not a weight problem, it is a join. "the bell rings at noon"
+and "the noon owl spins salt" share the token **noon**, exactly; ask 1 pairs
+the first sentence's subject with the second sentence's verb. Shared words
+are not saturated — they are either in both memories or they are not.
+
+- **Mechanism.** When the direct path refuses (`best_cov < floor`), search
+  for a pair of memories (a, b) such that a covers some must-words, b covers
+  the rest, and a ∩ b contains at least one distinctive bridge token
+  (`df*4 <= n_mem`, the house rule at :2351) that is not a question word.
+  Hand **b** to the existing ranking and the existing parser veto as a
+  competing candidate. Nothing is generated; the answer is a stored
+  proposition; the veto still guards.
+- **Scope is the safety property.** Restricted to memories bound by the user
+  this session (`who == "you"` and `when >= session_t0`) — the same
+  convention the freshness sort already uses (:2470). The corpus holds
+  60,000 memories and thousands share a content word with each other, so an
+  unfiltered join finds a path between anything. This is recall of today's
+  conversation, not inference over everything ever read.
+- **Uniqueness.** Exactly one qualifying b, else refuse and report the
+  ambiguity. A join that fires on multiple paths is a guess.
+- **Baseline.** 0/8 (this family, four scripts; script 1 measured 0/2 three
+  times today: `bandwalk_1_warm`, `bandwalk_1_trace`, `bandwalk_1_vote`).
+- **Pass/fail threshold.** ≥6/8 on the family **and** the shipped suite still
+  32/32 — the join must not displace a one-hop winner.
+- **Falsification.** If the unique-bridge criterion yields no candidate, or
+  an ambiguous one, on ≥3 of the 4 scripts, then the family is
+  under-constrained as a test and the join closes without a code change being
+  justified. If candidates are found and unique but the parser vetoes them,
+  the wall has moved to role/slot selection — which is a different, already
+  partly-mapped item.
+- **Known risk, stated before building.** The family expects `owl` for
+  "what does the bell spin" — the *subject* of M2 — while "what" normally
+  asks for an object. If the join hands over M2 correctly and the
+  presentation answers `salt`, the failure is slot selection, not the join.
+
+### Join, first run: not delivered, and the wall is the pool (2026-10-28)
+
+Built as designed — `_prop_join` plus a splice at the refusal point that sets
+`hits = [join_hit]` so the join *proposes* and the existing ranking and parser
+veto still decide, with the join trace plumbed into reports (`_clean` keeps
+`join`; `run_script`/`run_cold` record it).
+
+Result: **0/2 on script 1, the join never fired.** Trace
+(`conversation_join_1b.json`): `pool: 2`, `reachable: [bell, does, spin]`,
+`pairs_covering: 0`, `joins: 0`. Neither tell contains "does" — "the bell
+rings at noon", "the noon owl spins salt" — so the only memory that could
+make "does" reachable is **the question's own binding**, which is in the
+session pool because it was spoken by the user after `session_t0`. That echo
+alone covers all of `reachable`, and the "neither memory alone" guard —
+correct in principle, since an echo of a question is not a source of
+knowledge — therefore rejects every pair. The join needs the same echo
+filter the direct path and the walk already pay. Named, not yet built.
+
+Corrected mid-flight, and worth keeping: the first attempt refused with
+`pool: 2, reachable: [bell, does, spin], joins: 0` because the bridge was
+filtered by corpus rarity (`df*4 <= n_mem`), which discarded the one true
+bridge "noon" — **uniqueness comes from the session scope, not from a
+document-frequency test**, and the two must not be confused. The refusal
+message also conflated "no pair covered the question" with "no shared
+bridge", so those are now separate reasons with a `pairs_covering` count;
+without that counter the echo diagnosis above was not reachable from the
+report.
+
+Gate: pytest 407 passed, 3 skipped, 161.80 s — held. The splice is
+behaviour-neutral while the join does not fire, because `hits` is only
+replaced when a unique candidate exists. Family baseline remains **0/8**;
+the pass/fail threshold and the falsification condition stand unchanged.
