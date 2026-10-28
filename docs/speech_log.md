@@ -2909,3 +2909,135 @@ region mass delta distinguishable from the plain cell delta above.
 organ, then the same instrument re-run against it. The design entry is this
 entry; no organ code is written until the baseline is a number and not an
 assumption.
+
+### The baseline, measured (2026-10-28): the confound is bigger than the signal and points the wrong way
+
+Instrument `tmp_region_baseline.py`: two variants of ONE script
+(`accumulation_fresh`), each replayed into its own house copy, live state
+untouched. Recurrence removed by construction -- the recurring subject
+replaced by a different known subject in each tell, same tell count, same
+asks.
+
+| | with recurrence (`coat` x3) | de-repeated (scarf / lantern / kettle) |
+|---|---|---|
+| san cells before -> after | 1,454,608 -> 1,449,928 | 1,454,608 -> 1,450,460 |
+| **cell delta** | **-4,680** | **-4,148** |
+| concepts recurring >=3 | 1 (`coat`) | 0 |
+| pools used | 13 -> 13 | 13 -> 13 |
+| largest pool, words | 1,187 -> 1,187 | 1,187 -> 1,187 |
+| vocabulary | 11,555 -> 11,555 | 11,555 -> 11,555 |
+| asks answered | 2/2 | 1/2 (its coat tell no longer exists) |
+
+Three findings, all obtained before any organ code -- which is what the
+baseline was for:
+
+1. **A session loses cells.** Both variants *lost* mass. 4,148 cells fell
+   below 1e-6 with no recurrence at all, because decay acts on the whole
+   matrix every beat and a five-turn session's writes do not restore it. The
+   recurrence-attributable part is therefore **-532 cells**: the with-repeats
+   run lost *more* than the de-repeated run, the opposite of the direction an
+   organ is supposed to add. The confound is ~8x the signal and inverted.
+2. **What that changes is the metric, not the threshold.** The pass condition
+   "region mass delta distinguishable from the plain cell delta" now has a
+   measured meaning: the plain cell delta is **-4,148 per 5-turn session**, so
+   a region signal can only be a **local, decay-insensitive count** -- cells
+   attributed to a named compartment -- and never a difference of global
+   totals. An organ written against the global census would be buried by
+   decay before it could be seen. Threshold (>=3 recurrences -> one region),
+   the scored pair, and the falsification conditions stand exactly as written.
+3. **Pools are not regions -- a sub-claim of the entry, falsified.** The entry
+   guessed pools were "the nearest thing this house has to regions". Measured:
+   13 pools hold 11,555 words, the largest holding 1,187. A compartment shared
+   by ~900 words on average cannot carry a per-concept region. The substrate
+   has to be the SAN index space (footprints, 12 cells per word) or a
+   dedicated allocation, not the pool.
+
+The de-repeated variant answering 1/2 is the manipulation working as declared:
+remove the recurrence and the concept's tell genuinely disappears from recall.
+
+### The vote-ON gate, closed: the stamp works, and the environment was never lost
+
+The re-run's aggregate report had not landed when this was checked (the suite
+writes `script_benchmark_*.json` only at the very end), so the gate was closed
+on the evidence the run had already produced -- its own per-script reports,
+`state/fitness/conversation_script_<name>_<phase>.json`, whose
+`benchmark.turns` carry the same records. **16 graded asks from the four
+completed scripts** (reference, accumulation, discrimination, role_chain; warm
+and cold):
+
+| check | result |
+|---|---|
+| graded asks carrying `on: true` **or** explicit `{"reached": false}` | **16/16** |
+| silent absences (the ambiguity that produced my wrong claim) | **0** |
+| `switch_env == "1"` on every graded ask | **16/16** |
+| answered asks / refused asks | 11 on:true / 5 reached:false |
+
+Refusals are exactly the `reached: false` turns, all in cold phases; every
+answered ask carries a real vote with the switch on. The same query over the
+**previous** cut's reports (`*_fresh`, and the older switch_back / override /
+session_context / where_kept files) returns `switch_env = None` and bare
+absence -- which is precisely the legibility failure this fixed, and it is why
+my regex count read as "11 turns logged the switch off".
+
+**Acceptance item (vote-ON gate): MET** on the per-script evidence for every
+graded ask written so far, and structurally closed: absence can no longer be
+misread as off. The aggregate 32-turn report was still in flight at the
+turn's end; to close it formally later, run `py -3.10 tmp_vote_audit.py` (it
+now takes the newest non-`full` `script_benchmark_*.json` by mtime, prints
+on_true / reached_false / no_record / on_false, and asserts the item).
+
+Two process facts worth keeping, both learned the hard way this turn:
+the background-job registry does **not** survive across turns -- `bg_output`
+on a previous turn's id returns "no background job", and that run was killed
+mid-script-5, so a suite must be started and finished, or its per-script
+reports read, inside one turn; and the shell caps a command at **600 s**, so
+long waits must not be slept in-shell -- poll with `bg_output`, or run the
+suite `--only a,b,c` in slices.
+
+### Second baseline measurement (same day): existing cells cannot express a region, at any granularity
+
+`tmp_region_local.py` asks the question the organ actually hinges on -- is a
+**local** mass metric measurable? -- by counting, per concept, the nonzero
+cells inside its own footprint block (`_fp_idx` gives 12 cells, so a block is
+144 pairs) before and after each variant. Asks were held identical across the
+two runs, which makes the de-repeated run a clean control: `coat` is **asked
+but never told** there.
+
+| concept | times told | block_nz before -> after | delta |
+|---|---|---|---|
+| coat (repeated run) | 3 | 8 -> 122 | **+114** |
+| coat (de-repeat run: asked, never told) | 0 | 8 -> 88 | **+80** |
+| scarf | 1 | 0 -> 70 | +70 |
+| lantern | 1 | 14 -> 66 | +52 |
+| wet (asked in both) | 1 | 4 -> 66 | +62 |
+| torn | 1 | 4 -> 34 | +30 |
+| hook | 1 | 2 -> 2 | 0 |
+| kettle | 1 | 0 -> 0 | 0 |
+
+Two numbers settle it:
+
+1. **Recurrence is not the driver.** Three tells plus two asks give +114;
+   the two asks alone give +80. So the three tells are worth about **+34 net**
+   -- *less than what a single mention of any other concept buys* (+52 to +70).
+   Being mentioned once moves the local block as much as being mentioned three
+   times. A region defined as "more nonzero cells in the concept's block"
+   would be measuring exposure, not recurrence, and would fire on the
+   de-repeated control run too -- which is falsification branch 1 of the entry
+   ("recurrence is not reaching anatomy"), reached before the organ exists.
+2. **The block saturates.** coat's block ended at **122 of 144 possible
+   cells**. A handful of writes fills a 12-cell footprint, so there is no
+   headroom left for "recurred >= 3" to register in, and a fourth tell could
+   not be distinguished from a third.
+
+So the baseline's answer, stated before any organ code as required: **no count
+of existing cells -- global or local -- can express a region.** Global is
+decay-dominated (-4,148 cells per 5-turn session against a -532 recurrence
+term), local is exposure-dominated and saturating. The threshold (>=3
+recurrences -> one region), the scored pair and the falsification conditions
+are unchanged; what the numbers force is the substrate. A region must be a
+**newly allocated compartment with its own capacity**, written only by its own
+concept's consolidation, starting at zero -- not a window onto the
+hash-addressed footprint space, which is shared by collision and full of other
+concepts' activity. That is the design constraint the organ has to be written
+against, and it is why the allocation, not the counting, is the hard part
+here.
