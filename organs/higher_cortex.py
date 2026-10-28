@@ -530,6 +530,30 @@ class Binder:
                  "similarity": round(float(sims[int(i)]), 4),
                  "proposition": X[int(i)]} for i in order]
 
+    def proposition_for(self, tokens) -> np.ndarray:
+        """The stored vector for these words, or a faithful re-encode.
+
+        The session ledger keeps WHOLE sentences (that is the point of it -- the
+        binder chunks a statement into rows keyed on the first `max_roles`
+        tokens), so a ledger row carries tokens/who/when and no vector. Anything
+        that admits one as a candidate must be able to unbind it, and `role_of`
+        takes a proposition: without this the answering path raised KeyError
+        'proposition' on a join that had legitimately found a pair (held-out
+        conjunction asks, 2026-10-28).
+
+        The exact stored row when the tokens key onto one; otherwise `encode`
+        re-derives it. That is not an approximation invented here: `remember`
+        stores `encode(tokens)`, so the re-encode IS the vector the binder wrote
+        for those words, up to the idf table having grown by whatever was added
+        since.
+        """
+        key = tuple(str(t).strip().lower()
+                    for t in (tokens or []))[:self.max_roles]
+        at = self._seen.get(key)
+        if at is not None and at < len(self.meta) and at < self.X.shape[0]:
+            return self.X[int(at)]
+        return self.encode(tokens)
+
     def role_of(self, proposition, role: int, candidates) -> dict:
         """Unbind one role from ONE proposition the caller already chose.
 

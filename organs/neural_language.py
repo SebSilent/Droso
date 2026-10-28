@@ -2438,6 +2438,17 @@ class NeuralLanguage:
                 elif _echoes(h):
                     why = "echo"
             if why is None:
+                if "proposition" not in h:
+                    # A ledger row has no vector: it is the whole sentence the
+                    # user spoke, and the binder keyed its own rows on a prefix.
+                    # The join picks a memory to UNBIND, so an entry without a
+                    # proposition is not a candidate -- give it the binder's
+                    # vector for those words here, at the point it enters the
+                    # pool, rather than let the answering path raise on it.
+                    h = dict(h)
+                    h["proposition"] = self.cortex.binder.proposition_for(
+                        list(key))
+                    h["vector_derived"] = True
                 pool[key] = h
             else:
                 rej.append(f"{why} [{src}] " + " ".join(key))
@@ -2528,6 +2539,10 @@ class NeuralLanguage:
         uniq = {tuple(str(t) for t in j[0]["tokens"]) for j in joins}
         trace = {"pool": len(pool), "reachable": sorted(reachable),
                  "joins": len(joins),
+                 # how many pool entries had to be handed a vector because they
+                 # came from the ledger: the count of this fix's work per ask
+                 "ledger_vectors": sum(1 for h in pool.values()
+                                       if h.get("vector_derived")),
                  "candidates": [" ".join(str(t) for t in j[0]["tokens"])
                                 for j in joins[:5]],
                  "bridges": [j[1] for j in joins[:5]]}

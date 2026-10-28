@@ -3378,3 +3378,65 @@ So the previous entry's claim that headroom under the cap decides is **false, an
 The predicate did not separate under either repair: **the region organ stays closed for good.** No third variant, no re-tune. SAN_WEIGHT_CAP is now a named constant with its **default unchanged at 4.0** -- a probe handle, not a re-tune; live behaviour is identical until something passes a new value.
 
 **Where the next cut should land, per the map rather than guesswork:** the two conjunction crashes are a plain bug in the answering path; mouth (sold twice, echo instead of slot) is the cheapest visible capability; count 0/8 is the largest block but needs a mechanism the brain does not have. **Nothing was fixed this turn** -- the deliverable is the map.
+
+## Defect fixed: the join chose a memory it had no vector for (`KeyError: 'proposition'`)
+
+Not an experiment -- a crash on the answering path, found by the new instrument.
+
+**Root cause.** `_prop_join` admits the **session ledger** into its pool first
+(`organs/neural_language.py:2455`, "Ledger first: the pair the user spoke is in
+here by construction"), and ledger rows carry only `tokens/who/when`
+(`:342`) -- they are the **whole sentence the user spoke**, deliberately not
+windowed, whereas the binder keys its rows on the first `max_roles` tokens. A
+join that legitimately found a pair therefore returned a hit with no
+proposition vector, and `answer()` unbinds a role from exactly that key:
+`role_of(best["proposition"], role, cands)` raised. The two conjunction asks in
+the held-out set were the first tasks ever to route a **ledger** row into the
+join's winner, which is why 32/32 on the shipped suite never saw it.
+
+**Fix.** `Binder.proposition_for(tokens)` (`organs/higher_cortex.py`, before
+`role_of`): the exact stored row when the tokens key onto one, otherwise
+`encode(tokens)` -- which is not an approximation invented here, because
+`remember` stores `encode(tokens)`, so the re-encode *is* the vector the binder
+wrote for those words, up to the idf table having grown since. `_prop_join.admit`
+now gives any vectorless entry its proposition **at the moment it enters the
+pool**, marks it `vector_derived`, and reports `ledger_vectors` in the join
+trace so the count of this fix's work per ask is visible.
+
+**The crash was left uncaught on purpose.** `answer()` still reads
+`best["proposition"]` with no `try` and no `.get()`: the key is now guaranteed
+where the hit is created, so any future missing key raises loudly instead of
+being swallowed. The instrument, not the anatomy, absorbed the lesson:
+`Session.ask` stores an exception in `turn["error"]` and returns an empty
+reply, so **a crash is indistinguishable from a silent recall miss in the
+trace** -- no reason, no source, no verdict. The harness now checks
+`turn["error"]` first and labels it `engine_error`.
+
+**Measured, full held-out re-run after the fix** (`heldout_20261028_174052`):
+no traceback, no `KeyError`, `engine_error` **0**.
+
+| | pre-fix | post-fix |
+|---|---|---|
+| score | 4/24 = 0.167 | **4/24 = 0.167** |
+| recall | 8 | 8 |
+| shape_arbiter | 4 | **5** |
+| gating | 4 | 4 |
+| mouth | 2 | **3** |
+| engine_error | 2 | **0** |
+
+**The total did not move; the composition did, and the two passes in the
+conjunction script are now different items.** `what is both wet and on the
+hook` **passes for the first time** -- it answered `the coat is on the hook`,
+the right memory, where before it crashed. But it now *speaks*, and speaking
+changes the state the rest of the script sees, so `is the coat dry or wet`,
+which passed pre-fix, now comes back as chain confabulation:
+`shire lets crash leant`, `source='meaning resonance + chain'`. Net zero at the
+script level (2/4 both times). **4/24 = 0.167 stands as the baseline**, with
+this composition.
+
+**Closure of the harness's own unresolved item.** The committed map now says
+`engine_error 0` because the committed harness printed it. The pre-fix
+`engine_error 2` label remains **traceback-derived, not printed**: the fix
+landed before any run could print that label, and the `engine_error` branch has
+therefore never been exercised by a real crash. It is untested code that this
+log is relying on once-past, and that is stated rather than smoothed over.
