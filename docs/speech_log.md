@@ -3238,3 +3238,106 @@ that starts empty, given that the +70 it is compared against came from a
 substrate carrying 144 cells of corpus wiring behind it. If that comparison is
 unsound, the entry must say so as a finding about the *condition*, not quietly
 re-score against a new one.
+
+### The concept predicate, measured standalone: FALSIFIED, and the wrong thing was named (2026-10-28)
+
+The candidate the previous entry left behind -- **"a tell-write that exceeds its
+corpus background"** -- was built as a measured artifact and scored over the four
+band-hop ask-streams with **no organ attached**, against a hand list written into
+`tmp_concept_probe.py`'s docstring *before* any number was computed: concepts
+`spins, owl, salt` (the rare side of the logged asymmetry), not-concepts
+`bell, noon` (the common side of the same logged pair) and `is, the` (the function
+words that actually allocated blocks in the region organ).
+
+**The first instrument was broken, and is reported as broken rather than
+quietly replaced.** It measured each word's strongest edge anywhere in its
+footprint rows: maxima came out 2.2--4.0 against a cap of 4.0 -- saturated corpus
+edges, not the ~0.048 p99 the log names -- and *every* excess came out negative,
+because decay fires on wall-clock during the 35 s build and shrinks the whole
+matrix ~5 % while two tells bind. It was measuring the house cooling down, not a
+write. The re-score measures on the cells the tell actually writes: the pair
+blocks between the word's footprint and each co-told word's footprint, pre and
+post pooled over the same blocks in the same order, where decay is a uniform
+-4.9 % against writes of +0.1 to +0.6.
+
+| word | hand class | background | write | excess | fires? | `df` baseline |
+|---|---|---|---|---|---|---|
+| spins | CONCEPT | 0.8491 | 1.1549 | **+0.3058** | yes | df=4 distinct |
+| owl | CONCEPT | 1.0897 | 1.5966 | **+0.5069** | yes | df=2 distinct |
+| salt | CONCEPT | 3.7331 | 3.5506 | -0.1825 | **no** | df=12 distinct |
+| bell | not | 1.0664 | 1.0142 | -0.0521 | no | df=41 distinct |
+| noon | not | 1.4393 | 1.8181 | **+0.3788** | **yes** | df=25 distinct |
+| the | not | 3.6966 | 3.7140 | **+0.0174** | **yes** | df=22383 furniture |
+| is | not | *never occurs in the four streams* | | | | |
+
+**PRECISION 0.500, RECALL 0.667** (TP=2 spins/owl, FP=2 noon/the, FN=1 salt,
+TN=1 bell). `is` is reported **UNOBSERVED** and not counted a true negative: a
+word that was never presented cannot be scored, and counting it is how a fake
+pass gets manufactured. The comparison baseline the entry asked for is worse
+news -- the `df * 4 <= n_mem` law the region organ borrowed scores **P=0.600
+R=1.000** on the same six observed words, so the new predicate is **beaten by
+the law it was meant to replace**, and neither separates.
+
+**Why it fails is structural, not a threshold.**
+
+- **The statistic is bimodal by construction.** For every non-firing word,
+  `post = pre x 0.9512` to four digits (bell 1.0664→1.0142, drum 1.0536, salt
+  3.7331→3.5506) -- exactly one decay fire and no write above the maximum. So
+  the test answers one question: *was the largest touched cell one of the cells
+  this tell writes?* That is a coin about which cell happens to be biggest.
+- **Headroom under the cap decides, not concept-hood.** `salt`, a hand-listed
+  concept, sits at background 3.7331 -- nearly saturated -- so no write can top
+  it and it reads as furniture; `the` sits at 3.6966 and *did* top it (3.7140),
+  so the definite article reads as a concept. The predicate measures how much
+  room a word has left under 4.0.
+- **What leads the ranking is novel *pairing*, not concept:** `sings` +0.62,
+  `drinks` +0.54, `dew` +0.50, `calls` +0.48 -- the fresh pairings of the other
+  three scripts -- and `noon` fires because "the bell rings at noon" pairs it
+  newly with `bell`/`rings`.
+- **It flips with the sentence.** `the` and `at` both vote 2/4 across the four
+  streams. A predicate that names a property of the word cannot depend on which
+  word it is standing next to.
+
+So **the wrong thing was named.** The region organ stays dead until the
+predicate is right: it is **not wired**, the pass pair was **not** run, and no
+capacity or threshold moved. The honest description of what remains unowned is
+narrower than the entry that opened this cut: the house still has no predicate
+that separates a concept from furniture, and the candidate that was measured is
+worse than the one already in use.
+
+### Condition 2's `>70` bar was unsound as written, and is withdrawn -- not re-scored
+
+The pass-pair failure on condition 2 is **not evidence about regions**. The bar
+compared an **empty compartment** -- `region_w` at zero, written only by three
+tells -- against **+70 cells measured on a substrate carrying 144 cells of
+corpus wiring behind it**. Those are not the same quantity: the +70 was growth
+*on top of* a block that already had 144 cells of history to amplify into, and
+the compartment that scored 68 had nothing but the tells. No empty compartment
+that starts at zero and is ever written only by testimony can be compared
+against that number, so the 68-vs-70 miss measured the bar, not the organ.
+
+**What a sound condition would be:** a *paired control on the same block* --
+identical stream, concept told three times versus told once, both into copies
+from the same state, measuring the difference in nonzero cells **within the
+allocated compartment**, so the corpus background cancels instead of setting the
+scale. The quantity to beat is "does recurrence in a compartment grow it beyond
+a single mention in the same compartment", never "does it beat what a
+corpus-wired substrate grew".
+
+It is **withdrawn as unsound, not re-scored**: no new bar was substituted this
+turn, because a bar written after seeing the number it must clear is the one
+thing this house has agreed not to do. The replacement goes into a design entry
+before the code.
+
+### Meta: fourth consecutive cut ending in a falsification with a named precondition
+
+Knowledge up, capability flat. Each of the four closed a specific claim on
+evidence -- the global-mass signal, the pool signal, `_speakable` as a concept
+filter, and now tell-excess as a concept predicate -- and each named, in
+advance, the condition that would kill it, and died on it. That is real
+progress about what this brain does and does not contain, and it is **zero
+progress in what the brain can do**. The streak is not a virtue and not an
+excuse. What would break it is a cut that ships a working capability, and the
+predicate is the gate on all of them: until a concept can be told apart from
+furniture by something that does not depend on which word it is standing next
+to, regions, recurrence-tracking, and any organ built on either stay unbuilt.
