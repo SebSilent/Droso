@@ -1914,9 +1914,23 @@ orders of magnitude above it.
    the measurement left the live state untouched: all seven files still
    carry the 03:35 mtime and the post-suite census is identical to run 9's
    (real 1,446,352, strong 72,680, median 1.670433). The override winners
-   were recorded ('hot', 'hot'), never graded.
+   were recorded ('hot', 'hot'), never graded. Re-verified on the
+   post-extension state (the series below): the full 8-script suite, report
+   `script_benchmark_20261027_062549.json` (exit 0, 1,745.9 s) — 32/32 asks,
+   zero `"pass": false` anywhere in the report, all 16 phase entries
+   (8 scripts x warm/cold) reading `"passed": 2`. The post-suite census is
+   byte-identical to run x15 (real 1,454,608; sum 286,281.0625; strong
+   65,666; strong median 1.596504; max 4.000000; nnz 66,107,030) — the
+   proof this item needs: had any decay fire run during the suite's 29
+   minutes the strong band would have moved (rows in [1.0, 1.051) cross the
+   line on one capped fire). It did not move. The census's `real_median`
+   reads 3.829e-02; that figure is not an anchor — the extension table never
+   recorded it and it drifts with the sub-band population — the six values
+   above are the identity.
 5. Full pytest green: 407 passed, 3 skipped, 161.19 s. The measured math is
-   the strong-band series above plus the per-fire cap.
+   the strong-band series above plus the per-fire cap. Re-run against the
+   post-extension state this cycle: 407 passed, 3 skipped, 161.60 s — the
+   counts hold exactly; the gate is the count, not the time.
 
 **On the record.** An earlier session's narration claimed a suite report
 `script_benchmark_20261027_033718.json` (28/28 "on the consolidated state"),
@@ -1978,3 +1992,218 @@ returns the watch census's seven numbers to the digit; the full suite
 file's 3.12 leg 62 passed in 0.83 s (method at debt entry 1). The
 deliverable's execution record stands in the drain and suite reports on
 disk.
+
+## 2026-10-27 (late) — the strong band's equilibrium: self-correcting or
+slow leak (design before code)
+
+The drain entry left one question open: the strong band went
+93,286 → 64,992 → 72,680 across the drains — is the erosion/rebuild
+oscillation self-correcting (demotion plus rehearsal rebuild) or a slow
+leak (rows crossing the line faster than the replay rescues)? This entry
+designs the test before running it; the verdict gets its own paragraph
+below with the numbers that decided it.
+
+**The series, grepped from the three drain reports** (strong = strong_count,
+med = strong_median; sum = total matrix weight; Δ = change from the
+previous row's after-census):
+
+| run | urgent | repl | elapsed_s | real_after | sum_after (Δ) | strong_after (Δ) | med |
+|---|---|---|---|---|---|---|---|
+| boot | — | — | — | 573,424 | 298,817.3 | 93,286 | 2.400 |
+| d1 r1 | 1,892 | 200 | 20.8 | 719,462 | 312,616.4 (+13,799) | 89,278 (−4,008) | 1.963 |
+| d1 r2 | 1,504 | 200 | 20.5 | 863,252 | 351,540.3 (+38,924) | 94,900 (+5,622) | 1.689 |
+| d1 r3 | 939 | 200 | 28.1 | 979,206 | 384,020.8 (+32,481) | 99,318 (+4,418) | 1.522 |
+| d1 r4 | 630 | 200 | 32.1 | 1,093,844 | 394,325.6 (+10,305) | 93,698 (−5,620) | 1.437 |
+| d1 r5 | 388 | 200 | 31.0 | 1,209,120 | 402,580.7 (+8,255) | 89,122 (−4,576) | 1.345 |
+| d2 r1 | 206 | 200 | 51.2 | 1,314,744 | 375,559.0 (−27,022) | 64,992 (−24,130) | 1.296 |
+| d2 r2 | 70 | 70 | 19.6 | 1,319,534 | 372,988.3 (−2,571) | 70,142 (+5,150) | 1.436 |
+| d2 r3 | 86 | 86 | 21.7 | 1,326,368 | 356,176.6 (−16,812) | 68,570 (−1,572) | 1.660 |
+| d2 r4 | 118 | 118 | 29.3 | 1,348,216 | 356,082.5 (−94) | 69,712 (+1,142) | 1.854 |
+| d2 r5 | 100 | 100 | 28.4 | 1,358,252 | 346,710.3 (−9,372) | 69,370 (−342) | 2.008 |
+| d2 r6 | 164 | 164 | 42.4 | 1,385,986 | 331,617.8 (−15,092) | 71,734 (+2,364) | 1.869 |
+| d2 r7 | 227 | 200 | 41.8 | 1,415,408 | 331,641.5 (+24) | 74,468 (+2,734) | 1.757 |
+| r9 | 287 | 200 | 44.7 | 1,446,352 | 334,713.1 (+3,072) | 72,680 (−1,788) | 1.670 |
+
+**The mechanism, from the code.** The replay never touches strong rows:
+selection is urgency-filtered at the 0.1 line ("strong rows are left
+alone", `organs/neural_language.py:446-455`), so the band erodes by decay
+alone (×0.951 per fire, `:437-439`) and rebuilds only through the
+rehearsal cohort's repeated climbs — a row replayed to 0.33–0.62 decays
+back under the line, gets replayed again, and the Hebb write adds to what
+remains; rows rehearsed often enough cross 1.0. Two restoring forces
+follow: erosion removes the band's weakest rows first (just above 1.0),
+which raises the band's median and slows further erosion; and the
+rebuild's new entrants arrive just above 1.0, which lowers the median and
+lets erosion pick up again. An oscillation with a restoring force, not a
+ratchet — if the mechanism is right.
+
+**The evidence in hand.** The trough rebuilt +9,476 (+14.6%) over six
+runs; the sum's per-run change converged from −27,022 (d2 r1) through
+−15,092 (d2 r6) to +24 (d2 r7) and +3,072 (r9) — additions catching the
+decay losses; the band's per-run change narrowed from −24,130 to ±2,800;
+the median's path (1.296 → 2.008 → 1.670) is the model's two-phase
+rebuild (survivors rehearsed up, then cohort crossings diluting). Net
+boot→r9: the band −20,606 (−22.1%) while the sum +35,895.78 (+12.0%) and
+real +872,928 (+152%) — weight redistributed from the training-built band
+into the rehearsal cohort, not destroyed.
+
+**Decision rule (the second-cycle test).** One erosion-rebuild cycle is
+observed; a leak and a new equilibrium agree on that window. Extend the
+drain series house-down (the consolidator is committed, guard-clean, and
+every run backs up first): chunked `tools/consolidate_live.py --max-runs 3`
+calls under the 420 s shell cap, ~9–12 more runs. If the band holds
+≥ ~70,000 across the extension with the sum's per-run change inside
+±5,000, the oscillation is self-correcting at a new, lower equilibrium —
+logged as a measured property, no fix. If the band's trough ratchets
+below 64,992 with each cycle lower than the last, it is a leak: the named
+fix is a maintenance pass that rehearses just-below-1.0 rows (the band's
+own edge) ahead of the dust backlog, and it gets designed here before any
+code moves.
+
+**Measured — the extension (2026-10-27, 15 runs across five chunked
+invocations, reports `consolidate_live_20261027_052621/053614/054114/
+054642/055002.json`; the fifth chunk ran past the planned ~12 because the
+12th run's dip was exactly the case the rule exists to catch).** House
+down throughout; every run guard-clean (7 files moved, unexpected none);
+nnz 66,107,030 at all 35 censuses. The extension series (continuing the
+table above; x = extension run):
+
+| run | urgent | repl | elapsed_s | real_after | sum_after (Δ) | strong_after (Δ) | med |
+|---|---|---|---|---|---|---|---|
+| x1 | 282 | 200 | 54.3 | 1,461,306 | 322,553.1 (−12,160) | 70,270 (−2,410) | 1.628 |
+| x2 | 277 | 200 | 58.6 | 1,459,360 | 315,325.0 (−7,228) | 68,924 (−1,346) | 1.584 |
+| x3 | 257 | 200 | 60.6 | 1,470,036 | 308,408.8 (−6,916) | 66,486 (−2,438) | 1.566 |
+| x4 | 216 | 200 | 53.0 | 1,473,388 | 300,607.3 (−7,802) | 66,008 (−478) | 1.530 |
+| x5 | 219 | 200 | 50.7 | 1,478,242 | 295,651.5 (−4,956) | 66,348 (+340) | 1.512 |
+| x6 | 243 | 200 | 50.3 | 1,481,544 | 311,458.5 (+15,807) | 70,902 (+4,554) | 1.644 |
+| x7 | 198 | 198 | 52.6 | 1,480,436 | 307,583.3 (−3,875) | 72,908 (+2,006) | 1.625 |
+| x8 | 177 | 177 | 47.7 | 1,485,010 | 310,453.1 (+2,870) | 76,256 (+3,348) | 1.660 |
+| x9 | 205 | 200 | 56.8 | 1,480,604 | 307,417.4 (−3,036) | 74,516 (−1,740) | 1.707 |
+| x10 | 241 | 200 | 54.4 | 1,474,548 | 303,296.6 (−4,121) | 75,038 (+522) | 1.646 |
+| x11 | 247 | 200 | 59.7 | 1,469,846 | 299,933.6 (−3,363) | 74,830 (−208) | 1.590 |
+| x12 | 255 | 200 | 60.9 | 1,466,584 | 283,648.3 (−16,285) | 68,358 (−6,472) | 1.568 |
+| x13 | 267 | 200 | 60.4 | 1,461,300 | 287,045.8 (+3,398) | 70,918 (+2,560) | 1.581 |
+| x14 | 288 | 200 | 60.2 | 1,457,234 | 286,397.8 (−648) | 67,216 (−3,702) | 1.564 |
+| x15 | 304 | 200 | 55.0 | 1,454,608 | 286,281.1 (−117) | 65,666 (−1,550) | 1.597 |
+
+**Verdict: not a leak — a bounded, cadence-set oscillation.** The rule's
+leak condition (a trough below 64,992, each cycle lower) never fired:
+the troughs read 64,992 → 66,008 → 68,358 → 65,666, every one at or above
+the first, and the band wandered [65,666, 76,256] for 15 runs with mean
+~70,975 — no trend inside the window. The rebuilds recurred (+4,554,
++2,006, +3,348, +2,560), each from the cohort's crossings, exactly the
+designed restoring force. The sum found its level: the last three runs'
+changes are +3,398, −648, −117 — flat at ~286k, down from the boot 298.8k
+but not falling. The rule's first branch as literally written (band
+≥ 70,000 throughout, sum changes inside ±5,000) is violated by the
+oscillation's own amplitude — the band dips to ~66k mid-cycle and single
+long runs move the sum ±16k — so the verdict is taken on the rule's
+intent: bounded and self-correcting, no fix designed, the maintenance
+pass stays unbuilt.
+
+**Two measured properties the rule did not anticipate.** (1) The
+equilibrium is cadence-dependent: the runs slowed as the real count grew
+(drain 1: 20–32 s; extension: 47–61 s — the scan ranks 1.45 M real rows),
+more elapsed per run means ~5–6 decay fires instead of ~2–3, and the
+lower equilibrium follows. The band's level is not a constant of the
+design; it is set by the replay budget against the per-run decay, both of
+which the operator's cadence moves. (2) The band's content turns over:
+the replay never re-strengthens strong rows, so the training-built cells
+decay while rehearsal-built crossings replace them — the max fell
+4.000 → 3.804 (exactly one fire on the top cell) at x12 and returned to
+4.000 at x13 when a crossing reached the cap. The band's size holds; its
+membership is now rehearsal-selected, which is the design working, not
+failing.
+
+## 2026-10-27 (late) — design: the band answers — associative recall at
+## answer time (design before code)
+
+The extension verdict left a measured asset unused. The strong band — 65,666
+cells at or above 1.0 on the live state, membership now rehearsal-selected —
+is read by exactly one function, `associations()` (organs/neural_language.py:
+1242, "what a token is wired to, read straight out of san_w ... it is the
+weight matrix, asked"), and `answer()` has never consulted it. Retrieval
+today is one hop: `cortex.binder.recall(content, k=40)` ranks stored
+propositions by token overlap (:2220), an idf-weighted coverage key grades
+the best candidate against the question's distinctive words (:2303), and
+anything under `ANSWER_COVERAGE_FLOOR = 0.6` (:1911) is refused (:2316). The
+weight matrix — the one structure holding what experience actually wired
+together — is never asked at answer time.
+
+**Why this is the highest-leverage item, in two paragraphs.** (1) The band is
+a learned prior no LLM has: a per-association weight that decays with disuse
+(0.995/s, capped x0.951 per fire) and is rebuilt only by rehearsal — and this
+cycle measured that its membership turned over from training-built to
+rehearsal-built (the max fell 4.000 to 3.804 and returned only when a
+rehearsed crossing reached the cap). What that prior makes possible is the
+answer type the one-hop path structurally cannot give: a question whose
+answer memory shares no distinctive word with the question, joined only
+through a bridge the band holds. Teach "the kettle rings at noon" and "the
+noon bell calls the crow"; ask after the crow's caller by the kettle's hour,
+and the direct key sees two half-matches — the cue-side memory covers 2/3 of
+the distinctive weight and wins the 0.6 floor with total confidence,
+delivering a wrong answer as a right one. The band walk makes the bridge a
+retrieval cue instead of a trap. (2) No re-tuning of the existing key can
+produce this, because the grading and the candidate pool are both per-memory:
+the bridge token sits in neither the question nor the answer memory at
+covering weight, so every key setting that keeps confabulation out also
+keeps the answer out. The operation is new in kind — retrieval by graph
+connectivity through weights that are the residue of what Droso actually
+heard — and it is the first time a consolidation finding becomes an answer
+rather than a number. It is also the cheapest of the candidate items: the
+primitive exists and is measured, the seam is one refusal path in `answer()`,
+the gate and the harness are already built, and it falsifies in a single
+suite run — unlike a second competing brain (a new organ plus a vote, months)
+or a region that grows (a new substrate, slow to falsify), and unlike prompt
+assembly, which needs a model to read the prompt and this house has none.
+
+### The mechanism
+
+1. `answer()` runs the direct path unchanged — recall, the three filters
+   (question-identity, remembered-question, echo), the coverage key. If it
+   clears the floor with a winner, nothing else runs. The 32/32 cannot
+   regress by construction: the walk fires only where the system now refuses.
+2. On failure (no hits, or best coverage below the floor), the walk expands
+   the cue: for each content word, `associations(w, limit=8)`; keep reached
+   words that are not question words, cap the reached set at 16.
+3. Recall on cue union reached (k=40); grade each candidate with the SAME
+   idf-weighted key, but a question word counts as covered if it is in the
+   memory's tokens OR is band-adjacent to a memory token (reached from it).
+   The floor stays 0.6 — the bar on confabulation is untouched; only the
+   matching becomes associative.
+4. The winner is a stored proposition, spoken through the existing path
+   (sequence organ, recalled-proposition fallback). The trace carries
+   `source: "band walk"` and the reached set, so the suite and any later
+   audit can tell which path answered. The walk never generates.
+
+### The measurement
+
+New script family, 4 scripts x 2 asks, warm and cold phases as in the
+existing suite — 16 asks. Each ask is 2-hop by construction: cue word in M1,
+answer word in M2, one shared bridge, M1 and M2 taught as separate tells so
+the band wires cue-bridge and bridge-answer; no question shares a distinctive
+word with the answer memory at coverage 0.6 or better. FIRST act of the
+build, before any code: run the family against the current system unchanged
+and record the per-turn baseline — expected at most 2/8 per phase, refusals
+or cue-side wrong winners. Then the walk lands; re-run the family; re-run
+the full existing suite (32/32 gate, report compared to
+`script_benchmark_20261027_062549.json`) and pytest (407/3 gate). House
+stays down; the live state is read through the session-copy path the suite
+already uses.
+
+### Success criteria
+
+Pass: the walk answers at least 6/8 warm AND at least 6/8 cold on the family
+with the direct baseline at most 2/8 each phase, the existing suite holding
+32/32 and pytest holding 407/3. A wrong winner on the family that was a
+refusal before counts against the pass — converting confabulation is worse
+than silence, which is the house rule the floor was bought for.
+
+### Falsification branch
+
+Below threshold: a logged falsification with per-probe traces naming which
+failure mode fired — (a) the reached set missed the bridge (the pair never
+rehearsed, or the association floor is set above real wiring), (b) recall
+found the memory but associative coverage still failed the floor, (c) the
+wrong memory won. Each mode is itself a measurement of the band; the entry
+stands as the record either way. Green or falsified — both close the item.
