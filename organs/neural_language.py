@@ -2197,6 +2197,79 @@ class NeuralLanguage:
                 return h, ("agree" if i == 0 else "override"), filler
         return None, "veto", None
 
+    def _band_walk(self, q_tokens, content, must, wq, tot, k_recall: int = 40,
+                   reach_limit: int = 8):
+        """The associative second attempt (design: speech_log 2026-10-27 late).
+
+        The direct path grades each memory on token overlap and refuses what
+        spans two memories joined only in the band. The walk asks the weight
+        matrix instead: every distinctive question word is spread through
+        san_w (associations), the reached words widen the cue, and a question
+        word counts as covered by a memory if the memory holds that word OR
+        holds a word the band reaches from it. The coverage floor is unchanged
+        -- only the matching is associative. Nothing is generated: the winner
+        is a stored proposition, and it still runs the role ranking and the
+        parser veto downstream.
+        """
+        if not must or tot <= 0:
+            return None, {"skipped": "no distinctive words"}
+        qset = {str(t).lower() for t in q_tokens}
+        reach = {}
+        for w in list(must)[:4]:
+            got = set()
+            for a in self.associations(w, limit=reach_limit):
+                t = str(a.get("token") or "").lower()
+                if t and t not in qset and not self.is_interrogative(t):
+                    got.add(stem(t))
+            if got:
+                reach[w] = got
+        if not reach:
+            return None, {"skipped": "the band reached nothing"}
+        expanded = list(content)
+        for s in reach.values():
+            expanded.extend(sorted(s)[:4])
+        seen = set()
+        cue = []
+        for t in expanded:
+            if t not in seen:
+                seen.add(t)
+                cue.append(t)
+        hits = self.cortex.binder.recall(cue, k=k_recall)
+        # The same guards the direct path pays for: a remembered question is
+        # not knowledge, and an echo of the asker's own words is worse than
+        # silence.
+        hits = [h for h in hits
+                if not any(self.is_interrogative(t)
+                           for t in (str(x).lower() for x in h["tokens"]))]
+        q_stems = [stem(t) for t in
+                   re.findall(r"[a-z']+", " ".join(str(x) for x in q_tokens))]
+
+        def _echoes(h) -> bool:
+            hs = [stem(str(t).lower()) for t in h["tokens"]]
+            if not hs or len(hs) > len(q_stems):
+                return False
+            return any(q_stems[i:i + len(hs)] == hs
+                       for i in range(len(q_stems) - len(hs) + 1))
+
+        hits = [h for h in hits if not _echoes(h)]
+        scored = []
+        for h in hits:
+            hs = {stem(str(t).lower()) for t in h["tokens"]}
+            cov = 0.0
+            for w in must:
+                if stem(w) in hs:
+                    cov += wq[w]
+                elif hs & reach.get(w, set()):
+                    cov += wq[w]
+            scored.append((cov / tot, h))
+        scored.sort(key=lambda x: -x[0])
+        trace = {"reach": {w: sorted(s) for w, s in reach.items()},
+                 "best_cov": round(scored[0][0], 3) if scored else None}
+        if not scored or scored[0][0] < self.ANSWER_COVERAGE_FLOOR:
+            return None, trace
+        trace["walked"] = " ".join(str(t) for t in scored[0][1]["tokens"])
+        return scored[0][1], trace
+
     def answer(self, question, speaker: str = "you") -> dict:
         """Hear a question, look up what he knows, and say it.
 
@@ -2313,16 +2386,29 @@ class NeuralLanguage:
                                            if stem(w) in hs) / tot, h))
                     scored.sort(key=lambda t: -t[0])
                     best_cov = scored[0][0]
+                    walk_hit = None
                     if best_cov < self.ANSWER_COVERAGE_FLOOR:
-                        return {"answered": False, "spoken": False,
-                                "reason": "the closest memory of his covers "
-                                          f"{best_cov:.0%} of the question",
-                                "cue": content, "required": sorted(must),
-                                "coverage": round(best_cov, 3),
-                                "nearest": [" ".join(h["tokens"])
-                                            for _, h in scored[:3]]}
-                    hits = [h for c, h in scored
-                            if c >= self.ANSWER_COVERAGE_FLOOR]
+                        # The direct path refused. One second attempt, and
+                        # only here: what already cleared the floor never
+                        # sees the band, so the one-hop suite is protected
+                        # by construction.
+                        walk_hit, walk_trace = self._band_walk(
+                            q, content, must, wq, tot)
+                        self.last_band_walk = walk_trace
+                        if walk_hit is not None:
+                            hits = [walk_hit]
+                        else:
+                            return {"answered": False, "spoken": False,
+                                    "reason": "the closest memory of his covers "
+                                              f"{best_cov:.0%} of the question",
+                                    "cue": content, "required": sorted(must),
+                                    "coverage": round(best_cov, 3),
+                                    "band_walk": walk_trace,
+                                    "nearest": [" ".join(h["tokens"])
+                                                for _, h in scored[:3]]}
+                    if walk_hit is None:
+                        hits = [h for c, h in scored
+                                if c >= self.ANSWER_COVERAGE_FLOOR]
         if not hits:
             return {"answered": False, "spoken": False,
                     "reason": "nothing remembered about that", "cue": content}

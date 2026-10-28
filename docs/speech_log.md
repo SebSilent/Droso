@@ -2245,3 +2245,36 @@ must rank by normalized spread (as `_rank_by_spread` already does — cosine)
 and never by absolute weight. Whether session-level wiring is separable
 from corpus wiring at all is the first real question the build answers; if
 it is not, falsification mode (a) fires, and that is itself the measurement.
+
+### The walk built, and where it stopped (2026-10-28)
+
+`_band_walk` landed in organs/neural_language.py (helper before `answer()`,
+splice at the coverage-floor refusal only — what clears the floor never sees
+the band, so the one-hop path is untouched by construction). The winner
+still runs the role ranking and the parser veto downstream; nothing is
+generated.
+
+Measured on the family, warm, current state: **still 0/8 — but the refusal
+moved.** Script 1's asks, which refused at the coverage floor (42%, 44%),
+now refuse at the parser veto: "nothing he remembers has that shape"
+(converse.py report `conversation_bandwalk_1_warm.json`). The veto is
+downstream of `hits`, so the associative coverage DID clear the floor and
+fed a candidate — falsification mode (b) in the design's taxonomy: recall
+found the memory, the shape arbiter refused it. The wall is not the band;
+it is the arbiter the wrong-slot fix bought (it vetoes shapeless neighbours
+when the question has a checkable shape), meeting a winner retrieved by a
+route it was never tuned for.
+
+Open question, named for the next cut: "the noon owl spins salt" is a
+subject-verb-object proposition and "what does the bell spin" asks for that
+subject — the shape looks checkable and right, so the veto is either firing
+on the filler's role index or on the cue word the memory lacks by adjacency
+rather than presence. Diagnosing it needs the reply's `parser` trace plumbed
+into the report (converse.py records only kind/ask/spoken/said/pass today).
+
+Honest gate status: pytest re-run with the walk in place: 407 passed,
+3 skipped, 163.03 s — held. The full suite (32/32) has NOT been re-run this
+cut: the splice fires only where the system already refused, so one-hop
+winners are untouched by construction — but that is an argument, not a
+measurement, and the suite run is the next cut's first act. The capability is not delivered; the mechanism
+is live and the failure is localised one station downstream.
