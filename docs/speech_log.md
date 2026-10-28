@@ -3440,3 +3440,89 @@ this composition.
 landed before any run could print that label, and the `engine_error` branch has
 therefore never been exercised by a real crash. It is untested code that this
 log is relying on once-past, and that is stated rather than smoothed over.
+
+## Design: the ask's frame is not the ask's content (recall bucket, 8 of 24)
+
+The frozen bar for this cut is the post-fix baseline **4/24 = 0.167**. Measured
+on the held-out set, not on the saturated 32-ask suite.
+
+**Which of the eight.** Seven are the coverage floor refusing, with its number
+attached: `how many times did i tell you the coat is wet` **45%**, `how many
+things did i tell you about the coat` **49%**, `how many times did i tell you
+about the scarf` **49%**, `how many objects did i tell you about` **58%**,
+`how many times does the bell turn` **42%**, `how many eggs did i mention
+first` **36%**, `how many eggs broke` **41%** -- all against
+`ANSWER_COVERAGE_FLOOR = 0.6`. The eighth, `did any egg break`, refuses with
+*"it did not understand and was not in the mood to babble"* -- a different
+mechanism, **out of scope here**.
+
+**Mechanism.** A question carries **frame words**: words that name the *act of
+telling* (`tell, told, say, said, speak, mention, ask, asked, question,
+repeat`), the *number of tellings* (`many, much, time, times`), a *position in
+the sequence of tellings* (`first, last, next, ever`), the *enumeration nouns*
+(`thing, things, object, objects, item, example`) and the *question
+auxiliaries* (`do, does, did`). No memory can ever contain them, because they
+are not in the world the tells describe -- they are in the asking. Coverage is
+a **weighted fraction over `must`**, so an uncoverable word in the denominator
+is a permanent tax on every ask that carries it: with `times` and `tell`
+weighted, `the coat is wet` cannot clear 0.6 **however exactly it is
+remembered**. They are excluded from `must`, matched on stem, from a **closed
+frozenset** -- not learned, not tuned per ask, not a threshold moved.
+
+**Threshold.** `ANSWER_COVERAGE_FLOOR` stays **0.6, untouched**. This is not a
+loosening of the bar; it is a correction of what the bar is a fraction of. The
+word the guard exists to protect -- the content the ask points at (`coat`,
+`wet`, `bell`, `turn`, `egg`) -- stays in the denominator.
+
+**The hole this opens, closed in the same edit.** If a question's only
+distinctive words were frame words, `must` becomes empty and the coverage block
+is skipped entirely -- which today means *answer from whatever came back*. That
+is the confabulation the floor was bought to stop, so the new case is refused
+explicitly with its own reason: *"the question named only the telling"*. The
+pre-existing empty-`must` path (all content words merely common) is **left
+exactly as it was** -- this cut does not touch behaviour it did not create.
+
+**Falsification, pre-registered, four conditions:**
+1. the held-out score must rise above **4/24**;
+2. at least one of the seven coverage-refused asks must pass;
+3. **no held-out pass may flip to a fail** -- if one does, a frame word was
+   load-bearing for the guard and this is licence to guess: **revert**;
+4. the `recall` bucket must shrink. If the seven still refuse at the same
+   coverage numbers, the floor was not what blocked them: **revert**.
+Plus the standing gate: pytest stays **407 passed / 3 skipped**.
+
+**Honest prediction, made before measuring.** Expected yield is **small**:
+`how many times does the bell turn` should pass (strip `times`/`does` and
+`the copper bell turns twice` covers `bell`+`turn` fully, and the answer word
+`twice` is already inside the tell). `how many eggs did i mention first`
+reduces to `{egg}`, which **both** egg tells cover, so it becomes a coin flip on
+which memory the ranking picks. `how many eggs broke` is expected **NOT** to be
+fixed: its `must` is `{egg, broke}` -- no frame words at all -- and it fails
+because `broke` does not stem onto `break`. That is a *stemming* defect, a
+different mechanism, and naming it here is the point of not bundling.
+`how many objects did i tell you about` becomes empty-`must` and is refused by
+the new guard. The rest need a counting or enumeration mechanism the brain does
+not have, and this cut does not give it one: they should **move bucket without
+passing**, which is a measurement even if the score does not move.
+
+
+## The frame cut: reverted -- it failed its own conditions (2026-10-28)
+
+Measured on the held-out set against the frozen bar 4/24 = 0.167. Tasks byte-identical, nothing restructured to help the number.
+
+**Result: score did NOT rise -- 4/24 = 0.167 again (condition 1 FAILED).** Buckets moved: recall **8 -> 5**, shape_arbiter **5 -> 8**, gating 4 and mouth 3 unchanged. One GAIN and one FLIP-DOWN, and the flip decided it:
+
+- GAIN: "how many eggs did i mention first" passes. With mention/first out of the denominator `must` = {egg}, and the ranking chose "there are four eggs in the basket", which contains the answer word.
+- **FLIP-DOWN: "where did i say the scarf is" passed before as a correct refusal and now FAILS as an assertion** -- he says "the scarf is wet" when asked WHERE the scarf is. Condition 3 says a flipped pass means the frame word was load-bearing for the confabulation guard and this is licence to guess: **revert**. Executed as `git checkout -- organs/neural_language.py` (both edits); the KeyError fix stays committed at c978cbd, unrelated and measured good.
+
+**Why the guard was load-bearing.** "say" is a frame word by my list, and excluding it let the memory that NAMES the scarf clear the floor at 100 pct. The floor was never measuring "does this memory contain the answer" -- it measures "does this memory account for everything the ask points at", and a where-ask with no where-memory is exactly what it was bought to stop. The design entry named this failure mode in advance and the mechanism walked into it.
+
+### What moved, and what did not (the measurement the cut was worth)
+
+- coat-wet-times 45 pct, coat-things 49 pct, objects 58 pct: **left recall and died one stage later at the arbiter**, which has no shape for a count. The floor was real for them; the counting mechanism is still missing. A bucket shift, not a pass.
+- scarf-times 49->58, bell-turn 42->**59**, eggs-broke 41->55: **still refused by the floor**. My prediction that bell-turn would pass was WRONG, and the reason is the finding of this cut: the residual tax is the question word itself. "how" leaves `must` only if `is_interrogative("how")` is true, and that is LEARNED from corpus lines carrying a ? -- the held-out asks carry none. So the frame category is not closed-list-complete: the ask's own interrogative pronoun is the largest uncoverable weight remaining, and whether it counts is gated on the punctuation of a book rather than on anything in the question.
+- before-the-kettle moved the WRONG way, shape_arbiter -> recall at 57 pct: once frame words left `must` the candidate pool changed under it. It cost no pass. Logged because it is a coupling, not noise.
+
+**Standing bar: 4/24 = 0.167, unchanged, with the pre-cut composition** (recall 8, shape_arbiter 5, gating 4, mouth 3, engine_error 0). The recall bucket's ceiling is not the floor: three of the eight now show they would reach the arbiter and still have nowhere to put a count. Two things this rules out rather than merely fails: lowering ANSWER_COVERAGE_FLOOR would buy the same three gains and the scarf regression together, since the floor is what is holding the guard; and a bigger hand-written frame list is not available, because the word that would have to go on it next is the interrogative itself.
+
+**Cheapest open question from this cut, not taken:** what `is_interrogative` is allowed to know. It is earned from ?-lines in the corpus, so an ask written without one is judged as if it were a statement -- that is a defect in evidence, not a missing organ, and it sits under 3 of the 8 recall failures.
