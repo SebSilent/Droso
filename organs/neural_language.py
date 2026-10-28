@@ -4,6 +4,7 @@ from __future__ import annotations
 import base64
 import hashlib
 import math
+import os
 import re
 import threading
 import time
@@ -2214,6 +2215,97 @@ class NeuralLanguage:
                 return h, ("agree" if i == 0 else "override"), filler
         return None, "veto", None
 
+    def second_brain_on(self) -> bool:
+        """The ablation switch, read per call so one process can run both
+        conditions. OFF unless `DROSO_SECOND_BRAIN` says otherwise: an
+        unvalidated mechanism does not get to be the default until the gate
+        has been measured (design: speech_log 2026-10-28)."""
+        return str(os.environ.get("DROSO_SECOND_BRAIN", "0")).strip().lower() \
+            in ("1", "on", "true", "yes")
+
+    def _semantic_vote(self, q_content, hits, limit: int = 8):
+        """Brain B: rank A's shortlist by MEANING instead of by retrieval.
+
+        The binder ranks a memory by the words it shares with the question.
+        This ranks it by how near the question the words it does NOT share
+        feel: `understand()` -- a word's footprint plus its strong wiring,
+        read out of the SAN -- compared against the question's own content
+        words. It is a different quantity over the same list, and it never
+        calls `binder.recall`, which is what makes it a competing vote at the
+        decision point rather than a second retrieval path feeding the same
+        arbiter. The latter was already measured: 6 of 8 band-hop asks fired
+        a join and died on the shape veto.
+
+        B sees only A's top `limit`. `understand()` is called per candidate
+        word and the house has measured that bill (1,264 candidate words,
+        nineteen seconds for one reply, see _spread); a shortlist keeps the
+        vote affordable and says so in the trace instead of hiding it.
+
+        Returns the reordered hits and a trace. With the switch off the hits
+        come back untouched, which is today's behavior exactly.
+        """
+        n = len(hits)
+        on = self.second_brain_on()
+        if not on or n < 2 or not q_content:
+            return hits, {"on": on, "n": n,
+                          "skipped": "ablated" if not on
+                                     else "one candidate, nothing to rank"}
+        qstems = {stem(str(w).lower()) for w in q_content}
+        qvecs = []
+        for w in q_content:
+            try:
+                v = np.asarray(self.understand(str(w).lower()),
+                               dtype=np.float32)
+            except Exception:
+                continue
+            nv = float(np.linalg.norm(v))
+            if nv > 0:
+                qvecs.append(v / nv)
+        if not qvecs:
+            return hits, {"on": True, "n": n,
+                          "skipped": "no meaning vector for the question"}
+        short = list(hits[:limit])
+        rows = []
+        for i, h in enumerate(short):
+            # Only the candidate's NEW information counts. Scoring the words
+            # it shares with the question would just rebuild the overlap the
+            # binder already used, and a second brain that computes the first
+            # brain's metric is a mirror, not a vote.
+            novel = [str(t).lower() for t in h["tokens"]
+                     if str(t).strip() and stem(str(t).lower()) not in qstems
+                     and self._speakable(str(t).lower())]
+            best_s, best_w = 0.0, None
+            for t in novel[:6]:
+                try:
+                    tv = np.asarray(self.understand(t), dtype=np.float32)
+                except Exception:
+                    continue
+                nv = float(np.linalg.norm(tv))
+                if nv <= 0:
+                    continue
+                tv = tv / nv
+                s = max(float(np.dot(qv, tv)) for qv in qvecs)
+                if s > best_s:
+                    best_s, best_w = s, t
+            rows.append((i, best_s, best_w))
+        b_order = sorted(rows, key=lambda r: (-r[1], r[0]))
+        b_rank = {i: pos for pos, (i, _, _) in enumerate(b_order)}
+        # Borda: sum of ranks, ties broken toward A's order so that a vote
+        # with nothing to say cannot shuffle the list on its own.
+        combined = sorted(range(n), key=lambda i: (i + b_rank.get(
+            i, len(short) + i), i))
+        a_top, b_top, new_top = 0, b_order[0][0], combined[0]
+        trace = {"on": True, "n": n, "shortlist": len(short),
+                 "a_top": " ".join(str(t) for t in hits[a_top]["tokens"]),
+                 "b_top": " ".join(str(t) for t in hits[b_top]["tokens"]),
+                 "b_word": b_order[0][2],
+                 "b_score": round(float(b_order[0][1]), 4),
+                 "discord": int(b_top != a_top),
+                 "order_changed": int(new_top != a_top),
+                 "combined_top": " ".join(str(t) for t in hits[new_top]["tokens"])}
+        self.last_vote = trace
+        return [hits[i] for i in combined], trace
+
     def _band_walk(self, q_tokens, content, must, wq, tot, k_recall: int = 40,
                    reach_limit: int = 8):
         """The associative second attempt (design: speech_log 2026-10-27 late).
@@ -2684,6 +2776,13 @@ class NeuralLanguage:
         # veto (nothing does; answering from a shapeless neighbour is the
         # confabulation the coverage floor cannot see). An abstention -- a
         # question with no checkable shape -- changes nothing by construction.
+        # Two brains rank this list before it reaches the arbiter: A by
+        # retrieval, B by meaning. The arbiter itself is NOT touched -- it
+        # still walks the order and still vetoes anything without the queried
+        # shape, so a vote can change WHICH memory is offered but never how
+        # strictly it is judged. That is the whole difference from band-hop.
+        hits, vote = self._semantic_vote(content, hits)
+        trace["vote"] = vote
         shape = self._question_shape(q)
         if shape is not None:
             best, verdict, shape_filler = self._arbitrate_shape(shape, hits)

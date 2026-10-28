@@ -2503,5 +2503,139 @@ have to beat that background:
   not -- no interpretation required.
 
 Both are scored against state, not against a refusal message, which is what
-band-hop kept making me do. Decision on which one goes first is the next
-turn's; this entry records the criterion, not the choice.
+band-hop kept making me do.
+
+**Decided: axis (b), the competing second brain.** Why it is the measured
+choice, not the aesthetic one: the 8-script suite already carries per-turn
+scores (32 asks, each with a pass/fail, a filler and a parser verdict), so a
+vote can be scored as state and the gate is real -- 32/32 and pytest 407/3.
+Band-hop's score was a refusal message, which is why three mechanisms there
+could not tell me whether they were close.
+
+And the arbiter finding hands over the design. The house has one voice for
+recall (the binder's ranking: overlap, idf, answer-type, freshness) and one
+for shape (`_arbitrate_shape`), and they are **serialized**: the ranking
+produces `hits`, then the shape voice takes the first hit that matches and
+may veto the lot. That is exactly why a join that passes recall dies on
+shape -- 6 of 8 asks, measured. So a second brain added as *another retrieval
+path feeding the same arbiter* is not a test of a second brain; it is a
+reproduction of that dead end. The only version that is a different claim is
+a competing vote **at the same decision point**.
+
+### Design: two brains ranking one candidate list
+
+* **Brain A** is what exists: the binder's ranking of the recalled hits.
+* **Brain B** is `understand()` -- a word's footprint plus its strong wiring,
+  read from the SAN. It scores a candidate by the *meaning* distance between
+  the question's content words and that candidate's filler, which is a
+  different quantity from token overlap: it does not ask which memory was
+  retrieved, it asks whether the answer-word is semantically near the
+  question-words. It never touches `binder.recall`.
+* Both brains rank the **same** candidate list. The decision is a rank-sum
+  (Borda) over the two orders, and the combined order is what the existing
+  arbiter walks. **The arbiter is not modified, relaxed, or bypassed** -- it
+  still vetoes anything without the queried shape, which is the constraint
+  band-hop died on and the reason a join could not be smuggled through here.
+* B sees only A's top 8. `understand()` is called per candidate word and the
+  house has measured what that costs (1,264 candidate words turned one reply
+  into nineteen seconds); a shortlist keeps the vote affordable, and it is
+  recorded in the trace so the truncation is visible rather than assumed.
+* **Ablation:** `DROSO_SECOND_BRAIN=0` skips B and returns A's order
+  untouched, so the same scripts run with and without the vote and the two
+  reports are comparable turn by turn. The switch state is written into each
+  report, because a comparison whose condition is not recorded is not a
+  comparison.
+
+### Threshold, stated before the run
+
+Accepted only if all four hold:
+
+1. pytest 407 passed, 3 skipped.
+2. The 8-script suite holds **32/32** with the vote ON.
+3. **Discord > 0**: at least one turn where B's top candidate is not A's.
+   The switch must actually be a competition.
+4. The band-hop negative control stays **0/8**. If it moves while the arbiter
+   code is untouched, re-read the diff before believing the number.
+
+### Falsification, also written before the run
+
+Two-sided, so it cannot be won by construction:
+
+* 32/32 breaks -> the second brain costs answers; revert.
+* Discord == 0 -> B is a **mirror** of A, not a second brain. A vote that
+  always agrees carries no information; the axis is falsified, not passed.
+* Discord > 0 but every disagreement resolves back to A's pick, leaving the
+  final choice unchanged on all 32 turns -> the vote is **decorative**; the
+  rank-sum never reaches the decision. Falsified.
+
+One limitation stated up front, because it will otherwise look like a win:
+the suite is at its ceiling (32/32), so this axis cannot *raise* that number.
+What it can produce is no-loss plus a measured disagreement rate, i.e. a
+confidence signal the house does not currently have -- agreement between two
+independent mechanisms is stronger evidence than one mechanism's verdict.
+Any capability *gain* on this axis would need a probe set that is not
+saturated, and that is a separate design decision, not a result to be
+stretched for here.
+
+### The second brain: falsified as built (2026-10-28)
+
+Brain B is `_semantic_vote`: it takes A's top 8 and re-ranks them by
+`understand()` cosine between the question's content words and each
+candidate's *novel* words -- the words it does not share with the question,
+because scoring the shared ones would only rebuild A's own metric. The two
+orders combine by Borda rank-sum, ties broken toward A, and the existing
+arbiter walks the result. `DROSO_SECOND_BRAIN` gates it, read per call,
+default **off**: an unvalidated mechanism does not get to be the default.
+
+Measured with `tmp_second_brain_probe.py`, the same four scripts replayed
+twice in one process per condition, house down, live state read-only:
+
+| condition | asks | passed | discord | reached the decision |
+|---|---|---|---|---|
+| vote OFF | 8 | **8/8** | -- | -- |
+| vote ON  | 8 | **7/8** | 4/8 | 3/8 |
+
+Two of the three acceptance conditions behaved as designed and one did not:
+
+* **Not a mirror.** B disagreed with A's top pick on 4 of 8 asks. Falsification
+  branch 2 (discord == 0) is ruled out.
+* **Not decoration.** The disagreement changed the top of the list on 3 of 8,
+  so the vote reached the decision. Falsification branch 3 is ruled out.
+* **It cost a correct answer.** Falsification branch 1 fires: OFF 8/8, ON 7/8.
+
+The lost turn is the whole finding. For `how is the forest`, A held the
+session tell `the forest is dark`. B ranked a corpus line above it --
+`in the forest roams a unicorn which does`, b_word `roams`, b_score 0.7651 --
+the rank-sum promoted it, and he said the unicorn line. That is a
+confabulation produced by the vote, not by the arbiter: the arbiter still
+governs (on `where is the coat` the combined top was `the coat is torn` and
+the shape walk recovered `the coat is on the hook` anyway, which is the
+design working exactly as stated).
+
+So meaning-nearness loses to the corpus background the same way retrieval
+did, from the opposite direction. Retrieval lost because a 40-second-old
+edge cannot outrank 60,000 memories; this lost because the corpus has more
+words to be *near* than a two-word tell does, and a semantically rich
+neighbour out-meanings a true plain one. A second brain built on similarity
+-- token overlap or vector cosine -- is the same bet with a different
+distance function, and both halves of that bet are now measured bad. What
+would not be a similarity bet is a second brain with a different *authority*,
+not a different metric: something that can say "this was said to me five
+turns ago and nothing else was". That is the ledger's fact, which band-hop
+already proved it can establish -- and the ledger is a session-scope
+authority, not a ranking.
+
+**Falsified as built.** The code stays in the tree, default off and inert
+(pytest 407 passed, 3 skipped, 166.12 s with it present), as the negative
+control for the next attempt on this axis.
+
+**Not measured, stated plainly:** acceptance condition 2 -- the 8-script
+suite at 32/32 with the vote ON -- did not run. Both suite invocations died
+on argparse (`--only` takes one name and there is no `--save` flag), so the
+4-script comparison above is the only evidence, and it comes from a probe,
+not from the benchmark reports. The switch state is therefore recorded in
+the probe output and here, not in a report JSON: converse.py whitelists the
+per-turn keys it copies (`parser`, `band_walk`, `join`) and `vote` is not
+among them. Next cut: either re-scope B as an authority rather than a
+metric, or delete it -- and the report plumbing gets the switch field either
+way.
