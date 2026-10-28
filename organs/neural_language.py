@@ -2223,83 +2223,72 @@ class NeuralLanguage:
         return str(os.environ.get("DROSO_SECOND_BRAIN", "0")).strip().lower() \
             in ("1", "on", "true", "yes")
 
-    def _semantic_vote(self, q_content, hits, limit: int = 8):
-        """Brain B: rank A's shortlist by MEANING instead of by retrieval.
+    def _provenance_vote(self, hits, limit: int = 8):
+        """Brain B: rank A's shortlist by PROVENANCE, not by resemblance.
 
-        The binder ranks a memory by the words it shares with the question.
-        This ranks it by how near the question the words it does NOT share
-        feel: `understand()` -- a word's footprint plus its strong wiring,
-        read out of the SAN -- compared against the question's own content
-        words. It is a different quantity over the same list, and it never
-        calls `binder.recall`, which is what makes it a competing vote at the
-        decision point rather than a second retrieval path feeding the same
-        arbiter. The latter was already measured: 6 of 8 band-hop asks fired
-        a join and died on the shape veto.
+        One bit per candidate: `who == "you"` and `when >= session_t0` -- was
+        this said to me, in this session. B puts every session-bound memory
+        ahead of every corpus memory and keeps A's order as the tiebreak
+        inside each group. It reads no weights, no vectors and no token
+        overlap, so it is not another distance function over the same
+        content: both similarity bets on this axis are already measured bad
+        (band-hop's overlap: 0/8, then 6/8 shape vetoes; meaning cosine:
+        8/8 -> 7/8, where a corpus unicorn line out-meaned the true tell).
+        Design: speech_log 2026-10-28, provenance as an authority.
 
-        B sees only A's top `limit`. `understand()` is called per candidate
-        word and the house has measured that bill (1,264 candidate words,
-        nineteen seconds for one reply, see _spread); a shortlist keeps the
-        vote affordable and says so in the trace instead of hiding it.
+        The disagreement this exists to produce is A's own priority. A sorts
+        `(overlap, fresh, ...)` -- overlap FIRST -- and the comment above that
+        sort records failure (2) as "the corpus prior beat the teaching
+        outright", only partly cured by grading freshness, because a corpus
+        memory sharing more words still outranks a session tell sharing
+        fewer. B inverts that priority. If it never does, B is a mirror and
+        the axis is falsified -- that branch is written down before the run.
 
-        Returns the reordered hits and a trace. With the switch off the hits
-        come back untouched, which is today's behavior exactly.
+        The arbiter downstream is untouched. It still walks the order and
+        still vetoes anything without the queried shape, so this vote can
+        change WHICH memory is offered but never how strictly it is judged.
+
+        Returns the reordered hits and a trace. Switch off -> hits untouched.
         """
         n = len(hits)
         on = self.second_brain_on()
-        if not on or n < 2 or not q_content:
+        if not on or n < 2:
             return hits, {"on": on, "n": n,
                           "skipped": "ablated" if not on
                                      else "one candidate, nothing to rank"}
-        qstems = {stem(str(w).lower()) for w in q_content}
-        qvecs = []
-        for w in q_content:
-            try:
-                v = np.asarray(self.understand(str(w).lower()),
-                               dtype=np.float32)
-            except Exception:
-                continue
-            nv = float(np.linalg.norm(v))
-            if nv > 0:
-                qvecs.append(v / nv)
-        if not qvecs:
-            return hits, {"on": True, "n": n,
-                          "skipped": "no meaning vector for the question"}
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
         short = list(hits[:limit])
         rows = []
         for i, h in enumerate(short):
-            # Only the candidate's NEW information counts. Scoring the words
-            # it shares with the question would just rebuild the overlap the
-            # binder already used, and a second brain that computes the first
-            # brain's metric is a mirror, not a vote.
-            novel = [str(t).lower() for t in h["tokens"]
-                     if str(t).strip() and stem(str(t).lower()) not in qstems
-                     and self._speakable(str(t).lower())]
-            best_s, best_w = 0.0, None
-            for t in novel[:6]:
-                try:
-                    tv = np.asarray(self.understand(t), dtype=np.float32)
-                except Exception:
-                    continue
-                nv = float(np.linalg.norm(tv))
-                if nv <= 0:
-                    continue
-                tv = tv / nv
-                s = max(float(np.dot(qv, tv)) for qv in qvecs)
-                if s > best_s:
-                    best_s, best_w = s, t
-            rows.append((i, best_s, best_w))
+            who = str(h.get("who") or "")
+            when = float(h.get("when", 0.0) or 0.0)
+            bound = int(who == "you" and t0 > 0.0 and when >= t0)
+            rows.append((i, bound, when))
+        n_bound = sum(r[1] for r in rows)
+        if n_bound == 0 or n_bound == len(rows):
+            # No contrast to vote on: either nothing here came from this
+            # session, or all of it did. Say so instead of shuffling the list,
+            # because a vote that fires on no evidence is noise.
+            return hits, {"on": True, "n": n, "shortlist": len(short),
+                          "n_bound": n_bound, "session_t0": round(t0, 3),
+                          "skipped": "no provenance contrast in the shortlist"}
         b_order = sorted(rows, key=lambda r: (-r[1], r[0]))
         b_rank = {i: pos for pos, (i, _, _) in enumerate(b_order)}
         # Borda: sum of ranks, ties broken toward A's order so that a vote
-        # with nothing to say cannot shuffle the list on its own.
+        # with nothing to say cannot shuffle the list on its own. With two
+        # voters this flips the top only when B's pick sits at most A-rank k
+        # and A's top falls to B-rank k+1 or worse -- which is exactly the
+        # case this vote was built for: a corpus memory ABOVE a session tell.
         combined = sorted(range(n), key=lambda i: (i + b_rank.get(
             i, len(short) + i), i))
         a_top, b_top, new_top = 0, b_order[0][0], combined[0]
         trace = {"on": True, "n": n, "shortlist": len(short),
+                 "n_bound": n_bound, "session_t0": round(t0, 3),
                  "a_top": " ".join(str(t) for t in hits[a_top]["tokens"]),
+                 "a_top_bound": rows[0][1] if rows else 0,
                  "b_top": " ".join(str(t) for t in hits[b_top]["tokens"]),
-                 "b_word": b_order[0][2],
-                 "b_score": round(float(b_order[0][1]), 4),
+                 "b_top_age_s": round(max(0.0, t0 - b_order[0][2]), 2)
+                                 if b_order[0][1] else None,
                  "discord": int(b_top != a_top),
                  "order_changed": int(new_top != a_top),
                  "combined_top": " ".join(str(t) for t in hits[new_top]["tokens"])}
@@ -2777,11 +2766,13 @@ class NeuralLanguage:
         # confabulation the coverage floor cannot see). An abstention -- a
         # question with no checkable shape -- changes nothing by construction.
         # Two brains rank this list before it reaches the arbiter: A by
-        # retrieval, B by meaning. The arbiter itself is NOT touched -- it
-        # still walks the order and still vetoes anything without the queried
-        # shape, so a vote can change WHICH memory is offered but never how
-        # strictly it is judged. That is the whole difference from band-hop.
-        hits, vote = self._semantic_vote(content, hits)
+        # retrieval overlap, B by provenance -- was this said to me here. The
+        # arbiter itself is NOT touched: it still walks the order and still
+        # vetoes anything without the queried shape, so a vote can change
+        # WHICH memory is offered but never how strictly it is judged. That is
+        # the whole difference from band-hop, and from the meaning-cosine
+        # version that died promoting a corpus line over a true tell.
+        hits, vote = self._provenance_vote(hits)
         trace["vote"] = vote
         shape = self._question_shape(q)
         if shape is not None:

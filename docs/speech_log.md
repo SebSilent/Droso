@@ -2639,3 +2639,147 @@ per-turn keys it copies (`parser`, `band_walk`, `join`) and `vote` is not
 among them. Next cut: either re-scope B as an authority rather than a
 metric, or delete it -- and the report plumbing gets the switch field either
 way.
+
+## Brain B, re-scoped: provenance as an authority, not a metric (2026-10-28)
+
+Both similarity bets on this axis are now measured bad, and they lost the
+same way: band-hop's retrieval overlap died because a 40-second-old edge
+cannot outrank 60,000 memories, and the meaning-cosine vote died because the
+corpus has more words to be *near* than a two-word tell does. A second brain
+that computes a different **distance function** over the same content is the
+same bet twice. So B is re-scoped onto the thing that is not a distance
+function at all.
+
+**What B votes now: provenance.** For each candidate in A's shortlist, one
+bit -- `who == "you"` and `when >= session_t0`, the same two fields the
+ledger join already used to establish which memories came from this session.
+B's order puts every session-bound memory ahead of every corpus memory, with
+A's order as the tiebreak inside each group. It reads no weights, no vectors,
+no overlap. It answers a different question: not *which memory resembles the
+ask*, but *was this said to me here*.
+
+**Why this can disagree with A, which is the whole point.** A's key is
+`(overlap, fresh, expected, idf, novel)` -- overlap FIRST, freshness only as
+a tiebreak after it. The house logged the consequence at
+`neural_language.py` in the comment above that sort: failure (2) was "the
+corpus prior beat the teaching outright", and grading freshness fixed it only
+partly, because a corpus memory that shares more words still outranks a
+session tell that shares fewer. B's order is that priority inverted. Two
+different orderings over one list, from two different kinds of fact -- that
+is a competition, not a reranking of the same score.
+
+**The specific mirror risk, stated before the run.** If A's overlap-first
+order already puts the session tells on top for every ask in the suite, then
+B's order equals A's, discord is 0, and B is a mirror wearing a different
+costume -- falsified, exactly the branch written down last time. This is the
+most likely way this cut fails and it is not a surprise if it happens.
+
+**Same contract as before, unchanged:** both brains rank the SAME candidate
+list; the decision is a Borda rank-sum with ties broken toward A; the arbiter
+walks the result and is **not** modified, relaxed or bypassed -- it still
+vetoes anything without the queried shape. `DROSO_SECOND_BRAIN` still gates
+it, read per call, default **off**.
+
+**Plumbing gap closed:** `vote` is added to the keys converse.py copies into
+the per-turn records (warm and cold), so the switch state and the discord
+counts land in the report JSON rather than only in a probe's stdout. Last
+turn's promise, met this turn.
+
+### Threshold, stated before the run
+
+1. pytest 407 passed, 3 skipped.
+2. **No regression**: every turn that passes with the vote OFF still passes
+   with the vote ON, in the probe (all 7 fresh scripts, warm) and in the
+   benchmark suite run with the vote ON.
+3. Discord > 0 on the suite asks -- B must disagree with A at least once.
+4. Discord must reach the decision at least once (`order_changed` > 0), or B
+   is decoration.
+5. The band-hop negative control stays 0/8 **unless** a promoted answer is
+   the correct two-hop join, in which case re-read the diff and confirm the
+   arbiter is untouched before believing the rise.
+
+### Falsification, also stated before the run
+
+* Any previously-passing turn flips to fail -> B costs answers -> revert.
+  (This is the branch the meaning-cosine version died on: 8/8 -> 7/8.)
+* Discord == 0 -> mirror -> falsified.
+* Discord > 0 but `order_changed` == 0 everywhere -> decoration -> falsified.
+* Band-hop rises on answers that are not the correct joins -> the vote is
+  manufacturing confabulation -> falsified, and the control did its job.
+
+What counts as a real gain here, said plainly so it is not stretched for:
+provenance-first can only raise a score where a corpus memory currently sits
+above a session tell and the arbiter accepts the tell. On the fresh suite
+that is not supposed to happen -- the freshness term already catches it --
+so the honest expectation is **no loss plus measured disagreement**, with the
+band-hop family as the only non-saturated target where a rise is possible.
+If band-hop stays 0/8 and the suite holds, this axis produces a confidence
+signal and nothing more, and the log will say that rather than calling it a
+capability.
+
+### Provenance B: falsified as a mirror (2026-10-28)
+
+Ran against the thresholds above, house down, live state read-only.
+
+| measurement | vote OFF | vote ON |
+|---|---|---|
+| probe, 22 asks (7 fresh + 4 band-hop scripts) | **14/22** | **14/22** |
+| band-hop negative control (8 asks) | 0/8 | **0/8** |
+| full suite, 32 turns | 32/32 (prior cut) | **32/32** |
+| pytest | -- | **407 passed, 3 skipped, 166.27 s** |
+
+Suite report with the vote ON: `state/fitness/script_benchmark_20261028_034017.json`,
+`pass: true` on 32 turns, `pass: false` on zero, overall 1.00 warm / 1.00 cold.
+
+**Conditions 1, 2 and 5 hold. Condition 3 fails, and it fails in the direction
+that matters: `discord = 0` on every turn, at probe scale (22 asks) and again
+at suite scale (32 turns).** Condition 4 therefore cannot hold: with no
+disagreement there is nothing to reach the decision.
+
+This is not a vote that lacked evidence. **18 of the 22 probe asks fired with
+a genuine provenance contrast** -- the shortlist held both session-bound and
+corpus memories, `n_bound` strictly between 0 and the shortlist size -- and
+in all 18, provenance-first picked the same memory overlap-first had already
+picked. Only 7 suite turns reported `no provenance contrast in the shortlist`
+and abstained. So the case B was built to catch, a corpus memory sitting
+ABOVE a session tell, does not occur in A's shortlists on any probe in this
+house.
+
+Which means the freshness term is already doing the job, and doing it well
+enough that inverting the priority order changes nothing. The comment above
+A's sort records failure (2) as "the corpus prior beat the teaching outright"
+-- that failure is real, and it is fixed, but it is fixed by the *second*
+term of a lexicographic key, not by the first, and my design entry assumed
+that left the first term exposed. It does not: on every ask measured, the
+memory with the most shared words is also the session tell. There is no
+residual for an authority to correct.
+
+`how is the forest` is the cleanest side-by-side. The meaning-cosine B broke
+it (8/8 -> 7/8, promoting `in the forest roams a unicorn which does` over the
+true `the forest is dark`); provenance B agrees with A there and the suite
+passes it. A second brain that never disagrees is not harmless by definition
+-- it is *uninformative*, which is worse for the axis, because it means the
+architecture has one voice at this decision point no matter how many ranks
+are computed.
+
+**Falsified: mirror.** Both variants of axis (b) are now closed, by opposite
+branches of the same pre-written test: the metric cost a correct answer, the
+authority never disagreed. Code stays default-off and inert in the tree as
+the negative control.
+
+**The plumbing gap from last turn is closed and it earned its keep.** `vote`
+is now copied into the per-turn records (warm and cold) and appears on all 32
+turns of the report, carrying the switch state per turn. That is how the
+discrepancy below became visible at all:
+
+**Unexplained, not papered over:** the report has 32 `vote` fields and
+`"on": true` on only **21** of them, though the whole run was launched with
+`DROSO_SECOND_BRAIN=1`. 11 turns recorded the switch as OFF from inside a
+process that should have had it ON. The likely shape is a per-script or
+per-phase child that does not inherit the environment, but that is a
+hypothesis, not a measurement. Until it is resolved, the 32/32 above is
+"32/32 with the vote on for 21 of 32 turns", which is still a pass on the
+no-regression condition and still cannot produce discord on the 11, so it
+does not change the mirror verdict -- it does mean the suite number is not
+yet the clean vote-ON gate I claimed it was. Next cut: find which turns carry
+`on: false` and why, before any further ablation is run through this harness.

@@ -332,11 +332,13 @@ def _clean(reply) -> dict | None:
             "memories_matched", "interrogatives", "parser", "band_walk",
             "join")
     out = {k: reply[k] for k in keep if k in reply}
-    # On the answered path the parser verdict and the join trace ride inside
-    # "retrieval", which is far too big to keep whole; lift just those notes.
+    # On the answered path the parser verdict, the join trace and the second
+    # brain's vote ride inside "retrieval", which is far too big to keep
+    # whole; lift just those notes. "vote" also carries the ablation switch
+    # state ("on"), so a report says which condition produced it.
     retr = reply.get("retrieval")
     if isinstance(retr, dict):
-        for k in ("parser", "join"):
+        for k in ("parser", "join", "vote"):
             if k not in out and k in retr:
                 out[k] = retr[k]
     return out
@@ -583,7 +585,9 @@ def run_script(session: Session, script: dict) -> dict:
                              or (reply.get("retrieval") or {}).get("parser"),
                    "band_walk": reply.get("band_walk"),
                    "join": reply.get("join")
-                           or (reply.get("retrieval") or {}).get("join")}
+                           or (reply.get("retrieval") or {}).get("join"),
+                   "vote": reply.get("vote")
+                           or (reply.get("retrieval") or {}).get("vote")}
             rec.update(_score_expect(turn, step.get("expect") or {}))
             results.append(rec)
     asks = [r for r in results if r["kind"] == "ask"]
@@ -630,7 +634,9 @@ def run_cold(session: Session, script: dict) -> dict:
                          or (reply.get("retrieval") or {}).get("parser"),
                "band_walk": reply.get("band_walk"),
                "join": reply.get("join")
-                       or (reply.get("retrieval") or {}).get("join")}
+                       or (reply.get("retrieval") or {}).get("join"),
+               "vote": reply.get("vote")
+                       or (reply.get("retrieval") or {}).get("vote")}
         rec.update(_score_expect(turn, {"must_not_contain": not_w}))
         results.append(rec)
     passed = sum(1 for r in results if r.get("pass"))
