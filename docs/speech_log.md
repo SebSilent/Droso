@@ -3058,3 +3058,89 @@ hash-addressed footprint space, which is shared by collision and full of other
 concepts' activity. That is the design constraint the organ has to be written
 against, and it is why the allocation, not the counting, is the hard part
 here.
+
+## Design: the region allocator, written against the measured numbers (2026-10-28)
+
+Design entry first, code after -- house rule. This entry exists because both
+baselines above ruled out the substrates that were available, not because a
+region sounds like a good idea.
+
+**What is ruled out, and therefore what this is not.** Not a window onto
+`_fp_idx` footprint space (saturating at 122/144, and +80 cells for a concept
+that was only *asked*), not a difference of global `san_real` (-4,148 per
+5-turn session from decay alone), not a pool (13 compartments holding 11,555
+words, largest 1,187). Any organ built on those would be an exposure counter
+wearing the word "region".
+
+**Substrate: a separate, persisted, addressable matrix.** `region_w`, shape
+(256, 512): 256 blocks, one per concept, 512 cells each, 131,072 cells total
+against `san_w`'s 1.45M real cells -- deliberately small, because it is meant
+to be auditable, not to be a second brain. A block is **allocated**, not
+hashed: first free row, recorded in a `region_ledger` mapping concept -> row.
+A concept that never reaches the threshold never gets a row, so its region
+mass is exactly zero, not "zero minus somebody else's noise".
+
+**Trigger (unchanged threshold):** a concept recurring **>= 3** times in one
+session stream allocates one block. Below three, nothing is allocated.
+
+**Write rule:** on each recurrence, the concept's co-activation for that turn
+(the words it appeared with) is written into *its own block only*, at strong
+weight, capped at the existing 4.0 ceiling. No corpus concept writes into
+another concept's block; nothing in `san_w` is redirected.
+
+**Read rule for this cut: none.** Regions are allocated, written, persisted
+and measured -- and are not consulted by ranking, recall or answer selection
+at all. That is the lesson of the band walk, which was demoted to a recorded
+vote for exactly the reason that a structure which is not read cannot break
+anything: the no-regression gate should be *trivially* satisfiable, and if it
+is not, that is a defect in the organ, not a feature. A read path is a later
+cut, gated on this cut's pass pair.
+
+**Durability, computed rather than hoped.** Decay is 0.995^10 = 0.951110 per
+fire, so the fires needed to carry a cell down to the 1e-6 floor are:
+
+| written at | fires to reach 1e-6 |
+|---|---|
+| 0.3 (consolidation band) | 251.6 |
+| 1.0 | **275.6** |
+| 2.0 | 289.4 |
+| 4.0 (cap) | 303.3 |
+
+A block written at 1.0 therefore survives **276 fires** before falling
+under that floor; the 4,148 cells that crossed during the baseline session
+were already near the floor, not freshly written. A block re-stamped by recurrence therefore keeps its
+nonzero count across sessions while the corpus tail drains -- which is the
+decay-insensitivity the metric needs, and it comes from attribution (only my
+concept writes here), not from writing strong.
+
+**Cost, stated plainly: the save surface grows from seven files to eight.**
+`save_state(force_san=True)` currently moves seven (`language_state.json`,
+`.san.npz`, `.seq.npz`, `.seq.slots.json`, `.cortex.npz`, `.cortex.meta.json`,
+`.cortex.facts.json`). `region_w` plus `region_ledger` add an eighth and a
+ninth sidecar. This has been wrong in this log before, so it is a test, not a
+note: allocate a region, save with `force_san=True`, restart, and the block
+must still be there with its count intact.
+
+**Pass pair, on the same two variants as the baselines:**
+- repeated (`coat` x3): regions allocated **>= 1**, block nonzero count > 0;
+- de-repeated (each concept once, `coat` never told): regions allocated
+  **exactly 0**, including `coat`'s block staying at zero cells.
+
+**Falsification, written before the code:**
+1. The de-repeated control allocates **any** block -> the trigger is exposure,
+   not recurrence -> the organ is falsified and removed.
+2. The 3-tell block's nonzero count does not exceed the largest single-mention
+   growth measured above (**+70**, `scarf`) -> the compartment is another
+   exposure counter -> falsified.
+3. The suite is not 32/32 warm and cold with regions allocated -> the organ is
+   not inert -> revert, no renegotiation.
+4. After a restart, a saved block's count changes -> the eighth file is not on
+   the save surface -> the organ does not survive a restart and is not real
+   anatomy.
+
+**What this buys, honestly: nothing yet.** A region that is never read changes
+no behaviour. What it does buy is a structure where "this concept has a place
+in the brain" is a fact with a number attached, testable in both directions,
+which is the precondition for ever routing recall through it. If the pass pair
+fails, the axis closes here and the word "region" stops being used in this
+house.
