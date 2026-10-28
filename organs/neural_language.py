@@ -105,6 +105,14 @@ class NeuralLanguage:
         # seconds after the user said this garden is quiet. The timestamp is
         # what lets the answer sort tell those two apart.
         self.session_t0 = time.time()
+        # What was SAID to him this session, in order, as it was bound. The
+        # proposition join needs a pool it can trust to contain the pair, and
+        # a similarity search cannot promise that: `recall(["bell"], k=40)`
+        # out of 60,000 memories has no freshness term, so a tell heard
+        # 40 seconds ago is not in the top 40 (measured: seed 39, pool 1,
+        # every rejection `who` -- conversation_join_4.json). The ledger is
+        # the bind site's own record, so membership is not a ranking.
+        self.session_ledger: list[dict] = []
         self._last_thought_at = 0.0
         self.world_clock = 0.0
         self._last_thought_world = 0.0
@@ -319,6 +327,15 @@ class NeuralLanguage:
                     surprise = 1.0 + 2.0 * float(res["error"])
             except Exception:
                 surprise = 1.0
+            # Ledgered whether the write landed or threw: what matters to the
+            # join is that a human said these words to him in this session.
+            # Whole, not windowed -- the binder may chunk a statement into
+            # fragments, and the join wants the sentence the user actually
+            # spoke. Bounded: a session is a day, not a lifetime.
+            self.session_ledger.append({"tokens": toks, "who": str(speaker),
+                                        "when": time.time()})
+            if len(self.session_ledger) > 400:
+                del self.session_ledger[:-400]
         if speaker and len(toks) >= 2:
             # Order is learned from everything someone says to him, attended or
             # not: a book drifting past still has a word order in it, and the
@@ -2270,7 +2287,7 @@ class NeuralLanguage:
         trace["walked"] = " ".join(str(t) for t in scored[0][1]["tokens"])
         return scored[0][1], trace
 
-    def _prop_join(self, must, tot, q_tokens, k: int = 40):
+    def _prop_join(self, must, tot, q_tokens, seed=(), k: int = 40):
         """One hop over the PROPOSITION store: two memories that share a
         distinctive word, each covering part of a question neither covers
         alone. Design: speech_log 2026-10-28, "the proposition join".
@@ -2295,17 +2312,72 @@ class NeuralLanguage:
             return None, {"skipped": "no distinctive words"}
         n_mem = max(1, int(self.cortex.binder.X.shape[0]))
         qs = {stem(str(t).lower()) for t in q_tokens}
+        q_stems = [stem(str(t).lower()) for t in
+                   re.findall(r"[a-z']+", " ".join(str(x) for x in q_tokens))]
+
+        def _echoes(h) -> bool:
+            hs = [stem(str(t).lower()) for t in h["tokens"]]
+            if not hs or len(hs) > len(q_stems):
+                return False
+            return any(q_stems[i:i + len(hs)] == hs
+                       for i in range(len(q_stems) - len(hs) + 1))
+
         pool = {}
+        rej = []
+
+        def admit(h, src="widen"):
+            key = tuple(str(t) for t in h["tokens"])
+            if key in pool:
+                return
+            why = None
+            if str(h.get("who") or "") != "you":
+                why = "who"
+            elif float(h.get("when", 0.0) or 0.0) < self.session_t0:
+                why = "stale"
+            # The guards the direct path pays, paid here too: a remembered
+            # question is not knowledge, and an echo of the asker's own
+            # words is worse than silence. Without them the ask's own
+            # binding sits in this pool -- it IS `who == "you"`, bound
+            # after session_t0 -- and covers every reachable word by
+            # itself, so the "neither memory alone" test rejects every
+            # pair. Measured, first run: pool 2, reachable
+            # [bell, does, spin], pairs_covering 0
+            # (conversation_join_1b.json); "does" belongs to no tell.
+            if why is None:
+                toks = [str(t).lower() for t in h["tokens"]]
+                asked = [t for t in toks if self.is_interrogative(t)]
+                if asked:
+                    why = "question:" + ",".join(asked)
+                elif _echoes(h):
+                    why = "echo"
+            if why is None:
+                pool[key] = h
+            else:
+                rej.append(f"{why} [{src}] " + " ".join(key))
+
+        # Seed from the candidates the direct path already recalled and
+        # already guarded, THEN widen. Widening alone is not enough: a
+        # single-word recall of "bell" returns the best 40 matches out of
+        # 60,000 memories, and a tell heard a minute ago is not among them
+        # (measured: pool 1 after the echo filter, conversation_join_2.json
+        # -- the pool had been one tell plus the ask's own binding, never
+        # the pair). The direct path's own hit list is where both tells are.
+        # Ledger first: the pair the user spoke is in here by construction,
+        # not by ranking. The seed and the widening after it are only extra
+        # reach (a session utterance the binder windowed differently, say).
+        for h in self.session_ledger:
+            if float(h.get("when", 0.0) or 0.0) >= self.session_t0:
+                admit(h, "ledger")
+        for h in seed:
+            admit(h, "seed")
         for w in must:
             for h in self.cortex.binder.recall([w], k=k):
-                if str(h.get("who") or "") != "you":
-                    continue
-                if float(h.get("when", 0.0) or 0.0) < self.session_t0:
-                    continue
-                pool[tuple(str(t) for t in h["tokens"])] = h
+                admit(h, f"recall:{w}")
         if len(pool) < 2:
             return None, {"skipped": "fewer than two memories said this "
-                                     "session to join", "pool": len(pool)}
+                                     "session to join", "pool": len(pool),
+                          "seed": len(seed), "ledger": len(self.session_ledger),
+                          "rejected": rej[:12]}
         items = []
         for h in pool.values():
             hs = {stem(str(t).lower()) for t in h["tokens"]}
@@ -2322,10 +2394,26 @@ class NeuralLanguage:
                                      "distinctive word", "pool": len(pool)}
         joins = []
         covered = 0
-        for a, ha, ca in items:
-            for b, hb, cb in items:
-                if b is a or ca | cb != reachable or ca == reachable \
-                        or cb == reachable:
+        # Position of each stem in the question, for the target rule below.
+        order = {stem(str(t).lower()): i for i, t in enumerate(q_tokens)}
+
+        def last_pos(cov):
+            return max((order.get(stem(str(w).lower()), -1) for w in cov),
+                       default=-1)
+
+        n_items = len(items)
+        # UNORDERED pairs only. The first version looped items x items, so
+        # every pair was visited twice, once from each side, and produced two
+        # joins pointing at two different memories -- which the uniqueness
+        # guard below read as ambiguity and refused. Measured: joins 2,
+        # candidates [the noon owl spins salt, the bell rings at noon],
+        # bridges [[noon], [noon]], refused "no unique bridge join"
+        # (conversation_ledger_1.json) -- the join had FOUND the hop.
+        for i in range(n_items):
+            for j in range(i + 1, n_items):
+                a, ha, ca = items[i]
+                b, hb, cb = items[j]
+                if ca | cb != reachable or ca == reachable or cb == reachable:
                     continue
                 covered += 1
                 # The bridge is any shared content word that is not itself in
@@ -2336,9 +2424,20 @@ class NeuralLanguage:
                 # conversation_join_all.json: pool 2, reachable
                 # [bell, does, spin], joins 0).
                 bridge = (ha & hb) - qs
-                if bridge:
-                    joins.append((b, sorted(bridge),
-                                  [" ".join(ha), " ".join(hb)]))
+                if not bridge:
+                    continue
+                # Which of the two answers? The memory holding the question
+                # word that comes LATER. "what does <subject> <verb>" puts the
+                # subject first and asks for the verb's partner, so for
+                # "what does the bell spin" the target is the memory with
+                # `spin` (the one naming salt), and for "what does the owl
+                # ring" the one with `ring` (the one naming noon). This is a
+                # word-order convention, not syntax: it is the same order the
+                # sequence organ already learned from being spoken to.
+                target, other = (b, a) if last_pos(cb) > last_pos(ca) \
+                    else (a, b)
+                joins.append((target, sorted(bridge),
+                              [" ".join(ha), " ".join(hb)]))
         uniq = {tuple(str(t) for t in j[0]["tokens"]) for j in joins}
         trace = {"pool": len(pool), "reachable": sorted(reachable),
                  "joins": len(joins),
@@ -2484,7 +2583,7 @@ class NeuralLanguage:
                         # refusal stands (the walk is kept as a competing
                         # witness, not a rescue: see speech_log 2026-10-28).
                         join_hit, join_trace = self._prop_join(
-                            must, tot, q)
+                            must, tot, q, seed=hits)
                         if join_hit is not None:
                             hits = [join_hit]
                         else:

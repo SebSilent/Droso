@@ -2431,3 +2431,77 @@ Gate: pytest 407 passed, 3 skipped, 161.80 s — held. The splice is
 behaviour-neutral while the join does not fire, because `hits` is only
 replaced when a unique candidate exists. Family baseline remains **0/8**;
 the pass/fail threshold and the falsification condition stand unchanged.
+
+### The ledger join: pool solved, family falsified (2026-10-28)
+
+Third mechanism on this family, and the one that finally worked at its own
+job. The pool is no longer a ranking: `live()` keeps a `session_ledger` of
+what was said to him, appended at the bind site next to `session_t0`, and
+`_prop_join` seeds from it before it widens. Membership is then a property
+of the ledger, not of a top-k that cannot see a 40-second-old tell among
+60,000 memories.
+
+It fired. `conversation_ledger_1.json` first refused with `pool: 2,
+reachable: [bell, spin], pairs_covering: 2, joins: 2, bridges: [[noon],
+[noon]]` -- the hop and its bridge both found -- under
+`no unique bridge join`. That was my own bug, not the mechanism's: the pair
+loop ran `items x items`, so every pair was visited twice, once from each
+side, and the uniqueness guard read the duplicate as ambiguity. With
+unordered pairs and a stated target rule (the memory holding the question
+word that comes LATER, the same word-order convention the sequence organ
+already learned, not syntax) the join delivers its candidate on 6 of 8 asks.
+
+Family result: **0/8** (`conversation_fam_band-hop-{1,2,3,4}.json`, house
+down, live state read-only, `san rows changed 8115-8120`). The 8 refusals
+split into two named modes, and the split is the finding:
+
+* 6 of 8 -- `nothing he remembers has that shape`. The join fired, its
+  candidate entered `hits`, and the parser arbiter vetoed it.
+* 2 of 8 -- `covers 41%` / `covers 31%` (band-hop-2 and -3, second ask).
+  The join did not fire: those asks' distinctive words were not both
+  reachable inside the session pool.
+
+**Falsified.** The wall is the first mode. `_arbitrate_shape` asks whether
+one memory has the shape of the question's answer, and for a two-memory
+join the subject lives in the memory that is *not* the answer by
+construction -- so the veto fires on every correct join. That is not a bug
+to patch: the arbiter is the thing that stops him confabulating, and the
+design constraint on this feature was that the join proposes and the
+arbiter decides. A join that only answers when the arbiter is bypassed is
+not a capability, it is a way to turn the safety off.
+
+So the honest count for band-hop: rank-based reach falsified (session edges
+rank 627 of 11,555 for common words), weight subtraction falsified (a
+session's own decay and consolidation move 1.4M cells, more mass than the
+tells wrote), recall-seeded join falsified (`seed: 39, pool: 1`, every
+rejection `who`), and the ledger join solves the pool but dies on the veto.
+**A fly-scale band cannot make a 40-second-old edge outrank a 1.4M-row
+corpus, and even when the edge is found by construction the answer cannot
+pass an arbiter built for single-memory shape.** No fourth attempt on this
+family; the scripts stay as the negative control.
+
+Gate: pytest **407 passed, 3 skipped** (162.41 s) with the ledger and the
+unordered-pair join in the tree. Behaviour-neutral on the 32-ask suite
+because the join's candidate is vetoed rather than spoken -- the ledger
+append is the only change that touches any path, and it writes a list.
+
+### Next axis, design entry only (no code before design)
+
+Retrieval is where the corpus background eats the signal, and three
+mechanisms have now been spent on it. Pick an axis whose signal does not
+have to beat that background:
+
+* **A region that grows on repeated concepts.** The SAN has no notion of
+  "this word has been seen a lot lately"; a growth signal keyed on
+  repetition within a window is a property of the input stream, not a
+  competition with 60,000 memories, so nothing has to outrank anything.
+  Measurable without any ask: count the region after a fixed script and
+  compare to the count after the same script with the repeats removed.
+* **A second brain whose vote competes on the 8-script benchmark.** Here
+  the baseline is already measured and the gate is meaningful (32/32 held
+  across this cycle), so a competitor either raises the number or it does
+  not -- no interpretation required.
+
+Both are scored against state, not against a refusal message, which is what
+band-hop kept making me do. Decision on which one goes first is the next
+turn's; this entry records the criterion, not the choice.
