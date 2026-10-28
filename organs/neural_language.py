@@ -45,6 +45,12 @@ POOL_SETTLE_MIN_WINS = 3     # same pool must win this many decisions in a row
 POOL_SETTLE_MAX_ROUNDS = 24  # cap on decide+teach rounds while settling
 SAN_TOP_K = 512              # strongest co-activations kept per Hebb write
 SAN_ROW_CAP = 1024.0         # homeostatic cap on any SAN row's total weight
+SAN_WEIGHT_CAP = 4.0         # ceiling on any single synapse. Was a literal in
+                             # the Hebbian write; named so a probe can raise it
+                             # in memory. DEFAULT IS UNCHANGED -- live behaviour
+                             # is identical until something passes a new value,
+                             # and the concept-predicate probe is the only thing
+                             # that does. Naming it is not re-tuning it.
                              # (sweep 25-10: cap 64 halved multi-word speech 0.64->0.44
                              #  while cap 1024 recovers 0.65 and keeps A~C 2.6x under
                              #  the dense matrix's 0.34; top-k exonerated by control)
@@ -407,7 +413,7 @@ class NeuralLanguage:
                 keep = np.ones(vals.size, dtype=bool)
             ri, rj = idx[iu[keep]], idx[ju[keep]]
             new = np.clip(self.san_w[ri, rj] + eff_lr * vals[keep],
-                          0.0, 4.0)
+                          0.0, SAN_WEIGHT_CAP)
             self.san_w[ri, rj] = new
             self.san_w[rj, ri] = new      # symmetric by construction
             # ROW CAP (homeostasis). A cell present in every percept --

@@ -3341,3 +3341,40 @@ excuse. What would break it is a cut that ships a working capability, and the
 predicate is the gate on all of them: until a concept can be told apart from
 furniture by something that does not depend on which word it is standing next
 to, regions, recurrence-tracking, and any organ built on either stay unbuilt.
+
+## The gate was saturated: a heldout hard set, and its baseline (2026-10-28)
+
+Five cuts produced knowledge and zero capability, and the reason is instrumental. The only capability gate in the house (tools/scripts.json, 32 graded asks) reads **32/32 at 1.00/1.00**; a saturated instrument cannot register an improvement of any size, so nothing built after it could show up. The instrument was fixed before more anatomy.
+
+**Harness:** tools/heldout_eval.py + tools/scripts_heldout.json -- six scripts, **24 graded asks**, each in a FRESH house copy (build() re-points persistence, live state read-only, beats=0). **No judge of any kind**: four mechanical checks -- an answer slot (whole word), must_contain plus order (strictly increasing subsequence), a forbid list, and require_refusal, which grades the state invariant (did i ever tell you about the moon) by whether he asserted anything at all. The forbid lists are what make it ungameable: blurting a related word fails.
+
+### BASELINE: 4/24 = 0.167
+
+count **0/8** | order 2/8 | invariant 2/4 | mouth **0/4**. A low number was the point; 1.00 here would mean the tasks were too easy and must be replaced. This measures the reach of the instrument, not how much Droso knows.
+
+### FAILURE MAP (from the reply trace fields)
+
+recall 8 | gating 4 | shape_arbiter 4 | mouth 2 | engine_error 2
+
+- **count 0/8, every one a recall miss with a coverage number attached**: "the closest memory of his covers 45/49/49/58/42 pct of the question". The coverage floor refuses before any counting could happen. The brain has **no counting mechanism at all**, and the gate never gets the chance to be wrong about one.
+- **gating 4** -- "it understood but did not feel like speaking". Recall **succeeded**; the reply gate declined. These are not memory failures, and the first classifier nearly counted them as such.
+- **shape_arbiter 4** -- "nothing he remembers has that shape" with parser verdict veto, on the ordering ask and on the two-hop ask (what does the thing the frost bites hold): the closed band-hop family showing itself in a fresh script.
+- **mouth 2** -- two different asks both answered with the single word **sold**, source = meaning resonance: the ordering ask and the exact-repeat ask. The purest test of the mouth produced one word, and the same word twice.
+- **engine_error 2** -- the two conjunction asks raise **KeyError: proposition** in answer(), organs/neural_language.py:2803 (role_of(best["proposition"], ...)). Session.ask keeps the exception in turn["error"] and returns an empty reply, so **a crash looks exactly like a silent recall miss in the trace** -- no reason, no source, no verdict. The first run of this map labelled both recall; the classifier now reads turn["error"]. The crash is NOT fixed this turn.
+
+**Slot extraction is absent.** Asked "what turns twice" he echoed the whole tell (the copper bell turns twice) although the arbiter had already recovered the right filler (recovered_filler = bell, verdict = agree): the correct word was in hand and the mouth said the sentence instead. The forbid list caught it; a lenient scorer would have called that a pass.
+
+**The four passes are all single-hop direct recall** -- latch, frost, wet, and one correct silence. Exactly the shape the saturated 32-ask suite praised: one hop to a co-told word, and nothing else.
+
+### The 4.0-cap explanation was wrong; the region organ closes for good
+
+tmp_cap_probe.py, same pre-registered hand list, same frozen statistic, two repairs:
+- **Nothing was pinned.** Across 36 words, 0.000 pct of touched cells sit at 4.0 before the tell, and every write maximum is below it (highest 3.9487).
+- **Raising the cap 10x** (SAN_WEIGHT_CAP 4.0 -> 40.0, in memory on a session copy, nothing saved) leaves the verdict **identical**: P=0.500 R=0.667, numbers moving in the fourth decimal (spins 1.1549->1.1544, noon 1.8181->1.8159, the 3.7140->3.7264).
+- **Per-row normalisation is worse, and it is a self-inflicted ceiling**: dividing each touched cell by the pre-max of its own row makes the background exactly 1.0000 for any word whose row max lies inside the touched block (bell, salt, spins) -- nothing can exceed 1.0. P=0.333 R=0.333 (asis), P=0.500 R=0.333 (raised).
+
+So the previous entry's claim that headroom under the cap decides is **false, and is corrected here rather than left standing**: nothing was clipped. salt stays quiet because its touched block already holds 3.7331 and the write is smaller than that. The mechanism is **shared footprints** -- the 12 hash cells of a rare word collide with corpus-wired cells, so its block inherits common-word weight whatever the ceiling is.
+
+The predicate did not separate under either repair: **the region organ stays closed for good.** No third variant, no re-tune. SAN_WEIGHT_CAP is now a named constant with its **default unchanged at 4.0** -- a probe handle, not a re-tune; live behaviour is identical until something passes a new value.
+
+**Where the next cut should land, per the map rather than guesswork:** the two conjunction crashes are a plain bug in the answering path; mouth (sold twice, echo instead of slot) is the cheapest visible capability; count 0/8 is the largest block but needs a mechanism the brain does not have. **Nothing was fixed this turn** -- the deliverable is the map.

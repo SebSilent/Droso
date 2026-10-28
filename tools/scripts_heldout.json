@@ -1,0 +1,106 @@
+{
+  "name": "heldout_hard",
+  "note": "Held-out against tools/scripts.json (the 32-ask suite that reads 1.00). Graded only by exact word, count, ordering or state invariant -- no judge, no model, no partial credit. Forbid-lists are what make it ungameable: naming a related word does not pass.",
+  "scripts": [
+    {
+      "name": "count-frequency",
+      "kind": "count",
+      "turns": [
+        {"say": "the coat is wet"},
+        {"say": "the coat is wet"},
+        {"say": "the coat is wet"},
+        {"say": "the coat is torn"},
+        {"ask": "how many times did i tell you the coat is wet",
+         "expect": {"answer": ["three"], "forbid": ["one", "two", "four", "five", "torn"]}},
+        {"ask": "how many things did i tell you about the coat",
+         "expect": {"answer": ["two"], "forbid": ["three", "one", "four", "wet"]}},
+        {"ask": "how many times did i tell you about the scarf",
+         "expect": {"answer": ["zero", "none", "no"], "forbid": ["three", "two", "once"]}},
+        {"ask": "did i ever tell you about the moon",
+         "expect": {"answer": ["no"], "forbid": ["moon", "yes"]}}
+      ]
+    },
+    {
+      "name": "order-first-last",
+      "kind": "order",
+      "turns": [
+        {"say": "the lantern is lit"},
+        {"say": "the kettle is singing"},
+        {"say": "the gate is open"},
+        {"ask": "which did i tell you first the lantern or the kettle",
+         "expect": {"answer": ["lantern"], "forbid": ["kettle", "gate"]}},
+        {"ask": "which did i tell you last the kettle or the gate",
+         "expect": {"answer": ["gate"], "forbid": ["kettle", "lantern"]}},
+        {"ask": "what did i tell you about before the kettle",
+         "expect": {"answer": ["lantern"], "forbid": ["gate", "singing", "open"]}},
+        {"ask": "how many objects did i tell you about",
+         "expect": {"answer": ["three"], "forbid": ["one", "two", "four"]}}
+      ]
+    },
+    {
+      "name": "conjunction-and-absence",
+      "kind": "invariant",
+      "turns": [
+        {"say": "the coat is wet"},
+        {"say": "the coat is on the hook"},
+        {"say": "the scarf is wet"},
+        {"ask": "what is both wet and on the hook",
+         "expect": {"answer": ["coat"], "forbid": ["scarf"]}},
+        {"ask": "what is wet but not on the hook",
+         "expect": {"answer": ["scarf"], "forbid": ["coat"]}},
+        {"ask": "where did i say the scarf is",
+         "expect": {"answer": [], "forbid": ["hook"], "require_refusal": true}},
+        {"ask": "is the coat dry or wet",
+         "expect": {"answer": ["wet"], "forbid": ["dry"]}}
+      ]
+    },
+    {
+      "name": "exact-repeat",
+      "kind": "mouth",
+      "turns": [
+        {"say": "the copper bell turns twice"},
+        {"ask": "say exactly the copper bell turns twice",
+         "expect": {"answer": [], "must_contain": ["copper", "bell", "turns", "twice"],
+                    "order": ["copper", "bell", "turns", "twice"], "forbid": []}},
+        {"ask": "which word did i use for the metal",
+         "expect": {"answer": ["copper"], "forbid": ["bell", "iron", "gold"]}},
+        {"ask": "how many times does the bell turn",
+         "expect": {"answer": ["twice", "two"], "forbid": ["three", "once"]}},
+        {"ask": "what turns twice",
+         "expect": {"answer": ["bell"], "forbid": ["copper"]}}
+      ]
+    },
+    {
+      "name": "hop-and-inventory",
+      "kind": "order",
+      "turns": [
+        {"say": "the frost bites the latch"},
+        {"say": "the latch holds the door"},
+        {"ask": "what does the frost bite",
+         "expect": {"answer": ["latch"], "forbid": ["door"]}},
+        {"ask": "what does the thing the frost bites hold",
+         "expect": {"answer": ["door"], "forbid": ["frost"]}},
+        {"ask": "what bites the latch",
+         "expect": {"answer": ["frost"], "forbid": ["door"]}},
+        {"ask": "does the door hold the frost",
+         "expect": {"answer": ["no"], "forbid": ["yes"]}}
+      ]
+    },
+    {
+      "name": "quantity-change",
+      "kind": "count",
+      "turns": [
+        {"say": "there are four eggs in the basket"},
+        {"say": "then two eggs break"},
+        {"ask": "how many eggs did i mention first",
+         "expect": {"answer": ["four"], "forbid": ["two"]}},
+        {"ask": "how many eggs broke",
+         "expect": {"answer": ["two"], "forbid": ["four"]}},
+        {"ask": "did any egg break",
+         "expect": {"answer": ["yes"], "forbid": ["no"]}},
+        {"ask": "how many eggs are left in the basket",
+         "expect": {"answer": ["two"], "forbid": ["four", "six"]}}
+      ]
+    }
+  ]
+}
