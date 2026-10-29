@@ -95,6 +95,15 @@ py -3.10 tools\echo_guard_probe.py | tools\unowned_probe.py | tools\veto_probe.p
 - **Glossary** -- returns before `hear()`, so that turn's question is never bound to memory.
 - `tools/veto_probe.py` raises a `TypeError` against its own instance patch; a probe artifact, not the matcher.
 
+## Housekeeping at close
+
+`_tmp/`, `tools/_tmp_report_dump.py` and four root-level git-ignored scratch
+scripts (`_vocab_check.py`, `_vocab_check2.py`, `probe_fails.py`,
+`probe_speak_fix.py`) were deleted -- leftover diagnostics from earlier
+sessions, superseded by the tracked probes in `tools/`. Every probe script in
+`tools/` is tracked and documents what it is for. `git status` is clean, nothing
+is ignored-but-needed, no background job is alive.
+
 ## What is NOT done -- do not repeat it
 
 - **No population run is running.** Nothing is mid-climb, no background job is alive.
