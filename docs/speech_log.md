@@ -4961,6 +4961,87 @@ its callers, not by another guess at the organ.
 withdrawn; the eight guards were not run this turn because the 24 gate was never
 reached.
 
+## HOP AXIS CLOSED -- bounded attempt spent, contract did not explain it
+
+The last try was bounded in advance: read `binder.recall` and its callers, and
+implement only if the contract names a one-line cause for the inner resolution
+returning None.
+
+**Read (`organs/higher_cortex.py:455`, callers at `neural_language.py:2635`).**
+The contract is: a cue is a plain list of words, recall stems each one itself
+(`rows_for = {t: self.stem_rows(t)}`), it filters to "distinctive" words by his
+own document frequency, and it returns memory dicts carrying `tokens`. That is
+**exactly** what the failed hop passed it -- `['frost', 'bites']`, a list, and it
+read `h["tokens"]` back. The contract admits no other refusal, and therefore
+**does not explain the None.**
+
+**So nothing was implemented, and the hop axis is closed.** The cause is a
+runtime fact I am not allowed to chase by the bound that governed this attempt
+-- an exception inside the hop's own `try`, or a disagreement between the
+binder's hit shape and what the hop read -- and guessing at it again is the move
+that already cost this log five failures.
+
+**The finding is architectural, as predicted if it failed.** This organ asks one
+memory one question, by design: `recall(cue, k)` returns candidates, and
+`_shape_matches` judges each memory alone. A two-memory ask needs a mechanism
+that does not exist yet, and the next attempt at it must **specify its contract
+before it is built** -- what a resolved entity is, where it is stored, and how
+it is fed back into a second judgement without weakening the veto. That is not a
+retrieval variant; it is a new path.
+
+**The veto stays.** `the latch holds the door` is still refused for a question
+about *the thing*, and that refusal is correct. Making it pass would rebuild
+`_genome_patch.py`'s defect inside the organ and void every number after it.
+
+**Retrieval side closed.** The log has now recorded rank-reach, subtraction,
+join, band-walk and hop. No further retrieval variant is the next item.
+
+# The mouth/gating side, diagnosed
+
+`tools/mouth_probe.py` replays the tells that precede one ask into a fresh
+house, asks it, and prints the reply. Three defects, none of which touches the
+arbiter:
+
+| ask | said | the mouth's own reason |
+|---|---|---|
+| `say exactly the copper bell turns twice` | **"sold"** | meaning resonance 0.5725 |
+| `did i ever tell you about the moon?` | *(silence)* | "it understood but did not feel like speaking", resonance 0.5819, threshold 0.55 |
+| `does the door hold the frost?` | *(silence)* | same, 0.5738, threshold 0.55 |
+
+**Defect A, rendering: an instruction to repeat is answered by resonance.**
+Asked to say a sentence back, he says `sold` -- a word produced by meaning
+resonance, unrelated to the instruction. Nothing in the path reads the
+instruction as an instruction.
+
+**Defect B, gating: a yes/no absence question is answered with silence.** He had
+a resonance above his own threshold and chose not to speak. For
+`did i ever tell you about the moon?` the true report is **`no`** -- he has no
+memory of the moon at all -- and silence is not that report.
+
+## Pre-registered: the echo path (defect A), before any code
+
+**Contract.** An utterance beginning `say exactly …` is an **instruction to
+repeat**, not a question. The reply is the remainder of the utterance, verbatim.
+It is spoken only if that remainder is something he actually remembers -- every
+content word of it present, in order, in one memory -- so the echo cannot
+manufacture a sentence he never heard. If he does not remember it, he says he
+cannot repeat it. The arbiter is not involved and no veto is relaxed.
+
+**Gate, in order:** pytest green including `test_shape_filler_position`; the 24
+organ-only must reach **7/24** -- the echo ask moving PASS -- with **zero of the
+six baseline passes lost**; then the eight guard scripts on a quiet machine.
+
+**Falsification.** If the echo ask does not move, the instruction path is not the
+defect and it reverts. If any baseline pass is lost, it reverts. If a guard goes
+red while the 24 improves, **the guard decides** and the conflict is logged.
+
+**Defect B is deliberately NOT pre-registered here.** `did i ever tell you about
+the moon` is an entity-absence question -- `moon` appears in no memory, so `no`
+is a checkable true report. `does the door hold the frost` is different: both
+words exist, and answering `no` there would be a closed-world assumption the
+organ has no right to make from absence of a relation. Only the entity-absence
+case gets a mechanism, and only after defect A is gated.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
