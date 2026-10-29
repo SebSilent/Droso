@@ -5,6 +5,38 @@ Design decisions and findings from giving Droso a conversational harness
 `tools/scripts.json`). Recorded, not fixed. All numbers from runs against the
 live read-only state (11,555 words, 60,000 propositions, 66,107,030 SAN nnz).
 
+## The standard: two kinds of cut
+
+Every cut offered against the held-out organ suite is **one of two kinds**, and
+the kind must be declared before the code is written.
+
+**1. A capability point.** It must **move the 24** -- at least one ask that
+failed now passes. It is **booked only then**, with zero frozen passes lost,
+pytest green and the eight guards clean. It may raise the floor.
+
+**2. A generalisation credit.** It **moves no ask in the 24** because the suite
+cannot see what it does -- cue vocabulary, synonym families, world-knowledge
+phrasing are the recurring case. It is still worth landing, and it is recorded
+as **credit** with the explicit note:
+
+> **zero score delta -- the 24 cannot see cue vocabulary.**
+
+Its gate is different: **unseen paraphrases written before the code**, all of
+which must pass, plus pytest green, zero frozen passes lost, and the eight
+guards clean.
+
+**Two rules keep this honest.** **Credits never raise the floor** -- the floor is
+what the 24 measures, and a credit moves nothing in it. **Credits never
+substitute for capability points** -- they are not progress toward the remaining
+failures and cannot be counted as such.
+
+The discipline this replaces: a real mechanism was reverted because the wrong
+gate was applied to it. Discarding working generalisations because the suite
+happens to be blind to them is not rigour, it is a measurement error wearing
+rigour's coat. The hard part stays exactly where it was -- a capability point
+still has to move the 24 -- but the two kinds are now counted separately and
+neither can be passed off as the other.
+
 ## Design decisions
 
 ### Turn boundary
@@ -5879,14 +5911,44 @@ already passing from defect I. The change is worth **zero asks** on this suite,
 which means the 24 cannot measure it at all -- a generalisation the 24 is blind
 to is not a capability point by this log's rules.
 
-**Reverted**, so the floor stays **19/24** and nothing unmeasured sits in the
-brain. Organ back to defect I: `COUNT_FIRST_CUES` gone, `_quantity_answer`
-present, pytest **428 passed, 3 skipped**.
+**Reverted at the time** because the wrong gate was applied to it -- the 24 was
+asked for a capability point this class can never be. **Re-landed under the
+standard above, as a generalisation credit.**
 
-**Recorded as a measurement gap, not a failure of the class.** If this is worth
-landing, it needs an ask in the suite that a synonym -- and only a synonym --
-distinguishes. Until such an ask exists, adding the class would be an unmeasurable
-change, and this log does not take those. **No fifth synonym was added.**
+## GENERALISATION CREDIT 1: cue classes (defect J), landed
+
+| item | result |
+|---|---|
+| kind | **generalisation credit** -- declared before the code |
+| paraphrases (P2 + N1 + N2, all required, written before code) | **3/3** |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only | **19/24 -- zero of the nineteen lost** |
+| eight guards | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+| floor | **19/24 unchanged -- a credit never raises it** |
+| capability claimed | **none** |
+
+> **zero score delta -- the 24 cannot see cue vocabulary.**
+
+What it does: the first/last cue is one **class**, matched as a family --
+`first`, `at the start`, `initially`, `to begin with`, `originally`, `at the
+outset`, `earliest`; and `last`, `at the end`, `finally`, `in the end`, `at
+last`, `eventually`. Any member takes the branch. A count question may also be
+phrased `what count of X ...`, which is part of the same item. It is **not to be
+grown one failure at a time**: a cue outside the classes is a new registration,
+not an edit.
+
+Evidence that the class is real rather than fitted to my own test: three
+different members, three different phrasings, one of which never says `how many`
+at all.
+
+```
+P2 PASS 'four'  how many eggs were there at the start?
+N1 PASS 'four'  how many eggs did we begin with?
+N2 PASS 'four'  what count of eggs was there originally?
+```
+
+Controls unchanged: the record count still answers `one`, the world count is
+still refused.
 
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;

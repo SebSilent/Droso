@@ -2589,6 +2589,18 @@ class NeuralLanguage:
     NUMBER_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
                     "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
 
+    # CUE CLASSES, declared whole (defect J, a generalisation credit -- see the
+    # standard in the log: it moves no ask in the 24, so it is recorded as
+    # credit, never as a capability point, and it does not raise the floor).
+    # `at the start`, `to begin with` and `at the outset` are not phrase
+    # patterns bolted on one at a time: the class is the set of words meaning
+    # "the earliest point", and any member takes the first-number branch.
+    COUNT_FIRST_CUES = frozenset({
+        "first", "initially", "initial", "start", "started", "begin", "began",
+        "beginning", "originally", "original", "outset", "earliest"})
+    COUNT_LAST_CUES = frozenset({
+        "last", "finally", "final", "end", "ended", "latest", "eventually"})
+
     def _quantity_answer(self, user_text):
         """`how many eggs are left in the basket?` -- arithmetic over content.
 
@@ -2610,9 +2622,15 @@ class NeuralLanguage:
             return None
         is_any = words[0] == "did" and "any" in words[:3]
         if not is_any:
-            if "how" not in words or "many" not in words:
+            # `how many X` or `what count of X` -- both are count questions.
+            pivot = None
+            if "how" in words and "many" in words:
+                pivot = words.index("many")
+            elif "what" in words and "count" in words:
+                pivot = words.index("count")
+            if pivot is None:
                 return None
-            after = words[words.index("many") + 1:]
+            after = words[pivot + 1:]
             if after and after[0] in self.COUNT_QUANTS:
                 return None                # that one belongs to the count path
 
@@ -2680,9 +2698,12 @@ class NeuralLanguage:
                     "utterance": name, "response": name,
                     "source": "quantity", "entity": entity, "value": n}
 
-        if "first" in words:
+        # Cue CLASSES, matched as a family (defect J): `first`, `at the start`,
+        # `initially`, `to begin with`, `originally` are one class; `last`,
+        # `at the end`, `finally`, `in the end` another.
+        if any(w in self.COUNT_FIRST_CUES for w in words):
             return say(mine[0][2][0])
-        if "last" in words:
+        if any(w in self.COUNT_LAST_CUES for w in words):
             return say(mine[-1][2][0])
         if any(w in words for w in ("left", "remain", "remains", "leftover")):
             total = mine[0][2][0]
