@@ -4046,6 +4046,61 @@ unit test and has never scored a point, or restart survival, which no current
 rule touches at all. Until then this is a working harness with a measured cost
 model and no capability to select for.
 
+## The four numbers, reported before any further breeding (2026-10-29)
+
+Read from the files, not from recollection. First, the organ: last turn's
+`write_file` truncated `organs/neural_language.py` to 296 chars. Restored with
+`git checkout --` and verified -- **4017 lines, 212 507 chars, imports, both head
+rules present, tree matches HEAD** -- before anything was measured against it.
+
+**1. The cost model** -- `tools/fly_cost_model.py`, report
+`state/fitness/fly_cost_20261029_000648.json`. RSS by psutil inside a fresh
+subprocess.
+
+| number | value | source field |
+|---|---|---|
+| one loaded house | **+2537.2 MB** | `house1_delta_mb` |
+| a second house, same process | **+2426.3 MB -- DUPLICATED** | `house2_delta_mb`, `second_house_shares: false` |
+| freed again | 0 returned | `after_free_second_mb` |
+| per-fly delta, 10 000 cells | **1.11 MB** | `sparse_delta_10000_mb` |
+| per-fly full weight copy | 256.0 MB | `full_weight_copy_mb` |
+| wall-clock per individual | **< 0.01 s** for 48 pairs (10 flies: 0.00 s) | `fitness_seconds_1fly` |
+
+**Derived N under 8192 MB with 2048 headroom:** 6144 - 2537 substrate = 3607 MB
+for flies -> **N = 3249** at 1.11 MB/fly, or **N = 14** at a full weight copy,
+or **N = 1** at a house per fly. The script's own first derivation printed 4136
+and 17 because it forgot to subtract the substrate; corrected here.
+*Wall-clock per individual, restated as one number:* about 1 ms, so time is not
+the constraint and 10 000 generations would cost ten seconds.
+
+**2. The null spread -- ZERO, confirmed** -- `state/fitness/fly_control_20261029_000950.json`.
+10 clones, zero mutation, seed 13: fitness values `[1.0]`, `null_spread: 0`,
+`clones_identical: true`, and one genome id. The harness is deterministic; this
+gate passes, so breeding is not blocked on noise.
+
+**3. The mutant spread** -- same file, population B: 10 mutants from base
+`08b785873719` (`{"seed":13,"head_index":-1,"extra_function":[],"stem_verb":true}`),
+one seed, mutation only. Fitness values `[0.0, 0.104167, 1.0]`,
+`mutant_spread: 2`, three distinct. Heritable variance exists, so the axis does
+not close on the pre-registered condition.
+
+**4. Generation-1 best vs generation-0 best** -- `state/fitness/fly_gens_20261029_001010.json`:
+gen 1 best **1.0000**, gen 0 (the base) best **1.0000**. **No improvement, and
+none possible: generation 1's best IS the base genome.** The fitness is
+saturated by the incumbent, exactly as logged last night -- selection here can
+only find regressions.
+
+**The lineage file does not do what was asked, and this is a defect, not a
+formatting nit.** `state/fitness/fly_lineage_20261029_000950.jsonl` exists only
+for the control run: **20 rows, all `gen: 1`, and every one carries
+`parent: None`**; ids collide, `10 distinct row ids across 20 rows`, because
+populations A and B both number themselves `g1-0..g1-9`. And
+`phase_generations` **writes no lineage file at all** -- it saved only the best
+per generation. So no survivor can currently be traced to its parent. That
+needs fixing before selection means anything: `evaluate()` must record the
+actual parent genome id at mutation time, `phase_generations` must write the
+lineage it currently omits, and ids must be unique across populations.
+
 ## Pre-registration: the arbiter names the modifier, not the head (2026-10-28)
 
 The render falsification exposed a sharper defect than the one it was testing,
