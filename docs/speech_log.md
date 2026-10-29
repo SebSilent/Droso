@@ -4229,6 +4229,101 @@ the elite -- and it is deliberately NOT applied in this turn, because a run must
 report what the design does and not what it can be tuned into. Population size
 and generation count stay at 10 and 2.
 
+## Pre-registered: the selection lever (2026-10-29, written before the run)
+
+**Hypothesis, stated before the run.** gen-2 stalls at 0.625 because a
+three-way tournament in a ten-fly pool breeds from the 0.625 carriers too rarely
+to compose them. The ceiling needs `cut_at: all` AND `rel_head: true` in one
+genome; one mutation reaches 0.625 with either, so the second step must be
+*proposed*, and proposal happens only when a mutant's parent already carries the
+first gene. If the stall is a proposal-rate problem, concentrating reproduction
+on the leaders fixes it. If it is not, the lever does nothing and that is the
+result.
+
+**Conditions, one at a time so the cause stays attributable.**
+(a) elite-only breeding: the top k reproduce, everyone else discarded, k = 2
+then k = 4.
+(b) only if (a) fails: tournament size 5, then 7, same pool.
+
+**Held fixed:** population 10, three generations for this test only (the stall
+is a gen-2 question; gen-3 catches a composition that needs the extra step),
+seeds 13, 7, 17, 23, 29 for every condition, fitness and mutation untouched --
+the only variable is how parents are chosen.
+
+**Pass:** on the majority of seeds (3 of 5 or more), gen-2 best > gen-1 best OR
+gen-3 best > gen-1 best, within one condition. Every improving seed must be
+reported with its composition path by lineage id: the winning genome's two
+genes, traceable through the chain to the parents that supplied them.
+
+**A stall on every seed and every condition is a result and will be logged as
+one:** it means the ceiling is not reachable by selection strength, and the next
+question is whether the composite surface is too sparse -- not whether the pool
+is too small. In that case: do not widen the pool, do not add generations, and
+do not soften the fitness to make a climb possible.
+
+# The selection lever, run: every condition stalls, and the reason is the surface
+
+Fitness, mutation, material, pool (10) and seed stream untouched; the only
+variable was how parents are chosen. Every condition began from an identical
+population per seed. `tools/selection_lever.py`, reports
+`state/fitness/selection_lever_20261029_002923.json` and `..._002944.json`.
+
+| condition | seed 13 | seed 7 | seed 17 | seed 23 | seed 29 | improving |
+|---|---|---|---|---|---|---|
+| elite k=2 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .594/.594/.594 | **0/5** |
+| elite k=4 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .594/.594/.594 | **0/5** |
+| tournament k=5 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .594/.594/.594 | **0/5** |
+| tournament k=7 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .625/.625/.625 | .594/.594/.594 | **0/5** |
+
+(gen-1 / gen-2 / gen-3 best.) **No composition path exists to report**: no seed
+improved under any condition, so there is no arc of two genes to trace.
+
+**Elite-only breeding with k=2 should have composed two genes almost surely if
+composition helped at all** -- eight mutants a generation from the leader, a
+third of them flipping the missing gene, three generations. It improved nothing,
+on any seed. That removed "proposal rate" as the explanation before any
+conclusion was drawn from it, so the surface was enumerated instead of guessed:
+`tools/surface_probe.py`, all 12 genomes (head_index x cut_at x rel_head), 32
+pairs.
+
+```
+MAX IN SPACE 0.62500
+  0.62500  head=-1 cut=all  rel=False   .625 .625 .625 .625
+  0.59375  head=-1 cut=any  rel=True    .625 .500 .750 .500
+  0.43750  head=-1 cut=of   rel=False   .625 .250 .625 .250
+  0.25000  head=-1 cut=none rel=False   .250 .250 .250 .250   <- the base
+  0.21875  head= 0 cut=*    rel=False   ...
+```
+
+**The global maximum of the fitness over its entire genome space is 0.625, which
+is exactly what generation 1 already holds.** The stall is not that selection is
+too weak to climb; there is nothing above the first generation to climb to. The
+two improvements are mutually exclusive in this surface: `cut_at: all` reaches
+0.625 with `rel_head: false`, and `rel_head: true` reaches 0.59375 -- it buys the
+relative-clause pairs and loses more prepositional ones than it gains, so no
+genome holds both. The composite is not merely sparse, it is **peaked one
+mutation from the base, by construction.**
+
+This is the same defect as before wearing a different number: the first harness
+had gen-0 at the maximum (1.0), this one has gen-1 at the maximum (0.625).
+Making the material harder raised the difficulty without creating a path -- the
+check got harder and the ceiling landed on the incumbent's first neighbour.
+
+**Pre-registered stall rule, applied:** the ceiling is not reachable by
+selection strength, so the next question is the fitness surface, not the pool
+size. Pool stays 10, generations stay 3 for this test, and the fitness is not
+softened to make a climb possible. What must change next is the surface: the
+components have to be **additive** -- a genome that fixes relative clauses must
+not lose prepositional ones -- which means the two constructions must not compete
+for the same decision. That is a redesign of the material and the genes
+together, not a tuning of selection.
+
+**Gates, unchanged and re-measured after the selection change:** null spread **0**
+(10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
+reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
+skipped** (the 407 in the brief is stale -- this tree has 428 with the fold and
+head-rule tests).
+
 ## Pre-registration: the arbiter names the modifier, not the head (2026-10-28)
 
 The render falsification exposed a sharper defect than the one it was testing,
