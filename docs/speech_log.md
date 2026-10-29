@@ -4758,6 +4758,52 @@ fitness has to contain spans whose modifiers are NOT a closed set the rule can
 learn to strip -- otherwise every winner will be overfitted by construction, and
 the guard or pytest will keep being the thing that finds out.
 
+## THE CONFLICT, AND THE REAL FINDING: 7/24 IS A SHIM RESULT
+
+Pre-registered here, as instructed: a **structural gene** -- a feature firing on
+a second finite clause / relative marker inside the span -- conditioning the
+head rule, floor frozen at the **6/24 organ baseline**, gate in order (pytest
+incl. `test_shape_filler_position`, then the 24 with zero baseline passes lost,
+then the eight guards).
+
+**That conditional rule already ran, as the determiner cue** (`7fdd635`): pytest
+**428 passed / 3 skipped**, the 24 against the organ **6/24**. It could not
+reach 7/24, and I assumed the proxy was simply too weak. The diagnosis says
+something worse, so it is recorded before any second attempt:
+
+- The moved ask answers **`door`**, and the span it is read from is **one content
+  word**. Every head rule in this log -- last, first, weighted, conditional --
+  returns `door` for it. **The head cannot be what moved that ask.**
+- Against the organ the same ask is `stage=shape_arbiter`, i.e. `_shape_matches`
+  returned **None** -- a **veto** -- for the memory in question.
+- `tools/_genome_patch.py` is built to recover exactly that: it calls the
+  organ's matcher, and **if the organ returned None** it returns the fly's
+  filler instead. `fly_head` does not implement `shape["subject"]` or the
+  `shape["tail"]` walk, so it happily answers a memory the organ's matcher
+  refused.
+
+**So the +1 is a veto override, not a head correction.** The shim converts "he
+refused" into "he answered", and once in 24 that landed on the wanted word. No
+head rule can carry that, which is why every landing attempt measured 6/24 --
+the proxy was not too weak, it was answering a different question.
+
+**The conflict, stated as the finding: the fly's rule and the organ's contract
+disagree, and the contract wins.** The organ requires the queried subject to be
+present before the verb and requires the tail to walk; the fly's rule requires
+neither. The shipped matcher keeps its guards; nothing lands. This was the one
+attempt.
+
+**Recorded, and it stays recorded until it is untrue:**
+
+- **7/24 is a shim result.** It is one ask above the 6/24 organ baseline, and
+  that ask was won by overriding a veto, not by naming a head better.
+- **The axis still has zero landed capability points.** Nothing bred has changed
+  the live brain's score.
+- The measurement instrument has a defect of its own: a head-rule genome must
+  **not** override a veto, because doing so scores the absence of a guard as
+  capability. Until `_genome_patch.py` stops supplying fillers where the organ
+  returned None, no number it produces can be read as a capability claim.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
