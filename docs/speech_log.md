@@ -6008,6 +6008,50 @@ is logged **narrow**, not booked. If C1 starts answering, the rewrite is
 over-eager and reverts. If a frozen pass is lost or a guard goes red while the
 24 improves, **the guard decides** and the conflict is logged, not the win.
 
+## Defect K: the target moved, the paraphrases and controls did not hold. REVERTED
+
+Implemented exactly as registered: on a shape veto carrying `thing`, split at
+the parser's verb, ask the inner question, rewrite the outer text and ask the
+ordinary path again. **The target ask moved** -- `hop-and-inventory` went
+**2/4 -> 3/4**, and the reversal control C1 stayed refused.
+
+But the pre-registered paraphrase and control set did not hold:
+
+```
+target PASS 'the latch holds the door'       description
+N1     PASS 'the latch holds the door'       recalled proposition
+N2     FAIL 'the thing the frost bites holds what?'   (echoed the question back)
+C1     PASS ''                                refused, as required
+C2     FAIL 'fitting fete'                    does the latch hold the door?
+C3     FAIL 'what?'                           arbiter head: what does the frost bite?
+```
+
+**By the falsifier written before the code, this is not booked.** N2 failed
+while the target passed -- the split works for `...hold?` and `...holding?` and
+not for `...holds what?`, which is the definition of a split fitted to the
+phrasing. Two controls (C2, C3) also came back wrong, and while it is possible
+those are the organ's ordinary behaviour rather than this change's doing, the
+rule does not let me assume that: **a control that fails is a control that
+failed**, and the honest reading is that the rewrite is not yet ask-blind.
+
+**Reverted.** `git checkout -- organs/neural_language.py`, `_description_answer`
+gone, credit 1 (`COUNT_FIRST_CUES`) kept, pytest **428 passed, 3 skipped**.
+The 24 was *not* re-run after the revert: the floor was already measured at
+19/24 this session and nothing that remains in the brain differs from that
+state. **Floor holds at 19/24. No capability point booked.**
+
+**What is learned, and it is worth more than the point would have been:** the
+veto *can* be routed around by rewriting the question, so the block is not
+architectural after all -- the old "one memory per question by design" reading
+was a description of the matcher, not a limit of the organ. What fails is
+**generality of the split**: it keys on the outer verb's surface position, so
+any phrasing that moves `what` to the end walks straight past it. The next
+attempt should read the outer verb from the parser's shape only and never from
+token order -- or should not claim the point at all.
+
+`tools/hop_probe.py` is kept: it is the harness that caught this, and it is the
+one that any future attempt must pass.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
