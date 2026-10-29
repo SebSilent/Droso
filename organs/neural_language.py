@@ -2188,7 +2188,12 @@ class NeuralLanguage:
                      if t not in self.SHAPE_FUNCTION_WORDS]
             if not after:
                 return None
-            return after[0]
+            # Same head-final rule as the subject span above: the object of
+            # "the frost holds the heavy latch" is `latch`, not `heavy`.
+            # One-word spans are unaffected -- last is first -- and no ask in
+            # either suite currently walks a multi-word object span, so this is
+            # pinned by unit test, not by a score.
+            return after[-1]
         # locative_unknown. A place is stated with a preposition after the
         # copula ("is on the shelf", "is kept in the pantry"); a state ("is
         # heavy", "is red") has none. Requiring one keeps a state from having

@@ -220,10 +220,12 @@ def run_one_independent(script, keep_copies, journal) -> dict:
         rec = ask_record(sess, turns[i])
         recs.append(rec)
         with journal.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps({"script": script["name"], "ask": rec["ask"],
-                                 "pass": bool(rec["pass"]),
-                                 "stage": rec["stage"], "said": rec["said"],
-                                 "why": rec["why"]}) + "\n")
+            fh.write(json.dumps({
+                "id": f"{script['name']}::{rec['ask']}",
+                "script": script["name"], "ask": rec["ask"],
+                "pass": bool(rec["pass"]),
+                "stage": rec["stage"], "said": rec["said"],
+                "why": rec["why"]}) + "\n")
         print(f"   [{script['name'][:16]:16s}] {n}/{len(idxs)} "
               f"{'PASS' if rec['pass'] else 'fail'}  {rec['ask'][:46]}  "
               f"stage={rec['stage'] or '-'}", flush=True)
@@ -234,9 +236,76 @@ def run_one_independent(script, keep_copies, journal) -> dict:
             "turns": recs}
 
 
+def compare(paths) -> int:
+    """Print two campaign journals side by side and list every ask whose
+    outcome or stage differs between them.
+
+    The bar is reproducible in aggregate and NOT in membership: 5/24 held
+    across campaigns while two asks left the pass set and two entered it, on an
+    unchanged tree. So a score delta cannot, by itself, tell a cut from drift,
+    and the standing rule -- only movement verified on both trees in the same
+    hour counts -- was a process promise. This makes it a field: the two columns
+    are the two trees (or the tree and its control), and any row that differs is
+    named.
+    """
+    def load(p):
+        d = {}
+        for line in Path(p).read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            r = json.loads(line)
+            key = r.get("id") or f"{r['script']}::{r['ask']}"
+            d[key] = ("PASS" if r.get("pass")
+                      else (r.get("stage") or "unknown"))
+        return d
+
+    A, B = (load(p) for p in paths)
+    label = [Path(p).name for p in paths]
+    print(f"\n=== PASS-SET COMPARISON ===\n  A = {label[0]}\n  B = {label[1]}")
+    print(f"\n  {'A':14s} {'B':14s}  ask")
+    moved = []
+    for k in sorted(set(A) | set(B)):
+        a, b = A.get(k, "--absent--"), B.get(k, "--absent--")
+        if a == b:
+            print(f"  {a:14s} {b:14s}  {k}")
+        elif k in A and k in B:
+            moved.append((k, a, b))
+            print(f"  {a:14s} {b:14s}  {k}   << MOVED")
+        else:
+            # Present on one side only: a chunked campaign covers fewer asks
+            # than a whole one, so this is coverage, not movement.
+            print(f"  {a:14s} {b:14s}  {k}   (coverage, not movement)")
+    only_a = sorted(k for k in A if k not in B)
+    only_b = sorted(k for k in B if k not in A)
+    if only_a or only_b:
+        # A chunked campaign covers fewer asks than a whole one, so a missing
+        # row is coverage, not movement. Say so before the diff, or a partial
+        # journal against a full one reads as dozens of changed asks.
+        print(f"\n  NOTE the two journals cover different ask sets: "
+              f"{len(only_a)} only in A, {len(only_b)} only in B. Those rows "
+              f"are coverage, not movement -- compare the {len(set(A) & set(B))} "
+              f"shared asks.")
+    pa = sum(1 for v in A.values() if v == "PASS")
+    pb = sum(1 for v in B.values() if v == "PASS")
+    print(f"\n  A {pa}/{len(A)} = {pa / max(1, len(A)):.3f}   "
+          f"B {pb}/{len(B)} = {pb / max(1, len(B)):.3f}   "
+          f"score delta {pb - pa:+d}")
+    print(f"  asks whose outcome or stage differs: {len(moved)}")
+    for k, a, b in moved:
+        print(f"     {a} -> {b}   {k}")
+    if pa == pb and moved:
+        print("\n  SAME SCORE, DIFFERENT MEMBERSHIP: the bar moved without the "
+              "score moving. Treat any single-script shift here as drift until "
+              "both trees have been run.")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--only", default=None, help="run scripts whose name matches")
+    ap.add_argument("--compare", nargs=2, metavar=("JOURNAL_A", "JOURNAL_B"),
+                    help="print two independent-mode journals side by side "
+                         "(ask id + outcome in each) and name every difference")
     ap.add_argument("--keep-copies", action="store_true")
     ap.add_argument("--independent", action="store_true",
                     help="score every ask against a freshly built house (one "
@@ -246,6 +315,8 @@ def main() -> int:
                     help="where the independent mode appends one line per ask "
                          "(default state/fitness/heldout_independent.jsonl)")
     a = ap.parse_args()
+    if a.compare:
+        return compare(a.compare)
     scripts = json.loads(TASKS.read_text(encoding="utf-8"))["scripts"]
     if a.only:
         scripts = [s for s in scripts if a.only in s["name"]]
@@ -286,6 +357,20 @@ def main() -> int:
     print("\nFAILURE MAP -- which stage refused it:")
     for k, n in sorted(stages.items(), key=lambda kv: -kv[1]):
         print(f"  {k:14s} {n}")
+    # The composition, not just the count. 5/24 held across campaigns while two
+    # asks left the pass set and two entered it, on an unchanged tree -- so a
+    # score alone cannot tell a cut from drift. Emit which ask went where, every
+    # campaign, and let --compare diff two of them.
+    attribution = {}
+    for r in out:
+        for x in r["turns"]:
+            if x["kind"] != "ask":
+                continue
+            attribution[f"{r['name']}::{x['ask']}"] = (
+                "PASS" if x["pass"] else (x["stage"] or "unknown"))
+    print("\nPASS SET AND STAGES (ask id -> outcome):")
+    for k in sorted(attribution):
+        print(f"  {attribution[k]:14s} {k}")
     print("\nFAILURES IN FULL:")
     for r in out:
         for x in r["turns"]:
@@ -305,6 +390,9 @@ def main() -> int:
     rep.write_text(json.dumps({"at": ts, "score": f"{passed}/{asked}",
                                "rate": round(passed / max(1, asked), 3),
                                "by_kind": by_kind, "stages": stages,
+                               "pass_set": sorted(k for k, v in attribution.items()
+                                                  if v == "PASS"),
+                               "attribution": attribution,
                                "scripts": out}, indent=1, default=str),
                    encoding="utf-8")
     print(f"\nreport: {rep}")

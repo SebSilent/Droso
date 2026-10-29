@@ -3927,3 +3927,126 @@ still refuses at 42% coverage. Both have `shape = None` -- `how` is not `what` o
 `where` -- so this cut never reached them. The numeral claim stands as the next
 probe, unstarted. `after[0]` for multi-word objects stays as recorded, unfixed
 and unmeasured.
+
+## Retraction: the bar did not drift; I misread it (2026-10-28)
+
+The entry above says the independent bar is "reproducible in aggregate and not
+in composition", and records `order-first-last` 2/4 -> 0/4 with
+`conjunction-and-absence` 0/4 -> 2/4 as a membership change on an unchanged
+tree. **That is false, and the mechanism that produced it was mine, not the
+house's.**
+
+With the pass set emitted as a field and the two campaigns diffed mechanically:
+`base_prestore` **4/24**, `eggs` **5/24**, this cut **6/24** -- and each adjacent
+pair differs by **exactly one ask**. `order-first-last` was 0/4 and
+`conjunction-and-absence` was 2/4 in every campaign, including the base. There
+was no shift to explain.
+
+What happened: I compared today's numbers against a recollection of the earlier
+per-script scores that had been folded out of my context, and never re-read the
+journal to check it. When the two disagreed I invented the drift story -- and the
+control I ran to test it (committed tree: order 0/4, conjunction 2/4, identical
+to the cut tree) actually **disproved** the story, and I read it as confirmation
+because I was reading it as evidence about the bar rather than about my own
+notes.
+
+Two consequences, both corrections of things recorded in this log:
+
+1. **The stemmer fold was not delta zero.** `how many eggs broke?` moved
+   `recall -> PASS` on the fold. It was a capability point, and I reported that
+   it gained nothing.
+2. **The standing rule needs a source of truth, not a promise.** "Only movement
+   verified on both trees in the same hour counts" was a process rule I was
+   already failing to keep. It is now a field: every campaign report carries
+   `pass_set` and `attribution`, the journal carries an ask id per row, and
+   `--compare A B` prints the two side by side and names every difference. The
+   rule is checkable against the record instead of against my memory.
+
+The lesson, stated plainly: a campaign is never compared against recollection.
+It is compared against the journal.
+
+## Pre-registration: the object span carries the same positional defect
+
+**The hypothesis is a PAIR of edits, said up front.** Last cut established that a
+positional rule changes nothing until the mouth consumes what the arbiter names.
+Here the second half is **already in the tree** -- `source='arbiter head'` from
+`9fdb53f` speaks the arbiter's filler for every shape, objects included. So this
+cut adds only the position rule, and it is **not** expected to be inert the way
+the subject's single edit was. Expecting inertness here would be a mistake in the
+opposite direction: the consumption half landed already.
+
+**The rule.** For `object_unknown`, the head of the object span is its LAST
+content word: `after[0]` -> `after[-1]`. When the span is one word, last is
+first, so the stated fallback is automatic and no single-word object can change.
+
+**Falsification, written before the edit.** The prediction that matters is a
+**no-op on both suites**, and it is checkable: no ask in `tools/scripts.json` and
+none in the held-out 24 exercises an object span of more than one content word.
+`what does the frost bite?` resolves against "the frost bites the latch", where
+`after` is `['latch']`; `what does the thing the frost bites hold?` vetoes at the
+subject test before `after` is ever read. Therefore:
+
+1. the pass set must be **unchanged** -- 6/24 with the same six asks, diffed with
+   `--compare` rather than eyeballed;
+2. the guard must stay 1.00/1.00 on all 8 scripts, clean;
+3. pytest green (414/3 plus the new tests).
+
+If any ask moves, the no-op prediction is wrong and **that movement is the
+finding, in whichever direction it points** -- not a bonus and not to be kept by
+arguing the direction is favourable.
+
+**The rule itself is verified at the only level that can see it.** A unit test
+hands `_shape_matches` a multi-word object span ("the frost holds the heavy
+latch") and requires `latch`, with the single-word fallback and the already-landed
+subject head pinned beside it. If a test cannot distinguish first from last, then
+this path is unmeasurable by the suites and must be recorded as unmeasurable
+rather than booked as a fix.
+
+**No point is claimed here.** This buys correctness on a path no current ask
+walks. The reason to do it anyway is that the alternative is a latent twin of a
+bug that was just proven real, discovered later by an ask that does walk it -- and
+the honest record of "landed, no score change, verified by unit only" is what
+keeps that from being reported later as a gain it never was.
+
+## Result: the object head lands and moves nothing, as pre-registered (2026-10-28)
+
+**The rule landed.** `_shape_matches` `object_unknown` returns `after[-1]`
+(`organs/neural_language.py:2181`), the head of the object span, with the
+single-word fallback automatic because last is first.
+
+**Verified at the level that can see it.** `tests/test_shape_filler_position.py`,
+5 tests, 3.7s: a multi-word object span ("the frost holds the heavy latch")
+yields `latch` and explicitly not `heavy`; a three-word subject span yields the
+head; single-word spans are unaffected. The last test asserts the tests are not
+vacuous -- it requires the span to hold at least two content words whose first and
+last differ before treating the result as evidence about heads. Without that
+clause, a one-word span passes any position rule and the file would prove nothing.
+
+**The no-op prediction held, as a field.** All 24 independent: **6/24 = 0.250**.
+`--compare` against the previous cut's journal: **`asks whose outcome or stage
+differs: 0`**, score delta `+0`. Not an eyeballed "looks the same" -- the
+membership is identical, which is what the pre-registration asked for.
+
+**pytest 419 passed, 3 skipped** (414 plus the 5 new). **Guard: all 8 scripts,
+four chunks, nothing else running -- warm 1.00 / cold 1.00, `live_files_untouched`
+True on every row.**
+
+**No capability point is claimed for this cut.** It landed, it is correct, and
+neither suite can tell. That distinction is the record, not a shortfall.
+
+**The instrument change landed with it.** Every campaign report now carries
+`pass_set` and `attribution` (ask id -> outcome or stage); every journal row
+carries an ask id; `--compare A B` prints the two campaigns side by side and names
+every difference. Rows present on one side only are labelled **coverage, not
+movement** -- without that, this cut's partial journal against a whole one read as
+17 differences where there was 1, which is precisely the error that produced the
+retracted drift claim above.
+
+**Where the bar actually stands**, from the journals rather than from my notes:
+`base_prestore` 4/24 -> stemmer fold 5/24 -> arbiter head 6/24, each step differing
+by exactly one ask. Two capability points in eight cuts, both now checkable
+against the record.
+
+**Next, unstarted:** the numeral claim. Both numeral asks have `shape = None`
+(`how` is not `what` or `where`), so neither the subject nor the object rule
+reaches them.
