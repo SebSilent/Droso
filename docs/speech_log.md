@@ -4640,6 +4640,51 @@ only the 24 can, and the outside check has not completed a run yet: the first
 died at 3 of 24 rows, the second (job `7b81f3`) is still running. No number is
 reported for it.
 
+# Outside check: 7/24, and the ask that moved is the one the gene targets
+
+Both background runs died at turn end (3 and 7 of 24 rows, no report) -- the
+workspace kills them when a turn closes -- so the 24 were run as **six complete
+per-script segments** in the foreground. Each segment is a disjoint, complete
+script of four asks, so the sum is exact; the harness itself labelled every
+cross-journal row "coverage, not movement", and no segment was compared on
+unequal coverage.
+
+| script | baseline | this fly | delta |
+|---|---|---|---|
+| count-frequency | 0/4 | 0/4 | 0 |
+| order-first-last | 0/4 | 0/4 | 0 |
+| conjunction-and-absence | 2/4 | 2/4 | 0 |
+| exact-repeat | 1/4 | 1/4 | 0 |
+| **hop-and-inventory** | 2/4 | **3/4** | **+1** |
+| quantity-change | 1/4 | 1/4 | 0 |
+| **TOTAL** | **6/24** | **7/24** | **+1** |
+
+Against the frozen bar in the brief: **5/24 -> 7/24**. Against this tree's own
+last campaign: **6/24 -> 7/24**.
+
+**The ask that moved is the ask the gene was selected on.**
+`hop-and-inventory::what does the thing the frost bites hold?` went
+`shape_arbiter -> PASS`. Its memory span carries a relative clause -- "the thing
+the frost bites" -- whose head is `thing` while the last content word is
+`bites`; the fly's `w_first` 1.119 names the first content word, which is
+exactly the construction `w_first` was rewarded for. **Zero regressions:** all
+six baseline passes are retained (`what turns twice?`, `what bites the latch?`,
+`what does the frost bite?`, `what is both wet and on the hook?`, `where did i
+say the scarf is?`, `how many eggs broke?`), so nothing was traded away.
+
+**Pre-committed reading, applied without reinterpretation:** 7/24 is above 6/24
+and above 5/24, so this is the **first branch -- vindication: intrinsic gain
+accompanied by real capability for the first time.** The head rule is a
+candidate for the organ. Stated with it, because it is true and it bounds the
+claim: `w_count` was **not applied** (the organ has no count branch), so the
+parser gene contributed nothing to this number; the +1 comes from the head rule
+alone, and the fly's advantage is one ask on one construction.
+
+**What 7/24 is not.** It is not a capability point in the house: the shim
+overrides a classmethod in a scoring process and no organ file changed. Landing
+it means the full protocol -- the 24 again against the organ, the eight guard
+scripts clean on a quiet machine, pytest -- and that has not been run.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
