@@ -4891,6 +4891,76 @@ Probe kept as `tools/veto_probe.py`; it raised a `TypeError` on its own instance
 patch while reading the trace, which is a probe artifact and explicitly **not**
 recorded as an organ defect.
 
+# Pre-registered: the hop across two memories
+
+The veto above was correct, and it names the missing mechanism exactly. The
+question asks what *the thing the frost bites* holds. One memory says **the
+frost bites the latch**; another says **the latch holds the door**. Neither
+answers it alone. The organ matches one memory against one question, so it
+refuses -- correctly -- and that refusal is the capability gap.
+
+**Mechanism, uniform and ask-blind.** When, and only when, the arbiter vetoes:
+
+1. Take the question's **subject span** (`what does [the thing the frost bites]
+   hold?`). If it holds fewer than three content words, stop -- no hop.
+2. Read it as a description with an embedded clause: its **last content word is
+   the inner verb**, the content words between the head and that verb are the
+   inner clause's subject.
+3. Resolve the description with the organ's **own matcher**: find a memory the
+   inner shape accepts (`the frost bites the latch`) and take the entity it
+   names (`latch`). If no memory accepts it, stop -- no guess.
+4. Re-run the **same** arbitration with the outer shape's subject replaced by
+   that entity (`["latch"]`), against the same hits.
+
+No ask is named in the code; no constant is fitted; one hop only, never
+recursion; the entity always comes from a memory the matcher accepted.
+
+**Floor and gate, in order.** Floor is the organ baseline **6/24**. The change
+lands only if: pytest green including `test_shape_filler_position`; the 24
+reaches **at least 7/24 with zero of the six baseline passes lost**; and then
+the eight guard scripts stay clean on a quiet machine.
+
+**Falsification, stated before the run.** If the ask does not move, the hop is
+not the missing mechanism and is reverted. If any baseline pass is lost, the hop
+is over-eager and is reverted. If a guard goes red while the 24 improves, **the
+guard decides** and the conflict is logged, not the win. A number produced by
+the veto-overriding shim plays no part in any of this.
+
+## Result: the hop fired and did not resolve. Reverted, by its own falsifier.
+
+Implemented as registered: `_question_shape` now carries `subject_span`,
+`_hop_answer` reads a description's inner clause (`the thing the frost bites`
+-> asks back `what does the frost bite`), resolves it with the organ's own
+matcher, substitutes the entity and re-arbitrates. pytest **428 passed, 3
+skipped** -- the change did not disturb the contract, unlike the weighted rule.
+
+It still did not answer. The probe shows why, in two steps:
+
+1. First attempt: the inner resolution searched the **outer** question's
+   shortlist, where `the frost bites the latch` never appears (it is about a
+   different subject), so it refused with `verb_not_in_memory`.
+2. Second attempt: the resolution was given a fresh `binder.recall` of the inner
+   content, which is the right shape of the fix -- but the hop still returned
+   None, the trace carries no `hop` key, and the ask is still
+   `verdict: veto`.
+
+**Falsification fired: the ask did not move, so the hop is reverted** --
+`git checkout -- organs/neural_language.py`, 4017 lines, `_hop_answer` and
+`subject_span` gone, pytest **428 passed, 3 skipped**. Nothing landed, and the
+24 was not re-run: a change that cannot answer the ask it was built for has no
+claim on the score.
+
+**What is actually unknown, and it is narrower than "hops are hard":** the
+second attempt shows the substitution path runs, pytest stays green, and the
+mechanism fails inside the resolution step -- most likely the binder's `recall`
+contract (what a cue is, what a hit carries) rather than the hop logic. That is
+the thing to pin down before the next attempt, by reading `binder.recall` and
+its callers, not by another guess at the organ.
+
+**Ledger, unchanged:** organ 6/24; axis zero landed capability points; 7/24
+withdrawn; the eight guards were not run this turn because the 24 gate was never
+reached.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

@@ -53,7 +53,7 @@ def main() -> int:
     print("ASK     :", ask)
     print("SHAPE   :", json.dumps(shape, sort_keys=True))
 
-    orig = lang._shape_matches
+    orig = type(lang)._shape_matches  # unbound: probe passes self explicitly
     rows = []
 
     def probe(self, shp, tokens=None, *rest):
