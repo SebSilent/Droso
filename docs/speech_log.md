@@ -5042,6 +5042,59 @@ words exist, and answering `no` there would be a closed-world assumption the
 organ has no right to make from absence of a relation. Only the entity-absence
 case gets a mechanism, and only after defect A is gated.
 
+## Defect A verified, gated, and LANDED -- 7/24, organ only
+
+**Guard precondition checked before any code**, as instructed:
+`tools/echo_guard_probe.py` found **exactly one memory of 60000** containing the
+content words in order --
+
+```
+MEMORIES: 60000      RECALL HITS: 40      GUARD CAN FIRE: True
+MEMORIES CONTAINING THE SENTENCE IN ORDER: 1
+    the copper bell turns twice
+```
+
+So case 1 holds: the verbatim path is answerable as posed and the
+pre-registration stood unchanged. No amendment was needed.
+
+**Implemented** as registered: `_echo_instruction`, reached **after** the
+interrogative branch, firing only on the literal instruction `say exactly`, and
+speaking the remainder verbatim only when one memory contains its content words
+as an in-order subsequence.
+
+**A cannot manufacture B's false `no`** -- three ways, all checked: it is
+unreachable for interrogatives (a question returns from `answer()` before the
+echo path is entered); it requires the literal `say exactly` prefix; and what it
+speaks is the instruction's remainder, so it has no branch that can utter `no`.
+Demonstrated on the asks themselves: after the change,
+`did i ever tell you about the moon?` and `does the door hold the frost?` are
+**still silent**, unchanged at 0.5819 and 0.5738 against the 0.55 threshold.
+
+**Gate, in order:**
+
+| gate | result |
+|---|---|
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **7/24** (was 6/24) |
+| baseline passes lost | **zero** -- all six retained |
+| moved ask | `say exactly the copper bell turns twice`: mouth -> **PASS**, source `echo instruction` |
+| eight guards, quiet machine | **reference 1.00/1.00, accumulation 1.00/1.00, discrimination 1.00/1.00, role_chain 1.00/1.00, switch_back 1.00/1.00, override 1.00/1.00, session_context 1.00/1.00, where_kept 1.00/1.00** -- every delta +0.00, warm and cold |
+
+**THIS IS THE FIRST LANDED CAPABILITY POINT IN THE LOG.** Organ-only, no shim,
+no veto relaxed: the live brain answers one more of the 24 than it did this
+morning, and the eight guard scripts did not move.
+
+**Precision about what it is.** The shim's withdrawn 7/24 was a *different* ask
+won by overriding a veto; this 7/24 is the echo ask won by following an
+instruction. The two must never be added, quoted together, or allowed to look
+like one claim. The breeding axis still has **zero landed capability points** --
+this one is organ work, landed by hand, and it says nothing about the population.
+
+**What defect A is not.** It is not a question-answering improvement: it renders
+an instruction. The remaining mouth failure in that script
+(`which word did i use for the metal?`) is a different mechanism, and defect B
+-- yes/no absence -- is still open and still unregistered.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

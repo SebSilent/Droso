@@ -3191,6 +3191,52 @@ class NeuralLanguage:
         return {"act": exp["act"], "thought": thought, "pool": pool,
                 "known_words_fired": exp["known_words_fired"]}
 
+    def _echo_instruction(self, user_text):
+        """`say exactly <sentence>` is an instruction to REPEAT, not a question.
+
+        Pre-registered in docs/speech_log.md (2026-10-29), before this existed.
+        Returns a reply dict, or None so the mouth's normal path stands.
+
+        The guard is what keeps it honest: the remainder is spoken verbatim ONLY
+        if one memory contains its content words IN ORDER -- verified on this
+        ask's own house, where exactly one memory of 60000
+        (`the copper bell turns twice`) satisfies it. Without that memory the
+        instruction is refused, not improvised.
+
+        It cannot become a yes/no shortcut: it fires on the literal instruction
+        `say exactly`, it is reached only for utterances that are NOT
+        interrogative (the caller checks that first), and what it speaks is the
+        remainder of the instruction -- it has no way to utter `no`.
+        """
+        words = [w for w in re.findall(r"[a-z']+", str(user_text or "").lower())
+                 if w]
+        if len(words) < 4 or words[0] != "say" or words[1] != "exactly":
+            return None
+        want = words[2:]
+        content = [w for w in want if w not in self.SHAPE_FUNCTION_WORDS]
+        if len(content) < 2:
+            return None
+        try:
+            hits = self.cortex.binder.recall(content, k=40)
+        except Exception:                  # noqa: BLE001 - the mouth may stay shut
+            return None
+        for h in hits:
+            toks = h.get("tokens") or []
+            if isinstance(toks, str):
+                toks = toks.split()
+            seq = [str(t).strip().lower() for t in toks]
+            it = iter(seq)
+            # An in-order subsequence: "the copper bell turns twice" is echoed,
+            # a memory sharing the words in another order is not.
+            if all(any(w == s for s in it) for w in content):
+                spoken = " ".join(want)
+                return {"spoken": True, "heard": True, "answered": True,
+                        "utterance": spoken, "response": spoken,
+                        "source": "echo instruction",
+                        "mood": round(self.social_drive, 3),
+                        "echoed_from": " ".join(seq)[:80]}
+        return None
+
     def respond(self, user_text: str, speaker: str = "you") -> dict:
         """Hear a human's words; speak ONLY if the being wants to."""
         toks = [t for t in self.tokenizer.tokenize(str(user_text or "")) if t]
@@ -3198,6 +3244,13 @@ class NeuralLanguage:
             # He was asked something. Answering is a different act from replying:
             # it goes to memory first, and it is addressed to the asker.
             return self.answer(user_text, speaker=speaker)
+        # An instruction to repeat is not a question and never reaches the
+        # arbiter; it is checked AFTER the interrogative branch above, so a
+        # genuine question is still answered by memory and can never be
+        # echoed instead. Pre-registered: docs/speech_log.md, defect A.
+        echo = self._echo_instruction(user_text)
+        if echo is not None:
+            return echo
         # Nothing is injected or forced from here on. The stimulus is heard, the
         # meaning state updates, and a word MAY be spoken -- only when the
         # resonance is strong enough that the sound genuinely touched what the
