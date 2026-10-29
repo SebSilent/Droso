@@ -3827,6 +3827,225 @@ The stemmer's contract is now under test: `tests/test_stemming_folds.py`, six te
 
 Read beside the nondeterminism finding already in this log: a warm score of 0.0 on two asks that pass unloaded is a silent-miss shape, and the guard number is only trustworthy when the machine is quiet. The next guard run happens with nothing else running, and a red guard is not to be booked as a regression until it has been re-run alone.
 
+## Pre-registered: the head-final subject (2026-10-28, written before the edit)
+
+The falsification of the render cut exposed a defect sharper than the one it was
+testing, and this one is principled rather than per-ask.
+
+**The defect.** `_shape_matches` returns `before[0]` for a subject-unknown
+shape -- the FIRST content word before the verb. English noun phrases are
+head-final: in "the copper bell turns twice" the head of the subject span is
+`bell` and `copper` is a modifier. So the matcher names the modifier whenever a
+subject has more than one word, and it does so from the sentence alone, without
+seeing the ask. That is why variant A of the render cut said `copper`: the
+framing was faithful and the filler was wrong at the source.
+
+**The mechanism, one line.** head = the LAST content word of the subject span,
+`before[-1]`. The stated fallback is automatic: when the span is one word,
+`before[-1]` is `before[0]`, so nothing changes for every single-word subject
+that the rule already answered correctly.
+
+**Scope, deliberately narrow.** Only the answer side is touched. The question
+side has the same defect -- `_question_shape` builds the locative subject with
+`[:1]`, so "where is the copper box kept" would also name the modifier -- and it
+is **recorded and left alone**, because fixing two position bugs in one cut
+means the delta cannot be attributed to either.
+
+**Conditions, all four measured before this is called a gain:**
+1. `what turns twice?` moves to PASS, speaking `bell` with no `copper` in it;
+2. **no current PASS flips to fail**, on all 24 asks;
+3. measured on the full independent set, all 24, freshly built house per ask --
+   not a chunk, not the sequential path;
+4. pytest stays green (407 + the fold tests now in the tree).
+Then, because six green under load plus two green alone is not eight green on a
+quiet machine: **all 8 scripts of the 32-ask guard run clean, nothing else on
+the machine**, before the point is booked.
+
+**If it fails either way** -- the target still fails, or a PASS flips -- the
+render stays reverted, the mouth axis is logged **closed for good**, and only
+then does the numeral probe run.
+
+**What a gain means, stated in advance:** it would be the first capability point
+the log has recorded in eight cuts, and it would come from a rule about English
+noun phrases, not from a threshold moved or a list grown toward an answer key.
+
+**VOID AS PRE-REGISTRATION, and the cut is already landed.** Read before edited:
+the committed tree already returns `before[-1]`, and `git log` puts this work at
+**`9fdb53f`** -- *arbiter names the head, not the modifier ... the mouth says the
+word the arbiter named ... `what turns twice?` moves to PASS speaking exactly
+`bell`, independent bar 5/24 -> **6/24 = 0.250**, no current PASS flipped under a
+contemporaneous control, all 8 guard scripts clean warm 1.00 cold 1.00 on a quiet
+machine, pytest 414* -- followed by `94b1418` (object head `after[-1]`, a verified
+no-op, pinned by 5 unit tests) and `de7db33` (campaign auto-diff against its own
+control). My summary was three commits stale, so I wrote a pre-registration after
+the fact; a pre-registration written after the measurement is not one, and this
+paragraph is the record that it was void. **The bar is 6/24 = 0.250, not 5/24,
+and the first capability point is booked.** All four conditions above were
+already met, including the eight scripts clean on a quiet machine. The pytest
+count the instruction quotes (407/3) is also stale: this tree is **428 passed,
+3 skipped**.
+
+# The breeding population axis (2026-10-29): cost model, architecture, control
+
+Measurement and design only, as scoped. No thousand generations, nothing
+mutated toward the held-out set, and the population never touched main's answer
+path -- it runs on copies. `tools/fly_cost_model.py`, `tools/fly_population.py`.
+
+## Step 1 -- the machine sets N. Measured, not guessed.
+
+RSS read by psutil inside a fresh subprocess, so it is the RSS of this work and
+not of an editor open for three days.
+
+| what | MB | note |
+|---|---|---|
+| baseline after imports | 28.4 | |
+| **one fully loaded house** | **+2537.2** | corpus, band, embeddings, weights |
+| **a second house, same process** | **+2426.3** | **DUPLICATED -- no page sharing** |
+| after freeing the second | 0 returned | the allocator kept the pages |
+| full copy of `san_w` (8192x8192 f32) | +256.0 | the largest single array found |
+| sparse delta, 10 000 cells | **+1.11** | a fly's mutable layer, done right |
+| sparse delta, 100 000 cells | +16.82 | |
+| rebuild a house from corpus | **18.2 s** | the thing the design forbids per fly |
+| one cheap fitness eval, 48 pairs | **< 0.01 s** (10 flies: 0.00 s) | |
+
+Machine at measure time: 11 637 MB total, **4 591 MB free**, 60 % load. The 8 GB
+grant is therefore not what this box currently offers, and N is published both
+ways. The script's own first derivation was **wrong and is corrected here**: it
+divided the usable budget by the per-fly cost without subtracting the one shared
+substrate, which is the largest item in the ledger.
+
+```
+granted path    8192 - 2048 headroom      = 6144 MB
+                6144 - 2537 substrate     = 3607 MB for flies
+                sparse delta  1.11 MB/fly -> N = 3249
+                full copy   256.0 MB/fly  -> N =   14
+                house/fly  2426.3 MB/fly  -> N =    1   impossible
+observed free   4591 - 2537 substrate     = 2054 MB
+                sparse delta  1.11 MB/fly -> N = 1850
+                full copy   256.0 MB/fly  -> N =    8
+```
+
+**So N is not 10 and not 400: it is thousands, and RAM is not the binding
+constraint.** Two things are. First, the second house duplicates: 2.4 GB more,
+so *any* design that gives a fly its own house has N = 1 and is dead on
+arrival -- the shared-substrate rule is forced by measurement, not taste.
+Second, wall-clock: at < 0.01 s for ten flies the structural fitness costs about
+1 ms a fly, so a generation of 1000 flies is ~1 s and a turn could hold
+thousands of generations. Time is not the limit either; **the limit is whether
+there is any fitness signal worth selecting on**, which is Step 4's problem and
+is measured below as not-yet.
+
+Caveat, stated: the array scan walked `language.__dict__` and one level below,
+and found only 256 MB of the 2537 MB. The rest sits deeper (cortex, band,
+embeddings) and was not individually costed, so per-fly full-copy cost is a
+lower bound.
+
+## Step 2 -- architecture that makes N possible
+
+One immutable substrate, loaded once per process, shared read-only. A fly is a
+**genome** -- seeded, deterministic, its identity the canonical JSON of itself,
+hashed to a 12-char id -- plus a **mutable layer that is a dict of deltas and
+knobs**, never a second house. 10 000 perturbed cells cost 1.11 MB, so a fly
+costs about a kilobyte per touched cell and a thousand flies cost about a
+gigabyte. No fly rebuilds from corpus (18.2 s each, and it would duplicate the
+substrate), and no fly writes into the shared substrate: a knob is applied to a
+scratch view of only the array it touches and freed before the next fly.
+Saving or forking a fly is **one JSON line** -- smaller than the eight-file
+surface already proved restart-identical.
+
+**Process model, explicitly: serial in-process against one loaded substrate.**
+The measured RAM rules the alternatives out. Threads would share the substrate
+but Python's GIL serialises the numpy-free rule work anyway and every fly's
+delta becomes shared mutable state -- the one thing the design forbids.
+Fork/copy-on-write is the natural fit and is **not available: Windows has no
+fork()**, and the measurement shows that loading a second house in one process
+duplicates 2.4 GB rather than mapping the same pages, so even a multi-process
+pool pays per-process substrate. Serial in-process with saved deltas is the only
+model where N is set by the deltas and not by the substrate.
+
+## Step 3 -- the control, and it passes
+
+Genes are positions and closed-class membership, never a threshold:
+`head_index` in {first, last, second-to-last}, `extra_function` a subset of
+{twice, again, some, old}, `stem_verb` on/off.
+
+```
+population A -- 10 clones, identical genome, ZERO mutation
+  fitness values = [1.0]                 null spread = 0
+  all ten byte-identical in genome id AND fitness  -> identical = True
+population B -- 10 mutants from one base, same seed 13, mutation only
+  fitness values = [0.0, 0.104167, 1.0]  mutant spread = 2 (3 distinct)
+verdict: EVOLUTION MAY START
+```
+
+The null is exactly zero, so the harness is deterministic and the mutant spread
+is real variance, not noise. **But read Step 4 before believing that buys
+anything.**
+
+## Step 4 -- fitness: the control passes on a fitness that is not yet a capability
+
+The fitness the axis wants is the one named in the brief -- does the head-final
+shape rule agree with the binder. **It did not run.** The binder answered
+**0 of 48** pairs, and the reason is mine, not the binder's:
+`role_of(proposition, role: int, candidates)` takes a **numeric** role from
+`role_for()` and a proposition of **token ids**, and I passed role names, then
+word strings: `ValueError: could not convert string to float: 'the'`. The first
+version of this file hid that behind a bare `except` and reported a silent
+binder, which is the same mistake as a swallowed error in a test.
+
+So today's key is **structural**: agreement with the head the generator placed
+in the sentence. That is self-referential, and worse, it is **saturated** -- the
+base genome *is* the head-final rule, so it scores 1.000 by construction and no
+mutant can beat it. Selection on this fitness can find regressions and nothing
+else. Measured, exactly as the pre-registered second result anticipated:
+
+```
+gen 1: best=1.0000 distinct=2 n=10
+gen 2: best=1.0000 distinct=3 n=18
+gen 3: best=1.0000 distinct=3 n=26
+```
+
+Generation 2's best does not beat generation 1's, and it cannot: the ceiling is
+where the base already stands. **Logged as the second result, not hidden as a
+failure.** And the growing `n` is a defect in my `select()`: it returns
+`len(rows)` parents and the caller then adds `n - elite` mutants on top, so the
+population balloons 10 -> 18 -> 26 instead of holding size. Both must be fixed
+before selection means anything: **the population size bug, and a fitness that
+is not already maxed by the incumbent.**
+
+The other three fitness components are designed and **not yet measured**: does a
+region survive restart (needs the eight-file save/load, cost unknown); does a
+concept separate from its corpus background (needs the embedding API); does a
+walk find a 40-second edge (seconds per fly, so it caps N by time, not RAM).
+The 24-ask held-out set is never the selection pressure -- 46 s an ask, and
+load alone turned a guard red. It stays an outside check scored once afterward,
+and its current number is **6/24 = 0.250** from `9fdb53f`, not the 5/24 in my
+stale summary; I did not re-score it this turn because the population touched
+nothing on the answer path.
+
+## Step 5 -- selection, designed, and where it currently fails
+
+Elitism (best `elite` survive unmutated) plus a k-tournament among the rest;
+losers discarded, not archived. Every individual writes genome, fitness, parent
+and generation to a lineage file (`state/fitness/fly_lineage_*.jsonl`) so any
+survivor is auditable back to base. Implemented, exercised for three
+generations, and **wrong in the size term above.**
+
+## Falsification status, written before code and now measured
+
+*If the mutated spread is not larger than the null spread, the axis closes.* The
+null spread is 0 and the mutant spread is 2, so **the axis does not close** --
+there is heritable variance. *If it is larger but generation 2's best does not
+beat generation 1's, log that too.* Logged, immediately above: it does not,
+because the incumbent fitness is saturated by the incumbent genome.
+
+**What closes the axis for real, stated now:** not determinism, which holds, but
+a fitness with headroom. The next cut is one that the base genome does not
+already max -- the multi-word **object** span, where `after[-1]` is pinned by
+unit test and has never scored a point, or restart survival, which no current
+rule touches at all. Until then this is a working harness with a measured cost
+model and no capability to select for.
+
 ## Pre-registration: the arbiter names the modifier, not the head (2026-10-28)
 
 The render falsification exposed a sharper defect than the one it was testing,
