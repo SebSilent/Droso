@@ -225,7 +225,14 @@ def run_one_independent(script, keep_copies, journal) -> dict:
                 "script": script["name"], "ask": rec["ask"],
                 "pass": bool(rec["pass"]),
                 "stage": rec["stage"], "said": rec["said"],
-                "why": rec["why"]}) + "\n")
+                "why": rec["why"],
+                # What the mouth said and what the arbiter named, kept in the
+                # record.  The head-fix-alone campaign proved the mouth ignored
+                # a filler but never recorded WHICH filler, so half of the pair
+                # evidence lived only in console output and had to be argued
+                # from a stage label that cannot tell the two cases apart.
+                "source": (rec.get("trace") or {}).get("source"),
+                "filler": (rec.get("trace") or {}).get("recovered_filler")}) + "\n")
         print(f"   [{script['name'][:16]:16s}] {n}/{len(idxs)} "
               f"{'PASS' if rec['pass'] else 'fail'}  {rec['ask'][:46]}  "
               f"stage={rec['stage'] or '-'}", flush=True)
@@ -234,6 +241,32 @@ def run_one_independent(script, keep_copies, journal) -> dict:
     return {"name": script["name"], "kind": script.get("kind"),
             "asked": len(recs), "passed": sum(1 for x in recs if x["pass"]),
             "turns": recs}
+
+
+def _journal_rows(p) -> int:
+    try:
+        return len(Path(p).read_text(encoding="utf-8").splitlines())
+    except OSError:
+        return 0
+
+
+def prior_campaign(archived, live=None):
+    """Which campaign a run should diff itself against: the FULLEST archived
+    journal, not the newest file.
+
+    Diffing a whole campaign against a 4-ask chunk reports 20 rows as coverage
+    and prints a score delta that means nothing -- which is what happened the
+    first time this ran for real: the live journal had been moved aside by hand,
+    so there was nothing to archive, and "newest archive" was a chunk. Ties go
+    to the most recently written file, so a campaign that has just been
+    archived still beats an older one of the same size.
+    """
+    cands = [Path(p) for p in archived]
+    if live is not None:
+        cands.append(Path(live))
+    if not cands:
+        return None
+    return max(cands, key=lambda p: (_journal_rows(p), p.stat().st_mtime))
 
 
 def compare(paths) -> int:
@@ -287,13 +320,26 @@ def compare(paths) -> int:
               f"shared asks.")
     pa = sum(1 for v in A.values() if v == "PASS")
     pb = sum(1 for v in B.values() if v == "PASS")
+    shared = sorted(set(A) & set(B))
+    sa = sum(1 for k in shared if A[k] == "PASS")
+    sb = sum(1 for k in shared if B[k] == "PASS")
     print(f"\n  A {pa}/{len(A)} = {pa / max(1, len(A)):.3f}   "
-          f"B {pb}/{len(B)} = {pb / max(1, len(B)):.3f}   "
-          f"score delta {pb - pa:+d}")
+          f"B {pb}/{len(B)} = {pb / max(1, len(B)):.3f}")
+    if only_a or only_b:
+        # A chunk against a whole campaign has no meaningful score delta: 6/24
+        # versus 2/4 printed as "-4" and looked like a regression. Only the asks
+        # both sides ran can be compared, so those are the only ones counted.
+        print(f"  over the {len(shared)} asks BOTH ran: A {sa}/{len(shared)}  "
+              f"B {sb}/{len(shared)}  delta {sb - sa:+d}"
+              f"   <- the only comparable number; the totals above are not")
+        base_a, base_b = sa, sb
+    else:
+        print(f"  score delta {pb - pa:+d}")
+        base_a, base_b = pa, pb
     print(f"  asks whose outcome or stage differs: {len(moved)}")
     for k, a, b in moved:
         print(f"     {a} -> {b}   {k}")
-    if pa == pb and moved:
+    if base_a == base_b and moved:
         print("\n  SAME SCORE, DIFFERENT MEMBERSHIP: the bar moved without the "
               "score moving. Treat any single-script shift here as drift until "
               "both trees have been run.")
@@ -322,10 +368,21 @@ def main() -> int:
         scripts = [s for s in scripts if a.only in s["name"]]
     journal = Path(a.journal) if a.journal else (
         ROOT / "state" / "fitness" / "heldout_independent.jsonl")
-    if a.independent and not a.only and journal.exists():
-        # A whole-campaign run starts fresh; a chunked run (--only) appends,
-        # because 24 builds will not fit inside one turn's wall clock.
-        journal.unlink()
+    # The campaign a run replaces is archived, never deleted, and the run ends
+    # by diffing itself against it.  The standing rule used to be a promise --
+    # "only movement verified on both trees counts" -- and I broke it by reading
+    # a campaign against my own notes instead of against the record.  Now the
+    # side-by-side is printed whether or not anyone remembers to ask for it.
+    prior_journal = None
+    if a.independent:
+        if journal.exists() and not a.only:
+            # Whole run: start fresh, and what it replaces goes into the archive.
+            prior_journal = journal.with_name(
+                f"heldout_ind_prev_{time.strftime('%Y%m%d_%H%M%S')}.jsonl")
+            journal.rename(prior_journal)
+        prior_journal = prior_campaign(
+            (ROOT / "state" / "fitness").glob("heldout_ind_prev_*.jsonl"),
+            prior_journal)
     journal.parent.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     out = []
@@ -396,6 +453,8 @@ def main() -> int:
                                "scripts": out}, indent=1, default=str),
                    encoding="utf-8")
     print(f"\nreport: {rep}")
+    if a.independent and prior_journal is not None and prior_journal.exists():
+        compare([str(prior_journal), str(journal)])
     return 0
 
 

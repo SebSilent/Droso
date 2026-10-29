@@ -4050,3 +4050,112 @@ against the record.
 **Next, unstarted:** the numeral claim. Both numeral asks have `shape = None`
 (`how` is not `what` or `where`), so neither the subject nor the object rule
 reaches them.
+
+## Judgment: the object head is booked as landed with no point, and the mouth axis closes
+
+Judged on the terms written before the edit, not on the number afterwards.
+
+**Which branch governs, and why it is not the other one.** The edit *landed* --
+the rule is in the tree and does what was claimed at the level the unit test can
+see. It was also *inert*, but inertness has two different causes and the
+pre-registration named which one this was: **no ask walks a multi-word object
+span**, not "the mouth does not consume what the arbiter names". Consumption was
+already in the tree from `9fdb53f`, so this cut could not have tested the
+pair-hypothesis either way. Treating its silence as confirmation of that
+hypothesis would be the same move I just retracted above -- reading a control as
+evidence -- so it is refused here explicitly.
+
+**Therefore no revert.** `after[-1]` executes on every `object_unknown` ask
+today; it is a live path with a one-word span, not dead code. Reverting it
+restores a rule that is wrong in the same shape as the one that cost the last
+target ask, on a path no suite can catch it on. The cut is booked as
+**landed-and-verified, zero score movement, no capability point** -- which is
+what was pre-registered, and the number did not talk me out of it.
+
+**The pair-hypothesis evidence, checked against the record rather than argued.**
+The head-fix-alone campaign (`heldout_ind_headfix_only.jsonl`, 8 rows) shows for
+`what turns twice?`:
+
+    said = 'the copper bell turns twice'   why = forbidden word said: copper
+    stage = shape_arbiter
+
+The mouth **recited the recalled proposition** -- which contains the forbidden
+word -- instead of speaking a filler. So consumption really was the missing half.
+But two things about that record are uncomfortable and are now fixed rather than
+explained:
+
+1. The stage label could not have shown it. `stage_of` returns `shape_arbiter`
+   both when the arbiter refuses and when it names a filler the answer ignores
+   (`tools/heldout_eval.py:129-145`), so the label alone never proved which half
+   was missing -- the proof is in `said`, which I had not read before now.
+2. **The journal never stored which filler the arbiter named.** The half of the
+   claim that says "nothing consumed *the filler*" was carried only by console
+   output that no longer exists. Journal rows now carry `source` and `filler`
+   beside `said`, so a moved ask can be explained from the record, not just named.
+
+**The mouth axis closes.** Subject head landed and scored (+1); object head
+landed and is unit-pinned with no score movement; the render path was falsified on
+two variants and exonerated; consumption is proven necessary and is in place.
+There is no third edit to spend on rendering and none is planned. The next and
+last mouth-family item is the **numeral claim**: both numeral asks arrive with
+`shape = None` because `how` is neither `what` nor `where`, so no positional rule
+and no render change can reach them -- it is a shape-coverage question, not a
+speech question.
+
+**Instrument, since the point of it is that it runs itself.** A campaign now
+archives the journal it replaces and prints the side-by-side at the end
+unasked -- verified live, hop-and-inventory re-run on the current tree came back
+2/4 with `differs: 0` over the shared asks, matching the committed record. That
+run also exposed a bad number in the new tool: it printed `score delta -4` while
+comparing 6/24 against 2/4, two different ask sets. An unequal-coverage diff now
+refuses the raw delta and reports only the asks both campaigns ran. Five tests
+pin the diff itself (`tests/test_pass_set_compare.py`, 0.26s), including the
+case that burned me -- equal pass counts over different asks -- and the case that
+must not be counted: one-sided rows are coverage, not movement.
+
+**pytest 424 passed, 3 skipped** at the time of writing. No new campaign was run
+for this judgment, on the grounds that no organ code had changed since the 24-ask
+campaign that produced the table above.
+
+## The third campaign, and two bugs the instrument found in itself
+
+That last sentence was overtaken within the hour, for a reason that has nothing
+to do with wanting a better number: **the auto-diff only fires on a whole
+campaign, and a whole campaign had never actually gone through it.** Testing an
+instrument means running the path, not the score.
+
+Two things came out of running it.
+
+**The foreground shell cannot hold a whole campaign.** 24 asks take ~750s against
+a 590s cap; the killed run left an 18-row journal sitting in the live slot, which
+is exactly the kind of half-record that gets read as a campaign later. It is
+moved aside and named `heldout_ind_partial_killed_2232.jsonl`. The campaign runs
+as a background job instead.
+
+**The control was wrong.** The whole run diffed itself against
+`heldout_ind_prev_20261028_222257.jsonl` -- a **4-ask chunk** -- because the
+fullest-archive preference lived only on the branch where a live journal exists to
+be archived. With no live journal (I had moved it aside by hand), the code fell
+through to "newest archive", which was the chunk. Newest is not a control.
+`prior_campaign()` now picks the **fullest** archived journal, ties going to the
+freshest write, and four tests pin exactly that, including the failure it was
+built from.
+
+**And the delta was lying.** The same run printed `score delta -4` while comparing
+6/24 against 2/4 -- two different ask sets. That is a meaningless subtraction that
+wears the costume of a regression, and it is the direct ancestor of the misreading
+I retracted earlier today. An unequal-coverage diff now refuses the raw delta and
+reports only the asks **both** campaigns ran, labelled as the only comparable
+number.
+
+**The number itself**, from the whole campaign on this tree, diffed 24-against-24
+against the previous whole campaign:
+
+    A 6/24 = 0.250   B 6/24 = 0.250   score delta +0
+    asks whose outcome or stage differs: 0
+
+So the no-op is now reproduced across **two independent whole campaigns**, not
+asserted from one. **pytest 428 passed, 3 skipped.** The judgment above stands
+unchanged -- landed, verified, no point booked -- and the mouth axis stays closed.
+Next and last mouth-family item: the numeral claim, where both asks arrive with
+`shape = None`.
