@@ -4720,6 +4720,44 @@ live brain while the eight-script guard is unrun. **The axis's 7/24 remains a
 shim result.** To land it, the weighted rule itself has to go into the organ --
 and then it is the guard that decides, on a quiet machine, not the 24.
 
+## Landing the weighted rule itself: refused by the first gate
+
+The proxy was the wrong idea and the weights went in verbatim:
+`w_first` 1.119446, `w_pos` 1.0, `w_len` 0.10172, `w_prep` 0.099128, scored over
+the content words of the span as a single argmax, ties to the later word, with
+the single-word fallback falling out of the arithmetic. Six unit spans passed,
+including `the thing the frost bites` -> `thing`.
+
+**pytest: 1 failed, 427 passed, 3 skipped.**
+
+```
+assert 'small' == 'bell'
+tests/test_shape_filler_position.py:71
+head of 'the small brass bell' is bell, got 'small'
+```
+
+The rule names the modifier as the head in a three-word span, because
+`w_first` > `w_pos` and the fly's modifier class was **closed**:
+`{old, copper, heavy}`. Its training material never contained another modifier,
+so it learned "first content word" as though that were a general rule, and the
+corpus -- `small`, `brass` -- is outside it. **The fly is overfitted to the
+closed class it was scored on**, which is exactly the failure mode a synthetic
+component invites.
+
+**Gate order applied:** pytest is first, it is red, so the 24 was not run and
+the eight guard scripts were not run. They were not reached; they did not pass.
+
+Reverted again: 4017 lines, `before[-1]`, `_span_head` gone, tree clean,
+**428 passed, 3 skipped**. Nothing landed, and the axis's 7/24 remains a shim
+result -- now with a measured reason: the rule that produced it contradicts a
+documented contract about spans the population never saw.
+
+**What this says about the next cut.** The axis selected a rule that is right on
+its own material and wrong one word outside it. Before any further landing, the
+fitness has to contain spans whose modifiers are NOT a closed set the rule can
+learn to strip -- otherwise every winner will be overfitted by construction, and
+the guard or pytest will keep being the thing that finds out.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
