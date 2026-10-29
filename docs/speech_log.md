@@ -5662,6 +5662,102 @@ a separate open item.
 
 **Floor holds at 16/24.**
 
+# Pre-registered: unowned questions never reach the resonance mouth (defect H)
+
+`does the door hold the frost?` is a question no path owns, and under accumulated
+social drive it comes out of the mouth as **`sold`**. That is the mood gate
+answering a question it did not understand -- the same corruption the
+fall-through caused, one layer further back.
+
+**Fix, and it is narrow.** After every owned path has had its chance, an
+utterance that is **question-shaped** -- it begins with a question word
+(`who/what/where/when/why/how/which/did/do/does/is/are/was/were/can/could/will/
+would/should/have/has`) or ends with `?` -- is routed to `answer()`, which
+either answers from memory or **refuses silently**. Declaratives are untouched:
+replying to what you say is the mouth's job and stays its job.
+
+**Controls, written before the code:**
+
+| # | utterance | required |
+|---|---|---|
+| C1 | `does the door hold the frost?` | **silence** (today, under drive: `sold`) |
+| C2 | `what turns twice?` | still **`bell`** |
+| C3 | `the frost is on the window` (declarative) | **unchanged** -- whatever it does today |
+| C4 | `did i ever tell you about the moon?` | still **`no`** |
+| C5 | `how many times does the bell turn?` | still **refused**, not hijacked |
+
+**No capability is claimed and none is expected.** The 24 must stay **16/24**
+with zero of the sixteen frozen passes lost. **If it moves, that is a red flag,
+not a win**, and the movement is to be investigated and reverted rather than
+banked. pytest green; eight guards clean.
+
+**Falsification.** If C2, C4 or C5 regress, the routing is too wide and reverts.
+If C3 changes, the fix has touched declaratives and reverts. If a guard goes
+red, the guard decides.
+
+## Defect H: controls passed, pytest failed, REVERTED
+
+The probe held all five controls -- C1 silence at `unowned question: refused`,
+C2 `bell`, C3 unchanged, C4 `no`, C5 refused -- and it also caught a second
+defect on the way: with an unowned question routed to memory, `answer()` found
+**the question itself** and echoed it back (`recalled proposition`), because the
+utterance is bound before recall. That is guarded now, in the reverted code.
+
+**pytest refused it: 2 failed, 426 passed, 3 skipped**, both in
+`test_connectome_house.py` -- the headline greeting test (path fell to
+`reasoning_loop` instead of `language`) and the chat-provider test. Narrowing
+the trigger to first-word openers did not help; the same two stayed red.
+
+**Reverted.** `git checkout -- organs/neural_language.py`; pytest **428 passed,
+3 skipped**; defect G still present. **Defect H does not land**, and the mood
+gate stays open: an unowned question can still reach the mouth under drive.
+Recorded with its design and its two failed shapes so the next attempt does not
+start from scratch -- the routing must not disturb the house's greeting or
+provider paths, which are chosen by `process_chat`, not by the organ.
+
+**No capability claimed or lost: floor holds at 16/24.**
+
+# Pre-registered: content arithmetic in quantity-change (defect I)
+
+The last block: `quantity-change` **1/4**. Tells: `there are four eggs in the
+basket`, `then two eggs break`. Asks: `how many eggs did i mention first?` ->
+**four**; `how many eggs broke?` -> **two**; `did any egg break?` -> **yes**;
+`how many eggs are left in the basket?` -> **two**.
+
+**Arithmetic, fixed before the code:**
+
+- **`did i mention first/last`** -- the number attached to the entity in the
+  earliest (or latest) session tell that mentions it.
+- **`how many X <verb>`** -- the number that a tell attaches to that verb for
+  that entity.
+- **`how many X are left/remain/in the basket`** -- arithmetic: the total stated
+  about X **minus** the number stated as removed. Two numbers, one subtraction,
+  and if either is missing it refuses.
+- **`did any X <verb>`** -- `yes` when a tell reports X being affected that way,
+  `no` only through the record path's scope rules; otherwise silence.
+
+**Refuses silently** on: no number attached to the entity, a subtraction with a
+missing term, or a unit it cannot match to the entity. It never guesses a count
+and never says `no` outside the record scope.
+
+**Paraphrases, written before the code:**
+
+| # | utterance | required |
+|---|---|---|
+| target | `how many eggs did i mention first?` | `four` |
+| target | `how many eggs broke?` | `two` |
+| target | `how many eggs are left in the basket?` | `two` |
+| P1 | `how many eggs did i say break?` | `two` |
+| P2 | `how many eggs were there at the start?` | `four` |
+| P3 | `how many eggs remain in the basket?` | `two` |
+
+**Gate.** pytest incl. `test_shape_filler_position`; 24 organ-only at **17/24**
+with zero of the sixteen frozen passes lost; eight guards on a quiet machine.
+
+**Falsification.** If P1-P3 fail while the targets pass, it learned the phrasing
+and is logged **narrow**. If a frozen pass is lost or a guard goes red, the guard
+decides. If the house tests go red, it does not land -- H's lesson.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
