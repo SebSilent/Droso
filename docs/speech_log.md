@@ -4685,6 +4685,41 @@ overrides a classmethod in a scoring process and no organ file changed. Landing
 it means the full protocol -- the 24 again against the organ, the eight guard
 scripts clean on a quiet machine, pytest -- and that has not been run.
 
+## Landing attempt: the gain did not transfer, and the organ change was reverted
+
+I implemented the rule the fly's advantage was attributed to, in the organ and
+in the smallest principled form: **a determiner appearing after a content word
+marks the start of an embedded noun phrase**, so the head is the last content
+word before it -- `the thing the frost bites` -> `thing`; `the old bell the gate
+holds` -> `bell`; a plain head-final NP has no second determiner and is
+untouched. Unit-checked on five spans, pytest **428 passed, 3 skipped**.
+
+Measured on the 24 against the **organ**, no shim, per-script segments:
+
+| script | baseline | organ |
+|---|---|---|
+| count-frequency | 0/4 | 0/4 |
+| order-first-last | 0/4 | 0/4 |
+| conjunction-and-absence | 2/4 | 2/4 |
+| exact-repeat | 1/4 | 1/4 |
+| **hop-and-inventory** | 2/4 | **2/4** |
+| quantity-change | 1/4 | 1/4 |
+| **total** | **6/24** | **6/24** |
+
+`what does the thing the frost bites hold?` is still `shape_arbiter`. **The +1
+did not transfer.** The shim scored the whole weighted argmax -- `w_first`
+1.119 against `w_pos` 1.0, with `w_prep` 0.099 and `w_len` 0.102 in the same
+sum -- and the determiner cue is not the same rule: it fires only when a second
+determiner is present, which is one construction, while the weighted rule moves
+the head wherever the weights cross.
+
+**Reverted.** `git checkout -- organs/neural_language.py`: 4017 lines, `before[-1]`
+restored, `_span_head` gone, working tree clean, pytest green. An organ change
+that scores exactly the baseline is not a landing, and it must not sit in the
+live brain while the eight-script guard is unrun. **The axis's 7/24 remains a
+shim result.** To land it, the weighted rule itself has to go into the organ --
+and then it is the guard that decides, on a quiet machine, not the 24.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
