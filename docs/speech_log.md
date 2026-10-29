@@ -5486,6 +5486,111 @@ selection, disjunctive resolution, record absence. Three generalise across their
 construction. Remaining failures are counts (4), one shape_arbiter span, the
 two-memory hop, and the deliberately-refused world question.
 
+# Pre-registered: counting over the telling record (defect F)
+
+The largest untouched block: **0/4** in `count-frequency`, plus
+`how many objects did i tell you about?` in `order-first-last`. Not a lookup and
+not a lookup table -- it is arithmetic over the same record defect B reads, with
+the arithmetic fixed here, before the code.
+
+**What is counted, by quantifier.**
+
+- `how many TIMES did i <verb> <proposition>?` -- **occurrences**. A proposition
+  is the content words after the record verb; every stored memory whose content
+  contains them contributes **its own `count`** (the binder already aggregates
+  identical tells into one row with a count). **Repeats are the thing being
+  counted**, so they are never deduped here.
+- `how many THINGS / OBJECTS / ITEMS did i <verb> [about <X>]?` -- **distinct
+  propositions**. Rows are deduped by content, and `X` restricts to rows that
+  contain it. A repeated tell is one thing, not two.
+
+**Zero and one are said, not implied.** `0 -> "zero"`, `1 -> "one"`. A count is
+a number; **it is never `no`**, and defect B's scope is untouched.
+
+**What it refuses, and refuses silently.**
+
+- an ordinal word (`first`, `last`) in the question -- that is defect D's
+  question, not a count;
+- no record verb -- `how many times does the bell turn?` is about the world, and
+  counting turns is not counting the record;
+- no proposition to count, or a quantifier outside {times, things, objects, items};
+- a count above ten, because the mouth says counts as words.
+
+A refusal from this path is an **explicit silence**, never a fall-through: the
+`sold` improviser is unacceptable on a question he understood and declined.
+
+**Paraphrase check, written before the code** (house: `the coat is wet` x3,
+`the coat is torn`):
+
+| # | utterance | required |
+|---|---|---|
+| target | `how many times did i tell you the coat is wet?` | `three` |
+| target | `how many things did i tell you about the coat?` | `two` |
+| target | `how many times did i tell you about the scarf?` | `zero` |
+| P1 | `how many times did i say the coat is wet?` | `three` |
+| P2 | `how many things did i tell you about the scarf?` | `zero` |
+| P3 | `how many items did i tell you about the coat?` | `two` |
+| C1 | `how many eggs did i mention first?` | **refused** (ordinal) |
+| C2 | `did i ever tell you about the moon?` | still `no` (defect B untouched) |
+
+**Gate.** pytest incl. `test_shape_filler_position`; 24 organ-only at **13/24**
+with zero of the twelve frozen passes lost; eight guards on a quiet machine.
+
+**Falsification.** If P1-P3 fail while the targets pass, the mechanism learned
+the quantifier words, not the arithmetic, and is logged **narrow**. If C1 is
+answered with a number, it has absorbed the ordinal question and is reverted. If
+a frozen pass is lost or a guard goes red, the guard decides and the conflict is
+logged.
+
+## Defect F landed: 16/24, the count bucket cleared
+
+| gate | result |
+|---|---|
+| paraphrase + control check (written before the code) | **9/9** |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **16/24** (from 12/24) |
+| frozen passes lost | **zero** -- all twelve retained |
+| moved asks | `count-frequency` 1/4 -> **4/4**, `order-first-last` 2/4 -> 3/4 |
+| eight guards, quiet machine | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+
+```
+target PASS 'three'  how many times did i tell you the coat is wet?
+target PASS 'two'    how many things did i tell you about the coat?
+target PASS 'zero'   how many times did i tell you about the scarf?
+P1     PASS 'three'  how many times did i say the coat is wet?
+P2     PASS 'zero'   how many things did i tell you about the scarf?
+P3     PASS 'two'    how many items did i tell you about the coat?
+C1     PASS ''       how many eggs did i mention first?      (ordinal: silent refusal)
+C2     PASS 'no'     did i ever tell you about the moon?      (defect B untouched)
+C3     PASS ''       how many times does the bell turn?       (world count: not hijacked)
+```
+
+**The arithmetic held as registered.** `times` sums the binder's own duplicate
+counts -- a repeat is what it counts -- and `things`/`objects`/`items` dedupe by
+content. P1-P3 change the verb and the quantifier and move nothing, which is the
+difference between counting the record and matching a phrase.
+
+**The refusals behaved.** The ordinal question is refused silently rather than
+absorbed, the world-count question is not hijacked, and **zero is spoken as the
+number `zero`, never as `no`** -- defect B's scope is untouched, and its own ask
+still answers `no` through the record path.
+
+**The `sold` fall-through did not surface on the count path** (every refusal is
+an explicit silence). It remains open on the ordinal and glossary paths, as
+recorded after defect E.
+
+# ORGAN FLOOR RAISED TO 16/24
+
+**Frozen 2026-10-29. The floor is 16/24.** Every future cut is measured against
+16/24 organ-only; **any regression below 16/24 reverts.**
+
+Six points landed: instruction rendering, provenance glossary, ordinal
+selection, disjunctive resolution, record absence, record counting. Remaining
+failures (8): one conjunction `shape_arbiter`, one `recall` ordering question,
+one world count (`how many times does the bell turn?`), three quantity-change
+questions needing arithmetic over content, the two-memory hop, and the
+deliberately-refused world question.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

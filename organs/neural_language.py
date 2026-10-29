@@ -2582,6 +2582,82 @@ class NeuralLanguage:
     GLOSSARY_PAT = re.compile(
         r"which word did i (?:use|say) for the (?P<cat>[a-z]+)")
 
+    COUNT_WORDS = ("zero", "one", "two", "three", "four", "five",
+                   "six", "seven", "eight", "nine", "ten")
+    COUNT_QUANTS = frozenset({"times", "things", "objects", "items"})
+
+    def _count_answer(self, user_text):
+        """`how many times/things did i <verb> ...?` -- arithmetic over the record.
+
+        Pre-registered (defect F) with its arithmetic fixed before the code.
+        `times` sums the binder's own duplicate counts, because a repeat IS what
+        it counts; `things`/`objects`/`items` dedupe by content, because a
+        repeated tell is one thing. Zero and one are spoken as numbers -- never
+        `no`, so defect B's scope is untouched.
+
+        Refuses silently (never falls through to the resonance mouth) on an
+        ordinal word, no record verb, nothing to count, an unknown quantifier,
+        or a count above ten.
+        """
+        words = [w for w in re.findall(r"[a-z']+", str(user_text or "").lower())
+                 if w]
+        if "how" not in words or "many" not in words:
+            return None                    # not this path's question at all
+        if not any(w in self.RECORD_VERBS for w in words):
+            return None                    # a world question, not a record one
+
+        def refuse(why):
+            return {"spoken": False, "heard": True, "answered": False,
+                    "reason": why, "source": "count: refused"}
+
+        if "first" in words or "last" in words:
+            return refuse("he was asked which came first, not how many")
+        after = words[words.index("many") + 1:]
+        if not after or after[0] not in self.COUNT_QUANTS:
+            return refuse("no quantifier he knows how to count")
+        quant = after[0]
+        vpos = next((i for i, w in enumerate(after) if w in self.RECORD_VERBS),
+                    None)
+        if vpos is None:
+            return refuse("no record verb after the quantifier")
+        prop = [w for w in after[vpos + 1:]
+                if w not in self.SHAPE_FUNCTION_WORDS
+                and w not in ("you", "about", "me", "i")]
+        prop = set(prop)
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
+        try:
+            meta = list(self.cortex.binder.meta)
+        except Exception:                  # noqa: BLE001 - no store, no count
+            return refuse("no store to count in")
+        ask = set(words)
+        rows = []
+        for mem in meta:
+            if str(mem.get("who") or "") != "you":
+                continue
+            if float(mem.get("when", 0.0) or 0.0) < t0:
+                continue
+            toks = mem.get("tokens") or []
+            if isinstance(toks, str):
+                toks = toks.split()
+            seq = frozenset(re.sub(r"[^a-z']", "", str(t).lower())
+                            for t in toks)
+            if not seq or seq == ask:
+                continue                   # the question is not a tell
+            if prop and not prop <= seq:
+                continue
+            rows.append((seq, int(mem.get("count", 1) or 1)))
+        if quant == "times":
+            n = sum(c for _s, c in rows)
+        else:
+            n = len({s for s, _c in rows})
+        if n > 10:
+            return refuse("more than ten, and he says counts as words")
+        return {"spoken": True, "heard": True, "answered": True,
+                "utterance": self.COUNT_WORDS[n],
+                "response": self.COUNT_WORDS[n], "source": "count",
+                "quantifier": quant, "counted": n,
+                "over": sorted(prop) if prop else "everything he was told"}
+
     RECORD_VERBS = frozenset({"tell", "told", "mention", "mentioned",
                               "say", "said"})
     RECORD_SKIP = frozenset({"you", "me", "i", "to", "about", "anything",
@@ -3544,6 +3620,10 @@ class NeuralLanguage:
         rec = self._record_answer(str(user_text or ""))
         if rec is not None:
             return rec
+        # Arithmetic over the same record (defect F, pre-registered).
+        cnt = self._count_answer(str(user_text or ""))
+        if cnt is not None:
+            return cnt
         if any(self.is_interrogative(w) for w in toks):
             # He was asked something. Answering is a different act from replying:
             # it goes to memory first, and it is addressed to the asker.
