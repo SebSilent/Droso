@@ -4551,6 +4551,30 @@ Baseline is the frozen **5/24** in the brief; the tree's own last recorded
 campaign reads **6/24** (`heldout_ind_20261028_224835.json`, after `9fdb53f`),
 and both are quoted against the result.
 
+**Status at the end of this turn: in flight, and no number reported.** Job
+`65a2bb`, journal `state/fitness/heldout_best.jsonl`: **2 of 24** asks journaled
+after ~100 s, roughly 50 s an ask, so about twenty minutes total -- longer than
+the turn. A number that does not exist yet is not reported as one. The read is
+mechanical when it lands: `py -3.10 -c "import json;rows=[json.loads(l) for l in
+open('state/fitness/heldout_best.jsonl')];print(sum(1 for r in rows if r.get('pass')),'/',len(rows))"`,
+with the per-ask report at `state/fitness/heldout_ind_<stamp>.json`.
+
+**The interpretation is committed now, before the number, so it cannot be
+spun afterwards.** Both baselines are quoted: the frozen 5/24 the brief names,
+and the 6/24 this tree last recorded.
+
+| result | reading |
+|---|---|
+| **> 6/24** (and so > 5/24) | The axis's vindication: intrinsic gain accompanied by real capability for the first time. Report plainly, and the head rule is a candidate for the organ. |
+| **= 6/24** (= 5/24 against the frozen bar) | The coupling finding, stated plainly: twelve generations of climbing moved the exam and not the brain. The next cut is a component read off a held-out-adjacent deterministic path, not another synthetic weight. |
+| **< 6/24** | Said louder: selection is optimising something anti-correlated with capability. The additive design is revisited before any further breeding. |
+
+Because `w_count` is not applied in the organ, a result at or below baseline also
+means the parser gene's contribution to 0.900 was **exam-solving by
+construction** -- the fly was rewarded for a shape it cannot yet produce.
+
+No further generations this turn. One measurement, one number, when it exists.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
