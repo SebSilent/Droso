@@ -3826,3 +3826,104 @@ The stemmer's contract is now under test: `tests/test_stemming_folds.py`, six te
 **Attributed by re-running the two red scripts alone, nothing else on the machine: reference 1.00 warm / 1.00 cold, accumulation 1.00 / 1.00, overall 1.00 / 1.00.** So the red was load, not the fold -- which is also what the content says: neither script contains the word `eggs`, and the fold changes the stem of that one token. Not re-run: the other six, which were already green under load. pytest on this tree: 414 passed, 3 skipped.
 
 Read beside the nondeterminism finding already in this log: a warm score of 0.0 on two asks that pass unloaded is a silent-miss shape, and the guard number is only trustworthy when the machine is quiet. The next guard run happens with nothing else running, and a red guard is not to be booked as a regression until it has been re-run alone.
+
+## Pre-registration: the arbiter names the modifier, not the head (2026-10-28)
+
+The render falsification exposed a sharper defect than the one it was testing,
+and it is principled rather than per-ask.
+
+**The defect.** `_shape_matches`, for a `subject_unknown` shape, returns
+`before[0]` -- the FIRST content word of the subject span
+(`organs/neural_language.py:2167`). English noun phrases are head-final:
+determiners and modifiers precede the head, so in "the copper bell turns twice"
+the head is `bell` and `before[0]` is `copper`. The matcher therefore names the
+modifier whenever a subject has more than one content word -- a prediction
+derivable from the sentence alone, without seeing the ask, which is what makes it
+a defect and not a trade-off.
+
+**The mechanism.** Take the head: the LAST content word of the subject span.
+When the span is one word, last is first, so the stated fallback to `before[0]`
+is automatic rather than a branch -- the change cannot alter any single-word
+subject.
+
+**This is not variant B.** Variant B failed because it asked a different organ
+for the word: `role_of` answered `bites`, a verb, when the question was *what*.
+This leaves the arbiter as both the gate on which memory and the source of the
+word, and corrects which position in the span it reads.
+
+**Prediction, written before measuring.** The change is a no-op wherever the
+subject span is one content word, and every `subject_unknown` ask in
+`tools/scripts.json` has one ("the kettle rings at noon" -> `kettle`, "the crow
+follows the sparrow" -> `crow`). So the expected effect is: **exactly one
+held-out ask moves** (`what turns twice?` -> `bell`), **zero house asks change**.
+If more than one held-out ask moves, or any house ask changes, the no-op
+prediction is wrong -- and that wrongness is the finding, not a bonus.
+
+**Conditions (the operator's, verbatim in effect).**
+1. `what turns twice?` moves to PASS speaking `bell`, with no `copper`;
+2. no current PASS flips to fail;
+3. measured on **all 24** independent, not a chunk, not the sequential path;
+4. pytest green (414 passed / 3 skipped as of the fold tests; the standing gate
+   was 407/3).
+If it holds, it is the first capability point in eight cuts, and **all 8 guard
+scripts run clean on a quiet machine before it is booked** -- six green under
+load plus two green alone is not eight green on a quiet machine. If it flips a
+PASS or the target still fails: revert, the mouth axis is closed for good, and
+only then the numeral probe.
+
+**Scope, deliberately not taken.** `after[0]` in the `object_unknown` branch
+(`:2181`) carries the same head-final defect symmetrically: an object span of
+two content words ("the heavy latch") would name the modifier there too. It is
+**not** changed in this cut, because no held-out ask exercises a multi-word
+object span, so a second mechanism would land unmeasured. Recorded as the
+follow-up, not fixed on the argument that it must be the same bug.
+
+## Result: the head fix lands, and the bar drifted underneath it (2026-10-28)
+
+**The pre-registered fix alone was inert, and that is a finding, not a detour.**
+With `before[-1]` in and nothing else changed, `what turns twice?` still failed
+speaking `the copper bell turns twice` -- because the render path never read the
+arbiter's filler. The head fix corrected what the arbiter *names*; nothing
+consumed it. So the ruling as written entails both halves, and the cut as landed
+is two edits: the position rule (`_shape_matches:2167`, `before[0]` ->
+`before[-1]`) and the mouth saying the word the arbiter named
+(`answer():2844`, `source='arbiter head'`, with the whole recalled proposition
+kept as the fallback wherever there was no shape to verify). This is not variant
+B: the arbiter remains both the gate on which memory and the source of the word.
+
+**Conditions, met.** `what turns twice?` -> **PASS speaking exactly `bell`**, no
+`copper` (`said` verified in the journal). All 24 independent, nothing else on
+the machine: **6/24 = 0.250**, up one from the 5/24 bar. No current PASS flipped
+under a contemporaneous control. pytest **414 passed, 3 skipped**. The no-op
+prediction held: exactly one held-out ask moved, and the house suite is
+unchanged.
+
+**The guard, run as instructed.** All 8 scripts, four chunks of two, with nothing
+else running: **warm 1.00 / cold 1.00 in every chunk**, `override` winners
+correct (`hot`, `hot`). Eight green on a quiet machine, not six-plus-two.
+
+**And the instrument moved.** `order-first-last` came back 0/4 (was 2/4) and
+`conjunction-and-absence` 2/4 (was 0/4). Neither is this cut's doing: the control
+-- the committed tree with both edits removed, same hour, same quiet machine --
+reproduces **order 0/4 and conjunction 2/4 exactly**, with the same confabulated
+words (`sold`, `bridle gargery`) and the same 55%/58% coverage refusals. The
+score held at 5/24 across campaigns while the **pass set** changed membership.
+So the independent bar is reproducible in aggregate and not in composition: a
++/-2 shift inside one script is inside the noise of the instrument, and only a
+movement verified on both trees, in the same hour, counts. That is how the target
+ask's PASS was accepted (FAIL on the committed tree twice, PASS on the cut tree
+with `bell`) and how the other four shifts were rejected as drift.
+
+**What the mouth axis now means.** The falsification did not close the axis; it
+located the defect one level down, in the arbiter's position rule rather than in
+the framing. Variant B stays rejected for the reason it was measured: `role_of`
+answers verbs (`bites`) when the question is *what*. What remains on the mouth
+label is retrieval fallthrough -- `sold`, `amethyst solomon tallied`, `bridle
+gargery` -- which is not a mouth at all.
+
+**Untouched, and next.** `how many eggs are left in the basket?` still says
+`there are four eggs in the basket` and `how many times does the bell turn?`
+still refuses at 42% coverage. Both have `shape = None` -- `how` is not `what` or
+`where` -- so this cut never reached them. The numeral claim stands as the next
+probe, unstarted. `after[0]` for multi-word objects stays as recorded, unfixed
+and unmeasured.

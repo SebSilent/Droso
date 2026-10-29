@@ -2164,7 +2164,17 @@ class NeuralLanguage:
                 if nxt is None:
                     return None
                 pos = nxt + 1
-            return before[0]
+            # The head, not the first word. English noun phrases are
+            # head-final -- determiners and modifiers precede the head -- so
+            # "the copper bell turns twice" has head `bell`, and `before[0]`
+            # named the modifier. Measured: rendering that filler said
+            # `copper` and tripped the same forbid the whole sentence did.
+            # When the span is one content word last is first, so this cannot
+            # alter any single-word subject -- which is every subject in
+            # tools/scripts.json. `after[0]` below carries the same defect for
+            # multi-word objects and is deliberately left alone: no ask
+            # exercises one, so it would land unmeasured.
+            return before[-1]
         if kind == "object_unknown":
             vs = stem(shape["verb"])
             vi = next((i for i, s in enumerate(stems) if s == vs), None)
@@ -2831,7 +2841,18 @@ class NeuralLanguage:
             # "where is food" as "food is": the memory was right and the mouth
             # overruled it. The chain is for spontaneous speech, not for reading
             # out something he already remembers.
-            said, source, words = " ".join(tokens), "recalled proposition", tokens
+            # When the arbiter verified a shape, though, it already named the
+            # thing asked for -- and reading the whole sentence out loud speaks
+            # the modifiers and the numeral along with it, which is how
+            # "what turns twice?" tripped its own forbid on `copper`. Say the
+            # word the arbiter named; keep the sentence only where there was no
+            # shape to verify, so no ask loses its fallback.
+            sf = shape_filler if shape is not None else None
+            if sf:
+                sf = str(sf)
+                said, source, words = sf, "arbiter head", [sf]
+            else:
+                said, source, words = " ".join(tokens), "recalled proposition", tokens
         measured, margin = self.choose_addressee(self.san_act)
         # A question was asked by someone in the room, so the reply goes to them;
         # the measured preference is recorded beside it rather than replacing it.
