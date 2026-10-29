@@ -5950,6 +5950,64 @@ N2 PASS 'four'  what count of eggs was there originally?
 Controls unchanged: the record count still answers `one`, the world count is
 still refused.
 
+# Pre-registered CAPABILITY POINT: definite descriptions, resolved by rewrite (defect K)
+
+**This is the largest remaining block by the map: `hop-and-inventory` 2/4, two
+failures, more than any other script.** The old "hop" axis is closed because two
+attempts died inside the same place -- re-arbitrating the outer shape against a
+shortlist that never contained the inner memory. This is a different mechanism,
+not a third try at that one.
+
+**Current behaviour, traced.** `what does the thing the frost bites hold?` ->
+shape `object_unknown`, subject `["thing"]`, verb `hold`, verdict **veto**,
+reason `nothing he remembers has that shape`. The organ is matching `thing`
+against memory; `thing` is a placeholder, not an entity.
+
+**Mechanism: resolve the description, then ask the ordinary question.**
+
+1. Fire only when arbitration **vetoes** and the question's text contains a
+   definite description with an inner clause -- `the thing <inner predication>`
+   before the outer verb (the structural gene from the genome work, now in the
+   organ: a second finite clause inside the subject span).
+2. Split it at the **outer verb**: inner = `the frost bites`, outer subject
+   placeholder = `the thing the frost bites`.
+3. Ask the organ its **own** inner question -- `what does the frost bite?` --
+   through `self.answer`. If that refuses, stop: no guess.
+4. **Rewrite the outer question text** by replacing the description with the
+   entity it resolved to (`what does the latch hold?`) and ask **that** through
+   the same `answer`. This is the difference from the closed attempts: no new
+   arbitration, no second matcher -- the ordinary path, on a better question.
+5. **One hop, never recursion** (a re-entry flag). No world knowledge, no named
+   ask, no constants.
+
+**Paraphrases, written before the code:**
+
+| # | utterance | required |
+|---|---|---|
+| target | `what does the thing the frost bites hold?` | `door` |
+| N1 | `what is the thing the frost bites holding?` | `door` |
+| N2 | `the thing the frost bites holds what?` | `door` |
+
+**Controls, must not move:**
+
+| # | utterance | required |
+|---|---|---|
+| C1 | `does the door hold the frost?` | still refused (reversal has no support) |
+| C2 | `does the latch hold the door?` | `yes` (single memory, ordinary path) |
+| C3 | `what does the frost bite?` | `latch` (single memory, ordinary path) |
+| C4 | a declarative from the same script | unchanged |
+
+**Gate, in order.** pytest incl. `test_shape_filler_position`; 24 organ-only at
+**20/24 with zero of the nineteen frozen passes lost**; eight guards on a quiet
+machine. Floor is **19/24, frozen**.
+
+**Falsification, stated before the run.** If the target does not move, the
+mechanism is not what is missing and **reverts** -- as the last hop did. If N1
+or N2 fail while the target passes, the split is **fitted to the phrasing** and
+is logged **narrow**, not booked. If C1 starts answering, the rewrite is
+over-eager and reverts. If a frozen pass is lost or a guard goes red while the
+24 improves, **the guard decides** and the conflict is logged, not the win.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
