@@ -6052,6 +6052,38 @@ token order -- or should not claim the point at all.
 `tools/hop_probe.py` is kept: it is the harness that caught this, and it is the
 one that any future attempt must pass.
 
+# CLOSING STATE, measured at `f2e1748`, tree clean, shim out of the path
+
+The run is closed. Nothing is in flight, no background job is alive, no
+uncommitted edit exists. `tools/_genome_patch.py` was **moved out of `tools/`
+for the measurement** and restored afterwards; no harness imports it (only its
+own docstring mentions it), so nothing in the 24 could have been shim-bought.
+
+| harness | result |
+|---|---|
+| `pytest -q` | **428 passed, 3 skipped** |
+| 24 organ-only, `--independent`, one build per ask | **19/24** |
+| eight guard scripts | **8/8 clean -- 1.00 warm, 1.00 cold, delta +0.00 every line** |
+| held-out independent score | **19/24** (`--independent` is the organ-only mode) |
+
+Per script: `count-frequency` 4/4, `order-first-last` 3/4,
+`conjunction-and-absence` 3/4, `exact-repeat` 3/4, `hop-and-inventory` 2/4,
+`quantity-change` 4/4.
+
+**Floor verified, not assumed:** the 19/24 was re-derived from a clean checkout
+with the shim physically absent from `tools/`, so the floor is
+**organism-earned**. Every booked point survives it. Nothing was un-booked.
+
+**Housekeeping:** `_tmp/` and `tools/_tmp_report_dump.py` deleted (both were
+git-ignored scratch); all probe scripts are tracked and carry docstrings saying
+what they are for; `git status` clean; pushed.
+
+**Closed as documented in `docs/STATE.md`**, which is the takeover document:
+floor and its meaning, every landed mechanism with general/narrow verdict, every
+reverted axis with its cause, the harness commands, the open defects, what is
+NOT done, and the one architectural finding -- **the organs match phrasings, not
+meanings, so nothing generalises past its own test.**
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
