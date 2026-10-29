@@ -2586,6 +2586,124 @@ class NeuralLanguage:
                    "six", "seven", "eight", "nine", "ten")
     COUNT_QUANTS = frozenset({"times", "things", "objects", "items"})
 
+    NUMBER_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
+                    "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
+
+    def _quantity_answer(self, user_text):
+        """`how many eggs are left in the basket?` -- arithmetic over content.
+
+        Pre-registered (defect I) with the arithmetic fixed before the code.
+        Numbers are read out of this session's tells, attached to the entity the
+        question names (matched by stem, so `eggs` finds `egg`), and answered:
+
+        - `first` / `last`  -> the number in the earliest / latest such tell;
+        - `left` / `remain` -> **total minus everything later removed**;
+        - `<verb>`          -> the number a tell attaches to that verb;
+        - `did any ...`     -> `yes` when a tell reports the entity affected.
+
+        Refuses silently when a term is missing: **a missing term is not a
+        zero**, and this path never utters `no`.
+        """
+        words = [w for w in re.findall(r"[a-z']+", str(user_text or "").lower())
+                 if w]
+        if not words:
+            return None
+        is_any = words[0] == "did" and "any" in words[:3]
+        if not is_any:
+            if "how" not in words or "many" not in words:
+                return None
+            after = words[words.index("many") + 1:]
+            if after and after[0] in self.COUNT_QUANTS:
+                return None                # that one belongs to the count path
+
+        def refuse(why):
+            return {"spoken": False, "heard": True, "answered": False,
+                    "reason": why, "source": "quantity: refused"}
+
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
+        try:
+            meta = list(self.cortex.binder.meta)
+        except Exception:                  # noqa: BLE001 - no store, no answer
+            return refuse("he has no memory store to consult")
+        ask = set(words)
+        rows = []
+        for mem in meta:
+            if str(mem.get("who") or "") != "you":
+                continue
+            when = float(mem.get("when", 0.0) or 0.0)
+            if when < t0:
+                continue
+            toks = mem.get("tokens") or []
+            if isinstance(toks, str):
+                toks = toks.split()
+            seq = [re.sub(r"[^a-z']", "", str(t).lower()) for t in toks]
+            if not seq or set(seq) == ask:
+                continue
+            nums = [self.NUMBER_WORDS[w] for w in seq
+                    if w in self.NUMBER_WORDS]
+            rows.append((when, seq, nums))
+        rows.sort()
+        with_num = [r for r in rows if r[2]]
+        if not with_num:
+            return refuse("no number was ever said to him")
+
+        def stems(seq):
+            return {stem(t) for t in seq}
+
+        # The entity: the first question content word that appears in a tell
+        # that carries a number.
+        stop = set(self.SHAPE_FUNCTION_WORDS) | {
+            "how", "many", "did", "any", "left", "remain", "remains", "there",
+            "start", "first", "last", "say", "said", "tell", "told", "basket",
+            "in", "at", "the", "are", "is", "was", "were", "do", "does"}
+        entity = None
+        for w in words:
+            if w in stop:
+                continue
+            if any(stem(w) in stems(seq) for _w, seq, _n in with_num):
+                entity = w
+                break
+        if entity is None:
+            return refuse("he cannot tell what is being counted")
+        e = stem(entity)
+        mine = [r for r in with_num if e in stems(r[1])]
+        if not mine:
+            return refuse(f"no number was ever attached to {entity!r}")
+
+        def say(n):
+            name = ("zero", "one", "two", "three", "four", "five",
+                    "six", "seven", "eight", "nine", "ten")[n] \
+                if 0 <= n <= 10 else None
+            if name is None:
+                return refuse("more than ten, and he says counts as words")
+            return {"spoken": True, "heard": True, "answered": True,
+                    "utterance": name, "response": name,
+                    "source": "quantity", "entity": entity, "value": n}
+
+        if "first" in words:
+            return say(mine[0][2][0])
+        if "last" in words:
+            return say(mine[-1][2][0])
+        if any(w in words for w in ("left", "remain", "remains", "leftover")):
+            total = mine[0][2][0]
+            removed = sum(r[2][0] for r in mine[1:])
+            if removed > total:
+                return refuse("the removal is larger than the total")
+            return say(total - removed)
+        if is_any:
+            return {"spoken": True, "heard": True, "answered": True,
+                    "utterance": "yes", "response": "yes",
+                    "source": "quantity", "entity": entity,
+                    "because": " ".join(mine[0][1])[:60]}
+        for w in words:
+            if w in stop or w == entity:
+                continue
+            sw = stem(w)
+            hit = [r for r in mine if sw in stems(r[1])]
+            if hit:
+                return say(hit[0][2][0])
+        return refuse("no tell attaches a number to what was asked")
+
     def _count_answer(self, user_text):
         """`how many times/things did i <verb> ...?` -- arithmetic over the record.
 
@@ -3634,6 +3752,13 @@ class NeuralLanguage:
         rec = self._record_answer(str(user_text or ""))
         if rec is not None:
             return rec
+        # Content arithmetic comes BEFORE the record count, and only for
+        # questions whose quantifier is not times/things/objects/items
+        # (defect I, pre-registered), so `how many eggs did i mention first?`
+        # reaches arithmetic instead of the count path's ordinal refusal.
+        qa = self._quantity_answer(str(user_text or ""))
+        if qa is not None:
+            return qa
         # Arithmetic over the same record (defect F, pre-registered).
         cnt = self._count_answer(str(user_text or ""))
         if cnt is not None:

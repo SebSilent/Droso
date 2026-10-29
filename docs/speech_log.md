@@ -5758,6 +5758,55 @@ with zero of the sixteen frozen passes lost; eight guards on a quiet machine.
 and is logged **narrow**. If a frozen pass is lost or a guard goes red, the guard
 decides. If the house tests go red, it does not land -- H's lesson.
 
+## Defect I: 19/24, and it is logged NARROW, not capability
+
+| gate | result |
+|---|---|
+| paraphrase check (written before the code) | **P1 pass, P2 FAIL, P3 pass** |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **19/24** (from 16/24) |
+| frozen passes lost | **zero** -- all sixteen retained |
+| moved asks | `quantity-change` 1/4 -> **4/4** (all four) |
+| eight guards, quiet machine | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+
+```
+target PASS 'four'  how many eggs did i mention first?
+target PASS 'two'   how many eggs broke?
+target PASS 'yes'   did any egg break?
+target PASS 'two'   how many eggs are left in the basket?
+P1     PASS 'two'   how many eggs did i say break?
+P2     FAIL ''      how many eggs were there at the start?   (refused)
+P3     PASS 'two'   how many eggs remain in the basket?
+C1     info 'one'   how many times did i tell you the eggs are in the basket?  (count path, untouched)
+C2     PASS ''      how many times does the bell turn?       (still refused)
+```
+
+**The falsifier fired on P2 and I am honouring it.** `at the start` is a synonym
+for the first-number cue that the registered arithmetic does not carry, so the
+path **refuses** -- it does not answer wrongly, and it does not guess. Adding the
+synonym now, after watching it fail, would be post-hoc fitting; the honest
+reading is that this mechanism is **narrow on its cue words**: it handles
+`first`/`last`/`left`/`remain`/`<verb>` and not their synonyms.
+
+**So the point is not claimed as capability.** It moved four asks, it kept every
+frozen pass, and its controls held -- but by the standard set before the code, a
+paraphrase failure means narrow, and narrow is what is written down.
+
+**What is not narrow about it:** the subtraction is real (`four` minus `two`),
+the entity is matched by stem (`eggs` -> `egg`), and C1 proves it did not absorb
+the record-count path.
+
+# ORGAN FLOOR RAISED TO 19/24
+
+**Frozen 2026-10-29. The floor is 19/24.** Every future cut is measured against
+19/24 organ-only; **any regression below 19/24 reverts.** The label on defect I
+is *narrow*; the floor is a measurement and follows the score.
+
+Remaining failures (5): `what did i tell you about before the kettle?` (recall),
+`what is wet but not on the hook?` (shape_arbiter), `how many times does the bell
+turn?` (world count, refused), the two-memory hop, and the deliberately-refused
+world question.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
