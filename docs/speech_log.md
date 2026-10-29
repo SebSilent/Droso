@@ -4410,6 +4410,80 @@ different organ surface from span weights.
 removed sparsity as the blocker and replaced it with coupling. Selection can now
 climb; it climbs a surface whose top half is disconnected from the 24 asks.
 
+# Repair 1: reach, diagnosed on boundary distance
+
+`tools/reach_probe.py` sweeps each weight in 0.01 steps from the base until the
+composite moves, then replays the ten mutation draws and records which gene was
+picked and whether the composite moved. Mutation distribution untouched.
+
+**Before (base `w_pos` 1.0, `w_prep` 0.9, `w_first` 0.9, `w_len` 0.0):**
+
+| gene | value | boundary up | boundary down | draws | crossed |
+|---|---|---|---|---|---|
+| w_pos | 1.00 | 0.80 | 0.10 | 2 | 2 |
+| w_prep | 0.90 | **none (saturated)** | 0.80 | 4 | 4 |
+| w_first | 0.90 | 0.11 | 0.80 | 2 | 2 |
+| w_len | 0.00 | 0.46 | none | 2 | 2 |
+
+Reach then was **2/10–5/10** across seeds. The diagnosis is exactly the stated
+one: `w_prep` was already past its boundary (up = none), so every upward draw was
+silent, and `w_pos`, `w_first` sat 0.8 away from their downward boundary. A gene
+bites only when the draw crosses a boundary, and the base was far from most.
+
+**After, repositioned to sit just off each boundary in its live direction**
+(`w_prep` 0.12, `w_first` 0.99, `w_len` 0.45, `w_pos` 1.0 — composite unchanged
+in kind, still below 1.0): boundaries **0.02–0.21** on every gene, both
+directions live except `w_len` down, and **reach 10/10 on seeds 13 and 7**.
+
+**After the parser gene was added** (which reshuffles the draw stream), the five
+seeds measure **7, 8, 7, 8 and 10 of 10**. The target was 8/10 on every seed;
+three of five meet it and two sit at 7/10, because a draw that pushes `w_count`
+below zero clamps at its floor and a downward `w_len` still has 0.12 to travel.
+Reported rather than fixed by inflating the mutation rate, which is the one lever
+the brief forbids.
+
+# Repair 2: five generations, all five seeds, unchanged design
+
+| seed | base | gen-1 | gen-2 | gen-3 | gen-4 | gen-5 | reach |
+|---|---|---|---|---|---|---|---|
+| 13 | 0.68333 | 0.75833 | 0.75833 | 0.83333 | 0.83333 | 0.83333 | 7/10 |
+| 7 | 0.68333 | 0.68333 | 0.75833 | 0.83333 | 0.83333 | 0.83333 | 8/10 |
+| 17 | 0.68333 | 0.75833 | 0.82500 | 0.83333 | 0.83333 | 0.83333 | 7/10 |
+| 23 | 0.68333 | 0.83333 | 0.83333 | 0.87500 | 0.87500 | **0.90000** | 8/10 |
+| 29 | 0.68333 | 0.75833 | 0.75833 | 0.82500 | 0.82500 | **0.90000** | 10/10 |
+
+Four of five improve and two climb past the 0.833 ledge the three-generation run
+could not see. Seed 23 was at 0.833 by gen-1 and would have read as a ceiling at
+three generations; at five it reaches 0.900 — which is the point of the
+extension, and the reason a three-generation stall was not booked as a ceiling.
+
+# The parser gene: `w_count`, and C5 moves
+
+`w_count` in [0, 1]; above 0.5 the fly's parser gives a count question a
+checkable shape where the organ returns none. It only ever ADDS a shape, so the
+falsification test is a guard in code: `c5_for()` compares the answered set
+against the base's and **raises** if enabling the gene turns any answered form
+into a refusal. It never fired.
+
+| | C5 | composite |
+|---|---|---|
+| base (`w_count` 0) | 0.666667 | 0.683333 |
+| seeds 23, 29 at gen-5 (`w_count` > 0.5) | **1.000000** | **0.900000** |
+
+So the composite climbs past the 0.933 cap's reach because C5 itself moved: the
+arbiter now gets a checkable shape on `how many times does the bell turn?`. Not
+falsified — the gene moved C5 without flipping a single answered form.
+
+**What this does NOT show, stated plainly.** C5 measures whether the arbiter
+receives a checkable shape, not whether the answer is right. A fly with
+`w_count` above 0.5 is *admissible* on count questions; it has not been shown to
+count. The 24-ask set remains the outside check, unscored this turn, and no
+capability claim is made here beyond the shape stage.
+
+**Gates:** null spread **0** on all five seeds; base composite **0.683333**,
+strictly below 1.0; reach per seed in the table above; pytest 428 passed, 3
+skipped.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
