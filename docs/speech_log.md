@@ -5389,6 +5389,103 @@ selection, disjunctive resolution. Two are general across their construction
 (ordinal, disjunction); the mouth axis is now **clear of failures** and the
 gating axis still has two, both deliberately closed behind defect B.
 
+# Pre-registered: record absence (defect B), with its truth condition
+
+Defect B was held closed on a principle: answer `no` only when absence of a
+memory is *evidence*, never when it is merely lack of evidence. This mechanism
+exists only because one class of question satisfies that.
+
+**The truth condition, which is the whole argument.**
+`did i ever tell you about the moon?` does not ask about the world. It asks about
+**the record of what was said to him**, and that record is **complete and scoped**
+for this session: every tell is bound with `who == "you"` and a timestamp. If no
+such memory mentions the entity, `no` is a true report about the record. It is
+NOT a claim that the moon is unreal, and it is not evidence about the world.
+
+**Therefore the mechanism is limited to record questions, by construction:**
+
+1. Fire only when the utterance is a **yes/no form** -- it must *begin* with
+   `did` / `do` / `does` / `have` / `has`. `how many …`, `which …`, `what …`
+   never qualify, which is what keeps it out of the counting and ordering asks.
+2. It must name a **record verb** (`tell`, `told`, `mention`, `mentioned`, `say`,
+   `said`) and either `about` or a mention-verb.
+3. The **entity** is the content word(s) after that verb (or after `about`).
+4. Answer **`no`** if no session `who == "you"` memory contains the entity;
+   **`yes`** if one does. Nothing else.
+
+**`does the door hold the frost?` is NOT this question and must stay refused.**
+It begins with `does`, so rule 1 admits it -- but it names no record verb, so
+rule 2 refuses it. That separation is deliberate: absence of a memory about the
+door holding the frost is not evidence that it does not, and no path may say so.
+
+**Paraphrase check, written before the code:**
+
+| # | utterance | required |
+|---|---|---|
+| target | `did i ever tell you about the moon?` | `no` |
+| P1 | `did i ever mention the moon to you?` | `no` |
+| P2 | `have i told you anything about the moon?` | `no` |
+| P3 | `did i ever tell you about the kite?` | `no` (another unmentioned entity) |
+| C1 | `did i ever tell you about the coat?` | **`yes`** -- a blanket negator fails here |
+| C2 | `does the door hold the frost?` | **not answered** -- still refused |
+
+**Gate.** pytest incl. `test_shape_filler_position`; 24 organ-only at **12/24**
+with zero of the eleven frozen passes lost; eight guards on a quiet machine.
+
+**Falsification.** If C1 says `no`, the mechanism asserts false negatives and is
+reverted outright, whatever the 24 says. If C2 is answered, it has escaped its
+scope and is reverted. If the target does not move, revert. If a frozen pass is
+lost or a guard goes red, the guard decides and the conflict is logged.
+
+## Defect B landed: 12/24, and it is scoped to the record on purpose
+
+| gate | result |
+|---|---|
+| paraphrase + control check (written before the code) | **7/7** |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **12/24** (from 11/24) |
+| frozen passes lost | **zero** -- all eleven retained |
+| moved ask | `did i ever tell you about the moon?`: gating -> **PASS**, said `no` |
+| eight guards, quiet machine | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+
+```
+target PASS 'no'    did i ever tell you about the moon?
+P1     PASS 'no'    did i ever mention the moon to you?
+P2     PASS 'no'    have i told you anything about the moon?
+P3     PASS 'no'    did i ever tell you about the kite?
+C1     PASS 'yes'   did i ever tell you about the coat?      <- a blanket negator dies here
+C2     PASS ''      does the door hold the frost?            <- refused, correctly
+C3     PASS ''      how many things did i tell you about the coat?  <- counting ask not hijacked
+```
+
+**Why this is allowed to say `no` at all, in one sentence:** it reports on the
+**record of what was said to him**, which is complete and scoped (`who == "you"`,
+this session), so absence there is evidence about the record -- not a claim about
+the world.
+
+**C1 is the case that keeps it honest.** He *was* told about the coat, and the
+mechanism says `yes`. A mechanism that failed C1 would be a blanket negator, and
+it would have been reverted regardless of the 24.
+
+**The one gating failure that stays is the correct one.**
+`does the door hold the frost?` still expects `no` and still gets **refused**.
+The mechanism deliberately cannot fire there: it begins with `does` (rule 1
+admits it) but names no record verb (rule 2 refuses it). Absence of a memory that
+the door holds the frost is *not* evidence that it does not. **This is a logged
+conflict, not an oversight:** the 24 will keep counting that ask as a failure,
+and making it pass would mean manufacturing world-negatives from silence --
+exactly the false `no` defect B was held closed against.
+
+# ORGAN FLOOR RAISED TO 12/24
+
+**Frozen 2026-10-29. The floor is 12/24.** Every future cut is measured against
+12/24 organ-only; **any regression below 12/24 reverts.**
+
+Five points landed: instruction rendering, provenance glossary, ordinal
+selection, disjunctive resolution, record absence. Three generalise across their
+construction. Remaining failures are counts (4), one shape_arbiter span, the
+two-memory hop, and the deliberately-refused world question.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

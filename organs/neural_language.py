@@ -2582,6 +2582,66 @@ class NeuralLanguage:
     GLOSSARY_PAT = re.compile(
         r"which word did i (?:use|say) for the (?P<cat>[a-z]+)")
 
+    RECORD_VERBS = frozenset({"tell", "told", "mention", "mentioned",
+                              "say", "said"})
+    RECORD_SKIP = frozenset({"you", "me", "i", "to", "about", "anything",
+                             "something", "ever", "anything"})
+
+    def _record_answer(self, user_text):
+        """`did i ever tell you about X?` -- a question about the RECORD.
+
+        Pre-registered (defect B) with its truth condition. This is the only
+        path in the organ allowed to utter `no`, and it may only do so because
+        the thing it reports on -- what was said to him this session, bound with
+        who == "you" -- is a complete record rather than a sample of the world.
+
+        It is deliberately narrow: a yes/no form that *begins* with did/do/does/
+        have/has, naming a record verb. `does the door hold the frost?` begins
+        correctly but names no record verb, so it is refused -- absence of a
+        memory about the world is not evidence about the world.
+        """
+        words = [w for w in re.findall(r"[a-z']+", str(user_text or "").lower())
+                 if w]
+        if not words or words[0] not in ("did", "do", "does", "have", "has"):
+            return None
+        if not any(w in self.RECORD_VERBS for w in words):
+            return None
+        if "about" not in words and not any(
+                w in ("mention", "mentioned") for w in words):
+            return None
+        cut = max([i for i, w in enumerate(words)
+                   if w in self.RECORD_VERBS or w == "about"], default=-1)
+        entity = [w for w in words[cut + 1:]
+                  if w not in self.SHAPE_FUNCTION_WORDS
+                  and w not in self.RECORD_SKIP]
+        if not entity:
+            return None
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
+        try:
+            meta = list(self.cortex.binder.meta)
+        except Exception:                  # noqa: BLE001 - no store, no answer
+            return None
+        ask = set(words)
+        seen = None
+        for mem in meta:
+            if str(mem.get("who") or "") != "you":
+                continue
+            if float(mem.get("when", 0.0) or 0.0) < t0:
+                continue
+            toks = mem.get("tokens") or []
+            if isinstance(toks, str):
+                toks = toks.split()
+            seq = {re.sub(r"[^a-z']", "", str(t).lower()) for t in toks}
+            if not seq or seq == ask:
+                continue
+            if any(e in seq for e in entity):
+                seen = " ".join(str(t) for t in toks)[:60]
+                break
+        word = "yes" if seen else "no"
+        return {"spoken": True, "heard": True, "answered": True,
+                "utterance": word, "response": word, "source": "record",
+                "entity": entity, "because": seen or "no tell mentions it"}
+
     def _disjunction_answer(self, user_text):
         """`is the coat dry or wet?` -- resolve two offered alternatives against
         memory. Pre-registered (defect E) with a paraphrase check.
@@ -3479,6 +3539,11 @@ class NeuralLanguage:
         dj = self._disjunction_answer(str(user_text or ""))
         if dj is not None:
             return dj
+        # A question about the telling RECORD -- the one class where absence is
+        # evidence, because the record is complete (defect B, pre-registered).
+        rec = self._record_answer(str(user_text or ""))
+        if rec is not None:
+            return rec
         if any(self.is_interrogative(w) for w in toks):
             # He was asked something. Answering is a different act from replying:
             # it goes to memory first, and it is addressed to the asker.
