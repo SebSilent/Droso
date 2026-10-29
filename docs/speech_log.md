@@ -4804,6 +4804,93 @@ attempt.
   capability. Until `_genome_patch.py` stops supplying fillers where the organ
   returned None, no number it produces can be read as a capability claim.
 
+# Pre-registered: the instrument fix, and how the veto may be judged
+
+Two defects, separated. Only the first is a patch defect.
+
+## Defect 1, the instrument -- expected result stated before the run
+
+`_genome_patch.py` will be changed so a veto stays a veto: when the organ's
+matcher returns None, the patched call returns **None**, and the fly's
+disagreement is *counted and printed* (`vetoes_respected`) instead of being
+returned. Overriding becomes explicit and off by default.
+
+**Predicted before running: the re-scored 24 is 6/24, identical to the organ
+baseline, with the moved ask returning to `shape_arbiter`.** If it is anything
+else, the fix is wrong and the difference is a bug in the patch, not a finding.
+
+## Defect 2, the organ -- what the trace must show
+
+The veto on `hop-and-inventory::what does the thing the frost bites hold?` is
+**over-strict** if and only if the trace shows all three:
+
+1. a candidate memory whose tokens contain the question's subject span before
+   the shape verb -- i.e. the memory really is about *the thing the frost
+   bites*;
+2. that memory's answer genuinely is the wanted word (`door`);
+3. the refusal comes from a **named, single clause** of `_shape_matches` --
+   `shape["subject"]` (line ~2183), the `tail` walk (line ~2160), or the
+   `vi is None` verb lookup -- and not from the absence of a subject span.
+
+If instead the question's own `_question_shape` supplies no subject tokens, or
+the only candidates that yield `door` are memories with no subject before the
+verb, then **the veto was right and this ask is unanswerable by this organ**.
+In that case there is no organ fix, and the corpus does not contain the
+construction.
+
+**What the fixed 24 must reach, either way:** floor **6/24**, with **zero of the
+six baseline passes lost**. A matcher change is only worth landing if it moves
+the ask for a named clause reason *and* keeps all six; a change that trades a
+PASS for a PASS is not a capability point. The shim's 7/24 is not evidence for
+any of this -- it was produced by overriding the thing under test.
+
+## Result: 6/24 as predicted, and the veto was RIGHT
+
+**Defect 1, the instrument, fixed.** `_genome_patch.py` now returns the organ's
+None when the organ refused, counts the disagreement as `vetoes_respected`, and
+prints it; overriding is behind `FLY_ALLOW_VETO_OVERRIDE` and off by default.
+Re-scored, per script: 0, 0, 2, 1, **2**, 1 = **6/24**, exactly the organ
+baseline and exactly what was predicted before the run. The ask is back to
+`shape_arbiter`. **The 7/24 does not survive its own instrument**, and it is
+withdrawn as a capability claim.
+
+**Defect 2, the organ, named.** The honest instrument printed the sentence the
+old one hid:
+
+```
+[genome] veto: 'door' on object_unknown over 'the latch holds the door'
+```
+
+- The question's shape is well formed: `object_unknown`, `subject ["thing"]`,
+  `verb hold`.
+- The only candidate that yields `door` is **`the latch holds the door`**.
+- The refusing clause is **`shape["subject"]`** (`neural_language.py:2183`):
+  `thing` does not appear before `hold` in that memory. Not the tail walk, not
+  the verb lookup, not the head.
+
+**By the pre-registered criterion the veto was RIGHT, and there is no organ
+fix.** The ask is a two-memory hop: `the frost bites the latch` establishes what
+the thing is, and `the latch holds the door` establishes what it holds. The
+organ matches one memory against one question and correctly refuses a fragment
+that only answers it if you join it to a second memory. The fly answered `door`
+by dropping the subject guard -- that is not a better head rule, it is the
+confabulation the arbiter exists to refuse, and it landed on the right word
+because the corpus happens to be small.
+
+**What this means for the ledger, unchanged and now explained:**
+
+- **7/24 was never capability.** It was a guard bypass; the fixed instrument
+  measures **6/24**.
+- **The axis still has zero landed capability points.**
+- The matcher is not over-strict on this ask and is **not touched**.
+- The real capability candidate is **a hop across two memories** -- something
+  the organ has no mechanism for at all. That is new capability work, not a
+  matcher tweak, and it does not belong in this turn's gate.
+
+Probe kept as `tools/veto_probe.py`; it raised a `TypeError` on its own instance
+patch while reading the trace, which is a probe artifact and explicitly **not**
+recorded as an organ defect.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

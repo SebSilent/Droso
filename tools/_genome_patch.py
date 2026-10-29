@@ -35,7 +35,8 @@ import organs.neural_language as nl  # noqa: E402
 
 GENOME = json.loads(os.environ.get("FLY_GENOME") or "{}")
 IS_V2 = "w_pos" in GENOME
-CALLS = {"shapes": 0, "changed": 0}
+CALLS = {"shapes": 0, "changed": 0, "vetoes_respected": 0,
+         "veto_examples": []}
 MODE = "unknown"
 
 
@@ -65,6 +66,9 @@ def install() -> str:
 
     orig = nl.NeuralLanguage._shape_matches
 
+    allow_override = str(os.environ.get("FLY_ALLOW_VETO_OVERRIDE", "0")) \
+        .strip().lower() in ("1", "on", "true", "yes")
+
     def patched(self, shape, tokens):
         got = orig(self, shape, tokens)
         if (shape or {}).get("kind") not in ("subject_unknown", "object_unknown"):
@@ -74,6 +78,23 @@ def install() -> str:
             f = head_of(tokens, shape)
         except Exception:
             return got
+        if got is None:
+            # THE ORGAN REFUSED. A head rule names a head inside a span the
+            # matcher already accepted; it does not get to supply a span the
+            # matcher rejected. Returning `f` here scores the ABSENCE OF A
+            # GUARD as capability -- that is the defect this replaces, and it
+            # is what produced the 7/24. The disagreement is reported instead.
+            if f is not None:
+                CALLS["vetoes_respected"] += 1
+                if len(CALLS["veto_examples"]) < 20:
+                    CALLS["veto_examples"].append(
+                        {"shape": (shape or {}).get("kind"),
+                         "fly_would_say": f,
+                         "tokens": " ".join(str(t) for t in tokens)[:120]})
+                if not allow_override:
+                    return None
+                return f
+            return None
         if f is not None and f != got:
             CALLS["changed"] += 1
             return f
@@ -86,6 +107,19 @@ def install() -> str:
     MODE = (f"ACTIVE v{'2' if IS_V2 else '1'}: {applied} overridden; {skipped}")
     print(f"[genome] {MODE}", flush=True)
     print(f"[genome] {json.dumps(GENOME, sort_keys=True)}", flush=True)
+
+    import atexit
+
+    def _summary():
+        print(f"[genome] spans scored {CALLS['shapes']}, head changed "
+              f"{CALLS['changed']}, vetoes respected "
+              f"{CALLS['vetoes_respected']} (organ refused, fly would have "
+              f"answered: reported, not returned)", flush=True)
+        for ex in CALLS["veto_examples"]:
+            print(f"[genome] veto: {ex['fly_would_say']!r} on "
+                  f"{ex['shape']} over {ex['tokens']!r}", flush=True)
+
+    atexit.register(_summary)
     return MODE
 
 
