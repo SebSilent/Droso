@@ -4132,6 +4132,103 @@ is mine in the wiring or the campaign, not an evolved brain. There is no gap to
 report because there is no movement: the finding is that a saturated intrinsic
 fitness has nothing to hand the outside check.
 
+**The outside check never finished, and it is not evidence.** The job registry
+lost the handle and the process with it: `state/fitness/heldout_fly_g1.jsonl`
+holds **3 rows** and no report was written. Labelled pass-through; nothing for or
+against the axis. It will not be re-run, because it was a reproduction test of
+6/24 by construction and the axis has moved on.
+
+# EVOLUTION CANNOT START YET (recorded before the three fixes)
+
+The first harness's own numbers, stated plainly and not softened:
+
+- **gen-1 best == gen-0 best, because gen-0 best is already the maximum.**
+  Both 1.0000 -- the base genome *was* the rule the fitness measured, so there
+  was nothing above it to select for.
+- **Mutation was observed only as degradation:** mutants scored 0.0 and
+  0.104167 against a 1.0 base. Nothing above the incumbent was ever produced.
+- **8 of 10 mutants were invisible to fitness:** ten mutants, two distinct values
+  beyond the base, so the genome vector did not reach what fitness read.
+
+That is a harness that cannot evolve, and no amount of breeding would have
+changed it. The three fixes, in the order they were made:
+
+**1. Lineage, as a defect.** Every individual is now namespaced (`A-*`, `B-*`,
+`g1-*`, `g2-*`), carries row id, genome id, parent genome id and generation, and
+both phases write a lineage file -- previously `phase_generations` wrote none and
+the control's 20 rows carried `parent: None` with 10 ids shared between two
+populations. Generation phase asserts the population size holds (it ballooned
+10 -> 18 -> 26 before). Proof by id, from
+`fly_lineage_gens_20261029_002414.jsonl`: generation 1's best **`g1-8`
+id `2df114c9310a` <- parent `33f3e25c5ca7`**, and `33f3e25c5ca7` is `g1-0`, the
+founder with `parent: None` -- the base genome. Seed 17 shows a two-step chain:
+`g2-5 id 64b060779a37 (0.625) <- 479403b78559 = g1-3 (0.4375) <- d896c3042232
+= g1-0 founder (0.25)`.
+
+**2. Fitness with headroom.** Four components, and the pass condition is the
+same span-head check made *harder*, not a fifth soft check: each component is
+8 spans -- 2 plain, 3 with a prepositional modifier, 3 with a relative clause.
+The incumbent passes the plain ones and fails both harder flavours: *"the bell
+of the gate turns twice"* has head `bell` and it says `gate`; *"the bell the gate
+holds turns twice"* has head `bell` and it says `holds`. Base genome, measured
+(`fly_control_20261029_002414.json`):
+
+| component | base score |
+|---|---|
+| genitive_subject | 0.250000 |
+| pp_subject | 0.250000 |
+| genitive_object | 0.250000 |
+| pp_object | 0.250000 |
+| **composite** | **0.250000** |
+
+No component is 1.0 on the base, so none is dead weight and none was replaced
+for being free. **The breeding gate: base composite strictly below 1.0** --
+met at 0.250, against the old 1.000.
+
+**3. Mutation reach.** Genes are `head_index` (-1 | 0), `cut_at`
+(none | of | all), `rel_head` (bool) -- each decisive at the base. Mutant
+values `[0.21875, 0.4375, 0.59375, 0.625]`, spread 3, and **10/10 mutants differ
+from base fitness (100%)**, against 2/10 visible before. The intermediate attempt
+is recorded because its failure is the lesson: `prep_head` + `prep_scope` gave
+**5/10 and was refused by the gate**, because `prep_scope` is inert while
+`prep_head` is off -- *a gene that only matters in a context the base is not in
+is not a gene*.
+
+# Re-run against the new fitness: three gates pass, the fourth does not
+
+```
+null spread        0        (10 clones, one genome id)        PASS
+mutant spread      3        ([0.21875, 0.4375, 0.59375, 0.625]) PASS
+reach              10/10 = 100%                                PASS
+base composite     0.250000 (< 1.0)                            PASS
+gen-2 best > gen-1 best                                         FAIL
+```
+
+The failure is not a draw. Four seeds, all n=10, two generations:
+
+| seed | gen-1 best | gen-2 best |
+|---|---|---|
+| 13 | 0.625000 | 0.625000 |
+| 7 | 0.625000 | 0.625000 |
+| 17 | 0.625000 | 0.625000 |
+| 23 | 0.625000 | 0.625000 |
+| 29 | 0.593750 | 0.593750 |
+
+**Logged as a result, not hidden.** The mechanism is legible in the trace: the
+ceiling needs **two** genes at once (`cut_at: all` and `rel_head: true`), one
+mutation from the base reaches 0.625 with either, and the second step must be
+proposed by a mutant of a 0.625 individual -- but in a ten-fly pool carrying one
+or two such individuals, a three-way tournament breeds from them a minority of
+the time, so the population climbs to the 0.625 ledge and sits there. Seed 17
+shows exactly that: gen-2's 0.625 arrived by a *different* path
+(`g2-5 <- g1-3 (0.4375) <- base`), not by improving the leader.
+
+So: **fitness now has headroom and the population still does not climb it.**
+The next lever is selection strength -- tournament size, or breeding only from
+the elite -- and it is deliberately NOT applied in this turn, because a run must
+report what the design does and not what it can be tuned into. Population size
+and generation count stay at 10 and 2.
+
 ## Pre-registration: the arbiter names the modifier, not the head (2026-10-28)
 
 The render falsification exposed a sharper defect than the one it was testing,

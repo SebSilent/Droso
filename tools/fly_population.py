@@ -1,30 +1,48 @@
 r"""A breeding population of Droso brains: shared substrate, per-fly genome.
 
-PROCESS MODEL (stated, because the measured RAM forces it).  One immutable
-substrate -- the built house: corpus, band, embeddings, weights -- is loaded
-ONCE per process and is shared read-only by every fly.  Flies run SERIALLY IN
-PROCESS against that one substrate; a fly is a genome plus its own mutable layer
-(a dict of deltas and knobs), never a second house.  Windows has no fork(), so
-copy-on-write between processes is not available here, and the cost model
-(tools/fly_cost_model.py) measures what a second loaded house would actually
-cost.  Nothing in this file rebuilds from corpus, and nothing writes into the
-shared substrate: the mutable layer is applied to a scratch copy of only the
-array a knob touches, and that copy is freed before the next fly.
+WHY THIS FILE WAS REWRITTEN TWICE (2026-10-29). The first version could not
+evolve and said so three ways: generation 1's best EQUALLED the base because the
+base already sat at the ceiling; mutation was only ever observed as degradation
+(0.0, 0.104 against a 1.0 base); and 8 of 10 mutants were invisible to fitness.
+Its lineage was broken too -- control rows all parent None, A and B sharing ten
+ids, and no lineage at all for generations.
 
-  A genome is seeded and deterministic: the same seed always names the same
-  brain, and the canonical JSON of a genome is its identity.
-  A fly never touches main's answer path: the shape policy is evaluated here,
-  over pairs, and the shared organ is read-only.
-  Saving and forking a fly is the eight-file surface already proved
-  restart-identical, or smaller: a genome is one JSON line.
+THE SECOND REWRITE FAILED ITS OWN GATE, and is recorded because the failure is
+the useful part: with genes head_index / prep_head / prep_scope, ten mutants
+gave reach 5/10 -- exactly the 50% the gate refuses -- because prep_scope is
+inert while prep_head is off, so a third of all mutations changed nothing any
+component could see. A gene that only matters in a context the base is not in
+is not a gene. Every gene below now bites from the base genome.
 
-  py -3.10 tools/fly_population.py --phase control        (null vs mutant)
-  py -3.10 tools/fly_population.py --phase generations --gens 3
+THE THREE FIXES, in the order they were made:
 
-FITNESS.  Cheap, intrinsic, deterministic, seconds not minutes: does the fly's
-head rule name the same word the independent organ -- the cortex binder --
-unbinds for that role.  The 24-ask held-out set is NEVER the selection
-pressure; it is scored once afterward as an outside check and labelled as one.
+1. LINEAGE. Every individual is namespaced (A-*, B-*, g1-*, g2-*) and carries
+   row id, genome id, parent genome id and generation. `phase_generations`
+   asserts the population size holds, and prints a TRACE per generation that
+   resolves the best back to its parent BY GENOME ID, stopping at the founder.
+
+2. FITNESS WITH HEADROOM. Four components; each is 8 spans: 2 plain, 3 with a
+   prepositional modifier, 3 with a relative clause. The incumbent passes the
+   plain ones and fails BOTH harder flavours -- "the bell of the gate" has head
+   `bell` and it says `gate`; "the bell the gate holds" has head `bell` and it
+   says `holds`. That is the same span-head check made harder, the way the
+   24-ask set was made harder to escape 32/32 -- not a fifth soft check. No
+   component is 1.0 on the base, so none is dead weight. THE BREEDING GATE IS
+   BASE COMPOSITE STRICTLY BELOW 1.0.
+
+3. MUTATION REACH. Three genes, each decisive at the base: head_index (which
+   word of the span is the head), cut_at (none | of | all -- does the fly stop
+   the span at a preposition), rel_head (does a relative clause take its head
+   as the first noun). A mutation always changes its gene. The FRACTION of
+   mutants whose fitness differs from base is reported, not just the spread.
+
+PROCESS MODEL, unchanged and forced by the cost model: one immutable substrate,
+serial in process, a fly is a genome plus a dict of deltas, never a second
+house (a second house measured +2426 MB duplicated, N=1).
+
+  py -3.10 tools/fly_population.py --phase control --n 10 --seed 13
+  py -3.10 tools/fly_population.py --phase generations --n 10 --gens 2
+  py -3.10 tools/fly_population.py --phase trace
 """
 from __future__ import annotations
 
@@ -44,291 +62,370 @@ from organs.stemming import stem  # noqa: E402
 
 STATE = ROOT / "state" / "fitness"
 
-# ------------------------------------------------------------------ genomes
-ARTICLES = ("the", "a", "some", "two", "old", "copper", "heavy", "red")
+ARTICLES = ("the", "a", "some")
+MODS = ("old", "copper", "heavy")
 NOUNS = ("bell", "lantern", "latch", "crow", "sparrow", "box", "basket", "gate")
 VERBS = ("turns", "bites", "holds", "follows", "shines", "keeps", "rings")
-TAILS = ("twice", "at noon", "in the pantry", "on the shelf", "again")
-
-# A fly may only choose among these; none of them is a threshold moved toward
-# an answer key -- they are positions in a span and membership of a closed
-# function-word class.
-HEAD_CHOICES = (0, -1, -2)
-EXTRA_FUNCTION = ("twice", "again", "some", "old")
-
-
-def base_genome(seed: int) -> dict:
-    """The genome every population descends from: the committed rule."""
-    return {"seed": int(seed), "head_index": -1, "extra_function": [],
-            "stem_verb": True}
+OF = ("of",)
+PP = ("near", "under", "behind")
+PREPS = OF + PP
+TAILS = ("twice", "at noon", "again")
+COMPONENTS = ("genitive_subject", "pp_subject", "genitive_object", "pp_object")
+GENES = ("head_index", "cut_at", "rel_head")
+CUTS = ("none", "of", "all")
 
 
-def canon(genome: dict) -> str:
-    return json.dumps(genome, sort_keys=True, separators=(",", ":"))
+# ------------------------------------------------------------------ genomes
+def base_genome(seed: int = 13) -> dict:
+    """The committed rule as a genome: last content word of the span, no
+    prepositional handling, no relative-clause handling -- which is exactly the
+    incumbent's behaviour and why it scores below 1.0 on the harder flavours."""
+    return {"seed": int(seed), "head_index": -1, "cut_at": "none",
+            "rel_head": False, "stem_verb": True}
 
 
-def gid(genome: dict) -> str:
-    return hashlib.sha256(canon(genome).encode("utf-8")).hexdigest()[:12]
+def canon(g: dict) -> str:
+    return json.dumps(g, sort_keys=True, separators=(",", ":"))
+
+
+def gid(g: dict) -> str:
+    return hashlib.sha256(canon(g).encode("utf-8")).hexdigest()[:12]
 
 
 def mutate(genome: dict, rng: random.Random) -> dict:
-    """One fly's worth of change: a gene is picked by the rng, not by luck of
-    dict order, so the same seed replays the same brain exactly."""
+    """One gene, always to a DIFFERENT value. A mutation that changes nothing
+    is not a mutation, and that is what made half the mutants invisible."""
     g = json.loads(canon(genome))
-    which = rng.randrange(3)
-    if which == 0:
-        g["head_index"] = rng.choice(HEAD_CHOICES)
-    elif which == 1:
-        pool = [w for w in EXTRA_FUNCTION if w not in g["extra_function"]]
-        if pool:
-            g["extra_function"] = sorted(g["extra_function"] + [rng.choice(pool)])
-        else:
-            g["extra_function"] = []
+    gene = rng.choice(GENES)
+    if gene == "head_index":
+        g["head_index"] = -1 if g["head_index"] == 0 else 0
+    elif gene == "cut_at":
+        g["cut_at"] = rng.choice([c for c in CUTS if c != g["cut_at"]])
     else:
-        g["stem_verb"] = not g["stem_verb"]
+        g["rel_head"] = not g["rel_head"]
     g["seed"] = rng.randrange(1 << 30)
     return g
 
 
-# ------------------------------------------------------------------ pairs
-def synth_pairs(n: int = 48, seed: int = 7):
-    """Propositions with a subject-unknown shape and the head the sentence
-    itself puts in the answer slot.  Built from a closed word pool, so a fly
-    can never be scored on held-out material it was tuned toward."""
+# ------------------------------------------------------------------ material
+def _np(rng, flavour):
+    """A noun phrase, and the word that is really its head."""
+    noun = rng.choice(NOUNS)
+    toks = [rng.choice(ARTICLES)]
+    mod = rng.choice((None,) + MODS)
+    if mod:
+        toks.append(mod)
+    toks.append(noun)
+    if flavour == "plain":
+        return toks, noun, None
+    if flavour == "prep":
+        other = rng.choice([n for n in NOUNS if n != noun])
+        return toks + [rng.choice(OF if True else PP), rng.choice(ARTICLES),
+                       other], noun, None
+    other = rng.choice([n for n in NOUNS if n != noun])
+    v2 = rng.choice(VERBS)
+    return toks + [rng.choice(ARTICLES), other, v2], noun, v2
+
+
+def _pairs(comp, seed):
     rng = random.Random(seed)
+    genitive = comp.startswith("genitive")
+    flavours = ["plain", "plain", "prep", "prep", "prep",
+                "rel", "rel", "rel"]
     out = []
-    for _ in range(n):
-        mod = rng.choice([(), ("copper",), ("heavy",), ("old", "copper")])
-        art = rng.choice(("the", "a", "some"))
-        noun = rng.choice(NOUNS)
+    for flavour in flavours:
         verb = rng.choice(VERBS)
         tail = rng.choice(TAILS)
-        toks = [art, *mod, noun, verb, *tail.split()]
-        head = noun
-        out.append({"tokens": toks, "head": head,
-                    "shape": {"kind": "subject_unknown", "verb": verb,
-                              "tail": tail.split()}})
+        if flavour == "prep" and not genitive:
+            noun = rng.choice(NOUNS)
+            toks = [rng.choice(ARTICLES)]
+            mod = rng.choice((None,) + MODS)
+            if mod:
+                toks.append(mod)
+            toks.append(noun)
+            other = rng.choice([n for n in NOUNS if n != noun])
+            np_toks = toks + [rng.choice(PP), rng.choice(ARTICLES), other]
+            head = noun
+        else:
+            np_toks, head, v2 = _np(rng, flavour)
+            if v2 is not None and v2 == verb:
+                verb = rng.choice([v for v in VERBS if v != v2])
+        if comp.endswith("subject"):
+            toks = np_toks + [verb] + tail.split()
+            shape = {"kind": "subject_unknown", "verb": verb,
+                     "tail": tail.split()}
+        else:
+            toks = ["the", "frost", verb] + np_toks
+            shape = {"kind": "object_unknown", "verb": verb,
+                     "subject": ["frost"]}
+        out.append({"comp": comp, "flavour": flavour, "tokens": toks,
+                    "shape": shape, "head": head})
     return out
 
 
-_BINDER_ERR = [None]
+def build_pairs(seed: int = 0):
+    pairs = []
+    for i, comp in enumerate(COMPONENTS):
+        pairs += _pairs(comp, seed=seed * 10 + i)
+    return pairs
 
 
-def binder_key(agent, tokens):
-    """What the OTHER organ says, or None.  The binder is the independent half
-    of the fitness; if it cannot answer these pairs the fitness degrades to a
-    structural agreement and says so -- it does not silently change meaning."""
-    try:
-        L = agent.language
-        b = L.cortex.binder
-        # role_of takes an INTEGER role (neural_language.py:2726
-        # `role = self.role_for(inter[0])`) and a TOKEN LIST, not a string and
-        # not a role name. Passing "agent" raised inside the binder and my
-        # except swallowed it, which is how 0/48 pairs looked like a silent
-        # binder instead of a broken call.
-        role = L.role_for("what")
-        if role is None:
-            _BINDER_ERR[0] = "role_for('what') returned None"
-            return None
-        got = b.role_of(list(tokens), int(role), b.candidates())
-        if isinstance(got, dict) and got.get("answer"):
-            return str(got["answer"]).strip().lower()
-        _BINDER_ERR[0] = f"no answer (score={got.get('score') if isinstance(got, dict) else got})"
-    except Exception as e:
-        _BINDER_ERR[0] = f"{type(e).__name__}: {e}"
-    return None
-
-
-def load_pairs(agent, n: int = 48):
-    pairs = synth_pairs(n=n)
-    keyed = 0
-    for p in pairs:
-        k = binder_key(agent, p["tokens"])
-        p["key"] = k
-        keyed += 1 if k else 0
-    mode = "binder" if keyed >= max(2, n // 5) else "structural"
-    note = (f"{keyed}/{n} pairs answered by the cortex binder; "
-            f"fitness key = {mode}")
-    return pairs, note
+def load_pairs(agent=None, n: int = 48):
+    """Kept for tools/fly_cost_model.py. The key is the construction, which is
+    intrinsic -- it comes from how the sentence was built, not from any ask in
+    either suite, so nothing here can be tuned toward the held-out set."""
+    return build_pairs(), f"key = construction, {len(COMPONENTS)} components"
 
 
 # ------------------------------------------------------------------ fitness
-def fly_function_words(genome: dict):
-    return frozenset(set(nl.NeuralLanguage.SHAPE_FUNCTION_WORDS)
-                     | set(genome["extra_function"]))
-
-
-def fly_filler(tokens, shape, genome):
-    """The fly's own head rule, applied to the span the arbiter would fill.
-    Mirrors _shape_matches' subject branch; the genome chooses which word of
-    the span the fly believes is the head."""
-    fn = fly_function_words(genome)
+def _span(tokens, shape):
     toks = [str(t).strip().lower() for t in tokens if str(t).strip()]
-    vs = stem(shape["verb"]) if genome["stem_verb"] else shape["verb"].lower()
     stems = [stem(t) for t in toks]
+    vs = stem(shape["verb"])
     vi = next((i for i, s in enumerate(stems) if s == vs), None)
     if vi is None:
         return None
-    before = [t for t in toks[:vi] if t not in fn]
-    if not before:
+    return toks[:vi] if shape["kind"] == "subject_unknown" else toks[vi + 1:]
+
+
+def fly_filler(tokens, shape, genome):
+    """What this fly says the head of the span is."""
+    span = _span(tokens, shape)
+    if span is None:
         return None
+    cut = genome.get("cut_at", "none")
+    if cut != "none":
+        scope = PREPS if cut == "all" else OF
+        for i, t in enumerate(span):
+            if t in scope:
+                span = span[:i]
+                break
+    fn = frozenset(set(nl.NeuralLanguage.SHAPE_FUNCTION_WORDS)
+                   | set(genome.get("extra_function") or ()))
+    content = [t for t in span if t not in fn]
+    if not content:
+        return None
+    if genome.get("rel_head"):
+        # A relative clause's head is the first noun, i.e. the first content
+        # word once leading modifiers and determiners are stripped.
+        rest = list(content)
+        while rest and rest[0] in MODS:
+            rest = rest[1:]
+        if rest:
+            return rest[0]
     try:
-        return before[genome["head_index"]]
+        return content[int(genome.get("head_index", -1))]
     except IndexError:
         return None
 
 
-def fitness_shape_vs_binder(agent, genome, pairs) -> float:
-    """Fraction of pairs where the fly names the word the key organ names.
-    Deterministic: no clock, no rng, no live state, no shared-array writes."""
-    hits = tot = 0
+def evaluate_components(genome, pairs):
+    tot = {c: 0 for c in COMPONENTS}
+    hit = {c: 0 for c in COMPONENTS}
     for p in pairs:
-        key = p["key"] or p["head"]
         f = fly_filler(p["tokens"], p["shape"], genome)
-        if f is None:
-            continue
-        tot += 1
-        hits += 1 if f == key else 0
-    return round(hits / tot, 6) if tot else 0.0
+        tot[p["comp"]] += 1
+        if f is not None and f == p["head"]:
+            hit[p["comp"]] += 1
+    comps = {c: round(hit[c] / tot[c], 6) if tot[c] else 0.0
+             for c in COMPONENTS}
+    return comps, round(sum(comps.values()) / len(comps), 6)
+
+
+def fitness_shape_vs_binder(agent, genome, pairs) -> float:
+    """Kept for the cost model. The name is historical: the binder key was
+    replaced by the construction key after it answered 0/48 (it takes an int
+    role and token ids; it was being called with names and strings)."""
+    return evaluate_components(genome, pairs)[1]
 
 
 # ------------------------------------------------------------------ lineage
-def write_lineage(rows, path: Path):
+def rows_for(pop, genomes, pairs, gen=1, parents=None):
+    rows = []
+    for i, g in enumerate(genomes):
+        comps, val = evaluate_components(g, pairs)
+        rows.append({"id": f"{pop}-{i}", "pop": pop, "gen": gen,
+                     "genome": g, "genome_id": gid(g),
+                     "parent": (parents[i] if parents else None),
+                     "fitness": val, "components": comps})
+    return rows
+
+
+def trace(rows, row):
+    """Resolve a row's ancestry by genome ID. Stops at a founder (parent None)
+    or a self-parenting elite. No prose, no recollection."""
+    chain = [{"row": row["id"], "genome_id": row["genome_id"],
+              "fitness": row["fitness"], "parent": row["parent"]}]
+    cur = row
+    seen = {row["genome_id"]}
+    while cur.get("parent"):
+        if cur["parent"] in seen:
+            break
+        prev = [r for r in rows if r["genome_id"] == cur["parent"]]
+        if not prev:
+            chain.append({"row": None, "genome_id": cur["parent"],
+                          "fitness": None, "parent": None, "founder": True})
+            break
+        prev = max(prev, key=lambda r: r["gen"])
+        chain.append({"row": prev["id"], "genome_id": prev["genome_id"],
+                      "fitness": prev["fitness"], "parent": prev["parent"]})
+        seen.add(prev["genome_id"])
+        cur = prev
+    return chain
+
+
+def _lineage_path(tag):
+    return STATE / f"fly_lineage_{tag}_{time.strftime('%Y%m%d_%H%M%S')}.jsonl"
+
+
+def write_lineage(rows, path):
     with path.open("w", encoding="utf-8") as fh:
         for r in rows:
             fh.write(json.dumps(r, sort_keys=True) + "\n")
 
 
-def spawn(base, n, rng):
-    """Population B: n mutants from one base, same seed, mutation only."""
-    return [mutate(base, rng) for _ in range(n)]
-
-
-def evaluate(agent, genomes, pairs, gen=1, parent=None):
-    rows = []
-    for i, g in enumerate(genomes):
-        rows.append({"id": f"g{gen}-{i}", "gen": gen,
-                     "parent": parent if gen == 1 else (parent or "base"),
-                     "genome": g, "genome_id": gid(g),
-                     "fitness": fitness_shape_vs_binder(agent, g, pairs)})
-    return rows
-
-
-def select(rows, rng, elite=2, k=3):
-    """Elitism plus tournament. The best `elite` survive unmutated; the rest of
-    the next generation are drawn by tournament among survivors; losers are
-    discarded, not kept as history."""
-    ranked = sorted(rows, key=lambda r: (-r["fitness"], r["genome_id"]))
-    keep = [r["genome"] for r in ranked[:elite]]
-    while len(keep) < len(rows):
-        contest = rng.sample(ranked, min(k, len(ranked)))
-        win = min(contest, key=lambda r: (-r["fitness"], r["genome_id"]))
-        keep.append(win["genome"])
-    return [{"genome": g, "parent": None} for g in keep]
-
-
 # ------------------------------------------------------------------ phases
-def phase_control(agent, args, note):
+def phase_control(args):
     rng = random.Random(args.seed)
     base = base_genome(args.seed)
+    pairs = build_pairs()
     clones = [json.loads(canon(base)) for _ in range(args.n)]
-    a_rows = evaluate(agent, clones, None, gen=1)
-    mutants = spawn(base, args.n, rng)
-    b_rows = evaluate(agent, mutants, None, gen=1)
+    a = rows_for("A", clones, pairs)
+    muts = [mutate(base, rng) for _ in range(args.n)]
+    b = rows_for("B", muts, pairs, parents=[gid(base)] * args.n)
 
-    def spread(rows):
-        vals = sorted({r["fitness"] for r in rows})
-        return vals
+    base_comps, base_val = evaluate_components(base, pairs)
+    a_vals = sorted({r["fitness"] for r in a})
+    b_vals = sorted({r["fitness"] for r in b})
+    differing = sum(1 for r in b if r["fitness"] != base_val)
 
-    a_vals, b_vals = spread(a_rows), spread(b_rows)
-    a_ident = len({r["genome_id"] for r in a_rows}) == 1 and len(a_vals) == 1
-    print(f"population A (null, {args.n} clones, zero mutation): "
-          f"values={a_vals} identical={a_ident}")
-    print(f"population B (mutant, {args.n} from one base):        "
-          f"values={b_vals} distinct={len(b_vals)}")
-    print(f"null spread={len(a_vals)-1}  mutant spread={len(b_vals)-1}")
-    verdict = ("EVOLUTION MAY START" if (a_ident and len(b_vals) > len(a_vals))
-               else "AXIS CLOSES: no heritable variance above the null")
-    print("verdict:", verdict)
-    out = {"stamp": time.strftime("%Y-%m-%d %H:%M:%S"), "n": args.n,
-           "seed": args.seed, "base": base, "base_id": gid(base),
-           "fitness_key_note": note,
-           "A_null": a_rows, "B_mutant": b_rows,
-           "null_spread": len(a_vals) - 1, "mutant_spread": len(b_vals) - 1,
-           "clones_identical": a_ident, "verdict": verdict}
-    p = STATE / f"fly_control_{time.strftime('%Y%m%d_%H%M%S')}.json"
-    p.write_text(json.dumps(out, indent=2), encoding="utf-8")
-    write_lineage(a_rows + b_rows,
-                  STATE / f"fly_lineage_{time.strftime('%Y%m%d_%H%M%S')}.jsonl")
+    print("BASE genome", gid(base), canon(base))
+    for c in COMPONENTS:
+        print(f"  {c:18s} {base_comps[c]:.6f}")
+    print(f"  {'COMPOSITE':18s} {base_val:.6f}   <- breeding gate: must be < 1.0")
+    print(f"A null  : 10 clones, zero mutation -> values={a_vals} "
+          f"identical_ids={len({r['genome_id'] for r in a}) == 1} "
+          f"null_spread={len(a_vals) - 1}")
+    print(f"B mutant: 10 mutants, one base     -> values={b_vals} "
+          f"mutant_spread={len(b_vals) - 1}")
+    print(f"B reach : {differing}/{args.n} mutants differ from base fitness "
+          f"({100.0 * differing / args.n:.0f}%)")
+    verdict = []
+    if len(a_vals) != 1:
+        verdict.append("NULL NOT ZERO: fix the harness, evolution cannot start")
+    if differing * 10 < args.n * 7:
+        verdict.append(f"REACH TOO LOW: {differing}/{args.n} mutants moved")
+    if base_val >= 1.0:
+        verdict.append("NO HEADROOM: the base already maxes the fitness")
+    print("verdict:", "; ".join(verdict) if verdict else
+          "control passes: null zero, reach >=70%, headroom present")
+
+    tag = time.strftime("%Y%m%d_%H%M%S")
+    p = STATE / f"fly_control_{tag}.json"
+    rows = a + b
+    p.write_text(json.dumps({"stamp": tag, "base": base, "base_id": gid(base),
+                             "base_components": base_comps,
+                             "base_composite": base_val,
+                             "null_spread": len(a_vals) - 1,
+                             "mutant_spread": len(b_vals) - 1,
+                             "differing_fraction": round(differing / args.n, 3),
+                             "verdict": verdict, "rows": rows},
+                            indent=2), encoding="utf-8")
+    lp = _lineage_path("control")
+    write_lineage(rows, lp)
     print("report:", p)
-    return out
+    print("lineage:", lp)
+    return 0
 
 
-def phase_generations(agent, args, note):
+def phase_generations(args):
     rng = random.Random(args.seed + 1)
-    pairs, _ = load_pairs(agent)
-    pop = [base_genome(args.seed)] + spawn(base_genome(args.seed), args.n - 1, rng)
-    bests = []
-    rows = None
+    pairs = build_pairs()
+    base = base_genome(args.seed)
+    base_comps, base_val = evaluate_components(base, pairs)
+    print(f"base composite {base_val:.6f}")
+    pop = [{"genome": json.loads(canon(base)), "parent": None}]
+    pop += [{"genome": mutate(base, rng), "parent": gid(base)}
+            for _ in range(args.n - 1)]
+    allrows, bests = [], []
     for gen in range(1, args.gens + 1):
-        rows = evaluate(agent, pop, pairs, gen=gen, parent=gid(base_genome(args.seed)))
-        best = max(r["fitness"] for r in rows)
-        bests.append({"gen": gen, "best": best,
-                      "distinct": len({r["fitness"] for r in rows})})
-        print(f"gen {gen}: best={best:.4f} distinct={bests[-1]['distinct']} "
-              f"n={len(rows)}")
-        parents = select(rows, rng, elite=args.elite)
-        pop = [p["genome"] for p in parents] + \
-              [mutate(rng.choice(parents)["genome"], rng)
-               for _ in range(args.n - args.elite)]
-    p = STATE / f"fly_gens_{time.strftime('%Y%m%d_%H%M%S')}.json"
-    p.write_text(json.dumps({"seed": args.seed, "note": note,
-                             "bests": bests}, indent=2), encoding="utf-8")
+        rows = rows_for(f"g{gen}", [p["genome"] for p in pop], pairs,
+                        gen=gen, parents=[p["parent"] for p in pop])
+        allrows += rows
+        best = max(rows, key=lambda r: (r["fitness"], r["id"]))
+        bests.append({"gen": gen, "best": best["fitness"],
+                      "best_row": best["id"], "best_genome_id": best["genome_id"],
+                      "distinct": len({r["fitness"] for r in rows}),
+                      "components": best["components"]})
+        print(f"gen {gen}: best={best['fitness']:.6f} ({best['id']}) "
+              f"distinct={bests[-1]['distinct']} n={len(rows)}")
+        ranked = sorted(rows, key=lambda r: (-r["fitness"], r["id"]))
+        nxt = [{"genome": r["genome"], "parent": r["genome_id"]}
+               for r in ranked[:args.elite]]
+        while len(nxt) < len(rows):
+            win = min(rng.sample(ranked, min(3, len(ranked))),
+                      key=lambda r: (-r["fitness"], r["id"]))
+            nxt.append({"genome": mutate(win["genome"], rng),
+                        "parent": win["genome_id"]})
+        assert len(nxt) == len(rows), "population size must hold"
+        pop = nxt
+
+    tag = time.strftime("%Y%m%d_%H%M%S")
+    lp = _lineage_path("gens")
+    write_lineage(allrows, lp)
+    p = STATE / f"fly_gens_{tag}.json"
+    p.write_text(json.dumps({"stamp": tag, "base_composite": base_val,
+                             "bests": bests, "rows": allrows}, indent=2),
+                 encoding="utf-8")
     print("report:", p)
-    return bests
+    print("lineage:", lp)
+    print("\nTRACE -- generation best back to its parent, by genome id:")
+    for b in bests:
+        row = next(r for r in allrows
+                   if r["id"] == b["best_row"] and r["gen"] == b["gen"])
+        for step in trace(allrows, row):
+            if step.get("founder"):
+                print(f"  gen {b['gen']}: {step['genome_id']} = FOUNDER (base)")
+            else:
+                print(f"  gen {b['gen']}: {step['row']} id={step['genome_id']} "
+                      f"fit={step['fitness']:.6f} <- parent={step['parent']}")
+    return 0
+
+
+def phase_trace(args):
+    lp = sorted(STATE.glob("fly_lineage_gens_*.jsonl"))[-1]
+    rows = [json.loads(l) for l in lp.read_text(encoding="utf-8").splitlines()
+            if l.strip()]
+    print("lineage:", lp, "rows:", len(rows),
+          "distinct ids:", len({r["id"] for r in rows}),
+          "distinct genome ids:", len({r["genome_id"] for r in rows}))
+    for gen in sorted({r["gen"] for r in rows}):
+        best = max((r for r in rows if r["gen"] == gen),
+                   key=lambda r: (r["fitness"], r["id"]))
+        print(f"\ngen {gen} best {best['id']} fit={best['fitness']:.6f}")
+        for step in trace(rows, best):
+            if step.get("founder"):
+                print(f"   -> {step['genome_id']} FOUNDER (base genome)")
+            else:
+                print(f"   -> {step['row']} id={step['genome_id']} "
+                      f"fit={step['fitness']} parent={step['parent']}")
+    return 0
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     ap.add_argument("--phase", default="control",
-                    choices=["control", "generations"])
+                    choices=["control", "generations", "trace"])
     ap.add_argument("--n", type=int, default=10)
     ap.add_argument("--seed", type=int, default=13)
-    ap.add_argument("--gens", type=int, default=3)
+    ap.add_argument("--gens", type=int, default=2)
     ap.add_argument("--elite", type=int, default=2)
-    ap.add_argument("--house", action="store_true",
-                    help="load the real substrate so the binder can be the key")
     args = ap.parse_args()
-
-    agent = None
-    if args.house:
-        from tools.converse import build
-        d = ROOT / "state" / "sessions" / f"flypop_{time.strftime('%Y%m%d_%H%M%S')}"
-        try:
-            agent = build(d)
-        finally:
-            import shutil
-            shutil.rmtree(d, ignore_errors=True)
-    pairs, note = load_pairs(agent) if agent else (synth_pairs(), "no house")
-    print("fitness key:", note)
-    if _BINDER_ERR[0]:
-        print("binder said:", _BINDER_ERR[0])
-
-    # evaluate() needs the pairs bound once, so a fly never rebuilds anything.
-    # Capture the real function BEFORE shadowing the module name: the first cut
-    # of this assigned evaluate_b into globals()['evaluate'], and evaluate_b
-    # then resolved `evaluate` to itself -- 995 frames of recursion.
-    _orig = evaluate
-
-    def evaluate_b(agent, genomes, _ignored, gen=1, parent=None):
-        return _orig(agent, genomes, pairs, gen=gen, parent=parent)
-    globals()["evaluate"] = evaluate_b
-
     if args.phase == "control":
-        phase_control(agent, args, note)
-    else:
-        phase_generations(agent, args, note)
-    return 0
+        return phase_control(args)
+    if args.phase == "generations":
+        return phase_generations(args)
+    return phase_trace(args)
 
 
 if __name__ == "__main__":
