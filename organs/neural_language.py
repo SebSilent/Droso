@@ -2582,6 +2582,88 @@ class NeuralLanguage:
     GLOSSARY_PAT = re.compile(
         r"which word did i (?:use|say) for the (?P<cat>[a-z]+)")
 
+    def _disjunction_answer(self, user_text):
+        """`is the coat dry or wet?` -- resolve two offered alternatives against
+        memory. Pre-registered (defect E) with a paraphrase check.
+
+        No lexicon, no prefix: the alternatives are the last content words on
+        each side of `or`, the subject is any other content word of the question
+        that he has a memory of, and an alternative is supported when a memory
+        names BOTH the subject and that alternative. Exactly one supported wins;
+        both or neither is silence.
+
+        It cannot utter `no` -- defect B stays closed -- and it never touches the
+        arbiter, which does not claim this shape.
+        """
+        text = str(user_text or "").lower()
+        words = [w for w in re.findall(r"[a-z']+", text) if w]
+        if "or" not in words or len(words) < 4:
+            return None
+        left, _, right = text.partition(" or ")
+        if not left.strip() or not right.strip():
+            return None
+
+        def content(part):
+            return [w for w in re.findall(r"[a-z']+", part)
+                    if w not in self.SHAPE_FUNCTION_WORDS
+                    and w not in ("or", "which")]
+
+        alts = []
+        for part in (left, right):
+            cs = content(part)
+            if not cs:
+                return None
+            alts.append(cs[-1])
+        if alts[0] == alts[1]:
+            return None
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
+        try:
+            meta = list(self.cortex.binder.meta)
+        except Exception:                  # noqa: BLE001 - no store, no answer
+            return None
+        ask = set(words)
+        subject_pool = [w for w in content(text)
+                        if w not in alts and w not in ("say", "would", "it")]
+        support = {a: 0 for a in alts}
+        subjects = set()
+        for mem in meta:
+            if str(mem.get("who") or "") != "you":
+                continue
+            if float(mem.get("when", 0.0) or 0.0) < t0:
+                continue
+            toks = mem.get("tokens") or []
+            if isinstance(toks, str):
+                toks = toks.split()
+            seq = {re.sub(r"[^a-z']", "", str(t).lower()) for t in toks}
+            if not seq or seq == ask:
+                continue
+            here_sub = [w for w in subject_pool if w in seq]
+            if not here_sub:
+                continue
+            subjects.update(here_sub)
+            for a in alts:
+                if a in seq:
+                    support[a] += 1
+        if not subjects:
+            return None                    # no subject he knows: not his question
+        supported = [a for a in alts if support[a] > 0]
+        if len(supported) != 1:
+            # The registration says "both or neither: silence", and silence is
+            # NOT the same as falling through -- the resonance path answered
+            # `is the hook dry or wet?` with `sold`. He understood the question
+            # (he knows the subject) and his memory does not settle it, so the
+            # honest act is to say nothing rather than improvise.
+            return {"spoken": False, "heard": True, "answered": False,
+                    "reason": "he knows the subject and not which of the two "
+                              "he remembers",
+                    "source": "disjunction: refused", "offered": alts,
+                    "subject": sorted(subjects)}
+        word = supported[0]
+        return {"spoken": True, "heard": True, "answered": True,
+                "utterance": word, "response": word,
+                "source": "disjunction", "offered": alts,
+                "subject": sorted(subjects)}
+
     ORDINAL_CUES = frozenset({"first", "last"})
     # Words that are never one of the two things being ordered, beyond the
     # shape's own function words. Deliberately short and closed.
@@ -3392,6 +3474,11 @@ class NeuralLanguage:
         od = self._ordinal_answer(str(user_text or ""))
         if od is not None:
             return od
+        # Two offered alternatives settled against memory (defect E,
+        # pre-registered with a paraphrase check). Also outside the arbiter.
+        dj = self._disjunction_answer(str(user_text or ""))
+        if dj is not None:
+            return dj
         if any(self.is_interrogative(w) for w in toks):
             # He was asked something. Answering is a different act from replying:
             # it goes to memory first, and it is addressed to the asker.

@@ -5296,6 +5296,99 @@ provenance glossary, and ordinal selection. Only the third is general, and only
 across pairs. The mouth axis still has one failure (`is the coat dry or wet?`)
 and the gating axis still has two.
 
+# Pre-registered: disjunctive property resolution (defect E)
+
+The last mouth failure: `is the coat dry or wet?` -> expected `wet`, forbidding
+`dry`. He is given two alternatives about one subject and the house settles it:
+the tells are `the coat is wet`, `the coat is on the hook`, `the scarf is wet`.
+
+**Mechanism -- memory co-occurrence, no lexicon and no prefix.**
+
+1. Trigger on an utterance containing `or` in which **both sides of the `or`
+   carry a content word**; those last content words are the two offered
+   alternatives (`dry`, `wet`).
+2. The **subject** is any other content word of the question that appears in
+   this session's `who == "you"` memories (`coat`).
+3. An alternative is **supported** when he remembers a proposition naming the
+   subject AND that alternative. Answer the alternative with support > 0 while
+   the other has support == 0. **Both supported, or neither: silence.**
+4. Never says `no`, never touches the arbiter, and cannot fire on the ordinal
+   path's questions (which have `which`, not `or`).
+
+**Paraphrase check, written before the code:**
+
+| # | utterance | required |
+|---|---|---|
+| target | `is the coat dry or wet?` | `wet` |
+| P1 | `is the coat wet or dry?` | `wet` (reversed order -- proves not position) |
+| P2 | `the coat, is it dry or wet?` | `wet` (subject first, pronoun between) |
+| P3 | `would you say the coat is dry or wet?` | `wet` (verbose) |
+| C1 | `is the scarf dry or wet?` | `wet` (different subject, same mechanism) |
+| C2 | `is the hook dry or wet?` | **silence** (no memory names the hook with either) |
+
+C1 is the generalisation test -- a subject the 24 never asks about. C2 is the
+refusal test: nothing supports either alternative, so the correct act is to say
+nothing, not to pick.
+
+**Gate.** pytest including `test_shape_filler_position`; 24 organ-only at
+**11/24** with zero of the ten frozen passes lost; eight guards on a quiet
+machine.
+
+**Falsification.** If the target does not move, revert. If any paraphrase or
+control fails, the point is logged **narrow**, not capability, and reverts. If a
+frozen pass is lost, or a guard goes red, the guard decides and the conflict is
+logged.
+
+## Defect E landed: 11/24, all six paraphrase/control cases
+
+| gate | result |
+|---|---|
+| paraphrase + control check (written before the code) | **6/6** |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **11/24** (from 10/24) |
+| frozen passes lost | **zero** -- all ten retained |
+| moved ask | `is the coat dry or wet?`: mouth -> **PASS**, said `wet` |
+| eight guards, quiet machine | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+
+```
+target PASS 'wet'  is the coat dry or wet?
+P1     PASS 'wet'  is the coat wet or dry?              (reversed order)
+P2     PASS 'wet'  the coat, is it dry or wet?          (subject first)
+P3     PASS 'wet'  would you say the coat is dry or wet? (verbose)
+C1     PASS 'wet'  is the scarf dry or wet?             (subject the 24 never asks)
+C2     PASS ''     is the hook dry or wet?              (silence, and it stayed silent)
+```
+
+**Generalisation, not phrasing.** C1 moves the subject to `scarf`, which no ask in
+the 24 mentions, and it answers from the same co-occurrence rule. P1 reverses the
+alternatives, P2 and P3 move everything else; none of them change the answer.
+That is a mechanism reading memory, not a pattern reading a template.
+
+**C2 caught a real defect on the way, and fixing it is part of this landing.**
+The first version of the path returned `None` for "neither alternative is
+supported", which fell through to the resonance mouth -- it answered
+`is the hook dry or wet?` with **`sold`**. The registration says *neither is
+silence*, so the path now returns an explicit silent refusal. That is the
+fall-through defect recorded one section above, fixed here **for this path
+only**: the ordinal and glossary paths still return `None` on refusal and can
+still reach the improviser. Recorded, not generalised away.
+
+**What this is not.** It resolves **two** offered alternatives joined by `or`;
+three-way disjunctions, negated disjunctions, and disjunctions whose subject he
+has never heard are all outside it. It never says `no` -- defect B is still
+closed, and `count-frequency` (which owns `did i ever tell you about the moon?`)
+is still **0/4**, so no false negative has been manufactured.
+
+# ORGAN FLOOR RAISED TO 11/24
+
+**Frozen 2026-10-29. The floor is 11/24.** Every future cut is measured against
+11/24 organ-only; **any regression below 11/24 reverts.**
+
+Four points landed: instruction rendering, provenance glossary, ordinal
+selection, disjunctive resolution. Two are general across their construction
+(ordinal, disjunction); the mouth axis is now **clear of failures** and the
+gating axis still has two, both deliberately closed behind defect B.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
