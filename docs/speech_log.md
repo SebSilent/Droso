@@ -4318,6 +4318,98 @@ not lose prepositional ones -- which means the two constructions must not compet
 for the same decision. That is a redesign of the material and the genes
 together, not a tuning of selection.
 
+## Pre-registered: the additive redesign (2026-10-29, before the code)
+
+Two constraints, both so that the next stall means something.
+
+**Cardinality.** Twelve genomes is not a search space, it is an enumeration --
+at 12 the population IS the whole space and generations are theatre. The gene
+that split relative from prepositional decisions must also widen the value range:
+genes become **continuous weights** in [0, 3], not booleans, so the space is
+uncountable and no run can exhaust it. A stall on an uncountable space is
+"selection failed"; a stall on twelve genomes is "the answer set was twelve".
+
+**Coupling.** The four components are span-matching on synthetic constructions
+and are decoupled from the 24-ask set. One component must be read off the real
+answer path, so a rising composite is at least plausibly capability: an
+**arbiter-coverage** component computed from the organ's own `_question_shape`
+and `role_for` on deterministic question forms -- the stage the held-out failure
+map names when it says the arbiter refused. It is not scored against any ask's
+key and never consults the held-out set, so it cannot be tuned toward it. Its
+second job is structural: because the incumbent fails the `how many` forms (the
+parser yields no checkable shape), **no fly can reach 1.0 on the composite**,
+which is precisely the guard against breeding a brain that maxes its own exam
+and still says `copper` when asked for `bell`.
+
+**Stated in advance:** if the additive version still saturates on the first
+generation, that is a finding about **coupling**, not about sparsity.
+
+# The additive redesign, run: the climb happens, and it happens entirely on the synthetic four
+
+`tools/fly_v2.py`. Genes are continuous weights in [0, 3] rounded to 6 decimals:
+`w_pos`, `w_prep`, `w_first`, `w_len` -- roughly 8e25 genomes, so this is a
+search space and not an enumeration, and a stall here cannot mean "the answer
+set was twelve". All four features sum into one argmax, so a fly that fixes
+prepositional spans does not lose plain ones: additivity is structural, not
+hoped for.
+
+**Base, measured with a real house (`--house`, one build, 18 s, shared by every
+fly):**
+
+| component | base |
+|---|---|
+| genitive_subject / pp_subject / genitive_object / pp_object | 0.625000 each |
+| **arbiter_coverage (C5, real path)** | **0.666667** |
+| **composite** | **0.633333** |
+
+C5 detail, from the organ itself: `what turns twice?`, `what does the frost
+bite?`, `who follows the sparrow?`, `where is the box kept?` -> **shape+role**;
+`how many times does the bell turn?`, `how many eggs are left in the basket?` ->
+**no shape**. That is the incumbent's real parser refusing to give the arbiter
+anything checkable on count questions, and it is why the composite's ceiling is
+**(4 x 1.0 + 0.667) / 5 = 0.9333, not 1.0** -- structurally out of reach, which
+is the guard against breeding a brain that maxes its own exam.
+
+The first run, deliberately recorded: C5 called on a hollow instance answered
+"no role" for **every** form, giving 0.0. That caps the composite without
+measuring anything -- a cap wearing the costume of a component -- and was fixed
+by building one real house for it.
+
+**Generations, 5 seeds, 3 generations, pool 10, unchanged:**
+
+| seed | base | gen-1 | gen-2 | gen-3 | |
+|---|---|---|---|---|---|
+| 13 | 0.63333 | 0.78333 | 0.78333 | 0.78333 | stalled |
+| 7 | 0.63333 | 0.75833 | 0.78333 | **0.83333** | improved |
+| 17 | 0.63333 | 0.78333 | 0.83333 | 0.83333 | improved |
+| 23 | 0.63333 | 0.78333 | 0.83333 | 0.83333 | improved |
+| 29 | 0.63333 | 0.78333 | 0.78333 | 0.78333 | stalled |
+
+**3 of 5 seeds improve** -- the majority the pre-registered criterion asked for,
+and the first time in this axis that gen-2 or gen-3 has beaten gen-1. It is not
+a first-generation saturation: gen-1 is 0.783, the ceiling is 0.933, and two
+seeds reach 0.833 by gen-3.
+
+**But every point of that climb is synthetic.** C5 never moves -- the four
+weights cannot touch the parser -- so the improvement from 0.633 to 0.833 is
+entirely C1-C4. This is precisely the gap pre-registered above: the composite
+rose, and not one fly can be shown to have improved the real answer path. The
+axis has produced a brain that is better at its own exam and is provably no
+better at `how many times does the bell turn?`.
+
+**Two defects named rather than buried.** (1) *Reach is 2/10 to 5/10 mutants
+differing from base* (20-50%), short of "most draws": a mutation that lowers a
+weight below the incumbent's leaves every decision unchanged, so half the draws
+are silent. (2) *C5 is a cap, not a signal*: inert to these genes by
+construction, so it prevents saturation but cannot reward capability. Making C5
+gene-responsive is what would let a rising composite mean something about the
+real path -- and that requires a gene that reaches the parser, which is a
+different organ surface from span weights.
+
+**Logged as the coupling finding the brief anticipated:** the additive redesign
+removed sparsity as the blocker and replaced it with coupling. Selection can now
+climb; it climbs a surface whose top half is disconnected from the 24 asks.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
