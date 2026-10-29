@@ -4484,6 +4484,73 @@ capability claim is made here beyond the shape stage.
 strictly below 1.0; reach per seed in the table above; pytest 428 passed, 3
 skipped.
 
+# Two honesty items, recorded before the outside check
+
+**1. Reach is 7/10 on seeds 13 and 17, and the axis is NOT gate-clean.** The
+standing gate is 8/10. Three of five seeds meet it, two do not, and the mean of
+{7, 8, 7, 8, 10} is not a number I will quote. Every generation table in this
+log now carries its seed's reach beside it, and this paragraph is the record
+that the gate is **failed on two seeds**, not averaged away.
+
+**2. C5 measures receipt, not correctness.** A fly with `w_count` above 0.5 gets
+a *checkable shape* for `how many times does the bell turn?` -- which is the
+stage the failure map names (the arbiter was skipped for want of a shape) and
+nothing more. It does not show the fly counts. **0.900 may be exam-solving**,
+and the outside check is now the only thing that can tell.
+
+# The genome was never persisted, and the number was recovered by replay
+
+`tools/fly_v2.py --phase generations` prints its bests and writes no report, so
+when the brief said "use the saved genome" there was no saved genome: the
+generation runs left nothing on disk. That is a defect in the harness, recorded
+here rather than repaired quietly.
+
+`tools/score_best.py` recovers the fly and proves it is the *same* fly before
+saving it:
+
+```
+replay A [0.758333, 0.758333, 0.825, 0.825, 0.9]  g5-2  3b55dc76f81a  0.9
+replay B [0.758333, 0.758333, 0.825, 0.825, 0.9]  g5-2  3b55dc76f81a  0.9
+deterministic across two replays: True     matches the printed best: True
+```
+
+Two independent replays from the same seed produce the same trajectory, the
+same best row, the same genome id and the same 0.900000, so this is
+dereferencing a deterministic value, not a new draw -- and the first attempt is
+recorded too, because it **refused to save**: without `--house` the replay scored
+fly against C5 = 0 instead of the gene-aware 0.666667/1.000000 and returned
+0.700, a different trajectory. The check caught it.
+
+Saved genome, `state/fitness/best_genome.json`, seed 29 gen-5:
+
+```json
+{"seed":258235818,"w_first":1.119446,"w_len":0.10172,"w_pos":1.0,
+ "w_prep":0.099128,"w_count":0.519588}
+```
+
+`w_first` 1.119 is past the boundary that fixes relative spans; `w_prep` 0.099
+is *just under* its 0.10 floor, so it still fails prepositional ones; `w_count`
+0.52 turns the parser gene on.
+
+# Outside check: what it can and cannot measure
+
+One run, all 24 asks, no chunking, journal `state/fitness/heldout_best.jsonl`,
+the saved genome through `tools/_genome_patch.py`:
+
+- the **head rule is applied** -- the arbiter names the head the fly's weights
+  choose, which is the same path the hop and exact-repeat asks traverse;
+- **`w_count` is NOT applied**, and not for convenience: the organ has no count
+  branch (`_question_shape` returns None for `how many`, which is precisely what
+  C5 measured), so there is nothing to switch on. Applying it would mean writing
+  the count capability into the organ inside the measurement. So the number
+  below tests the genes the real path can carry and leaves the parser gene
+  untested -- if the fly scores at or below baseline, the parser gene's 0.900
+  was exam-solving by construction.
+
+Baseline is the frozen **5/24** in the brief; the tree's own last recorded
+campaign reads **6/24** (`heldout_ind_20261028_224835.json`, after `9fdb53f`),
+and both are quoted against the result.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

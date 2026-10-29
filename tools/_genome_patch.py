@@ -1,42 +1,50 @@
-r"""Score one fly's genome on the outside check, without editing the organ.
+r"""Apply one fly's genome to the shared organ for the life of one process.
 
-WHY A SHIM AND NOT A PATCH TO organs/neural_language.py. The organ is the house's
-live brain; a genome is a candidate, not a committed rule, and the two must not
-share a file. This module rewrites one classmethod for the lifetime of one
-process and nothing else -- the file on disk is untouched, and a run without
-FLY_GENOME is byte-for-byte the committed brain.
+TWO GENOME SHAPES, and the difference matters for what the outside check can say:
 
-WHAT IT REPRODUCES. A genome is {head_index, extra_function, stem_verb}. Applied
-to a subject span, fly_filler() (tools/fly_population.py) picks the word at
-head_index from the content words before the verb, with the function-word set
-widened by extra_function. The object branch is deliberately NOT overridden: no
-genome under test today differs there, and a rule with no test is a guess.
+  v1  {head_index, cut_at, rel_head}   tools/fly_population.py
+  v2  {w_pos, w_prep, w_first, w_len, w_count}   tools/fly_v2.py
 
-IF THE GENOME EQUALS THE COMMITTED RULE (-1, no extras, stem_verb on) this
-module changes NOTHING and says so. That is the point of the pass-through case:
-generation 1's best IS the incumbent, so the outside check on it is a
-REPRODUCTION test of the committed bar, not an experiment. Printing which case
-ran is the difference between a control and a claim.
+The organ consumes a genome as a HEAD RULE: `_shape_matches` is replaced by the
+fly's own, so the arbiter names the head the fly's weights choose. That is the
+whole of what the real answer path can express today.
 
-  set FLY_GENOME={"head_index":-1,"extra_function":[],"stem_verb":true,"seed":13}
-  py -3.10 -c "import tools._genome_patch, runpy, sys; sys.argv=['heldout_eval','--independent','--journal','state/fitness/heldout_fly_g1.jsonl']; runpy.run_module('tools.heldout_eval', run_name='__main__')"
+`w_count` is NOT applied, and the reason is not convenience: the organ has no
+count branch -- `_question_shape` returns None for `how many`, which is exactly
+what C5 measured -- so there is nothing to switch on. Applying it would mean
+writing a count shape into the organ, i.e. building the capability inside the
+measurement. So the fly is scored on the genes the real path can carry, and the
+report says which gene was left behind.
+
+  FLY_GENOME='{"w_pos":1.0,...}' py -3.10 -c "import tools._genome_patch, runpy, sys;
+  sys.argv=['heldout_eval','--independent','--journal','state/fitness/heldout_best.jsonl'];
+  runpy.run_module('tools.heldout_eval', run_name='__main__')"
 """
 from __future__ import annotations
 
 import json
 import os
 import sys
+from pathlib import Path
 
-ROOT = __import__("pathlib").Path(__file__).resolve().parent.parent
+ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 import organs.neural_language as nl  # noqa: E402
-from tools.fly_population import fly_filler  # noqa: E402
 
 GENOME = json.loads(os.environ.get("FLY_GENOME") or "{}")
+IS_V2 = "w_pos" in GENOME
 CALLS = {"shapes": 0, "changed": 0}
 MODE = "unknown"
+
+
+def head_of(tokens, shape):
+    if IS_V2:
+        from tools.fly_v2 import fly_head
+        return fly_head(tokens, shape, GENOME)
+    from tools.fly_population import fly_filler
+    return fly_filler(tokens, shape, GENOME)
 
 
 def install() -> str:
@@ -45,12 +53,13 @@ def install() -> str:
         MODE = "no genome: committed brain, unmodified"
         print(f"[genome] {MODE}", flush=True)
         return MODE
-    head = int(GENOME.get("head_index", -1))
-    extras = tuple(GENOME.get("extra_function") or ())
-    stem_verb = bool(GENOME.get("stem_verb", True))
-    if head == -1 and not extras and stem_verb:
-        MODE = (f"PASS-THROUGH: genome {json.dumps(GENOME, sort_keys=True)} is the "
-                "committed rule, so this run reproduces the baseline exactly")
+
+    base_equal = (not IS_V2 and GENOME.get("head_index") == -1
+                  and not GENOME.get("extra_function")
+                  and GENOME.get("stem_verb", True))
+    if base_equal:
+        MODE = ("PASS-THROUGH: genome is the committed rule, so this run "
+                "reproduces the baseline exactly")
         print(f"[genome] {MODE}", flush=True)
         return MODE
 
@@ -62,7 +71,7 @@ def install() -> str:
             return got
         CALLS["shapes"] += 1
         try:
-            f = fly_filler(tokens, shape, GENOME)
+            f = head_of(tokens, shape)
         except Exception:
             return got
         if f is not None and f != got:
@@ -71,9 +80,12 @@ def install() -> str:
         return got
 
     nl.NeuralLanguage._shape_matches = patched
-    MODE = (f"ACTIVE: genome {json.dumps(GENOME, sort_keys=True)} overrides the "
-            "subject span's head")
+    applied = "head rule" if IS_V2 else "head rule"
+    skipped = ("w_count left unapplied: the organ has no count branch"
+               if IS_V2 else "")
+    MODE = (f"ACTIVE v{'2' if IS_V2 else '1'}: {applied} overridden; {skipped}")
     print(f"[genome] {MODE}", flush=True)
+    print(f"[genome] {json.dumps(GENOME, sort_keys=True)}", flush=True)
     return MODE
 
 
