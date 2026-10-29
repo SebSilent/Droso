@@ -237,6 +237,47 @@ def evaluate(genome, pairs):
     return comps, round(sum(comps.values()) / len(comps), 6)
 
 
+FORM_PROPS = {
+    "what turns twice?": (["the", "bell", "turns", "twice"],
+                          {"kind": "subject_unknown", "verb": "turns",
+                           "tail": ["twice"]}),
+    "what does the frost bite?": (["the", "frost", "bites", "the", "latch"],
+                                  {"kind": "object_unknown", "verb": "bites",
+                                   "subject": ["frost"]}),
+    "who follows the sparrow?": (["the", "crow", "follows", "the", "sparrow"],
+                                 {"kind": "subject_unknown", "verb": "follows",
+                                  "tail": ["sparrow"]}),
+    "where is the box kept?": (["the", "box", "is", "kept"],
+                               {"kind": "locative_unknown", "copula": "is",
+                                "verb": "kept", "subject": ["box"]}),
+    "how many times does the bell turn?": (["the", "bell", "turns", "twice"],
+                                           {"kind": "subject_unknown",
+                                            "verb": "turns", "tail": ["twice"]}),
+    "how many eggs are left in the basket?": (["the", "eggs", "are", "left"],
+                                              {"kind": "subject_unknown",
+                                               "verb": "are",
+                                               "tail": ["left"]}),
+}
+
+
+def _committed_head(tokens, shape):
+    """The organ's own rule, evaluated here so C6 has a fixed reference."""
+    return fly_head(tokens, shape, base_genome(0))
+
+
+def c6_retention(genome):
+    """Fraction of deterministic question forms where the fly names the same
+    head the committed rule names. A constraint, not a capability: the base is
+    1.0 by construction and this can only be lost. No ask's expected answer is
+    consulted -- the reference is the organ's own rule."""
+    hits = 0
+    for _q, (tokens, shape) in FORM_PROPS.items():
+        want = _committed_head(tokens, shape)
+        got = fly_head(tokens, shape, genome)
+        hits += 1 if (want is not None and got == want) else 0
+    return round(hits / len(FORM_PROPS), 6)
+
+
 _C5_CACHE = {}
 _ANSWERED = {}
 
@@ -267,8 +308,12 @@ def composite(genome, pairs, c5=None):
     comps, c14 = evaluate(genome, pairs)
     # Gene-aware: recomputed from the genome, not from the base's constant.
     c5 = c5_for(genome)
+    c6 = c6_retention(genome)
     comps["arbiter_coverage"] = c5
-    return comps, round((c14 * 4 + c5) / 5, 6)
+    comps["retention"] = c6
+    # C6 is a constraint: it can only be lost, and a gain in C1-C4 that costs a
+    # divergence on a real question form is exactly the coupling failure.
+    return comps, round((c14 * 4 + c5 + c6) / 6, 6)
 
 
 # ------------------------------------------------------------------ runs

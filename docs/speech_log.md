@@ -4575,6 +4575,71 @@ construction** -- the fly was rewarded for a shape it cannot yet produce.
 
 No further generations this turn. One measurement, one number, when it exists.
 
+# Pre-registered: C6, a retention constraint read off a held-out-adjacent path
+
+The last synthetic weight made the composite climb; the question is whether the
+climb is coupled to anything the house actually answers.
+
+**C6 = retention on the deterministic question forms.** For each of the six forms
+C5 already reads (the ones the parser either shapes or refuses), the fly's head
+rule is applied to the proposition that form presupposes, and C6 counts the
+forms where the fly names the SAME word the committed rule names. It is a
+constraint, not a capability: the base scores 1.0 by construction, and it can
+only be lost. That is deliberate -- a gain in C1-C4 that costs a divergence on a
+real question form is exactly the coupling failure this cut exists to expose.
+
+- **Bar:** the frozen **5/24** stands; this tree's 6/24 is quoted alongside.
+- **The 24 stay out of selection.** C6 reads deterministic forms, not the
+  held-out asks; no ask's expected answer is consulted.
+- **Composite becomes** `(4 x C1-C4 mean + C5 + C6) / 6`.
+
+**Stated in advance:** if a rising composite still leaves the outside check
+unmoved, the additive design is what needs revisiting next -- not another weight.
+That sentence is written now, before C6 exists, so it cannot be reached for
+later as an excuse.
+
+## C6, measured
+
+| | value |
+|---|---|
+| base composite | 0.708333 |
+| base retention | 0.833333 |
+| **the 0.900 fly, under C6** | **0.888889, retention 0.833333** |
+
+**C6 does not discriminate the climbers: it loses nothing.** The fly carrying
+`w_first` 1.119 names the same head as the committed rule on every scorable
+form, so its climb cost no divergence -- which is the outcome the constraint was
+built to detect, and it did not fire.
+
+Honest about the component's own defect: base retention is 0.833333, not 1.0,
+because the locative form (`where is the box kept?`) yields no head under this
+rule at all -- `_content` takes the span after the verb and the subject sits
+before it -- so that form is excluded for base and fly alike. It is a constant
+1/6 offset, not a base failure, and it means C6 is effectively a five-form
+constraint. Recorded rather than patched, because patching it now would change
+the numbers that were just measured.
+
+**Composite with C6, five seeds, five generations** (reach re-measured per seed
+on the new composite):
+
+| seed | reach | base | g1 | g2 | g3 | g4 | g5 |
+|---|---|---|---|---|---|---|---|
+| 13 | **7/10** | 0.70833 | 0.77083 | 0.83333 | 0.83333 | 0.83333 | 0.83333 |
+| 7 | 8/10 | 0.70833 | 0.70833 | 0.77083 | 0.83333 | 0.83333 | 0.83333 |
+| 17 | **7/10** | 0.70833 | 0.77083 | 0.82639 | 0.83333 | 0.83333 | 0.83333 |
+| 23 | 8/10 | 0.70833 | 0.83333 | 0.83333 | 0.86806 | 0.86806 | 0.88889 |
+| 29 | 10/10 | 0.70833 | 0.77083 | 0.77083 | 0.82639 | 0.82639 | 0.88889 |
+
+Null spread **0** on all five seeds; base **0.708333**, strictly below 1.0;
+**reach 7/10 on seeds 13 and 17 — the axis is still not gate-clean, and that is
+not averaged away.**
+
+**What remains unanswered is the number itself.** C6 confirmed the climbers do
+not break deterministic forms, but it cannot show they answer anything better;
+only the 24 can, and the outside check has not completed a run yet: the first
+died at 3 of 24 rows, the second (job `7b81f3`) is still running. No number is
+reported for it.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
