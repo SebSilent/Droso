@@ -330,6 +330,11 @@ def phase_generations(args):
             best = max(rows, key=lambda r: (r["fitness"], r["id"]))
             bests.append({"gen": gen, "best": best["fitness"], "row": best["id"],
                           "genome_id": best["genome_id"],
+                          "parent": best["parent"],
+                          # The defect this closes: the winner's GENOME was
+                          # printed and thrown away, so an outside check had to
+                          # replay the whole run to recover it. Persist it.
+                          "genome": best["genome"],
                           "components": best["components"]})
             ranked = sorted(rows, key=lambda r: (-r["fitness"], r["id"]))
             nxt = [{"genome": r["genome"], "parent": r["genome_id"]}
@@ -344,6 +349,20 @@ def phase_generations(args):
         improved = (b[1] > b[0]) or (b[2] > b[0])
         print(f"seed {seed:3d}: base {base_val:.5f} -> "
               f"{' '.join(f'{x:.5f}' for x in b)}  {'IMPROVED' if improved else 'stalled'}")
+        # ONE STATE FILE PER SEED, written at the end of that seed's run: the
+        # winning genome with all its weights, its id, the seed and the
+        # generation it won in, plus the composite and components it scored.
+        win = max(bests, key=lambda x: x["best"])
+        out = STATE / f"fly_best_seed{seed}.json"
+        out.write_text(json.dumps({
+            "seed": seed, "gens": args.gens, "n": args.n,
+            "base_composite": base_val,
+            "gen": win["gen"], "row": win["row"],
+            "genome_id": win["genome_id"], "parent": win["parent"],
+            "fitness": win["best"], "components": win["components"],
+            "genome": win["genome"], "by_gen": bests}, indent=2),
+            encoding="utf-8")
+        print(f"  winning genome written: {out}")
     return 0
 
 
