@@ -2582,6 +2582,77 @@ class NeuralLanguage:
     GLOSSARY_PAT = re.compile(
         r"which word did i (?:use|say) for the (?P<cat>[a-z]+)")
 
+    ORDINAL_CUES = frozenset({"first", "last"})
+    # Words that are never one of the two things being ordered, beyond the
+    # shape's own function words. Deliberately short and closed.
+    ORDINAL_STOP = frozenset({"which", "you", "me", "i", "tell", "told", "say",
+                              "said", "mention", "mentioned", "use", "used",
+                              "between"})
+
+    def _ordinal_answer(self, user_text):
+        """`which did i tell you first, A or B` -- ordinal selection by session
+        order. Pre-registered (defect D) with a paraphrase check.
+
+        No literal prefix and no lexicon: the two things being ordered are found
+        by intersecting the question's content words with the content words of
+        this session's `who == "you"` memories, so the alternatives may appear
+        before or after the question word. The winner is the one whose session
+        memory is earliest (`first`) or latest (`last`).
+
+        Refuses -- silence -- on fewer than two candidates, more than two, or a
+        tie. It never says `no`: defect B stays closed until a mechanism can
+        express absence without asserting a false negative.
+        """
+        words = [w for w in re.findall(r"[a-z']+", str(user_text or "").lower())
+                 if w]
+        if "which" not in words:
+            return None
+        cue = next((w for w in words if w in self.ORDINAL_CUES), None)
+        if cue is None:
+            return None
+        ask = set(words)
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
+        try:
+            meta = list(self.cortex.binder.meta)
+        except Exception:                  # noqa: BLE001 - no store, no answer
+            return None
+        spans = {}
+        for mem in meta:
+            if str(mem.get("who") or "") != "you":
+                continue
+            when = float(mem.get("when", 0.0) or 0.0)
+            if when < t0:
+                continue
+            toks = mem.get("tokens") or []
+            if isinstance(toks, str):
+                toks = toks.split()
+            seq = [re.sub(r"[^a-z']", "", str(t).lower()) for t in toks]
+            if not seq or set(seq) == ask:
+                continue                   # the question is not a tell
+            for w in seq:
+                if w and w in ask:
+                    lo, hi = spans.get(w, (when, when))
+                    spans[w] = (min(lo, when), max(hi, when))
+        cands = [w for w in spans
+                 if w not in self.SHAPE_FUNCTION_WORDS
+                 and w not in self.ORDINAL_CUES
+                 and w not in self.ORDINAL_STOP]
+        if len(cands) != 2:
+            return None
+        if cue == "first":
+            a, b = cands
+            best = a if spans[a][0] < spans[b][0] else b
+            if spans[a][0] == spans[b][0]:
+                return None
+        else:
+            a, b = cands
+            best = a if spans[a][1] > spans[b][1] else b
+            if spans[a][1] == spans[b][1]:
+                return None
+        return {"spoken": True, "heard": True, "answered": True,
+                "utterance": best, "response": best,
+                "source": "ordinal", "ordered": sorted(cands)}
+
     def _glossary_answer(self, user_text):
         """`which word did i use for the <category>` -- a glossary question.
 
@@ -3316,6 +3387,11 @@ class NeuralLanguage:
         gl = self._glossary_answer(str(user_text or ""))
         if gl is not None:
             return gl
+        # Ordinal selection over what he actually heard this session (defect D,
+        # pre-registered with a paraphrase check). Also outside the arbiter.
+        od = self._ordinal_answer(str(user_text or ""))
+        if od is not None:
+            return od
         if any(self.is_interrogative(w) for w in toks):
             # He was asked something. Answering is a different act from replying:
             # it goes to memory first, and it is addressed to the asker.

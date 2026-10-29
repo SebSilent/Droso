@@ -5192,6 +5192,110 @@ provenance glossary (one closed category, session scope). Both are narrow,
 both are literal-pattern paths, and **neither is general capability**. The mouth
 axis still has three failures and the gating axis still has two.
 
+# Pre-registered: ordinal selection over session memories (defect D)
+
+Two landed points were shortcuts -- a literal prefix, a closed set. This one is
+not allowed to be. It must be a **general mechanism that also answers
+constructions not in the 24**, and it is judged on that.
+
+**The mouth failures it targets**, both `stage=mouth` today:
+`which did i tell you first the lantern or the kettle?` -> `lantern`, and
+`which did i tell you last the kettle or the gate?` -> `gate`. The tells are
+`the lantern is lit`, `the kettle is singing`, `the gate is open`, in that order.
+
+**Mechanism.** No literal prefix, no lexicon:
+
+1. Trigger on an utterance that contains `which` and one of `first` / `last`.
+2. Candidate set = **the content words of the utterance that appear in this
+   session's `who == "you"` memories**. That is not a pattern match on phrasing:
+   the question does not have to name its alternatives in any fixed position.
+3. Answer = the candidate whose **earliest session memory is earliest** (for
+   `first`) or **whose memory is latest** (for `last`). Ties, fewer than two
+   candidates, or more than two: **silence**.
+4. The arbiter is untouched -- `which` is not a shape this parser claims.
+
+**Paraphrase check, written before the code, in the same house.** The mechanism
+must answer all three, or the point is logged as **narrow, not capability**:
+
+| # | paraphrase | required answer |
+|---|---|---|
+| P1 | `which did you tell me first, the lantern or the kettle?` | `lantern` |
+| P2 | `of the lantern and the kettle, which did i say first?` | `lantern` |
+| P3 | `between the gate and the kettle, which did i tell you last?` | `gate` |
+
+P1 changes the pronoun and adds a comma; P2 puts the alternatives before the
+question word and uses `and`; P3 reverses the pair and uses `between`.
+A mechanism that only passes the two asks in the 24 has learned the phrasing,
+not the thing, and says so.
+
+**Gate, in order.** pytest incl. `test_shape_filler_position`; the 24 organ-only
+must reach **9/24** with **zero of the eight frozen passes lost**; then the
+eight guard scripts on a quiet machine.
+
+**Non-negotiables.** Defect B (**yes/no absence**) stays closed: this mechanism
+must not utter `no`, and no path may assert absence as a negative answer until
+one exists that can express "absent from memory" without asserting a false no.
+
+**Falsification.** If either target ask does not move, revert. If any frozen pass
+is lost, revert. If a paraphrase fails while the 24 improves, the point is
+logged **narrow** and the 24 gain does not count as capability. If a guard goes
+red, the guard decides.
+
+## Defect D landed: 10/24, and the paraphrase check passed
+
+| gate | result |
+|---|---|
+| paraphrase check (written before the code) | **5/5** -- both targets and P1, P2, P3 |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **10/24** (from 8/24) |
+| frozen passes lost | **zero** -- all eight retained |
+| moved asks | both `order-first-last` asks: 0/4 -> **2/4** |
+| eight guards, quiet machine | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+
+**What generalised, measured not asserted.** `tools/ordinal_probe.py` asked the
+two asks and the three rewrites in the same house:
+
+```
+target  PASS said='lantern'  which did i tell you first the lantern or the kettle?
+target  PASS said='gate'     which did i tell you last the kettle or the gate?
+P1      PASS said='lantern'  which did you tell me first, the lantern or the kettle?
+P2      PASS said='lantern'  of the lantern and the kettle, which did i say first?
+P3      PASS said='gate'     between the gate and the kettle, which did i tell you last?
+```
+
+The alternatives are not found by position: they are the question's content
+words that appear in this session's `who == "you"` memories, so a rewrite may put
+them before the question word (P2), change the pronoun (P1), or reverse the pair
+and use `between` (P3). **That is the first landed point that is not a literal
+prefix or a closed set.**
+
+**What did NOT generalise, stated here so it cannot be overstated:**
+
+- **Exactly two candidates.** Three or more, or a tie, returns silence.
+- **It orders; it cannot count or walk.** `how many objects did i tell you about`
+  (counting) and `what did i tell you about before the kettle` (predecessor) are
+  both still failures, and neither is this mechanism.
+- **When it refuses, the mouth still improvises.** The control
+  `which did i tell you first the gate or the gate?` correctly fell through --
+  and then the resonance path said **`sold`**. A refusal from this path is not
+  silence, it is a fall-through to the mouth's old nonsense. That is recorded as
+  an open defect, not papered over.
+
+**Defect B stayed closed, and the harness proves it:** the ordinal path has no
+branch that can utter `no`, and `count-frequency` -- which owns
+`did i ever tell you about the moon?` -- is **still 0/4**, unchanged. The moon
+ask was not converted into a false `no`; it is still refused.
+
+# ORGAN FLOOR RAISED TO 10/24
+
+**Frozen 2026-10-29. The floor is 10/24.** Every future cut is measured against
+10/24 organ-only; **any regression below 10/24 reverts.**
+
+Three points landed in this run of work -- an instruction renderer (8+1), a
+provenance glossary, and ordinal selection. Only the third is general, and only
+across pairs. The mouth axis still has one failure (`is the coat dry or wet?`)
+and the gating axis still has two.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
