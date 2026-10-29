@@ -31,6 +31,8 @@ CASES = [
     ("P1    ", "how many eggs did i say break?", "two"),
     ("P2    ", "how many eggs were there at the start?", "four"),
     ("P3    ", "how many eggs remain in the basket?", "two"),
+    ("N1    ", "how many eggs did we begin with?", "four"),
+    ("N2    ", "what count of eggs was there originally?", "four"),
     ("C1    ", "how many times did i tell you the eggs are in the basket?", "?"),
     ("C2    ", "how many times does the bell turn?", ""),
 ]

@@ -5807,6 +5807,87 @@ Remaining failures (5): `what did i tell you about before the kettle?` (recall),
 turn?` (world count, refused), the two-memory hop, and the deliberately-refused
 world question.
 
+# Pre-registered: cue classes, not synonyms (defect J)
+
+P2 failed on `at the start` and the log said narrow. **`at the start` is not
+being added as a fix.** Adding it because it failed would pass my own test and
+prove nothing. What is registered instead is the thing that was missing: the
+arithmetic landed in defect I stays exactly as it is, and the cue vocabulary
+becomes a **class** matched as a family.
+
+**The classes.**
+
+- **first** -- `first`, `at the start`, `initially`, `to begin with`,
+  `originally`, `at the outset` (token members: first, initially, initial,
+  start, started, begin, began, beginning, originally, original, outset).
+- **last** -- `last`, `at the end`, `finally`, `in the end`, `at last`
+  (token members: last, finally, final, end, ended, latest).
+
+A question matching any member of a class takes that branch. The class is
+declared whole, in one place, and **it is not to be grown one failure at a
+time** -- if a later question needs a cue outside these classes, that is a new
+registration, not an edit.
+
+**One trigger correction, part of the same item**: a count question is also
+`what count of X ...`, not only `how many X ...`. Without it a legitimate
+phrasing cannot reach the arithmetic at all.
+
+**Paraphrases -- P2 plus two never used before, all three required:**
+
+| # | utterance | required |
+|---|---|---|
+| P2 | `how many eggs were there at the start?` | `four` |
+| N1 | `how many eggs did we begin with?` | `four` |
+| N2 | `what count of eggs was there originally?` | `four` |
+
+P2 uses `start`, N1 uses `begin`, N2 uses `originally` **and** drops `how many`
+entirely. One class, three different members, three different phrasings.
+
+**Gate.** pytest incl. `test_shape_filler_position`; 24 organ-only at **20/24**
+with zero of the nineteen frozen passes lost; eight guards on a quiet machine.
+
+**Falsification, and it is the important line.** If P2 passes but N1 and N2 do
+not, **the class is fake** -- it was a synonym added for the test -- and the
+mechanism stays logged **narrow**. In that case **stop widening**: no fifth
+synonym, no fifth paraphrase. If a frozen pass is lost or a guard goes red, the
+guard decides.
+
+## Defect J: the class is real, the gate was not met, REVERTED
+
+| gate | result |
+|---|---|
+| paraphrases (P2 + N1 + N2, all required) | **3/3 -- `four`, `four`, `four`** |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **19/24 -- UNCHANGED** |
+| frozen passes lost | zero |
+| target | **20/24 -- NOT MET** |
+
+```
+P2 PASS 'four'  how many eggs were there at the start?
+N1 PASS 'four'  how many eggs did we begin with?
+N2 PASS 'four'  what count of eggs was there originally?   (drops `how many` entirely)
+```
+
+**The class is not fake.** Three different members of it (`start`, `begin`,
+`originally`), one phrasing that does not say `how many` at all, and all three
+answered -- so the family reading is right and the earlier "narrow" label was a
+vocabulary gap, exactly as diagnosed.
+
+**But the gate asked for 20/24 and this cannot give it: no ask in the 24
+exercises cue vocabulary.** Every ask that turns on `first`/`left`/`<verb>` was
+already passing from defect I. The change is worth **zero asks** on this suite,
+which means the 24 cannot measure it at all -- a generalisation the 24 is blind
+to is not a capability point by this log's rules.
+
+**Reverted**, so the floor stays **19/24** and nothing unmeasured sits in the
+brain. Organ back to defect I: `COUNT_FIRST_CUES` gone, `_quantity_answer`
+present, pytest **428 passed, 3 skipped**.
+
+**Recorded as a measurement gap, not a failure of the class.** If this is worth
+landing, it needs an ask in the suite that a synonym -- and only a synonym --
+distinguishes. Until such an ask exists, adding the class would be an unmeasurable
+change, and this log does not take those. **No fifth synonym was added.**
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3
