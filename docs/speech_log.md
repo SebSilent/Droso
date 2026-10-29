@@ -5095,6 +5095,103 @@ an instruction. The remaining mouth failure in that script
 (`which word did i use for the metal?`) is a different mechanism, and defect B
 -- yes/no absence -- is still open and still unregistered.
 
+# ORGAN FLOOR FROZEN: 7/24
+
+**Frozen 2026-10-29, commit `92821ed`. The organ floor is 7/24.** Every future
+cut is measured against it with the 24 organ-only, no shim; **any regression
+below 7/24 reverts**, with no exception argued after the fact.
+
+**And it is a narrow 7, exactly one ask above where the tree started:** the echo
+path moved `say exactly the copper bell turns twice` and **nothing else moved**.
+It works because the prefix is literal and the content is already in memory --
+that is an instruction renderer, not general capability, and it must not be
+allowed to stand in for the mouth axis, which still has four failures. Anyone
+quoting "7/24" as movement on the mouth is quoting the wrong number.
+
+## Pre-registered: the glossary path (defect C), before any code
+
+`exact-repeat::which word did i use for the metal?` -- expected `copper`,
+forbidding `bell`, `iron`, `gold`. Today: **0/1**, stage `mouth`.
+
+**What the house actually gives the path.** The tells say only
+`the copper bell turns twice`. Nothing states that copper is a metal. So the
+answer cannot come from a taught fact; it has to come from **a closed category
+lexicon intersected with what he actually heard in this session**. `iron` and
+`gold` are forbidden because they exist in his 60000 corpus memories and he did
+not say them here -- which makes session provenance, not the lexicon, the thing
+being tested.
+
+**Mechanism, uniform and ask-blind.**
+
+1. Fire only on an utterance matching `which word did i [use|say] for the
+   <category>` with a `<category>` in a small closed class (metals, first:
+   copper, iron, gold, brass, steel, silver, tin, lead, bronze).
+2. Candidate set = the words with **`who == "you"` and `when >= session_t0`**,
+   which is the same provenance the second brain already trusts.
+3. Answer = the **single** candidate that is in the category's set. **Zero or two
+   matches means silence** -- an ambiguous glossary question is refused, not
+   guessed at.
+4. The reply is one word, the word he used.
+
+**Hard stop, as instructed:** this path must not touch `_shape_matches`,
+`_arbitrate_shape`, or any veto. If an implementation would need to relax an
+arbiter veto to work, **stop and log the conflict instead of building it** --
+`which` is not a shape this parser claims, and gaining a point by weakening the
+arbiter is the `_genome_patch.py` defect wearing a different hat.
+
+**Gate, in order.** pytest green including `test_shape_filler_position`; the 24
+organ-only must reach **8/24** with **zero of the seven frozen passes lost**
+(the six original plus the echo ask); then the eight guard scripts on a quiet
+machine.
+
+**Falsification.** If the ask does not move, the mechanism is wrong and reverts.
+If any frozen pass is lost, it reverts. If a guard goes red while the 24
+improves, **the guard decides** and the conflict is logged.
+
+## Defect C landed: 8/24, organ only, zero frozen passes lost
+
+| gate | result |
+|---|---|
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **8/24** (from 7/24) |
+| frozen passes lost | **zero** -- all seven retained |
+| moved ask | `which word did i use for the metal?`: mouth -> **PASS**, source `glossary`, said `copper` |
+| eight guards, quiet machine | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+
+**How it works, and what it is not.** `which word did i use for the metal?`
+answers `copper` because a candidate must be a word with **`who == "you"` in
+this session** -- provenance, the same signal the second brain already trusts --
+and exactly **one** such word is in the closed `metal` set. `iron` and `gold` are
+forbidden because they live in the 60000 corpus memories and he did not say them
+here. Zero or two matches returns silence; the question's own words are excluded
+because the question is bound to memory before the answer is computed.
+
+**It relaxes no veto.** `which` is not one of the interrogatives this organ
+routes to `answer()`, so `_question_shape` never claims it and `_shape_matches`
+is never consulted: the path runs before retrieval ranks anything, and the
+arbiter is untouched by construction, not by assertion.
+
+**Two honest limits, recorded at landing time.** First, the lexicon holds
+**one** category (`metal`); this is not a general glossary and a second category
+would have to be justified separately, not slipped in. Second, a real behaviour
+change was found while wiring it: the path returns **before** `hear()` on the
+utterance path, so the glossary question is **not bound to memory** that turn
+(the probe's session memory count went 2 -> 1). It is recorded rather than
+hidden -- if anything later depends on him remembering that he was asked, this
+is where to look.
+
+# ORGAN FLOOR RAISED TO 8/24
+
+**Frozen 2026-10-29, commit `92821ed` -> this landing. The floor is 8/24.** Every
+future cut is measured against 8/24 organ-only; **any regression below 8/24
+reverts.**
+
+**What the two points are, stated so neither can inflate the mouth axis:** an
+instruction renderer (`say exactly …`, literal prefix plus memory) and a
+provenance glossary (one closed category, session scope). Both are narrow,
+both are literal-pattern paths, and **neither is general capability**. The mouth
+axis still has three failures and the gating axis still has two.
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

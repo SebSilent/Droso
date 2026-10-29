@@ -2571,6 +2571,70 @@ class NeuralLanguage:
         trace["chosen_bridge"] = joins[0][1]
         return joins[0][0], trace
 
+    # Closed category lexicons for the glossary path (defect C, pre-registered in
+    # docs/speech_log.md). Small and closed like SHAPE_FUNCTION_WORDS: the path
+    # is meant to test PROVENANCE -- which of these he actually said here -- not
+    # to carry a world model.
+    GLOSSARY_CATEGORIES = {
+        "metal": frozenset({"copper", "iron", "gold", "brass", "steel",
+                            "silver", "tin", "lead", "bronze"}),
+    }
+    GLOSSARY_PAT = re.compile(
+        r"which word did i (?:use|say) for the (?P<cat>[a-z]+)")
+
+    def _glossary_answer(self, user_text):
+        """`which word did i use for the <category>` -- a glossary question.
+
+        Pre-registered (docs/speech_log.md, defect C). Returns a reply dict or
+        None to leave the normal answer path alone.
+
+        The rule is provenance, not knowledge: a candidate must be a word with
+        who == "you" in THIS session, and the reply is the ONE such word that
+        belongs to the category. Zero or two matches is silence -- an ambiguous
+        glossary question is refused rather than guessed at. The question's own
+        words are excluded, because the question is bound to memory before the
+        answer is computed and would otherwise answer itself.
+
+        It touches no arbiter: a `which` question is not a shape this parser
+        claims (`_question_shape` abstains), so nothing here relaxes a veto.
+        """
+        m = self.GLOSSARY_PAT.search(str(user_text or "").lower())
+        if not m:
+            return None
+        cat = m.group("cat")
+        members = self.GLOSSARY_CATEGORIES.get(cat)
+        if not members:
+            return None
+
+        def norm(toks):
+            if isinstance(toks, str):
+                toks = toks.split()
+            return [re.sub(r"[^a-z']", "", str(t).lower()) for t in (toks or [])]
+
+        ask_words = set(re.findall(r"[a-z']+", str(user_text or "").lower()))
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
+        try:
+            meta = list(self.cortex.binder.meta)
+        except Exception:                  # noqa: BLE001 - no store, no answer
+            return None
+        used = set()
+        for mem in meta:
+            if str(mem.get("who") or "") != "you":
+                continue
+            if float(mem.get("when", 0.0) or 0.0) < t0:
+                continue
+            seq = norm(mem.get("tokens"))
+            if not seq or set(seq) == ask_words:
+                continue                   # the question answering itself
+            used.update(w for w in seq if w)
+        found = sorted(used & members)
+        if len(found) != 1:
+            return None                    # ambiguous or absent: refuse
+        word = found[0]
+        return {"spoken": True, "heard": True, "answered": True,
+                "utterance": word, "response": word,
+                "source": "glossary", "category": cat}
+
     def answer(self, question, speaker: str = "you") -> dict:
         """Hear a question, look up what he knows, and say it.
 
@@ -2585,6 +2649,11 @@ class NeuralLanguage:
         text = str(question or "")
         q = [t for t in self.tokenizer.tokenize(text) if t]
         self.live(text, learn=True, speaker=speaker)
+        # Heard and bound as usual, then: a glossary question is answered from
+        # provenance before retrieval ranks anything (defect C, pre-registered).
+        gl = self._glossary_answer(text)
+        if gl is not None:
+            return gl
         inter = [w for w in q if self.is_interrogative(w)]
         content = [w for w in q if not self.is_interrogative(w)
                    and self._speakable(w)]
@@ -3240,6 +3309,13 @@ class NeuralLanguage:
     def respond(self, user_text: str, speaker: str = "you") -> dict:
         """Hear a human's words; speak ONLY if the being wants to."""
         toks = [t for t in self.tokenizer.tokenize(str(user_text or "")) if t]
+        # A glossary question ("which word did i use for the metal") is answered
+        # from provenance here, because `which` is not one of the interrogatives
+        # this organ routes to answer() -- it would otherwise reach meaning
+        # resonance. Defect C, pre-registered; it relaxes no veto.
+        gl = self._glossary_answer(str(user_text or ""))
+        if gl is not None:
+            return gl
         if any(self.is_interrogative(w) for w in toks):
             # He was asked something. Answering is a different act from replying:
             # it goes to memory first, and it is addressed to the asker.
