@@ -4101,6 +4101,37 @@ needs fixing before selection means anything: `evaluate()` must record the
 actual parent genome id at mutation time, `phase_generations` must write the
 lineage it currently omits, and ids must be unique across populations.
 
+**The outside check -- in flight, and read it as a reproduction test.** Job
+`cdf6b9`, one process, all 24 asks, no chunking, journal
+`state/fitness/heldout_fly_g1.jsonl`:
+
+```
+py -3.10 -c "import os,json,sys;g={'head_index':-1,'extra_function':[],'stem_verb':True,'seed':13};
+os.environ['FLY_GENOME']=json.dumps(g);import tools._genome_patch;
+sys.argv=['heldout_eval','--independent','--journal','state/fitness/heldout_fly_g1.jsonl'];
+import runpy;runpy.run_module('tools.heldout_eval',run_name='__main__')"
+```
+
+`tools/_genome_patch.py` printed **PASS-THROUGH: genome ... is the committed
+rule**, so nothing was overridden and this run measures the committed brain.
+Baseline to compare against, from
+`state/fitness/heldout_ind_20261028_224835.json`: **6/24**, pass set
+`{conjunction-and-absence::what is both wet and on the hook?,
+conjunction-and-absence::where did i say the scarf is?, exact-repeat::what turns
+twice?, hop-and-inventory::what bites the latch?, hop-and-inventory::what does
+the frost bite?, quantity-change::how many eggs broke?}`, by kind
+count 1/8, order 2/8, invariant 2/4, mouth 1/4.
+
+**What this check can and cannot say, stated before the number lands.** The
+brief asks: if the evolved brain scores below baseline on the outside set while
+its intrinsic fitness rose, that gap is the finding. Generation 1's best is the
+base genome, its intrinsic fitness is 1.0 against a base of 1.0, so **it did not
+rise and the brain did not evolve.** The expected result is a reproduction of
+6/24 with the same pass set -- and if this run returns anything else, the fault
+is mine in the wiring or the campaign, not an evolved brain. There is no gap to
+report because there is no movement: the finding is that a saturated intrinsic
+fitness has nothing to hand the outside check.
+
 ## Pre-registration: the arbiter names the modifier, not the head (2026-10-28)
 
 The render falsification exposed a sharper defect than the one it was testing,
