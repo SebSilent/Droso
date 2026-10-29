@@ -5591,6 +5591,77 @@ one world count (`how many times does the bell turn?`), three quantity-change
 questions needing arithmetic over content, the two-memory hop, and the
 deliberately-refused world question.
 
+## Attribution of the order-first-last move (checked after the fact)
+
+The count table said "nothing else moved" and `order-first-last` still went
+2/4 -> 3/4. That phrase was wrong and is corrected to **"no other MECHANISM
+moved"**. The ask that flipped is:
+
+```
+how many objects did i tell you about?   source=count   said='three'
+```
+
+It is a **count question that lives in the order script**, answered by the
+count mechanism -- not by the ordinal path and not by a memory-state
+coincidence. Verified on a fresh per-ask independent run: 3/4, that ask passing
+at `source=count`, the other three unchanged (`which … first` and `which …
+last` at `source=ordinal`, `what did i tell you about before the kettle?` still
+failing). **The point is attributable and stands**; the floor is 16/24.
+
+# Pre-registered: the refusal fall-through (defect G)
+
+A defect, not a mechanism, and it contaminates every future refusal reading: a
+path that recognises a question and declines returns `None`, which is not
+silence -- it hands the utterance to the resonance mouth, which says things like
+`sold`.
+
+**Fix.** `_ordinal_answer` and `_glossary_answer` return an explicit silent
+refusal whenever they recognise their question and cannot answer it: a tie, the
+wrong number of candidates, an unknown category, or no store. Count already
+behaves this way and is not touched.
+
+**Controls, written before the code:**
+
+| # | utterance | required |
+|---|---|---|
+| C1 | `which did i tell you first the gate or the gate?` | silence (today: `sold`) |
+| C2 | `which word did i use for the plastic?` | silence (unknown category) |
+| C3 | `which did i tell you first the lantern or the kettle?` | `lantern` (must not regress) |
+| C4 | `which word did i use for the metal?` | `copper` (must not regress) |
+
+**Gate.** pytest; 24 organ-only at **16/24** with zero of the sixteen frozen
+passes lost; eight guards on a quiet machine.
+
+**Falsification.** If any frozen pass becomes silence, the fix silences too much
+and reverts. If a guard goes red, the guard decides and the conflict is logged.
+This adds no capability: if the 24 is not still 16/24, it is wrong.
+
+## Defect G landed: refusals are silent. 16/24 unchanged.
+
+| gate | result |
+|---|---|
+| controls (written before the code) | C1 **silence** (was `sold`); C2 silence; C3 `lantern`; C4 `copper` |
+| pytest incl. `test_shape_filler_position` | **428 passed, 3 skipped** |
+| 24 organ-only, no shim | **16/24 -- unchanged, zero of the sixteen frozen passes lost** |
+| eight guards, quiet machine | **all eight 1.00 warm / 1.00 cold, every delta +0.00** |
+
+`which did i tell you first the gate or the gate?` used to fall through and be
+answered **`sold`**; it is now a silent refusal at `source: ordinal: refused`.
+`_glossary_answer` holds no `return None` path at all any more: every recognised
+and declined glossary question refuses explicitly.
+
+**This is a fix, not a point.** The 24 is identical before and after. What it
+buys is that **a refusal now means silence**, so every future refusal
+measurement reads the mechanism rather than the mouth.
+
+**One thing it does not fix, recorded plainly:** questions that *no* path owns
+still reach the resonance mouth and can still say nonsense under accumulated
+social drive -- in the ordinal probe's long session, `does the door hold the
+frost?` came out as `sold`. That is the mood gate, not a fall-through, and it is
+a separate open item.
+
+**Floor holds at 16/24.**
+
 **Gates, unchanged and re-measured after the selection change:** null spread **0**
 (10 clones, one genome id); base composite **0.250000**, strictly below 1.0;
 reach **10/10 mutants differ from base fitness (100%)**; pytest **428 passed, 3

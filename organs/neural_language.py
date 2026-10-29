@@ -2828,12 +2828,18 @@ class NeuralLanguage:
         cue = next((w for w in words if w in self.ORDINAL_CUES), None)
         if cue is None:
             return None
+
+        def refuse(why):
+            # Recognised and declined is SILENCE (pre-registered, defect G).
+            return {"spoken": False, "heard": True, "answered": False,
+                    "reason": why, "source": "ordinal: refused"}
+
         ask = set(words)
         t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
         try:
             meta = list(self.cortex.binder.meta)
         except Exception:                  # noqa: BLE001 - no store, no answer
-            return None
+            return refuse("he has no memory store to consult")
         spans = {}
         for mem in meta:
             if str(mem.get("who") or "") != "you":
@@ -2856,17 +2862,17 @@ class NeuralLanguage:
                  and w not in self.ORDINAL_CUES
                  and w not in self.ORDINAL_STOP]
         if len(cands) != 2:
-            return None
+            return refuse("he cannot tell which two things are being ordered")
         if cue == "first":
             a, b = cands
             best = a if spans[a][0] < spans[b][0] else b
             if spans[a][0] == spans[b][0]:
-                return None
+                return refuse("both were told at the same moment")
         else:
             a, b = cands
             best = a if spans[a][1] > spans[b][1] else b
             if spans[a][1] == spans[b][1]:
-                return None
+                return refuse("both were told at the same moment")
         return {"spoken": True, "heard": True, "answered": True,
                 "utterance": best, "response": best,
                 "source": "ordinal", "ordered": sorted(cands)}
@@ -2890,10 +2896,18 @@ class NeuralLanguage:
         m = self.GLOSSARY_PAT.search(str(user_text or "").lower())
         if not m:
             return None
+
+        def refuse(why):
+            # A recognised question he declines is SILENCE. Returning None
+            # hands it to the resonance mouth, which answers things like
+            # `sold` -- the fall-through defect (pre-registered).
+            return {"spoken": False, "heard": True, "answered": False,
+                    "reason": why, "source": "glossary: refused"}
+
         cat = m.group("cat")
         members = self.GLOSSARY_CATEGORIES.get(cat)
         if not members:
-            return None
+            return refuse(f"he has no notion of {cat!r} as a category")
 
         def norm(toks):
             if isinstance(toks, str):
@@ -2905,7 +2919,7 @@ class NeuralLanguage:
         try:
             meta = list(self.cortex.binder.meta)
         except Exception:                  # noqa: BLE001 - no store, no answer
-            return None
+            return refuse("he has no memory store to consult")
         used = set()
         for mem in meta:
             if str(mem.get("who") or "") != "you":
@@ -2918,7 +2932,7 @@ class NeuralLanguage:
             used.update(w for w in seq if w)
         found = sorted(used & members)
         if len(found) != 1:
-            return None                    # ambiguous or absent: refuse
+            return refuse("he cannot tell which word of that kind he used")
         word = found[0]
         return {"spoken": True, "heard": True, "answered": True,
                 "utterance": word, "response": word,
