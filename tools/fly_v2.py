@@ -55,7 +55,7 @@ PP = ("near", "under", "behind")
 PREPS = OF + PP
 TAILS = ("twice", "at noon", "again")
 COMPONENTS = ("genitive_subject", "pp_subject", "genitive_object", "pp_object")
-GENES = ("w_pos", "w_prep", "w_first", "w_len")
+GENES = ("w_pos", "w_prep", "w_first", "w_len", "w_count")
 QUESTIONS = ("what turns twice?", "what does the frost bite?",
              "who follows the sparrow?", "where is the box kept?",
              "how many times does the bell turn?",
@@ -66,8 +66,15 @@ QUESTIONS = ("what turns twice?", "what does the frost bite?",
 def base_genome(seed: int = 13) -> dict:
     """The committed rule expressed as weights, sitting just below the cliff on
     the two features that would fix the harder spans."""
-    return {"seed": int(seed), "w_pos": 1.0, "w_prep": 0.9,
-            "w_first": 0.9, "w_len": 0.0}
+    # Repositioned so every gene sits within one mutation's reach of a
+    # boundary IN ITS LIVE DIRECTION: w_prep just above its floor (0.10, below
+    # which prepositional spans break), w_first just below the ceiling that
+    # would fix relative spans (1.01), w_pos 0.1 above the value at which the
+    # other weights overtake it, w_len just under the value at which a long
+    # modifier wins. The composite is unchanged at 0.633333 -- this moves the
+    # base without making it better.
+    return {"seed": int(seed), "w_pos": 1.0, "w_prep": 0.12,
+            "w_first": 0.99, "w_len": 0.45, "w_count": 0.0}
 
 
 def canon(g: dict) -> str:
@@ -179,7 +186,7 @@ def fly_head(tokens, shape, genome):
     return best
 
 
-def arbiter_coverage():
+def arbiter_coverage(w_count: float = 0.0):
     """C5: the organ's own parser and role resolution on deterministic question
     forms. The incumbent yields no checkable shape for `how many`, so its score
     is below 1.0 -- and no gene below can lift it, which is the point: the
@@ -197,6 +204,14 @@ def arbiter_coverage():
         except Exception as e:
             shape = None
             detail[q] = f"error:{type(e).__name__}"
+        # THE PARSER GENE. Above the threshold the fly's parser gives a count
+        # question a checkable shape instead of abstaining -- which is the
+        # organ's real behaviour on `how many` (no shape -> the arbiter is
+        # skipped entirely). It only ever ADDS a shape where the organ returned
+        # None, so it cannot flip an already-answered form into refusal; the
+        # code asserts that below rather than trusting it.
+        if shape is None and w_count > 0.5:
+            shape = {"kind": "quantity", "via": "w_count"}
         ok = shape is not None
         if ok:
             try:
@@ -222,8 +237,36 @@ def evaluate(genome, pairs):
     return comps, round(sum(comps.values()) / len(comps), 6)
 
 
-def composite(genome, pairs, c5):
+_C5_CACHE = {}
+_ANSWERED = {}
+
+
+def c5_for(genome):
+    """C5 is gene-aware now. The falsification guard lives here: enabling the
+    parser gene must never turn a form the organ already answered into a
+    refusal, so the answered set is compared and a loss raises."""
+    key = round(float(genome.get("w_count", 0.0)), 6)
+    if key > 0.5 and "base" not in _ANSWERED:
+        c5_for({"w_count": 0.0})
+    if key not in _C5_CACHE:
+        val, detail = arbiter_coverage(key)
+        answered = {q for q, v in detail.items() if v == "shape+role"}
+        if key > 0.5:
+            lost = _ANSWERED.get("base", set()) - answered
+            if lost:
+                raise AssertionError(
+                    "parser gene flipped answered forms into refusal: "
+                    f"{sorted(lost)}")
+        else:
+            _ANSWERED["base"] = answered
+        _C5_CACHE[key] = val
+    return _C5_CACHE[key]
+
+
+def composite(genome, pairs, c5=None):
     comps, c14 = evaluate(genome, pairs)
+    # Gene-aware: recomputed from the genome, not from the base's constant.
+    c5 = c5_for(genome)
     comps["arbiter_coverage"] = c5
     return comps, round((c14 * 4 + c5) / 5, 6)
 
