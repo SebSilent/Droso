@@ -185,6 +185,8 @@ set (`COUNT_FIRST_CUES`, `COUNT_LAST_CUES`).
 | `docs/cross_session_design.md` | design note: cross-session recall levers |
 | `docs/mine_criteria.md` | frozen contract for `tools/mine_primitives.py` |
 | `docs/selection_design.md` | frozen contract for `tools/run_generation.py`: the genome schema, the fitness tuple, the three eval tiers and the pre-registered step-6 mutation operator |
+| `docs/open_learning_design.md` | design, not yet implemented: moving from a frozen evaluated brain to a persistent learner. Grounded in a fresh census of the live binder, with the six-rung capability ladder, the fourth (open) eval tier, the one unavoidable core change named and flag-gated, and experiment E1 specified with its command and success criteria |
+| `docs/evidence/binder_census.py` | census of the live cortex store: rows by `who`, by `count`, by age. Output committed at `docs/evidence/binder_census_20261030.txt` |
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
 | `docs/evidence/` | raw run output cited by the docs |

@@ -1,0 +1,29 @@
+language_state.json.cortex.meta.json: 60000 rows
+
+rows by who:
+  book         59515  99.19%
+  droso          466   0.78%
+  parent          19   0.03%
+
+rows by count (how often rehearsed):
+  count   1    59665
+  count   2       93
+  count   3       48
+  count   4       25
+  count   5       20
+  count   6       16
+  count   7        9
+  count   8        9
+  ... 76 distinct counts, max 11925
+  rows with count == 1: 59665 (99.44%)
+
+row ages in days (n=60000):
+  p0        14.38
+  p10       20.58
+  p50       20.91
+  p90       21.26
+  p100      21.34
+
+who == 'you' rows: 0
+
+rows by token length: {2: 79, 3: 1769, 4: 596, 5: 479, 6: 92, 7: 1669, 8: 55316}
