@@ -1193,6 +1193,20 @@ def cmd_run(args) -> int:
               f"{nl.NeuralLanguage.SHAPE_BASE_INTERROGATIVES + words}")
     else:
         CODE_FLAGS["shape_extra_interrogatives"] = []
+    if args.shape_determiner:
+        det = tuple(w.strip().lower() for w in args.shape_determiner.split(",")
+                    if w.strip())
+        nl.NeuralLanguage.SHAPE_DETERMINER_INTERROGATIVES = det
+        CODE_FLAGS["shape_determiner_interrogatives"] = list(det)
+        print(f"R1' ON: SHAPE_DETERMINER_INTERROGATIVES = {det}")
+    else:
+        CODE_FLAGS["shape_determiner_interrogatives"] = []
+    if args.shape_passive:
+        nl.NeuralLanguage.SHAPE_ALLOW_PASSIVE = True
+        CODE_FLAGS["shape_allow_passive"] = True
+        print("R2 ON: SHAPE_ALLOW_PASSIVE = True")
+    else:
+        CODE_FLAGS["shape_allow_passive"] = False
     tiers = tuple(args.tier.split(","))
     battery = load_battery(tiers, args.only, args.open_batch)
     pop = build_population(args, base)
@@ -1578,6 +1592,15 @@ def main() -> int:
                          "an A/B carry the same genome, so this is what distinguishes "
                          "them and it is recorded in provenance.code_flags. Must be run "
                          "one arm per process, since it is a module-level constant")
+    ap.add_argument("--shape-determiner", default="",
+                    help="comma-separated DETERMINER question words (repair R1'): these "
+                         "take a noun-phrase head, so the parser skips it before looking "
+                         "for the verb. `which` is the only candidate. Separate from "
+                         "--shape-extra so R1 and R1' are separately attributable")
+    ap.add_argument("--shape-passive", action="store_true",
+                    help="repair R2: parse `what is <verb> by <agent>` into the existing "
+                         "object_unknown kind. Separate flag again, so a result is "
+                         "attributable to one cut")
     ap.add_argument("--dry-run", action="store_true",
                     help="build and print the population -- genome ids and mutation "
                          "values -- then stop. Costs nothing and shows the mutants "

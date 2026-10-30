@@ -2074,6 +2074,19 @@ class NeuralLanguage:
     # giving them a shape would put them before the arbiter with no filler to arbitrate.
     SHAPE_EXTRA_INTERROGATIVES = ()
     SHAPE_BASE_INTERROGATIVES = ("who", "what", "where")
+    # R1', design section 3b. `what`/`who`/`where` are PRONOUNS: they stand in for the
+    # missing constituent, so the next content word is the verb. `which` is a DETERMINER:
+    # it modifies a noun, so a head noun follows and the verb comes after that. That is
+    # why `what turns twice` parsed and `which thing turns twice` took "thing" as the
+    # verb. The rule is syntactic, not a list of nouns to skip -- a list is the fly_v2
+    # closed-class failure, where a modifier class closed at {old, copper, heavy} bred a
+    # winner that named "small" the head of "the small brass bell".
+    SHAPE_DETERMINER_INTERROGATIVES = ()
+    # R2, design section 3b. Adds a passive branch that returns the EXISTING
+    # object_unknown kind, so _shape_matches, _arbitrate_shape, _provenance_vote and the
+    # mouth all work unchanged. Separate flag from R1' so a result is attributable to
+    # one cut.
+    SHAPE_ALLOW_PASSIVE = False
 
     @property
     def SHAPE_INTERROGATIVES(self):
@@ -2159,6 +2172,24 @@ class NeuralLanguage:
         # subject is not a role filler this parser can find without the kind
         # of parse that made retrieval a liability before. The binder's own
         # ranking answers these or refuses.
+        # R2: passive. `what is bitten by the frost` falls to the abstain below -- the
+        # same branch that CORRECTLY refuses `what is the box`, which is what stops a
+        # copula question being answered with a confabulated filler. Gated on BOTH a
+        # copula immediately after the interrogative AND a `by` later with at least one
+        # content word after it, so that abstain is preserved exactly: `what is the box`
+        # has no `by`, and `what is by the door` has no verb before its `by`, and both
+        # still return None. Returns the EXISTING object_unknown kind, so _shape_matches,
+        # _arbitrate_shape, _provenance_vote and the mouth all work unchanged.
+        if (self.SHAPE_ALLOW_PASSIVE and inter in ("who", "what")
+                and rest[0] in self.SHAPE_COPULAS and "by" in rest):
+            bi = rest.index("by")
+            agent = [t for t in rest[bi + 1:]
+                     if t not in self.SHAPE_FUNCTION_WORDS]
+            pverb = next((t for t in rest[1:bi]
+                          if t not in self.SHAPE_FUNCTION_WORDS), None)
+            if agent and pverb:
+                return {"kind": "object_unknown", "verb": pverb,
+                        "subject": agent, "tail": []}
         if rest[0] in self.SHAPE_COPULAS:
             return None
         if rest[0] in self.SHAPE_DO_SUPPORT and len(rest) >= 3:
@@ -2168,8 +2199,17 @@ class NeuralLanguage:
                 return None
             return {"kind": "object_unknown", "subject": subject,
                     "verb": rest[-1], "tail": []}
-        verb_i = next((i for i, t in enumerate(rest)
-                       if t not in self.SHAPE_FUNCTION_WORDS), None)
+        # R1': with the flag off, cidx[0] is exactly the old `next(...)` first content
+        # token and every line below is unchanged, so the default path is identical
+        # rather than merely equivalent. With it on, a determiner interrogative skips
+        # its noun-phrase head -- but only when three or more content words follow, so
+        # `which turns twice` (two) keeps the R1 parse and `which thing turns twice`
+        # (three) stops reading "thing" as the verb.
+        cidx = [i for i, t in enumerate(rest)
+                if t not in self.SHAPE_FUNCTION_WORDS]
+        if (inter in self.SHAPE_DETERMINER_INTERROGATIVES and len(cidx) >= 3):
+            cidx = cidx[1:]
+        verb_i = cidx[0] if cidx else None
         if verb_i is None or verb_i >= len(rest) - 1:
             return None
         tail = [t for t in rest[verb_i + 1:]

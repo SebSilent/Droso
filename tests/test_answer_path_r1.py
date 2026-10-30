@@ -45,6 +45,14 @@ class Stub:
     def SHAPE_INTERROGATIVES(self):
         return N.SHAPE_BASE_INTERROGATIVES + tuple(N.SHAPE_EXTRA_INTERROGATIVES)
 
+    @property
+    def SHAPE_DETERMINER_INTERROGATIVES(self):
+        return tuple(N.SHAPE_DETERMINER_INTERROGATIVES)
+
+    @property
+    def SHAPE_ALLOW_PASSIVE(self):
+        return bool(N.SHAPE_ALLOW_PASSIVE)
+
 
 def interrogatives():
     """Read through an instance: on the class this name is the property object itself."""
@@ -53,11 +61,141 @@ def interrogatives():
 
 @pytest.fixture
 def flag():
-    """Set the flag for one test and put it back. A leaked class attribute is exactly the
-    failure mode that would make an A/B measure the same arm twice."""
-    old = N.SHAPE_EXTRA_INTERROGATIVES
+    """Set the flags for one test and put them back. A leaked class attribute is exactly
+    the failure mode that would make an A/B measure the same arm twice."""
+    old = (N.SHAPE_EXTRA_INTERROGATIVES, N.SHAPE_DETERMINER_INTERROGATIVES,
+           N.SHAPE_ALLOW_PASSIVE)
     yield lambda words: setattr(N, "SHAPE_EXTRA_INTERROGATIVES", tuple(words))
-    N.SHAPE_EXTRA_INTERROGATIVES = old
+    (N.SHAPE_EXTRA_INTERROGATIVES, N.SHAPE_DETERMINER_INTERROGATIVES,
+     N.SHAPE_ALLOW_PASSIVE) = old
+
+
+@pytest.fixture
+def r1p(flag):
+    """R1 on plus R1': `which` is a question word AND a determiner."""
+    flag(("which",))
+    N.SHAPE_DETERMINER_INTERROGATIVES = ("which",)
+
+
+@pytest.fixture
+def r2(flag):
+    """R2 alone: the passive branch, with no new question words."""
+    N.SHAPE_ALLOW_PASSIVE = True
+
+
+# ------------------------------------------------------------------- R1' ----
+
+def test_r1p_is_off_by_default():
+    assert N.SHAPE_DETERMINER_INTERROGATIVES == ()
+    assert N.SHAPE_ALLOW_PASSIVE is False
+
+
+def test_r1p_skips_the_np_head_after_a_determiner_interrogative(flag):
+    """THE FIX FOR THE FALSIFIED P2. `which` is a determiner, so a head noun follows it
+    and the verb comes after that -- which is why `what turns twice` parsed and
+    `which thing turns twice` took "thing" as the verb."""
+    flag(("which",))
+    N.SHAPE_DETERMINER_INTERROGATIVES = ("which",)
+    got = shape("which thing turns twice")
+    assert got is not None, "no shape at all"
+    assert got["kind"] == "subject_unknown"
+    assert got["verb"] == "turns", got
+    assert got["tail"] == ["twice"], got
+    # and it now matches the form that always worked
+    ref = shape("what turns twice")
+    assert (got["kind"], got["verb"], got["tail"]) == (ref["kind"], ref["verb"],
+                                                       ref["tail"])
+
+
+def test_r1p_does_not_skip_when_there_is_no_head_noun(flag):
+    """The threshold is structural, not a word list: with only two content words after a
+    determiner there is no head-plus-verb-plus-tail to disambiguate, so nothing is skipped
+    and the R1 behaviour is preserved."""
+    flag(("which",))
+    N.SHAPE_DETERMINER_INTERROGATIVES = ("which",)
+    got = shape("which turns twice")
+    assert got is not None and got["verb"] == "turns" and got["tail"] == ["twice"]
+
+
+def test_r1p_leaves_the_pronoun_interrogatives_alone(flag):
+    """`what`/`who`/`where` are pronouns and stand in for the missing constituent, so the
+    next content word IS the verb. Skipping a head after them would break every question
+    that already works."""
+    flag(("which",))
+    N.SHAPE_DETERMINER_INTERROGATIVES = ("which",)
+    assert shape("what turns twice")["verb"] == "turns"
+    assert shape("what does the frost bite")["kind"] == "object_unknown"
+    assert shape("where is the box kept")["kind"] == "locative_unknown"
+    assert shape("who holds the light")["verb"] == "holds"
+
+
+def test_r1p_handles_the_other_failing_which_form(flag):
+    flag(("which",))
+    N.SHAPE_DETERMINER_INTERROGATIVES = ("which",)
+    got = shape("which of them is wet and is not on the hook")
+    # `of them` are function words, so the content words are wet/not/on/the/hook...
+    # Whatever it returns, it must not be a shape whose verb is "of" or "them".
+    assert got is None or got.get("verb") not in ("of", "them"), got
+
+
+# -------------------------------------------------------------------- R2 ----
+
+def test_r2_parses_the_passive_into_the_existing_object_unknown_kind(r2):
+    """No fourth shape kind: reusing object_unknown is what lets _shape_matches,
+    _arbitrate_shape, _provenance_vote and the mouth all work unchanged. That is the
+    difference between a repair and a refactor."""
+    got = shape("what is bitten by the frost")
+    assert got is not None, "passive still has no parse"
+    assert got["kind"] == "object_unknown"
+    assert got["verb"] == "bitten"
+    assert got["subject"] == ["frost"]
+    assert got["tail"] == []
+
+
+def test_r2_parses_the_two_hop_passive(r2):
+    got = shape("what is held by the thing the frost bites")
+    assert got is not None and got["kind"] == "object_unknown"
+    assert got["verb"] == "held"
+    assert got["subject"][0] == "thing" and "frost" in got["subject"]
+
+
+def test_r2_preserves_the_abstain_that_prevents_confabulation(r2):
+    """`what is the box` must still get NO shape. That abstain is the guard against
+    answering a copula question with a confabulated filler, and R2 is gated on a `by`
+    with content after it precisely so this case is untouched."""
+    assert shape("what is the box") is None
+    assert shape("what is wet") is None
+    assert shape("what is the coat") is None
+
+
+def test_r2_does_not_fire_without_an_agent(r2):
+    assert shape("what is bitten") is None
+    assert shape("what is by the door") is None
+
+
+def test_r2_leaves_the_active_forms_exactly_as_they_were(r2):
+    a = shape("what does the frost bite")
+    assert a["kind"] == "object_unknown" and a["verb"] == "bite"
+    assert a["subject"] == ["frost"]
+    assert shape("what turns twice")["kind"] == "subject_unknown"
+
+
+def test_r2_does_not_make_a_polar_question_answerable(r2):
+    """Class C is R3 and is deliberately not proposed: a polar path is a new capability
+    with a new failure mode, confabulated negation."""
+    assert shape("is the frost held by the door") is None
+    assert shape("does the door hold the frost") is None
+
+
+def test_the_two_flags_are_independent():
+    """A result must be attributable to one cut, so neither flag may imply the other."""
+    N.SHAPE_ALLOW_PASSIVE = True
+    try:
+        assert N.SHAPE_EXTRA_INTERROGATIVES == ()
+        assert shape("what is bitten by the frost") is not None
+        assert shape("which thing turns twice") is None
+    finally:
+        N.SHAPE_ALLOW_PASSIVE = False
 
 
 def shape(text):

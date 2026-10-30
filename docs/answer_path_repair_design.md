@@ -161,6 +161,139 @@ capability with a new failure mode (confabulated negation), and the echo literal
 string in one detector. Both are recorded as future work rather than bundled, because
 bundling them would make E5's result unattributable.
 
+## 3b. R1′ and R2 — the addendum written after P2 was falsified
+
+R1 gave `which` a shape and the shape came out wrong, because `subject_unknown` takes the
+first non-function word after the interrogative as the verb and `which thing` is a
+two-word question phrase. The repair must not be a list of nouns to skip — that is the
+`fly_v2` closed-class failure. So the rule has to be syntactic.
+
+### R1′ — determiner interrogatives take a noun-phrase head
+
+The distinction is real and it is not about `thing`. **`what`, `who` and `where` are
+pronouns**: they stand in for the missing constituent, so the next content word *is* the
+verb. **`which` is a determiner**: it modifies a noun, so a head noun follows it and the
+verb comes after that. That is why `what turns twice` parses and `which thing turns twice`
+does not, and it predicts the failure for every `which <noun> …` form rather than for one
+word.
+
+```python
+SHAPE_DETERMINER_INTERROGATIVES = ()      # R1', default off; ("which",) when on
+```
+
+Rule, applied only when the interrogative is in that set: **if three or more content words
+follow the interrogative, the first is the NP head and is skipped**; otherwise nothing is
+skipped. The threshold is what keeps both forms correct and it is a structural condition,
+not a vocabulary:
+
+| form | content words after `which` | skip? | verb | tail |
+|---|---|---|---|---|
+| `which thing turns twice` | thing, turns, twice (3) | yes | **turns** | twice |
+| `which turns twice` | turns, twice (2) | no | **turns** | twice |
+
+The known cost, stated rather than hidden: `which thing turns` — a head noun, a verb and
+no tail — has two content words, so it is not skipped and still parses `thing` as the verb.
+That form is ungrammatical as a question in the batteries and in ordinary use (a
+`subject_unknown` question needs something after the verb to be about), so R1′ does not
+chase it. If it ever appears, the fix is to let the arbiter try both parses and keep the
+one a memory satisfies, which is a larger change and is recorded here as R1″ rather than
+bundled in.
+
+### R2 — a passive branch, reusing `object_unknown`
+
+`what is <verb> by <agent>` currently reaches the who/what-plus-copula abstain at
+2133-2134, the same branch that correctly refuses `what is the box`. R2 adds a branch
+**before** that abstain, gated on two structural conditions: a copula immediately after the
+interrogative, and a `by` later in the question with at least one content word after it.
+Both hold for `what is bitten by the frost` and neither holds for `what is the box`, so the
+abstain that prevents confabulation is preserved exactly.
+
+The branch returns the **existing** `object_unknown` kind with `subject` = the content words
+after `by` and `verb` = the first content word after the copula. No fourth shape kind, so
+`_shape_matches`, `_arbitrate_shape`, `_provenance_vote` and the mouth all work unchanged —
+which is the difference between a repair and a refactor. `by` stays in
+`SHAPE_FUNCTION_WORDS`; the branch reads it positionally before the function-word filter
+strips it.
+
+Gated behind its own flag, separately from R1′, so a result is attributable to one cut.
+
+### What is still not proposed
+
+R3 (polar questions that can answer "no", and imperatives) stays out. A polar path is a new
+capability with a new failure mode — confabulated negation — and bundling it would make E5
+unattributable. Class E is untouched by any of this and remains closed by
+`docs/selection_design.md` §8.
+
+## 3c. E5 REVISED — run, and the result is that all three repairs are inert
+
+E5 as originally specified was not run, because P2 was falsified by a test (§4). It was
+re-run against R1+R1′+R2 as two arms differing **only** in code flags — both carry genome
+`abffa2b7f101`, so `provenance.code_flags` is the only thing distinguishing them, which is
+why that field exists.
+
+- **arm A** `generation 4`, flags off — the control
+- **arm B** `generation 5`, `--shape-extra which --shape-determiner which --shape-passive`
+
+| | frozen | generalisation | guarded | failure stages |
+|---|---|---|---|---|
+| arm A (control) | 19/24 | 0/14 | 4/4 | `{recall:10, mouth:4, gating:3, shape_arbiter:2}` |
+| arm B (repaired) | 19/24 | 0/14 | 4/4 | `{recall:10, mouth:4, gating:3, shape_arbiter:2}` |
+
+**Identical on all 42 asks — every pass, every failure, every stage.** Zero erosion, and
+zero gain. Arm A also reproduces the generation-0/3 floor exactly, so the instrument is
+stable and the null result is not drift.
+
+### The finding: the shape parser is not the binding constraint
+
+Hazard 1 predicted R1 would convert `recall` failures into `shape_arbiter` failures. **It
+did not, and that is the result.** The three asks the repairs were aimed at:
+
+```
+probe 36  which thing turns twice?                   recall -> recall   (R1' target)
+probe 37  what is held by the thing the frost bites? recall -> recall   (R2 target)
+probe 41  what is bitten by the frost?               recall -> recall   (R2 target)
+```
+
+All three still fail at **`recall`**, which is *upstream* of the arbiter. A question that
+dies at recall never reaches `_arbitrate_shape`, so no change to `_question_shape` can
+affect it — the parser is computing a shape nobody consults.
+
+The decisive pair is inside the frozen tier, and it was in front of me in generation 0
+without being understood:
+
+```
+frozen 16  what turns twice?         PASS
+probe  36  which thing turns twice?  fail at recall
+```
+
+With R1′ on, `_question_shape` returns the **same** shape for both — `subject_unknown`,
+`verb="turns"`, `tail=["twice"]` — pinned by
+`test_r1p_skips_the_np_head_after_a_determiner_interrogative`. Same shape, same memories,
+one passes and one fails at recall. **So the difference between them is not the shape.**
+
+The remaining difference is the question's own words. `what` is stripped as an
+interrogative; `which` and `thing` are not, and `thing` appears in no stored proposition.
+That points at the coverage/recall gate rather than the parser — the same mechanism as
+class E, which §3 already noted is untouched by any shape repair. **This is a hypothesis
+from the stage evidence, not a measurement**: the generation-0 journal rows carry no
+coverage field (`_tmp/reach_preflight.py`), so confirming it needs the unrounded coverages
+that `docs/evidence/coverage_exact.py` knows how to get. It is recorded as the next
+question, not as a conclusion.
+
+### What this changes
+
+Class A collapses into class E. The five-mechanism classification was right about the
+*parses* and wrong about the *cause*: `which`/passive forms genuinely get no shape, but
+that was never why they fail. R1, R1′ and R2 are correct parser improvements — 22 tests pin
+exactly what they do — and they are **inert on this battery**, because the questions die
+before the arbiter. They stay in the tree, flag-gated and default-off, costing nothing.
+
+The pre-registered discipline paid for itself twice: P2 was falsified by a 0.1 s test
+before 84 builds, and the revised E5 falsified the whole class-A theory with a null result
+that is unambiguous *because* both arms carry the same genome and the control reproduces
+the recorded floor. A scalar fitness would have reported `0.0` for both arms and hidden
+this entirely.
+
 ## 4. E5, pre-registered before it is run
 
 **E5 measures R1 and nothing else.** R2 stays off. Two arms, one line each, both against
