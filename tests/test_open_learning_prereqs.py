@@ -38,50 +38,75 @@ def test_the_binder_marks_user_teaching_as_you_not_user():
     assert 'who == "you"' in src or "who=\"you\"" in src
 
 
-def test_teaching_is_currently_weighted_as_corpus():
-    """THE DEFECT, pinned. `WITNESS_W` has no "you" key and nothing binds
-    who="user", so testimony falls through .get(who, 0.6) to exactly the book
-    weight -- at every count, not just at count 1.
+def test_teaching_is_weighted_above_corpus():
+    """Section 7a, landed. This test previously asserted the DEFECT -- that "you" was
+    absent from WITNESS_W and so tied with "book" at every count -- and it was
+    written to fail on the fix, which is what happened. It is updated deliberately,
+    with the census the design requires attached below.
 
-    docs/open_learning_design.md section 3.2 measures this and section 7a names the
-    one-entry fix. This test is expected to FAIL once 7a lands; update it then, and
-    attach the before/after consolidation census the design requires.
+    Census (docs/evidence/consolidation_census.py, live binder, budget 200,
+    scan_top 2000): BEFORE and AFTER are byte-identical -- scanned 2000, urgent 294,
+    picked 200, distribution book 188 / droso 11 / parent 1, counts {1: 187, ...} --
+    because the live binder holds ZERO who="you" rows, so there was nothing for the
+    new weight to act on. That is the proof of no unintended perturbation; the proof
+    of the intended effect is this test plus episode E2, which teaches into a binder
+    and can therefore show the selection actually moving.
     """
-    assert "you" not in NeuralLanguage.WITNESS_W
-    assert "user" in NeuralLanguage.WITNESS_W, (
-        "WITNESS_W carries a 'user' key that no bind site ever writes")
+    assert "you" in NeuralLanguage.WITNESS_W
+    assert NeuralLanguage.WITNESS_W["you"] == 1.0
+    assert NeuralLanguage.WITNESS_W["you"] > NeuralLanguage.WITNESS_W["book"]
     for count in (1, 2, 3, 10, 100):
-        assert value("you", count) == value("book", count), count
+        assert value("you", count) > value("book", count), count
+    # Testimony ranks with narration and the teacher, not with the corpus.
+    for count in (1, 5):
+        assert value("you", count) == value("parent", count) == value("teacher", count)
+    # And above his own speech, which is the ordering the answer sort already uses.
+    assert value("you", 1) > value("droso", 1)
+
+
+def test_the_dead_user_key_is_still_there_and_still_unbound():
+    """7a added a key; it did not remove one. "user" is dead -- no bind site writes
+    it -- and removing it would have been a second change in a commit that is meant
+    to be attributable to one. Pinned so the dead key is a known fact rather than
+    something the next reader rediscovers.
+    """
+    assert "user" in NeuralLanguage.WITNESS_W
+    src = (ROOT / "organs" / "neural_language.py").read_text(encoding="utf-8")
+    assert 'who="user"' not in src and "who='user'" not in src
 
 
 def test_the_default_weight_is_the_book_weight():
-    """Why the missing key is silent rather than loud: the fallback and the corpus
-    weight are the same number, so an unrecognised `who` looks like a book row."""
+    """Still true after 7a, and still worth pinning: the fallback and the corpus
+    weight are the same number, so any `who` value this dict does not know is scored
+    as corpus. That is what made the missing "you" key silent rather than loud, and
+    it will do the same for the next witness category someone adds to the bind site
+    without adding it here."""
     assert NeuralLanguage.WITNESS_W["book"] == 0.6
     assert value("never_bound_by_anything", 1) == value("book", 1)
 
 
-def test_consolidation_currently_prefers_narration_then_arrival_order():
-    """The consequence, stated as the ordering consolidate()'s sort actually produces
-    on the live distribution: 19 parent rows outrank everything, own speech ranks
-    below corpus, and the 59,665 count-1 rows -- book and you alike -- tie. With
-    scan_top = 2000 the window therefore fills with tied rows in binder order, and a
-    stable sort on a tied key preserves input order, which is arrival order.
+def test_the_consolidation_ordering_now_puts_testimony_above_corpus():
+    """The ordering consolidate()'s sort produces, before and after 7a.
+
+    BEFORE: parent > book == you > droso, with 1782 of the 2000 scanned rows tied at
+    the cutoff 0.415888, so the window filled by stable sort on arrival order and
+    replayed the OLDEST corpus lines (docs/evidence/consolidation_census.py).
+    AFTER:  parent == you == teacher > oracle > book > droso, so a taught row at
+    count 1 outranks the 59,515 book rows at count 1 and is selected ahead of them.
     """
-    assert value("parent", 1) > value("book", 1) > value("droso", 1)
-    assert value("you", 1) == value("book", 1)
-    # A taught row only outranks a corpus row by being REHEARSED, never by being
-    # taught: count is the sole lever, because who contributes nothing.
-    assert value("you", 2) > value("book", 1)
-    assert value("you", 1) < value("parent", 1)
+    assert value("parent", 1) == value("you", 1) > value("book", 1) > value("droso", 1)
+    assert value("oracle", 1) < value("you", 1)
+    assert value("you", 1) > value("book", 1)
 
 
-def test_a_taught_row_needs_rehearsal_to_outrank_the_corpus():
-    """The one lever that currently works, and the reason the design's episode loop
-    consolidates rather than only teaching."""
-    assert value("you", 1) == value("book", 1)
-    assert value("you", 2) > value("book", 1)
-    assert value("you", 3) > value("book", 2)
+def test_rehearsal_still_compounds_on_top_of_the_witness_weight():
+    """count remains a lever; 7a added a second one rather than replacing it. And a
+    heavily rehearsed corpus row can still outrank a taught row heard once, which is
+    correct -- familiarity is evidence, and the ordering should not make a single tell
+    unbeatable."""
+    assert value("you", 2) > value("you", 1)
+    assert value("book", 2) > value("book", 1)
+    assert value("book", 3) > value("you", 1)
 
 
 def test_the_binder_is_at_capacity_and_eviction_is_blind_fifo():

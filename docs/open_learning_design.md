@@ -624,6 +624,82 @@ frozen and guarded numbers are comparable to the committed baseline. `py -3.10` 
 have the dependencies. The episode row carries `provenance.python` and
 `provenance.numpy`, which is the only reason this is checkable rather than assumed.
 
+### E2, pre-registered before it is run
+
+**What E2 is.** Teaching episode 2: 20 fresh facts at seed 2, run against live state
+with §7a landed (`WITNESS_W["you"] = 1.0`). Same instrument, same shadow discipline,
+same five gates.
+
+```bash
+py -3.10 tools/teach_episode.py --episode 2 --facts 20 --seed 2 --dry-run
+py -3.10 tools/teach_episode.py --episode 2 --facts 20 --seed 2
+py -3.10 tools/run_generation.py --report --episode 2
+```
+
+**Why a new seed rather than a repeat of seed 1.** Re-running seed 1 would isolate
+§7a cleanly but would not test the property an organism actually needs — that learning
+*repeats* on material it has not seen. The §7a effect is measured separately and more
+sharply by the consolidation census inside the episode, so the episode does not have
+to carry it. The consequence is stated up front: **episode 1 and episode 2 differ in
+both code and material**, so nothing below predicts that E2's numbers will match E1's,
+and a difference between them is not by itself attributable to §7a.
+
+**Predictions.**
+
+- **P1 — acquisition repeats: ≥ 18/20.** Episode 1 was 20/20. Falsifier: a material
+  drop means the frame or the generator is seed-sensitive rather than the organ being
+  reliable, and the generator becomes the thing to fix, not the organ.
+- **P2 — generalisation is again dominated by frame, not by memory.** H2
+  (question-word swap) and H3 (passive) predicted **0**, because their causes are
+  literal-string dependencies in the answer path — the shape parser keyed to `what`,
+  the passive losing retrieval — and §7a touches neither. H1 (reverse role) predicted
+  to pass on most or all of its facts. If H2 or H3 *rises*, that is surprising and
+  must be checked before it is believed, because nothing in this change should move
+  it.
+- **P3 — zero erosion.** Frozen 19/24 and guarded 4/4, unchanged. A gate, not a
+  prediction.
+- **P4 — displacement repeats in kind.** Roughly 20–25 rows evicted, all `book`, all
+  count 1; roughly 20 `you` rows added. §7a changes consolidation's *ranking*, not
+  the binder's eviction, so displacement should not move at all.
+- **P5 — the §7a effect, which has two legitimate outcomes.** The episode records
+  `taught_urgent` (how many of the 20 taught rows sit below the 0.1 urgency line) and
+  `consolidate_picked_who` (the `who` distribution of consolidation's own returned
+  sample, capped at 20 of `budget` and recorded as a sample).
+  - **P5a** — if `taught_urgent == 0`, no taught row is eligible for replay, because
+    `consolidate()` repairs *decayed* wiring and a fact taught seconds ago is still
+    strong. Then `consolidate_picked_who` contains no `you`, and **that is correct
+    behaviour rather than a failure of §7a**: the protection §7a buys is real but
+    deferred to taught rows that have aged, which is exactly the horizon an organism
+    that keeps being taught reaches.
+  - **P5b** — if `taught_urgent > 0`, at least one taught row is eligible, and post-7a
+    it ranks at `1.0·log1p(count)` against the corpus's `0.6·log1p(count)`, so `you`
+    should appear in `consolidate_picked_who`. Episode 1's picked sample was
+    **book 188 / droso 11 / parent 1, with no `you` at all** — that is the pre-7a
+    comparison, and it is the whole of the evidence E1 can offer on this point.
+  - **What would falsify §7a:** `taught_urgent > 0` and still no `you` in the picked
+    sample. Either branch of P5 is a result; that combination is not.
+- **P6 — SAN nnz unchanged (+0).** Saturation was confirmed on freshly taught material
+  in episode 1 and nothing here should change it. Total weight expected to fall again,
+  decay outpacing writes.
+
+**What E2 cannot show, stated so it is not claimed later.** Retention across a
+*second* restart. Chained episodes — episode 1 was not promoted to live state, so
+episode 2 starts from the same live binder, and chaining requires promotion, which is
+a deliberate act and a later step. And the far-term eviction horizon §7b addresses,
+which needs a taught row old enough that 60,000 further binds reach it.
+
+**Gates.** The same five. `erosion_zero` must be measured on all 24 frozen asks and at
+least one guarded probe; the pilot's vacuous PASS is now structurally impossible,
+because `verdict_of` fails a gate that was never run and
+`test_a_passing_episode_really_did_measure_erosion` enforces that on every ledger row.
+
+**If a gate fails.** Erosion > 0 → stop, and do not run episode 3: teaching would be
+costing capability, and §7b becomes a prerequisite rather than an improvement. Live
+seals moved → the shadow is leaking; fix before any second run, because every later
+number would be measured against a contaminated state. Acquisition 0 → the bind site
+or the reply gate, not eviction, is the first blocker, and the ladder's rung 1 is
+wrong about what it measures.
+
 ## 9. What would invalidate the programme
 
 Recorded so the checks are not invented after the fact.

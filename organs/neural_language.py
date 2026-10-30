@@ -480,7 +480,20 @@ class NeuralLanguage:
     # persists with save_state(force_san=True) -- a delta save skips the
     # SAN and would lose the replay.
     # ------------------------------------------------------------------
-    WITNESS_W = {"parent": 1.0, "user": 1.0, "teacher": 1.0,
+    # "you" IS the binder's marker for user testimony -- the bind site writes it,
+    # freshness_key gates on it (:70), answer()'s sort key reads it (:3290) and
+    # _record_answer's truth condition depends on it. It was missing here, and this
+    # dict's only reader is consolidate()'s value function, which does
+    # .get(who, 0.6) -- so testimony fell through to the default, which is exactly
+    # the book weight. Measured consequence before the fix: you and book tied at
+    # 0.415888 at EVERY count, 1782 of the 2000 rows in the scan window tied at the
+    # cutoff, and the window therefore filled by stable sort on arrival order --
+    # consolidation replayed the OLDEST corpus lines and gave a taught fact no
+    # protection at all (docs/open_learning_design.md section 3.2, census in
+    # docs/evidence/consolidation_census.py).
+    # "user" is kept although nothing binds it: removing a key is a second change and
+    # this one lands alone. It is dead, and "you" is the live one.
+    WITNESS_W = {"parent": 1.0, "user": 1.0, "you": 1.0, "teacher": 1.0,
                  "oracle": 0.8, "book": 0.6, "droso": 0.3}
 
     def consolidate(self, *, budget: int = 200, passes: int = 3,
