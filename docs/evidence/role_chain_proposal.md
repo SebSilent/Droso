@@ -1,6 +1,9 @@
 # Role_chain cold failure — proposal (NOT APPLIED)
 
 Status: proposal only. No organ, tool, test, or constant changed for this.
+**Updated 2026-10-29:** the `_tmp/` output files named below were deleted when the
+speech run closed, so the raw inputs are gone; the document is kept as a record
+of what was measured and proposed, not as a plan that can be replayed.
 House down throughout — every number below is from local runs with the
 oracle off, against the live state tree read-only.
 

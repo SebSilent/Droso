@@ -22,6 +22,11 @@ the repository.
     <span class="doc-sub">Design for cross-session recall: graded freshness restricted to who said it, and the guard set that verifies it.</span>
   </li>
   <li>
+    <li>
+    <a href="STATE.html">State at handover</a>
+    <span class="doc-sub">The current floor and what it means, every landed mechanism marked general or narrow, every reverted axis with its cause, the harness commands, and what is not done.</span>
+  </li>
+  <li>
     <a href="benchmark_findings.html">Benchmark findings</a>
     <span class="doc-sub">Why the warm scripts fail: measured drops, retrieval traces, and the diagnosis.</span>
   </li>

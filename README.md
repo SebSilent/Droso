@@ -69,6 +69,18 @@ substantially more reliable for memories formed from an action the agent actuall
 than for memories formed from reading. This has been measured directly and is the basis
 for weighting grounded experience over reading volume elsewhere in the system.
 
+Question answering is not a single path. Alongside the ordinary arbitration, seven
+mechanisms answer specific classes of question, each recorded in `docs/STATE.md`
+with its verdict: an **echo instruction** (`say exactly …`) and a **provenance
+glossary** (`which word did i use for the metal?` -> `copper`) are narrow, one
+phrasing family each; **record absence** (`did i ever tell you about the moon?` ->
+`no`), **counting over the telling record** (`how many times did i tell you …`) and
+**quantity arithmetic** (`four eggs`, `two break` -> `two left`) hold within the
+scope of what was told to him; **ordinal selection** and **disjunctive resolution**
+are narrow to the two shapes they were written for. A `first`/`last` cue family is
+carried as a generalisation credit, because the held-out suite cannot see cue
+vocabulary and it therefore moves no ask.
+
 ## Reasoning and the harness
 
 Task solving is organized into two tiers by `organs/harness.py`, which also records which
@@ -162,9 +174,8 @@ in the codebase. Whether any live path allows the external model to execute acti
 directly, as opposed to returning text that is separately verified before use, is under
 review. The knowledge channel as currently implemented accepts text answers only.
 
-A portion of the test suite currently fails. Several of these failures are believed to
-depend on a live house process being present rather than indicating a regression in the
-underlying code, and this is being confirmed test by test rather than assumed.
+The suite is green: 428 passed, 3 skipped at the closing measurement (the earlier
+note that a portion of it failed was accurate when written and is not any more).
 
 ## Repository layout
 
@@ -208,14 +219,22 @@ credentials.py   per user credential storage, kept outside the repository
 
 ## Quick start
 
+The measurements in this repository were taken with **Python 3.10** (`py -3.10`
+on Windows). Use a virtual environment: a bare `python` on a machine may be a
+different interpreter with none of the dependencies, which is what `numpy` failing
+to import looks like.
+
 ```bash
 git clone https://github.com/SebSilent/Droso.git
 cd Droso
+py -3.10 -m venv .venv
+.venv\Scripts\activate          # source .venv/bin/activate on POSIX
 pip install -r requirements.txt
 python run_house.py
 ```
 
-Dashboard: `http://localhost:7773`
+Dashboard: `http://localhost:7773`. Every later command in this file assumes the
+virtual environment is active.
 
 ## External model configuration
 
@@ -233,6 +252,38 @@ HYBRIDLLM_OFFLINE=1 python tools/task_battery.py
 HYBRIDLLM_OFFLINE=1 python tools/fitness.py --repeat 6
 python -m pytest tests -q
 ```
+
+### The speech harnesses
+
+Two harnesses measure the conversation organ. Both are read-only against the
+live state; neither takes a patch or a shim.
+
+```bash
+# the 24 held-out asks, organ only: one freshly built house per ask.
+# Run ONE OR TWO SCRIPTS PER CALL -- the full set exceeds a shell timeout.
+python tools/heldout_eval.py --independent --only count-frequency
+# scripts: count-frequency, order-first-last, conjunction-and-absence,
+#          exact-repeat, hop-and-inventory, quantity-change
+
+# the eight guard scripts: four calls, two scripts each, output to a file.
+python tools/script_benchmark.py --only reference,accumulation > state/fitness/g.txt 2>&1
+# pairs: reference,accumulation | discrimination,role_chain |
+#        switch_back,override | session_context,where_kept
+```
+
+`python tools/mouth_probe.py <script> "<ask>"` replays one ask in-process.
+`python tools/hop_probe.py` and `python tools/quantity_probe.py` are the
+paraphrase-and-control harnesses for the two most recent mechanisms.
+
+**Current floor: 19 of 24** on the organ-only harness (`--independent`), with
+the full suite at 428 passed, 3 skipped and all eight guards at 1.00 warm and
+1.00 cold. The numbers and the hash they were measured at are recorded in
+`docs/speech_log.md` under "CLOSING STATE" and in `docs/STATE.md`.
+
+A cut against that floor is one of two kinds, and the kind is declared before
+the code: a **capability point** must move the 24 and is booked only then; a
+**generalisation credit** moves no ask because the suite is blind to it, is
+gated on unseen paraphrases written before the code, and never raises the floor.
 
 ### Talking to him directly
 
@@ -288,12 +339,12 @@ rather than assumed current.
 
 | Measure | Value |
 |---|---|
-| Vocabulary | approximately 4,500 words |
+| Vocabulary | 11,555 words (live state, closing measurement) |
 | Propositions in memory | approximately 60,000 |
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10; all 10 needed the oracle (state/fitness/heldout_firstcontact.json) |
 | Composite fitness score | 0.6834 at SAN_ROW_CAP=1024 (state/fitness/baseline_cap1024.json) |
-| Test suite | 352 passing, 3 skipped |
+| Test suite | 428 passing, 3 skipped (the previous figure, 352, was stale) |
 
 ## Data credit and citation
 
