@@ -1,3 +1,8 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-1a7f37?style=flat-square&labelColor=0d1117)](https://github.com/SebSilent/Droso/blob/main/LICENSE)
+[![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-0a3069?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
+[![Topology: 12,867 Nodes / 173,294 Synapses](https://img.shields.io/badge/Topology-12%2C867%20Nodes%20%2F%20173%2C294%20Synapses-5b2d8e?style=flat-square&labelColor=0d1117)](#substrate)
+[![Footprint: Python 3.10 + requirements.txt](https://img.shields.io/badge/Footprint-Python%203.10%20%2B%20requirements.txt-7d4e00?style=flat-square&labelColor=0d1117)](#install-and-run)
+
 # Droso
 
 Droso is an agent whose decision process runs on a reconstructed section of the
@@ -147,18 +152,19 @@ knowledge channel accepts text answers only.
 
 ## Repository layout
 
-```
-connectome/    BANC v888 source tables, substrate construction, rate dynamics, provenance
-core/          action space definition
-organs/        language, memory, reasoning, execution organs
-world/         connectome_house.py (HTTP interface), reasoning_agent.py, house/static/
-tools/         measurement, probes, corpus construction, gh-pages build
-tests/         pytest suites
-state/         persistent state: connectome weights, language memory, procedures, ledgers
-docs/          documentation; docs/archive/ holds historical records
-exocortex/     verified code fragments available to the assembler
-config/        runtime configuration, containing no credentials
-credentials.py per user credential storage, kept outside the repository
+```text
+Droso/
+├── connectome/     BANC v888 source tables, substrate construction, rate dynamics, provenance
+├── core/           action space definition
+├── organs/         language, memory, reasoning, execution organs
+├── world/          connectome_house.py (HTTP interface), reasoning_agent.py, house/static/
+├── tools/          measurement, probes, corpus construction, gh-pages build
+├── tests/          pytest suites
+├── state/          persistent state: connectome weights, language memory, procedures, ledgers
+├── docs/           documentation; docs/archive/ holds historical records
+├── exocortex/      verified code fragments available to the assembler
+├── config/         runtime configuration, containing no credentials
+└── credentials.py  per user credential storage, kept outside the repository
 ```
 
 ## Install and run
