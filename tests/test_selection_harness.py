@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import sys
 from pathlib import Path
 
@@ -80,16 +81,44 @@ class _StuckLang:
         object.__setattr__(self, name, value)
 
 
+# The committed organ-side scalars, as literals. The first version of this fixture
+# used 1.0 for all of them, which made every mutation test vacuous: with
+# ANSWER_COVERAGE_FLOOR at 1.0 every Gaussian draw clipped to the 0.75 bound, so
+# "three mutants are three genomes" failed and "the clip works" passed for the wrong
+# reason. The values are pinned against the committed base genome by the test below.
+REAL_ANSWER_GENES = {
+    "ANSWER_COVERAGE_FLOOR": 0.6, "reply_threshold": 0.55, "reply_drive_min": 0.3,
+    "max_sentence_words": 6, "speech_temperature": 0.35, "phrase_threshold": 6,
+    "FRESH_TAU_S": 3600.0, "FRESH_FLOOR_S": 300.0, "SAN_ROW_CAP": 1024.0,
+    "SAN_TOP_K": 512, "HEBB_LR": 0.1, "SAN_DECAY_PER_S": 0.995,
+}
+BASE_GENOME_ID = "abffa2b7f101"
+
+
 def base_genome() -> dict:
     """A base genome with the organ-side scalars filled in, as snapshot() would."""
     genes = rg.birth_genes()
-    genes["answer"] = {
-        **{k: 1.0 for k in rg.ANSWER_INSTANCE_GENES},
-        **{k: 1.0 for k in rg.ANSWER_MODULE_GENES},
-    }
+    genes["answer"] = dict(REAL_ANSWER_GENES)
     genes = rg._normalise(genes)
     return {"schema": rg.SCHEMA, "genes": genes, "genome_id": rg.gid(genes),
             "provenance": {}}
+
+
+def test_the_fixture_is_the_committed_base_genome_not_an_invention():
+    """Anti-drift: if the organ's defaults ever move, or the base genome is
+    re-snapshotted, this fails and says the fixture above is stale. Without it the
+    mutation tests would keep passing against a brain that no longer exists.
+    """
+    p = rg.SEL_DIR / "base_genome.json"
+    if not p.exists():
+        pytest.skip("no committed base genome; run --snapshot")
+    committed = json.loads(p.read_text(encoding="utf-8"))
+    assert committed["genome_id"] == BASE_GENOME_ID, committed["genome_id"]
+    assert committed["genes"]["answer"] == rg._normalise(
+        {"answer": dict(REAL_ANSWER_GENES)})["answer"]
+    # And the fixture's own id must be the committed one, or the two records
+    # describe different animals.
+    assert base_genome()["genome_id"] == BASE_GENOME_ID
 
 
 # ---------------------------------------------------------------- genome ----
@@ -325,6 +354,51 @@ def test_a_lost_frozen_pass_outranks_any_capability_gain():
     assert lost["select_key"] < [1, 0, 0]
 
 
+def test_the_third_key_term_is_the_guarded_count_not_the_paraphrase_count():
+    """A term in select_key is a gradient: whatever it rewards, selection will
+    eventually find. The first version of this harness put paraphrase_passed there,
+    which is selecting on the held-out tier -- the one thing the design forbids.
+    """
+    # Two guarded probes pass and one paraphrase probe passes, so the two candidate
+    # third terms are 2 and 1. If they were equal the test could not tell which one
+    # is in the key, and would pass either way.
+    bl = _baseline(frozen_pass_n=2, frozen_all=2, guard=["g1", "g2"], para=["p1"])
+    rows = _rows(2, 2, probe={"g1": ("a0", True), "g2": ("a0", True),
+                               "p1": ("a0", True)})
+    fit = rg.fitness_tuple(rows, bl, {"frozen": "f", "probes": rg.seal(rg.PROBE_TASKS)})
+    assert fit["regression"]["probe_guard_passed"] == 2
+    assert fit["generalisation"]["passed"] == 1
+    assert fit["generalisation"]["passed"] != fit["regression"]["probe_guard_passed"]
+    assert fit["select_key"] == [1, 2, 2], fit["select_key"]
+    assert fit["select_key"][2] == fit["regression"]["probe_guard_passed"]
+
+
+def test_a_paraphrase_gain_alone_cannot_make_a_mutant_the_survivor():
+    """The scenario that found the defect: a mutant identical to the control except
+    for one gained held-out probe. Under the old key it won. It must not."""
+    control = _line("g1-1", "parent", [1, 19, 4], mutation=False)
+    m = _line("g1-2", "mut1", [1, 19, 4])
+    d = rg.cull([control, m], control)
+    assert d["better_than_control"] == []
+    assert d["outcome"] == "no_gain"
+    assert d["survivor_genome_id"] == "parent"
+
+
+def test_a_phrasing_fitted_label_vetoes_a_line_that_would_otherwise_win():
+    """Section 3 says a labelled line cannot be declared a winner. A label nothing
+    reads is a comment, not a rule -- so cull() has to refuse it, and this is the
+    only direction the paraphrase tier is allowed to move an outcome.
+    """
+    control = _line("g1-1", "parent", [1, 19, 4], mutation=False)
+    winner = _line("g1-2", "mut1", [1, 21, 4])
+    winner["fitness"]["labels"] = ["phrasing_fitted:some ask"]
+    plain = _line("g1-3", "mut2", [1, 20, 4])
+    d = rg.cull([control, winner, plain], control)
+    assert d["eligible"] == ["g1-3"], d["eligible"]
+    assert d["survivor_line"] == "g1-3"
+    assert d["ineligible"][0]["phrasing_fitted"] == ["phrasing_fitted:some ask"]
+
+
 def test_a_frozen_gain_whose_own_paraphrases_still_fail_is_labelled():
     """Per-ask, not per-tier: the probe records the frozen ask it rewords, so a
     gain is checked against the rewordings of THAT ask. A tier average would hide
@@ -546,6 +620,273 @@ def test_the_committed_suite_still_matches_the_frozen_baseline():
     bl = json.loads(rg.BASELINE.read_text(encoding="utf-8"))
     assert rg.seal(rg.FROZEN_TASKS) == bl["frozen_seal"]
     assert rg.seal(rg.PROBE_TASKS) == bl["probe_seal"]
+
+
+# ------------------------------------------------------------ mutation ----
+
+class FixedRng:
+    """A rng that returns a chosen draw, so a clip can be tested without waiting
+    for a Gaussian to produce one by luck."""
+
+    def __init__(self, draw):
+        self.draw = draw
+
+    def gauss(self, mu, sigma):
+        assert mu == 0.0
+        return self.draw
+
+
+def test_the_only_operator_is_the_one_that_was_pre_registered():
+    """The whitelist IS the pre-registration. A second entry appearing here is a
+    change to the experiment and needs a dated entry in the design doc, so it is
+    pinned rather than left to review.
+    """
+    assert sorted(rg.MUTATIONS) == ["answer.ANSWER_COVERAGE_FLOOR"]
+    spec = rg.MUTATIONS["answer.ANSWER_COVERAGE_FLOOR"]
+    assert spec["base"] == 0.6
+    assert spec["sigma"] == 0.05
+    assert spec["bounds"] == (0.45, 0.75)
+    assert spec["section"] == "answer" and spec["gene"] == "ANSWER_COVERAGE_FLOOR"
+
+
+def test_a_mutation_moves_one_gene_and_nothing_else():
+    parent = base_genome()
+    child, rec = rg.mutate(parent, "answer.ANSWER_COVERAGE_FLOOR", FixedRng(-0.03))
+    diff = [(s, k, parent["genes"][s][k], child["genes"][s][k])
+            for s in parent["genes"] for k in parent["genes"][s]
+            if parent["genes"][s][k] != child["genes"][s][k]]
+    assert len(diff) == 1, diff
+    assert diff[0][:2] == ("answer", "ANSWER_COVERAGE_FLOOR")
+    assert diff[0][3] == 0.57
+    assert rec["value"] == 0.57 and rec["delta"] == -0.03
+    assert rec["draw"] == -0.03 and rec["raw"] == 0.57
+    assert rec["clipped"] is False
+    assert rec["parent_value"] == 0.6 and rec["sigma"] == 0.05
+
+
+def test_the_mutation_is_clipped_to_its_declared_bounds():
+    parent = base_genome()
+    for draw, want, clipped in ((-9.0, 0.45, True), (9.0, 0.75, True),
+                                (-0.14, 0.46, False), (0.14, 0.74, False)):
+        child, rec = rg.mutate(parent, "answer.ANSWER_COVERAGE_FLOOR",
+                               FixedRng(draw))
+        assert rec["value"] == want, (draw, rec)
+        assert rec["clipped"] is clipped, (draw, rec)
+        assert 0.45 <= child["genes"]["answer"]["ANSWER_COVERAGE_FLOOR"] <= 0.75
+
+
+def test_a_clipped_mutant_is_visibly_sitting_on_a_bound():
+    """Two draws beyond the same bound produce the same genome. That is not a bug,
+    but it must not look like two independent samples either, so the record carries
+    the raw pre-clip value and the clip flag."""
+    parent = base_genome()
+    a, ra = rg.mutate(parent, "answer.ANSWER_COVERAGE_FLOOR", FixedRng(-1.0))
+    b, rb = rg.mutate(parent, "answer.ANSWER_COVERAGE_FLOOR", FixedRng(-2.0))
+    assert a["genome_id"] == b["genome_id"]
+    assert ra["clipped"] and rb["clipped"]
+    assert ra["raw"] != rb["raw"] and ra["value"] == rb["value"] == 0.45
+
+
+def test_the_mutation_is_reproducible_from_its_seed():
+    """A generation's mutants must be regenerable from the recorded seed, or the
+    lineage names a genome nobody can rebuild."""
+    parent = base_genome()
+
+    def stream(seed):
+        rng = random.Random(seed)
+        return [rg.mutate(parent, "answer.ANSWER_COVERAGE_FLOOR", rng)[0]["genome_id"]
+                for _ in range(3)]
+
+    assert stream(7) == stream(7)
+    assert len(set(stream(7))) == 3, "one seed must still give three draws"
+    assert stream(8) != stream(7), "a different seed is a different generation"
+
+
+def test_a_gene_outside_the_whitelist_is_refused_not_improvised():
+    parent = base_genome()
+    with pytest.raises(KeyError) as exc:
+        rg.mutate(parent, "plasticity.lr", FixedRng(0.1))
+    assert "pre-registered" in str(exc.value)
+    with pytest.raises(KeyError):
+        rg.mutate(parent, "answer.reply_threshold", FixedRng(0.1))
+
+
+def test_the_mutant_records_its_parent_and_a_new_id():
+    parent = base_genome()
+    child, _ = rg.mutate(parent, "answer.ANSWER_COVERAGE_FLOOR", FixedRng(0.04))
+    assert child["parent_genome_id"] == parent["genome_id"]
+    assert child["genome_id"] != parent["genome_id"]
+    assert child["operator"] == "gauss:answer.ANSWER_COVERAGE_FLOOR"
+
+
+def test_a_first_generation_mutants_lineage_names_its_parent():
+    """A mutant being scored for the first time is in no published generation file,
+    so a walk that looks the CHILD up finds no parent and returns a lineage of
+    length one. Generation 1 shipped that; the verifier caught it. The walk has to
+    start from the parent it was handed.
+    """
+    parent = base_genome()
+    child, _ = rg.mutate(parent, "answer.ANSWER_COVERAGE_FLOOR", FixedRng(0.04))
+    assert child["genome_id"] not in _published_genome_ids()
+    lin = rg.lineage_of(child["genome_id"], child["parent_genome_id"])
+    assert lin == [parent["genome_id"], child["genome_id"]], lin
+
+
+def test_a_founder_lineage_is_just_itself():
+    parent = base_genome()
+    assert rg.lineage_of(parent["genome_id"], None) == [parent["genome_id"]]
+
+
+def test_a_control_clones_lineage_does_not_repeat_the_parent():
+    """The control's genome IS the parent's, so genome_id == parent_genome_id. The
+    walk must not emit the same id twice."""
+    parent = base_genome()
+    assert rg.lineage_of(parent["genome_id"], parent["genome_id"]) == [
+        parent["genome_id"]]
+
+
+def _published_genome_ids():
+    ids = set()
+    for p in rg.SEL_DIR.glob("generation_*.jsonl"):
+        if p.name.endswith("_asks.jsonl"):
+            continue
+        for line in p.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                ids.add(json.loads(line).get("genome_id"))
+    return ids
+
+
+def test_the_control_clone_is_the_parent_byte_for_byte():
+    """The control is the parent re-measured, so its genome must be identical
+    including the decision seeds. If it drifted, the difference between a mutant and
+    the control would no longer be the gene."""
+    parent = base_genome()
+    args = argparse.Namespace(mutants=3, lines=None,
+                              mutate="answer.ANSWER_COVERAGE_FLOOR", mut_seed=1)
+    pop = rg.build_population(args, parent)
+    assert len(pop) == 4
+    assert pop[0]["operator"] == "control-clone"
+    assert pop[0]["mutation"] is None
+    assert pop[0]["genome_id"] == parent["genome_id"]
+    assert rg.canon(pop[0]["genes"]) == rg.canon(parent["genes"])
+    ids = [g["genome_id"] for g in pop[1:]]
+    assert len(set(ids)) == 3, f"three mutants must be three genomes, got {ids}"
+    assert parent["genome_id"] not in ids
+    assert all(g["parent_genome_id"] == parent["genome_id"] for g in pop[1:])
+    assert [g["line_no"] for g in pop] == [1, 2, 3, 4]
+    assert [g["mutation"]["draw_index"] for g in pop[1:]] == [1, 2, 3]
+    assert all(0.45 <= g["genes"]["answer"]["ANSWER_COVERAGE_FLOOR"] <= 0.75
+               for g in pop[1:])
+
+
+def test_mutants_and_lines_are_two_answers_to_one_question():
+    parent = base_genome()
+    args = argparse.Namespace(mutants=3, lines=3,
+                              mutate="answer.ANSWER_COVERAGE_FLOOR", mut_seed=1)
+    with pytest.raises(SystemExit):
+        rg.build_population(args, parent)
+
+
+# ------------------------------------------------------------- culling ----
+
+def _line(name, gid_, key, lost=(), guard_lost=(), mutation=True):
+    return {"line": name, "genome_id": gid_,
+            "mutation": {"gene": "answer.ANSWER_COVERAGE_FLOOR",
+                         "value": 0.55} if mutation else None,
+            "fitness": {"select_key": list(key),
+                        "capability": {"pass_set": [], "passed": key[1], "asked": 24},
+                        "regression": {"frozen_lost_n": len(lost),
+                                       "frozen_lost": list(lost),
+                                       "probe_guard_lost": list(guard_lost)},
+                        "generalisation": {}, "stages": {}}}
+
+
+def test_a_mutant_that_lost_a_frozen_pass_is_never_eligible_however_well_it_scored():
+    control = _line("g1-1", "parent", [1, 19, 0], mutation=False)
+    greedy = _line("g1-2", "mut1", [0, 22, 3], lost=["s::a1"])
+    safe = _line("g1-3", "mut2", [1, 19, 0])
+    d = rg.cull([control, greedy, safe], control)
+    assert d["eligible"] == ["g1-3"]
+    assert [x["line"] for x in d["ineligible"]] == ["g1-2"]
+    assert d["ineligible"][0]["frozen_lost"] == ["s::a1"]
+    # The safe mutant tied the control, so the parent stands: changing the animal
+    # for no measured gain is not a neutral act.
+    assert d["outcome"] == "no_gain"
+    assert d["survivor_genome_id"] == "parent"
+
+
+def test_no_eligible_mutant_is_a_stall_and_the_parent_stands():
+    control = _line("g1-1", "parent", [1, 19, 0], mutation=False)
+    m1 = _line("g1-2", "mut1", [0, 21, 2], lost=["s::a1"])
+    m2 = _line("g1-3", "mut2", [0, 18, 1], guard_lost=["p1"])
+    m3 = _line("g1-4", "mut3", [0, 12, 0], lost=["s::a2", "s::a3"])
+    d = rg.cull([control, m1, m2, m3], control)
+    assert d["eligible"] == []
+    assert d["outcome"] == "stall"
+    assert d["survivor_line"] == "g1-1" and d["survivor_genome_id"] == "parent"
+    assert len(d["ineligible"]) == 3
+    assert d["stall_rule"]
+
+
+def test_a_lost_guarded_probe_disqualifies_even_with_a_frozen_gain():
+    control = _line("g1-1", "parent", [1, 19, 0], mutation=False)
+    m = _line("g1-2", "mut1", [1, 21, 2], guard_lost=["sel-exact-repeat::the bell turns how often?"])
+    d = rg.cull([control, m], control)
+    assert d["eligible"] == [] and d["outcome"] == "stall"
+    assert d["ineligible"][0]["probe_guard_lost"] == [
+        "sel-exact-repeat::the bell turns how often?"]
+
+
+def test_the_eligible_mutant_that_beats_the_control_survives():
+    control = _line("g1-1", "parent", [1, 19, 0], mutation=False)
+    m1 = _line("g1-2", "mut1", [1, 20, 0])
+    m2 = _line("g1-3", "mut2", [1, 21, 1])
+    d = rg.cull([control, m1, m2], control)
+    assert d["eligible"] == ["g1-2", "g1-3"]
+    assert d["better_than_control"] == ["g1-2", "g1-3"]
+    assert d["outcome"] == "survivor"
+    assert d["survivor_line"] == "g1-3" and d["survivor_genome_id"] == "mut2"
+
+
+def test_ranking_is_against_the_control_not_against_generation_zero():
+    """The control is the parent re-measured today. If the instrument moved between
+    generations, ranking against the old numbers would charge or credit the gene for
+    the machine."""
+    control = _line("g1-1", "parent", [1, 18, 0], mutation=False)
+    m = _line("g1-2", "mut1", [1, 19, 0])
+    d = rg.cull([control, m], control)
+    assert d["control_key"] == [1, 18, 0]
+    assert d["outcome"] == "survivor" and d["survivor_line"] == "g1-2"
+
+
+# ------------------------------------------------------------ movement ----
+
+def _fitrow(name, stages, frozen, guard, para):
+    return {"line": name, "genome_id": name, "mutation": None,
+            "fitness": {"stages": stages,
+                        "capability": {"pass_set": list(frozen)},
+                        "regression": {"probe_guard_pass_set": list(guard)},
+                        "generalisation": {"pass_set": list(para)}}}
+
+
+def test_movement_names_the_asks_that_changed_instead_of_counting_them():
+    ctrl = _fitrow("c", {"recall": 10, "mouth": 4}, ["a", "b"], ["g1"], [])
+    mut = _fitrow("m", {"recall": 8, "mouth": 4, "gating": 1}, ["a", "c"], [], ["p1"])
+    m = rg.movement(mut, ctrl)
+    assert m["stage_delta"] == {"gating": 1, "recall": -2}
+    assert m["recall_delta"] == -2 and m["recall_moved_out"] is True
+    assert m["frozen_gained"] == ["c"] and m["frozen_lost_vs_control"] == ["b"]
+    assert m["guard_lost"] == ["g1"] and m["guard_changed"] is True
+    assert m["paraphrase_gained"] == ["p1"] and m["paraphrase_changed"] is True
+
+
+def test_no_movement_reads_as_no_movement_rather_than_as_missing_data():
+    ctrl = _fitrow("c", {"recall": 10}, ["a"], ["g1"], [])
+    m = rg.movement(_fitrow("m", {"recall": 10}, ["a"], ["g1"], []), ctrl)
+    assert m["stage_delta"] == {} and m["recall_delta"] == 0
+    assert m["recall_moved_out"] is False
+    assert m["guard_changed"] is False and m["paraphrase_changed"] is False
+    assert m["frozen_gained"] == [] and m["frozen_lost_vs_control"] == []
 
 
 def test_the_harness_seals_both_eval_files():

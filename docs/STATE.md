@@ -82,6 +82,33 @@ three clones of one genome (`abffa2b7f101`), 42 asks each, 126 builds, 53 min.
 | state guard | live files untouched |
 | baseline frozen | 19 guarded passes, 4 guarded probes, 14 paraphrase probes, 0 ambiguous |
 
+Generation 1 then ran the pre-registered mutation step: 1 control clone plus 3
+mutants of `ANSWER_COVERAGE_FLOOR` (σ 0.05, bounds [0.45, 0.75], `--mut-seed 1`),
+168 builds, 78 min. The seed's three draws all landed **above** the base — 0.664409,
+0.672472, 0.603317 — which was declared in the design doc before the run, together
+with the consequence that the pre-registered prediction (about *lowering* the floor)
+was therefore not tested.
+
+| measure | result |
+|---|---|
+| frozen 24, all four lines | 19/24 |
+| guarded probes, all four lines | 4/4 |
+| paraphrase probes, all four lines | 0/14 |
+| failure stages, all four lines | recall 10, mouth 4, gating 3, shape_arbiter 2 — identical |
+| per-ask differences vs `g0-1`, all seven lines of both generations | **0** of 294 ask evaluations |
+| culling | `no_gain` — all three mutants eligible (lost nothing), none better than the control, so the parent `abffa2b7f101` stands |
+| state guard | live files untouched |
+
+`no_gain` is not the instruction's `stall`: a stall is when *no* mutant satisfies
+the constraint, and all three did. These satisfied it and gained nothing. The
+mutants are inert because raising the floor only affects an ask that answers with
+coverage in [0.60, new_floor), and the reach pre-flight found refusals at 34–57%
+with no recorded answer in that band.
+
+Suite after this step: **482 passed, 3 skipped**. `docs/evidence/verify_generation1.py`
+re-derives the stamps, the operator, the guards and the culling decision from the
+committed rows: 140 checks, all passing.
+
 The 19 passes and 5 failures are the same asks at the same stages as the `f2e1748`
 record above, measured on a different interpreter: `.venv` on this box is Python
 3.12.10 with numpy 2.5.4, not the 3.10 the README's install line creates. `py -3.10`

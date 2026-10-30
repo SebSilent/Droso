@@ -168,17 +168,30 @@ There is no scalar fitness and no weighted sum. Four terms, recorded separately:
 |---|---|---|
 | `capability` | the frozen 24, independent mode: `passed`, `score`, `pass_set`, and every failure with its stage | the only term that can *raise* a line |
 | `regression` | `frozen_lost` against the baseline pass set, plus the regression-guard probes: `probe_guard_lost`, `verdict` | a **hard constraint**, first in the key |
-| `generalisation` | the paraphrase probes: `passed`, `score`, `seal`, `seal_matches_baseline` | a **label**. It can disqualify a line that gained; it can never pay for a line that lost |
+| `generalisation` | the paraphrase probes: `passed`, `score`, `seal`, `seal_matches_baseline` | **report and veto only.** Not a term in `select_key`. It can cost a line the win via `phrasing_fitted`; it can never earn one |
 | `stages` | the failure-stage distribution over all asks | diagnostic. Never a score, never selected on |
 
 ```
 select_key = [1 if not (frozen_lost or probe_guard_lost) else 0,
               frozen_passed,
-              paraphrase_passed]
+              guarded_probe_passed]
 ```
 
 compared lexicographically. The first element is a gate, not a weight: a line that
 lost a frozen pass sorts below every line that did not, whatever else it gained.
+
+**The third term is the guarded-probe count and NOT the paraphrase count.** The
+first version of this harness used `paraphrase_passed` there, and a scenario run
+before generation 1 showed what that means: a mutant whose only difference from the
+control was one gained paraphrase probe became the survivor. That is selecting on
+the generalisation tier, which is the one thing §4.4 forbids.
+
+The reason is that a term in the key is a **gradient** — whatever it rewards,
+selection will eventually find, and a held-out set that can reward is a held-out set
+being trained on. So the paraphrase tier is permitted to influence an outcome in
+exactly one direction: `phrasing_fitted` demotes, and nothing promotes. A set that
+can only ever cost a line the win and never earn it one gives selection no reason to
+fit it. The asymmetry is the mechanism, not a caveat.
 
 **Why the stage distribution is in the tuple but not in the key.** It is the term
 that says *where* a change acted, and a cut that moves `recall` failures into
@@ -434,6 +447,96 @@ lines, and do not soften the guard to make a climb possible. Report the stall an
 go back to the surface. A harness that can be tuned until it improves is not
 measuring anything.
 
+### The seed, declared before generation 1 was run
+
+The pre-registration above fixes the gene, the base, the sigma and the bounds. It
+does not fix the draw seed, which is a free parameter and therefore has to be
+declared before the sample is inspected rather than after. **The rule is: the seed
+is `--mut-seed`, default 1, and generation 1 runs seed 1.** No re-rolling.
+
+Seed 1 was drawn and inspected with `--dry-run` before any evaluation, and it
+produced three draws **all on the same side of the base**:
+
+| line | draw | value |
+|---|---|---|
+| g1-2 | +0.064409 | 0.664409 |
+| g1-3 | +0.072472 | 0.672472 |
+| g1-4 | +0.003317 | 0.603317 |
+
+With σ=0.05 and three draws, `P(all one side) = 2 × (1/2)³ = 25%`, so this is an
+ordinary outcome of a small sample and not a suspicious one. But it has a
+consequence that is stated here rather than after the numbers arrive: **generation
+1 does not test the directional prediction above.** All three mutants *raise* the
+floor, and the prediction is about *lowering* it.
+
+What generation 1 does measure, and why it is still worth its 73 minutes:
+
+- whether the floor is load-bearing **above** 0.6 — the reach pre-flight found a
+  guarded frozen pass at 57% coverage that passes *by refusing*
+  (`where did i say the scarf is?`), so a raised floor keeps it refusing, but any
+  ask that currently answers with coverage in [0.60, 0.67) would be lost, and
+  nothing recorded so far says whether such an ask exists;
+- the control clone's re-measurement of the parent under today's conditions, which
+  is the reference the mutants are ranked against;
+- the mutation, lineage, movement and culling machinery end to end, which is this
+  step's actual deliverable.
+
+The three options that were considered and refused: re-rolling the seed until the
+draws straddle (choosing a sample after seeing the sample); raising `--mutants` so
+both sides are likely (the operator's n was fixed at 3 by the instruction); and
+stratifying the draws (a different operator than the one pre-registered). The
+lowering direction is generation 2's question, with its own seed declared the same
+way, before its own run.
+
+### What generation 2 is predicted to do, derived from generation 0's own data
+
+`docs/evidence/coverage_floor_reach.py` reads the coverage percentage out of every
+refusal reason in the generation-0 journal. Ten refusals carry one, at **34, 39, 42,
+45, 46, 51, 51, 54, 55%** — and one *pass* carries one too, at **57%**:
+`where did i say the scarf is?`, whose expect block is `require_refusal: true`, so it
+passes **by refusing** and its refusal reason records the coverage that produced it.
+
+That ordering is a structural fact about this battery, and it is awkward for the
+pre-registered direction. `answer()` reports coverage rounded to a whole percent, so
+"55%" is any `best_cov` in [0.545, 0.555) and "57%" is any in [0.565, 0.575). To
+admit the 55% ask the floor must fall to ≤ 0.545; to keep the 57% ask refusing the
+floor must stay above 0.565. **0.545 < 0.565, so no floor value separates them**:
+any floor low enough to gain `what did i tell you about before the kettle?` is also
+low enough to make `where did i say the scarf is?` answer, which fails its
+`require_refusal` and its `forbid: ["hook"]`.
+
+**Prediction for generation 2, written before it is run and falsifiable by it:** a
+lowering draw below ~0.565 loses at least one frozen pass — the scarf invariant —
+and is therefore **ineligible**, so the generation's outcome is `stall` rather than
+`no_gain`. A lowering draw that stays in (0.55, 0.60] changes nothing at all and
+gives `no_gain` again. There is no draw in the pre-registered bounds [0.45, 0.75]
+that gains the target ask without losing the guard.
+
+That is worth running anyway, for two reasons, and neither is to win: it tests
+whether the regression guard actually catches a loss in the direction the operator
+was designed for (so far it has only ever been exercised on lines that lost
+nothing), and a confirmed stall here is evidence that **the coverage floor is not a
+usable lever for the recall failures** — which redirects the next cut rather than
+consuming it. If generation 2 instead gains the ask and keeps the guard, this
+analysis is wrong and the rounding intervals above are the thing to re-check.
+
+The general lesson is the one the harness was built to enforce: a gene's reach has
+to be measured against *both* the failures it might fix and the passes it might
+break, and the frozen battery already contains a pass sitting above the failure in
+the same scalar's ordering. Nothing in the score alone would have shown that.
+
+### Reach, measured before the run rather than after
+
+`ANSWER_COVERAGE_FLOOR` was checked for reach against the generation-0 journal,
+which already records the coverage percentage in every refusal reason. The ten
+`recall` failures per line refused at **34%, 39%, 42%, 45%, 46%, 51%, 51%, 54%,
+55%** (one further `recall` row is a reply-gate refusal with no coverage). So the
+gene is not inert: a floor at 0.55 reaches the `before the kettle` ask, and the
+σ=0.05 window [0.55, 0.65] contains exactly one frozen failure's coverage and one
+guarded pass's. This is a reach measurement of the kind `fly_population.py` reports,
+not a tuning input — σ was not changed after seeing it, and the stall rule above
+forbids changing it after seeing the scores either.
+
 **Landing is a separate step and is not this one.** A winning genome is a set of
 scalars a tool applies at build time. It is **not** persisted into live state, so
 nothing about the live animal changes when a generation finishes. Landing a winner
@@ -443,6 +546,103 @@ log used when it refused the weighted rule: pytest (including
 eight guard scripts. A genome that wins here and is not landed has not changed
 Droso, and the record must say so — "the gain did not transfer" is the failure this
 project has already paid for once.
+
+### Generation 1, measured
+
+One control clone plus three mutants, 42 asks each, 168 builds, 78 minutes, one
+process. `state/selection/generation_1.jsonl`, per-ask journal beside it, and the
+rows as the run first wrote them kept at `generation_1_asrun.jsonl`.
+
+| line | genome | floor | frozen | guarded | paraphrase | stages | key |
+|---|---|---|---|---|---|---|---|
+| g1-1 | `abffa2b7f101` | 0.6 (control) | 19/24 | 4/4 | 0/14 | recall 10, mouth 4, gating 3, shape_arbiter 2 | [1, 19, 4] |
+| g1-2 | `fb6ca8c69a8b` | 0.664409 | 19/24 | 4/4 | 0/14 | identical | [1, 19, 4] |
+| g1-3 | `3754cbb05d24` | 0.672472 | 19/24 | 4/4 | 0/14 | identical | [1, 19, 4] |
+| g1-4 | `ec3685b7c701` | 0.603317 | 19/24 | 4/4 | 0/14 | identical | [1, 19, 4] |
+
+**All three mutants are inert.** Not "scored the same" — identical at the level of
+the individual ask. Comparing every line of both generations against `g0-1` on
+`(pass, stage)` per ask: **zero differences across all seven lines** — four carrying
+the parent genome `abffa2b7f101` and three carrying a mutant — over 294 ask
+evaluations. The stage distribution is byte-identical on all seven.
+
+**Culling: `no_gain`, the parent stands.** All three mutants were *eligible* — none
+lost a frozen pass or a guarded probe — and none was better than the control, so
+`select_key` ties and the tie goes to the parent. Note the distinction from the
+instruction's wording: a **stall** is the outcome where *no* mutant satisfies the
+constraint. That did not happen. These mutants satisfied it and gained nothing,
+which is a different record and a different next step.
+
+**The three questions, answered from the movement blocks:**
+
+- *Did failure-stage mass move out of `recall`?* **No.** `recall_delta = 0` on all
+  three mutants; the whole distribution is unchanged.
+- *Did any guarded probe change?* **No.** 4/4 on every line, `guard_gained` and
+  `guard_lost` both empty.
+- *Did any paraphrase probe change?* **No.** 0/14 on every line, both lists empty.
+
+**Why it was inert, from the reach measurement rather than guessed.** Raising the
+floor only affects an ask that currently *answers* with coverage in
+[0.60, new_floor). The pre-flight found refusals at 34–57% and no recorded answer
+in that band; the asks that pass either go through the dedicated paths (count,
+ordinal, disjunction, record, quantity), which never consult the coverage floor at
+all, or answer with coverage above 0.672. So all three values sit in a gap. The
+gene is real — §10's pre-flight shows exactly where it bites — but not at these
+values, and not in this direction.
+
+**The pre-registered directional prediction was not tested**, as declared before the
+run: all three draws raised the floor and the prediction is about lowering it. That
+is recorded as the generation's main limitation, ahead of its result.
+
+**The seed rule for generation 2, declared before it is run:** the seed is the
+generation number, so generation 2 uses `--mut-seed 2`. No re-rolling, and no
+inspecting a seed's draws before declaring the rule that picks it. If generation 2
+is also one-sided, the conclusion is that three draws at σ=0.05 cannot test a
+directional hypothesis — a finding about the design, and not a licence to keep
+drawing seeds until one cooperates.
+
+### Two defects this generation found, and how each was caught
+
+1. **`select_key`'s third term was the paraphrase count.** A scenario drive run
+   *before* generation 1 reached that code — five synthetic populations pushed
+   through `movement`, `cull` and `print_culling` — showed a mutant whose only
+   difference from the control was one gained held-out probe becoming the survivor.
+   That is selecting on the generalisation tier, which §4.4 forbids, and it was live
+   in the code the running generation had already imported. Fixed to the guarded
+   count, with the paraphrase tier permitted to influence an outcome only through
+   the demoting `phrasing_fitted` veto. `--recompute` re-derived the rows from the
+   ask journal under the corrected rule and printed both verdicts:
+   `[1, 19, 0]` as-run against `[1, 19, 4]` recomputed, **outcome `no_gain` either
+   way**. So generation 1's decision is not an artefact of which rule was in force,
+   and the as-run rows are still on disk to prove it.
+2. **`lineage_of` ignored its own `parent_id` argument.** It walked the published
+   generation files looking up the *child*, and a first-generation mutant is in no
+   published file yet, so its lineage came back as `[self]` — a chain that never
+   names the parent it was derived from. `docs/evidence/verify_generation1.py`
+   caught it on the committed record. Fixed to start the walk from the parent it was
+   handed; `--recompute` re-derives lineage, and four tests pin it, including the
+   founder and control-clone edge cases where `genome_id == parent_genome_id` and the
+   walk must not emit the same id twice.
+
+Both were found by an instrument rather than by reading, and the second only
+because the verifier was written to check the record rather than the console.
+
+Also added on the way: `--dry-run`, which prints a generation's genome ids and
+mutation values before it commits an hour of builds, and is what surfaced the
+one-sided sample; and `--recompute`, which rebuilds a generation's rows from its
+ask journal under the current rules while keeping the as-run copy, so a rule change
+made mid-run is visible instead of silent.
+
+**The four generation-1 files on disk, and why none was deleted.**
+`generation_1_asks.jsonl` is the primary record — 168 per-ask rows, written as they
+landed, and the only file the two others are derived from. `generation_1_asrun.jsonl`
+is what the run itself published, carrying the pre-correction `select_key`
+(`[1, 19, 0]`) and the broken one-element lineage. `generation_1.jsonl` is current:
+corrected key (`[1, 19, 4]`) and correct lineage. `generation_1_prev_20261030_023548.jsonl`
+is the intermediate from the second recompute — corrected key, still-broken lineage
+— kept because it is the only artefact showing the two fixes landed separately
+rather than together. Deleting records is how this project lost a memory file once;
+13 KB is cheaper than that lesson.
 
 ## 9. What would invalidate a result
 
@@ -613,3 +813,22 @@ the live tree untouched.
   (428 + the 31 in `tests/test_selection_harness.py`), which gained two tests since
   the entry above: the frozen-seal refusal, checked against a modified copy so the
   committed suite is never touched, and its converse.
+- 2026-10-30 — generation 1 run: the pre-registered mutation step, 1 control clone
+  plus 3 mutants of `ANSWER_COVERAGE_FLOOR`, 168 builds, 78 min. Seed 1 declared
+  before the run and its three draws all landed above the base (0.664409, 0.672472,
+  0.603317), so the directional prediction was not tested — declared in §8 before
+  the run rather than explained after it. Result: all three mutants **inert**, zero
+  per-ask differences across all seven lines of both generations (294 evaluations),
+  culling `no_gain` with the parent `abffa2b7f101` standing. `no_gain`, not `stall`:
+  every mutant satisfied the constraint and none gained. Two defects found and
+  fixed — `select_key`'s third term was the paraphrase count, i.e. selection was
+  training on the held-out tier, caught by a scenario drive before the live run
+  reached that code and corrected to the guarded count with the paraphrase tier
+  demote-only; and `lineage_of` ignored its `parent_id`, so first-generation mutants
+  recorded a lineage of `[self]`, caught by `docs/evidence/verify_generation1.py` on
+  the committed record. `--recompute` re-derived the rows from the ask journal under
+  the corrected rule and printed both verdicts (`no_gain` either way), keeping the
+  as-run rows at `generation_1_asrun.jsonl`. Added `--dry-run` and `--recompute`.
+  Seed rule for generation 2 declared in advance: the seed is the generation number.
+  Suite **482 passed, 3 skipped**; `verify_generation1.py` 140 checks, all passing.
+  Nothing landed, no core code touched, live animal unchanged.
