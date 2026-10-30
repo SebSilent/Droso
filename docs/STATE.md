@@ -214,6 +214,48 @@ rows, so value-weighted eviction is not needed for small episodes — only once 
 row ages far enough that 60,000 further binds reach it.
 
 Suite after this step: **509 passed, 3 skipped**.
+
+## Section 7a landed, and E2 measured it (`876dde0` + episode 2)
+
+`WITNESS_W` (`organs/neural_language.py:483`) gained `"you": 1.0`. One entry in one
+class constant, landed alone so a regression is attributable to it. Its only reader is
+`consolidate()`'s value function, which did `.get(who, 0.6)` — and 0.6 is exactly the
+`book` weight, so user testimony had been scoring as corpus at every count.
+
+Three proofs, as the design requires:
+
+| proof | result |
+|---|---|
+| guarded behaviour unchanged | generation 3, one control line on the changed tree: 19/24 frozen, 4/4 guarded, and **0 of 42 asks differ** from the pre-change reference on `(pass, stage)`. Across 12 lines / 504 evaluations the only two differences anywhere remain generation 2's mutant gene effects |
+| consolidation selection, before/after | `docs/evidence/consolidation_census.py`, replica validated against the real function's counters (2000/294/200). **Byte-identical** before and after on live state — which holds zero `you` rows, so there was nothing for the new weight to act on. That is the no-unintended-perturbation proof, not the intended-effect proof |
+| suite | 510 passed, 3 skipped |
+
+Episode 2 then measured the intended effect in vivo, and **all six pre-registered
+predictions confirmed**:
+
+| measure | E1 (pre-7a, seed 1) | E2 (post-7a, seed 2) |
+|---|---|---|
+| acquisition | 20/20 | **20/20** |
+| generalisation | 2/20 (reverse-role 2/2, question-word 0/6, passive 0/12) | **3/20** (reverse-role **3/3**, question-word **0/10**, passive **0/7**) |
+| frozen / guarded / erosion | 19/24, 4/4, none | **19/24, 4/4, none** |
+| evicted / added | 22 all `book` count 1 / 20 `you` + 2 `droso` | **23 all `book` count 1 / 20 `you` + 3 `droso`** |
+| SAN nnz / total weight | +0 / −30,211 | **+0 / −41,930** |
+| consolidation picked, `you` rows | **0** | **6** (of `taught_urgent` 6) |
+
+The last row is the point of §7a: consolidation went from never selecting a taught
+fact to selecting **every** one that was eligible for replay. Learning repeats on fresh
+material (acquisition 20/20 on a different seed), and rung 2's brittleness reproduces
+exactly on facts taught seconds earlier — so it is a property of the answer path, and
+teaching more facts will not move it.
+
+One guarded ask's stage moved (`sel-exact-repeat::which thing turns twice?`, recall →
+mouth, failing either way); pass sets are identical across all four measurements and
+episode 1 against the pre-7a control shows 0 differences, so the cause is the shadow's
+different taught material, not §7a. **Stage maps are comparable across generations on
+the same state but not across episodes with different material.**
+
+§7b (value-weighted eviction) is not started. Nothing was promoted to live state.
+Suite after this step: **510 passed, 3 skipped**.
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
 | `docs/evidence/` | raw run output cited by the docs |

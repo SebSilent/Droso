@@ -359,6 +359,33 @@ def main() -> int:
         taught.append({"tell": f["tell"], "spoken": bool(
             (turn.get("reply") or {}).get("spoken"))})
     teach_s = round(time.time() - t0, 1)
+    # How many of the just-taught rows are BELOW the urgency line, i.e. eligible for
+    # replay at all. consolidate() repairs decayed wiring; it does not rehearse what
+    # is already strong. Without this number a "no taught rows were picked" result is
+    # undecidable between two very different facts: that 7a did not change the
+    # ranking, or that the ranking changed and correctly found nothing to repair.
+    taught_urgent = 0
+    try:
+        w = lang.san_w
+        fp = lang._fp_idx
+        for f in gen["facts"]:
+            toks = f["tell"].split()
+            weakest = None
+            for x, y in zip(toks, toks[1:]):
+                ia, ib = fp(x), fp(y)
+                if ia.size == 0 or ib.size == 0:
+                    continue
+                wm = float(w[np.ix_(ia, ib)].max())
+                if weakest is None or wm < weakest:
+                    weakest = wm
+            if weakest is not None and weakest < 0.1:
+                taught_urgent += 1
+    except Exception as exc:
+        taught_urgent = -1
+        print(f"  taught-urgency probe failed: {type(exc).__name__}: {exc}")
+    print(f"  taught rows below the 0.1 urgency line (eligible for replay): "
+          f"{taught_urgent}/{len(gen['facts'])}")
+
     consol = None
     if not a.no_consolidate:
         t0 = time.time()
@@ -417,8 +444,17 @@ def main() -> int:
                       "rejections": gen["rejections"],
                       "frames": batch["frames"]},
         "teaching": {"taught": len(taught), "seconds": teach_s,
+                     "taught_urgent": taught_urgent,
                      "consolidated": not a.no_consolidate,
-                     "consolidate": consol, "taught_rows": taught},
+                     "consolidate": consol,
+                     # Who consolidation actually picked, from its own returned
+                     # sample. consolidate() caps `deltas` at 20 of `budget`, so this
+                     # is a SAMPLE and is recorded as one: enough to show whether
+                     # testimony is being selected at all, not enough to be a
+                     # distribution.
+                     "consolidate_picked_who": _who_of((consol or {}).get("deltas")),
+                     "consolidate_sample_n": len((consol or {}).get("deltas") or []),
+                     "taught_rows": taught},
         "eval": {"frozen_passed": fit["capability"]["passed"],
                  "frozen_asked": fit["capability"]["asked"],
                  "guard_passed": reg.get("probe_guard_passed"),
@@ -546,6 +582,14 @@ def _journal(p: Path) -> list:
         return []
     return [json.loads(l) for l in
             Path(p).read_text(encoding="utf-8").splitlines() if l.strip()]
+
+
+def _who_of(deltas) -> dict:
+    out = {}
+    for d in deltas or []:
+        k = str(d.get("who") or "?")
+        out[k] = out.get(k, 0) + 1
+    return dict(sorted(out.items()))
 
 
 def _by_frame(rows: list) -> dict:

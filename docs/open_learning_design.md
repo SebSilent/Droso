@@ -700,6 +700,60 @@ number would be measured against a contaminated state. Acquisition 0 → the bin
 or the reply gate, not eviction, is the first blocker, and the ladder's rung 1 is
 wrong about what it measures.
 
+### E2, measured
+
+20 facts, seed 2, 82 asks, 2,059 s (34 min), one shadow, live state never written.
+`state/lineage/episodes.jsonl` episode 2. **Verdict PASS — all five gates.**
+
+| | E1 (pre-7a, seed 1) | E2 (post-7a, seed 2) | prediction |
+|---|---|---|---|
+| acquisition | 20/20 | **20/20** | P1 ≥18/20 — **confirmed** |
+| generalisation | 2/20 | **3/20** | P2 — **confirmed** |
+| — reverse role | 2/2 | **3/3** | most or all — **confirmed** |
+| — question-word swap | 0/6 | **0/10** | 0 — **confirmed** |
+| — passive | 0/12 | **0/7** | 0 — **confirmed** |
+| frozen / guarded | 19/24, 4/4 | **19/24, 4/4** | P3 unchanged — **confirmed** |
+| erosion | none | **none** | gate — **held** |
+| evicted | 22, all `book` count 1 | **23, all `book` count 1** | P4 — **confirmed** |
+| added | 20 `you`, 2 `droso` | **20 `you`, 3 `droso`** | P4 — **confirmed** |
+| SAN nnz | +0 | **+0** | P6 — **confirmed** |
+| SAN total weight | −30,211 | **−41,930** | falls again — **confirmed** |
+| consolidation picked, `you` | **0** | **6** | P5b — **confirmed** |
+
+**P5 resolved, and it is the result §7a was for.** `taught_urgent` was **6 of 20** —
+six taught rows sat below the 0.1 urgency line and were therefore eligible for replay
+at all. Consolidation's picked sample came back `{book 1, droso 11, parent 2, you 6}`:
+**all six eligible taught rows were selected.** Episode 1, pre-7a, picked
+`{book 2, droso 16, parent 2}` — **zero `you`** — with 20 taught rows sitting in the
+same binder. So the one-entry change moved consolidation's selection in vivo from
+never protecting a taught fact to protecting every one that needed it, which is
+exactly the mechanism §3.2 said was broken and §7a said it would fix. The sample is
+20 of 200 picked and is recorded as a sample, but six of six appearing in it means the
+taught rows rank near the top, not merely inside the budget.
+
+**Learning repeats on fresh material.** Acquisition 20/20 on a different seed with
+different facts, and displacement the same in kind. Rung 1 is not a one-off.
+
+**Rung 2 is confirmed to be an answer-path property, not a memory property.** H2 0/10
+and H3 0/12 on facts taught seconds earlier, reproducing E1's 0/6 and 0/12 on a
+different seed. Reverse-role again passed on every fact it was assigned (3/3, and 2/2
+in E1), so the fact is stored as a relation queryable from either end — but the
+surface form has to contain a literal `what` and has to be active voice. Five asks
+across two seeds is still a small sample for H1 and is reported as such.
+
+**One stage moved, and it is bounded and explained.** The guarded battery's stage map
+went from `recall 10, mouth 4` to `recall 9, mouth 5`. Per-ask comparison across four
+measurements finds exactly one difference: `sel-exact-repeat::which thing turns
+twice?`, which **fails either way** and moved from `recall` to `mouth`. Pass sets are
+identical across all four (23 each), erosion is zero, and episode 1 against the
+pre-7a control shows **0 differences** — so the shift is caused by episode 2's shadow
+holding 20 different taught rows, not by §7a (generation 3 already ruled that out on
+live state, 0 of 42 asks differing). The lesson is a limit on the diagnostic, and it
+is recorded because §3 leans on stage maps: **stage distributions are comparable
+across generations on the same state, but not across episodes whose taught material
+differs.** An already-failing ask's stage attribution is sensitive to what else is in
+the binder.
+
 ## 9. What would invalidate the programme
 
 Recorded so the checks are not invented after the fact.
@@ -760,3 +814,26 @@ Recorded so the checks are not invented after the fact.
   a vacuous PASS to FAIL with the original kept in a `correction` block and the ledger
   backed up first. Suite **509 passed, 3 skipped**. No core code modified, nothing
   promoted to live state, `state/lineage/` now holds the ledger.
+- 2026-10-30 — **§7a landed alone** (`876dde0`): `WITNESS_W` gains `"you": 1.0`. All
+  three required proofs attached — generation 3 shows 0 of 42 guarded-battery asks
+  differing from the pre-change reference (504 evaluations across 12 lines, noise
+  floor still zero); `docs/evidence/consolidation_census.py` shows the before/after
+  selection byte-identical on live state (which holds zero `you` rows) with its
+  replica validated against the real function's counters; suite green. The test
+  written to fail on this fix failed and was updated deliberately, with the census in
+  its docstring. §7b not started.
+- 2026-10-30 — **E2 run and PASSED, all five gates**, and every one of the six
+  pre-registered predictions confirmed. Acquisition 20/20 on fresh material, so
+  learning repeats. Generalisation 3/20 — reverse-role 3/3, question-word swap 0/10,
+  passive 0/7 — confirming rung 2 is an answer-path property and not a memory one.
+  Frozen 19/24 and guarded 4/4 unchanged, erosion none, 23 rows evicted all `book`
+  count 1 with 20 `you` added, SAN nnz +0. **P5b confirmed: `taught_urgent` 6 of 20
+  and consolidation's picked sample contains all six `you` rows, against zero in
+  episode 1 pre-7a** — the one-entry change moved consolidation from never protecting
+  a taught fact to protecting every one that needed it. One guarded ask's stage moved
+  (`which thing turns twice?`, recall → mouth, failing either way); pass sets
+  identical across all four measurements and episode 1 vs the pre-7a control shows 0
+  differences, so the cause is the shadow's different taught material and not §7a.
+  Recorded as a limit on the stage-map diagnostic: comparable across generations on
+  the same state, not across episodes with different material. Suite **510 passed,
+  3 skipped**. Nothing promoted to live state; §7b still not started.
