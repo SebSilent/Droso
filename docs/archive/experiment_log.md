@@ -7,10 +7,10 @@ Design decisions and findings from giving Droso a conversational harness
 `tools/scripts.json`). Recorded, not fixed. All numbers from runs against the
 live read-only state (11,555 words, 60,000 propositions, 66,107,030 SAN nnz).
 
-## The standard: two kinds of cut
+## The standard prior agents used: two kinds of cut
 
-Every cut offered against the held-out organ suite is **one of two kinds**, and
-the kind must be declared before the code is written.
+Every cut offered by prior agents against the held-out organ suite was declared
+as one of two kinds, and the kind was declared before the code was written.
 
 **1. A capability point.** It must **move the 24** -- at least one ask that
 failed now passes. It is **booked only then**, with zero frozen passes lost,
