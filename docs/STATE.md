@@ -109,6 +109,41 @@ Suite after this step: **482 passed, 3 skipped**. `docs/evidence/verify_generati
 re-derives the stamps, the operator, the guards and the culling decision from the
 committed rows: 140 checks, all passing.
 
+Generation 2 ran the same operator with `--mut-seed 2` (the declared rule: seed =
+generation number), as a **negative-control guard test**. Its draws were 0.716908,
+0.566857 and 0.619743 — one lowering, two raising.
+
+| line | floor | frozen | guarded | verdict | what moved |
+|---|---|---|---|---|---|
+| g2-1 control | 0.6 | 19/24 | 4/4 | clean | — |
+| g2-2 | 0.716908 | 19/24 | **3/4** | LOST | the guarded probe `the bell turns how often?` became a recall refusal |
+| g2-3 | 0.566857 | **18/24** | 4/4 | LOST | `where did i say the scarf is?` stopped refusing, so its `require_refusal` invariant broke |
+| g2-4 | 0.619743 | 19/24 | 4/4 | clean | nothing |
+
+Outcome `no_gain`, parent `abffa2b7f101` stands: one mutant eligible, none better
+than the control. **The regression guard caught a loss in both directions**, which
+was the point of the run — until generation 2 the guard had only ever been exercised
+on lines that lost nothing.
+
+`docs/evidence/coverage_exact.py` measured the unrounded coverages behind those two
+asks before the run (target 0.555, scarf invariant 0.570; `converse._clean()` strips
+`coverage` from the reply, so the journal only ever held the whole-percent string).
+That corrected a threshold derived from rounded percentages, and it brackets the
+lever: the usable band is roughly (0.570, ~0.70), the committed 0.6 already sits
+inside it, and both directions are destructive within ±0.12 at σ 0.05. **The
+coverage-floor lever is closed** and the stall rule applies — σ, bounds, whitelist
+and guards were not changed.
+
+Stability across all eleven lines of three generations
+(`docs/evidence/cross_generation_stability.py`): 462 ask evaluations, five lines
+carrying the parent genome with **zero** differences between them, and exactly two
+differences anywhere in the record — one on g2-2, one on g2-3, each a single ask,
+each attributable to the mutated gene. No unexplained variation.
+
+Suite after this step: **484 passed, 3 skipped** (56 in
+`tests/test_selection_harness.py`). `verify_generation1.py --generation 2`: 140
+checks, all passing.
+
 The 19 passes and 5 failures are the same asks at the same stages as the `f2e1748`
 record above, measured on a different interpreter: `.venv` on this box is Python
 3.12.10 with numpy 2.5.4, not the 3.10 the README's install line creates. `py -3.10`

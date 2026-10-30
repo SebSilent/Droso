@@ -864,9 +864,14 @@ def test_ranking_is_against_the_control_not_against_generation_zero():
 def _fitrow(name, stages, frozen, guard, para):
     return {"line": name, "genome_id": name, "mutation": None,
             "fitness": {"stages": stages,
-                        "capability": {"pass_set": list(frozen)},
-                        "regression": {"probe_guard_pass_set": list(guard)},
-                        "generalisation": {"pass_set": list(para)}}}
+                        "capability": {"pass_set": list(frozen),
+                                       "passed": len(frozen), "asked": 24},
+                        "regression": {"probe_guard_pass_set": list(guard),
+                                       "probe_guard_passed": len(guard),
+                                       "probe_guard_asked": len(guard)},
+                        "generalisation": {"pass_set": list(para),
+                                           "passed": len(para), "asked": len(para)},
+                        "labels": []}}
 
 
 def test_movement_names_the_asks_that_changed_instead_of_counting_them():
@@ -887,6 +892,43 @@ def test_no_movement_reads_as_no_movement_rather_than_as_missing_data():
     assert m["recall_moved_out"] is False
     assert m["guard_changed"] is False and m["paraphrase_changed"] is False
     assert m["frozen_gained"] == [] and m["frozen_lost_vs_control"] == []
+
+
+def test_a_gene_effect_is_not_reported_as_instrument_noise(capsys):
+    """Generation 2 lost a frozen pass to a mutated coverage floor and the summary
+    printed it as "UNSTABLE across identical genomes ... the instrument's noise
+    floor". The genomes were not identical. That is the one mislabelling that could
+    get a real regression dismissed as jitter, so noise is now only what differs
+    between lines carrying the SAME genome id, and a cross-genome difference is
+    printed as a gene effect with the gene and its value attached.
+    """
+    ctrl = _fitrow("c", {"recall": 10}, ["a", "scarf"], ["g1"], [])
+    ctrl["genome_id"] = "parentid"
+    ctrl["mutation"] = None
+    mut = _fitrow("m", {"recall": 9, "shape_arbiter": 1}, ["a"], ["g1"], [])
+    mut["genome_id"] = "mutantid"
+    mut["mutation"] = {"gene": "answer.ANSWER_COVERAGE_FLOOR", "value": 0.566857}
+    mut["movement"] = rg.movement(mut, ctrl)
+    rg.print_generation([ctrl, mut])
+    out = capsys.readouterr().out
+    assert "scarf" in out
+    assert "GENE EFFECT" in out and "0.566857" in out
+    assert "noise: none" in out, out
+    assert "UNSTABLE across identical genomes" not in out
+
+
+def test_real_noise_between_clones_is_still_called_noise(capsys):
+    """The other half: two lines of ONE genome disagreeing is the instrument, and
+    must still be labelled as such rather than as a gene effect."""
+    a = _fitrow("c1", {"recall": 10}, ["x", "y"], [], [])
+    b = _fitrow("c2", {"recall": 10}, ["x"], [], [])
+    for r in (a, b):
+        r["genome_id"] = "sameid"
+        r["mutation"] = None
+    rg.print_generation([a, b])
+    out = capsys.readouterr().out
+    assert "NOISE (1)" in out and "y" in out
+    assert "GENE EFFECT" not in out
 
 
 def test_the_harness_seals_both_eval_files():

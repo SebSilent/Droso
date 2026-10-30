@@ -20,6 +20,12 @@ What it pins:
               no-gain keep the parent, no eligible mutant is a stall
   movement    every mutant names the asks that changed rather than only counting them
 
+Despite the filename this is generation-parameterised and makes no assumption
+specific to generation 1 -- it was written for that run and the name stuck. Use
+--generation N for any mutant generation. Generation 0 has its own checker,
+verify_selection_checkpoint.py, because a clone generation has no mutation, no
+culling decision and no movement blocks to verify.
+
   py -3.10 docs/evidence/verify_generation1.py [--generation 1]
 """
 import argparse

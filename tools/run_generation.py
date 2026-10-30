@@ -911,24 +911,53 @@ def print_generation(rows: list) -> None:
     print("\nFAILURE STAGES per line:")
     for r in rows:
         print(f"  {r['line']:8s} {json.dumps(r['fitness']['stages'])}")
-    ids = {r["genome_id"] for r in rows}
-    print(f"\ngenome ids in this generation: {sorted(ids)} "
-          f"({'ONE genome, clones' if len(ids) == 1 else 'distinct genomes'})")
-    sets = [set(r["fitness"]["capability"]["pass_set"]) for r in rows]
-    if len(sets) > 1:
-        union, inter = set().union(*sets), set(sets[0]).intersection(*sets)
-        unstable = sorted(union - inter)
-        print(f"MEMBERSHIP: {len(inter)} asks passed in every line, "
-              f"{len(union)} in at least one")
-        if unstable:
-            print(f"  UNSTABLE across identical genomes ({len(unstable)}): "
-                  f"this is the instrument's noise floor, not a capability "
-                  f"difference")
-            for u in unstable:
-                print(f"     {u}")
-        else:
-            print("  no ask changed membership: the instrument is reproducible "
-                  "at the level of the ask, not just the score")
+    by_genome = {}
+    for r in rows:
+        by_genome.setdefault(r["genome_id"], []).append(r)
+    print(f"\ngenome ids in this generation: {len(by_genome)} "
+          f"({'ONE genome, clones' if len(by_genome) == 1 else 'distinct genomes'})")
+    for g in sorted(by_genome):
+        print(f"  {g}  {[r['line'] for r in by_genome[g]]}")
+
+    # NOISE and GENE EFFECT are different things and must not share a label.
+    # Disagreement between lines carrying the SAME genome is the instrument. An ask
+    # that differs between DIFFERENT genomes is the gene doing what it was mutated
+    # to do. The first version of this block pooled every line together and printed
+    # a mutation's real effect as "UNSTABLE across identical genomes ... the
+    # instrument's noise floor" -- generation 2 did exactly that to the scarf
+    # invariant, which is the one mislabelling that could get a genuine regression
+    # dismissed as jitter.
+    noise = set()
+    for g, grp in by_genome.items():
+        if len(grp) > 1:
+            s = [set(r["fitness"]["capability"]["pass_set"]) for r in grp]
+            noise |= set().union(*s) - set.intersection(*s)
+    allsets = [set(r["fitness"]["capability"]["pass_set"]) for r in rows]
+    inter = set.intersection(*allsets) if allsets else set()
+    union = set().union(*allsets) if allsets else set()
+    print(f"MEMBERSHIP: {len(inter)} asks passed in every line, "
+          f"{len(union)} in at least one")
+    if noise:
+        print(f"  NOISE ({len(noise)}): differs between lines carrying the SAME "
+              f"genome -- this is the instrument, not a capability difference")
+        for u in sorted(noise):
+            print(f"     {u}")
+    else:
+        print("  noise: none. Every genome's lines agree ask for ask, so the "
+              "instrument is reproducible at the level of the ask, not just the "
+              "score")
+    if len(by_genome) > 1:
+        ref = by_genome[sorted(by_genome, key=lambda g: -len(by_genome[g]))[0]]
+        base_set = set.intersection(*[set(r["fitness"]["capability"]["pass_set"])
+                                      for r in ref]) if ref else set()
+        for r in rows:
+            s = set(r["fitness"]["capability"]["pass_set"])
+            gained, lost = sorted(s - base_set), sorted(base_set - s)
+            if gained or lost:
+                mv = r.get("mutation") or {}
+                print(f"  GENE EFFECT on {r['line']} "
+                      f"({mv.get('gene', 'parent')}={mv.get('value', '-')}): "
+                      f"gained {gained or '-'}  lost {lost or '-'}")
 
 
 # ------------------------------------------------------------ baseline ----
@@ -1151,6 +1180,22 @@ def cmd_run(args) -> int:
     if baseline is None:
         print(f"\nnext: py -3.10 tools/run_generation.py --freeze-baseline "
               f"--generation {args.generation}")
+    return 0
+
+
+def cmd_report(args) -> int:
+    """Re-print a generation's summary from its published rows. Reads nothing else
+    and writes nothing, so a summary can be regenerated after a reporting fix
+    without touching the record the fix was needed for."""
+    p = SEL_DIR / f"generation_{args.generation}.jsonl"
+    if not p.exists():
+        print(f"no generation {args.generation} at {p}")
+        return 1
+    rows = [json.loads(l) for l in p.read_text(encoding="utf-8").splitlines() if l.strip()]
+    dec = rows[0].get("culling") if rows else None
+    if dec:
+        print_culling(dec, rows)
+    print_generation(rows)
     return 0
 
 
@@ -1384,6 +1429,9 @@ def main() -> int:
     ap.add_argument("--line-no", type=int, default=1, help=argparse.SUPPRESS)
     ap.add_argument("--genome-file", default=None, help=argparse.SUPPRESS)
     ap.add_argument("--worker-out", default=None, help=argparse.SUPPRESS)
+    ap.add_argument("--report", action="store_true",
+                    help="re-print a generation's selection and membership summary "
+                         "from its published rows; reads and writes nothing else")
     ap.add_argument("--recompute", action="store_true",
                     help="rebuild generation_N.jsonl from its ask journal with the "
                          "current fitness and selection rules, keeping the as-run "
@@ -1391,6 +1439,8 @@ def main() -> int:
     a = ap.parse_args()
     if a.worker:
         return cmd_worker(a)
+    if a.report:
+        return cmd_report(a)
     if a.recompute:
         return cmd_recompute(a)
     if a.snapshot:

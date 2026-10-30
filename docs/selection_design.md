@@ -381,6 +381,18 @@ a genome; `verify_saved.py` exists only to close that gap. A generation file her
 is self-contained: one line is enough to rebuild the brain and re-derive the
 score.
 
+**A known gap in the ask journal, recorded rather than patched mid-experiment.**
+The journal keeps `reason`, which carries the coverage as a whole percent, but not
+`coverage` itself — `converse._clean()` strips it from the reply before
+`Session.ask` returns, and its keep-list does not include it. That cost a
+measurement: the reach analysis in §8 had to be redone at full precision by
+`docs/evidence/coverage_exact.py`, which calls `respond()` directly, and the
+corrected boundaries (0.555 and 0.570) differ from the ones the rounded strings
+implied. Adding `coverage` to `_clean()`'s keep-list is a one-word change to a
+shared tool that `heldout_eval` also uses, so it was **not** made while a generation
+was in flight — changing a shared instrument mid-run is how two campaigns end up
+uncomparable. It is the first change to make before generation 3.
+
 `state/selection/generation_N_asks.jsonl` holds one row per ask as it lands, so a
 killed run keeps its work. It is written under `state/sessions/_selection/` during
 the run and published to `state/selection/` only **after** the state guard has
@@ -511,6 +523,49 @@ and is therefore **ineligible**, so the generation's outcome is `stall` rather t
 `no_gain`. A lowering draw that stays in (0.55, 0.60] changes nothing at all and
 gives `no_gain` again. There is no draw in the pre-registered bounds [0.45, 0.75]
 that gains the target ask without losing the guard.
+
+**That threshold was derived from rounded percentages and is corrected here, before
+generation 2 was run, by measuring the unrounded values.**
+`docs/evidence/coverage_exact.py` calls `respond()` directly rather than through
+`Session.ask`, because `converse._clean()` strips `coverage` from the reply and that
+is why the journal only ever held the whole-percent string. Measured:
+
+| ask | coverage | status |
+|---|---|---|
+| `what did i tell you about before the kettle?` | **0.555** | frozen failure, `stage=recall` |
+| `where did i say the scarf is?` | **0.570** | frozen **pass**, by refusal |
+
+So the real boundaries are: admitting the target needs a floor ≤ 0.555, and keeping
+the guarded pass needs a floor > 0.570. The 0.565 in the paragraph above was the
+lower edge of the scarf's rounding band, not its value. **0.555 < 0.570, so the
+conclusion is unchanged and now exact rather than inferred: no floor separates
+them.**
+
+Generation 2's draws, from the declared seed rule (seed = generation number), read
+with `--dry-run` before any evaluation: **0.716908** (+0.116908), **0.566857**
+(−0.033143), **0.619743** (+0.019743). The corrected prediction, per line:
+
+- **g2-3 at 0.566857** — below 0.570, so the coverage floor no longer refuses the
+  scarf ask; and above 0.555, so the target ask still refuses and there is **no
+  gain**. Predicted: the scarf invariant is at risk and the mutant is ineligible,
+  giving `stall`. One honest qualification: clearing the floor is necessary but not
+  sufficient for the loss — the shape arbiter can still veto and the reply gate can
+  still decline, so the ask may survive for a different reason. Which of those
+  happens is the interesting part, and it is why this line is worth its builds.
+- **g2-2 at 0.716908** — the highest floor yet tested. Generation 1 showed 0.664409
+  and 0.672472 were inert, so nothing answers in [0.60, 0.672]; 0.7169 is above that
+  and in untested territory, so it may newly refuse a passing ask. Predicted: inert
+  or a loss, not a gain.
+- **g2-4 at 0.619743** — inside the band generation 1 already showed empty.
+  Predicted inert.
+
+`--dry-run` reported no draw below the literal 0.565, which under the instruction as
+written would have meant "do not run, generation 2 cannot test the lowering
+prediction". That condition's rationale is false against the measured 0.570: the one
+lowering draw does put the guarded pass at risk, which is precisely the
+negative-control guard test the run was specified to be. Sigma, bounds, whitelist
+and guards were not changed to reach that reading — the threshold was corrected by
+measurement, and the correction is recorded here before the run rather than after it.
 
 That is worth running anyway, for two reasons, and neither is to win: it tests
 whether the regression guard actually catches a loss in the direction the operator
@@ -643,6 +698,91 @@ is the intermediate from the second recompute — corrected key, still-broken li
 — kept because it is the only artefact showing the two fixes landed separately
 rather than together. Deleting records is how this project lost a memory file once;
 13 KB is cheaper than that lesson.
+
+### Generation 2, measured
+
+Seed 2 by the declared rule, one control plus three mutants, 42 asks each, 168
+builds, 75 minutes, state guard clean on every line.
+`state/selection/generation_2.jsonl`.
+
+| line | genome | floor | frozen | guarded | paraphrase | stages | key | verdict |
+|---|---|---|---|---|---|---|---|---|
+| g2-1 | `abffa2b7f101` | 0.6 (control) | 19/24 | 4/4 | 0/14 | recall 10, mouth 4, gating 3, arbiter 2 | [1, 19, 4] | clean |
+| g2-2 | `9027eb2d6bdf` | 0.716908 | 19/24 | **3/4** | 0/14 | recall **11**, mouth 4, gating 3, arbiter 2 | [0, 19, 3] | **LOST** |
+| g2-3 | `9d13a44f7a70` | 0.566857 | **18/24** | 4/4 | 0/14 | recall 10, mouth 4, gating 3, arbiter **3** | [0, 18, 4] | **LOST** |
+| g2-4 | `58378f7645e6` | 0.619743 | 19/24 | 4/4 | 0/14 | identical to control | [1, 19, 4] | clean |
+
+**Outcome `no_gain`; the parent `abffa2b7f101` stands.** One mutant (g2-4) was
+eligible and none was better than the control.
+
+**The negative control worked, in both directions.** This was the run's purpose and
+it is the result that matters:
+
+- **g2-3, lowering** — lost `conjunction-and-absence::where did i say the scarf is?`,
+  the guarded pass-by-refusal, exactly as predicted from the measured 0.570 against
+  a 0.566857 floor. Its stage moved from a coverage refusal to `shape_arbiter`, so
+  the ask cleared the floor and was then *answered* rather than vetoed: the
+  qualification recorded before the run — that clearing the floor is necessary but
+  not sufficient, since the arbiter could still have vetoed — resolved against the
+  veto. The target ask `before the kettle` still refused at recall, so the mutant
+  gained nothing and lost a guarded invariant, which is the worst cell in the table
+  and precisely why the constraint comes first in the key.
+- **g2-2, raising** — lost the guarded probe `sel-exact-repeat::the bell turns how
+  often?` to a new recall refusal, `recall` 10 → 11. Not predicted in that
+  specificity: the prediction was "inert or a loss, not a gain", and the mechanism
+  named was "may newly refuse a passing ask", which is what happened. It also
+  sharpens an earlier finding — that probe is the rewording that *passes* while its
+  frozen sibling `how many times does the bell turn?` fails, so it answers with
+  coverage somewhere in [0.60, 0.7169). The numeral content is reachable, and it
+  sits close enough to the floor that a 0.117 raise destroys it.
+
+**Prediction scorecard, including the miss.** Confirmed: g2-3 loses the scarf
+invariant and is ineligible; g2-4 inert; g2-2 not a gain. **Wrong: the
+generation-level outcome.** The prediction said `stall`; the outcome is `no_gain`.
+The error is stated here rather than smoothed over: `stall` means *no* mutant is
+eligible, and I wrote the prediction as though all three draws would lower the
+floor. Only one did, so two mutants stayed eligible and the generation landed on the
+tie-breaks-to-parent branch instead. The mechanism prediction was right and the
+label prediction was wrong because it quietly assumed a fact about the sample that
+the dry-run had already contradicted — seed 2 gives one lowering draw, not three.
+
+**The lever is bracketed, and the base already occupies it.** 0.6197 is safe;
+0.7169 loses a guarded probe; 0.5669 loses a frozen pass. With the exact coverages
+measured (target 0.555, scarf invariant 0.570), the usable band is roughly
+(0.570, ~0.70) and the committed 0.6 sits inside it. Both directions are
+destructive within ±0.12 of the base, and σ is 0.05, so **the pre-registered
+operator on this gene has nowhere to go**. Per the stall rule: σ is not lowered, the
+whitelist is not widened, lines are not added, and the guard is not softened. The
+coverage-floor lever is closed, and the next cut has to be a different mechanism —
+the two-memory hop, the shape parser's dependence on a literal `what`, or the echo
+path's dependence on `say exactly`, all three of which the probe tier localised.
+
+**Stability across all eleven lines of three generations**
+(`docs/evidence/cross_generation_stability.py`): 462 ask evaluations, **five lines
+carrying the parent genome with zero differences between them**, and exactly two
+differences anywhere in the record — one on g2-2 and one on g2-3, each a single ask,
+each attributable to the mutated gene. There is no unexplained variation in 462
+evaluations. The noise floor is zero and the two movements that exist are both gene
+effects.
+
+### A reporting defect generation 2 found, and why it is the dangerous kind
+
+`print_generation` pooled every line's pass set together and printed any
+disagreement as `UNSTABLE across identical genomes … this is the instrument's noise
+floor, not a capability difference`. Generation 2's genomes were not identical, so
+the summary labelled a real regression — the scarf invariant lost to a mutated floor
+— as instrument jitter. That is the one mislabelling this project can least afford:
+it is the sentence someone quotes when dismissing a genuine loss, and it was
+printed by the harness itself, in the block a reader trusts most.
+
+Fixed by separating the two populations: **noise** is disagreement between lines
+carrying the *same* genome id, and a difference between *different* genomes is
+printed as `GENE EFFECT` with the gene name and its mutated value attached. Two
+tests pin both halves, including the one that would have passed either way (real
+clone noise must still be called noise). `--report` was added to re-print a
+generation's summary from its published rows without rewriting them, so the
+corrected reading of generation 2 is reproducible and the record the defect was
+found in is untouched.
 
 ## 9. What would invalidate a result
 
@@ -832,3 +972,26 @@ the live tree untouched.
   Seed rule for generation 2 declared in advance: the seed is the generation number.
   Suite **482 passed, 3 skipped**; `verify_generation1.py` 140 checks, all passing.
   Nothing landed, no core code touched, live animal unchanged.
+- 2026-10-30 — generation 2 run as a negative-control guard test, seed 2 by the
+  declared rule: draws 0.716908, 0.566857, 0.619743. 168 builds, 75 min, guard
+  clean. **The guard fired in both directions** — the lowering draw lost the scarf
+  pass-by-refusal exactly as predicted from the measured 0.570, and the raising draw
+  lost the guarded probe `the bell turns how often?` to a new recall refusal.
+  Outcome `no_gain`, parent stands; one mutant eligible, none better. Prediction
+  scorecard recorded with its miss: the mechanism predictions held and the
+  generation-level label was wrong (`stall` predicted, `no_gain` actual) because the
+  prediction assumed three lowering draws when the dry-run had already shown one.
+  Before the run, `docs/evidence/coverage_exact.py` measured the unrounded coverages
+  (target 0.555, scarf 0.570) and corrected the 0.565 threshold the rounded journal
+  strings implied; the correction is dated before the run, and σ, bounds, whitelist
+  and guards were not changed. **The coverage-floor lever is closed**: the usable
+  band is roughly (0.570, ~0.70), the committed 0.6 already sits inside it, and both
+  directions are destructive within ±0.12 at σ 0.05. Stability across all eleven
+  lines of three generations: 462 ask evaluations, five parent-genome lines with zero
+  differences, and exactly two differences anywhere — both single asks on mutant
+  lines, both attributable to the gene. A reporting defect found and fixed:
+  `print_generation` printed a gene effect as "UNSTABLE across identical genomes …
+  the instrument's noise floor"; noise and gene effect are now separate populations,
+  pinned by two tests, and `--report` re-prints a summary without rewriting the
+  record. Suite **484 passed, 3 skipped**; `verify_generation1.py --generation 2`
+  140 checks, all passing. Nothing landed, no core code touched.
