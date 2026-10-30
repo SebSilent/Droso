@@ -187,6 +187,33 @@ set (`COUNT_FIRST_CUES`, `COUNT_LAST_CUES`).
 | `docs/selection_design.md` | frozen contract for `tools/run_generation.py`: the genome schema, the fitness tuple, the three eval tiers and the pre-registered step-6 mutation operator |
 | `docs/open_learning_design.md` | design, not yet implemented: moving from a frozen evaluated brain to a persistent learner. Grounded in a fresh census of the live binder, with the six-rung capability ladder, the fourth (open) eval tier, the one unavoidable core change named and flag-gated, and experiment E1 specified with its command and success criteria |
 | `docs/evidence/binder_census.py` | census of the live cortex store: rows by `who`, by `count`, by age. Output committed at `docs/evidence/binder_census_20261030.txt` |
+| `tools/teach_episode.py` | E1: one teaching episode. Generates novel propositions from the live vocabulary, verifies each is absent from the binder, teaches and consolidates in a sealed session, overlays onto a hardlinked shadow, then measures all four tiers against that shadow in fresh builds. Five gates, exit 1 on any failure. `--dry-run` generates and verifies without teaching |
+| `state/lineage/episodes.jsonl` | the episode ledger, one self-contained row per episode. `python tools/run_generation.py --report --episode N` re-prints one |
+
+## Open learning E1 (at `aac701c` + `tools/teach_episode.py`, Python 3.12.10 / numpy 2.5.4)
+
+Episode 1: 20 facts, seed 1, 82 asks, 34 min, one shadow, live state never written.
+**Verdict PASS, all five gates.**
+
+| measure | result |
+|---|---|
+| acquisition, in the words it was taught in, across a process boundary | **20/20** |
+| generalisation, held-out rewordings | **2/20** — reverse-role 2/2, question-word swap 0/6, passive 0/12 |
+| frozen 24 / guarded probes | 19/24 and 4/4, both unchanged |
+| erosion | **none** |
+| displacement | 22 evicted, all `book` count 1; 22 added, **20 of them `who="you"`** |
+| SAN | nnz 66,107,030 → 66,107,030 (**+0**); total weight −30,211; 8,112 rows changed |
+| live seals / guard | unchanged / moved nothing |
+
+The first measured retention of a taught fact across a process boundary in this
+project, and the first `who="you"` rows in the live binder lineage. Two results
+redirect the programme: the phrasing brittleness measured on weeks-old corpus memory
+reproduces exactly on facts taught thirty seconds earlier (so teaching more facts will
+not move rung 2 of the ladder), and blind FIFO evicted precisely the low-value corpus
+rows, so value-weighted eviction is not needed for small episodes — only once a taught
+row ages far enough that 60,000 further binds reach it.
+
+Suite after this step: **509 passed, 3 skipped**.
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
 | `docs/evidence/` | raw run output cited by the docs |

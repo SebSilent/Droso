@@ -538,6 +538,92 @@ differs: 0` on the frozen 24 with the flag off, so the flag's own inertness is p
 rather than claimed. Neither is started until E1 passes, and together they are the
 only planned core changes in this programme.
 
+### E1, measured
+
+20 facts, seed 1, 82 asks, 2,022 s (34 min), one shadow, live state never written.
+`state/lineage/episodes.jsonl` episode 1, checkpoint `7c8d00202101`,
+`promoted_to_live: false`. **Verdict PASS — all five gates.**
+
+| | result |
+|---|---|
+| acquisition (T frame, the words it was taught in) | **20/20** |
+| generalisation (held-out rewordings) | **2/20** — H1-reverse-role **2/2**, H2-question-word **0/6**, H3-passive **0/12** |
+| frozen 24 | 19/24, unchanged |
+| guarded probes | 4/4, unchanged |
+| **erosion** | **none** |
+| displacement | 60,000 → 60,000 rows; **22 evicted, all `book`, all count 1**; 22 added: **20 `you`**, 2 `droso` |
+| SAN | nnz 66,107,030 → 66,107,030 (**+0**); total weight 286,281.156 → 256,070.031; 8,112 rows changed |
+| guarded-battery stages | recall 10, mouth 4, gating 3, shape_arbiter 2 — identical to generations 0/1/2 control |
+| open-tier stages | shape_arbiter 12, gating 6 |
+| live seals | unchanged; guard moved nothing |
+| generator | pool 10,234 live-vocabulary content words, 21 draws, 0 binder collisions, seal `85bcfc181260831c` |
+
+**Retention works, and this is the first time it has been measured here.** Every
+acquisition ask was put to a **fresh build against the shadow**, so the fact had to
+survive `save_state` → `build_shadow` → a new process → `load_state`. 20 of 20 did.
+`who="you"` rows entered a binder — 20 of them — where the census two days earlier
+found zero. The organism is no longer only a fixed evaluated brain, in the narrow and
+checkable sense that a taught fact now persists across a process boundary.
+
+**The fact is stored as a relation, not as a question-answer pair.** H1 asks for the
+*other* role (`the {a} {v} the {b}` taught, then `what {v} the {b}?` expecting `{a}`)
+and it passed **2/2**. That is the single most encouraging number in the run and it
+must not be over-read: the seed assigned H1 to only two of the twenty facts, so this
+is two asks and not a rate. A generation that balances the frames across facts would
+make it one.
+
+**Phrasing brittleness transfers to freshly taught material, and that is the result
+that redirects the programme.** H2 (`which thing does the {a} {v}?`) 0/6 and H3
+(`what is {v} by the {a}?`) 0/12 reproduce exactly what the standing paraphrase tier
+found on material he has known for weeks: the shape parser is keyed to a literal
+`what`, and the passive voice loses retrieval. So rung 2's 4/18 is **not** an artefact
+of old corpus memory or of a saturated SAN — it is a property of the answer path, and
+it appears on facts taught thirty seconds ago. **Teaching more facts will not move
+rung 2.** The 18 open-tier failures split shape_arbiter 12 / gating 6 with no recall
+failures at all, which localises it: the memory was found, and the mouth or the
+arbiter refused it.
+
+**Displacement is exactly what §2.2 predicted, and cheaper than feared.** 22 rows
+evicted, every one `book` with count 1 — the low-value corpus rows — and zero
+erosion. Blind FIFO evicts the *oldest* rows, and the oldest rows are all count-1
+book rows, so at this scale FIFO and value-weighted eviction **choose the same
+victims**. That is a real qualification on §7b: it is not needed for small episodes on
+a binder whose tail is uniformly low-value. It becomes necessary when a taught row has
+aged far enough that 60,000 further binds reach it, which is the horizon an organism
+that keeps being taught will actually reach. E1 measured the near term, not that one.
+
+**SAN saturation confirmed on freshly taught material.** nnz moved by exactly zero,
+so `docs/benchmark_findings.md`'s addendum holds for new teaching and not only for
+replayed corpus rows. Total weight *fell* by 30,211 with 8,112 rows changed: decay
+outpaced every write, which is the same direction the 2026-10-25 and 2026-10-27
+measurements found.
+
+**The guarded battery's stage map did not move at all.** Teaching 20 new facts left
+the standing failure profile byte-identical, so the new material neither helped nor
+interfered with what was already there. That is what non-erosion looks like when it
+holds, and it is the reason the constraint is worth gating on.
+
+### Two honesty items from the run
+
+**The pilot row was corrected in place, visibly.** Episode 99 was the instrument
+pilot (3 facts, `--tier open`) and it recorded `verdict: PASS` with frozen 0/0 — the
+erosion gate had passed on nothing it measured. The gate was fixed afterwards
+(unmeasured is `None`, and `None` fails), but the row was already in an append-only
+ledger. `docs/evidence/correct_pilot_row.py` rewrote that one row to `FAIL`, kept the
+original verdict and gate value inside a `correction` block, marked it
+`kind: instrument-pilot`, and copied the ledger to `episodes_precorrection.jsonl`
+first. A false PASS in a ledger is worse than an edited one, and the edit is recorded
+rather than silent. `test_a_passing_episode_really_did_measure_erosion` now enforces
+the invariant: any row claiming PASS must have run all 24 frozen asks and at least one
+guarded probe, and any corrected row must not claim PASS.
+
+**The interpreter is not the one the command line says.** §8's commands are written
+`py -3.10`, following the README, but `.venv` on this box is Python 3.12.10 with
+numpy 2.5.4 and that is what ran E1 — the same interpreter as generations 0-2, so the
+frozen and guarded numbers are comparable to the committed baseline. `py -3.10` does
+have the dependencies. The episode row carries `provenance.python` and
+`provenance.numpy`, which is the only reason this is checkable rather than assumed.
+
 ## 9. What would invalidate the programme
 
 Recorded so the checks are not invented after the fact.
@@ -581,3 +667,20 @@ Recorded so the checks are not invented after the fact.
   flag-gated eviction) because value-weighted eviction built on the existing signal
   would have ranked testimony as corpus. Not fixed here: it is core code, and step 6
   of the instruction defers core changes until the design and tests exist.
+- 2026-10-30 — **E1 run and PASSED, all five gates.** `tools/teach_episode.py`
+  implemented to §8's specified interface; `tools/run_generation.py` gained the
+  `open` tier, `--open-batch`, `--state-root` and `--report --episode`, so the open
+  tier runs through the same runner, grader and journal as the other three rather
+  than beside them. 20 facts, 82 asks, 34 min: acquisition **20/20** across a process
+  boundary, generalisation **2/20** (H1 reverse-role 2/2, H2 question-word 0/6, H3
+  passive 0/12), frozen 19/24 and guarded 4/4 unchanged, **erosion none**, 22 rows
+  evicted all `book` count 1 with 20 `you` rows added, SAN nnz **+0** confirming
+  saturation on freshly taught material, live seals unchanged. Two findings redirect
+  the programme: phrasing brittleness transfers to material taught thirty seconds ago,
+  so **teaching more facts will not move rung 2**; and blind FIFO evicted exactly the
+  low-value corpus rows, so §7b is not needed for small episodes on a uniformly
+  low-value tail — it becomes necessary only once a taught row ages far enough that
+  60,000 further binds reach it. The episode-99 pilot row was corrected in place from
+  a vacuous PASS to FAIL with the original kept in a `correction` block and the ledger
+  backed up first. Suite **509 passed, 3 skipped**. No core code modified, nothing
+  promoted to live state, `state/lineage/` now holds the ledger.

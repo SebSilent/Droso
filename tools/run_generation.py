@@ -499,10 +499,18 @@ def restore_module_genes(saved: dict) -> None:
 
 # --------------------------------------------------------------- battery ----
 
-def load_battery(tiers: tuple, only: str | None) -> list:
+def load_battery(tiers: tuple, only: str | None, open_batch=None) -> list:
     """The frozen tier is READ FROM tools/scripts_heldout.json at runtime, never
     copied. A copy is a second contract that can drift from the first, and then
-    'zero frozen passes lost' would be measured against whatever the copy said."""
+    'zero frozen passes lost' would be measured against whatever the copy said.
+
+    The OPEN tier is the fourth tier of docs/open_learning_design.md section 5: a
+    batch GENERATED per episode by tools/teach_episode.py, in the same script/turn
+    schema as the other three so it runs through the same runner, the same grader and
+    the same journal. It is reported and never selected on -- select_key does not
+    read it, for the reason section 3 gives for keeping the paraphrase tier out of
+    the key: a term in the key is a gradient.
+    """
     out = []
     if "frozen" in tiers:
         for s in json.loads(FROZEN_TASKS.read_text(encoding="utf-8"))["scripts"]:
@@ -510,6 +518,15 @@ def load_battery(tiers: tuple, only: str | None) -> list:
     if "probe" in tiers:
         for s in json.loads(PROBE_TASKS.read_text(encoding="utf-8"))["scripts"]:
             out.append({"tier": "probe", "script": s, "parent": s.get("parent")})
+    if "open" in tiers:
+        if not open_batch:
+            raise SystemExit("--tier open needs --open-batch PATH: the open tier is "
+                             "generated per episode, there is no committed default")
+        p = Path(open_batch)
+        if not p.exists():
+            raise SystemExit(f"no open batch at {p}")
+        for s in json.loads(p.read_text(encoding="utf-8"))["scripts"]:
+            out.append({"tier": "open", "script": s, "parent": s.get("parent")})
     if only:
         out = [e for e in out if only in e["script"]["name"]]
     return out
@@ -521,7 +538,8 @@ def ask_id(script_name: str, ask: str) -> str:
     return f"{script_name}::{ask}"
 
 
-def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str) -> dict:
+def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str,
+            project_root=None) -> dict:
     """One ask against one freshly built brain carrying `genome`.
 
     Independent mode, for the reason heldout_eval gives: the tells that precede the
@@ -540,7 +558,13 @@ def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str) -> dict
     rec = {}
     agent = None
     try:
-        agent = build(sd)
+        # project_root is None for the frozen/guarded tiers, which are always
+        # measured against the LIVE state so their numbers stay comparable to the
+        # committed baseline. An open-tier episode passes its shadow, so the asks are
+        # put to the state the teaching actually produced -- a cross-process
+        # measurement, which is what makes it a retention test rather than a
+        # same-session recall test.
+        agent = build(sd, project_root=project_root)
         # Only the verdict rides in the journal; the per-method file and line map is
         # 126 copies of the same six strings.
         _shim = shim_check()
@@ -565,6 +589,7 @@ def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str) -> dict
                "parent": entry["parent"],
                "id": ask_id(script["name"], step["ask"]),
                "probe": step.get("probe"), "rewords": step.get("rewords"),
+               "frame": step.get("frame"), "taught": step.get("taught"),
                "ask": step["ask"], "said": _said(t)[:120], "words": words[:24],
                "spoken": _spoken(t), "pass": bool(ok), "why": why,
                "stage": None if ok else stage_of(t, why),
@@ -610,6 +635,7 @@ def fitness_tuple(rows: list, baseline: dict | None, seals: dict) -> dict:
     """
     frozen = [r for r in rows if r["tier"] == "frozen"]
     probes = [r for r in rows if r["tier"] == "probe"]
+    opened = [r for r in rows if r["tier"] == "open"]
     f_pass = sorted(r["id"] for r in frozen if r["pass"])
     p_pass = sorted(r["id"] for r in probes if r["pass"])
 
@@ -621,9 +647,34 @@ def fitness_tuple(rows: list, baseline: dict | None, seals: dict) -> dict:
             "failures": [{"id": r["id"], "stage": r["stage"], "why": r["why"],
                           "said": r["said"]} for r in frozen if not r["pass"]],
         },
-        "stages": stage_distribution(rows),
+        # Stages over the GUARDED battery only. Mixing the open tier in would let a
+        # batch of freshly generated asks reshape the failure map that generations 0-2
+        # are comparable on, and the map's whole use is that it does not move unless
+        # the animal does.
+        "stages": stage_distribution(frozen + probes),
         "seals": seals,
     }
+    if opened:
+        # Reported, never selected on. `frame` is the rewording family the generator
+        # declared for each ask, so a generalisation number can be attributed to a
+        # phrasing class instead of being one lump.
+        by_frame = {}
+        for r in opened:
+            k = str(r.get("frame") or "?")
+            d = by_frame.setdefault(k, [0, 0])
+            d[1] += 1
+            d[0] += 1 if r["pass"] else 0
+        out["open"] = {
+            "asked": len(opened),
+            "passed": sum(1 for r in opened if r["pass"]),
+            "score": round(sum(1 for r in opened if r["pass"]) / len(opened), 4),
+            "pass_set": sorted(r["id"] for r in opened if r["pass"]),
+            "by_frame": {k: {"passed": v[0], "asked": v[1]}
+                         for k, v in sorted(by_frame.items())},
+            "stages": stage_distribution(opened),
+            "failures": [{"id": r["id"], "stage": r["stage"], "why": r["why"],
+                          "said": r["said"]} for r in opened if not r["pass"]],
+        }
 
     if baseline is None:
         # No frozen baseline yet: the probe pool has not been split, so there is
@@ -753,7 +804,7 @@ def git_provenance() -> dict:
 
 def evaluate_line(gen: int, line_no: int, genome: dict, base: dict,
                   battery: list, journal: Path, baseline: dict | None,
-                  limit: int | None) -> dict:
+                  limit: int | None, project_root=None) -> dict:
     tag = f"g{gen}-{line_no}"
     t0 = time.time()
     rows = []
@@ -763,7 +814,7 @@ def evaluate_line(gen: int, line_no: int, genome: dict, base: dict,
         for i in idxs:
             if limit is not None and n >= limit:
                 break
-            rec = run_ask(entry, i, genome, base, tag)
+            rec = run_ask(entry, i, genome, base, tag, project_root=project_root)
             rec.update({"generation": gen, "line": tag,
                         "genome_id": genome["genome_id"]})
             rows.append(rec)
@@ -1098,7 +1149,7 @@ def cmd_run(args) -> int:
                   f"Generalisation scores are not comparable to the baseline's and "
                   f"every row will carry the label probe-seal-broken.")
     tiers = tuple(args.tier.split(","))
-    battery = load_battery(tiers, args.only)
+    battery = load_battery(tiers, args.only, args.open_batch)
     pop = build_population(args, base)
     n_asks = sum(1 for e in battery
                  for s in e["script"]["turns"] if "ask" in s)
@@ -1141,7 +1192,8 @@ def cmd_run(args) -> int:
                   + (f", {mv['gene']}={mv['value']}" if mv else "") + ") ---",
                   flush=True)
             rows.append(evaluate_line(args.generation, i, genome, base, battery,
-                                      journal, baseline, args.limit))
+                                      journal, baseline, args.limit,
+                                      project_root=args.state_root))
 
     moved = guard_check(before)
     ok = True
@@ -1183,10 +1235,72 @@ def cmd_run(args) -> int:
     return 0
 
 
+EPISODES = ROOT / "state" / "lineage" / "episodes.jsonl"
+
+
+def print_episode(e: dict) -> None:
+    """One episode row, printed in the order the design's success criteria are
+    written so a reader can check the gate without hunting through JSON."""
+    g = e.get("gates") or {}
+    ev = e.get("eval") or {}
+    print(f"\n=== EPISODE {e.get('episode')} ===")
+    print(f"  at            {e.get('at')}")
+    print(f"  checkpoint    {e.get('checkpoint_id')}  parent {e.get('parent_checkpoint')}")
+    print(f"  generator     seed={e.get('generator', {}).get('seed')} "
+          f"seal={e.get('generator', {}).get('seal')} "
+          f"vocab_source={e.get('generator', {}).get('vocab_source')}")
+    print(f"  taught        {e.get('teaching', {}).get('taught')} facts, "
+          f"consolidated={e.get('teaching', {}).get('consolidated')}")
+    print("\n  GATES (all must hold):")
+    for k in ("absence_verified", "erosion_zero", "census_reported",
+              "live_seals_unchanged", "row_self_contained"):
+        v = g.get(k)
+        print(f"    {k:22s} "
+              f"{'PASS' if v is True else 'NOT MEASURED' if v is None else 'FAIL'}"
+              f"   {g.get(k + '_detail', '')}")
+    print("\n  MEASURED (reported, not gated):")
+    for tier in ("acquisition", "generalisation"):
+        t = ev.get(tier) or {}
+        print(f"    {tier:16s} {t.get('passed')}/{t.get('asked')} "
+              f"= {t.get('score')}")
+        for f, v in sorted((t.get("by_frame") or {}).items()):
+            print(f"        frame {f:22s} {v['passed']}/{v['asked']}")
+    print(f"    {'frozen':16s} {ev.get('frozen_passed')}/{ev.get('frozen_asked')}"
+          f"   guarded {ev.get('guard_passed')}/{ev.get('guard_asked')}")
+    print(f"    {'stages':16s} {json.dumps(ev.get('stages'))}")
+    d = e.get("displacement") or {}
+    print("\n  DISPLACEMENT:")
+    print(f"    binder rows  {d.get('rows_before')} -> {d.get('rows_after')}")
+    print(f"    evicted      {d.get('evicted_n')}  by who {json.dumps(d.get('evicted_who'))}")
+    print(f"                 by count {json.dumps(d.get('evicted_count'))}")
+    print(f"    added        {d.get('added_n')}  who {json.dumps(d.get('added_who'))}")
+    w = e.get("san") or {}
+    print(f"    SAN          rows_changed {w.get('rows_changed')}  nnz "
+          f"{w.get('nnz_before')} -> {w.get('nnz_after')}  total "
+          f"{w.get('total_before')} -> {w.get('total_after')}")
+    print(f"\n  VERDICT       {e.get('verdict')}")
+    if e.get("erosion"):
+        print(f"  EROSION       {e['erosion']}")
+
+
 def cmd_report(args) -> int:
-    """Re-print a generation's summary from its published rows. Reads nothing else
-    and writes nothing, so a summary can be regenerated after a reporting fix
-    without touching the record the fix was needed for."""
+    """Re-print a generation's or an episode's summary from its published rows. Reads
+    nothing else and writes nothing, so a summary can be regenerated after a
+    reporting fix without touching the record the fix was needed for."""
+    if args.episode is not None:
+        if not EPISODES.exists():
+            print(f"no episode ledger at {EPISODES}")
+            return 1
+        rows = [json.loads(l) for l in
+                EPISODES.read_text(encoding="utf-8").splitlines() if l.strip()]
+        hit = [r for r in rows if r.get("episode") == args.episode]
+        if not hit:
+            print(f"no episode {args.episode} in {EPISODES} "
+                  f"(has: {sorted(r.get('episode') for r in rows)})")
+            return 1
+        for e in hit:
+            print_episode(e)
+        return 0
     p = SEL_DIR / f"generation_{args.generation}.jsonl"
     if not p.exists():
         print(f"no generation {args.generation} at {p}")
@@ -1297,11 +1411,12 @@ def cmd_worker(args) -> int:
     genome = json.loads(Path(args.genome_file).read_text(encoding="utf-8"))
     baseline = (json.loads(BASELINE.read_text(encoding="utf-8"))
                 if BASELINE.exists() else None)
-    battery = load_battery(tuple(args.tier.split(",")), args.only)
+    battery = load_battery(tuple(args.tier.split(",")), args.only, args.open_batch)
     SCRATCH.mkdir(parents=True, exist_ok=True)
     journal = SCRATCH / f"gen{args.generation}_asks.jsonl"
     row = evaluate_line(args.generation, args.line_no, genome, base, battery,
-                        journal, baseline, args.limit)
+                        journal, baseline, args.limit,
+                        project_root=args.state_root)
     Path(args.worker_out).write_text(json.dumps(row, default=str), encoding="utf-8")
     return 0
 
@@ -1357,6 +1472,10 @@ def run_isolated(args, base, baseline, battery, pop) -> list:
             cmd += ["--only", args.only]
         if args.limit is not None:
             cmd += ["--limit", str(args.limit)]
+        if args.open_batch:
+            cmd += ["--open-batch", str(args.open_batch)]
+        if args.state_root:
+            cmd += ["--state-root", str(args.state_root)]
         mv = genome.get("mutation") or {}
         print(f"\n--- line g{args.generation}-{i}  genome {genome['genome_id']} "
               f"({genome.get('operator', 'clone')}"
@@ -1413,7 +1532,16 @@ def main() -> int:
                          "values -- then stop. Costs nothing and shows the mutants "
                          "before a generation commits an hour of builds")
     ap.add_argument("--tier", default="frozen,probe",
-                    help="frozen | probe | frozen,probe")
+                    help="frozen | probe | open | any comma combination")
+    ap.add_argument("--open-batch", default=None,
+                    help="generated open-tier batch file, required with --tier open")
+    ap.add_argument("--state-root", default=None,
+                    help="measure against this shadow state tree instead of the live "
+                         "one; an episode's shadow is how a retention test becomes a "
+                         "cross-process measurement")
+    ap.add_argument("--episode", type=int, default=None,
+                    help="with --report, print this episode from "
+                         "state/lineage/episodes.jsonl instead of a generation")
     ap.add_argument("--only", default=None, help="run scripts whose name matches")
     ap.add_argument("--limit", type=int, default=None,
                     help="stop after this many asks per line (harness smoke test)")

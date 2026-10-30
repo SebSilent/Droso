@@ -54,7 +54,6 @@ state/**/*.npy
 state/**/*.npz
 state/**/*.sqlite3
 state/reader/state/
-state/lineage/
 state/population/
 state/merged/
 
@@ -102,8 +101,19 @@ state/shelf/
 state/fitness/
 state/population/
 state/reader.log
-state/lineage/
 state/drill_store.json
+
+# Learner lineage: the AUDIT RECORDS are tracked and the CHECKPOINTS are not.
+# git cannot re-include a file whose parent directory is excluded, so this ignores
+# the contents rather than the directory. episodes.jsonl is ~9 KB per episode and an
+# ask journal ~50 KB; a checkpoint is the whole language state including a 250 MB SAN,
+# which is regenerable from the ledger's generator seed and seal and does not belong
+# in git. state_hygiene.py caps lineage at 2 -- design section 9 flags that this must
+# be raised before a third episode or a checkpoint gets deleted.
+state/lineage/*
+!state/lineage/episodes.jsonl
+!state/lineage/episodes_precorrection.jsonl
+!state/lineage/episode_*_asks.jsonl
 
 # Consolidation rollback backups: per-run copies of the live state, kept on
 # disk only (the rollback for tools/consolidate_live.py), never in git.

@@ -125,18 +125,85 @@ def test_the_binder_is_at_capacity_and_eviction_is_blind_fifo():
             f"commit rather than left passing on a stale reading")
 
 
-def test_the_lineage_directory_is_the_declared_home_and_is_currently_empty():
-    """state/lineage/ is managed by tools/state_hygiene.py and nothing writes to it.
-    The design puts the episode ledger and the checkpoints there. This test records
-    the starting condition so the first episode's output is recognisable as new
-    rather than as something that was already sitting there.
+def test_the_lineage_directory_is_the_declared_home_and_hygiene_would_eat_it():
+    """state/lineage/ is managed by tools/state_hygiene.py and was empty until
+    episode 1 wrote the ledger there. The cap is the part that matters: hygiene keeps
+    2, so a third episode's checkpoint would delete the first. Design section 9 flags
+    this as needing to be raised before the second episode, and this test is what
+    makes that flag mechanical rather than a sentence in a document.
     """
-    p = ROOT / "state" / "lineage"
     hygiene = (ROOT / "tools" / "state_hygiene.py").read_text(encoding="utf-8")
     assert 'LINEAGE = STATE / "lineage"' in hygiene
     assert '"lineage": 2' in hygiene, (
-        "state_hygiene caps lineage at 2; design section 9 requires raising it "
-        "before the second episode or a checkpoint gets deleted")
-    if p.exists():
-        assert not any(p.iterdir()), (
-            f"state/lineage/ is no longer empty: {sorted(x.name for x in p.iterdir())[:5]}")
+        "state_hygiene no longer caps lineage at 2: either the cap was raised (update "
+        "this test and design section 9) or the constant moved")
+
+
+LEDGER = ROOT / "state" / "lineage" / "episodes.jsonl"
+REQUIRED_EPISODE_KEYS = (
+    "episode", "at", "checkpoint_id", "parent_checkpoint", "promoted_to_live",
+    "generator", "teaching", "eval", "displacement", "san", "seals", "guard",
+    "erosion", "gates", "verdict", "provenance", "seconds")
+REQUIRED_GATES = ("absence_verified", "erosion_zero", "census_reported",
+                  "live_seals_unchanged", "row_self_contained")
+
+
+def test_every_ledger_row_is_self_contained_and_verdict_consistent():
+    """Section 6.4's ledger-schema test, and the reason the row is called
+    self-contained: one row has to carry enough to tell which animal was taught, what
+    it was taught, what it could still do afterwards, and what the teaching displaced.
+    Skipped only if no episode has ever run.
+    """
+    import json
+    if not LEDGER.exists():
+        pytest.skip("no episode has been run yet")
+    rows = [json.loads(l) for l in LEDGER.read_text(encoding="utf-8").splitlines()
+            if l.strip()]
+    assert rows, "ledger exists but is empty"
+    for e in rows:
+        missing = [k for k in REQUIRED_EPISODE_KEYS if k not in e]
+        assert not missing, f"episode {e.get('episode')} lacks {missing}"
+        for g in REQUIRED_GATES:
+            assert g in e["gates"], f"episode {e['episode']} lacks gate {g}"
+            assert g + "_detail" in e["gates"], f"gate {g} has no detail string"
+        # The verdict must follow from the gates, recomputed here rather than trusted.
+        import tools.teach_episode as te
+        assert e["verdict"] == te.verdict_of(e["gates"]), f"episode {e['episode']}"
+        # Provenance has to identify the interpreter and the tree, or two episodes
+        # measured differently are indistinguishable in the ledger.
+        for k in ("python", "numpy", "head"):
+            assert e["provenance"].get(k), f"episode {e['episode']} lacks {k}"
+        assert e["seals"]["before"] and e["seals"]["after"]
+        assert e["generator"].get("seal") and e["generator"].get("seed") is not None
+
+
+def test_a_passing_episode_really_did_measure_erosion():
+    """The pilot ran --tier open, so frozen and guarded were 0/0 and the erosion gate
+    passed on nothing. A PASS verdict is only meaningful if the guarded battery was
+    actually run, so check that on every row that claims one."""
+    import json
+    if not LEDGER.exists():
+        pytest.skip("no episode has been run yet")
+    rows = [json.loads(l) for l in LEDGER.read_text(encoding="utf-8").splitlines()
+            if l.strip()]
+    for e in rows:
+        if e.get("correction"):
+            # A corrected row keeps its correction and must not claim a pass: the
+            # episode-99 pilot was recorded as PASS on an unmeasured erosion gate and
+            # was corrected in place, with the original verdict kept beside the fix.
+            assert e["verdict"] != "PASS", f"corrected row {e['episode']} claims PASS"
+            assert "original_verdict" in e["correction"]
+            continue
+        if e["verdict"] != "PASS":
+            continue
+        ev = e["eval"]
+        assert ev["frozen_asked"] == 24, (
+            f"episode {e['episode']} claims PASS having run "
+            f"{ev['frozen_asked']} frozen asks")
+        assert ev["guard_asked"] >= 1, (
+            f"episode {e['episode']} claims PASS with no guarded probe measured")
+        assert e["erosion"] == []
+        assert e["guard"]["live_files_untouched"] is True
+        assert e["seals"]["unchanged"] is True
+        assert e["promoted_to_live"] is False, (
+            "E1 must not promote anything to live state")
