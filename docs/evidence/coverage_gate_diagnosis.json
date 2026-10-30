@@ -1,0 +1,802 @@
+{
+ "floor": 0.6,
+ "rows": [
+  {
+   "ask": "what is wet but not on the hook?",
+   "class": "SPOKE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "scarf"
+     ],
+     "forbid": [
+      "coat"
+     ]
+    }
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": true,
+    "filler_score": 0.3497,
+    "queried_role": 2,
+    "question": "what is wet but not on the hook?",
+    "recovered_filler": "is",
+    "response": "the coat is on the hook",
+    "source": "recalled proposition",
+    "spoken": true,
+    "to": "you",
+    "utterance": "the coat is on the hook"
+   },
+   "script": "conjunction-and-absence",
+   "tier": "frozen_fail"
+  },
+  {
+   "ask": "what turns twice?",
+   "class": "GATE",
+   "expect": {},
+   "position": "after-all-tells",
+   "reply": {
+    "answered": false,
+    "coverage": 0.586,
+    "cue": [
+     "turns",
+     "twice"
+    ],
+    "nearest": [
+     "but he was twice the man the rest",
+     "me but twice in one week he and",
+     "twice since i have been with them he"
+    ],
+    "reason": "the closest memory of his covers 59% of the question",
+    "required": [
+     "turns",
+     "twice"
+    ],
+    "spoken": false
+   },
+   "script": "conjunction-and-absence",
+   "tier": "contrast"
+  },
+  {
+   "ask": "how many times does the bell turn?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "twice",
+      "two"
+     ],
+     "forbid": [
+      "three",
+      "once"
+     ]
+    }
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.417,
+    "cue": [
+     "many",
+     "times",
+     "does",
+     "the",
+     "bell",
+     "turn"
+    ],
+    "nearest": [
+     "done about the same time as the bell",
+     "many times again until his face was a",
+     "of many faults at different times but this"
+    ],
+    "reason": "the closest memory of his covers 42% of the question",
+    "required": [
+     "bell",
+     "does",
+     "many",
+     "times",
+     "turn"
+    ],
+    "spoken": false
+   },
+   "script": "exact-repeat",
+   "tier": "frozen_fail"
+  },
+  {
+   "ask": "what does the thing the frost bites hold?",
+   "class": "VETO",
+   "expect": {
+    "expect": {
+     "answer": [
+      "door"
+     ],
+     "forbid": [
+      "frost"
+     ]
+    }
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "cue": [
+     "does",
+     "the",
+     "thing",
+     "the",
+     "frost",
+     "bites",
+     "hold"
+    ],
+    "parser": {
+     "shape": {
+      "kind": "object_unknown",
+      "subject": [
+       "thing"
+      ],
+      "tail": [],
+      "verb": "hold"
+     },
+     "verdict": "veto"
+    },
+    "reason": "nothing he remembers has that shape",
+    "spoken": false
+   },
+   "script": "hop-and-inventory",
+   "tier": "frozen_fail"
+  },
+  {
+   "ask": "does the door hold the frost?",
+   "class": "ABSENT",
+   "expect": {
+    "expect": {
+     "answer": [
+      "no"
+     ],
+     "forbid": [
+      "yes"
+     ]
+    }
+   },
+   "position": "at-position",
+   "reply": {
+    "best_resonance": 0.5704,
+    "heard": true,
+    "mood": 0.257,
+    "reason": "it understood but did not feel like speaking",
+    "spoken": false,
+    "threshold": 0.55
+   },
+   "script": "hop-and-inventory",
+   "tier": "frozen_fail"
+  },
+  {
+   "ask": "what did i tell you about before the kettle?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "lantern"
+     ],
+     "forbid": [
+      "gate",
+      "singing",
+      "open"
+     ]
+    }
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.555,
+    "cue": [
+     "did",
+     "tell",
+     "you",
+     "about",
+     "before",
+     "the",
+     "kettle"
+    ],
+    "nearest": [
+     "did you not tell me about it sooner",
+     "i wanted to tell you about the picnic",
+     "i ll tell you all about it some"
+    ],
+    "reason": "the closest memory of his covers 55% of the question",
+    "required": [
+     "about",
+     "before",
+     "did",
+     "kettle",
+     "tell",
+     "you"
+    ],
+    "spoken": false
+   },
+   "script": "order-first-last",
+   "tier": "frozen_fail"
+  },
+  {
+   "ask": "which of them is wet and is not on the hook?",
+   "class": "SPOKE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "scarf"
+     ],
+     "forbid": [
+      "coat"
+     ]
+    },
+    "probe": "P-notboth-which",
+    "rewords": "what is wet but not on the hook?",
+    "why": "parent FAILS at stage=shape_arbiter saying 'the coat is on the hook'. 'which of them' offers no named alternative, so the disjunction path cannot fire; the negation has to be resolved against memory."
+   },
+   "position": "at-position",
+   "reply": {
+    "address_resonance": 0.02,
+    "heard": true,
+    "kind": "word",
+    "mood": 0.157,
+    "note": "it heard, and wanted to speak",
+    "pool": 5,
+    "rendered": null,
+    "resonance": 0.5872,
+    "response": "numbered",
+    "source": "meaning resonance",
+    "spoken": true,
+    "stopped": "nothing heard after 'degrading' and resonance fell (0.70 -> 0.63)",
+    "to": "air",
+    "utterance": "numbered",
+    "voice": "own"
+   },
+   "script": "sel-conjunction-and-absence",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "name the wet thing that is not on the hook",
+   "class": "ABSENT",
+   "expect": {
+    "expect": {
+     "answer": [
+      "scarf"
+     ],
+     "forbid": [
+      "coat"
+     ]
+    },
+    "probe": "P-notboth-name",
+    "rewords": "what is wet but not on the hook?",
+    "why": "parent FAILS at stage=shape_arbiter. an imperative rather than a question, so no interrogative reaches role selection at all."
+   },
+   "position": "at-position",
+   "reply": {
+    "best_resonance": 0.5745,
+    "heard": true,
+    "mood": 0.237,
+    "reason": "it understood but did not feel like speaking",
+    "spoken": false,
+    "threshold": 0.55
+   },
+   "script": "sel-conjunction-and-absence",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "how often did i say the coat is wet?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "three"
+     ],
+     "forbid": [
+      "one",
+      "two",
+      "four",
+      "five",
+      "torn"
+     ]
+    },
+    "probe": "R-count-often",
+    "rewords": "how many times did i tell you the coat is wet?",
+    "why": "parent passes. avoids 'how many' and 'times' (COUNT_QUANTS), keeps 'say' (RECORD_VERBS). tests whether the count is reachable without the quantifier table."
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.454,
+    "cue": [
+     "often",
+     "did",
+     "say",
+     "the",
+     "coat",
+     "is",
+     "wet"
+    ],
+    "nearest": [
+     "tails of my coat were all soaking wet",
+     "does not often say all this to herself",
+     "do you suppose she does not often say"
+    ],
+    "reason": "the closest memory of his covers 45% of the question",
+    "required": [
+     "coat",
+     "did",
+     "is",
+     "often",
+     "say",
+     "wet"
+    ],
+    "spoken": false
+   },
+   "script": "sel-count-frequency",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "how often does the bell turn?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "twice",
+      "two"
+     ],
+     "forbid": [
+      "three",
+      "once"
+     ]
+    },
+    "probe": "P-numeral-often",
+    "rewords": "how many times does the bell turn?",
+    "why": "parent FAILS at stage=recall. 'how often' carries neither 'how many' nor a COUNT_QUANTS word, so neither the quantity nor the count path can open on it."
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.514,
+    "cue": [
+     "often",
+     "does",
+     "the",
+     "bell",
+     "turn"
+    ],
+    "nearest": [
+     "the copper bell turns twice",
+     "does not often say all this to herself",
+     "be sure jane one does not often see"
+    ],
+    "reason": "the closest memory of his covers 51% of the question",
+    "required": [
+     "bell",
+     "does",
+     "often",
+     "turn"
+    ],
+    "spoken": false
+   },
+   "script": "sel-exact-repeat",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "repeat after me the copper bell turns twice",
+   "class": "SPOKE",
+   "expect": {
+    "expect": {
+     "answer": [],
+     "forbid": [],
+     "must_contain": [
+      "copper",
+      "bell",
+      "turns",
+      "twice"
+     ],
+     "order": [
+      "copper",
+      "bell",
+      "turns",
+      "twice"
+     ]
+    },
+    "probe": "R-echo-repeat",
+    "rewords": "say exactly the copper bell turns twice",
+    "why": "parent passes. 'repeat after me' is a different instruction frame for the same declared exact repeat."
+   },
+   "position": "at-position",
+   "reply": {
+    "address_resonance": 0.02,
+    "heard": true,
+    "kind": "word",
+    "mood": 0.177,
+    "note": "it heard, and wanted to speak",
+    "pool": 5,
+    "rendered": null,
+    "resonance": 0.5738,
+    "response": "sold",
+    "source": "meaning resonance",
+    "spoken": true,
+    "stopped": "nothing heard after 'ix' and resonance fell (0.71 -> 0.70)",
+    "to": "air",
+    "utterance": "sold",
+    "voice": "own"
+   },
+   "script": "sel-exact-repeat",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "which thing turns twice?",
+   "class": "ABSENT",
+   "expect": {
+    "expect": {
+     "answer": [
+      "bell"
+     ],
+     "forbid": [
+      "copper"
+     ]
+    },
+    "probe": "R-head-which",
+    "rewords": "what turns twice?",
+    "why": "parent passes via the arbiter head. 'which thing' instead of 'what' tests whether the shape parser's subject_unknown route is keyed to the literal question word."
+   },
+   "position": "at-position",
+   "reply": {
+    "best_resonance": 0.5565,
+    "heard": true,
+    "mood": 0.257,
+    "reason": "it understood but did not feel like speaking",
+    "spoken": false,
+    "threshold": 0.55
+   },
+   "script": "sel-exact-repeat",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "what is held by the thing the frost bites?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "door"
+     ],
+     "forbid": [
+      "frost"
+     ]
+    },
+    "probe": "P-hop-passive",
+    "rewords": "what does the thing the frost bites hold?",
+    "why": "parent FAILS at stage=shape_arbiter. the passive puts the hop's target in subject position, so the embedded-clause span the arbiter walks is gone and the relation has to be recovered twice."
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.51,
+    "cue": [
+     "is",
+     "held",
+     "by",
+     "the",
+     "thing",
+     "the",
+     "frost",
+     "bites"
+    ],
+    "nearest": [
+     "the frost bites the latch",
+     "poison is by no means a new thing",
+     "he was being held by the arms and"
+    ],
+    "reason": "the closest memory of his covers 51% of the question",
+    "required": [
+     "bites",
+     "by",
+     "frost",
+     "held",
+     "is",
+     "thing"
+    ],
+    "spoken": false
+   },
+   "script": "sel-hop-and-inventory",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "what does the bitten thing hold?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "door"
+     ],
+     "forbid": [
+      "frost"
+     ]
+    },
+    "probe": "P-hop-bitten",
+    "rewords": "what does the thing the frost bites hold?",
+    "why": "parent FAILS at stage=shape_arbiter. 'the bitten thing' names the intermediate by a participle instead of by a clause, so nothing in the question contains 'frost' or 'latch' to retrieve on."
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.385,
+    "cue": [
+     "does",
+     "the",
+     "bitten",
+     "thing",
+     "hold"
+    ],
+    "nearest": [
+     "the next thing i laid hold of was",
+     "my emma does not every thing serve to",
+     "churchill does every thing that any other fine"
+    ],
+    "reason": "the closest memory of his covers 39% of the question",
+    "required": [
+     "bitten",
+     "does",
+     "hold",
+     "thing"
+    ],
+    "spoken": false
+   },
+   "script": "sel-hop-and-inventory",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "is the frost held by the door?",
+   "class": "ABSENT",
+   "expect": {
+    "expect": {
+     "answer": [
+      "no"
+     ],
+     "forbid": [
+      "yes"
+     ]
+    },
+    "probe": "P-polar-passive",
+    "rewords": "does the door hold the frost?",
+    "why": "parent FAILS at stage=gating. passive polar form; like the parent it wants an explicit 'no', which only the record path may utter, so this probe measures the same absence."
+   },
+   "position": "at-position",
+   "reply": {
+    "best_resonance": 0.5709,
+    "heard": true,
+    "mood": 0.257,
+    "reason": "it understood but did not feel like speaking",
+    "spoken": false,
+    "threshold": 0.55
+   },
+   "script": "sel-hop-and-inventory",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "is it true that the door holds the frost?",
+   "class": "SPOKE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "no"
+     ],
+     "forbid": [
+      "yes"
+     ]
+    },
+    "probe": "P-polar-true",
+    "rewords": "does the door hold the frost?",
+    "why": "parent FAILS at stage=gating. 'is it true that' keeps the polar shape and the active verb but removes the do-support opener the record path tests words[0] against."
+   },
+   "position": "at-position",
+   "reply": {
+    "address_resonance": 0.02,
+    "heard": true,
+    "kind": "word",
+    "mood": 0.157,
+    "note": "it heard, and wanted to speak",
+    "pool": 6,
+    "rendered": null,
+    "resonance": 0.5721,
+    "response": "crash torn",
+    "source": "meaning resonance + chain",
+    "spoken": true,
+    "stopped": "nothing heard after 'torn' and resonance fell (0.72 -> 0.68)",
+    "to": "air",
+    "utterance": "crash torn",
+    "voice": "own"
+   },
+   "script": "sel-hop-and-inventory",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "what is bitten by the frost?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "latch"
+     ],
+     "forbid": [
+      "door"
+     ]
+    },
+    "probe": "R-hop-passive-single",
+    "rewords": "what does the frost bite?",
+    "why": "parent passes. the single-hop passive: same relation, target in subject position. If the two-hop passive fails and this passes, the failure is the hop and not the voice."
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.592,
+    "cue": [
+     "is",
+     "bitten",
+     "by",
+     "the",
+     "frost"
+    ],
+    "nearest": [
+     "is the frost held by the door?",
+     "the frost bites the latch",
+     "in spite of the slight frost it would"
+    ],
+    "reason": "the closest memory of his covers 59% of the question",
+    "required": [
+     "bitten",
+     "by",
+     "frost",
+     "is"
+    ],
+    "spoken": false
+   },
+   "script": "sel-hop-and-inventory",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "which thing did i mention earlier than the kettle?",
+   "class": "SPOKE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "lantern"
+     ],
+     "forbid": [
+      "gate",
+      "singing",
+      "open"
+     ]
+    },
+    "probe": "P-before-earlier",
+    "rewords": "what did i tell you about before the kettle?",
+    "why": "parent FAILS at stage=recall. 'earlier than' is not in ORDINAL_CUES or COUNT_FIRST_CUES, so no cue table can carry it; the session order has to be recovered from position alone."
+   },
+   "position": "at-position",
+   "reply": {
+    "address_resonance": 0.02,
+    "heard": true,
+    "kind": "word",
+    "mood": 0.157,
+    "note": "it heard, and wanted to speak",
+    "pool": 2,
+    "rendered": null,
+    "resonance": 0.5799,
+    "response": "bridle adding establish lodge phrases amethyst",
+    "source": "meaning resonance + chain",
+    "spoken": true,
+    "stopped": null,
+    "to": "air",
+    "utterance": "bridle adding establish lodge phrases amethyst",
+    "voice": "own"
+   },
+   "script": "sel-order-first-last",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "what came before the kettle in what i said?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "lantern"
+     ],
+     "forbid": [
+      "gate",
+      "singing",
+      "open"
+     ]
+    },
+    "probe": "P-before-came",
+    "rewords": "what did i tell you about before the kettle?",
+    "why": "parent FAILS at stage=recall. keeps the temporal relation but drops the record-verb frame entirely, so the record path cannot fire and the ordinal path has no 'which'."
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.46,
+    "cue": [
+     "came",
+     "before",
+     "the",
+     "kettle",
+     "in",
+     "said"
+    ],
+    "nearest": [
+     "when the water in the kettle was boiling",
+     "in gracechurch street the evening before i came",
+     "came to him and said believe in me"
+    ],
+    "reason": "the closest memory of his covers 46% of the question",
+    "required": [
+     "before",
+     "came",
+     "in",
+     "kettle",
+     "said"
+    ],
+    "spoken": false
+   },
+   "script": "sel-order-first-last",
+   "tier": "generalisation"
+  },
+  {
+   "ask": "what number of eggs is left in the basket?",
+   "class": "GATE",
+   "expect": {
+    "expect": {
+     "answer": [
+      "two"
+     ],
+     "forbid": [
+      "four",
+      "six"
+     ]
+    },
+    "probe": "R-qty-numberof",
+    "rewords": "how many eggs are left in the basket?",
+    "why": "parent passes. 'what number of' is the opener the README names for the quantity path, so this is a within-mechanism rewording: it should pass, and losing it is a regression rather than a generalisation gap."
+   },
+   "position": "at-position",
+   "reply": {
+    "answered": false,
+    "coverage": 0.538,
+    "cue": [
+     "number",
+     "of",
+     "eggs",
+     "is",
+     "left",
+     "in",
+     "the",
+     "basket"
+    ],
+    "nearest": [
+     "there are four eggs in the basket",
+     "as he leaned back in a basket chair",
+     "in which a number of frogs were sitting"
+    ],
+    "reason": "the closest memory of his covers 54% of the question",
+    "required": [
+     "basket",
+     "eggs",
+     "in",
+     "is",
+     "left",
+     "number",
+     "of"
+    ],
+    "spoken": false
+   },
+   "script": "sel-quantity-change",
+   "tier": "generalisation"
+  }
+ ],
+ "tally": {
+  "ABSENT": 4,
+  "GATE": 10,
+  "SPOKE": 5,
+  "VETO": 1
+ }
+}
