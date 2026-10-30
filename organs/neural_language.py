@@ -2055,6 +2055,35 @@ class NeuralLanguage:
             return True
         return w not in self.statement_words
 
+    # R1, docs/answer_path_repair_design.md section 3. The shape parser's question-word
+    # gate was a closed literal tuple ("who", "what", "where"), so `which thing turns
+    # twice` produced no shape at all while `what turns twice` produced subject_unknown
+    # and passed -- measured in docs/evidence/answer_path_probe.py, and the cause of the
+    # whole question-word frame scoring 0/9 across three teaching episodes.
+    #
+    # The extra words are a SEPARATE constant defaulting to empty, so the live animal is
+    # byte-identical until something passes a value: naming it is not re-tuning it, which
+    # is the SAN_WEIGHT_CAP precedent above.
+    #
+    # Two things this deliberately does NOT do. It does not touch the LEARNED
+    # `interrogatives` set, because answer() blacklists memories containing any
+    # interrogative, so teaching the organ that `which` is a question word would also
+    # start suppressing every stored proposition containing `which` -- a different and
+    # much larger change. And it does not add `how`, because `how many`/`how often` are
+    # quantity and count questions whose dedicated paths key on their own cue sets, and
+    # giving them a shape would put them before the arbiter with no filler to arbitrate.
+    SHAPE_EXTRA_INTERROGATIVES = ()
+    SHAPE_BASE_INTERROGATIVES = ("who", "what", "where")
+
+    @property
+    def SHAPE_INTERROGATIVES(self):
+        """Computed at call time, NOT a class attribute. A class-level
+        `BASE + EXTRA` would be frozen when the class body ran, so setting the flag at
+        runtime would silently do nothing and the experiment would measure the control
+        arm twice -- the kind of defect that produces a clean, confident, empty result.
+        """
+        return self.SHAPE_BASE_INTERROGATIVES + tuple(self.SHAPE_EXTRA_INTERROGATIVES)
+
     def _question_shape(self, q_tokens) -> dict:
         """Classify a question into a shape the answer-checker can verify.
 
@@ -2105,7 +2134,7 @@ class NeuralLanguage:
         work, not silent tolerance.
         """
         q = [str(t).strip().lower() for t in (q_tokens or []) if str(t).strip()]
-        inter = next((w for w in q if w in ("who", "what", "where")), None)
+        inter = next((w for w in q if w in self.SHAPE_INTERROGATIVES), None)
         if inter is None:
             return None
         rest = q[q.index(inter) + 1:]

@@ -815,6 +815,9 @@ def phrasing_fitted(rows: list, baseline: dict) -> list:
 
 # ------------------------------------------------------------- generation ----
 
+CODE_FLAGS = {}
+
+
 def git_provenance() -> dict:
     def git(*a):
         try:
@@ -826,6 +829,12 @@ def git_provenance() -> dict:
             "dirty": bool(git("status", "--porcelain")),
             "python": platform.python_version(),
             "numpy": np.__version__,
+            # Code-level flags are recorded beside the interpreter and the git head
+            # because they are the same kind of fact: two arms of an A/B carry the SAME
+            # genome, so the flag is the only thing that distinguishes them, and a row
+            # that did not record it would make the two arms indistinguishable in the
+            # record and the comparison unattributable.
+            "code_flags": dict(CODE_FLAGS),
             "frozen_seal": seal(FROZEN_TASKS),
             "probes_seal": seal(PROBE_TASKS)}
 
@@ -1176,6 +1185,14 @@ def cmd_run(args) -> int:
                   f"baseline ({baseline['probe_seal']} -> {prov['probes_seal']}). "
                   f"Generalisation scores are not comparable to the baseline's and "
                   f"every row will carry the label probe-seal-broken.")
+    if args.shape_extra:
+        words = tuple(w.strip().lower() for w in args.shape_extra.split(",") if w.strip())
+        nl.NeuralLanguage.SHAPE_EXTRA_INTERROGATIVES = words
+        CODE_FLAGS["shape_extra_interrogatives"] = list(words)
+        print(f"R1 ON: SHAPE_EXTRA_INTERROGATIVES = {words} -> "
+              f"{nl.NeuralLanguage.SHAPE_BASE_INTERROGATIVES + words}")
+    else:
+        CODE_FLAGS["shape_extra_interrogatives"] = []
     tiers = tuple(args.tier.split(","))
     battery = load_battery(tiers, args.only, args.open_batch)
     pop = build_population(args, base)
@@ -1555,6 +1572,12 @@ def main() -> int:
     ap.add_argument("--mut-seed", type=int, default=1,
                     help="seed for the mutation draws, so a generation's mutants "
                          "can be regenerated exactly")
+    ap.add_argument("--shape-extra", default="",
+                    help="comma-separated question words to add to the shape parser's "
+                         "gate (repair R1). A CODE flag, not a genome gene: both arms of "
+                         "an A/B carry the same genome, so this is what distinguishes "
+                         "them and it is recorded in provenance.code_flags. Must be run "
+                         "one arm per process, since it is a module-level constant")
     ap.add_argument("--dry-run", action="store_true",
                     help="build and print the population -- genome ids and mutation "
                          "values -- then stop. Costs nothing and shows the mutants "
