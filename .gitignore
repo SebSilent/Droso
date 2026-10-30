@@ -86,6 +86,15 @@ exocortex/stream_progress.json
 exocortex/learned_procedures.json
 
 # Runtime artefacts: All regenerable from the corpus, the tools and the clock.
+#
+# state/selection/ is deliberately NOT here, unlike state/fitness/. It is the
+# lineage record of the generational harness (tools/run_generation.py): one row per
+# brain carrying its genome, its parent, both pass sets and the seals it was
+# measured under. A lineage that only exists on one machine cannot be audited, and
+# force-adding it generation by generation would leave gaps nobody notices. It costs
+# ~94 KB per generation (generation_0: 12.7 KB of rows, 79.6 KB of per-ask journal,
+# 1.7 KB of base genome); if that ever becomes a problem the per-ask journals are
+# the part to stop tracking, not the rows.
 state/sessions/
 state/merged*/
 state/reading/

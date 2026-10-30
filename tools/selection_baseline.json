@@ -1,0 +1,65 @@
+{
+ "frozen_at": "2026-10-29T23:39:31",
+ "generation": 0,
+ "clones": 3,
+ "genome_id": "abffa2b7f101",
+ "genome_ids": [
+  "abffa2b7f101"
+ ],
+ "frozen_seal": "b9d0f2d83fbb7e78",
+ "probe_seal": "6b6117e9e0a7c331",
+ "frozen_pass_set": [
+  "conjunction-and-absence::is the coat dry or wet?",
+  "conjunction-and-absence::what is both wet and on the hook?",
+  "conjunction-and-absence::where did i say the scarf is?",
+  "count-frequency::did i ever tell you about the moon?",
+  "count-frequency::how many things did i tell you about the coat?",
+  "count-frequency::how many times did i tell you about the scarf?",
+  "count-frequency::how many times did i tell you the coat is wet?",
+  "exact-repeat::say exactly the copper bell turns twice",
+  "exact-repeat::what turns twice?",
+  "exact-repeat::which word did i use for the metal?",
+  "hop-and-inventory::what bites the latch?",
+  "hop-and-inventory::what does the frost bite?",
+  "order-first-last::how many objects did i tell you about?",
+  "order-first-last::which did i tell you first the lantern or the kettle?",
+  "order-first-last::which did i tell you last the kettle or the gate?",
+  "quantity-change::did any egg break?",
+  "quantity-change::how many eggs are left in the basket?",
+  "quantity-change::how many eggs broke?",
+  "quantity-change::how many eggs did i mention first?"
+ ],
+ "frozen_fail_set": [
+  "conjunction-and-absence::what is wet but not on the hook?",
+  "exact-repeat::how many times does the bell turn?",
+  "hop-and-inventory::does the door hold the frost?",
+  "hop-and-inventory::what does the thing the frost bites hold?",
+  "order-first-last::what did i tell you about before the kettle?"
+ ],
+ "frozen_unstable": [],
+ "regression_pass_set": [
+  "sel-conjunction-and-absence::is the coat wet or is it dry?",
+  "sel-count-frequency::have i mentioned the moon to you?",
+  "sel-exact-repeat::the bell turns how often?",
+  "sel-order-first-last::of the lantern and the kettle which one came first?"
+ ],
+ "paraphrase_set": [
+  "sel-conjunction-and-absence::name the wet thing that is not on the hook",
+  "sel-conjunction-and-absence::which of them is wet and is not on the hook?",
+  "sel-count-frequency::how often did i say the coat is wet?",
+  "sel-exact-repeat::how often does the bell turn?",
+  "sel-exact-repeat::repeat after me the copper bell turns twice",
+  "sel-exact-repeat::which thing turns twice?",
+  "sel-hop-and-inventory::is it true that the door holds the frost?",
+  "sel-hop-and-inventory::is the frost held by the door?",
+  "sel-hop-and-inventory::what does the bitten thing hold?",
+  "sel-hop-and-inventory::what is bitten by the frost?",
+  "sel-hop-and-inventory::what is held by the thing the frost bites?",
+  "sel-order-first-last::what came before the kettle in what i said?",
+  "sel-order-first-last::which thing did i mention earlier than the kettle?",
+  "sel-quantity-change::what number of eggs is left in the basket?"
+ ],
+ "probe_ambiguous": [],
+ "git_head": "8af3ed9",
+ "note": "Frozen before any mutant was scored. The regression guard is the intersection of the clones, not their union: an ask that passed in two of three identical brains is instrument noise and cannot be a pass that a mutant 'lost'."
+}

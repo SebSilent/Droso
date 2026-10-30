@@ -1,0 +1,191 @@
+{
+  "name": "selection_probes",
+  "note": "Probe pool for the selection harness (docs/selection_design.md). These are NOT a second frozen suite. Every ask here is a rewording of an ask in tools/scripts_heldout.json, sharing its parent script's tells verbatim and its expect block verbatim, so the only variable is the phrasing. The tier each probe ends up in is decided by MEASUREMENT at the base genome, not here: a probe that passes at base is frozen into the regression guard (it may only be lost), a probe that fails at base stays a paraphrase probe (it may only be gained). That split is written to tools/selection_baseline.json by --freeze-baseline before any mutant is scored, and this file is sealed by sha256 in that record.",
+  "blindness": "No selection or mutation code reads this file. tools/run_generation.py reads it to score and for nothing else; the mutation operator sees genome scalars and never ask text, expect blocks or probe ids. Editing this file after a result has been seen changes its seal and invalidates the generalisation claim for every generation recorded against the old seal.",
+  "cue_avoidance": "Each probe was written against the organ's own cue sets, read from organs/neural_language.py before writing: COUNT_QUANTS {times,things,objects,items}, COUNT_FIRST_CUES/COUNT_LAST_CUES, ORDINAL_CUES {first,last}, RECORD_VERBS {tell,told,mention,mentioned,say,said}, GLOSSARY_PAT 'which word did i (use|say) for the <cat>', and the quantity path's 'how many'/'what count of'/'did any' openers. A probe that reused its parent's cue words would measure the cue table, not the behaviour, so the paraphrase probes deliberately avoid them. Where avoidance is impossible without changing the question's meaning it is noted in the probe's own 'why' field.",
+  "scripts": [
+    {
+      "name": "sel-count-frequency",
+      "kind": "probe",
+      "parent": "count-frequency",
+      "turns": [
+        {"say": "the coat is wet"},
+        {"say": "the coat is wet"},
+        {"say": "the coat is wet"},
+        {"say": "the coat is torn"},
+        {
+          "probe": "R-count-often",
+          "rewords": "how many times did i tell you the coat is wet?",
+          "why": "parent passes. avoids 'how many' and 'times' (COUNT_QUANTS), keeps 'say' (RECORD_VERBS). tests whether the count is reachable without the quantifier table.",
+          "ask": "how often did i say the coat is wet?",
+          "expect": {"answer": ["three"], "forbid": ["one", "two", "four", "five", "torn"]}
+        },
+        {
+          "probe": "R-count-moon",
+          "rewords": "did i ever tell you about the moon?",
+          "why": "parent passes. 'have i mentioned' keeps words[0] in the record path's allowed openers and keeps a RECORD_VERB, but drops 'ever' and 'about', both of which the record path tests for.",
+          "ask": "have i mentioned the moon to you?",
+          "expect": {"answer": ["no"], "forbid": ["moon", "yes"]}
+        }
+      ]
+    },
+    {
+      "name": "sel-order-first-last",
+      "kind": "probe",
+      "parent": "order-first-last",
+      "turns": [
+        {"say": "the lantern is lit"},
+        {"say": "the kettle is singing"},
+        {"say": "the gate is open"},
+        {
+          "probe": "P-before-earlier",
+          "rewords": "what did i tell you about before the kettle?",
+          "why": "parent FAILS at stage=recall. 'earlier than' is not in ORDINAL_CUES or COUNT_FIRST_CUES, so no cue table can carry it; the session order has to be recovered from position alone.",
+          "ask": "which thing did i mention earlier than the kettle?",
+          "expect": {"answer": ["lantern"], "forbid": ["gate", "singing", "open"]}
+        },
+        {
+          "probe": "P-before-came",
+          "rewords": "what did i tell you about before the kettle?",
+          "why": "parent FAILS at stage=recall. keeps the temporal relation but drops the record-verb frame entirely, so the record path cannot fire and the ordinal path has no 'which'.",
+          "ask": "what came before the kettle in what i said?",
+          "expect": {"answer": ["lantern"], "forbid": ["gate", "singing", "open"]}
+        },
+        {
+          "probe": "R-order-ofthe",
+          "rewords": "which did i tell you first the lantern or the kettle?",
+          "why": "parent passes. moves the two alternatives ahead of the cue word and adds 'one', testing the ordinal path's claim that alternatives may appear before or after the question word.",
+          "ask": "of the lantern and the kettle which one came first?",
+          "expect": {"answer": ["lantern"], "forbid": ["kettle", "gate"]}
+        }
+      ]
+    },
+    {
+      "name": "sel-conjunction-and-absence",
+      "kind": "probe",
+      "parent": "conjunction-and-absence",
+      "turns": [
+        {"say": "the coat is wet"},
+        {"say": "the coat is on the hook"},
+        {"say": "the scarf is wet"},
+        {
+          "probe": "P-notboth-which",
+          "rewords": "what is wet but not on the hook?",
+          "why": "parent FAILS at stage=shape_arbiter saying 'the coat is on the hook'. 'which of them' offers no named alternative, so the disjunction path cannot fire; the negation has to be resolved against memory.",
+          "ask": "which of them is wet and is not on the hook?",
+          "expect": {"answer": ["scarf"], "forbid": ["coat"]}
+        },
+        {
+          "probe": "P-notboth-name",
+          "rewords": "what is wet but not on the hook?",
+          "why": "parent FAILS at stage=shape_arbiter. an imperative rather than a question, so no interrogative reaches role selection at all.",
+          "ask": "name the wet thing that is not on the hook",
+          "expect": {"answer": ["scarf"], "forbid": ["coat"]}
+        },
+        {
+          "probe": "R-disj-reversed",
+          "rewords": "is the coat dry or wet?",
+          "why": "parent passes. offers the same two alternatives in the opposite order, which is the one thing a disjunction path could get wrong by position.",
+          "ask": "is the coat wet or is it dry?",
+          "expect": {"answer": ["wet"], "forbid": ["dry"]}
+        }
+      ]
+    },
+    {
+      "name": "sel-exact-repeat",
+      "kind": "probe",
+      "parent": "exact-repeat",
+      "turns": [
+        {"say": "the copper bell turns twice"},
+        {
+          "probe": "P-numeral-often",
+          "rewords": "how many times does the bell turn?",
+          "why": "parent FAILS at stage=recall. 'how often' carries neither 'how many' nor a COUNT_QUANTS word, so neither the quantity nor the count path can open on it.",
+          "ask": "how often does the bell turn?",
+          "expect": {"answer": ["twice", "two"], "forbid": ["three", "once"]}
+        },
+        {
+          "probe": "P-numeral-final",
+          "rewords": "how many times does the bell turn?",
+          "why": "parent FAILS at stage=recall. same words as the parent but the interrogative phrase is final instead of initial, which is the word-order dependence the log's numeral claim names.",
+          "ask": "the bell turns how often?",
+          "expect": {"answer": ["twice", "two"], "forbid": ["three", "once"]}
+        },
+        {
+          "probe": "R-echo-repeat",
+          "rewords": "say exactly the copper bell turns twice",
+          "why": "parent passes. 'repeat after me' is a different instruction frame for the same declared exact repeat.",
+          "ask": "repeat after me the copper bell turns twice",
+          "expect": {"answer": [], "must_contain": ["copper", "bell", "turns", "twice"], "order": ["copper", "bell", "turns", "twice"], "forbid": []}
+        },
+        {
+          "probe": "R-head-which",
+          "rewords": "what turns twice?",
+          "why": "parent passes via the arbiter head. 'which thing' instead of 'what' tests whether the shape parser's subject_unknown route is keyed to the literal question word.",
+          "ask": "which thing turns twice?",
+          "expect": {"answer": ["bell"], "forbid": ["copper"]}
+        }
+      ]
+    },
+    {
+      "name": "sel-hop-and-inventory",
+      "kind": "probe",
+      "parent": "hop-and-inventory",
+      "turns": [
+        {"say": "the frost bites the latch"},
+        {"say": "the latch holds the door"},
+        {
+          "probe": "P-hop-passive",
+          "rewords": "what does the thing the frost bites hold?",
+          "why": "parent FAILS at stage=shape_arbiter. the passive puts the hop's target in subject position, so the embedded-clause span the arbiter walks is gone and the relation has to be recovered twice.",
+          "ask": "what is held by the thing the frost bites?",
+          "expect": {"answer": ["door"], "forbid": ["frost"]}
+        },
+        {
+          "probe": "P-hop-bitten",
+          "rewords": "what does the thing the frost bites hold?",
+          "why": "parent FAILS at stage=shape_arbiter. 'the bitten thing' names the intermediate by a participle instead of by a clause, so nothing in the question contains 'frost' or 'latch' to retrieve on.",
+          "ask": "what does the bitten thing hold?",
+          "expect": {"answer": ["door"], "forbid": ["frost"]}
+        },
+        {
+          "probe": "P-polar-passive",
+          "rewords": "does the door hold the frost?",
+          "why": "parent FAILS at stage=gating. passive polar form; like the parent it wants an explicit 'no', which only the record path may utter, so this probe measures the same absence.",
+          "ask": "is the frost held by the door?",
+          "expect": {"answer": ["no"], "forbid": ["yes"]}
+        },
+        {
+          "probe": "P-polar-true",
+          "rewords": "does the door hold the frost?",
+          "why": "parent FAILS at stage=gating. 'is it true that' keeps the polar shape and the active verb but removes the do-support opener the record path tests words[0] against.",
+          "ask": "is it true that the door holds the frost?",
+          "expect": {"answer": ["no"], "forbid": ["yes"]}
+        },
+        {
+          "probe": "R-hop-passive-single",
+          "rewords": "what does the frost bite?",
+          "why": "parent passes. the single-hop passive: same relation, target in subject position. If the two-hop passive fails and this passes, the failure is the hop and not the voice.",
+          "ask": "what is bitten by the frost?",
+          "expect": {"answer": ["latch"], "forbid": ["door"]}
+        }
+      ]
+    },
+    {
+      "name": "sel-quantity-change",
+      "kind": "probe",
+      "parent": "quantity-change",
+      "turns": [
+        {"say": "there are four eggs in the basket"},
+        {"say": "then two eggs break"},
+        {
+          "probe": "R-qty-numberof",
+          "rewords": "how many eggs are left in the basket?",
+          "why": "parent passes. 'what number of' is the opener the README names for the quantity path, so this is a within-mechanism rewording: it should pass, and losing it is a regression rather than a generalisation gap.",
+          "ask": "what number of eggs is left in the basket?",
+          "expect": {"answer": ["two"], "forbid": ["four", "six"]}
+        }
+      ]
+    }
+  ]
+}

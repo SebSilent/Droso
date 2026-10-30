@@ -1,0 +1,83 @@
+{
+ "schema": 1,
+ "genes": {
+  "substrate": {
+   "control": false,
+   "seed": 0,
+   "row_gain": 0.5,
+   "n_actions": 12
+  },
+  "plasticity": {
+   "sub_steps": 10,
+   "leak": 0.6,
+   "tau_e": 0.95,
+   "lr": 3.0,
+   "gamma": 0.9,
+   "weight_decay": 3.2e-05,
+   "w_cap": 8.0,
+   "hysteresis": 0.002,
+   "epsilon": 0.15,
+   "epsilon_floor": 0.02,
+   "epsilon_decay": 0.995,
+   "temperature": 0.02,
+   "temperature_decay": 1.0,
+   "input_gain": 2.0
+  },
+  "decision": {
+   "n_input_kc": 3840,
+   "k_code": 16,
+   "code_seed": 0,
+   "engine_seed": 0,
+   "ratecore_seed": 0
+  },
+  "answer": {
+   "ANSWER_COVERAGE_FLOOR": 0.6,
+   "reply_threshold": 0.55,
+   "reply_drive_min": 0.3,
+   "max_sentence_words": 6,
+   "speech_temperature": 0.35,
+   "phrase_threshold": 6,
+   "FRESH_TAU_S": 3600.0,
+   "FRESH_FLOOR_S": 300.0,
+   "SAN_ROW_CAP": 1024.0,
+   "SAN_TOP_K": 512,
+   "HEBB_LR": 0.1,
+   "SAN_DECAY_PER_S": 0.995
+  }
+ },
+ "genome_id": "abffa2b7f101",
+ "provenance": {
+  "substrate": {
+   "control": false,
+   "seed": 0,
+   "row_gain": 0.5,
+   "n_static_edges": 173294,
+   "n_plastic_edges": 2983
+  },
+  "n_nodes": 12867,
+  "plastic_synapses": 2983,
+  "as_found": {
+   "epsilon": 0.15,
+   "temperature": 0.02,
+   "decisions": 0,
+   "birth_epsilon": 0.15,
+   "birth_temperature": 0.02
+  },
+  "teaching_history": {
+   "vocabulary": 11555,
+   "binder_rows": 60000,
+   "propositions": 60000,
+   "san_nnz": 66107030,
+   "bigrams": 373559,
+   "persons": 5,
+   "question_roles": 4,
+   "answer_types": 4,
+   "live_state": {
+    "language_state.json": "bb8165798ae33dd4",
+    "banc_brain.npz": "546adb1bb8e433c3"
+   }
+  }
+ },
+ "operator": "founder",
+ "parent_genome_id": null
+}

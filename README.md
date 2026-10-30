@@ -221,6 +221,27 @@ python tools/script_benchmark.py --only reference,accumulation > state/fitness/g
 Pairs: `reference,accumulation`, `discrimination,role_chain`,
 `switch_back,override`, `session_context,where_kept`.
 
+### The selection harness
+
+`tools/run_generation.py` scores brains, not cuts: a genome of the scalars the
+organ and the rate core already read is applied to a freshly built house per ask,
+and every brain is scored on the frozen 24 plus 18 rewordings of them. Fitness is a
+tuple with a hard constraint first — zero frozen passes lost — and no weighted sum.
+Contract in `docs/selection_design.md`.
+
+```bash
+python tools/run_generation.py --snapshot                 # write the base genome
+python tools/run_generation.py --generation 0 --lines 3   # ~55 min, background it
+python tools/run_generation.py --freeze-baseline --generation 0
+```
+
+One line per brain lands in `state/selection/generation_N.jsonl` carrying its
+genome, its parent, both pass sets, every failure with its stage, and the git,
+interpreter and live-state seals it was measured under. Generation 0 is three
+clones of one genome: all three scored 19/24 and 4/18 with identical failure stages
+and no ask changing membership, which is the instrument's noise floor measured
+rather than assumed.
+
 The table prints `warm`, `cold` and `delta` per script and overall. Warm is with
 the session's own context, cold is after a restart from saved state; a delta of
 `+0.00` means the restart changed nothing. `override` also prints its winner.
