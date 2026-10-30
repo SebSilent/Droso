@@ -610,6 +610,20 @@ def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str,
                "stage": None if ok else stage_of(t, why),
                "source": r.get("source"), "filler": r.get("recovered_filler"),
                "reason": r.get("reason"),
+               # Raw recall diagnostics, recorded for EVERY ask and not just
+               # failures, because a passing ask's coverage is the only way to
+               # know where the gate actually sits for the asks that work.
+               # `coverage` is the fraction of the cue's content words the best
+               # binder posting covers; `required` is the word list it demanded
+               # (empty means the cue reached no posting at all, which is a
+               # different failure from a posting that scored too low);
+               # `nearest` is the organ's own top-3 postings with their scores.
+               # These three are what distinguishes "no memory", "memory the cue
+               # cannot reach" and "memory refused by a threshold" -- without
+               # them all three report stage=recall and look identical.
+               "coverage": r.get("coverage"),
+               "required": r.get("required"),
+               "nearest": r.get("nearest"),
                "genome_applied": True, "shim": shim,
                "seconds": round(time.time() - t0, 2)}
     except Exception as exc:

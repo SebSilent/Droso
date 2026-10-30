@@ -327,11 +327,18 @@ def _clean(reply) -> dict | None:
     """The reply dict, trimmed to what a report needs."""
     if not isinstance(reply, dict):
         return None
+    # "coverage", "required" and "nearest" are the recall gate's own numbers:
+    # what fraction of the cue's content words a binder posting covers, which
+    # words it demanded, and the closest postings it found. Without them a
+    # failure at stage=recall is only distinguishable from "no memory at all"
+    # by parsing a whole-percent reason string, and the two look identical.
+    # They are small (nearest is capped at 3), and every consumer of _clean
+    # either ignores unknown keys or reports them.
     keep = ("spoken", "answered", "utterance", "response", "source",
             "reason", "resonance", "best_resonance", "threshold", "mood",
             "to", "words", "recovered_filler", "filler_score",
             "memories_matched", "interrogatives", "parser", "band_walk",
-            "join")
+            "join", "coverage", "required", "nearest")
     out = {k: reply[k] for k in keep if k in reply}
     # On the answered path the parser verdict, the join trace and the second
     # brain's vote ride inside "retrieval", which is far too big to keep
