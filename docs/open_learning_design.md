@@ -778,6 +778,215 @@ Recorded so the checks are not invented after the fact.
 - **The house is up during an episode.** `consolidate_live.py` states it plainly: a
   concurrent writer would fight the guard, not lose to it.
 
+## 10. Promotion: from a shadow episode to a persistent learner
+
+Implemented in `tools/promote_learner.py`, with `--state-root` and
+`--keep-checkpoint` added to `tools/teach_episode.py`. Episodes 1 and 2 are **not
+promotable**: they measured retention and then deleted the animal with their session
+directory. That was correct for E1 and E2, whose question was whether teaching works
+at all, and it is why `--keep-checkpoint` is opt-in rather than default.
+
+### 10.1 Why a separate area, and what would break without it
+
+```
+state/language_state*, state/banc_brain.npz    the GUARDED live animal -- never written
+state/live_learner/manifest.json               the version chain and current pointer
+state/live_learner/current/                    what the next episode builds on
+state/live_learner/versions/v<N>_<id>/         immutable snapshots
+state/live_learner/staging/ep<N>_<id>/         checkpoints awaiting promotion
+state/lineage/promotions.jsonl                 one row per bootstrap/promote/rollback
+```
+
+The guarded baseline means something only because the state it was measured against
+has not moved. `tools/selection_baseline.json` freezes 19 passes and 4 guarded probes
+against the live animal, and `run_generation.py` refuses to run if the frozen suite's
+seal moves. Promoting a taught episode **on top of** the live state would quietly
+redefine what 19/24 refers to, and every generation recorded so far — 0, 1, 2, 3, 504
+ask evaluations with a measured noise floor of zero — would become incomparable to the
+next. So the learner lives beside the live animal and `live_seals()` globs `state/`,
+never `state/live_learner/`. A test pins that by reading the function's own source.
+
+Bootstrap copies the live state into `v0`, so the learner's ancestry *is* the guarded
+animal and the first chained episode starts from a known point.
+
+### 10.2 Hardlinks, and the invariant that makes them safe
+
+A checkpoint is 260.6 MB, 222 MB of it the binder's `cortex.npz`. Full copies would
+make versioning unusable, so every file in the learner area is a hardlink — the same
+mechanism and the same safety argument as `benchmark_cross_session.build_shadow`:
+`save_state` writes tmp-then-rename, which **replaces** a link rather than writing
+through it, and a checkpoint is only ever read. `link_tree` records `link: true/false`
+per file, because a file that cannot be linked (different volume, permissions) is
+copied, and silently copying 222 MB while calling it a link would make the disk cost of
+versioning invisible. `--verify` re-seals `current/` against the manifest, so the
+invariant is checked rather than assumed.
+
+### 10.3 Promotion is never automatic, and refuses for five reasons
+
+`teach_episode.py` always records `promoted_to_live: false` and cannot promote.
+Promotion is a separate command with an explicit `--promote --episode N`, and any one
+of these refuses it rather than warning:
+
+1. the episode's verdict is not PASS, or any of its five gates is not exactly `True`
+   (`None` — a gate that was never run — refuses, which is the pilot's lesson);
+2. the episode did not run all 24 frozen asks, so erosion was never really measured;
+3. **the live state's seals now differ from the seals the episode recorded before it
+   ran** — the episode is not promoted against a state that has since drifted;
+4. the staging checkpoint is missing, or any of its file seals differ from the
+   episode's recorded `checkpoint_files`, so what would be promoted is not provably
+   what was measured;
+5. the checkpoint's bytes are already a version, which would fork the chain onto
+   identical content and make the version list lie about how much learning happened.
+
+The new version's parent is the current version, so the chain stays linear. `current/`
+is rebuilt into `current.tmp` and `os.replace`d, so a half-written swap cannot leave
+`current/` pointing at a mixture of two versions.
+
+### 10.4 Rollback
+
+`--rollback` repoints `current/` at the parent version and **keeps** the version it
+rolled back from, because a rollback that destroys the thing it is rolling back is not
+a safety mechanism. The rebuilt `current/` is re-sealed against the target version's
+recorded seals *before* the swap, and a mismatch refuses. Every rollback is recorded in
+the manifest and the ledger with its reason. The version cap never prunes anything on
+the rollback path — the current version and its ancestors are kept whatever `MAX_VERSIONS`
+says — so `--rollback` always has somewhere to go.
+
+### 10.5 The guard, and a false alarm it would have caused
+
+`state/live_learner/` is inside `state/` and is not in `converse.GUARD_EXCLUDE`, so
+creating a checkpoint shows up as "live files moved". The first bootstrap run reported
+exactly that and exited 1. Reading it as damage would make the tool unable to do its
+job; ignoring the guard wholesale would hide a real leak. So `finish_guard` splits the
+moved list by prefix — own writes under `state/live_learner/` are counted and reported,
+anything elsewhere fails the run — **and** re-seals the live learner files explicitly,
+because the invariant that actually matters is that the guarded animal did not move, and
+that deserves a direct check rather than an inference from a directory walk. Bootstrap
+now reports `17 own writes, 0 elsewhere, live learner files byte-identical (8 sealed)`.
+
+### 10.6 E3, pre-registered before it is run
+
+**E3 is the first chained episode: promote, then teach from the promoted state.** Two
+episodes, because a chained measurement needs something to chain onto.
+
+- **Episode 3** teaches 20 facts at seed 3 starting from `state/live_learner/current`
+  (which is `v0`, byte-identical to the live animal), with `--keep-checkpoint`. It is
+  then promoted to `v1`.
+- **Episode 4** teaches 20 facts at seed 4 starting from `v1` — so its binder already
+  holds episode 3's 20 taught rows and has already evicted its 23 corpus rows. This is
+  the first measurement of an organism that has been taught twice.
+
+Predictions, with falsifiers:
+
+- **P1 — acquisition repeats a third time: ≥18/20** on both episodes. E1 and E2 were
+  20/20 on seeds 1 and 2.
+- **P2 — episode 4 still answers episode 3's facts.** Not measured by the open tier,
+  which only asks about its own batch, so this needs episode 3's acquisition asks put
+  to episode 4's shadow. **This is the retention-across-episodes number the whole
+  programme is for**, and it is the one E1 and E2 structurally could not produce.
+- **P3 — zero erosion on both episodes.** Frozen 19/24 and guarded 4/4. Episode 4 is
+  the sharper test: its binder differs from the guarded animal by 40 taught rows and
+  ~46 evicted corpus rows, so this is cumulative erosion rather than per-episode.
+- **P4 — displacement stays cheap and stays corpus-only.** Roughly 20–25 evicted per
+  episode, all `book`, all count 1. If episode 4 evicts a `you` row, the taught rows
+  from episode 3 have reached the FIFO tail, and that is the horizon §7b exists for —
+  it would be the first evidence that value-weighted eviction is needed now rather than
+  later.
+- **P5 — consolidation selects the taught rows.** Post-7a, `taught_urgent > 0` should
+  put `you` rows in the picked sample, as episode 2's 6 of 6 did. In episode 4 the
+  binder holds *two* generations of taught rows, so the sample may contain rows from
+  episode 3 as well; that would be the first evidence that consolidation protects an
+  **aged** taught fact and not only a fresh one, which is the property §7a was for.
+- **P6 — SAN nnz unchanged (+0)** on both episodes.
+- **P7 — the chain is linear and verifiable.** `--verify` reports `v1 <- v0` after the
+  first promotion and `v2 <- v1 <- v0` after the second, with `current/` matching its
+  recorded seals and the live state byte-identical to the bootstrap state throughout.
+
+What E3 cannot show: retention across a *restart of the house* rather than across a
+shadow build (the shadow build is a fresh process, so this is close but not identical);
+more than two chained episodes; and any effect of §7b, which is not implemented.
+
+If a gate fails on episode 4, `--rollback` returns the learner to `v1` and the episode
+is recorded as refused rather than promoted. Nothing is promoted automatically at any
+point in E3.
+
+### E3, measured
+
+Episode 3 (seed 3, from `v0`, `--keep-checkpoint`) promoted to **`v1_8be802548643`**;
+episode 4 (seed 4) taught from `v1`. 82 and 102 asks, 2,024 s and 2,388 s. Both
+**PASS on all five gates**.
+
+| | ep3 (from v0) | ep4 (from **v1**, chained) | prediction |
+|---|---|---|---|
+| acquisition | 20/20 | **20/20** | P1 ≥18/20 — **confirmed, 4th episode running** |
+| **retention of ep3's facts** | — | **20/20** | P2 — **confirmed** |
+| reverse-role | **7/7** | **7/7** | most or all — **confirmed** |
+| question-word swap | 0/3 | 0/6 | 0 — **confirmed** |
+| passive | 0/10 | 0/7 | 0 — **confirmed** |
+| frozen / guarded | 19/24, 4/4 | **19/24, 4/4** | P3 — **confirmed** |
+| erosion | none | **none** | gate — **held, cumulatively** |
+| evicted | 22, all `book` count 1 | 21: **20 `book` count 1 + 1 `droso` count 4561** | P4 — **partly falsified** |
+| added | 20 `you`, 2 `droso` | 20 `you`, 1 `droso` | P4 — confirmed |
+| SAN nnz / total | +0 / −42,941 | **+0 / −16,948** | P6 — **confirmed** |
+| `taught_urgent` / picked `you` | — | **9 / 20 → 7 `you` in the sample** | P5 — **confirmed** |
+| chain | `v0` | **`v1 <- v0`, `--verify` OK** | P7 — **confirmed** |
+
+**Retention across episodes is 20/20, and this is the number the whole promotion path
+exists to produce.** Episode 4's binder read `you: 20` at startup — episode 3's taught
+rows, inherited through promotion — and every one of episode 3's acquisition asks was
+answered again after a further 20 facts were taught on top and a further 21 corpus rows
+evicted. E1 and E2 structurally could not produce this number: each taught into a
+shadow and threw the animal away.
+
+**Zero erosion is now cumulative, not per-episode.** Episode 4's binder differs from the
+guarded animal by 40 taught rows and 43 evicted corpus rows, and the frozen 24 and the
+4 guarded probes are unchanged. The floor survives two episodes of open learning.
+
+**P5's strongest branch.** `taught_urgent` was 9 of 20 and consolidation's picked sample
+was `{droso 13, you 7}` — and the picked `you` rows include facts from **both** episodes
+(`the uncertainty breach the wearisome` and `the alfred bowing the dispel` are episode 3's;
+`the gigantic jury the committal` and `the breeches amused the platform` are episode 4's).
+That is the first evidence that §7a protects an **aged** taught fact and not only a fresh
+one, which is the property it was landed for. Pre-7a, episode 1 picked zero `you` rows.
+
+**P4 partly falsified, and the falsification is the useful part.** One evicted row was a
+`droso` row with **count 4561** — rehearsed four and a half thousand times and evicted
+anyway, because blind FIFO consults nothing. Episodes 1–3 evicted only count-1 `book`
+rows, which is why §7b looked deferrable; this is the first measured case of FIFO
+destroying a high-value row. It does not change the decision to defer §7b — no capability
+was lost, the guard held — but it converts §7b's justification from an argument about a
+future horizon into an observed event, and it is recorded as a falsified prediction rather
+than folded into P4's confirmation.
+
+**Reverse-role is 12/12 across three seeds** (2/2, 3/3, 7/7). A taught fact is stored as a
+relation queryable from either end. Question-word swap is 0/9 and passive 0/17 across the
+same three: rung 2's brittleness is a property of the answer path and reproduces on facts
+taught minutes ago, so teaching more facts will not move it.
+
+### Two guard false alarms, and the check that replaced them
+
+`state/live_learner/` is inside `state/` and is not in `converse.GUARD_EXCLUDE`, so
+`--keep-checkpoint`'s own writes read as damage and episode 3 was marked FAIL on a gate
+whose substance had passed. Two hardlinked `.npz` files were also reported moved while
+their sha256 was identical, because `converse`'s guard keys `.npz` by zip-member CRC and
+size rather than by a hash of the bytes.
+
+Both tools now split the moved list by prefix — own writes under `state/live_learner/`
+counted and reported, anything elsewhere failing the run — **and** sha256-seal the live
+learner files directly, plus the learner root the episode started from, so a mutated
+checkpoint cannot hide behind a directory walk. Episode 3's row was corrected from FAIL
+to PASS by `docs/evidence/correct_episode3_gate.py`, which recomputes the gate from data
+already in the row plus `promote_learner --verify` run at correction time, keeps the
+original verdict inside a `correction` block, and backs the ledger up first. Its
+`checkpoint_files` were sealed afterwards by `docs/evidence/seal_episode3_checkpoint.py`,
+tied to the run by mtime — every file must predate the episode's end — because the episode
+ran before that field existed and re-running 34 minutes to produce the same numbers would
+prove nothing. `test_a_passing_episode_really_did_measure_erosion` was too strong here and
+was narrowed: it banned any corrected row from claiming PASS, which was written for the
+pilot and would have forbidden a justified upgrade. It now requires that an upgrade carry
+computed evidence — nothing moved outside the learner area, live sha256 seals unchanged,
+`--verify` OK — and still satisfy every ordinary PASS condition.
+
 ## Change log
 
 - 2026-10-30 — written, before any code. Grounded in a fresh census of the live
@@ -837,3 +1046,27 @@ Recorded so the checks are not invented after the fact.
   Recorded as a limit on the stage-map diagnostic: comparable across generations on
   the same state, not across episodes with different material. Suite **510 passed,
   3 skipped**. Nothing promoted to live state; §7b still not started.
+- 2026-10-30 — **§10 promotion path implemented and E3 run.** `tools/promote_learner.py`
+  (bootstrap / promote / rollback / verify / status) with a separate
+  `state/live_learner/` area, hardlinked immutable versions, a linear chain, five
+  promotion refusals, and a ledger; `teach_episode.py` gained `--state-root`,
+  `--keep-checkpoint` and `--retained-batch`; `run_generation.py` gained a fifth
+  `retained` tier so an earlier episode's taught facts can be asked of a later learner.
+  Bootstrap `v0_a7808217f2da` from live state; episode 3 (seed 3) promoted to
+  `v1_8be802548643`; episode 4 (seed 4) taught from `v1`. Both PASS on all five gates.
+  **Retention 20/20** — every fact taught in episode 3 answered again in episode 4 after
+  20 more facts and 21 more evictions — and **erosion zero cumulatively**, the frozen 24
+  and guarded 4/4 unchanged on a binder 40 taught rows and 43 evicted corpus rows away
+  from the guarded animal. Acquisition 20/20 for the fourth episode running;
+  reverse-role 12/12 across three seeds; question-word 0/9 and passive 0/17.
+  Consolidation picked 7 `you` rows out of `taught_urgent` 9, including facts from
+  **both** episodes — the first evidence §7a protects an aged taught fact. **P4 partly
+  falsified and recorded as such:** one evicted row was a `droso` row with count 4561,
+  the first measured case of blind FIFO destroying a high-value row, which converts §7b's
+  justification from a future horizon into an observed event without changing the decision
+  to defer it. Two guard false alarms fixed by splitting own-writes from damage and
+  sha256-sealing the live learner files and the learner root directly; episode 3's row
+  corrected FAIL→PASS on computed evidence with the original kept and the ledger backed
+  up; one test narrowed because it banned a justified upgrade. Suite **531 passed,
+  3 skipped**. The guarded live state was never written: `--verify` reports it
+  byte-identical to the bootstrap state. §7b still not started; no multi-brain work.

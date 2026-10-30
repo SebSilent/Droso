@@ -213,12 +213,27 @@ def test_a_passing_episode_really_did_measure_erosion():
             if l.strip()]
     for e in rows:
         if e.get("correction"):
-            # A corrected row keeps its correction and must not claim a pass: the
-            # episode-99 pilot was recorded as PASS on an unmeasured erosion gate and
-            # was corrected in place, with the original verdict kept beside the fix.
-            assert e["verdict"] != "PASS", f"corrected row {e['episode']} claims PASS"
-            assert "original_verdict" in e["correction"]
-            continue
+            assert "original_verdict" in e["correction"], (
+                f"episode {e['episode']} was corrected without keeping the original")
+            if e["verdict"] == "PASS":
+                # A correction may only UPGRADE a verdict on computed evidence. Two
+                # rows have been corrected and they are opposite cases: the episode-99
+                # pilot was downgraded because its erosion gate had passed on nothing
+                # it measured, and episode 3 was upgraded because the guard had read
+                # the tool's own checkpoint writes as damage. Blanket-banning a
+                # corrected PASS would forbid the second and prove nothing about the
+                # first, so the requirement is that the evidence is there and says what
+                # the upgrade claims.
+                ev = e["correction"].get("evidence") or {}
+                assert ev.get("moved_elsewhere") == [], (
+                    f"episode {e['episode']} upgraded to PASS with files moved "
+                    f"outside the learner area: {ev.get('moved_elsewhere')}")
+                assert ev.get("live_sha256_seals_unchanged") is True
+                assert ev.get("promote_learner_verify_ok") is True
+                assert e["correction"]["original_verdict"] == "FAIL"
+                # and it must still satisfy every ordinary PASS condition below
+            else:
+                continue
         if e["verdict"] != "PASS":
             continue
         ev = e["eval"]

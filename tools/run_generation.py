@@ -499,7 +499,8 @@ def restore_module_genes(saved: dict) -> None:
 
 # --------------------------------------------------------------- battery ----
 
-def load_battery(tiers: tuple, only: str | None, open_batch=None) -> list:
+def load_battery(tiers: tuple, only: str | None, open_batch=None,
+                 retained_batches=()) -> list:
     """The frozen tier is READ FROM tools/scripts_heldout.json at runtime, never
     copied. A copy is a second contract that can drift from the first, and then
     'zero frozen passes lost' would be measured against whatever the copy said.
@@ -527,6 +528,20 @@ def load_battery(tiers: tuple, only: str | None, open_batch=None) -> list:
             raise SystemExit(f"no open batch at {p}")
         for s in json.loads(p.read_text(encoding="utf-8"))["scripts"]:
             out.append({"tier": "open", "script": s, "parent": s.get("parent")})
+    # RETAINED: an earlier episode's acquisition asks, put to a LATER learner. This is
+    # the tier that makes promotion measurable -- without it a chained episode shows
+    # only that it can learn new facts, not that the facts already promoted survived,
+    # which is the entire reason a persistent learner is worth having.
+    for rb in retained_batches or ():
+        p = Path(rb)
+        if not p.exists():
+            raise SystemExit(f"no retained batch at {p}")
+        for s in json.loads(p.read_text(encoding="utf-8"))["scripts"]:
+            if s["name"] != "open-acquisition":
+                continue          # only the taught form; held-out frames belong to
+            for t in s["turns"]:  # the episode that generated them
+                t["frame"] = "retained-" + p.parent.name
+            out.append({"tier": "retained", "script": s, "parent": None})
     if only:
         out = [e for e in out if only in e["script"]["name"]]
     return out
@@ -654,6 +669,19 @@ def fitness_tuple(rows: list, baseline: dict | None, seals: dict) -> dict:
         "stages": stage_distribution(frozen + probes),
         "seals": seals,
     }
+    retained = [r for r in rows if r["tier"] == "retained"]
+    if retained:
+        # An earlier episode's taught facts, asked of a later learner. Reported beside
+        # the open tier and, like it, never selected on.
+        out["retained"] = {
+            "asked": len(retained),
+            "passed": sum(1 for r in retained if r["pass"]),
+            "score": round(sum(1 for r in retained if r["pass"]) / len(retained), 4),
+            "pass_set": sorted(r["id"] for r in retained if r["pass"]),
+            "stages": stage_distribution(retained),
+            "lost": [{"id": r["id"], "stage": r["stage"], "said": r["said"]}
+                     for r in retained if not r["pass"]],
+        }
     if opened:
         # Reported, never selected on. `frame` is the rewording family the generator
         # declared for each ask, so a generalisation number can be attributed to a

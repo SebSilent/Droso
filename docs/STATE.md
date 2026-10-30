@@ -256,6 +256,45 @@ the same state but not across episodes with different material.**
 
 §7b (value-weighted eviction) is not started. Nothing was promoted to live state.
 Suite after this step: **510 passed, 3 skipped**.
+
+## The persistent learner: promotion path and E3 (`tools/promote_learner.py`)
+
+`state/live_learner/` holds a versioned learner **beside** the guarded live animal,
+which is never written: `--verify` reports it byte-identical to the bootstrap state.
+Versions are hardlinked and immutable (a checkpoint is 260.7 MB, 222 MB of it the
+binder's `cortex.npz`), the chain is linear, and promotion refuses for five reasons —
+verdict not PASS, a gate not exactly True, fewer than 24 frozen asks run, live seals
+drifted from what the episode recorded, or staging seals not matching the episode's
+`checkpoint_files`. `--rollback` repoints `current/` at the parent and keeps the version
+it rolled back from. Ledger at `state/lineage/promotions.jsonl`.
+
+Bootstrap `v0_a7808217f2da` from live state; episode 3 (seed 3, 20 facts) promoted to
+`v1_8be802548643`; episode 4 (seed 4) taught **from v1** — the first chained episode.
+Both PASS on all five gates.
+
+| measure | ep3 (from v0) | ep4 (from v1, chained) |
+|---|---|---|
+| acquisition | 20/20 | **20/20** |
+| **retention of ep3's facts** | — | **20/20** |
+| reverse-role / question-word / passive | 7/7, 0/3, 0/10 | **7/7, 0/6, 0/7** |
+| frozen / guarded / erosion | 19/24, 4/4, none | **19/24, 4/4, none** |
+| evicted | 22, all `book` count 1 | 21: 20 `book` count 1 **+ 1 `droso` count 4561** |
+| SAN nnz | +0 | **+0** |
+| `taught_urgent` → picked `you` | — | **9 → 7**, incl. facts from *both* episodes |
+
+Retention 20/20 is the number the promotion path exists to produce: episode 4's binder
+read `you: 20` at startup and answered every one of episode 3's acquisition asks after
+20 more facts were taught and 21 more corpus rows evicted. Erosion is now **cumulative**
+— the frozen floor survives a binder 40 taught rows and 43 evicted corpus rows away from
+the guarded animal. Consolidation picked `you` rows from both episodes, the first
+evidence §7a protects an *aged* taught fact and not only a fresh one.
+
+One prediction was **falsified and is recorded as such**: a `droso` row rehearsed 4,561
+times was evicted, the first measured case of blind FIFO destroying a high-value row. No
+capability was lost and the guard held, so §7b stays deferred — but its justification is
+now an observed event rather than an argument about a future horizon.
+
+Suite after this step: **531 passed, 3 skipped**.
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
 | `docs/evidence/` | raw run output cited by the docs |

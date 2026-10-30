@@ -285,6 +285,63 @@ def live_seals() -> dict:
             for n in LIVE_STATE_FILES}
 
 
+def dir_seals(root) -> dict:
+    """sha256 of every learner file under root. A hash of the bytes, not the guard's
+    zip-member CRC key, so an identical file is reported identical."""
+    root = Path(root)
+    out = {}
+    for g in LEARNER_GLOBS:
+        for p in sorted(root.glob(g)):
+            if p.is_file():
+                out[p.name] = rg.seal(p)
+    return out
+
+
+# The learner state is the language family plus the plastic weights. Everything else in
+# state/ stays live, because the learner is a MEMORY and not a whole house.
+LEARNER_GLOBS = ("language_state*", "banc_brain.npz")
+
+
+def overlay_shadow(dest: Path, overlays: list) -> dict:
+    """state/ as hardlinks to the live files, then each (root, globs) in `overlays`
+    applied in order, later ones winning.
+
+    Same mechanism and same safety argument as benchmark_cross_session.build_shadow:
+    save_state writes tmp-then-rename, which REPLACES a hardlink rather than writing
+    through it, so a shadow can never modify the live file it points at. Ordered
+    overlays are what make a CHAINED episode possible -- the learner state goes down
+    first and the episode's own saves go on top.
+    """
+    import os
+    from tools import converse
+    st = dest / "state"
+    if dest.exists():
+        shutil.rmtree(dest)
+    st.mkdir(parents=True)
+    linked = 0
+    for p in sorted((ROOT / "state").iterdir()):
+        if p.name in converse.GUARD_EXCLUDE or not p.is_file():
+            continue
+        os.link(p, st / p.name)
+        linked += 1
+    applied = []
+    for root, globs in overlays:
+        root = Path(root)
+        if not root.exists():
+            continue
+        for g in globs:
+            for p in sorted(root.glob(g)):
+                if not p.is_file():
+                    continue
+                t = st / p.name
+                if t.exists():
+                    t.unlink()
+                os.link(p, t)
+                applied.append(f"{p.name}<-{root.name or root.parent.name}")
+    return {"live_files_linked": linked, "overlay_files": len(applied),
+            "overlay": applied}
+
+
 # ------------------------------------------------------------------- main ----
 
 def main() -> int:
@@ -300,6 +357,20 @@ def main() -> int:
     ap.add_argument("--consolidate-budget", type=int, default=200)
     ap.add_argument("--tier", default="frozen,probe,open")
     ap.add_argument("--keep-shadow", action="store_true")
+    ap.add_argument("--state-root", default=None,
+                    help="start from this learner state (state/live_learner/current) "
+                         "instead of the live animal, which makes the episode CHAINED "
+                         "onto everything already promoted")
+    ap.add_argument("--keep-checkpoint", action="store_true",
+                    help="leave the taught state in state/live_learner/staging/ so "
+                         "promote_learner.py can promote it. Without this the episode "
+                         "measures retention and throws the animal away")
+    ap.add_argument("--retained-batch", action="append", default=[],
+                    help="an earlier episode's open_batch.json, whose acquisition asks "
+                         "are put to THIS learner as a fifth tier. This is what makes "
+                         "promotion measurable: without it a chained episode shows only "
+                         "that it can learn new facts, not that the promoted ones "
+                         "survived. Repeatable")
     a = ap.parse_args()
 
     baseline = json.loads(rg.BASELINE.read_text(encoding="utf-8")) \
@@ -322,8 +393,23 @@ def main() -> int:
     print(f"episode {a.episode}: {a.facts} facts, seed {a.seed}")
     print(f"  live seals before: {json.dumps(seals_before)}")
 
-    # ---- build once on live state: read the vocabulary, census, generate, teach.
-    agent = build(tell_dir)
+    # ---- build once on the starting state: read the vocabulary, census, generate,
+    # teach. With --state-root that is a promoted learner rather than the live animal,
+    # which is what makes an episode CHAINED instead of independent.
+    learner_root = Path(a.state_root) if a.state_root else None
+    root_seals_before = dir_seals(learner_root) if learner_root else {}
+    if learner_root:
+        if not learner_root.exists():
+            print(f"REFUSING: --state-root {learner_root} does not exist")
+            return 1
+        pre = ep_dir / "pre"
+        psh = overlay_shadow(pre, [(learner_root, LEARNER_GLOBS)])
+        print(f"  starting from learner {learner_root} "
+              f"({psh['overlay_files']} files overlaid: {psh['overlay'][:3]}...)")
+        agent = build(tell_dir, project_root=str(pre))
+    else:
+        print("  starting from the LIVE state (no --state-root)")
+        agent = build(tell_dir)
     lang = agent.language
     rg.shim_check()
     cen_before = binder_census(lang.cortex.binder)
@@ -399,13 +485,53 @@ def main() -> int:
     print(f"  taught {len(taught)} facts in {teach_s}s; saved "
           f"{len(list(tell_dir.glob('language_state*')))} state files")
 
-    # ---- overlay onto a hardlinked shadow and measure against it.
-    sh = build_shadow(tell_dir, shadow)
+    # ---- leave a promotable checkpoint. Without this the episode's state is deleted
+    # with its session directory and can never be promoted, which is why episodes 1 and
+    # 2 are not promotable: they measured retention and threw the animal away.
+    ck_dir, ck_files = None, {}
+    if a.keep_checkpoint:
+        import os
+        ck_id = hashlib.sha256(json.dumps(
+            sorted((p.name, rg.seal(p)) for p in tell_dir.glob("language_state*")),
+            default=str).encode()).hexdigest()[:12]
+        ck_dir = ROOT / "state" / "live_learner" / "staging" / f"ep{a.episode}_{ck_id}"
+        if ck_dir.exists():
+            shutil.rmtree(ck_dir)
+        ck_dir.mkdir(parents=True)
+        for p in sorted(tell_dir.glob("language_state*")):
+            os.link(p, ck_dir / p.name)
+        # The plastic weights are part of the learner but a sealed session never writes
+        # them (NeuralGrowth is stopped), so they come from the starting state.
+        brain_src = (learner_root / "banc_brain.npz") if learner_root \
+            else (ROOT / "state" / "banc_brain.npz")
+        if brain_src.exists():
+            os.link(brain_src, ck_dir / "banc_brain.npz")
+        # The batch travels WITH the checkpoint. A later chained episode needs this
+        # episode's acquisition asks to measure retention, and state/sessions/ is
+        # ephemeral and gitignored -- without this copy the only record of what was
+        # taught would outlive nothing. It is excluded from ck_files, which seals the
+        # LEARNER state that promotion verifies, not its paperwork.
+        shutil.copyfile(batch["path"], ck_dir / "open_batch.json")
+        ck_files = {p.name: rg.seal(p) for p in sorted(ck_dir.iterdir())
+                    if p.name != "open_batch.json"}
+        print(f"  checkpoint {ck_dir.name}: {len(ck_files)} files, "
+              f"{sum(p.stat().st_size for p in ck_dir.iterdir()) / 1e6:.1f} MB hardlinked")
+
+    # ---- overlay onto a hardlinked shadow and measure against it. The learner root
+    # goes down first and the episode's own saves on top, so a chained episode is
+    # measured against learner + this episode and not against live + this episode.
+    overlays = ([(learner_root, LEARNER_GLOBS)] if learner_root else [])
+    overlays.append((tell_dir, LEARNER_GLOBS))
+    sh = overlay_shadow(shadow, overlays)
     print(f"  shadow: {sh['live_files_linked']} live files linked, "
           f"{sh['overlay_files']} overlaid")
 
     base_genome = rg.load_base()
-    battery = rg.load_battery(tuple(a.tier.split(",")), None, batch["path"])
+    tiers = a.tier.split(",")
+    if a.retained_batch and "retained" not in tiers:
+        tiers.append("retained")
+    battery = rg.load_battery(tuple(tiers), None, batch["path"],
+                              retained_batches=a.retained_batch)
     n_asks = sum(1 for e in battery for s in e["script"]["turns"] if "ask" in s)
     print(f"  evaluating {n_asks} asks against the shadow "
           f"(~{n_asks * 24 / 60:.0f} min)")
@@ -422,6 +548,26 @@ def main() -> int:
     sand = san_diff(san_before, san_after)
     seals_after = live_seals()
     moved = guard_check(guard_before)
+    # state/live_learner/ is inside state/ and is not in converse.GUARD_EXCLUDE, so
+    # --keep-checkpoint's own writes read as damage -- and two hardlinked .npz files
+    # were reported moved while their sha256 was provably identical, because the guard
+    # keys .npz by zip-member CRC and size rather than by a hash of the bytes. Own
+    # writes are split out and reported; anything elsewhere fails the run. And because
+    # the invariant that matters is that the guarded animal did not move, the live
+    # learner files are sha256-sealed before and after directly, and so is the learner
+    # root this episode started from, so a mutated checkpoint cannot hide behind a
+    # directory walk.
+    own = [m for m in moved if str(m).replace("\\", "/").startswith("live_learner/")]
+    other = [m for m in moved if m not in own]
+    root_after = (dir_seals(learner_root) if learner_root else {})
+    root_drift = {k: (root_seals_before.get(k), root_after.get(k))
+                  for k in set(root_seals_before) | set(root_after)
+                  if root_seals_before.get(k) != root_after.get(k)}
+    print(f"  guard: {len(own)} own write(s) under state/live_learner/, "
+          f"{len(other)} elsewhere")
+    if root_drift:
+        print(f"  FAIL: the learner root this episode started from changed: {root_drift}")
+    moved = other + ([f"learner-root-drift:{k}" for k in root_drift] if root_drift else [])
 
     ck = hashlib.sha256(json.dumps(
         sorted((p.name, rg.seal(p)) for p in tell_dir.glob("language_state*")),
@@ -435,6 +581,12 @@ def main() -> int:
         "design": "docs/open_learning_design.md section 8 (E1)",
         "checkpoint_id": ck, "parent_checkpoint": None,
         "promoted_to_live": False,
+        # What a promotion would actually pick up, and where from. promote_learner.py
+        # re-seals the staging directory and refuses if it does not match this, so the
+        # thing promoted is provably the thing that was measured.
+        "checkpoint_dir": str(ck_dir) if ck_dir else None,
+        "checkpoint_files": ck_files,
+        "state_root": str(learner_root) if learner_root else "state/ (live)",
         "generator": {"seed": a.seed, "seal": batch["seal"],
                       "pool_size": gen["pool_size"],
                       "vocab_source": gen["vocab_source"],
@@ -472,12 +624,19 @@ def main() -> int:
                                     "score": round(sum(1 for r in genr if r["pass"])
                                                    / max(1, len(genr)), 4),
                                     "by_frame": _by_frame(genr)},
+                 "retention": fit.get("retained"),
+                 "retained_batches": list(a.retained_batch),
                  "open_stages": op.get("stages"),
                  "open_failures": op.get("failures")},
         "displacement": disp, "san": sand,
         "seals": {"before": seals_before, "after": seals_after,
-                  "unchanged": seals_before == seals_after},
-        "guard": {"live_files_untouched": not moved, "moved": moved},
+                  "unchanged": seals_before == seals_after,
+                  "learner_root": str(learner_root) if learner_root else None,
+                  "learner_root_before": root_seals_before,
+                  "learner_root_after": root_after,
+                  "learner_root_unchanged": root_seals_before == root_after},
+        "guard": {"live_files_untouched": not moved, "moved": moved,
+                  "own_writes_under_live_learner": len(own)},
         "erosion": erosion,
         "gates": {
             # A gate that passes because it was never run is worse than no gate: the
@@ -533,6 +692,13 @@ def main() -> int:
     print(f"  generalisation {episode['eval']['generalisation']['passed']}/"
           f"{episode['eval']['generalisation']['asked']}  "
           f"{json.dumps(episode['eval']['generalisation']['by_frame'])}")
+    ret = fit.get("retained")
+    if ret:
+        print(f"  RETENTION      {ret['passed']}/{ret['asked']} of the earlier "
+              f"episode's taught facts survive in this learner  "
+              f"stages {json.dumps(ret['stages'])}")
+        for l in ret["lost"][:6]:
+            print(f"      lost {l['id'][:56]} stage={l['stage']} said={l['said'][:24]!r}")
     print(f"  frozen         {fit['capability']['passed']}/{fit['capability']['asked']}"
           f"   guarded {reg.get('probe_guard_passed')}/{reg.get('probe_guard_asked')}")
     print(f"  EROSION        {erosion or 'none'}")

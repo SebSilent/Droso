@@ -931,6 +931,49 @@ def test_real_noise_between_clones_is_still_called_noise(capsys):
     assert "GENE EFFECT" not in out
 
 
+def test_the_retained_tier_takes_only_the_taught_form_of_an_earlier_batch(tmp_path):
+    """Retention is what makes promotion worth having: an earlier episode's facts,
+    asked of a LATER learner. Only the acquisition script belongs in it -- the
+    held-out frames were that episode's generalisation probes, and re-asking them here
+    would report one number as two.
+    """
+    batch = {"scripts": [
+        {"name": "open-acquisition", "kind": "open",
+         "turns": [{"ask": "what does the a v?", "frame": "T-taught",
+                    "expect": {"answer": ["b"]}}]},
+        {"name": "open-H3-passive", "kind": "open",
+         "turns": [{"ask": "what is v by the a?", "frame": "H3-passive",
+                    "expect": {"answer": ["b"]}}]}]}
+    p = tmp_path / "open_batch.json"
+    p.write_text(json.dumps(batch), encoding="utf-8")
+    got = rg.load_battery(("retained",), None, retained_batches=[p])
+    assert len(got) == 1, [g["script"]["name"] for g in got]
+    assert got[0]["tier"] == "retained"
+    assert got[0]["script"]["name"] == "open-acquisition"
+    # The frame is relabelled so the report attributes it to the episode it came from.
+    assert got[0]["script"]["turns"][0]["frame"].startswith("retained-")
+
+
+def test_a_retained_batch_that_does_not_exist_is_an_error_not_an_empty_tier():
+    with pytest.raises(SystemExit):
+        rg.load_battery(("retained",), None, retained_batches=["nope/open_batch.json"])
+
+
+def test_retained_rows_are_reported_and_never_enter_the_key():
+    rows = _rows(2, 4) + [
+        {"tier": "retained", "id": "r1", "ask": "r1", "pass": True,
+         "stage": None, "why": "", "said": ""},
+        {"tier": "retained", "id": "r2", "ask": "r2", "pass": False,
+         "stage": "recall", "why": "", "said": ""}]
+    fit = rg.fitness_tuple(rows, None, {"frozen": "f", "probes": "p"})
+    assert fit["retained"]["asked"] == 2 and fit["retained"]["passed"] == 1
+    assert fit["retained"]["stages"] == {"recall": 1}
+    assert [l["id"] for l in fit["retained"]["lost"]] == ["r2"]
+    # Neither the retained tier nor the open tier may move the guarded stage map.
+    assert fit["stages"] == {"recall": 2}
+    assert len(fit["select_key"]) == 3
+
+
 def test_the_harness_seals_both_eval_files():
     assert len(rg.seal(rg.FROZEN_TASKS)) == 16
     assert len(rg.seal(rg.PROBE_TASKS)) == 16

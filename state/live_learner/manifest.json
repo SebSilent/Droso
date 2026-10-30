@@ -1,0 +1,160 @@
+{
+ "bootstrapped_at": "2026-10-30T15:02:15",
+ "bootstrapped_from": {
+  "id": "a7808217f2da",
+  "root": "state/",
+  "seals": {
+   "banc_brain.npz": "546adb1bb8e433c3",
+   "language_state.json": "bb8165798ae33dd4",
+   "language_state.json.cortex.facts.json": "87ada4d164f9f109",
+   "language_state.json.cortex.meta.json": "312d910ebdf09f78",
+   "language_state.json.cortex.npz": "ebd5aca885a8c945",
+   "language_state.json.seq.npz": "526f694b1e82ef8a",
+   "language_state.json.seq.slots.json": "9ee89eb8b7841a8e",
+   "language_state.san.npz": "e0f8a0adf58296d7"
+  }
+ },
+ "current": "v1_8be802548643",
+ "schema": 1,
+ "versions": [
+  {
+   "at": "2026-10-30T15:02:15",
+   "episode": null,
+   "files": {
+    "banc_brain.npz": {
+     "bytes": 9346,
+     "link": true,
+     "seal": "546adb1bb8e433c3"
+    },
+    "language_state.json": {
+     "bytes": 4491342,
+     "link": true,
+     "seal": "bb8165798ae33dd4"
+    },
+    "language_state.json.cortex.facts.json": {
+     "bytes": 93,
+     "link": true,
+     "seal": "87ada4d164f9f109"
+    },
+    "language_state.json.cortex.meta.json": {
+     "bytes": 7910651,
+     "link": true,
+     "seal": "312d910ebdf09f78"
+    },
+    "language_state.json.cortex.npz": {
+     "bytes": 222722586,
+     "link": true,
+     "seal": "ebd5aca885a8c945"
+    },
+    "language_state.json.seq.npz": {
+     "bytes": 14543490,
+     "link": true,
+     "seal": "526f694b1e82ef8a"
+    },
+    "language_state.json.seq.slots.json": {
+     "bytes": 1155938,
+     "link": true,
+     "seal": "9ee89eb8b7841a8e"
+    },
+    "language_state.san.npz": {
+     "bytes": 9769833,
+     "link": true,
+     "seal": "e0f8a0adf58296d7"
+    }
+   },
+   "id": "a7808217f2da",
+   "parent": null,
+   "seals": {
+    "banc_brain.npz": "546adb1bb8e433c3",
+    "language_state.json": "bb8165798ae33dd4",
+    "language_state.json.cortex.facts.json": "87ada4d164f9f109",
+    "language_state.json.cortex.meta.json": "312d910ebdf09f78",
+    "language_state.json.cortex.npz": "ebd5aca885a8c945",
+    "language_state.json.seq.npz": "526f694b1e82ef8a",
+    "language_state.json.seq.slots.json": "9ee89eb8b7841a8e",
+    "language_state.san.npz": "e0f8a0adf58296d7"
+   },
+   "source": "bootstrap",
+   "version": "v0_a7808217f2da"
+  },
+  {
+   "acquisition": {
+    "asked": 20,
+    "by_frame": {
+     "T-taught": {
+      "asked": 20,
+      "passed": 20
+     }
+    },
+    "passed": 20,
+    "score": 1.0
+   },
+   "at": "2026-10-30T15:47:12",
+   "episode": 3,
+   "episode_checkpoint": "6f21ec569a26",
+   "erosion": [],
+   "files": {
+    "banc_brain.npz": {
+     "bytes": 9346,
+     "link": true,
+     "seal": "546adb1bb8e433c3"
+    },
+    "language_state.json": {
+     "bytes": 4493626,
+     "link": true,
+     "seal": "ac36c76c9bfac2ee"
+    },
+    "language_state.json.cortex.facts.json": {
+     "bytes": 93,
+     "link": true,
+     "seal": "87ada4d164f9f109"
+    },
+    "language_state.json.cortex.meta.json": {
+     "bytes": 7910310,
+     "link": true,
+     "seal": "7e3104c8d02269c3"
+    },
+    "language_state.json.cortex.npz": {
+     "bytes": 222702332,
+     "link": true,
+     "seal": "5aec7ff154e9f6ad"
+    },
+    "language_state.json.cortex.npz.err.npy": {
+     "bytes": 212,
+     "link": true,
+     "seal": "d0448a49b4d1a73e"
+    },
+    "language_state.json.seq.npz": {
+     "bytes": 14547518,
+     "link": true,
+     "seal": "edaf304ac3e10808"
+    },
+    "language_state.json.seq.slots.json": {
+     "bytes": 1156411,
+     "link": true,
+     "seal": "ff54fbaa68ed2f52"
+    },
+    "language_state.san.npz": {
+     "bytes": 9863733,
+     "link": true,
+     "seal": "b7c18c1ee85f4a8e"
+    }
+   },
+   "id": "8be802548643",
+   "parent": "v0_a7808217f2da",
+   "seals": {
+    "banc_brain.npz": "546adb1bb8e433c3",
+    "language_state.json": "ac36c76c9bfac2ee",
+    "language_state.json.cortex.facts.json": "87ada4d164f9f109",
+    "language_state.json.cortex.meta.json": "7e3104c8d02269c3",
+    "language_state.json.cortex.npz": "5aec7ff154e9f6ad",
+    "language_state.json.cortex.npz.err.npy": "d0448a49b4d1a73e",
+    "language_state.json.seq.npz": "edaf304ac3e10808",
+    "language_state.json.seq.slots.json": "ff54fbaa68ed2f52",
+    "language_state.san.npz": "b7c18c1ee85f4a8e"
+   },
+   "source": "promotion",
+   "version": "v1_8be802548643"
+  }
+ ]
+}

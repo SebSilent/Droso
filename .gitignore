@@ -112,8 +112,20 @@ state/drill_store.json
 # be raised before a third episode or a checkpoint gets deleted.
 state/lineage/*
 !state/lineage/episodes.jsonl
-!state/lineage/episodes_precorrection.jsonl
+!state/lineage/episodes_precorrection*.jsonl
+!state/lineage/episodes_preseal*.jsonl
+!state/lineage/promotions.jsonl
 !state/lineage/episode_*_asks.jsonl
+
+# The persistent learner (tools/promote_learner.py). A checkpoint is 260 MB, 222 MB of
+# it the binder's cortex.npz, and versions are hardlinked snapshots of it -- so this is
+# the one area of state/ that must never be tracked. It is regenerable: bootstrap from
+# the live state and replay the episode ledger, whose rows carry the generator seed and
+# batch seal. The MANIFEST is small and is the audit record, so it is tracked.
+state/live_learner/current/
+state/live_learner/versions/
+state/live_learner/staging/
+!state/live_learner/manifest.json
 
 # Consolidation rollback backups: per-run copies of the live state, kept on
 # disk only (the rollback for tools/consolidate_live.py), never in git.
