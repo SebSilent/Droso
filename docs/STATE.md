@@ -1,123 +1,94 @@
-# STATE — the state of the speech work at handover
+# Repository state
 
-Short, factual, current. Everything here was measured, not inferred. The long
-reasoning is in `docs/speech_log.md`; this file is the takeover.
+A factual inventory of what is in this tree, what each measurement harness does,
+and the last numbers that were recorded, with the commit they were measured at.
+No recommendations.
 
-**Closing hash:** `f2e1748` (tree clean, pushed).
-**Measured at:** `f2e1748`, on a quiet machine, with `tools/_genome_patch.py`
-moved out of `tools/` so no shim could be in the path.
+Last measured state: **`f2e1748`** (tree clean at the time).
+Docs-only commits after it do not change any number below.
 
-## The closing numbers
+## What is in the tree
+
+| path | contents |
+|---|---|
+| `connectome/` | BANC v888 source tables, core graph construction, rate dynamics, provenance |
+| `core/` | action space definition |
+| `organs/` | the organs: `neural_language.py` (encoding, semantic association, question answering), `higher_cortex.py` (binder, recall, arbitration), `sequence_organ.py`, `goal.py`, `harness.py`, `local_solver.py`, `reasoning_loop.py`, `learning_loop.py`, `fast_router.py`, `concepts.py`, `knowledge.py`, `api_oracle.py`, `sandbox.py`, `circuit_breaker.py`, `filesystem.py`, and supporting modules |
+| `world/` | `connectome_house.py` (HTTP interface, process_chat), `reasoning_agent.py` (assembly), `house/static/` |
+| `tools/` | measurement and build tooling (table below) |
+| `tests/` | pytest suites |
+| `state/` | persistent state: connectome weights, language memory, procedure library, oracle ledger, fitness reports |
+| `docs/` | documentation; `docs/archive/` holds historical records written by earlier agents |
+| `exocortex/` | verified code fragments available to the assembler |
+| `config/` | runtime configuration, no credentials |
+| `credentials.py` | per-user credential storage, outside the repository |
+
+## Harnesses
+
+| command | what it does |
+|---|---|
+| `python -m pytest tests -q` | the test suite |
+| `python tools/heldout_eval.py --independent --only <script>` | scores one of six held-out scripts ask by ask, each ask against a freshly built house; `--independent` is the organ-only mode. Journals one line per ask. One or two scripts per call; the full set exceeds a shell timeout. Scripts: `count-frequency`, `order-first-last`, `conjunction-and-absence`, `exact-repeat`, `hop-and-inventory`, `quantity-change` |
+| `python tools/script_benchmark.py --only <a>,<b>` | the eight guard scripts, in four pairs: `reference,accumulation`, `discrimination,role_chain`, `switch_back,override`, `session_context,where_kept`. Reports warm and cold scores and their delta |
+| `python tools/fly_v2.py --phase generations --seeds ... --n ... --gens ...` | the evolution runner (genome search over `_span_head` weights, `tools/fly_v2.py`) |
+| `python tools/verify_saved.py --seed <n>` | replays a saved genome and checks it reproduces its recorded composite |
+| `python tools/serve.py [--port N]` | OpenAI-compatible chat endpoint (`POST /v1/chat/completions`) |
+| `python tools/converse.py` | in-process conversation; `--benchmark` runs a fixed scored script |
+| `python tools/mouth_probe.py <script> "<ask>"` | one ask, with its reply and trace |
+| `python tools/{quantity,count,record,ordinal,disjunction,glossary,echo_guard,unowned}_probe.py` | paraphrase and control probes, one per answering path |
+| `python tools/hop_probe.py` | paraphrase and control probe for the description path |
+| `python tools/veto_probe.py` | traces which clause of `_shape_matches` refused an answer |
+| `python tools/build_gh_pages.py` | builds the gh-pages payload into `_tmp/gh_pages/` |
+
+## Last recorded numbers (at `f2e1748`)
 
 | harness | result |
 |---|---|
-| `pytest -q` | **428 passed, 3 skipped** |
-| 24 held-out asks, organ only (`--independent`) | **19/24** |
-| the eight guard scripts | **8/8 clean** -- 1.00 warm, 1.00 cold, delta +0.00 |
-| held-out independent score | **19/24** (same harness; `--independent` *is* the organ-only mode) |
+| `pytest -q` | 428 passed, 3 skipped |
+| held-out 24 asks, organ only, `--independent`, one build per ask | 19/24 |
+| eight guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 |
+| live vocabulary | 11,555 words |
 
-The frozen bar this work started from was **5/24**. The tree it inherited from
-the previous line of work scored **6/24**. Both are now well behind the floor.
+Per script: `count-frequency` 4/4, `order-first-last` 3/4,
+`conjunction-and-absence` 3/4, `exact-repeat` 3/4, `hop-and-inventory` 2/4,
+`quantity-change` 4/4. Failing asks: `how many times does the bell turn?`,
+`what did i tell you about before the kettle?`, `what is wet but not on the
+hook?`, `what does the thing the frost bites hold?`, `does the door hold the
+frost?`.
 
-## Floor
+The 24 was re-derived with `tools/_genome_patch.py` moved out of `tools/`; no
+harness imports it.
 
-**Floor = 19/24.** It means: the number of the 24 organ-only asks that pass when
-every ask is answered by a freshly built house, with no shim, no patch, no
-session sharing between asks. **Any change that scores below 19/24 reverts.**
-The floor moves only when a *capability point* moves it.
+## What the question-answering code does
 
-There are two kinds of cut, defined in the log's standard:
+`organs/neural_language.py`, `respond()`: the utterance is heard (SAN update,
+cortex binding, sequence learning); if it is a question it goes to `answer()`,
+which selects a role, retrieves propositions through `binder.recall`, and either
+recovers the missing role by unbinding or tries a short list of dedicated paths.
+Those paths, in the order they are tried:
 
-- **Capability point** -- must move the 24; booked only then; may raise the floor.
-- **Generalisation credit** -- moves no ask because the suite is blind to it;
-  gated on unseen paraphrases written before the code; recorded with
-  *"zero score delta -- the 24 cannot see cue vocabulary"*; **never raises the
-  floor and never substitutes for a capability point.**
-
-## Landed mechanisms, and whether each is general or narrow
-
-| mechanism | where | verdict |
+| path | fires on | behaviour |
 |---|---|---|
-| **Echo instruction** (`say exactly …`) | `respond`, echo path | **narrow** -- one instruction shape; guarded by a uniqueness check |
-| **Record absence** (`did i ever tell you about the moon?` -> `no`) | `_record_answer` | **general within record scope** -- absence is evidence only for the telling record |
-| **Provenance glossary** (`which word did i use for the metal?` -> `copper`) | `_glossary_answer` | **narrow** -- one category; also returns before `hear()`, so the question is not bound that turn |
-| **Ordinal selection** (`which did i tell you first …`) | `_ordinal_answer` | **narrow** -- ordinals over the session's memories only |
-| **Disjunctive resolution** (`the lantern or the kettle`) | `_disjunction_answer` | **narrow** -- two offered alternatives settled against memory; fixed a `sold` fall-through on this path only |
-| **Count over the record** (`how many times did i tell you …`) | `_count_answer` | **general within record scope** -- four quantifier classes (times / things / objects / items) |
-| **Quantity arithmetic** (`four eggs`, `two break` -> `two left`) | `_quantity_answer` | **narrow on cue words** -- real subtraction, entity matched by stem; no synonyms |
-| **Cue classes** (first/last families) | `_quantity_answer` | **generalisation credit 1** -- *zero score delta; the 24 cannot see cue vocabulary* |
+| echo | the utterance declares an exact repeat | repeats the stated memory |
+| glossary | a question about a word used earlier | returns the earlier word |
+| ordinal | `which … first/second/last` over session memories | selects by position |
+| disjunction | two offered alternatives | settles one against memory |
+| record | questions about the telling record | counts or reports absence |
+| quantity | `how many X` / `what count of X` / `did any X` | arithmetic over numbers stated in tells |
+| description | subject is a definite description | resolves it, then asks the rewritten question |
 
-## Reverted / falsified axes, one line each
+The description path is not in the tree; it was implemented and reverted (see
+`docs/archive/experiment_log.md`). The cue words `first/last` are matched as a
+set (`COUNT_FIRST_CUES`, `COUNT_LAST_CUES`).
 
-- **Hop across two memories** -- re-arbitration returned None; `binder.recall`'s contract gave no one-line cause; axis closed as architectural at the time.
-- **Description rewrite (defect K)** -- target moved 2/4 -> 3/4, but paraphrase N2 and controls C2/C3 failed; the split keyed on the outer verb's token position, so it was fitted to the phrasing, not to meaning.
-- **Band-walk** -- promoted a corpus line over a true tell; meaning-cosine died the same way.
-- **Second brain** -- changed *which* memory was offered, never *how strictly* it was judged, so it could not supply a missing shape; falsified as built.
-- **Region organ** -- nothing was clipped at the 4.0 cap; the failure was shared hash footprints, and the predicate did not separate under either repair. Closed for good.
-- **Mouth head-rule** -- the weighted argmax named the modifier as head and broke `tests/test_shape_filler_position.py`; the fly's modifier class is closed.
-- **Additive-fitness population** -- the climb happened entirely on the synthetic four; gen-1 0.783 against a 0.933 ceiling, so the coupling term could not reward capability.
+## Documentation map
 
-## Harness commands
-
-```bat
-:: the 24, organ only -- ONE OR TWO SCRIPTS PER CALL, the full set exceeds the shell timeout
-py -3.10 tools\heldout_eval.py --independent --only count-frequency --journal state\fitness\x.jsonl
-:: scripts: count-frequency, order-first-last, conjunction-and-absence,
-::          exact-repeat, hop-and-inventory, quantity-change
-
-:: eight guard scripts -- four calls, two scripts each, output to a file (no pipe)
-py -3.10 tools\script_benchmark.py --only reference,accumulation > state\fitness\g.txt 2>&1
-:: pairs: reference,accumulation | discrimination,role_chain |
-::        switch_back,override | session_context,where_kept
-
-:: population / evolution
-py -3.10 tools\fly_v2.py --phase generations --seeds 13 7 17 23 29 --n 10 --gens 3
-py -3.10 tools\verify_saved.py --seed 13        :: proves a saved genome reproduces, no evolution
-
-:: chat probe -- the house door
-py -3.10 tools\serve.py --port 8000             :: then POST /api/chat
-py -3.10 tools\mouth_probe.py hop-and-inventory "what does the thing the frost bites hold?"
-py -3.10 tools\hop_probe.py                     :: target + paraphrases + controls for defect K
-
-:: single-topic probes, one per landed mechanism
-py -3.10 tools\quantity_probe.py  |  tools\count_probe.py  |  tools\record_probe.py
-py -3.10 tools\ordinal_probe.py   |  tools\disjunction_probe.py  |  tools\glossary_probe.py
-py -3.10 tools\echo_guard_probe.py | tools\unowned_probe.py | tools\veto_probe.py
-```
-
-## Known defects left open
-
-- **Mood gate** -- an unowned question can still reach the resonance mouth under accumulated drive (defect H was built, passed its five controls, and was reverted because two `test_connectome_house` tests went red).
-- **Descriptions** -- `what does the thing the frost bites hold?` is still vetoed; the rewrite experiment is reverted, the harness that failed it is kept.
-- **World count** -- `how many times does the bell turn?` still refused (it is a world fact, not a record fact).
-- **Two record asks** -- `what did i tell you about before the kettle?` (recall) and `what is wet but not on the hook?` (shape_arbiter).
-- **Deliberately refused** -- `does the door hold the frost?` is *supposed* to stay refused; the reversal has no support in memory.
-- **Glossary** -- returns before `hear()`, so that turn's question is never bound to memory.
-- `tools/veto_probe.py` raises a `TypeError` against its own instance patch; a probe artifact, not the matcher.
-
-## Housekeeping at close
-
-`_tmp/`, `tools/_tmp_report_dump.py` and four root-level git-ignored scratch
-scripts (`_vocab_check.py`, `_vocab_check2.py`, `probe_fails.py`,
-`probe_speak_fix.py`) were deleted -- leftover diagnostics from earlier
-sessions, superseded by the tracked probes in `tools/`. Every probe script in
-`tools/` is tracked and documents what it is for. `git status` is clean, nothing
-is ignored-but-needed, no background job is alive.
-
-## What is NOT done -- do not repeat it
-
-- **No population run is running.** Nothing is mid-climb, no background job is alive.
-- **The evolution harness exists but its fitness saturation is unresolved.** The additive redesign climbs only on the synthetic four; gen-1 sits at 0.783 against a 0.933 ceiling, so fitness cannot pay for a capability the synthetic set does not contain.
-- **The 24-ask set is exhausted as a progress signal.** It has been read this many times that further gains are either the same five failures or noise. More normalisation work against it is not progress.
-- **Do not re-litigate a reverted axis** without a new mechanism: hop (2 attempts), description rewrite, band-walk, second brain, region organ, mouth head-rule, additive-fitness population.
-
-## The one architectural finding the log earned
-
-**These organs match phrasings, not meanings.** Every mechanism that landed is a
-matcher keyed to a surface pattern -- an echo marker, a glossary phrase, an
-ordinal, a quantifier noun, a number word, a cue family. Each works exactly on
-the shapes it was written for, and the moment the phrasing moves (`holds what?`
-instead of `hold?`), the same mechanism walks past it. Nothing here generalises
-past its own test, and the honest consequence is that **the suite, not the
-organ, is the thing that has to change next**: a new ask set is needed before
-another mechanism can be scored as a capability rather than as a phrasing.
+| file | contents |
+|---|---|
+| `docs/STATE.md` | this file |
+| `docs/benchmark_findings.md` | benchmark failure analysis, with a 2026-10-27 addendum |
+| `docs/cross_session_design.md` | design note: cross-session recall levers |
+| `docs/mine_criteria.md` | frozen contract for `tools/mine_primitives.py` |
+| `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
+| `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
+| `docs/evidence/` | raw run output cited by the docs |

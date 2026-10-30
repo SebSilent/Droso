@@ -26,10 +26,11 @@ OUT.mkdir(parents=True)
 shutil.copytree(STATIC, OUT, dirs_exist_ok=True)
 
 PAGES = [
-    "speech_log.md",
+    "STATE.md",
+    "archive/experiment_log.md",
+    "archive/role_chain_proposal.md",
     "cross_session_design.md",
     "benchmark_findings.md",
-    "debt_log.md",
     "mine_criteria.md",
 ]
 
@@ -38,7 +39,9 @@ for name in PAGES:
     m = re.search(r"^#\s+(.+?)\s*$", text, re.M)
     title = m.group(1) if m else name.removesuffix(".md").replace("_", " ").title()
     fm = f"---\nlayout: default\ntitle: {title}\n---\n\n"
-    (OUT / name).write_text(fm + text, encoding="utf-8")
+    dest = OUT / name
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    dest.write_text(fm + text, encoding="utf-8")
 
 # Evidence files: served as static downloads, no front matter.
 if (DOCS / "evidence").is_dir():

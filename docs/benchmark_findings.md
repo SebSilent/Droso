@@ -87,7 +87,7 @@ row-weight movement (which did happen) is the live signal.
 **Addendum (2026-10-27, post-consolidation).** The saturation thesis is now
 measured at whole-matrix scale. The 2026-10-27 consolidation raised the
 real-row count from 573,424 to 1,446,352 across 13 runs (2,138 rows
-replayed; the drain entry in `docs/speech_log.md`) without adding a single
+replayed; the drain entry in `docs/archive/experiment_log.md`) without adding a single
 edge: all 29 censuses in the three drain reports — before and after every
 run — read nnz 66,107,030, the same figure this section measured on
 2026-10-25. Every restored row already had its nonzeros as residuals; the
@@ -166,7 +166,7 @@ counts as moved. Pinned by `tests/test_guard_tree.py`; both runs above report
 ## Addendum (2026-10-27): where these failures stand now
 
 All three failures above are resolved in the current state; the numbers live
-in `docs/speech_log.md`, so only the pointers are recorded here.
+in `docs/archive/experiment_log.md`, so only the pointers are recorded here.
 
 - **Failure 1** (where-ask): fixed 2026-10-25 by the sfW fix -- the
   where-case filler rule (a where-question's filler is the candidate's last

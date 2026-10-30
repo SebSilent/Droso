@@ -1,3 +1,5 @@
+Historical record of experiments and measurements, written by prior agents. Conclusions in it are theirs, not established fact.
+
 # Role_chain cold failure — proposal (NOT APPLIED)
 
 Status: proposal only. No organ, tool, test, or constant changed for this.
