@@ -614,6 +614,19 @@ def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str,
                # is recall -> comprehension, for the asks `stage_of` put in its
                # default bucket because their reason matched no pattern.
                "cause": None if ok else cause_of(t, why),
+               # MEASUREMENT REPAIR (additive, cannot change a score). `stage`
+               # and `cause` above stay gated on failure exactly as generations
+               # 0-14 published them. These three are recorded for EVERY ask so a
+               # pass/fail pair can finally be compared row by row instead of the
+               # passing side being re-derived by hand each time. See
+               # docs/evidence/passing_ask_instrumentation.md.
+               "stage_all": stage_of(t, why),
+               "cause_all": cause_of(t, why),
+               # Distinguishes "the organ computed a coverage and it was None"
+               # from "the reply never carried the key because this ask was
+               # answered by a path that does not reach the recall gate". Without
+               # it a passing ask's blank coverage is uninterpretable.
+               "coverage_present": "coverage" in r,
                "source": r.get("source"), "filler": r.get("recovered_filler"),
                "reason": r.get("reason"),
                # Raw recall diagnostics, recorded for EVERY ask and not just

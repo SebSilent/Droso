@@ -226,7 +226,29 @@ def ask_record(sess, step) -> dict:
     return {
         "kind": "ask", "ask": step["ask"], "said": _said(t)[:120],
         "words": words[:24], "spoken": _spoken(t), "pass": ok, "why": why,
+        # `stage` stays gated on failure EXACTLY as published, so every archived
+        # journal and every historical comparison keeps the values it was scored
+        # with. The measurement repair is purely additive below.
         "stage": None if ok else stage_of(t, why),
+        # MEASUREMENT REPAIR (additive, cannot change a score). Eight experiments
+        # each had to re-derive the passing side of a pass/fail pair from scratch
+        # because these fields existed only on failures -- see
+        # docs/evidence/paraphrase_gap_diagnosis.md, which could not compare a
+        # failing ask to its passing twin at all. `stage_of` is total: for a
+        # spoken reply it returns mouth / shape_arbiter / other, so calling it
+        # unconditionally is safe and says which path answered, not which refused.
+        "stage_all": stage_of(t, why),
+        "cause_all": cause_of(t, why),
+        # `coverage_present` separates two different Nones: the organ computed a
+        # coverage and it was None, versus the reply never carried the key because
+        # the ask was answered by a path that does not reach the recall gate.
+        # Without it a passing ask's blank coverage is uninterpretable -- which is
+        # the exact ambiguity that made the paraphrase probe print a wrong
+        # "bypasses the gate" inference and then have to retract it.
+        "coverage_present": "coverage" in r,
+        "coverage": r.get("coverage"),
+        "required": r.get("required"),
+        "nearest": r.get("nearest"),
         "expect": step.get("expect"),
         "trace": {"reason": r.get("reason"), "source": r.get("source"),
                   "parser": r.get("parser"), "vote": r.get("vote"),
