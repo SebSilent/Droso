@@ -71,7 +71,28 @@ def classify(rec: dict) -> tuple[str, str]:
 
     if stage in RECALL_STAGES:
         if not req and not near:
-            return "ABSENT", "required empty and nearest empty: no posting"
+            # E7 diagnostics: say WHY it was empty. `recall` is what the binder
+            # offered before any filter, so recall==0 means no posting exists at
+            # all, while recall>0 with after_echo_filter==0 means the filters
+            # removed every one -- and which filter did it.
+            raw = rec.get("recall")
+            if raw is None:
+                return "ABSENT", "required empty and nearest empty: no posting"
+            if not raw:
+                return "ABSENT", (
+                    "binder recall returned 0 postings: no memory exists for this "
+                    "cue, so no filter and no threshold is implicated")
+            aq = rec.get("after_question_filter")
+            ai = rec.get("after_interrogative_filter")
+            ae = rec.get("after_echo_filter")
+            culprit = ("question" if aq == 0 else
+                       "interrogative" if ai == 0 else
+                       "echo" if ae == 0 else "unknown")
+            fb = rec.get("fallback_applied")
+            return "ABSENT", (
+                f"binder offered {raw} posting(s); filters removed all "
+                f"(after question={aq}, interrogative={ai}, echo={ae}); "
+                f"culprit filter: {culprit}; fallback_applied={fb}")
         if not near:
             return "UNREACHABLE", "required set but nearest empty"
         if not req:
@@ -123,6 +144,11 @@ def main() -> int:
             "nearest": r.get("nearest"),
             "said": (r.get("said") or "")[:120],
             "spoken": r.get("spoken"),
+            "recall": r.get("recall"),
+            "after_question_filter": r.get("after_question_filter"),
+            "after_interrogative_filter": r.get("after_interrogative_filter"),
+            "after_echo_filter": r.get("after_echo_filter"),
+            "fallback_applied": r.get("fallback_applied"),
             "probe": r.get("probe"), "rewords": r.get("rewords"),
             "guard": r.get("guard"),
         })

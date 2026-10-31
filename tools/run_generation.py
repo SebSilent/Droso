@@ -624,6 +624,16 @@ def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str,
                "coverage": r.get("coverage"),
                "required": r.get("required"),
                "nearest": r.get("nearest"),
+               # E7: why `hits` was empty, filter by filter. `recall` is what the
+               # binder offered before any filter; the `after_*` counts are what
+               # survived each one. Without these an ABSENT ask cannot be told
+               # apart from a filter that removed everything, and the fallback
+               # cannot be shown to have fired or not fired.
+               "recall": r.get("recall"),
+               "after_question_filter": r.get("after_question_filter"),
+               "after_interrogative_filter": r.get("after_interrogative_filter"),
+               "after_echo_filter": r.get("after_echo_filter"),
+               "fallback_applied": r.get("fallback_applied"),
                "genome_applied": True, "shim": shim,
                "seconds": round(time.time() - t0, 2)}
     except Exception as exc:

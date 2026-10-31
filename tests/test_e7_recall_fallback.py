@@ -210,23 +210,54 @@ def test_P1_flag_off_never_applies_the_fallback(g8):
     assert all(r.get("fallback_applied") in (False, None) for r in g8)
 
 
-def test_P2_flag_on_moves_the_absent_ask_out_of_ABSENT(g9):
-    row = [r for r in g9 if r.get("ask") == ABSENT_ASK]
-    assert row, f"{ABSENT_ASK!r} is not in the battery"
-    r = row[0]
-    assert r.get("fallback_applied") is True, (
-        "fallback did not fire: raw binder recall was 0, so no posting exists at "
-        "all and ABSENT is correct rather than repairable")
-    assert (r.get("required") or []), "required is still empty"
-    assert (r.get("nearest") or []), "nearest is still empty"
-    assert r.get("coverage") is not None, "coverage still unset: gate never scored"
+def test_P2_FALSIFIED_the_fallback_never_fires_on_this_battery(g9):
+    """P2 is falsified, and the reason is more interesting than the prediction.
+
+    The fallback is guarded by `not hits`, i.e. by the recall gate having run and
+    found nothing. NO ask in this battery reaches that branch: the nine gated asks
+    all had postings and scored them, and the tenth -- the one classified ABSENT in
+    generation 7 -- never reached the recall gate at all. So `recall` (the raw
+    binder count) is None on every row, not 0: the instrumented return was never
+    executed. E7 has no target here.
+    """
+    assert all(r.get("fallback_applied") in (False, None) for r in g9)
+    assert all(r.get("recall") is None for r in g9), (
+        "some ask reached the `not hits` return; E7 does have a target and this "
+        "falsification must be re-derived")
 
 
-def test_P2_the_absent_ask_records_why_it_was_absent(g9):
-    """Whether it left ABSENT or not, the filter counts must explain it."""
+def test_the_ABSENT_ask_was_mislabelled_and_is_a_comprehension_failure(g9):
+    """The generation-7 ABSENT classification was an artifact of the harness.
+
+    `stage_of` in tools/heldout_eval.py returns "recall" as its DEFAULT for any
+    unspoken reply whose reason matches no pattern (line 141, and the comment
+    there says outright it is "a DEFAULT, not a measurement"). This ask's reason is
+    "it did not understand and was not in the mood to babble", which matches
+    neither RECALL_RE (cover|no memor|nothing he rememb|...) nor GATING_RE
+    (did not feel like speaking|not feel like|...). So it was bucketed as recall
+    while never having reached the recall gate. It is a comprehension failure.
+    """
     r = [x for x in g9 if x.get("ask") == ABSENT_ASK][0]
-    assert "recall" in r and "after_echo_filter" in r
-    assert isinstance(r["recall"], int)
+    assert r.get("stage") == "recall", "the default bucket changed"
+    assert "did not understand" in (r.get("reason") or "")
+    assert r.get("coverage") is None and r.get("required") is None
+    # and it is NOT a gate refusal: no coverage percentage in the reason
+    assert "covers" not in (r.get("reason") or "")
+
+
+def test_exactly_one_of_the_ten_recall_failures_is_not_a_recall_failure(g9):
+    """Nine real gate refusals plus one comprehension failure mislabelled recall.
+
+    Pinned because the stage tally `{"recall": 10, ...}` has been quoted as a
+    recall problem across generations 0-9, and one of those ten is not one.
+    """
+    rec = [r for r in g9 if r.get("stage") == "recall"]
+    assert len(rec) == 10
+    gated = [r for r in rec if "covers" in (r.get("reason") or "")]
+    other = [r for r in rec if "covers" not in (r.get("reason") or "")]
+    assert len(gated) == 9 and len(other) == 1
+    assert all(r.get("coverage") is not None for r in gated)
+    assert all(r.get("coverage") is None for r in other)
 
 
 def test_P3_flag_on_changes_no_other_ask(g8, g9):

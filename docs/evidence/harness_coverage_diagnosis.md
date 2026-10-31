@@ -43,6 +43,12 @@ never reaches the gate — which is itself diagnostic, and is why those stages s
 | **GATE** | **9** | `required` non-empty, `coverage` set, `best_cov < 0.6` |
 | **DOWNSTREAM** | **9** | `shape_arbiter` 2, `gating` 3, `mouth` 4 |
 
+> **Corrected by §8.** The ABSENT count of 1 is **retracted**: that ask never
+> reached the recall gate, and `stage=recall` was the harness's default bucket, not
+> a measurement. The true split is **GATE 9 / DOWNSTREAM 9 / comprehension
+> (mislabelled recall) 1**, and ABSENT and UNREACHABLE are both **empty**. §3's
+> empty-window result is unaffected — it never rested on that ask.
+
 The four-way split asked for collapses to three populated classes. **UNREACHABLE
 is empty**: there is no ask in this battery where memories exist and the cue found
 neighbours but could not bind. Every recall failure either found nothing (1) or
@@ -104,15 +110,23 @@ harness, so this class of error is closed rather than merely flagged.
 
 ## 5. Per-class detail
 
-### ABSENT (1) — `which thing turns twice?`
+### ABSENT (1) — `which thing turns twice?` — **RETRACTED, see §8**
 
-`required=[]`, `nearest=[]`. The tell was *"the copper bell turns twice"*; the cue
-shares `turns` and `twice` with it, yet `informativeness.required_words` returned
-nothing, so the gate never scored and there was nothing to refuse. This is the ask
-E5's R1' determiner repair was built for, and R1' correctly reparsed it — then it
-died here, one stage later, for a reason no parse fix can reach. **This is the only
-failure in the battery that is not a threshold, a veto, or a rendering problem.**
-It is a cue-to-posting addressing failure.
+> **This classification was wrong and is retracted.** It was inferred from
+> `required=[]` and `nearest=[]` plus `stage=recall`, on the assumption that
+> `stage=recall` meant the recall gate had run and refused. E7's instrumentation
+> shows the gate **never ran**: the row's `reason` is *"it did not understand and
+> was not in the mood to babble"*, and its raw binder count is `None`, not `0` —
+> the `if not hits` return was never executed. `stage_of` in
+> `tools/heldout_eval.py:141` returns `"recall"` as its **default** for any
+> unspoken reply whose reason matches no pattern, and its own comment says this is
+> "a DEFAULT, not a measurement". This is a **comprehension** failure wearing a
+> recall label. See §8.
+
+The original text claimed the cue shared `turns`/`twice` with the tell
+*"the copper bell turns twice"* yet `required_words` returned nothing. Both halves
+were wrong: `required_words` does not exist, and the cue never reached the code
+that would have computed a required list.
 
 ### GATE (9) — coverages 0.340 … 0.555
 
@@ -257,3 +271,90 @@ their own diagnosis rather than being folded into a recall experiment.
 - The state guard again reported the known two populations (the harness's own
   `selection/generation_7*` artifacts plus the hardlinked `live_learner`
   `banc_brain.npz` copies). Pinned by test; still not sha256-verified.
+
+## 8. E7 result — the fallback is inert here, and the ABSENT class was a harness artifact
+
+Two arms, control genome `abffa2b7f101`, frozen+probe, 42 asks each. Generation 8
+flag **off**, generation 9 flag **on** (`--recall-fallback`, recorded in
+`provenance.code_flags`). Tests: `tests/test_e7_recall_fallback.py`.
+
+| | gen 7 (baseline) | gen 8 (flag off) | gen 9 (flag on) |
+|---|---|---|---|
+| frozen | 19/24 | **19/24** | **19/24** |
+| probes | 0/14 | **0/14** | **0/14** |
+| guarded | 4/4 | **4/4** | **4/4** |
+| stages | `recall 10, mouth 4, gating 3, shape_arbiter 2` | **identical** | **identical** |
+| MEMBERSHIP | 19 / 19 | **19 / 19** | **19 / 19** |
+
+| prediction | verdict |
+|---|---|
+| **P1** flag off reproduces gen 7's verdicts ask for ask | **CONFIRMED** — all 42 `(pass, stage, coverage)` triples identical |
+| **P2** flag on moves `which thing turns twice?` out of ABSENT | **FALSIFIED** |
+| **P3** flag on changes no other ask | **CONFIRMED** — trivially; nothing changed at all |
+| **P4** flag on does not raise the score | **CONFIRMED** — 19/24, 0/14 both arms |
+| **P5** zero erosion | **CONFIRMED** — frozen 19/24, guarded 4/4 both arms |
+
+### Why P2 failed, which is the actual result
+
+`fallback fired on any ask: 0` and `rows with a raw recall count: 0`. The fallback
+is guarded by `not hits` — by the recall gate having run and found nothing. **No
+ask in this battery reaches that branch.** The nine gated asks all had postings and
+scored them; the tenth never reached the gate. E7 has no target here, and its
+inertness is total rather than partial.
+
+Inspecting every `stage=recall` row's `reason` separates them cleanly:
+
+```
+9 x "the closest memory of his covers NN% of the question"   <- real gate refusals
+1 x "it did not understand and was not in the mood to babble" <- NOT a recall failure
+```
+
+The nine coverages are 34, 39, 42, 45, 46, 51, 51, 54, 55 percent — exactly the
+nine GATE values in §2. The tenth is a **comprehension** failure. `stage_of`
+(`tools/heldout_eval.py:141`) returns `"recall"` as its default for any unspoken
+reply whose reason matches no pattern, and the comment above that line says
+outright it is "a DEFAULT, not a measurement". *"not in the mood to babble"*
+matches neither `RECALL_RE` (`cover|no memor|nothing he rememb|…`) nor `GATING_RE`
+(`did not feel like speaking|not feel like|…`), so it fell through.
+
+**Consequences.**
+
+1. The ABSENT class in §2 is **empty**, not 1. The four-way split is really
+   GATE 9 / DOWNSTREAM 9 / comprehension-mislabelled-as-recall 1.
+2. The stage tally `{"recall": 10, …}` quoted across generations 0–9 has always
+   contained one non-recall failure. Real recall-gate failures are **9**.
+3. §3's empty-window result is **unaffected and slightly strengthened**: it rests
+   on the nine GATE coverages (max 0.555) against the 0.570 passing ask, and the
+   retracted ask was never one of them.
+4. E5's R1′ determiner repair was aimed at this ask. It reparsed correctly and the
+   ask still failed — now explicable: the failure is downstream of parsing, in
+   comprehension, so no parse repair could have reached it. That is a third
+   independent confirmation that the shape parser is not the binding constraint.
+
+### What E7 leaves behind that is worth keeping
+
+The fallback itself is **inert on this battery and stays default-off**. It is not
+proposed for promotion: it has no measured effect, and a flag with no effect is
+not a repair. What is kept is the **instrumentation** — `recall`,
+`after_question_filter`, `after_interrogative_filter`, `after_echo_filter`,
+`fallback_applied` on the `not hits` return, recorded unconditionally. They cost
+nothing, they are pure recording, and they are what turned a confidently wrong
+classification into a corrected one. Without them the ABSENT ask would still be
+recorded as a memory problem, and the next cut would again be aimed at recall.
+
+### The next cut this points at, and the one it forecloses
+
+It **forecloses** further recall-side work on this battery: nine gated failures
+whose coverages all sit below the guard's, one comprehension failure that is not a
+recall problem, and no unreachable memories at all.
+
+It **points at** the stage labelling itself. A default bucket named `recall` has
+mis-attributed one failure for ten generations and made a comprehension defect
+look like a memory defect. The smallest useful change is not a new repair but a
+new label: give `stage_of` a `comprehension` branch for reasons matching
+`did not understand`, and let `recall` stop being the fall-through. That is a
+harness change with no effect on the organ, it is testable against the existing
+journals for generations 0–9, and it would make every future stage tally mean what
+it says. It is **not implemented here** — it changes the meaning of a field that
+ten generations of rows already carry, so it needs its own pre-registration and a
+decision about whether to relabel historical rows or version the field.
