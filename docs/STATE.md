@@ -588,6 +588,64 @@ pre-registration tell them apart.
 | `docs/evidence/e16a_relation_index.py` | E16a: zero builds, offline (s,r,o) extraction |
 | `docs/evidence/e16a_result.md` | E16a ABORTED at D2 — guard structural, fillers wrong |
 | `docs/evidence/counting_primitive_design.md` | events not state; regression avoided by placement |
+| `docs/evidence/e17a_counting_probe.py` | E17a: zero builds, event extraction + fold |
+| `docs/evidence/e17a_result.md` | E17a ABORTED — the target class is empty |
+| `docs/evidence/paraphrase_gap_diagnosis.md` | failing asks with a passing twin |
+
+### E17a — the counting primitive, ABORTED (`8f31533`)
+
+Zero builds. **E2, E3 and E4 all fire.** The design was motivated by the review's fork — *"if D3
+fires, the quantity asks need a counting primitive rather than a relational one"* — and E16a's D3
+had fired on a coverage limitation (only 2 of 9 recall-gate asks are in the frozen file). E17a
+read both batteries and the journal, and the fork resolves **against** counting.
+
+**The decisive measurement: of 11 quantity asks, 7 already pass at the coverage gate.** The 4
+that fail decompose into three mechanisms, **none of which is entity counting**:
+
+1. **Frequency adverbials (2)** — `how many times / how often does the bell turn?` want `twice`.
+   Not a count of entities; `twice` is not a cardinal, so the tell extracts as *"no numeral"* and
+   is invisible to an `(entity, numeral)` index by construction.
+2. **Rehearsal count (1)** — `how often did i say the coat is wet?` asks how many times the *user*
+   spoke. That is the binder's existing `count` metadata, which four passing asks already use.
+3. **Paraphrase gap (1)** — `what number of eggs is left in the basket?` **fails** while
+   `how many eggs are left in the basket?`, the same proposition, **passes**.
+
+The one genuine event-count ask, `how many eggs broke?`, **already passes**, so per the design's
+own placement rule the primitive is never reached. **E4: zero gain** — stronger than E14a's "safe
+but worthless": not merely no gain, **no target**.
+
+**Four probe defects are reported in the result rather than hidden**, because E2/E3 fired partly
+for the wrong reasons. The most important is that **H2 was a tautological test** — it asserted
+`entity == normalise(raw_ent[-1])`, exactly what `head()` computes, so it validated the
+implementation against itself and reported PASS while the rule was wrong (`there are four eggs in
+the basket` → entity `basket`; `then two eggs break` → entity `break`, verb `egg`, swapped).
+State-count queries were also misrouted (`left` was in the stop list), so **the polarity-refusal
+logic — the design's central safety mechanism — never executed and is untested, not refuted**; and
+the place filter silently drops events during folding, a drop H1/E7 could not catch because they
+check extraction only. Only 4 tells in the 12-script battery contain a cardinal and one is an
+event, so **H5 (update-not-add) is untestable on this battery**.
+
+Fixing the probe would not change the verdict: E4 is measured against the journal, not the
+extractor.
+
+### Eight accounts closed, and the instrument was wrong
+
+**Eight accounts of the `mouth`/`recall` boundary are now closed** — resonance ranking (E9/E10),
+comprehension signalling (E11a), coverage numerator (E12a), coverage threshold (gen 2/gen 6),
+coverage ranking (E13a), candidate generation (E14a), provenanced entailment (E15), counting
+(E17a). The pattern holds throughout: every mechanism that makes the agent answer more often also
+makes it answer wrongly, and the guarded invariant catches it each time.
+
+E17a adds what the previous seven did not: **the failing asks are not one class.** The 9
+recall-gate asks span frequency adverbials, rehearsal counts, paraphrase gaps, irregular
+morphology, two-hop composition and unanswerable-by-design queries. Seven experiments each
+addressed one facet and were scored against all nine, which is why every one looked like a
+near-miss. **The battery's aggregate failure count has been the wrong instrument since E13a.**
+
+The one mechanism that is neither closed nor in need of a new primitive is the **paraphrase gap**
+— a failing ask with a *passing twin on identical taught evidence*. It is falsifiable without a
+lexicon, a new primitive, or any change to the coverage formula, and it is the only open line
+where a correct answer is already demonstrated to exist in the organ.
 
 ### E15 — provenanced entailment, ABORTED at C1/C2/C4 (`46d8a56`)
 

@@ -1,0 +1,121 @@
+{
+ "n_pairs": 3,
+ "findings": [
+  {
+   "script": "order-first-last",
+   "answer": [
+    "lantern"
+   ],
+   "failing": "what did i tell you about before the kettle?",
+   "passing": "which did i tell you first the lantern or the kettle?",
+   "fail_stage": "recall",
+   "fail_cause": "recall_gate",
+   "fail_cov": 0.555,
+   "pass_cov": null,
+   "fail_required": [
+    "about",
+    "before",
+    "did",
+    "kettle",
+    "tell",
+    "you"
+   ],
+   "pass_required": [],
+   "terms_only_in_failing": [
+    "about",
+    "before",
+    "did",
+    "kettle",
+    "tell",
+    "you"
+   ],
+   "terms_only_in_passing": [],
+   "same_top_row": false,
+   "fail_top_row": "did you not tell me about it sooner",
+   "pass_top_row": null
+  },
+  {
+   "script": "sel-exact-repeat",
+   "answer": [
+    "twice",
+    "two"
+   ],
+   "failing": "how often does the bell turn?",
+   "passing": "the bell turns how often?",
+   "fail_stage": "recall",
+   "fail_cause": "recall_gate",
+   "fail_cov": 0.514,
+   "pass_cov": null,
+   "fail_required": [
+    "bell",
+    "does",
+    "often",
+    "turn"
+   ],
+   "pass_required": [],
+   "terms_only_in_failing": [
+    "bell",
+    "does",
+    "often",
+    "turn"
+   ],
+   "terms_only_in_passing": [],
+   "same_top_row": false,
+   "fail_top_row": "the copper bell turns twice",
+   "pass_top_row": null
+  },
+  {
+   "script": "sel-order-first-last",
+   "answer": [
+    "lantern"
+   ],
+   "failing": "which thing did i mention earlier than the kettle?",
+   "passing": "of the lantern and the kettle which one came first?",
+   "fail_stage": "mouth",
+   "fail_cause": "mouth",
+   "fail_cov": null,
+   "pass_cov": null,
+   "fail_required": [],
+   "pass_required": [],
+   "terms_only_in_failing": [],
+   "terms_only_in_passing": [],
+   "same_top_row": false,
+   "fail_top_row": null,
+   "pass_top_row": null
+  },
+  {
+   "script": "sel-order-first-last",
+   "answer": [
+    "lantern"
+   ],
+   "failing": "what came before the kettle in what i said?",
+   "passing": "of the lantern and the kettle which one came first?",
+   "fail_stage": "recall",
+   "fail_cause": "recall_gate",
+   "fail_cov": 0.46,
+   "pass_cov": null,
+   "fail_required": [
+    "before",
+    "came",
+    "in",
+    "kettle",
+    "said"
+   ],
+   "pass_required": [],
+   "terms_only_in_failing": [
+    "before",
+    "came",
+    "in",
+    "kettle",
+    "said"
+   ],
+   "terms_only_in_passing": [],
+   "same_top_row": false,
+   "fail_top_row": "when the water in the kettle was boiling",
+   "pass_top_row": null
+  }
+ ],
+ "classes": {
+  "RETRIEVAL: the twin pulls a different top row": 4
+ }
+}

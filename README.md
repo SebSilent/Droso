@@ -417,9 +417,29 @@ cannot represent a quantity that changes, and `quantity-change` is a class the b
 morphology is not derivable without a lexicon. **Right shape of primitive, wrong first
 primitive** — the relational index is validated and deferred.
 
-**Seven accounts of the `mouth`/`recall` boundary are now closed**, and the pattern is
+**E17a closed the counting primitive, and its target class is empty.**
+`docs/evidence/e17a_result.md`: of **11** quantity asks, **7 already pass** at the coverage gate.
+The 4 that fail decompose into three mechanisms, **none of which is entity counting** —
+**frequency adverbials** (`how often does the bell turn?` wants `twice`, which is not a cardinal,
+so the tell extracts as *"no numeral"* and is invisible to an `(entity, numeral)` index by
+construction), **rehearsal counts** (`how often did i say the coat is wet?` is the binder's own
+`count` metadata, which four passing asks already use), and a **paraphrase gap**
+(`what number of eggs is left in the basket?` fails while `how many eggs are left in the basket?`
+— the same proposition — passes). The one genuine event-count ask, `how many eggs broke?`,
+**already passes**, so per the design's own placement rule the primitive is never reached:
+**E4 fires, zero gain**. Stronger than E14a's "safe but worthless" — not merely no gain, **no
+target**. The result also reports four defects in its own probe rather than hiding them, chiefly
+that **H2 was a tautological test** which validated the implementation against itself and reported
+PASS while the head rule was wrong; consequently the design's polarity-refusal logic **never
+executed and is untested, not refuted**.
+
+**Eight accounts of the `mouth`/`recall` boundary are now closed**, and the pattern is
 consistent: **every mechanism that makes the agent answer more often also makes it answer
-wrongly.** The guarded scarf invariant is not an obstacle to the repair — **it is the repair
+wrongly.** E17a adds what the previous seven did not: **the failing asks are not one class.** The
+9 recall-gate asks span frequency adverbials, rehearsal counts, paraphrase gaps, irregular
+morphology, two-hop composition and unanswerable-by-design queries — seven experiments each
+addressed one facet and were scored against all nine, which is why every one looked like a
+near-miss. **The battery's aggregate failure count has been the wrong instrument since E13a.** The guarded scarf invariant is not an obstacle to the repair — **it is the repair
 working**, and it has correctly rejected six proposed answer-licensing changes. The honest
 conclusion is the one E15's design pre-registered as the alternative: the battery's guarded
 invariants and its failing asks are **jointly unsatisfiable** by any mechanism that licenses
