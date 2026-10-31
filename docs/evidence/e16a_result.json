@@ -1,0 +1,439 @@
+{
+ "verdict": "ABORT D2 -- a licence with a wrong filler; confabulation.",
+ "tests_failed": [
+  4
+ ],
+ "D1": false,
+ "D2": true,
+ "D3_licensed_correct": 0,
+ "D3_n": 2,
+ "D5_unextractable": 0,
+ "quantity_share": 1,
+ "records": [
+  {
+   "script": "count-frequency",
+   "ask": "how many times did i tell you the coat is wet?",
+   "licensed": false,
+   "filler": null,
+   "why": "no quantity relation for the queried noun",
+   "want": [
+    "three"
+   ],
+   "forbid": [
+    "one",
+    "two",
+    "four",
+    "five",
+    "torn"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 4
+  },
+  {
+   "script": "count-frequency",
+   "ask": "how many things did i tell you about the coat?",
+   "licensed": false,
+   "filler": null,
+   "why": "no quantity relation for the queried noun",
+   "want": [
+    "two"
+   ],
+   "forbid": [
+    "three",
+    "one",
+    "four",
+    "wet"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 4
+  },
+  {
+   "script": "count-frequency",
+   "ask": "how many times did i tell you about the scarf?",
+   "licensed": false,
+   "filler": null,
+   "why": "no quantity relation for the queried noun",
+   "want": [
+    "zero",
+    "none",
+    "no"
+   ],
+   "forbid": [
+    "three",
+    "two",
+    "once"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 4
+  },
+  {
+   "script": "count-frequency",
+   "ask": "did i ever tell you about the moon?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "no"
+   ],
+   "forbid": [
+    "moon",
+    "yes"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 4
+  },
+  {
+   "script": "order-first-last",
+   "ask": "which did i tell you first the lantern or the kettle?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "lantern"
+   ],
+   "forbid": [
+    "kettle",
+    "gate"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "order-first-last",
+   "ask": "which did i tell you last the kettle or the gate?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "gate"
+   ],
+   "forbid": [
+    "kettle",
+    "lantern"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "order-first-last",
+   "ask": "what did i tell you about before the kettle?",
+   "licensed": false,
+   "filler": null,
+   "why": "no relation with verb 'kettle' fills role 'object_unknown'",
+   "want": [
+    "lantern"
+   ],
+   "forbid": [
+    "gate",
+    "singing",
+    "open"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "order-first-last",
+   "ask": "how many objects did i tell you about?",
+   "licensed": false,
+   "filler": null,
+   "why": "no quantity relation for the queried noun",
+   "want": [
+    "three"
+   ],
+   "forbid": [
+    "one",
+    "two",
+    "four"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "what is both wet and on the hook?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "coat"
+   ],
+   "forbid": [
+    "scarf"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "what is wet but not on the hook?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "scarf"
+   ],
+   "forbid": [
+    "coat"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "where did i say the scarf is?",
+   "licensed": false,
+   "filler": null,
+   "why": "subject 'scarf' is indexed but has NO locative relation -- only a property; refusing",
+   "want": [],
+   "forbid": [
+    "hook"
+   ],
+   "refusal_expected": true,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "is the coat dry or wet?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "wet"
+   ],
+   "forbid": [
+    "dry"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 3
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "say exactly the copper bell turns twice",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [],
+   "forbid": [],
+   "refusal_expected": true,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 1
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "which word did i use for the metal?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "copper"
+   ],
+   "forbid": [
+    "bell",
+    "iron",
+    "gold"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 1
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "how many times does the bell turn?",
+   "licensed": false,
+   "filler": null,
+   "why": "no quantity relation for the queried noun",
+   "want": [
+    "twice",
+    "two"
+   ],
+   "forbid": [
+    "three",
+    "once"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 1
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "what turns twice?",
+   "licensed": true,
+   "filler": "copper bell",
+   "why": "transitive 'the copper bell turns twice'",
+   "want": [
+    "bell"
+   ],
+   "forbid": [
+    "copper"
+   ],
+   "refusal_expected": false,
+   "correct": false,
+   "forbidden_said": false,
+   "n_relations": 1
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "what does the frost bite?",
+   "licensed": false,
+   "filler": null,
+   "why": "no relation with verb 'bite' fills role 'object_unknown'",
+   "want": [
+    "latch"
+   ],
+   "forbid": [
+    "door"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 2
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "what does the thing the frost bites hold?",
+   "licensed": false,
+   "filler": null,
+   "why": "no relation with verb 'hold' fills role 'object_unknown'",
+   "want": [
+    "door"
+   ],
+   "forbid": [
+    "frost"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 2
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "what bites the latch?",
+   "licensed": true,
+   "filler": "frost",
+   "why": "transitive 'the frost bites the latch'",
+   "want": [
+    "frost"
+   ],
+   "forbid": [
+    "door"
+   ],
+   "refusal_expected": false,
+   "correct": true,
+   "forbidden_said": false,
+   "n_relations": 2
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "does the door hold the frost?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "no"
+   ],
+   "forbid": [
+    "yes"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 2
+  },
+  {
+   "script": "quantity-change",
+   "ask": "how many eggs did i mention first?",
+   "licensed": true,
+   "filler": "four",
+   "why": "quantity 'there are four eggs in the basket'",
+   "want": [
+    "four"
+   ],
+   "forbid": [
+    "two"
+   ],
+   "refusal_expected": false,
+   "correct": true,
+   "forbidden_said": false,
+   "n_relations": 2
+  },
+  {
+   "script": "quantity-change",
+   "ask": "how many eggs broke?",
+   "licensed": true,
+   "filler": "four",
+   "why": "quantity 'there are four eggs in the basket'",
+   "want": [
+    "two"
+   ],
+   "forbid": [
+    "four"
+   ],
+   "refusal_expected": false,
+   "correct": false,
+   "forbidden_said": true,
+   "n_relations": 2
+  },
+  {
+   "script": "quantity-change",
+   "ask": "did any egg break?",
+   "licensed": false,
+   "filler": null,
+   "why": "the organ's shape parser yields no role query",
+   "want": [
+    "yes"
+   ],
+   "forbid": [
+    "no"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "n_relations": 2
+  },
+  {
+   "script": "quantity-change",
+   "ask": "how many eggs are left in the basket?",
+   "licensed": true,
+   "filler": "four",
+   "why": "quantity 'there are four eggs in the basket'",
+   "want": [
+    "two"
+   ],
+   "forbid": [
+    "four",
+    "six"
+   ],
+   "refusal_expected": false,
+   "correct": false,
+   "forbidden_said": true,
+   "n_relations": 2
+  }
+ ]
+}
