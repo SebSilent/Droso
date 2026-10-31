@@ -27,6 +27,7 @@ shutil.copytree(STATIC, OUT, dirs_exist_ok=True)
 
 PAGES = [
     "STATE.md",
+    "selection_design.md",
     "archive/experiment_log.md",
     "archive/role_chain_proposal.md",
     "cross_session_design.md",

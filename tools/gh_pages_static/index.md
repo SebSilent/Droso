@@ -5,6 +5,12 @@ title: Droso project notes
 
 # Droso
 
+[![Tests: 621 passed · 11 skipped](https://img.shields.io/badge/Tests-621%20passed%20%C2%B7%2011%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](STATE.html)
+[![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](STATE.html)
+[![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](STATE.html)
+[![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
+[![License: MIT](https://img.shields.io/badge/License-MIT-24292f?style=flat-square&labelColor=0d1117)](https://github.com/SebSilent/Droso/blob/main/LICENSE)
+
 <p class="eyebrow">Project notes</p>
 
 Notes for a hybrid agent: a sparse associative memory bound to a small language
@@ -16,6 +22,10 @@ came from.
   <li>
     <a href="STATE.html">Repository state</a>
     <span class="doc-sub">Factual inventory: what is in the tree, what each harness does, and the last recorded numbers with the commit they were measured at.</span>
+  </li>
+  <li>
+    <a href="selection_design.html">Selection design</a>
+    <span class="doc-sub">Contract for the generational harness: the genome, the fitness tuple, and the battery it is scored on.</span>
   </li>
   <li>
     <a href="archive/experiment_log.html">Experiment log (archive)</a>

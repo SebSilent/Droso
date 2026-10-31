@@ -2,6 +2,9 @@
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-0a3069?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
 [![Topology: 12,867 Nodes / 173,294 Synapses](https://img.shields.io/badge/Topology-12%2C867%20Nodes%20%2F%20173%2C294%20Synapses-5b2d8e?style=flat-square&labelColor=0d1117)](#substrate)
 [![Footprint: Python 3.10 + requirements.txt](https://img.shields.io/badge/Footprint-Python%203.10%20%2B%20requirements.txt-7d4e00?style=flat-square&labelColor=0d1117)](#install-and-run)
+[![Tests: 621 passed · 11 skipped](https://img.shields.io/badge/Tests-621%20passed%20%C2%B7%2011%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#running-the-suite)
+[![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#the-held-out-script-harness)
+[![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#the-guard-scripts)
 
 # Droso
 
@@ -291,7 +294,9 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 428 passed, 3 skipped (at `f2e1748`) |
+| Test suite | 621 passed, 11 skipped (at `35ab073`) |
+| Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
+| Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 
 ## Data credit and citation
 

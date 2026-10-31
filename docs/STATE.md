@@ -1,11 +1,21 @@
 # Repository state
 
+[![Tests: 621 passed · 11 skipped](https://img.shields.io/badge/Tests-621%20passed%20%C2%B7%2011%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
+[![License: MIT](https://img.shields.io/badge/License-MIT-24292f?style=flat-square&labelColor=0d1117)](https://github.com/SebSilent/Droso/blob/main/LICENSE)
+
 A factual inventory of what is in this tree, what each measurement harness does,
 and the last numbers that were recorded, with the commit they were measured at.
 No recommendations.
 
-Last measured state: **`f2e1748`** (tree clean at the time).
-Docs-only commits after it do not change any number below.
+<a id="last-recorded-numbers"></a>
+
+Suite last run at **`35ab073`**: **621 passed, 11 skipped** (632 collected),
+exit 0. The held-out and guard numbers in the tables below were measured at
+**`f2e1748`** and have not been re-run since; the entries added after them
+(generations 7 and 8, E7) carry their own numbers and journals.
 
 ## What is in the tree
 
