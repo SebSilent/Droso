@@ -582,6 +582,9 @@ pre-registration tell them apart.
 | `docs/evidence/candidate_generation_diagnosis.md` | the gap is real but immaterial; ceiling 0.5488 |
 | `docs/evidence/e14a_candidate_gap.py` | E14a: zero builds, admits every tell as a candidate |
 | `docs/evidence/post_coverage_gate_design.md` | provenanced entailment licensing; E15 probe |
+| `docs/evidence/e15_entailment_probe.py` | E15: zero builds, entailment over provenanced rows |
+| `docs/evidence/e15_result.md` | E15 ABORTED — C1, C2, C4 all fired |
+| `docs/evidence/architecture_decision_review.md` | the seven closed lines; recommends E16a |
 | `docs/evidence/` | raw run output cited by the docs |
 
 ## E9 — `RESONANCE_SESSION_SCOPE`, refuted and aborted (`ce04020`)
