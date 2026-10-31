@@ -39,6 +39,7 @@ on retrieval of an existing taught row.
 | **E19** `e19_result.md` | is the failure eviction or retrieval? | **eviction falsified** — `taught_resident` True on 40/42 asks, **0/19 failures are eviction** |
 | **E20** `e20_result.md` | does the gate cue omit taught terms? | **no** — on 4 of 9 gate asks the gate retrieves the correct row and ranks it **first**, then refuses at coverage 0.340–0.538 |
 | **E21a** `cue_dilution_diagnosis.md` | does de-framing the cue recover the row? | **no** — recovers **0 of 4**; best case rank 41→10 against a window of 3 |
+| **E22a** `teach_time_reinforcement_diagnosis.md` | does taught-row count predict success? | **no** — the 48%→83% gap is ask-type confounding; the one count=3 gate ask scores **0.454, below the count=1 gate mean of 0.4649**, with its row at rank 1 |
 
 **Retraction.** E19 and `passing_ask_analysis.md` reported `nearest_has_taught=0`,
 i.e. that every gate ask retrieved only book rows. That test was

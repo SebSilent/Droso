@@ -1,0 +1,503 @@
+{
+  "journal": "state\\selection\\generation_19_asks.jsonl",
+  "asks_total": 42,
+  "asks_with_taught_count": 39,
+  "count_distribution": {
+    "1": 33,
+    "3": 6
+  },
+  "pass_by_count": {
+    "1": {
+      "n": 33,
+      "pass": 16,
+      "pass_rate": 0.4848
+    },
+    "3": {
+      "n": 6,
+      "pass": 5,
+      "pass_rate": 0.8333
+    }
+  },
+  "coverage_by_count": {
+    "1": {
+      "n_gate": 8,
+      "n_with_cov": 8,
+      "mean_cov": 0.4649,
+      "min": 0.34,
+      "max": 0.555
+    },
+    "3": {
+      "n_gate": 1,
+      "n_with_cov": 1,
+      "mean_cov": 0.454,
+      "min": 0.454,
+      "max": 0.454
+    }
+  },
+  "rank_by_count": {
+    "1": {
+      "n": 33,
+      "n_ranked": 25,
+      "mean_rank": 4.88,
+      "best": 1,
+      "worst": 25
+    },
+    "3": {
+      "n": 6,
+      "n_ranked": 3,
+      "mean_rank": 1.0,
+      "best": 1,
+      "worst": 1
+    }
+  },
+  "asks": [
+    {
+      "ask": "how often did i say the coat is wet?",
+      "script": "sel-count-frequency",
+      "pass": false,
+      "taught_count": 3,
+      "probe_rank": 1,
+      "coverage": 0.454,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "how many times did i tell you the coat is wet?",
+      "script": "count-frequency",
+      "pass": true,
+      "taught_count": 3,
+      "probe_rank": 1,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "how many things did i tell you about the coat?",
+      "script": "count-frequency",
+      "pass": true,
+      "taught_count": 3,
+      "probe_rank": 1,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "how many times did i tell you about the scarf?",
+      "script": "count-frequency",
+      "pass": true,
+      "taught_count": 3,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "did i ever tell you about the moon?",
+      "script": "count-frequency",
+      "pass": true,
+      "taught_count": 3,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "have i mentioned the moon to you?",
+      "script": "sel-count-frequency",
+      "pass": true,
+      "taught_count": 3,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "what did i tell you about before the kettle?",
+      "script": "order-first-last",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": 0.555,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the lantern is lit"
+    },
+    {
+      "ask": "what number of eggs is left in the basket?",
+      "script": "sel-quantity-change",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 2,
+      "coverage": 0.538,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "there are four eggs in the basket"
+    },
+    {
+      "ask": "how often does the bell turn?",
+      "script": "sel-exact-repeat",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 11,
+      "coverage": 0.514,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the copper bell turns twice"
+    },
+    {
+      "ask": "what is held by the thing the frost bites?",
+      "script": "sel-hop-and-inventory",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 2,
+      "coverage": 0.51,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "what came before the kettle in what i said?",
+      "script": "sel-order-first-last",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": 0.46,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the lantern is lit"
+    },
+    {
+      "ask": "how many times does the bell turn?",
+      "script": "exact-repeat",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 20,
+      "coverage": 0.417,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the copper bell turns twice"
+    },
+    {
+      "ask": "what does the bitten thing hold?",
+      "script": "sel-hop-and-inventory",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": 0.385,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "what is bitten by the frost?",
+      "script": "sel-hop-and-inventory",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 1,
+      "coverage": 0.34,
+      "stage_all": "recall",
+      "cause_all": "recall_gate",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "which did i tell you first the lantern or the kettle?",
+      "script": "order-first-last",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 4,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the lantern is lit"
+    },
+    {
+      "ask": "which did i tell you last the kettle or the gate?",
+      "script": "order-first-last",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the lantern is lit"
+    },
+    {
+      "ask": "how many objects did i tell you about?",
+      "script": "order-first-last",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the lantern is lit"
+    },
+    {
+      "ask": "what is both wet and on the hook?",
+      "script": "conjunction-and-absence",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 9,
+      "coverage": null,
+      "stage_all": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "what is wet but not on the hook?",
+      "script": "conjunction-and-absence",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 5,
+      "coverage": null,
+      "stage_all": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "is the coat dry or wet?",
+      "script": "conjunction-and-absence",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 1,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "which word did i use for the metal?",
+      "script": "exact-repeat",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the copper bell turns twice"
+    },
+    {
+      "ask": "what turns twice?",
+      "script": "exact-repeat",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 1,
+      "coverage": null,
+      "stage_all": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "taught_row": "the copper bell turns twice"
+    },
+    {
+      "ask": "what does the frost bite?",
+      "script": "hop-and-inventory",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 2,
+      "coverage": null,
+      "stage_all": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "what does the thing the frost bites hold?",
+      "script": "hop-and-inventory",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 2,
+      "coverage": null,
+      "stage_all": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "what bites the latch?",
+      "script": "hop-and-inventory",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 1,
+      "coverage": null,
+      "stage_all": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "does the door hold the frost?",
+      "script": "hop-and-inventory",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 3,
+      "coverage": null,
+      "stage_all": "gating",
+      "cause_all": "gating",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "how many eggs did i mention first?",
+      "script": "quantity-change",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 5,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "there are four eggs in the basket"
+    },
+    {
+      "ask": "how many eggs broke?",
+      "script": "quantity-change",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 2,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "there are four eggs in the basket"
+    },
+    {
+      "ask": "did any egg break?",
+      "script": "quantity-change",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "there are four eggs in the basket"
+    },
+    {
+      "ask": "how many eggs are left in the basket?",
+      "script": "quantity-change",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 1,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "there are four eggs in the basket"
+    },
+    {
+      "ask": "which thing did i mention earlier than the kettle?",
+      "script": "sel-order-first-last",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": null,
+      "coverage": null,
+      "stage_all": "mouth",
+      "cause_all": "mouth",
+      "taught_row": "the lantern is lit"
+    },
+    {
+      "ask": "of the lantern and the kettle which one came first?",
+      "script": "sel-order-first-last",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 5,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the lantern is lit"
+    },
+    {
+      "ask": "which of them is wet and is not on the hook?",
+      "script": "sel-conjunction-and-absence",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 4,
+      "coverage": null,
+      "stage_all": "mouth",
+      "cause_all": "mouth",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "name the wet thing that is not on the hook",
+      "script": "sel-conjunction-and-absence",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 8,
+      "coverage": null,
+      "stage_all": "mouth",
+      "cause_all": "mouth",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "is the coat wet or is it dry?",
+      "script": "sel-conjunction-and-absence",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 1,
+      "coverage": null,
+      "stage_all": "other",
+      "cause_all": "other",
+      "taught_row": "the coat is wet"
+    },
+    {
+      "ask": "the bell turns how often?",
+      "script": "sel-exact-repeat",
+      "pass": true,
+      "taught_count": 1,
+      "probe_rank": 2,
+      "coverage": null,
+      "stage_all": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "taught_row": "the copper bell turns twice"
+    },
+    {
+      "ask": "which thing turns twice?",
+      "script": "sel-exact-repeat",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 3,
+      "coverage": null,
+      "stage_all": "recall",
+      "cause_all": "comprehension",
+      "taught_row": "the copper bell turns twice"
+    },
+    {
+      "ask": "is the frost held by the door?",
+      "script": "sel-hop-and-inventory",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 2,
+      "coverage": null,
+      "stage_all": "gating",
+      "cause_all": "gating",
+      "taught_row": "the frost bites the latch"
+    },
+    {
+      "ask": "is it true that the door holds the frost?",
+      "script": "sel-hop-and-inventory",
+      "pass": false,
+      "taught_count": 1,
+      "probe_rank": 25,
+      "coverage": null,
+      "stage_all": "gating",
+      "cause_all": "gating",
+      "taught_row": "the frost bites the latch"
+    }
+  ],
+  "high_count_split": {
+    "n": 6,
+    "pass": 5,
+    "fail": 1
+  },
+  "live_binder_counts": {
+    "rows": 60000,
+    "distinct_counts": 76,
+    "top": {
+      "1": 59665,
+      "2": 93,
+      "3": 48,
+      "4": 25,
+      "5": 20,
+      "6": 16,
+      "7": 9,
+      "8": 9
+    }
+  }
+}
