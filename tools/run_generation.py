@@ -1384,6 +1384,22 @@ def cmd_run(args) -> int:
     else:
         nl.NeuralLanguage.ABSENCE_INVENTORY = False
         CODE_FLAGS["absence_inventory"] = False
+    # E25: `v_synt` -- drop function words from the coverage DENOMINATOR. Same
+    # discipline as E24: a CODE flag, one arm per process, recorded in
+    # provenance.code_flags. E25 is only meaningful WITH --absence-inventory,
+    # because the relocated guard is what makes the denominator safe to touch;
+    # running it alone would re-run E23, which is refuted.
+    if args.coverage_exclude == "synt":
+        nl.NeuralLanguage.COVERAGE_EXCLUDE_SYNT = True
+        CODE_FLAGS["coverage_exclude_synt"] = True
+        print("E25 ON: COVERAGE_EXCLUDE_SYNT = True (v_synt, denominator only)")
+        if not args.absence_inventory:
+            print("  WARNING: --coverage-exclude synt without --absence-inventory "
+                  "re-runs E23, which is refuted. The scarf guard would be back "
+                  "on the denominator.")
+    else:
+        nl.NeuralLanguage.COVERAGE_EXCLUDE_SYNT = False
+        CODE_FLAGS["coverage_exclude_synt"] = False
     if args.resonance_scope:
         nl.NeuralLanguage.RESONANCE_SESSION_SCOPE = True
         CODE_FLAGS["resonance_session_scope"] = True
@@ -1809,6 +1825,17 @@ def main() -> int:
                          "PHASE 1 NEVER LICENSES AN ANSWER: it can only add a reason to "
                          "stay silent. Default off; expected score change is ZERO, which "
                          "is the pre-registered success criterion, not a failure")
+    ap.add_argument("--coverage-exclude", choices=["synt"], default=None,
+                    help="experiment E25: `synt` drops function words from `must`, the "
+                         "set whose size is the coverage DENOMINATOR. E23 measured this "
+                         "lever and was refuted -- not because the arithmetic was wrong "
+                         "but because the guarded scarf ask's refusal depended on that "
+                         "denominator. E24 phase 1 relocated the guard onto the absence "
+                         "inventory, so the lever is re-testable; use it together with "
+                         "--absence-inventory. Changes the denominator only: never the "
+                         "retrieval cue, never the floor, never a content word. Default "
+                         "off. Variants are NEVER combined -- v_frame and v_all each get "
+                         "their own generation")
     ap.add_argument("--recall-fallback", action="store_true",
                     help="experiment E7: when the three retrieval filters remove EVERY "
                          "posting the binder offered, hand the raw postings to the "

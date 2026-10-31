@@ -104,6 +104,24 @@ _ABSENCE_PLACE_PREP = frozenset(
 _ABSENCE_RELATIONS = ("place", "property", "agent")
 
 
+def _coverage_excluded(w, exclude_synt, function_words):
+    """E25: should `w` be kept OUT of the coverage denominator?
+
+    A pure predicate, deliberately: it takes the flag and the word set as
+    arguments rather than reaching for `self`, so it cannot touch the binder and
+    cannot become part of the retrieval path. It is a `continue` in the loop that
+    builds `must`, which means it can only ever SHRINK the denominator. It never
+    adds a candidate, never changes the floor, and never sees a content word --
+    `function_words` is `SHAPE_FUNCTION_WORDS`, a closed class of articles,
+    prepositions, copulas, conjunctions, pronouns, auxiliaries and adverbs.
+
+    Interrogatives are not handled here because they never reach it: `content`
+    is built with `not self.is_interrogative(w)` already applied, so E23's
+    `v_synt = FUNCTION | INTERROG` reduces to the FUNCTION half at this site.
+    """
+    return bool(exclude_synt) and w in function_words
+
+
 def _absence_frame(tell):
     """Extract one (relation, subject, object) frame from a tell, or None.
 
@@ -2210,6 +2228,15 @@ class NeuralLanguage:
     # A class attribute, like the floor above it, so an arm of an A/B can set it
     # without touching the module for everyone.
     ABSENCE_INVENTORY = False
+    # E25: drop function words from `must`, the set whose size is the coverage
+    # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
+    # because the arithmetic was wrong but because the guarded scarf ask's refusal
+    # DEPENDED on that denominator, so any change to it was unsafe by construction.
+    # E24 phase 1 relocated that guard onto the absence inventory, and the scarf
+    # now refuses with coverage never computed. The lever is re-testable.
+    # Default off. Changes the denominator only: never the retrieval cue, never
+    # the floor, never a content word.
+    COVERAGE_EXCLUDE_SYNT = False
 
     # E9 (docs/evidence/mouth_diagnosis.md): scope the resonance candidate pool to
     # this session's own tells.
@@ -3592,6 +3619,16 @@ class NeuralLanguage:
                     unknown.add(w)
                     continue
                 known.add(w)
+                if _coverage_excluded(w, self.COVERAGE_EXCLUDE_SYNT,
+                                      self.SHAPE_FUNCTION_WORDS):
+                    # E25. A function word is grammar, not a fact about the
+                    # question, so it does not belong in the denominator. This is
+                    # what made "how often does the bell turn?" score 0.545 while
+                    # "the bell turns how often?" passed: identical content,
+                    # different function words, different score. `known` is left
+                    # untouched on purpose -- the "no word of that is one he knows"
+                    # guard above must keep seeing every word he recognises.
+                    continue
                 if df * 4 <= n_mem:
                     must.add(w)
             if not known:

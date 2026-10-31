@@ -200,15 +200,34 @@ def test_e24_read_side_preempts_the_coverage_gate():
     assert i_lic < i_floor, "inventory licence must pre-empt the coverage floor"
 
 
-# ------------------------------------------------- 10. E23 stays unimplemented
+# ------------------------------------- 10. the denominator is unchanged BY DEFAULT
 def test_e24_e23_still_off():
-    """Design section 5: the coverage denominator is unchanged. E23's exclusion sets
-    must not be present in the organ."""
+    """Design section 5: with every flag off the coverage denominator is unchanged.
+
+    Amended by E25. This test originally banned the literal strings "v_synt" and
+    "v_frame" anywhere in the organ, on the grounds that E23 was refuted and must
+    stay unimplemented. E25 re-opens exactly one of those levers -- but E23 was
+    refuted for a reason that no longer holds: the guarded scarf ask's refusal
+    DEPENDED on the denominator, and E24 phase 1 (accepted above) relocated that
+    guard onto the absence inventory, so the scarf now refuses with coverage never
+    computed. The lever is re-testable, and `COVERAGE_EXCLUDE_SYNT` is it.
+
+    The invariant that actually matters is unchanged: nothing happens unless a run
+    asks for it. So the assertion is now that the flag exists, defaults OFF, and
+    that E23's other genes and both unimplemented variants are still absent.
+    """
     src = inspect.getsource(nl)
+    # E23's original gene names, and the variants E25 does NOT implement.
     for banned in ("COVERAGE_ANSWERABLE_TERMS", "COVERAGE_EXCLUDE_SYNTAX",
-                   "v_synt", "v_frame"):
+                   "COVERAGE_EXCLUDE_FRAME", "COVERAGE_EXCLUDE_ALL"):
         assert banned not in src, banned
+    # E25's lever exists but is inert until a run opts in.
+    assert nl.NeuralLanguage.COVERAGE_EXCLUDE_SYNT is False
+    assert nl._coverage_excluded("the", False, nl.NeuralLanguage.SHAPE_FUNCTION_WORDS) is False
+    # The threshold is not the lever, and never was.
     assert nl.NeuralLanguage.ANSWER_COVERAGE_FLOOR == 0.6
+    # E24's guard is untouched by E25.
+    assert nl.NeuralLanguage.ABSENCE_INVENTORY is False
 
 
 # ------------------------------------------------- integration (needs a brain)
