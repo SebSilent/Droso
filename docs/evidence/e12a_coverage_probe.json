@@ -1,0 +1,335 @@
+{
+ "floor": 0.6,
+ "n_recs": 10,
+ "n_flips": 3,
+ "scarf_present": true,
+ "scarf_flips": true,
+ "recall_gate_crossing": 2,
+ "recall_gate_n": 9,
+ "b5_content_dropped": [],
+ "verdict": "ABORT E12 -- guarded scarf ask reaches the floor",
+ "records": [
+  {
+   "ask": "what did i tell you about before the kettle?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "frozen",
+   "probe": null,
+   "script": "order-first-last",
+   "recorded_coverage": 0.555,
+   "recomputed_orig": 0.547031,
+   "recomputed_answerable": 0.283891,
+   "must_orig": [
+    "about",
+    "before",
+    "did",
+    "kettle",
+    "tell",
+    "you"
+   ],
+   "must_answerable": [
+    "before",
+    "kettle",
+    "tell"
+   ],
+   "dropped": [
+    "about",
+    "did",
+    "you"
+   ],
+   "best_row": "did you not tell me about it sooner",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": false,
+   "flips": false
+  },
+  {
+   "ask": "where did i say the scarf is?",
+   "stage": null,
+   "cause": null,
+   "pass": true,
+   "tier": "frozen",
+   "probe": null,
+   "script": "conjunction-and-absence",
+   "recorded_coverage": 0.57,
+   "recomputed_orig": 0.579691,
+   "recomputed_answerable": 0.667569,
+   "must_orig": [
+    "did",
+    "is",
+    "say",
+    "scarf"
+   ],
+   "must_answerable": [
+    "say",
+    "scarf"
+   ],
+   "dropped": [
+    "did",
+    "is"
+   ],
+   "best_row": "the scarf is wet",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": true,
+   "flips": true
+  },
+  {
+   "ask": "how many times does the bell turn?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "frozen",
+   "probe": null,
+   "script": "exact-repeat",
+   "recorded_coverage": 0.417,
+   "recomputed_orig": 0.444239,
+   "recomputed_answerable": 0.541709,
+   "must_orig": [
+    "bell",
+    "does",
+    "many",
+    "times",
+    "turn"
+   ],
+   "must_answerable": [
+    "bell",
+    "many",
+    "times",
+    "turn"
+   ],
+   "dropped": [
+    "does"
+   ],
+   "best_row": "done about the same time as the bell",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": false,
+   "flips": false
+  },
+  {
+   "ask": "how often did i say the coat is wet?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "probe": "R-count-often",
+   "script": "sel-count-frequency",
+   "recorded_coverage": 0.454,
+   "recomputed_orig": 0.456943,
+   "recomputed_answerable": 0.581335,
+   "must_orig": [
+    "coat",
+    "did",
+    "is",
+    "often",
+    "say",
+    "wet"
+   ],
+   "must_answerable": [
+    "coat",
+    "often",
+    "say",
+    "wet"
+   ],
+   "dropped": [
+    "did",
+    "is"
+   ],
+   "best_row": "tails of my coat were all soaking wet",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": false,
+   "flips": false
+  },
+  {
+   "ask": "what came before the kettle in what i said?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "probe": "P-before-came",
+   "script": "sel-order-first-last",
+   "recorded_coverage": 0.46,
+   "recomputed_orig": 0.475304,
+   "recomputed_answerable": 0.424175,
+   "must_orig": [
+    "before",
+    "came",
+    "in",
+    "kettle",
+    "said"
+   ],
+   "must_answerable": [
+    "before",
+    "came",
+    "kettle",
+    "said"
+   ],
+   "dropped": [
+    "in"
+   ],
+   "best_row": "when the water in the kettle was boiling",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": false,
+   "flips": false
+  },
+  {
+   "ask": "how often does the bell turn?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "probe": "P-numeral-often",
+   "script": "sel-exact-repeat",
+   "recorded_coverage": 0.514,
+   "recomputed_orig": 0.544512,
+   "recomputed_answerable": 0.699634,
+   "must_orig": [
+    "bell",
+    "does",
+    "often",
+    "turn"
+   ],
+   "must_answerable": [
+    "bell",
+    "often",
+    "turn"
+   ],
+   "dropped": [
+    "does"
+   ],
+   "best_row": "the copper bell turns twice",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": true,
+   "flips": true
+  },
+  {
+   "ask": "what is held by the thing the frost bites?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "probe": "P-hop-passive",
+   "script": "sel-hop-and-inventory",
+   "recorded_coverage": 0.51,
+   "recomputed_orig": 0.533637,
+   "recomputed_answerable": 0.63993,
+   "must_orig": [
+    "bites",
+    "by",
+    "frost",
+    "held",
+    "is",
+    "thing"
+   ],
+   "must_answerable": [
+    "bites",
+    "frost",
+    "held",
+    "thing"
+   ],
+   "dropped": [
+    "by",
+    "is"
+   ],
+   "best_row": "the frost bites the latch",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": true,
+   "flips": true
+  },
+  {
+   "ask": "what does the bitten thing hold?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "probe": "P-hop-bitten",
+   "script": "sel-hop-and-inventory",
+   "recorded_coverage": 0.385,
+   "recomputed_orig": 0.403621,
+   "recomputed_answerable": 0.505443,
+   "must_orig": [
+    "bitten",
+    "does",
+    "hold",
+    "thing"
+   ],
+   "must_answerable": [
+    "bitten",
+    "hold",
+    "thing"
+   ],
+   "dropped": [
+    "does"
+   ],
+   "best_row": "the next thing i laid hold of was",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": false,
+   "flips": false
+  },
+  {
+   "ask": "what is bitten by the frost?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "probe": "R-hop-passive-single",
+   "script": "sel-hop-and-inventory",
+   "recorded_coverage": 0.34,
+   "recomputed_orig": 0.347511,
+   "recomputed_answerable": 0.455679,
+   "must_orig": [
+    "bitten",
+    "by",
+    "frost",
+    "is"
+   ],
+   "must_answerable": [
+    "bitten",
+    "frost"
+   ],
+   "dropped": [
+    "by",
+    "is"
+   ],
+   "best_row": "the frost bites the latch",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": false,
+   "flips": false
+  },
+  {
+   "ask": "what number of eggs is left in the basket?",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "probe": "R-qty-numberof",
+   "script": "sel-quantity-change",
+   "recorded_coverage": 0.538,
+   "recomputed_orig": 0.548798,
+   "recomputed_answerable": 0.598261,
+   "must_orig": [
+    "basket",
+    "eggs",
+    "in",
+    "is",
+    "left",
+    "number",
+    "of"
+   ],
+   "must_answerable": [
+    "basket",
+    "eggs",
+    "left",
+    "number"
+   ],
+   "dropped": [
+    "in",
+    "is",
+    "of"
+   ],
+   "best_row": "there are four eggs in the basket",
+   "orig_passes_floor": false,
+   "answerable_passes_floor": false,
+   "flips": false
+  }
+ ]
+}
