@@ -2237,6 +2237,17 @@ class NeuralLanguage:
     # Default off. Changes the denominator only: never the retrieval cue, never
     # the floor, never a content word.
     COVERAGE_EXCLUDE_SYNT = False
+    # E26 -- v_frame: v_synt plus the question-framing verbs. Measured ALONE
+    # against the same control (generation 21), never stacked with v_synt, so
+    # each result stays attributable to one cut. Default off.
+    COVERAGE_EXCLUDE_FRAME = False
+    # Question-framing verbs: they carry no information about the thing asked
+    # about, only about the asking. "how often did i SAY the coat is wet" is a
+    # question about the coat, not about saying.
+    QUESTION_VERBS = frozenset({
+        "say", "said", "tell", "told", "mention", "mentioned",
+        "name", "repeat",
+    })
 
     # E9 (docs/evidence/mouth_diagnosis.md): scope the resonance candidate pool to
     # this session's own tells.
@@ -3619,8 +3630,10 @@ class NeuralLanguage:
                     unknown.add(w)
                     continue
                 known.add(w)
-                if _coverage_excluded(w, self.COVERAGE_EXCLUDE_SYNT,
-                                      self.SHAPE_FUNCTION_WORDS):
+                if (_coverage_excluded(w, self.COVERAGE_EXCLUDE_SYNT,
+                                       self.SHAPE_FUNCTION_WORDS)
+                        or _coverage_excluded(w, self.COVERAGE_EXCLUDE_FRAME,
+                                              self.QUESTION_VERBS)):
                     # E25. A function word is grammar, not a fact about the
                     # question, so it does not belong in the denominator. This is
                     # what made "how often does the bell turn?" score 0.545 while

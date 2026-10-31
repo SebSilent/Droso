@@ -1389,17 +1389,24 @@ def cmd_run(args) -> int:
     # provenance.code_flags. E25 is only meaningful WITH --absence-inventory,
     # because the relocated guard is what makes the denominator safe to touch;
     # running it alone would re-run E23, which is refuted.
-    if args.coverage_exclude == "synt":
-        nl.NeuralLanguage.COVERAGE_EXCLUDE_SYNT = True
-        CODE_FLAGS["coverage_exclude_synt"] = True
-        print("E25 ON: COVERAGE_EXCLUDE_SYNT = True (v_synt, denominator only)")
+    # v_frame is a SUPERSET of v_synt (function words + question verbs), so
+    # "frame" turns on both exclusions. That is one variant, not two stacked:
+    # the E26 arm is frame-only and is compared against generation 21, the same
+    # control E25 used, never against generation 22.
+    _syn = args.coverage_exclude in ("synt", "frame")
+    _frm = args.coverage_exclude == "frame"
+    nl.NeuralLanguage.COVERAGE_EXCLUDE_SYNT = _syn
+    CODE_FLAGS["coverage_exclude_synt"] = _syn
+    nl.NeuralLanguage.COVERAGE_EXCLUDE_FRAME = _frm
+    CODE_FLAGS["coverage_exclude_frame"] = _frm
+    if _syn or _frm:
+        print(f"E25/E26 ON: COVERAGE_EXCLUDE_SYNT = {_syn}, "
+              f"COVERAGE_EXCLUDE_FRAME = {_frm} "
+              f"({args.coverage_exclude}, denominator only)")
         if not args.absence_inventory:
-            print("  WARNING: --coverage-exclude synt without --absence-inventory "
+            print("  WARNING: --coverage-exclude without --absence-inventory "
                   "re-runs E23, which is refuted. The scarf guard would be back "
                   "on the denominator.")
-    else:
-        nl.NeuralLanguage.COVERAGE_EXCLUDE_SYNT = False
-        CODE_FLAGS["coverage_exclude_synt"] = False
     if args.resonance_scope:
         nl.NeuralLanguage.RESONANCE_SESSION_SCOPE = True
         CODE_FLAGS["resonance_session_scope"] = True
@@ -1825,7 +1832,7 @@ def main() -> int:
                          "PHASE 1 NEVER LICENSES AN ANSWER: it can only add a reason to "
                          "stay silent. Default off; expected score change is ZERO, which "
                          "is the pre-registered success criterion, not a failure")
-    ap.add_argument("--coverage-exclude", choices=["synt"], default=None,
+    ap.add_argument("--coverage-exclude", choices=["synt", "frame"], default=None,
                     help="experiment E25: `synt` drops function words from `must`, the "
                          "set whose size is the coverage DENOMINATOR. E23 measured this "
                          "lever and was refuted -- not because the arithmetic was wrong "

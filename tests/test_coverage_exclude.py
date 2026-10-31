@@ -169,8 +169,11 @@ def test_e25_harness_records_the_flag_in_provenance():
     # provenance.code_flags is published as dict(CODE_FLAGS), so the invariant is
     # that the flag is written into CODE_FLAGS on BOTH branches -- an unset flag
     # must still be stamped False, or a missing key is indistinguishable from off.
-    assert 'CODE_FLAGS["coverage_exclude_synt"] = True' in src
-    assert 'CODE_FLAGS["coverage_exclude_synt"] = False' in src
+    # E26 collapsed the two branches into one unconditional assignment driven by
+    # `_syn` / `_frm`, which is strictly stronger than the old True/False pair:
+    # the key is now written on EVERY path, so it can never be missing.
+    assert 'CODE_FLAGS["coverage_exclude_synt"] = _syn' in src
+    assert 'CODE_FLAGS["coverage_exclude_frame"] = _frm' in src
     assert '"code_flags": dict(CODE_FLAGS)' in src
 
 
@@ -181,7 +184,8 @@ def test_e25_harness_flag_is_default_off():
     i = src.index('ap.add_argument("--coverage-exclude"')
     decl = src[i: i + 300]
     assert "default=None" in decl
-    assert 'choices=["synt"]' in decl
+    # E26 added "frame". Default stays None, so neither variant is on unless asked.
+    assert 'choices=["synt", "frame"]' in decl
 
 
 # ------------------------------------------------------------- 6. integration

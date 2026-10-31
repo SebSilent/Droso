@@ -217,12 +217,19 @@ def test_e24_e23_still_off():
     that E23's other genes and both unimplemented variants are still absent.
     """
     src = inspect.getsource(nl)
-    # E23's original gene names, and the variants E25 does NOT implement.
+    # Amended again by E26. `COVERAGE_EXCLUDE_FRAME` moves off the banned list
+    # for the same reason `v_synt` did in E25: the refutation it was banned under
+    # no longer holds now that the scarf guard lives on the absence inventory.
+    # `COVERAGE_EXCLUDE_ALL` (v_all) stays banned -- it is E27's lever, not this
+    # one's, and implementing it early would stack variants the design forbids.
     for banned in ("COVERAGE_ANSWERABLE_TERMS", "COVERAGE_EXCLUDE_SYNTAX",
-                   "COVERAGE_EXCLUDE_FRAME", "COVERAGE_EXCLUDE_ALL"):
+                   "COVERAGE_EXCLUDE_ALL"):
         assert banned not in src, banned
-    # E25's lever exists but is inert until a run opts in.
+    # E25's and E26's levers exist but are inert until a run opts in.
     assert nl.NeuralLanguage.COVERAGE_EXCLUDE_SYNT is False
+    assert nl.NeuralLanguage.COVERAGE_EXCLUDE_FRAME is False
+    assert nl._coverage_excluded("say", False,
+                                 nl.NeuralLanguage.QUESTION_VERBS) is False
     assert nl._coverage_excluded("the", False, nl.NeuralLanguage.SHAPE_FUNCTION_WORDS) is False
     # The threshold is not the lever, and never was.
     assert nl.NeuralLanguage.ANSWER_COVERAGE_FLOOR == 0.6
