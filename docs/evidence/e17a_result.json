@@ -1,0 +1,934 @@
+{
+ "verdict": "ABORT E2 -- a licence with a wrong or forbidden filler; confabulation.",
+ "H1": true,
+ "H2": true,
+ "H3": true,
+ "H4": false,
+ "H5": true,
+ "H6": true,
+ "H7": true,
+ "fired": [
+  "E2",
+  "E3",
+  "E4"
+ ],
+ "event_count_asks": 0,
+ "event_count_ok": 0,
+ "state_asks": 2,
+ "state_returned_number": 2,
+ "real_gain": 0,
+ "moot": 0,
+ "unknown": 0,
+ "records": [
+  {
+   "script": "count-frequency",
+   "ask": "how many times did i tell you the coat is wet?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "three"
+   ],
+   "forbid": [
+    "one",
+    "two",
+    "four",
+    "five",
+    "torn"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "count-frequency",
+   "ask": "how many things did i tell you about the coat?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "two"
+   ],
+   "forbid": [
+    "three",
+    "one",
+    "four",
+    "wet"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "count-frequency",
+   "ask": "how many times did i tell you about the scarf?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "zero",
+    "none",
+    "no"
+   ],
+   "forbid": [
+    "three",
+    "two",
+    "once"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "count-frequency",
+   "ask": "did i ever tell you about the moon?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "no"
+   ],
+   "forbid": [
+    "moon",
+    "yes"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "order-first-last",
+   "ask": "which did i tell you first the lantern or the kettle?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "lantern"
+   ],
+   "forbid": [
+    "kettle",
+    "gate"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "order-first-last",
+   "ask": "which did i tell you last the kettle or the gate?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "gate"
+   ],
+   "forbid": [
+    "kettle",
+    "lantern"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "order-first-last",
+   "ask": "what did i tell you about before the kettle?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "lantern"
+   ],
+   "forbid": [
+    "gate",
+    "singing",
+    "open"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "order-first-last",
+   "ask": "how many objects did i tell you about?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "three"
+   ],
+   "forbid": [
+    "one",
+    "two",
+    "four"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "what is both wet and on the hook?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "coat"
+   ],
+   "forbid": [
+    "scarf"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "what is wet but not on the hook?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "scarf"
+   ],
+   "forbid": [
+    "coat"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "shape_arbiter",
+   "gate_cause": "shape_arbiter",
+   "in_journal": true
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "where did i say the scarf is?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [],
+   "forbid": [
+    "hook"
+   ],
+   "refusal_expected": true,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "conjunction-and-absence",
+   "ask": "is the coat dry or wet?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "wet"
+   ],
+   "forbid": [
+    "dry"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "say exactly the copper bell turns twice",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [],
+   "forbid": [],
+   "refusal_expected": true,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "which word did i use for the metal?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "copper"
+   ],
+   "forbid": [
+    "bell",
+    "iron",
+    "gold"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "how many times does the bell turn?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "twice",
+    "two"
+   ],
+   "forbid": [
+    "three",
+    "once"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "exact-repeat",
+   "ask": "what turns twice?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "bell"
+   ],
+   "forbid": [
+    "copper"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "what does the frost bite?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "latch"
+   ],
+   "forbid": [
+    "door"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "what does the thing the frost bites hold?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "door"
+   ],
+   "forbid": [
+    "frost"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "shape_arbiter",
+   "gate_cause": "shape_arbiter",
+   "in_journal": true
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "what bites the latch?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "frost"
+   ],
+   "forbid": [
+    "door"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "hop-and-inventory",
+   "ask": "does the door hold the frost?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "no"
+   ],
+   "forbid": [
+    "yes"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "gating",
+   "gate_cause": "gating",
+   "in_journal": true
+  },
+  {
+   "script": "quantity-change",
+   "ask": "how many eggs did i mention first?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "four"
+   ],
+   "forbid": [
+    "two"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "quantity-change",
+   "ask": "how many eggs broke?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "two"
+   ],
+   "forbid": [
+    "four"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "quantity-change",
+   "ask": "did any egg break?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "yes"
+   ],
+   "forbid": [
+    "no"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "quantity-change",
+   "ask": "how many eggs are left in the basket?",
+   "licensed": true,
+   "filler": "4",
+   "kind": "state-count",
+   "why": "fold terminated determinate at 4",
+   "want": [
+    "two"
+   ],
+   "forbid": [
+    "four",
+    "six"
+   ],
+   "refusal_expected": false,
+   "correct": false,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "sel-count-frequency",
+   "ask": "how often did i say the coat is wet?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "three"
+   ],
+   "forbid": [
+    "one",
+    "two",
+    "four",
+    "five",
+    "torn"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "sel-count-frequency",
+   "ask": "have i mentioned the moon to you?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "no"
+   ],
+   "forbid": [
+    "moon",
+    "yes"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "sel-order-first-last",
+   "ask": "which thing did i mention earlier than the kettle?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "lantern"
+   ],
+   "forbid": [
+    "gate",
+    "singing",
+    "open"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "mouth",
+   "gate_cause": "mouth",
+   "in_journal": true
+  },
+  {
+   "script": "sel-order-first-last",
+   "ask": "what came before the kettle in what i said?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "lantern"
+   ],
+   "forbid": [
+    "gate",
+    "singing",
+    "open"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "sel-order-first-last",
+   "ask": "of the lantern and the kettle which one came first?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "lantern"
+   ],
+   "forbid": [
+    "kettle",
+    "gate"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "sel-conjunction-and-absence",
+   "ask": "which of them is wet and is not on the hook?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "scarf"
+   ],
+   "forbid": [
+    "coat"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "mouth",
+   "gate_cause": "mouth",
+   "in_journal": true
+  },
+  {
+   "script": "sel-conjunction-and-absence",
+   "ask": "name the wet thing that is not on the hook",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "scarf"
+   ],
+   "forbid": [
+    "coat"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "mouth",
+   "gate_cause": "mouth",
+   "in_journal": true
+  },
+  {
+   "script": "sel-conjunction-and-absence",
+   "ask": "is the coat wet or is it dry?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "wet"
+   ],
+   "forbid": [
+    "dry"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "sel-exact-repeat",
+   "ask": "how often does the bell turn?",
+   "licensed": false,
+   "filler": null,
+   "kind": "quantity",
+   "why": "no indexed entity in the question",
+   "want": [
+    "twice",
+    "two"
+   ],
+   "forbid": [
+    "three",
+    "once"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "sel-exact-repeat",
+   "ask": "the bell turns how often?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "twice",
+    "two"
+   ],
+   "forbid": [
+    "three",
+    "once"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": true,
+   "gate_stage": null,
+   "gate_cause": null,
+   "in_journal": true
+  },
+  {
+   "script": "sel-exact-repeat",
+   "ask": "repeat after me the copper bell turns twice",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [],
+   "forbid": [],
+   "refusal_expected": true,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "mouth",
+   "gate_cause": "mouth",
+   "in_journal": true
+  },
+  {
+   "script": "sel-exact-repeat",
+   "ask": "which thing turns twice?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "bell"
+   ],
+   "forbid": [
+    "copper"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "comprehension",
+   "in_journal": true
+  },
+  {
+   "script": "sel-hop-and-inventory",
+   "ask": "what is held by the thing the frost bites?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "door"
+   ],
+   "forbid": [
+    "frost"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "sel-hop-and-inventory",
+   "ask": "what does the bitten thing hold?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "door"
+   ],
+   "forbid": [
+    "frost"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "sel-hop-and-inventory",
+   "ask": "is the frost held by the door?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "no"
+   ],
+   "forbid": [
+    "yes"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "gating",
+   "gate_cause": "gating",
+   "in_journal": true
+  },
+  {
+   "script": "sel-hop-and-inventory",
+   "ask": "is it true that the door holds the frost?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "no"
+   ],
+   "forbid": [
+    "yes"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "gating",
+   "gate_cause": "gating",
+   "in_journal": true
+  },
+  {
+   "script": "sel-hop-and-inventory",
+   "ask": "what is bitten by the frost?",
+   "licensed": false,
+   "filler": null,
+   "kind": "not-quantity",
+   "why": "not a quantity or frequency ask",
+   "want": [
+    "latch"
+   ],
+   "forbid": [
+    "door"
+   ],
+   "refusal_expected": false,
+   "correct": null,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  },
+  {
+   "script": "sel-quantity-change",
+   "ask": "what number of eggs is left in the basket?",
+   "licensed": true,
+   "filler": "4",
+   "kind": "state-count",
+   "why": "fold terminated determinate at 4",
+   "want": [
+    "two"
+   ],
+   "forbid": [
+    "four",
+    "six"
+   ],
+   "refusal_expected": false,
+   "correct": false,
+   "forbidden_said": false,
+   "gate_passes": false,
+   "gate_stage": "recall",
+   "gate_cause": "recall_gate",
+   "in_journal": true
+  }
+ ]
+}

@@ -385,9 +385,50 @@ cannot promote a row that is not in the pool. No E13b: the gene would be a defau
 that provably never fires, the shape of E9's `RECALL_UNFILTERED_FALLBACK`. Together they close
 the argument: asks lacking their taught fact need generation, asks having it already score
 0.3475–0.5488 with the correct row on top, and the numerator fix that would lift them breaks
-the guard. **Five accounts of the `mouth`/`recall` boundary are now closed** — resonance
-ranking, comprehension signalling, coverage numerator, coverage threshold, coverage ranking —
-leaving only irregular morphology, which needs a lexical resource the organ does not have.
+the guard.
+
+**E14a closed the candidate-generation line, and it is safe but worthless.**
+`docs/evidence/e14a_result.md`: **5 of 9** recall-gate asks lack their taught fact among the
+candidates, because `binder.recall` draws 40 rows from 60,000 using question-syntax-dominated
+cues. But admitting every session tell caps the best coverage at **0.5488** against a 0.6 floor —
+a correct single-row match cannot reach it, because the denominator counts question syntax no
+answer row can contain. **No E14b.**
+
+**E15 closed provenanced entailment, at zero builds, and it broke the guard.**
+`docs/evidence/e15_result.md`: the design claimed `where did i say the scarf is?` would refuse
+*structurally*, because the query is locative and the scarf's evidence is a property. **That
+reasoning was wrong** — the script also tells `the coat is on the hook`, a locative row about a
+**different subject**, so the ask was licensed, with filler `'the'`. Five currently-passing asks
+were newly licensed, **four confidently wrong**: `what bites the latch?` → `latch`,
+`how many eggs broke?` → `four` from a row saying eggs are *in the basket*. **Provenance
+separates *what he was told* from *what resembles the question*; it does not separate *which told
+fact answers this question*.** That needs a subject-specific signal — the axis E11a also lacked.
+
+**E16a tested a write-time relation index and split the result.** `docs/evidence/e16a_result.md`:
+**D1 clear — the positive finding.** A subject-keyed index refuses the scarf ask for the right
+reason (*"subject 'scarf' is indexed but has NO locative relation — only a property"*); the
+coat's row **cannot** license it. This is what E15 could not do, and it confirms **subject
+binding is the missing axis**. But **D2 fired** on three wrong fillers, from two defects that are
+missing representational commitments rather than tuning: **multi-word subjects** (`copper bell`
+where `bell` is expected and `copper` forbidden — no head/modifier distinction) and **quantity
+change over time** (answers `four` where `two` is expected and `four` forbidden; a static index
+cannot represent a quantity that changes, and `quantity-change` is a class the baseline passes
+**4/4**, so it would *regress*). A suffix normaliser also maps `bites → bit`, so write-time
+morphology is not derivable without a lexicon. **Right shape of primitive, wrong first
+primitive** — the relational index is validated and deferred.
+
+**Seven accounts of the `mouth`/`recall` boundary are now closed**, and the pattern is
+consistent: **every mechanism that makes the agent answer more often also makes it answer
+wrongly.** The guarded scarf invariant is not an obstacle to the repair — **it is the repair
+working**, and it has correctly rejected six proposed answer-licensing changes. The honest
+conclusion is the one E15's design pre-registered as the alternative: the battery's guarded
+invariants and its failing asks are **jointly unsatisfiable** by any mechanism that licenses
+answers from what the agent was told. `docs/evidence/architecture_decision_review.md` records the
+review; `docs/evidence/counting_primitive_design.md` specifies the narrower next step — store
+**events** and derive state by ordered folding, avoid regression **by placement** (consulted only
+inside the existing `best_cov < floor` refusal branch, so asks that pass at the coverage gate
+never reach it), and **never guess polarity**, so event-count queries are answered and state
+queries refuse.
 
 ### Talking to him directly
 
