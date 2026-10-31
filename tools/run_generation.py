@@ -61,7 +61,7 @@ from connectome.engine import HybridEngineParams  # noqa: E402
 from connectome.rate_core import CoreParams  # noqa: E402
 from tools.converse import (  # noqa: E402
     Session, build, guard_check, guard_live_files, _said, _spoken, _words)
-from tools.heldout_eval import grade, stage_of  # noqa: E402
+from tools.heldout_eval import cause_of, grade, stage_of  # noqa: E402
 
 FROZEN_TASKS = ROOT / "tools" / "scripts_heldout.json"
 PROBE_TASKS = ROOT / "tools" / "scripts_selection.json"
@@ -608,6 +608,12 @@ def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str,
                "ask": step["ask"], "said": _said(t)[:120], "words": words[:24],
                "spoken": _spoken(t), "pass": bool(ok), "why": why,
                "stage": None if ok else stage_of(t, why),
+               # DERIVED and ADDITIVE: `cause` refines `stage` without rewriting
+               # it, so generations 0-9 keep the values they were published with
+               # and the two can be compared row by row.  Its only reclassification
+               # is recall -> comprehension, for the asks `stage_of` put in its
+               # default bucket because their reason matched no pattern.
+               "cause": None if ok else cause_of(t, why),
                "source": r.get("source"), "filler": r.get("recovered_filler"),
                "reason": r.get("reason"),
                # Raw recall diagnostics, recorded for EVERY ask and not just

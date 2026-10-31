@@ -1,6 +1,6 @@
 # Repository state
 
-[![Tests: 621 passed · 11 skipped](https://img.shields.io/badge/Tests-621%20passed%20%C2%B7%2011%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Tests: 657 passed · 3 skipped](https://img.shields.io/badge/Tests-657%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
@@ -12,10 +12,17 @@ No recommendations.
 
 <a id="last-recorded-numbers"></a>
 
-Suite last run at **`35ab073`**: **621 passed, 11 skipped** (632 collected),
-exit 0. The held-out and guard numbers in the tables below were measured at
-**`f2e1748`** and have not been re-run since; the entries added after them
-(generations 7 and 8, E7) carry their own numbers and journals.
+Suite last run on the tree committed as **`de340ef` plus the generation-10
+changes**: **657 passed, 3 skipped** (660 collected), exit 0. The held-out and
+guard numbers in the tables below were measured at **`f2e1748`** and have not
+been re-run since; the entries added after them (generations 7–10, E7, the
+`cause` field) carry their own numbers and journals.
+
+The previously published figure of 621 passed / 11 skipped was recorded by a
+concurrent commit and matches no run made here; it is replaced rather than
+carried forward. The skip count differs because the seven generation-10 tests
+in `tests/test_stage_cause.py` skip until that journal is published, and it now
+is.
 
 ## What is in the tree
 
@@ -413,6 +420,98 @@ exists" from "postings existed and a filter removed them all, and here is which"
 Wired as `--recall-fallback`, recorded in `provenance.code_flags` beside the interpreter and
 git head, since two arms of an A/B carry the **same genome** and the flag is the only thing
 that distinguishes them.
+
+### E7 result: P2 falsified, and the ABSENT class retracted
+
+Two arms on control genome `abffa2b7f101`, `--tier frozen,probe`, 42 asks each.
+Generation 8 flag **off**, generation 9 flag **on**. Both arms identical to each other
+and to generation 7: frozen **19/24**, paraphrase probes **0/14**, guarded **4/4**, stages
+`{"recall": 10, "mouth": 4, "gating": 3, "shape_arbiter": 2}`, MEMBERSHIP 19 in every
+line and 19 in at least one.
+
+| prediction | verdict |
+|---|---|
+| P1 flag off reproduces gen 7 ask for ask | **CONFIRMED** — all 42 `(pass, stage, coverage)` triples identical |
+| P2 flag on moves `which thing turns twice?` out of ABSENT | **FALSIFIED** |
+| P3 flag on changes no other ask | **CONFIRMED** — trivially, nothing changed |
+| P4 flag on does not raise the score | **CONFIRMED** — 19/24, 0/14 both arms |
+| P5 zero erosion | **CONFIRMED** — frozen 19/24, guarded 4/4 both arms |
+
+`fallback fired on any ask: 0` and `rows with a raw recall count: 0`. The fallback is
+guarded by `not hits` — by the recall gate having run and found nothing — and **no ask in
+this battery reaches that branch**. E7 has no target here and its inertness is total, not
+partial. The flag stays default-off and is **not** proposed for promotion: a flag with no
+measured effect is not a repair. What is kept is the instrumentation, which cost nothing
+and is what turned a confidently wrong classification into a corrected one.
+
+Inspecting every `stage=recall` row's `reason` separates them cleanly:
+
+```
+9 x "the closest memory of his covers NN% of the question"    <- real gate refusals
+1 x "it did not understand and was not in the mood to babble" <- NOT a recall failure
+```
+
+The nine coverages are 34, 39, 42, 45, 46, 51, 51, 54, 55 percent — exactly the nine GATE
+values measured in generation 7. The tenth never reached the gate: its raw binder count is
+`None`, not `0`, so the instrumented return never executed.
+
+**`stage_of` returns `"recall"` as its DEFAULT** for any unspoken reply whose reason matches
+no pattern (`tools/heldout_eval.py`, the fall-through whose own comment says "a DEFAULT, not
+a measurement"). *"not in the mood to babble"* matches neither `RECALL_RE`
+(`cover|no memor|nothing he rememb|…`) nor `GATING_RE` (`did not feel like speaking|not feel
+like|…`), so it fell through. It is a **comprehension** failure wearing a recall label.
+
+Consequences, all recorded in `docs/evidence/harness_coverage_diagnosis.md` §8:
+
+1. The ABSENT class is **empty**, not 1. The true split is GATE 9 / DOWNSTREAM 9 /
+   comprehension-mislabelled-as-recall 1.
+2. The tally `{"recall": 10, …}` quoted across generations 0–9 has always contained one
+   non-recall failure. Real recall-gate failures are **9**.
+3. The generation-7 empty-window result is **unaffected and slightly strengthened** — it
+   rests on the nine GATE coverages (max 0.555) against the 0.570 passing ask, and the
+   retracted ask was never one of them.
+4. E5's R1′ determiner repair was aimed at this ask, reparsed it correctly, and it still
+   failed — now explicable, because the failure is downstream of parsing. That is a third
+   independent confirmation that the shape parser is not the binding constraint.
+
+## Generation 10 — `cause`, a derived field that does not rewrite `stage`
+
+Pre-registered in `docs/evidence/stage_cause_preregistration.md` before the run.
+Implementation `cause_of` in `tools/heldout_eval.py`; tests `tests/test_stage_cause.py`.
+
+`stage` is **not** modified, recomputed or backfilled. Generations 0–9 keep the values they
+were published with, because ten generations of journals, two sealed baselines and several
+committed documents quote those numbers, and rewriting them would make every prior
+measurement unverifiable against its own record. `cause` is recorded beside `stage`, derived
+from the same turn, `None` on passes.
+
+`cause_of` returns `stage_of`'s answer unchanged for every stage except `recall`, which it
+splits into `recall_gate` (a real gate refusal: `RECALL_RE` matches, `COMPREHENSION_RE` does
+not), `comprehension` (`COMPREHENSION_RE` matches, checked second and winning because
+`RECALL_RE` contains broad tokens like `empty` and `no candidate`), and `unclassified`
+(non-empty reason matching nothing — deliberately not given a confident name, since inventing
+a fourth label for "matched nothing" would repeat the original error with better vocabulary).
+`recall_untraced` is already named by `stage_of` and passes through, so `cause_of` has no
+`untraced` value of its own; that branch would be unreachable.
+
+Generation 10: one clone of `abffa2b7f101`, `--tier frozen,probe`, 42 asks, no flags.
+
+| prediction | verdict |
+|---|---|
+| P1 `stage` identical to gen 9 for all 42 asks | **CONFIRMED** — same id set, zero stage differences, zero pass differences |
+| P2 the ten recall failures split 9 `recall_gate` + 1 `comprehension` | **CONFIRMED** — and the comprehension ask is `which thing turns twice?`, `coverage: null` |
+| P3 scores unchanged: 19/24, 0/14, 4/4 | **CONFIRMED** — stages `{"recall": 10, "mouth": 4, "gating": 3, "shape_arbiter": 2}`, MEMBERSHIP 19/19 |
+| P4 generations 0, 1, 2, 7, 8, 9 contain no `cause` key | **CONFIRMED** — 0 of 126, 168, 168, 42, 42, 42 rows |
+| P5 no non-`recall` stage is ever reclassified | **CONFIRMED** — property test over a reason corpus, plus zero reclassifications in the journal |
+
+`unclassified` did not appear, so no reason exists in this battery that matches neither
+regex. Full gen-10 `cause` tally: `recall_gate 9, mouth 4, gating 3, shape_arbiter 2,
+comprehension 1`, and `None` on the 23 passes.
+
+The corrected census is in `docs/evidence/downstream_repair_proposal.md`, which ranks the
+remaining classes by frozen passes recoverable per distinct defect and proposes E8
+(`POLAR_ABSENCE_MEANS_NO`) against the three `gating` failures — one proposition in three
+framings, and the only class where a single repair moves the frozen score.
 
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |

@@ -2,7 +2,7 @@
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-0a3069?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
 [![Topology: 12,867 Nodes / 173,294 Synapses](https://img.shields.io/badge/Topology-12%2C867%20Nodes%20%2F%20173%2C294%20Synapses-5b2d8e?style=flat-square&labelColor=0d1117)](#substrate)
 [![Footprint: Python 3.10 + requirements.txt](https://img.shields.io/badge/Footprint-Python%203.10%20%2B%20requirements.txt-7d4e00?style=flat-square&labelColor=0d1117)](#install-and-run)
-[![Tests: 621 passed · 11 skipped](https://img.shields.io/badge/Tests-621%20passed%20%C2%B7%2011%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#running-the-suite)
+[![Tests: 657 passed · 3 skipped](https://img.shields.io/badge/Tests-657%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#running-the-suite)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#the-held-out-script-harness)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#the-guard-scripts)
 
@@ -251,6 +251,43 @@ clones of one genome: all three scored 19/24 and 4/18 with identical failure sta
 and no ask changing membership, which is the instrument's noise floor measured
 rather than assumed.
 
+Ten generations have now been run against one control genome, `abffa2b7f101`, and
+**none has beaten it**. Generations 1 and 2 mutated `ANSWER_COVERAGE_FLOOR`; all
+six draws were inert or harmful — one lowering draw lost a guarded invariant, which
+was the predicted outcome and the reason the guard exists. Generations 4 and 5
+tested three shape-parser repairs as two arms differing only in code flags: all
+three were inert, arm B identical to arm A on all 42 asks. Generation 7 measured
+where the failures actually die. Generations 8 and 9 were the two arms of a
+recall-side fallback, and its prediction was **falsified** — the fallback never
+fires, because no ask in the battery reaches the branch it guards.
+
+The score has not moved off 19/24 frozen, 0/14 paraphrase probes, 4/4 guarded
+invariants in any of them. (The journal holds 18 probe rows: 14 unseen paraphrases
+plus the 4 guarded invariants, which is why the table reads `0/14` and not `0/18`.)
+That is the honest headline: the instrument is reproducible and the organ is not
+improving under scalar selection.
+
+#### `stage` is a default bucket, and one failure was misfiled for ten generations
+
+`stage_of` classifies a failure by regex-matching the reply's `reason`, and its
+last branch is a fall-through whose own comment says attributing it to recall "is a
+DEFAULT, not a measurement". Any unspoken reply with a non-empty reason matching no
+pattern is labelled `recall`.
+
+Generation 9's instrumentation showed the tally `{"recall": 10, …}` was mixed. Nine
+of the ten are real coverage-gate refusals, reporting coverages of 34–55%. The
+tenth, `which thing turns twice?`, reports *"it did not understand and was not in
+the mood to babble"* and has a raw binder count of `None`, not `0` — the recall gate
+never ran. It is a **comprehension** failure that wore a memory label, and it is why
+a recall-side repair was built for a defect that was not on the recall side.
+
+Generation 10 adds a derived field `cause` beside `stage`, splitting `recall` into
+`recall_gate` (9), `comprehension` (1) and `unclassified` (0). `stage` is **not**
+rewritten and historical rows are **not** backfilled, so every prior measurement
+still verifies against its own record. Pre-registered in
+`docs/evidence/stage_cause_preregistration.md`; the corrected classification in
+`docs/evidence/harness_coverage_diagnosis.md` §8.
+
 The table prints `warm`, `cold` and `delta` per script and overall. Warm is with
 the session's own context, cold is after a restart from saved state; a delta of
 `+0.00` means the restart changed nothing. `override` also prints its winner.
@@ -294,7 +331,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 621 passed, 11 skipped (at `35ab073`) |
+| Test suite | 657 passed, 3 skipped (660 collected, at `de340ef` + generation 10) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

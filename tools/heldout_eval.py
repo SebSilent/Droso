@@ -63,6 +63,18 @@ MOUTH_RE = re.compile(r"mouth|sequence|meaning resonance", re.I)
 GATING_RE = re.compile(
     r"did not feel like speaking|not feel like|did not want to speak|"
     r"chose not|no urge|reluctan", re.I)
+# `stage_of` returns "recall" as its DEFAULT for any unspoken reply whose reason
+# matches nothing above (see the comment at its fall-through).  That default has
+# mis-attributed at least one failure for ten generations: the ask "which thing
+# turns twice?" reports "it did not understand and was not in the mood to babble",
+# which matches neither RECALL_RE nor GATING_RE, so it was labelled a memory miss
+# while never having reached the recall gate -- its raw binder count is None, not 0.
+# `cause_of` below separates the two WITHOUT rewriting `stage`, so historical rows
+# keep the value they were published with.
+COMPREHENSION_RE = re.compile(
+    r"did not understand|does not understand|no content words|"
+    r"no word of that|not one he knows|could not parse|cannot parse|"
+    r"made no sense|no question in", re.I)
 
 
 def grade(said_words: list, spoken: bool, expect: dict) -> tuple[bool, str]:
@@ -144,6 +156,39 @@ def stage_of(turn: dict, why: str) -> str:
     if r.get("recovered_filler"):
         return "shape_arbiter"
     return "other"
+
+
+# ---------------------------------------------------------------------------
+# `cause`: a DERIVED, ADDITIVE refinement of `stage`.  It never overwrites
+# `stage`, and it is computed from the same turn so the two can be compared row
+# by row.  The point is to stop `recall` being a catch-all: `stage=recall` mixes
+# (a) the coverage gate refusing a posting it did find, with (b) the organ never
+# understanding the question at all.  Those need different repairs, and (b) is
+# not a memory problem.
+#
+# Deliberately conservative: every value `stage_of` can return is still
+# reachable here, and the ONLY reclassification is `recall` -> `comprehension`
+# when the reason says the organ did not understand.  Anything ambiguous stays
+# with `stage`'s answer rather than being guessed at.
+# ---------------------------------------------------------------------------
+def cause_of(turn: dict, why: str) -> str:
+    stage = stage_of(turn, why)
+    if stage != "recall":
+        return stage
+    r = turn.get("reply") or {}
+    reason = str(r.get("reason") or "")
+    # A real gate refusal names a coverage percentage.  That is the strongest
+    # available evidence that recall ran, found a posting, and scored it.
+    if RECALL_RE.search(reason) and not COMPREHENSION_RE.search(reason):
+        return "recall_gate"
+    if COMPREHENSION_RE.search(reason):
+        return "comprehension"
+    # Silence with no reason at all never gets here: `stage_of` already returns
+    # "recall_untraced" for an empty reason, and that value passes through
+    # unchanged above.  So reaching this line means a NON-EMPTY reason that
+    # matched no pattern -- exactly the fall-through that made `stage` lie.
+    # Do not repeat it with another confident name.
+    return "unclassified"
 
 
 def run_one(script: dict, keep_copies: bool) -> dict:
