@@ -6,6 +6,13 @@ control clone `abffa2b7f101`, 42 asks, ~25 s/ask. Journal
 machine-readable `e19_analysis.json`. Read-only: the flag writes, evicts and reorders nothing and
 touches no score, organ behaviour or genome.
 
+> **RETRACTED IN PART by `e20_result.md` §1.** This file's claim that the gate's `nearest` list is
+> "all book" / that taught evidence does not reach retrieval rested on a
+> `startswith("droso:")` test, but journal `nearest` entries carry **no who-prefix at all**, so the
+> test could never match. Re-tested by exact string equality, **4 of 9 gate asks retrieve the
+> correct taught row at rank 1.** The eviction finding in §1 below is unaffected and stands. Read
+> §4 of this file together with `e20_result.md`.
+
 **Headline: `taught_resident` is True on 40 of 42 asks — 0 of 19 failures are eviction. H1 is
 falsified. But of the 8 attributed asks where the recall gate actually ran, 4 have the correct
 taught row at probe rank 1–2 while the gate's own `nearest` list is all book. The row is resident

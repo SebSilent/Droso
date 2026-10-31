@@ -1,0 +1,413 @@
+{
+  "asks": [
+    {
+      "ask": "what did i tell you about before the kettle?",
+      "coverage": 0.555,
+      "cue_required": [
+        "about",
+        "before",
+        "did",
+        "kettle",
+        "tell",
+        "you"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "about",
+        "before",
+        "did",
+        "kettle",
+        "tell",
+        "you"
+      ],
+      "e19_probe_rank": null,
+      "gate_nearest_top3": [
+        "did you not tell me about it sooner",
+        "i wanted to tell you about the picnic",
+        "i ll tell you all about it some"
+      ],
+      "of_which_content": [
+        "kettle"
+      ],
+      "of_which_syntax": [
+        "about",
+        "before",
+        "did",
+        "tell",
+        "you"
+      ],
+      "taught_count": 1,
+      "taught_row": "the lantern is lit",
+      "taught_row_gate_rank": null,
+      "taught_row_in_gate_nearest": false,
+      "taught_words_in_cue": [],
+      "taught_words_omitted_from_cue": [
+        "is",
+        "lantern",
+        "lit",
+        "the"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "how many times does the bell turn?",
+      "coverage": 0.417,
+      "cue_required": [
+        "bell",
+        "does",
+        "many",
+        "times",
+        "turn"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "does",
+        "many",
+        "times",
+        "turn"
+      ],
+      "e19_probe_rank": 20,
+      "gate_nearest_top3": [
+        "done about the same time as the bell",
+        "many times again until his face was a",
+        "of many faults at different times but this"
+      ],
+      "of_which_content": [
+        "turn"
+      ],
+      "of_which_syntax": [
+        "does",
+        "many",
+        "times"
+      ],
+      "taught_count": 1,
+      "taught_row": "the copper bell turns twice",
+      "taught_row_gate_rank": null,
+      "taught_row_in_gate_nearest": false,
+      "taught_words_in_cue": [
+        "bell"
+      ],
+      "taught_words_omitted_from_cue": [
+        "copper",
+        "the",
+        "turns",
+        "twice"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "how often did i say the coat is wet?",
+      "coverage": 0.454,
+      "cue_required": [
+        "coat",
+        "did",
+        "is",
+        "often",
+        "say",
+        "wet"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "did",
+        "often",
+        "say"
+      ],
+      "e19_probe_rank": 1,
+      "gate_nearest_top3": [
+        "tails of my coat were all soaking wet",
+        "does not often say all this to herself",
+        "do you suppose she does not often say"
+      ],
+      "of_which_content": [],
+      "of_which_syntax": [
+        "did",
+        "often",
+        "say"
+      ],
+      "taught_count": 3,
+      "taught_row": "the coat is wet",
+      "taught_row_gate_rank": null,
+      "taught_row_in_gate_nearest": false,
+      "taught_words_in_cue": [
+        "coat",
+        "is",
+        "wet"
+      ],
+      "taught_words_omitted_from_cue": [
+        "the"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "what came before the kettle in what i said?",
+      "coverage": 0.46,
+      "cue_required": [
+        "before",
+        "came",
+        "in",
+        "kettle",
+        "said"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "before",
+        "came",
+        "in",
+        "kettle",
+        "said"
+      ],
+      "e19_probe_rank": null,
+      "gate_nearest_top3": [
+        "when the water in the kettle was boiling",
+        "in gracechurch street the evening before i came",
+        "came to him and said believe in me"
+      ],
+      "of_which_content": [
+        "came",
+        "kettle"
+      ],
+      "of_which_syntax": [
+        "before",
+        "in",
+        "said"
+      ],
+      "taught_count": 1,
+      "taught_row": "the lantern is lit",
+      "taught_row_gate_rank": null,
+      "taught_row_in_gate_nearest": false,
+      "taught_words_in_cue": [],
+      "taught_words_omitted_from_cue": [
+        "is",
+        "lantern",
+        "lit",
+        "the"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "how often does the bell turn?",
+      "coverage": 0.514,
+      "cue_required": [
+        "bell",
+        "does",
+        "often",
+        "turn"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "does",
+        "often",
+        "turn"
+      ],
+      "e19_probe_rank": 11,
+      "gate_nearest_top3": [
+        "the copper bell turns twice",
+        "does not often say all this to herself",
+        "be sure jane one does not often see"
+      ],
+      "of_which_content": [
+        "turn"
+      ],
+      "of_which_syntax": [
+        "does",
+        "often"
+      ],
+      "taught_count": 1,
+      "taught_row": "the copper bell turns twice",
+      "taught_row_gate_rank": 1,
+      "taught_row_in_gate_nearest": true,
+      "taught_words_in_cue": [
+        "bell"
+      ],
+      "taught_words_omitted_from_cue": [
+        "copper",
+        "the",
+        "turns",
+        "twice"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "what is held by the thing the frost bites?",
+      "coverage": 0.51,
+      "cue_required": [
+        "bites",
+        "by",
+        "frost",
+        "held",
+        "is",
+        "thing"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "by",
+        "held",
+        "is",
+        "thing"
+      ],
+      "e19_probe_rank": 2,
+      "gate_nearest_top3": [
+        "the frost bites the latch",
+        "poison is by no means a new thing",
+        "he was being held by the arms and"
+      ],
+      "of_which_content": [],
+      "of_which_syntax": [
+        "by",
+        "held",
+        "is",
+        "thing"
+      ],
+      "taught_count": 1,
+      "taught_row": "the frost bites the latch",
+      "taught_row_gate_rank": 1,
+      "taught_row_in_gate_nearest": true,
+      "taught_words_in_cue": [
+        "bites",
+        "frost"
+      ],
+      "taught_words_omitted_from_cue": [
+        "latch",
+        "the"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "what does the bitten thing hold?",
+      "coverage": 0.385,
+      "cue_required": [
+        "bitten",
+        "does",
+        "hold",
+        "thing"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "bitten",
+        "does",
+        "hold",
+        "thing"
+      ],
+      "e19_probe_rank": null,
+      "gate_nearest_top3": [
+        "the next thing i laid hold of was",
+        "my emma does not every thing serve to",
+        "churchill does every thing that any other fine"
+      ],
+      "of_which_content": [
+        "hold"
+      ],
+      "of_which_syntax": [
+        "bitten",
+        "does",
+        "thing"
+      ],
+      "taught_count": 1,
+      "taught_row": "the frost bites the latch",
+      "taught_row_gate_rank": null,
+      "taught_row_in_gate_nearest": false,
+      "taught_words_in_cue": [],
+      "taught_words_omitted_from_cue": [
+        "bites",
+        "frost",
+        "latch",
+        "the"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "what is bitten by the frost?",
+      "coverage": 0.34,
+      "cue_required": [
+        "bitten",
+        "by",
+        "frost",
+        "is"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "bitten",
+        "by",
+        "is"
+      ],
+      "e19_probe_rank": 1,
+      "gate_nearest_top3": [
+        "the frost bites the latch",
+        "in spite of the slight frost it would",
+        "slight frost it would be well that it"
+      ],
+      "of_which_content": [],
+      "of_which_syntax": [
+        "bitten",
+        "by",
+        "is"
+      ],
+      "taught_count": 1,
+      "taught_row": "the frost bites the latch",
+      "taught_row_gate_rank": 1,
+      "taught_row_in_gate_nearest": true,
+      "taught_words_in_cue": [
+        "frost"
+      ],
+      "taught_words_omitted_from_cue": [
+        "bites",
+        "latch",
+        "the"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    },
+    {
+      "ask": "what number of eggs is left in the basket?",
+      "coverage": 0.538,
+      "cue_required": [
+        "basket",
+        "eggs",
+        "in",
+        "is",
+        "left",
+        "number",
+        "of"
+      ],
+      "cue_terms_taught_row_cannot_match": [
+        "is",
+        "left",
+        "number",
+        "of"
+      ],
+      "e19_probe_rank": 2,
+      "gate_nearest_top3": [
+        "there are four eggs in the basket",
+        "as he leaned back in a basket chair",
+        "in which a number of frogs were sitting"
+      ],
+      "of_which_content": [],
+      "of_which_syntax": [
+        "is",
+        "left",
+        "number",
+        "of"
+      ],
+      "taught_count": 1,
+      "taught_row": "there are four eggs in the basket",
+      "taught_row_gate_rank": 1,
+      "taught_row_in_gate_nearest": true,
+      "taught_words_in_cue": [
+        "basket",
+        "eggs",
+        "in"
+      ],
+      "taught_words_omitted_from_cue": [
+        "are",
+        "four",
+        "the",
+        "there"
+      ],
+      "verdict": "cue_omits_taught_terms"
+    }
+  ],
+  "gate_asks_with_known_taught_row": 9,
+  "journal": "state\\selection\\generation_19_asks.jsonl",
+  "prefix_check": {
+    "total_nearest_entries": 30,
+    "with_any_who_prefix": 0,
+    "with_book_prefix": 0,
+    "with_droso_prefix": 0
+  },
+  "verdict": {
+    "cue_includes_and_row_is_retrieved": 0,
+    "cue_includes_but_row_still_loses": 0,
+    "cue_omits_taught_terms": 9
+  }
+}
