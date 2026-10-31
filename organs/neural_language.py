@@ -1882,6 +1882,22 @@ class NeuralLanguage:
                     out.add(w)
         return out
 
+    @staticmethod
+    def _resonance_exclude(user_text: str) -> set:
+        """The one word he may not answer with: the utterance itself, but only
+        when it is a single word. A multi-word utterance excludes nothing, so
+        "the scarf is wet" may still be answered with "wet".
+
+        Its own method because TWO callers need it -- _resonance_mates below, and
+        the mouth path's own downstream uses (the `pool_mates` fallback and the
+        bigram extension). Inlining it into _resonance_mates once removed the local
+        from the mouth path and orphaned both, and the resulting NameError was
+        swallowed by the caller: a greeting that should have been answered from
+        learned patterns silently fell through to reasoning_loop.
+        """
+        return ({user_text.strip().lower()}
+                if " " not in user_text.strip() else set())
+
     def _resonance_mates(self, user_text: str) -> list:
         """The words he may answer a heard utterance with.
 
@@ -1894,8 +1910,7 @@ class NeuralLanguage:
         an empty `mates` makes the mouth path return "heard; no words it could
         answer with", which is a silence this flag is not allowed to cause.
         """
-        exclude = ({user_text.strip().lower()}
-                   if " " not in user_text.strip() else set())
+        exclude = self._resonance_exclude(user_text)
         mates = [m for m, r in self.word_patterns.items()
                  if self._speakable(m) and m not in exclude]
         if not self.RESONANCE_SESSION_SCOPE:
@@ -4021,6 +4036,10 @@ class NeuralLanguage:
                     "mood": round(self.social_drive, 3),
                     "reason": "heard; no language learned yet",
                     "thought": thought}
+        # `exclude` is still needed below by the pool_mates fallback and the
+        # bigram extension, so it is computed here as well as inside
+        # _resonance_mates. Same rule, one definition.
+        exclude = self._resonance_exclude(user_text)
         mates = self._resonance_mates(user_text)
         if not mates:
             return {"spoken": False, "heard": True,

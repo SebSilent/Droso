@@ -53,6 +53,9 @@ class _Stub:
         self._session = set(session)
 
     _speakable = NeuralLanguage._speakable
+    # staticmethod on the organ, so re-wrap it: bound as a plain attribute it
+    # would receive `self` in place of `user_text`.
+    _resonance_exclude = staticmethod(NeuralLanguage._resonance_exclude)
 
     def _session_words(self):
         return set(self._session)
@@ -291,6 +294,52 @@ def test_wanted_words_were_present_in_the_vocabulary():
     for r in rows:
         assert all(r["wanted_in_vocabulary"].values())
         assert r["vocabulary"] > 10000   # the pool is corpus-sized
+
+
+# --------------------------------- 8. the bug this extraction actually caused
+
+def test_no_function_reads_exclude_without_assigning_it():
+    """Regression, and the reason _resonance_exclude is its own method.
+
+    Lifting the candidate list into _resonance_mates removed the `exclude` local
+    from the mouth path, but TWO downstream sites still read it: the `pool_mates`
+    fallback and the bigram extension. Both became NameError, the caller swallowed
+    it, and a greeting that should have been answered from learned patterns fell
+    through to `reasoning_loop` -- a full-suite failure that no resonance test
+    could see, because the flag was off and the candidate list was correct.
+
+    This checks the whole module, not just that one function, so the same mistake
+    on any name in any organ method is caught at test time rather than by a
+    swallowed exception at run time.
+    """
+    import ast
+
+    src = io.open(os.path.join(ROOT, "organs", "neural_language.py"),
+                  encoding="utf-8").read()
+    tree = ast.parse(src)
+    checked = []
+    for fn in ast.walk(tree):
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        names = [n for n in ast.walk(fn) if isinstance(n, ast.Name)]
+        loads = {n.id for n in names if isinstance(n.ctx, ast.Load)}
+        if "exclude" not in loads:
+            continue
+        stores = {n.id for n in names if isinstance(n.ctx, ast.Store)}
+        params = {a.arg for a in fn.args.args + fn.args.kwonlyargs}
+        assert "exclude" in stores or "exclude" in params, (
+            "%s reads `exclude` but never binds it -- an orphaned local, which "
+            "the mouth path swallows as a NameError" % fn.name)
+        checked.append(fn.name)
+    assert checked, "nothing reads `exclude` any more; the mouth path changed shape"
+
+
+def test_the_exclude_rule_is_single_sourced():
+    # Both callers must agree, or the pool and its downstream filters diverge.
+    stub = _Stub(["hi", "wet"])
+    assert NeuralLanguage._resonance_exclude("hi") == {"hi"}
+    assert NeuralLanguage._resonance_exclude("the scarf is wet") == set()
+    assert NeuralLanguage._resonance_exclude("  hi  ") == {"hi"}
 
 
 def test_the_attractor_words_recur_across_asks():
