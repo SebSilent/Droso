@@ -1,0 +1,892 @@
+{
+ "A1_range": 0.65,
+ "A1": "PASS",
+ "A2": "FAIL -> abort A2",
+ "item6": "FAIL -> design killed, do not run E11b",
+ "threshold": null,
+ "n_asks": 42,
+ "records": [
+  {
+   "ask": "how many times did i tell you the coat is wet?",
+   "script": "count-frequency",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 11,
+   "support": 0.3636,
+   "overlap": [
+    "coat",
+    "is",
+    "the",
+    "wet"
+   ],
+   "n_tells": 4,
+   "tells": [
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is torn"
+   ]
+  },
+  {
+   "ask": "how many things did i tell you about the coat?",
+   "script": "count-frequency",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 10,
+   "support": 0.2,
+   "overlap": [
+    "coat",
+    "the"
+   ],
+   "n_tells": 4,
+   "tells": [
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is torn"
+   ]
+  },
+  {
+   "ask": "how many times did i tell you about the scarf?",
+   "script": "count-frequency",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 10,
+   "support": 0.1,
+   "overlap": [
+    "the"
+   ],
+   "n_tells": 4,
+   "tells": [
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is torn"
+   ]
+  },
+  {
+   "ask": "did i ever tell you about the moon?",
+   "script": "count-frequency",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 8,
+   "support": 0.125,
+   "overlap": [
+    "the"
+   ],
+   "n_tells": 4,
+   "tells": [
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is torn"
+   ]
+  },
+  {
+   "ask": "which did i tell you first the lantern or the kettle?",
+   "script": "order-first-last",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 10,
+   "support": 0.2,
+   "overlap": [
+    "lantern",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the lantern is lit",
+    "the kettle is singing",
+    "the gate is open"
+   ]
+  },
+  {
+   "ask": "which did i tell you last the kettle or the gate?",
+   "script": "order-first-last",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 10,
+   "support": 0.2,
+   "overlap": [
+    "kettle",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the lantern is lit",
+    "the kettle is singing",
+    "the gate is open"
+   ]
+  },
+  {
+   "ask": "what did i tell you about before the kettle?",
+   "script": "order-first-last",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.555,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 9,
+   "support": 0.2222,
+   "overlap": [
+    "kettle",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the lantern is lit",
+    "the kettle is singing",
+    "the gate is open"
+   ]
+  },
+  {
+   "ask": "how many objects did i tell you about?",
+   "script": "order-first-last",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 8,
+   "support": 0.125,
+   "overlap": [
+    "i"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the lantern is lit",
+    "the kettle is singing",
+    "the gate is open"
+   ]
+  },
+  {
+   "ask": "what is both wet and on the hook?",
+   "script": "conjunction-and-absence",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 8,
+   "support": 0.5,
+   "overlap": [
+    "hook",
+    "is",
+    "on",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the coat is wet",
+    "the coat is on the hook",
+    "the scarf is wet"
+   ]
+  },
+  {
+   "ask": "what is wet but not on the hook?",
+   "script": "conjunction-and-absence",
+   "stage": "shape_arbiter",
+   "cause": "shape_arbiter",
+   "coverage": null,
+   "pass": false,
+   "spoken": true,
+   "q_terms": 8,
+   "support": 0.5,
+   "overlap": [
+    "hook",
+    "is",
+    "on",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the coat is wet",
+    "the coat is on the hook",
+    "the scarf is wet"
+   ]
+  },
+  {
+   "ask": "where did i say the scarf is?",
+   "script": "conjunction-and-absence",
+   "stage": null,
+   "cause": null,
+   "coverage": 0.57,
+   "pass": true,
+   "spoken": false,
+   "q_terms": 7,
+   "support": 0.4286,
+   "overlap": [
+    "is",
+    "scarf",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the coat is wet",
+    "the coat is on the hook",
+    "the scarf is wet"
+   ]
+  },
+  {
+   "ask": "is the coat dry or wet?",
+   "script": "conjunction-and-absence",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 6,
+   "support": 0.6667,
+   "overlap": [
+    "coat",
+    "is",
+    "the",
+    "wet"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the coat is wet",
+    "the coat is on the hook",
+    "the scarf is wet"
+   ]
+  },
+  {
+   "ask": "say exactly the copper bell turns twice",
+   "script": "exact-repeat",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 7,
+   "support": 0.7143,
+   "overlap": [
+    "bell",
+    "copper",
+    "the",
+    "turns",
+    "twice"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "which word did i use for the metal?",
+   "script": "exact-repeat",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 8,
+   "support": 0.125,
+   "overlap": [
+    "the"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "how many times does the bell turn?",
+   "script": "exact-repeat",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.417,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 7,
+   "support": 0.2857,
+   "overlap": [
+    "bell",
+    "the"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "what turns twice?",
+   "script": "exact-repeat",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 3,
+   "support": 0.6667,
+   "overlap": [
+    "turns",
+    "twice"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "what does the frost bite?",
+   "script": "hop-and-inventory",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 5,
+   "support": 0.4,
+   "overlap": [
+    "frost",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "what does the thing the frost bites hold?",
+   "script": "hop-and-inventory",
+   "stage": "shape_arbiter",
+   "cause": "shape_arbiter",
+   "coverage": null,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 7,
+   "support": 0.4286,
+   "overlap": [
+    "bites",
+    "frost",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "what bites the latch?",
+   "script": "hop-and-inventory",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 4,
+   "support": 0.75,
+   "overlap": [
+    "bites",
+    "latch",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "does the door hold the frost?",
+   "script": "hop-and-inventory",
+   "stage": "gating",
+   "cause": "gating",
+   "coverage": null,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 5,
+   "support": 0.4,
+   "overlap": [
+    "frost",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "how many eggs did i mention first?",
+   "script": "quantity-change",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 7,
+   "support": 0.1429,
+   "overlap": [
+    "eggs"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "there are four eggs in the basket",
+    "then two eggs break"
+   ]
+  },
+  {
+   "ask": "how many eggs broke?",
+   "script": "quantity-change",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 4,
+   "support": 0.25,
+   "overlap": [
+    "eggs"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "there are four eggs in the basket",
+    "then two eggs break"
+   ]
+  },
+  {
+   "ask": "did any egg break?",
+   "script": "quantity-change",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 4,
+   "support": 0.25,
+   "overlap": [
+    "break"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "there are four eggs in the basket",
+    "then two eggs break"
+   ]
+  },
+  {
+   "ask": "how many eggs are left in the basket?",
+   "script": "quantity-change",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 8,
+   "support": 0.625,
+   "overlap": [
+    "are",
+    "basket",
+    "eggs",
+    "in",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "there are four eggs in the basket",
+    "then two eggs break"
+   ]
+  },
+  {
+   "ask": "how often did i say the coat is wet?",
+   "script": "sel-count-frequency",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.454,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 9,
+   "support": 0.4444,
+   "overlap": [
+    "coat",
+    "is",
+    "the",
+    "wet"
+   ],
+   "n_tells": 4,
+   "tells": [
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is torn"
+   ]
+  },
+  {
+   "ask": "have i mentioned the moon to you?",
+   "script": "sel-count-frequency",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 7,
+   "support": 0.1429,
+   "overlap": [
+    "the"
+   ],
+   "n_tells": 4,
+   "tells": [
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is wet",
+    "the coat is torn"
+   ]
+  },
+  {
+   "ask": "which thing did i mention earlier than the kettle?",
+   "script": "sel-order-first-last",
+   "stage": "mouth",
+   "cause": "mouth",
+   "coverage": null,
+   "pass": false,
+   "spoken": true,
+   "q_terms": 9,
+   "support": 0.2222,
+   "overlap": [
+    "kettle",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the lantern is lit",
+    "the kettle is singing",
+    "the gate is open"
+   ]
+  },
+  {
+   "ask": "what came before the kettle in what i said?",
+   "script": "sel-order-first-last",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.46,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 8,
+   "support": 0.25,
+   "overlap": [
+    "kettle",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the lantern is lit",
+    "the kettle is singing",
+    "the gate is open"
+   ]
+  },
+  {
+   "ask": "of the lantern and the kettle which one came first?",
+   "script": "sel-order-first-last",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 9,
+   "support": 0.2222,
+   "overlap": [
+    "lantern",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the lantern is lit",
+    "the kettle is singing",
+    "the gate is open"
+   ]
+  },
+  {
+   "ask": "which of them is wet and is not on the hook?",
+   "script": "sel-conjunction-and-absence",
+   "stage": "mouth",
+   "cause": "mouth",
+   "coverage": null,
+   "pass": false,
+   "spoken": true,
+   "q_terms": 10,
+   "support": 0.4,
+   "overlap": [
+    "hook",
+    "is",
+    "on",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the coat is wet",
+    "the coat is on the hook",
+    "the scarf is wet"
+   ]
+  },
+  {
+   "ask": "name the wet thing that is not on the hook",
+   "script": "sel-conjunction-and-absence",
+   "stage": "mouth",
+   "cause": "mouth",
+   "coverage": null,
+   "pass": false,
+   "spoken": true,
+   "q_terms": 9,
+   "support": 0.4444,
+   "overlap": [
+    "hook",
+    "is",
+    "on",
+    "the"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the coat is wet",
+    "the coat is on the hook",
+    "the scarf is wet"
+   ]
+  },
+  {
+   "ask": "is the coat wet or is it dry?",
+   "script": "sel-conjunction-and-absence",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 7,
+   "support": 0.5714,
+   "overlap": [
+    "coat",
+    "is",
+    "the",
+    "wet"
+   ],
+   "n_tells": 3,
+   "tells": [
+    "the coat is wet",
+    "the coat is on the hook",
+    "the scarf is wet"
+   ]
+  },
+  {
+   "ask": "how often does the bell turn?",
+   "script": "sel-exact-repeat",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.514,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 6,
+   "support": 0.3333,
+   "overlap": [
+    "bell",
+    "the"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "the bell turns how often?",
+   "script": "sel-exact-repeat",
+   "stage": null,
+   "cause": null,
+   "coverage": null,
+   "pass": true,
+   "spoken": true,
+   "q_terms": 5,
+   "support": 0.6,
+   "overlap": [
+    "bell",
+    "the",
+    "turns"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "repeat after me the copper bell turns twice",
+   "script": "sel-exact-repeat",
+   "stage": "mouth",
+   "cause": "mouth",
+   "coverage": null,
+   "pass": false,
+   "spoken": true,
+   "q_terms": 8,
+   "support": 0.625,
+   "overlap": [
+    "bell",
+    "copper",
+    "the",
+    "turns",
+    "twice"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "which thing turns twice?",
+   "script": "sel-exact-repeat",
+   "stage": "recall",
+   "cause": "comprehension",
+   "coverage": null,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 4,
+   "support": 0.5,
+   "overlap": [
+    "turns",
+    "twice"
+   ],
+   "n_tells": 1,
+   "tells": [
+    "the copper bell turns twice"
+   ]
+  },
+  {
+   "ask": "what is held by the thing the frost bites?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.51,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 8,
+   "support": 0.375,
+   "overlap": [
+    "bites",
+    "frost",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "what does the bitten thing hold?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.385,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 6,
+   "support": 0.1667,
+   "overlap": [
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "is the frost held by the door?",
+   "script": "sel-hop-and-inventory",
+   "stage": "gating",
+   "cause": "gating",
+   "coverage": null,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 6,
+   "support": 0.3333,
+   "overlap": [
+    "frost",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "is it true that the door holds the frost?",
+   "script": "sel-hop-and-inventory",
+   "stage": "gating",
+   "cause": "gating",
+   "coverage": null,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 8,
+   "support": 0.375,
+   "overlap": [
+    "door",
+    "holds",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "what is bitten by the frost?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.34,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 6,
+   "support": 0.3333,
+   "overlap": [
+    "frost",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "the frost bites the latch",
+    "the latch holds the door"
+   ]
+  },
+  {
+   "ask": "what number of eggs is left in the basket?",
+   "script": "sel-quantity-change",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "coverage": 0.538,
+   "pass": false,
+   "spoken": false,
+   "q_terms": 9,
+   "support": 0.4444,
+   "overlap": [
+    "basket",
+    "eggs",
+    "in",
+    "the"
+   ],
+   "n_tells": 2,
+   "tells": [
+    "there are four eggs in the basket",
+    "then two eggs break"
+   ]
+  }
+ ]
+}
