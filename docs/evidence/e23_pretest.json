@@ -1,0 +1,477 @@
+{
+  "floor": 0.6,
+  "gate_asks": 10,
+  "variants": [
+    "orig",
+    "v_synt",
+    "v_frame",
+    "v_all"
+  ],
+  "guard_breaks": {
+    "v_synt": [
+      "where did i say the scarf is?"
+    ],
+    "v_frame": [
+      "where did i say the scarf is?"
+    ],
+    "v_all": [
+      "where did i say the scarf is?"
+    ]
+  },
+  "gains": {
+    "v_synt": [
+      "how often does the bell turn?",
+      "what is held by the thing the frost bites?"
+    ],
+    "v_frame": [
+      "how often did i say the coat is wet?",
+      "how often does the bell turn?",
+      "what is held by the thing the frost bites?"
+    ],
+    "v_all": [
+      "how often did i say the coat is wet?",
+      "what came before the kettle in what i said?",
+      "how often does the bell turn?",
+      "what is held by the thing the frost bites?",
+      "what number of eggs is left in the basket?"
+    ]
+  },
+  "viable": [],
+  "records": [
+    {
+      "ask": "what did i tell you about before the kettle?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.555,
+      "top_row": "did you not tell me about it sooner",
+      "required": [
+        "about",
+        "before",
+        "did",
+        "kettle",
+        "tell",
+        "you"
+      ],
+      "orig": 0.547031,
+      "orig_must": [
+        "about",
+        "before",
+        "did",
+        "kettle",
+        "tell",
+        "you"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.414814,
+      "v_synt_must": [
+        "about",
+        "before",
+        "kettle",
+        "tell"
+      ],
+      "v_synt_crosses": false,
+      "v_frame": 0.23805,
+      "v_frame_must": [
+        "about",
+        "before",
+        "kettle"
+      ],
+      "v_frame_crosses": false,
+      "v_all": 0.0,
+      "v_all_must": [
+        "kettle"
+      ],
+      "v_all_crosses": false
+    },
+    {
+      "ask": "where did i say the scarf is?",
+      "pass": true,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.57,
+      "top_row": "the scarf is wet",
+      "required": [
+        "did",
+        "is",
+        "say",
+        "scarf"
+      ],
+      "orig": 0.579691,
+      "orig_must": [
+        "did",
+        "is",
+        "say",
+        "scarf"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.667569,
+      "v_synt_must": [
+        "say",
+        "scarf"
+      ],
+      "v_synt_crosses": true,
+      "v_frame": 1.0,
+      "v_frame_must": [
+        "scarf"
+      ],
+      "v_frame_crosses": true,
+      "v_all": 1.0,
+      "v_all_must": [
+        "scarf"
+      ],
+      "v_all_crosses": true
+    },
+    {
+      "ask": "how many times does the bell turn?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.417,
+      "top_row": "done about the same time as the bell",
+      "required": [
+        "bell",
+        "does",
+        "many",
+        "times",
+        "turn"
+      ],
+      "orig": 0.444239,
+      "orig_must": [
+        "bell",
+        "does",
+        "many",
+        "times",
+        "turn"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.541709,
+      "v_synt_must": [
+        "bell",
+        "many",
+        "times",
+        "turn"
+      ],
+      "v_synt_crosses": false,
+      "v_frame": 0.541709,
+      "v_frame_must": [
+        "bell",
+        "many",
+        "times",
+        "turn"
+      ],
+      "v_frame_crosses": false,
+      "v_all": 0.544605,
+      "v_all_must": [
+        "bell",
+        "turn"
+      ],
+      "v_all_crosses": false
+    },
+    {
+      "ask": "how often did i say the coat is wet?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.454,
+      "top_row": "tails of my coat were all soaking wet",
+      "required": [
+        "coat",
+        "did",
+        "is",
+        "often",
+        "say",
+        "wet"
+      ],
+      "orig": 0.456943,
+      "orig_must": [
+        "coat",
+        "did",
+        "is",
+        "often",
+        "say",
+        "wet"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.581335,
+      "v_synt_must": [
+        "coat",
+        "often",
+        "say",
+        "wet"
+      ],
+      "v_synt_crosses": false,
+      "v_frame": 0.717978,
+      "v_frame_must": [
+        "coat",
+        "often",
+        "wet"
+      ],
+      "v_frame_crosses": true,
+      "v_all": 1.0,
+      "v_all_must": [
+        "coat",
+        "wet"
+      ],
+      "v_all_crosses": true
+    },
+    {
+      "ask": "what came before the kettle in what i said?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.46,
+      "top_row": "when the water in the kettle was boiling",
+      "required": [
+        "before",
+        "came",
+        "in",
+        "kettle",
+        "said"
+      ],
+      "orig": 0.475304,
+      "orig_must": [
+        "before",
+        "came",
+        "in",
+        "kettle",
+        "said"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.424175,
+      "v_synt_must": [
+        "before",
+        "came",
+        "kettle",
+        "said"
+      ],
+      "v_synt_crosses": false,
+      "v_frame": 0.518772,
+      "v_frame_must": [
+        "before",
+        "came",
+        "kettle"
+      ],
+      "v_frame_crosses": false,
+      "v_all": 0.679041,
+      "v_all_must": [
+        "came",
+        "kettle"
+      ],
+      "v_all_crosses": true
+    },
+    {
+      "ask": "how often does the bell turn?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.514,
+      "top_row": "the copper bell turns twice",
+      "required": [
+        "bell",
+        "does",
+        "often",
+        "turn"
+      ],
+      "orig": 0.544512,
+      "orig_must": [
+        "bell",
+        "does",
+        "often",
+        "turn"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.699634,
+      "v_synt_must": [
+        "bell",
+        "often",
+        "turn"
+      ],
+      "v_synt_crosses": true,
+      "v_frame": 0.699634,
+      "v_frame_must": [
+        "bell",
+        "often",
+        "turn"
+      ],
+      "v_frame_crosses": true,
+      "v_all": 1.0,
+      "v_all_must": [
+        "bell",
+        "turn"
+      ],
+      "v_all_crosses": true
+    },
+    {
+      "ask": "what is held by the thing the frost bites?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.51,
+      "top_row": "the frost bites the latch",
+      "required": [
+        "bites",
+        "by",
+        "frost",
+        "held",
+        "is",
+        "thing"
+      ],
+      "orig": 0.533637,
+      "orig_must": [
+        "bites",
+        "by",
+        "frost",
+        "held",
+        "is",
+        "thing"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.63993,
+      "v_synt_must": [
+        "bites",
+        "frost",
+        "held",
+        "thing"
+      ],
+      "v_synt_crosses": true,
+      "v_frame": 0.63993,
+      "v_frame_must": [
+        "bites",
+        "frost",
+        "held",
+        "thing"
+      ],
+      "v_frame_crosses": true,
+      "v_all": 0.762016,
+      "v_all_must": [
+        "bites",
+        "frost",
+        "held"
+      ],
+      "v_all_crosses": true
+    },
+    {
+      "ask": "what does the bitten thing hold?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.385,
+      "top_row": "the next thing i laid hold of was",
+      "required": [
+        "bitten",
+        "does",
+        "hold",
+        "thing"
+      ],
+      "orig": 0.403621,
+      "orig_must": [
+        "bitten",
+        "does",
+        "hold",
+        "thing"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.505443,
+      "v_synt_must": [
+        "bitten",
+        "hold",
+        "thing"
+      ],
+      "v_synt_crosses": false,
+      "v_frame": 0.505443,
+      "v_frame_must": [
+        "bitten",
+        "hold",
+        "thing"
+      ],
+      "v_frame_crosses": false,
+      "v_all": 0.359821,
+      "v_all_must": [
+        "bitten",
+        "hold"
+      ],
+      "v_all_crosses": false
+    },
+    {
+      "ask": "what is bitten by the frost?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.34,
+      "top_row": "the frost bites the latch",
+      "required": [
+        "bitten",
+        "by",
+        "frost",
+        "is"
+      ],
+      "orig": 0.347511,
+      "orig_must": [
+        "bitten",
+        "by",
+        "frost",
+        "is"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.455679,
+      "v_synt_must": [
+        "bitten",
+        "frost"
+      ],
+      "v_synt_crosses": false,
+      "v_frame": 0.455679,
+      "v_frame_must": [
+        "bitten",
+        "frost"
+      ],
+      "v_frame_crosses": false,
+      "v_all": 0.455679,
+      "v_all_must": [
+        "bitten",
+        "frost"
+      ],
+      "v_all_crosses": false
+    },
+    {
+      "ask": "what number of eggs is left in the basket?",
+      "pass": false,
+      "cause_all": "recall_gate",
+      "recorded_coverage": 0.538,
+      "top_row": "there are four eggs in the basket",
+      "required": [
+        "basket",
+        "eggs",
+        "in",
+        "is",
+        "left",
+        "number",
+        "of"
+      ],
+      "orig": 0.548798,
+      "orig_must": [
+        "basket",
+        "eggs",
+        "in",
+        "is",
+        "left",
+        "number",
+        "of"
+      ],
+      "orig_crosses": false,
+      "v_synt": 0.598261,
+      "v_synt_must": [
+        "basket",
+        "eggs",
+        "left",
+        "number"
+      ],
+      "v_synt_crosses": false,
+      "v_frame": 0.598261,
+      "v_frame_must": [
+        "basket",
+        "eggs",
+        "left",
+        "number"
+      ],
+      "v_frame_crosses": false,
+      "v_all": 1.0,
+      "v_all_must": [
+        "basket",
+        "eggs"
+      ],
+      "v_all_crosses": true
+    }
+  ]
+}

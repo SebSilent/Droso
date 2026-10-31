@@ -40,6 +40,7 @@ on retrieval of an existing taught row.
 | **E20** `e20_result.md` | does the gate cue omit taught terms? | **no** — on 4 of 9 gate asks the gate retrieves the correct row and ranks it **first**, then refuses at coverage 0.340–0.538 |
 | **E21a** `cue_dilution_diagnosis.md` | does de-framing the cue recover the row? | **no** — recovers **0 of 4**; best case rank 41→10 against a window of 3 |
 | **E22a** `teach_time_reinforcement_diagnosis.md` | does taught-row count predict success? | **no** — the 48%→83% gap is ask-type confounding; the one count=3 gate ask scores **0.454, below the count=1 gate mean of 0.4649**, with its row at rank 1 |
+| **E23** `e23_coverage_denominator_prereg.md` | can closed-class syntax be dropped from the denominator? | **refuted pre-implementation** — all 3 variants break the scarf guard (0.5797→0.6676/1.0/1.0 vs a 0.6 floor). The lever *works* (recovers up to 5 of 9 gate failures) and is still undeployable. **No flag, organ change or test added.** |
 
 **Retraction.** E19 and `passing_ask_analysis.md` reported `nearest_has_taught=0`,
 i.e. that every gate ask retrieved only book rows. That test was
