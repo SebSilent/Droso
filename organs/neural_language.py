@@ -1909,17 +1909,61 @@ class NeuralLanguage:
         set, and a narrowing that would leave nothing to say. The second matters:
         an empty `mates` makes the mouth path return "heard; no words it could
         answer with", which is a silence this flag is not allowed to cause.
+
+        Flag on (RESONANCE_CONTENT_SCOPE) the pool is further narrowed to CONTENT
+        words, by the organ's own distinctiveness rule rather than a stopword list.
+        E9 measured that session-scoping alone removes the corpus attractor only to
+        expose a second one: the function word `the`, present in every tell, won all
+        four mouth asks at 0.504-0.522. Scope removes corpus attractors, content
+        removes the session's own function words; neither is sufficient alone.
+
+        Both filters fall back to the wider pool whenever they would empty it, so
+        neither flag can silence an organism that had something to say.
         """
         exclude = self._resonance_exclude(user_text)
         mates = [m for m, r in self.word_patterns.items()
                  if self._speakable(m) and m not in exclude]
-        if not self.RESONANCE_SESSION_SCOPE:
+        if self.RESONANCE_SESSION_SCOPE:
+            scoped = self._session_words()
+            if scoped:                     # nothing to scope by: old behaviour
+                narrowed = [m for m in mates if m in scoped]
+                if narrowed:               # never trade speech for silence
+                    mates = narrowed
+        if self.RESONANCE_CONTENT_SCOPE:
+            mates = self._resonance_content(mates)
+        return mates
+
+    @staticmethod
+    def _is_content_word(df: int, n_mem: int) -> bool:
+        """The organ's own distinctiveness rule, lifted from the recall gate
+        (`if df * 4 <= n_mem: must.add(w)`, with its `if not df` guard above it).
+
+        A word is content iff he has met it AND it occurs in at most a quarter of
+        his memories. Reusing the existing rule means no new constant and no new
+        list: `the` is in nearly every binder row so it fails, `scarf` is rare so
+        it passes. The `df > 0` half is the gate's own reasoning -- a word never
+        met is not evidence about anything, and treating a document frequency of
+        zero as maximally distinctive once made one unfamiliar word enough to
+        render a whole question unanswerable.
+        """
+        return int(df) > 0 and int(df) * 4 <= int(n_mem)
+
+    def _resonance_content(self, mates: list) -> list:
+        """Narrow `mates` to content words by binder document frequency.
+
+        Falls back to the unfiltered list whenever the filter would empty it or
+        the store cannot be read, so the flag can never cause a silence.
+        """
+        if not self.RESONANCE_CONTENT_SCOPE:
             return mates
-        scoped = self._session_words()
-        if not scoped:
-            return mates                   # nothing to scope by: old behaviour
-        narrowed = [m for m in mates if m in scoped]
-        return narrowed or mates           # never trade speech for silence
+        try:
+            n_mem = max(1, int(self.cortex.binder.X.shape[0]))
+            keep = [m for m in mates
+                    if self._is_content_word(
+                        len(self.cortex.binder.stem_rows(m)), n_mem)]
+        except Exception:                  # noqa: BLE001 - no store, keep old pool
+            return mates
+        return keep or mates               # never trade speech for silence
 
     def _teach_key(self, sentence: str) -> str:
         """The word worth teaching from this phrase: the longest content word he
@@ -2050,6 +2094,20 @@ class NeuralLanguage:
     # to the full pool when the session set is empty OR when narrowing would empty
     # it, so the flag can never turn a speaking organism into a silent one.
     RESONANCE_SESSION_SCOPE = False
+
+    # E10 gene, default OFF. Narrows the resonance pool to CONTENT words using the
+    # organ's own distinctiveness rule -- `df > 0 and df * 4 <= n_mem`, the same test
+    # the recall gate uses to decide `must` -- and NOT the SHAPE_FUNCTION_WORDS set
+    # declared a few lines below. That set is a hand-written list of 86 closed-class
+    # words; this is a distributional rule over the organism's own memory, so it
+    # needs no new constant, no new list, and it adapts to whatever he has actually
+    # been told. E9 measured why it is needed: session-scoping alone removed the
+    # corpus attractor only to expose a second one, the function word `the`, which
+    # won all four mouth asks at 0.504-0.522. Scope removes corpus attractors,
+    # content removes the session's own function words; neither is sufficient alone.
+    # Inert when off. Falls back to the wider pool when the filter would empty it or
+    # the store cannot be read, so it can never cause a silence.
+    RESONANCE_CONTENT_SCOPE = False
 
     # The question-shape parser's word sets. Deliberately NOT stemming.STOPWORDS:
     # that set is baked into 295 stored procedure signatures and is tuned for

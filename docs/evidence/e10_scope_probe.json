@@ -1,0 +1,259 @@
+[
+  {
+    "script": "sel-conjunction-and-absence",
+    "ask": "name the wet thing that is not on the hook",
+    "wanted": [
+      "scarf"
+    ],
+    "is_target": true,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 7,
+    "scope_only_pool": 7,
+    "content_scoped_pool": 6,
+    "P2_function_words_absent": {
+      "the": true,
+      "is": false,
+      "on": false
+    },
+    "P2_pass": false,
+    "P3_corpus_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": false,
+    "pool_top5": [
+      [
+        "is",
+        0.2459
+      ],
+      [
+        "on",
+        0.2043
+      ],
+      [
+        "coat",
+        0.1663
+      ],
+      [
+        "hook",
+        0.1586
+      ],
+      [
+        "scarf",
+        0.1526
+      ]
+    ],
+    "argmax": "is",
+    "argmax_score": 0.2459,
+    "wanted_rank": {
+      "scarf": 5
+    },
+    "wanted_score": {
+      "scarf": 0.1526
+    },
+    "P4_wanted_wins": false,
+    "reply_threshold": 0.55,
+    "P7_winner_clears_threshold": false,
+    "best_wanted_score": 0.1526,
+    "predicted_silent": true
+  },
+  {
+    "script": "sel-conjunction-and-absence",
+    "ask": "which of them is wet and is not on the hook?",
+    "wanted": [
+      "scarf"
+    ],
+    "is_target": true,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 7,
+    "scope_only_pool": 7,
+    "content_scoped_pool": 6,
+    "P2_function_words_absent": {
+      "the": true,
+      "is": false,
+      "on": false
+    },
+    "P2_pass": false,
+    "P3_corpus_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": false,
+    "pool_top5": [
+      [
+        "is",
+        0.3309
+      ],
+      [
+        "on",
+        0.2338
+      ],
+      [
+        "wet",
+        0.1721
+      ],
+      [
+        "coat",
+        0.1626
+      ],
+      [
+        "scarf",
+        0.16
+      ]
+    ],
+    "argmax": "is",
+    "argmax_score": 0.3309,
+    "wanted_rank": {
+      "scarf": 5
+    },
+    "wanted_score": {
+      "scarf": 0.16
+    },
+    "P4_wanted_wins": false,
+    "reply_threshold": 0.55,
+    "P7_winner_clears_threshold": false,
+    "best_wanted_score": 0.16,
+    "predicted_silent": true
+  },
+  {
+    "script": "sel-exact-repeat",
+    "ask": "repeat after me the copper bell turns twice",
+    "wanted": [
+      "copper",
+      "bell",
+      "turns",
+      "twice"
+    ],
+    "is_target": false,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 5,
+    "scope_only_pool": 5,
+    "content_scoped_pool": 4,
+    "P2_function_words_absent": {
+      "the": true,
+      "is": true,
+      "on": true
+    },
+    "P2_pass": true,
+    "P3_corpus_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": true,
+    "pool_top5": [
+      [
+        "bell",
+        0.1221
+      ],
+      [
+        "twice",
+        0.1214
+      ],
+      [
+        "copper",
+        0.1213
+      ],
+      [
+        "turns",
+        0.1134
+      ]
+    ],
+    "argmax": "bell",
+    "argmax_score": 0.1221,
+    "wanted_rank": {
+      "copper": 3,
+      "bell": 1,
+      "turns": 4,
+      "twice": 2
+    },
+    "wanted_score": {
+      "copper": 0.1213,
+      "bell": 0.1221,
+      "turns": 0.1134,
+      "twice": 0.1214
+    },
+    "P4_wanted_wins": true,
+    "reply_threshold": 0.55,
+    "P7_winner_clears_threshold": false,
+    "best_wanted_score": 0.1221,
+    "predicted_silent": true
+  },
+  {
+    "script": "sel-order-first-last",
+    "ask": "which thing did i mention earlier than the kettle?",
+    "wanted": [
+      "lantern"
+    ],
+    "is_target": true,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 8,
+    "scope_only_pool": 8,
+    "content_scoped_pool": 7,
+    "P2_function_words_absent": {
+      "the": true,
+      "is": false,
+      "on": true
+    },
+    "P2_pass": false,
+    "P3_corpus_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": false,
+    "pool_top5": [
+      [
+        "lantern",
+        0.4129
+      ],
+      [
+        "singing",
+        0.3188
+      ],
+      [
+        "lit",
+        0.2634
+      ],
+      [
+        "is",
+        0.1868
+      ],
+      [
+        "open",
+        0.1864
+      ]
+    ],
+    "argmax": "lantern",
+    "argmax_score": 0.4129,
+    "wanted_rank": {
+      "lantern": 1
+    },
+    "wanted_score": {
+      "lantern": 0.4129
+    },
+    "P4_wanted_wins": true,
+    "reply_threshold": 0.55,
+    "P7_winner_clears_threshold": false,
+    "best_wanted_score": 0.4129,
+    "predicted_silent": true
+  }
+]

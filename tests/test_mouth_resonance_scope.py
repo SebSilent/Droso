@@ -47,6 +47,7 @@ class _Stub:
     """Just enough organ surface to exercise the candidate filter with no brain."""
 
     RESONANCE_SESSION_SCOPE = False
+    RESONANCE_CONTENT_SCOPE = False
 
     def __init__(self, vocab, session=()):
         self.word_patterns = {w: None for w in vocab}
@@ -56,9 +57,48 @@ class _Stub:
     # staticmethod on the organ, so re-wrap it: bound as a plain attribute it
     # would receive `self` in place of `user_text`.
     _resonance_exclude = staticmethod(NeuralLanguage._resonance_exclude)
+    _is_content_word = staticmethod(NeuralLanguage._is_content_word)
 
     def _session_words(self):
         return set(self._session)
+
+    def _resonance_content(self, mates):
+        # No store on the bare stub, which is exactly the organ's own fallback
+        # path: unreadable binder -> keep the wider pool. _CStub overrides this
+        # with a real fake binder to exercise the filter itself.
+        return mates
+
+
+class _FakeBinder:
+    """A binder whose document frequencies are declared, not measured."""
+
+    def __init__(self, df, n_mem):
+        self._df, self._n = dict(df), int(n_mem)
+        self.X = type("X", (), {"shape": (self._n, 128)})()
+
+    def stem_rows(self, w):
+        return [None] * int(self._df.get(w, 0))
+
+
+class _CStub(_Stub):
+    """_Stub plus a store, so RESONANCE_CONTENT_SCOPE has something to read.
+
+    It must bind the organ's real `_resonance_content`, not the bare stub's
+    pass-through -- otherwise the filter under test is never called and every
+    assertion about it passes for the wrong reason.
+    """
+
+    _resonance_content = NeuralLanguage._resonance_content
+
+    def __init__(self, vocab, session=(), df=None, n_mem=60000):
+        _Stub.__init__(self, vocab, session)
+        self.cortex = type("C", (), {})()
+        self.cortex.binder = _FakeBinder(df or {}, n_mem)
+
+
+def _speak(w):
+    """`_speakable` is an instance method; the stubs have no brain to bind to."""
+    return NeuralLanguage._speakable(None, w)
 
 
 def _mates(stub, text):
@@ -463,3 +503,270 @@ def test_the_attractor_words_recur_across_asks():
     tops = [t[0] for r in rows for t in r["top5"]]
     assert tops.count("numbered") >= 3
     assert tops.count("sold") >= 3
+
+
+# =============================================== 10. E10, RESONANCE_CONTENT_SCOPE
+#
+# E9 refuted session-scoping alone: it excluded the corpus attractor exactly as
+# predicted (P2, P3 PASS) but the function word `the` won all four pools instead
+# (P4 FAIL). E10 adds the other half. These tests are written BEFORE the battery.
+
+V10 = ["the", "is", "on", "scarf", "wet", "coat", "hook",
+       "numbered", "sold", "agin", "lantern", "bell"]
+# Document frequencies as measured in the live binder: `the` is in nearly every
+# row; the corpus attractors are RARE (df 14, 7, 2). That asymmetry is the whole
+# reason E10 needs both filters and not just this one.
+DF10 = {"the": 59000, "is": 41000, "on": 33000, "scarf": 14, "wet": 9,
+        "coat": 11, "hook": 6, "numbered": 14, "sold": 7, "agin": 2,
+        "lantern": 5, "bell": 8}
+N_MEM = 60000
+
+
+def _cstub(**kw):
+    return _CStub(V10, df=DF10, n_mem=N_MEM, **kw)
+
+
+def test_content_flag_exists_and_defaults_false():
+    assert hasattr(NeuralLanguage, "RESONANCE_CONTENT_SCOPE")
+    assert NeuralLanguage.RESONANCE_CONTENT_SCOPE is False
+
+
+def test_the_distinctiveness_rule_is_the_recall_gates_own_rule():
+    # `df > 0 and df * 4 <= n_mem`, lifted from `if df * 4 <= n_mem: must.add(w)`
+    # and its `if not df: unknown.add(w); continue` guard. No new constant.
+    f = NeuralLanguage._is_content_word
+    assert f(0, 60000) is False            # never met: not evidence about anything
+    assert f(1, 60000) is True
+    assert f(15000, 60000) is True         # exactly a quarter: still distinctive
+    assert f(15001, 60000) is False        # one row over: a function word
+    assert f(59000, 60000) is False        # `the`
+    assert f(14, 60000) is True            # `scarf`, and also `numbered`
+
+
+def test_flag_off_returns_exactly_the_old_candidate_list():
+    # Both genes off: line-for-line the pre-E9 computation.
+    off = _cstub()
+    assert off.RESONANCE_CONTENT_SCOPE is False
+    got = _mates(off, "name the wet thing that is not on the hook")
+    assert "the" in got and "numbered" in got and "scarf" in got
+    assert len(got) == len([w for w in V10 if _speak(w)])
+
+
+def test_flag_off_ignores_the_store_entirely():
+    # A stub whose binder would reject everything must still return the full
+    # pool when the flag is off -- proving the store is never read.
+    s = _cstub()
+    s.cortex.binder = _FakeBinder({}, 1)   # every word has df 0 -> all filtered
+    assert len(_mates(s, "the scarf is wet")) == len([w for w in V10 if _speak(w)])
+
+
+def test_flag_on_removes_function_words_and_keeps_content_words():
+    s = _cstub()
+    s.RESONANCE_CONTENT_SCOPE = True
+    got = set(_mates(s, "name the wet thing that is not on the hook"))
+    for fn in ("the", "is", "on"):
+        assert fn not in got, fn
+    for cw in ("scarf", "wet", "coat", "hook", "lantern", "bell"):
+        assert cw in got, cw
+
+
+def test_content_alone_does_NOT_remove_the_corpus_attractor():
+    # The reason E10 must run with BOTH flags. `numbered` (df 14), `sold` (df 7)
+    # and `agin` (df 2) are rare in the binder, so a distinctiveness filter
+    # admits them. Content-without-scope tests a different hypothesis.
+    s = _cstub()
+    s.RESONANCE_CONTENT_SCOPE = True
+    got = set(_mates(s, "name the wet thing that is not on the hook"))
+    for a in ("numbered", "sold", "agin"):
+        assert a in got, a
+
+
+def test_scope_alone_does_NOT_remove_the_function_word():
+    # The E9 result, pinned as a test: scoping admits `the` because every tell
+    # contains it.
+    s = _cstub(session={"the", "scarf", "wet", "coat", "hook", "is", "on"})
+    s.RESONANCE_SESSION_SCOPE = True
+    got = set(_mates(s, "name the wet thing that is not on the hook"))
+    assert "the" in got
+    assert "numbered" not in got           # scope DID remove the corpus attractor
+
+
+def test_both_flags_remove_both_attractor_classes():
+    # The E10 arm. Corpus attractors gone via scope, function words gone via
+    # content, wanted word still a candidate.
+    # The session is E9's measured 7-word pool. The corpus attractors are NOT in
+    # it -- that is exactly why scope removes them. The two attractor classes are
+    # disjoint: corpus attractors are rare words never told this session, session
+    # function words are high-df words told in every tell. Each filter catches the
+    # class the other admits.
+    s = _cstub(session={"the", "scarf", "wet", "coat", "hook", "is", "on"})
+    s.RESONANCE_SESSION_SCOPE = True
+    s.RESONANCE_CONTENT_SCOPE = True
+    got = set(_mates(s, "name the wet thing that is not on the hook"))
+    for bad in ("the", "is", "on", "numbered", "sold", "agin"):
+        assert bad not in got, bad
+    for good in ("scarf", "wet", "coat", "hook"):
+        assert good in got, good
+
+
+def test_content_filter_falls_back_rather_than_going_silent():
+    # Every word high-df: the filter would empty the pool, so it must not.
+    s = _CStub(["the", "is", "on"], df={"the": 59000, "is": 41000, "on": 33000},
+               n_mem=N_MEM)
+    s.RESONANCE_CONTENT_SCOPE = True
+    assert set(_mates(s, "the is on")) == {"the", "is", "on"}
+
+
+def test_unreadable_store_falls_back_rather_than_raising():
+    s = _cstub()
+    s.RESONANCE_CONTENT_SCOPE = True
+    s.cortex = None                        # AttributeError inside the filter
+    assert len(_mates(s, "the scarf is wet")) == len([w for w in V10 if _speak(w)])
+
+
+def test_the_single_word_exclude_survives_both_filters():
+    s = _cstub(session=set(V10))
+    s.RESONANCE_SESSION_SCOPE = True
+    s.RESONANCE_CONTENT_SCOPE = True
+    assert "scarf" not in _mates(s, "scarf")
+    assert "scarf" in _mates(s, "the scarf is wet")
+
+
+def test_the_content_flag_cannot_touch_the_recall_gate():
+    # Guarded-floor preservation by construction: the gene is read in exactly
+    # one place, _resonance_mates, which only builds the mouth's candidate list.
+    # The recall gate computes its own `must` inline and never calls this.
+    src = io.open(os.path.join(ROOT, "organs", "neural_language.py"),
+                  encoding="utf-8").read()
+    assert src.count("RESONANCE_CONTENT_SCOPE") >= 3      # decl, guard, docstring
+    # The recall gate is inline in NeuralLanguage.answer, which computes its own
+    # `must` set at `if df * 4 <= n_mem: must.add(w)`. The E10 gene must not be
+    # readable from there: that is what keeps the guarded floor untouched.
+    body = src.split("def answer(self, question")[1].split("\n    def ")[0]
+    assert "must.add(w)" in body           # sanity: this IS the recall gate
+    assert "RESONANCE_CONTENT_SCOPE" not in body
+    assert "_resonance_content" not in body
+
+
+# ---- the pre-registered arithmetic, computed from E9's measured scores ----
+
+def test_E10_predicts_silence_because_the_wanted_word_is_below_threshold():
+    # Written BEFORE the battery. E9 measured the wanted word's resonance inside
+    # its own scoped pool: 0.1526, 0.1600, 0.1221, 0.4129. reply_threshold is
+    # 0.55 and E10 is forbidden from lowering it. Filtering the pool changes
+    # WHICH word wins, not the scores -- `res` is computed once over the full
+    # vocabulary. So even a perfect content filter leaves the winner below the
+    # bar, `understands` stays False, and the organ stays silent.
+    rows = _e9_probe()
+    assert rows
+    for r in rows:
+        best_wanted = max(r["wanted_score_in_scoped"].values())
+        assert best_wanted < r["reply_threshold"], r["ask"]
+
+
+# ---- the E10 OUTCOME, measured: refuted, aborted at conditions 1 and 4 ----
+
+E10J = os.path.join(ROOT, "docs", "evidence", "e10_scope_probe.json")
+GEN13 = os.path.join(ROOT, "state", "selection", "generation_13_asks.jsonl")
+GEN14 = os.path.join(ROOT, "state", "selection", "generation_14_asks.jsonl")
+GEN12 = os.path.join(ROOT, "state", "selection", "generation_12_asks.jsonl")
+
+
+def _e10_probe():
+    if not os.path.exists(E10J):
+        pytest.skip("e10 scope probe json not present")
+    return json.load(io.open(E10J, encoding="utf-8"))
+
+
+def test_both_genes_stay_default_off_because_e10_was_refuted():
+    assert NeuralLanguage.RESONANCE_SESSION_SCOPE is False
+    assert NeuralLanguage.RESONANCE_CONTENT_SCOPE is False
+
+
+def test_E10_P2_the_is_removed_everywhere_but_is_and_on_survive():
+    # Finding 1: the distributional rule is not a function-word rule. Measured
+    # against a binder that is 99.19% `book` rows, document frequency measures
+    # corpus style, not lexical class -- so `is` and `on` count as distinctive.
+    rows = _e10_probe()
+    assert all(r["P2_function_words_absent"]["the"] for r in rows)
+    survivors = [r for r in rows if not r["P2_pass"]]
+    assert len(survivors) == 3                      # MIXED, 1/4
+    assert any(not r["P2_function_words_absent"]["is"] for r in survivors)
+
+
+def test_E10_P3_corpus_attractors_absent_on_every_ask():
+    rows = _e10_probe()
+    assert all(all(r["P3_corpus_absent"].values()) for r in rows)
+
+
+def test_E10_P4_mixed_lantern_and_bell_win_but_scarf_loses():
+    rows = {r["ask"]: r for r in _e10_probe()}
+    assert rows["which thing did i mention earlier than the kettle?"]["P4_wanted_wins"]
+    assert rows["repeat after me the copper bell turns twice"]["P4_wanted_wins"]
+    for k in ("name the wet thing that is not on the hook",
+              "which of them is wet and is not on the hook?"):
+        assert rows[k]["P4_wanted_wins"] is False   # abort condition 1
+        assert rows[k]["wanted_rank"]["scarf"] == 5
+
+
+def test_E10_P7_no_winner_clears_the_threshold_so_all_four_are_silent():
+    rows = _e10_probe()
+    assert all(r["P7_winner_clears_threshold"] is False for r in rows)
+    assert all(r["predicted_silent"] for r in rows)
+    assert all(r["spoken"] is False and r["said"] == "" for r in rows)
+    # abort condition 4, and the ceiling for an honest content word
+    assert max(r["argmax_score"] for r in rows) < 0.55
+    assert max(r["argmax_score"] for r in rows) == pytest.approx(0.4129, abs=1e-4)
+
+
+def test_E10_arm_a_is_identical_to_generation_11():
+    a, b = _asks(GEN11), _asks(GEN13)
+    if a is None or b is None:
+        pytest.skip("generation 11 or 13 journal not present")
+    assert set(a) == set(b)
+    for k in a:
+        for f in ("pass", "stage", "cause", "source", "coverage"):
+            assert a[k].get(f) == b[k].get(f), (k, f)
+
+
+def test_E10_no_ask_changed_its_pass_verdict():
+    a, b = _asks(GEN13), _asks(GEN14)
+    if a is None or b is None:
+        pytest.skip("generation 13 or 14 journal not present")
+    assert set(a) == set(b)
+    assert all(bool(a[k].get("pass")) == bool(b[k].get("pass")) for k in a)
+
+
+def test_E10_arm_b_is_indistinguishable_from_E9_arm_b():
+    # The content filter is battery-inert once scope has already driven the
+    # winner below the bar: removing more candidates from a pool whose argmax
+    # cannot clear 0.55 leaves the verdict unchanged. The ranking repair is
+    # downstream of the real blocker.
+    e9b, e10b = _asks(GEN12), _asks(GEN14)
+    if e9b is None or e10b is None:
+        pytest.skip("generation 12 or 14 journal not present")
+    assert set(e9b) == set(e10b)
+    for k in e9b:
+        assert bool(e9b[k].get("pass")) == bool(e10b[k].get("pass")), k
+        assert e9b[k].get("stage") == e10b[k].get("stage"), k
+
+
+def test_E10_silenced_the_four_mouth_asks_and_added_no_babble():
+    a, b = _asks(GEN13), _asks(GEN14)
+    if a is None or b is None:
+        pytest.skip("generation 13 or 14 journal not present")
+    spoke_a = {k for k, r in a.items() if r.get("source")}
+    spoke_b = {k for k, r in b.items() if r.get("source")}
+    assert not (spoke_b - spoke_a)                  # P6: no new babble
+    assert len(spoke_a - spoke_b) == 4              # the four mouth asks
+    assert len(spoke_a) == 27 and len(spoke_b) == 23
+
+
+def test_E10_abort_condition_is_stated_before_running():
+    # If the wanted word still loses its content-scoped pool, or the winner
+    # clears 0.55 and produces new babble, E10 aborts and is recorded -- not
+    # widened. Pinned here so the condition cannot be revised after the fact.
+    doc = io.open(os.path.join(ROOT, "docs", "evidence", "e10_preregistration.md"),
+                  encoding="utf-8").read()
+    for clause in ("ABORT", "reply_threshold", "df * 4 <= n_mem"):
+        assert clause in doc

@@ -1251,6 +1251,20 @@ def cmd_run(args) -> int:
     else:
         nl.NeuralLanguage.RESONANCE_SESSION_SCOPE = False
         CODE_FLAGS["resonance_session_scope"] = False
+    if args.resonance_content:
+        nl.NeuralLanguage.RESONANCE_CONTENT_SCOPE = True
+        CODE_FLAGS["resonance_content_scope"] = True
+        print("E10 ON: RESONANCE_CONTENT_SCOPE = True")
+        if not args.resonance_scope:
+            # Not an error, but almost certainly a mis-specified arm: E9 measured
+            # that the corpus attractors (numbered/sold/agin) are RARE in the
+            # binder, so a content filter alone admits them. Content-without-scope
+            # tests a different hypothesis than E10 pre-registered.
+            print("E10 WARNING: --resonance-content without --resonance-scope; "
+                  "corpus attractors are rare words and will survive the filter")
+    else:
+        nl.NeuralLanguage.RESONANCE_CONTENT_SCOPE = False
+        CODE_FLAGS["resonance_content_scope"] = False
     tiers = tuple(args.tier.split(","))
     battery = load_battery(tiers, args.only, args.open_batch)
     pop = build_population(args, base)
@@ -1665,6 +1679,18 @@ def main() -> int:
                          "when the session set is empty or narrowing would empty it, so it "
                          "can never silence an organism that would otherwise speak. "
                          "Default off; inert when off")
+    ap.add_argument("--resonance-content", action="store_true",
+                    help="experiment E10: narrow the spoken-word resonance pool to CONTENT "
+                         "words, by the organ's own distinctiveness rule (df > 0 and "
+                         "df * 4 <= n_mem, the test the recall gate uses to decide `must`) "
+                         "rather than a stopword list. E9 refuted session-scoping alone: it "
+                         "excluded the corpus attractor exactly as predicted but exposed a "
+                         "second one, the function word `the`, which won all four mouth asks "
+                         "at 0.504-0.522 because every tell contains it. Scope removes corpus "
+                         "attractors, content removes the session's own function words; use "
+                         "both flags for the E10 arm. Falls back to the wider pool when the "
+                         "filter would empty it or the store cannot be read. Default off; "
+                         "inert when off")
     ap.add_argument("--dry-run", action="store_true",
                     help="build and print the population -- genome ids and mutation "
                          "values -- then stop. Costs nothing and shows the mutants "
