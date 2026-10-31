@@ -1,0 +1,493 @@
+{
+  "scripts": {
+    "count-frequency": {
+      "inventory": {
+        "coat": {
+          "property": "wet"
+        }
+      },
+      "frames": [
+        {
+          "tell": "the coat is wet",
+          "relation": "property",
+          "subject": "coat",
+          "object": "wet"
+        },
+        {
+          "tell": "the coat is wet",
+          "relation": "property",
+          "subject": "coat",
+          "object": "wet"
+        },
+        {
+          "tell": "the coat is wet",
+          "relation": "property",
+          "subject": "coat",
+          "object": "wet"
+        },
+        {
+          "tell": "the coat is torn",
+          "relation": "property",
+          "subject": "coat",
+          "object": "torn"
+        }
+      ],
+      "unextracted": [],
+      "asks": [
+        {
+          "ask": "how many times did i tell you the coat is wet?",
+          "queried_relation": null,
+          "subject": "coat",
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "how many things did i tell you about the coat?",
+          "queried_relation": null,
+          "subject": "coat",
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "how many times did i tell you about the scarf?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "did i ever tell you about the moon?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        }
+      ]
+    },
+    "order-first-last": {
+      "inventory": {
+        "lantern": {
+          "property": "lit"
+        },
+        "kettle": {
+          "property": "singing"
+        },
+        "gate": {
+          "property": "open"
+        }
+      },
+      "frames": [
+        {
+          "tell": "the lantern is lit",
+          "relation": "property",
+          "subject": "lantern",
+          "object": "lit"
+        },
+        {
+          "tell": "the kettle is singing",
+          "relation": "property",
+          "subject": "kettle",
+          "object": "singing"
+        },
+        {
+          "tell": "the gate is open",
+          "relation": "property",
+          "subject": "gate",
+          "object": "open"
+        }
+      ],
+      "unextracted": [],
+      "asks": [
+        {
+          "ask": "which did i tell you first the lantern or the kettle?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "which did i tell you last the kettle or the gate?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "what did i tell you about before the kettle?",
+          "queried_relation": null,
+          "subject": "kettle",
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": false,
+          "journal_cause": "recall_gate",
+          "journal_coverage": 0.555,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "how many objects did i tell you about?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        }
+      ]
+    },
+    "conjunction-and-absence": {
+      "inventory": {
+        "coat": {
+          "property": "wet",
+          "place": "hook"
+        },
+        "scarf": {
+          "property": "wet"
+        }
+      },
+      "frames": [
+        {
+          "tell": "the coat is wet",
+          "relation": "property",
+          "subject": "coat",
+          "object": "wet"
+        },
+        {
+          "tell": "the coat is on the hook",
+          "relation": "place",
+          "subject": "coat",
+          "object": "hook"
+        },
+        {
+          "tell": "the scarf is wet",
+          "relation": "property",
+          "subject": "scarf",
+          "object": "wet"
+        }
+      ],
+      "unextracted": [],
+      "asks": [
+        {
+          "ask": "what is both wet and on the hook?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "shape_arbiter",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "what is wet but not on the hook?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": false,
+          "journal_cause": "shape_arbiter",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "where did i say the scarf is?",
+          "queried_relation": "place",
+          "subject": "scarf",
+          "licence": "refusal",
+          "reason": "place absent for scarf",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "recall_gate",
+          "journal_coverage": 0.57,
+          "passes_by_refusal": true
+        },
+        {
+          "ask": "is the coat dry or wet?",
+          "queried_relation": null,
+          "subject": "coat",
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        }
+      ]
+    },
+    "exact-repeat": {
+      "inventory": {
+        "copper": {
+          "agent": "bell turns twice"
+        }
+      },
+      "frames": [
+        {
+          "tell": "the copper bell turns twice",
+          "relation": "agent",
+          "subject": "copper",
+          "object": "bell turns twice"
+        }
+      ],
+      "unextracted": [],
+      "asks": [
+        {
+          "ask": "say exactly the copper bell turns twice",
+          "queried_relation": null,
+          "subject": "copper",
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "which word did i use for the metal?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "how many times does the bell turn?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": false,
+          "journal_cause": "recall_gate",
+          "journal_coverage": 0.417,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "what turns twice?",
+          "queried_relation": "agent",
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "subject absent",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "shape_arbiter",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        }
+      ]
+    },
+    "hop-and-inventory": {
+      "inventory": {
+        "frost": {
+          "agent": "bites latch"
+        },
+        "latch": {
+          "agent": "holds door"
+        }
+      },
+      "frames": [
+        {
+          "tell": "the frost bites the latch",
+          "relation": "agent",
+          "subject": "frost",
+          "object": "bites latch"
+        },
+        {
+          "tell": "the latch holds the door",
+          "relation": "agent",
+          "subject": "latch",
+          "object": "holds door"
+        }
+      ],
+      "unextracted": [],
+      "asks": [
+        {
+          "ask": "what does the frost bite?",
+          "queried_relation": "agent",
+          "subject": "frost",
+          "licence": "answer",
+          "reason": "relation present",
+          "filler": "bites latch",
+          "journal_pass": true,
+          "journal_cause": "shape_arbiter",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "what does the thing the frost bites hold?",
+          "queried_relation": "agent",
+          "subject": "frost",
+          "licence": "answer",
+          "reason": "relation present",
+          "filler": "bites latch",
+          "journal_pass": false,
+          "journal_cause": "shape_arbiter",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "what bites the latch?",
+          "queried_relation": "agent",
+          "subject": "latch",
+          "licence": "answer",
+          "reason": "relation present",
+          "filler": "holds door",
+          "journal_pass": true,
+          "journal_cause": "shape_arbiter",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "does the door hold the frost?",
+          "queried_relation": null,
+          "subject": "frost",
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": false,
+          "journal_cause": "gating",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        }
+      ]
+    },
+    "quantity-change": {
+      "inventory": {
+        "four": {
+          "agent": "eggs basket"
+        },
+        "then": {
+          "agent": "two eggs break"
+        }
+      },
+      "frames": [
+        {
+          "tell": "there are four eggs in the basket",
+          "relation": "agent",
+          "subject": "four",
+          "object": "eggs basket"
+        },
+        {
+          "tell": "then two eggs break",
+          "relation": "agent",
+          "subject": "then",
+          "object": "two eggs break"
+        }
+      ],
+      "unextracted": [],
+      "asks": [
+        {
+          "ask": "how many eggs did i mention first?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "how many eggs broke?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "did any egg break?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        },
+        {
+          "ask": "how many eggs are left in the basket?",
+          "queried_relation": null,
+          "subject": null,
+          "licence": "fall_through",
+          "reason": "no queried relation",
+          "filler": null,
+          "journal_pass": true,
+          "journal_cause": "other",
+          "journal_coverage": null,
+          "passes_by_refusal": false
+        }
+      ]
+    }
+  },
+  "summary": {
+    "licences": {
+      "fall_through": 20,
+      "refusal": 1,
+      "answer": 3
+    },
+    "scarf": {
+      "ask": "where did i say the scarf is?",
+      "queried_relation": "place",
+      "subject": "scarf",
+      "licence": "refusal",
+      "reason": "place absent for scarf",
+      "filler": null,
+      "journal_pass": true,
+      "journal_cause": "recall_gate",
+      "journal_coverage": 0.57,
+      "passes_by_refusal": true
+    },
+    "cross_subject": [],
+    "changed_passing": [],
+    "viable": true,
+    "abort_triggered": false
+  }
+}
