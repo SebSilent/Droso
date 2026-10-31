@@ -267,6 +267,42 @@ plus the 4 guarded invariants, which is why the table reads `0/14` and not `0/18
 That is the honest headline: the instrument is reproducible and the organ is not
 improving under scalar selection.
 
+#### Every retrieval lever is now closed (E19, E20, E21a)
+
+Three read-only probes ran against generation 19, a control clone scoring **23
+pass — identical to generation 15**, so the instrumentation changed no score,
+organ behaviour or genome.
+
+**E19 falsified eviction.** `taught_resident` is True on 40 of 42 asks and **0 of
+19 failures are eviction**. The binder census (0.78% `droso`, blind FIFO) is real
+as a census fact but is not what causes these failures; the taught rows survive to
+ask time.
+
+**E20 falsified cue omission — and retracted an E19 claim.** On 4 of the 9 gate
+asks the gate retrieves the correct taught row and ranks it **first**, then refuses
+anyway at coverage 0.340–0.538, because `must` demands question syntax and passive
+morphology a declarative tell can never contain: `what is bitten by the frost?`
+asks the row `the frost bites the latch` for `bitten`, `by` and `is`. E19's
+`nearest_has_taught=0` was an artifact of a `startswith("droso:")` test against
+journal entries that carry **no who-prefix at all**, so "taught evidence does not
+reach retrieval" is **withdrawn**.
+
+**E21a falsified cue dilution.** De-framing the cue to closed-class words only
+recovers **0 of 4** asks; its best case moves the row from rank 41 to rank 10
+against a window of 3. Both bell phrasings collapse to the identical cue
+`[bell, turn]` and both land at rank 10, where the top three are all book rows
+about bells. The count-1 taught row loses to **corpus mass**, not to framing
+noise. The probe also does not reproduce the gate's internal retrieval — it
+disagrees with the gate's recorded `nearest` in both directions on 2 of 4 asks —
+so it could not have certified a repair, and the guarded ask was unattributable.
+
+The constraint chain, corrected: gen 2 / gen 6 said *score*; E12a / E14a said
+*score* and measured a 0.5488 ceiling; `passing_ask_analysis` said *candidate
+set*; E19 said *cue construction*; E20 returned it to *score*; E21a closes cue
+dilution. What remains open does not operate on retrieval of an existing row:
+reinforcement at teach time, an ordering primitive, and the coverage denominator
+itself. Records in `docs/evidence/`.
+
 #### `stage` is a default bucket, and one failure was misfiled for ten generations
 
 `stage_of` classifies a failure by regex-matching the reply's `reason`, and its

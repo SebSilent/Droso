@@ -1,0 +1,180 @@
+{
+  "targets": [
+    {
+      "ask": "how many times does the bell turn?",
+      "cue_full": [
+        "bell",
+        "does",
+        "many",
+        "times",
+        "turn"
+      ],
+      "cue_deframed": [
+        "bell",
+        "turn"
+      ],
+      "removed": [
+        "does",
+        "many",
+        "times"
+      ],
+      "taught_row": "the copper bell turns twice",
+      "rank_full": 41,
+      "rank_deframed": 10,
+      "n_full": 200,
+      "n_deframed": 200,
+      "top3_full": [
+        "peal at the bell and in a few",
+        "many times again until his face was a",
+        "you are tired"
+      ],
+      "top3_deframed": [
+        "peal at the bell and in a few",
+        "i bethought myself to ring the bell",
+        "a ring to my bell about the hour"
+      ],
+      "script": "exact-repeat",
+      "gate_coverage": 0.417,
+      "gate_nearest_top3": [
+        "done about the same time as the bell",
+        "many times again until his face was a",
+        "of many faults at different times but this"
+      ],
+      "pass": false,
+      "recovered": false,
+      "moved": true
+    },
+    {
+      "ask": "how often did i say the coat is wet?",
+      "cue_full": [
+        "coat",
+        "did",
+        "is",
+        "often",
+        "say",
+        "wet"
+      ],
+      "cue_deframed": [
+        "coat",
+        "wet"
+      ],
+      "removed": [
+        "did",
+        "is",
+        "often",
+        "say"
+      ],
+      "taught_row": "the coat is wet",
+      "rank_full": 1,
+      "rank_deframed": 1,
+      "n_full": 200,
+      "n_deframed": 200,
+      "top3_full": [
+        "the coat is wet",
+        "tails of my coat were all soaking wet",
+        "it is day"
+      ],
+      "top3_deframed": [
+        "the coat is wet",
+        "tails of my coat were all soaking wet",
+        "were all soaking wet before we had gone"
+      ],
+      "script": "sel-count-frequency",
+      "gate_coverage": 0.454,
+      "gate_nearest_top3": [
+        "tails of my coat were all soaking wet",
+        "does not often say all this to herself",
+        "do you suppose she does not often say"
+      ],
+      "pass": false,
+      "recovered": false,
+      "moved": false
+    },
+    {
+      "ask": "how often does the bell turn?",
+      "cue_full": [
+        "bell",
+        "does",
+        "often",
+        "turn"
+      ],
+      "cue_deframed": [
+        "bell",
+        "turn"
+      ],
+      "removed": [
+        "does",
+        "often"
+      ],
+      "taught_row": "the copper bell turns twice",
+      "rank_full": 33,
+      "rank_deframed": 10,
+      "n_full": 200,
+      "n_deframed": 200,
+      "top3_full": [
+        "it was not often that she could turn",
+        "does not often say all this to herself",
+        "peal at the bell and in a few"
+      ],
+      "top3_deframed": [
+        "peal at the bell and in a few",
+        "i bethought myself to ring the bell",
+        "a ring to my bell about the hour"
+      ],
+      "script": "sel-exact-repeat",
+      "gate_coverage": 0.514,
+      "gate_nearest_top3": [
+        "the copper bell turns twice",
+        "does not often say all this to herself",
+        "be sure jane one does not often see"
+      ],
+      "pass": false,
+      "recovered": false,
+      "moved": true
+    },
+    {
+      "ask": "what is bitten by the frost?",
+      "cue_full": [
+        "bitten",
+        "by",
+        "frost",
+        "is"
+      ],
+      "cue_deframed": [
+        "bitten",
+        "frost"
+      ],
+      "removed": [
+        "by",
+        "is"
+      ],
+      "taught_row": "the frost bites the latch",
+      "rank_full": 2,
+      "rank_deframed": 1,
+      "n_full": 200,
+      "n_deframed": 200,
+      "top3_full": [
+        "in spite of the slight frost it would",
+        "the frost bites the latch",
+        "slight frost it would be well that it"
+      ],
+      "top3_deframed": [
+        "the frost bites the latch",
+        "slight frost it would be well that it",
+        "in spite of the slight frost it would"
+      ],
+      "script": "sel-hop-and-inventory",
+      "gate_coverage": 0.34,
+      "gate_nearest_top3": [
+        "the frost bites the latch",
+        "in spite of the slight frost it would",
+        "slight frost it would be well that it"
+      ],
+      "pass": false,
+      "recovered": false,
+      "moved": true
+    }
+  ],
+  "guarded": null,
+  "recovered": []
+}

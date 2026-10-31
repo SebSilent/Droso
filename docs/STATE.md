@@ -24,6 +24,51 @@ carried forward. The skip count differs because the seven generation-10 tests
 in `tests/test_stage_cause.py` skip until that journal is published, and it now
 is.
 
+Suite re-run at **`04e4d4d`**: **743 passed, 3 skipped**, exit 0. The badge above
+still reads 734 and is stale by nine tests.
+
+## Retrieval-lever closure: E19, E20, E21a
+
+Three read-only probes were run against generation 19 (a control clone of
+`abffa2b7f101`, 42 asks, **23 pass — identical to generation 15**, so no
+instrumentation changed any score). Together they close every lever that operates
+on retrieval of an existing taught row.
+
+| probe | question | verdict |
+|---|---|---|
+| **E19** `e19_result.md` | is the failure eviction or retrieval? | **eviction falsified** — `taught_resident` True on 40/42 asks, **0/19 failures are eviction** |
+| **E20** `e20_result.md` | does the gate cue omit taught terms? | **no** — on 4 of 9 gate asks the gate retrieves the correct row and ranks it **first**, then refuses at coverage 0.340–0.538 |
+| **E21a** `cue_dilution_diagnosis.md` | does de-framing the cue recover the row? | **no** — recovers **0 of 4**; best case rank 41→10 against a window of 3 |
+
+**Retraction.** E19 and `passing_ask_analysis.md` reported `nearest_has_taught=0`,
+i.e. that every gate ask retrieved only book rows. That test was
+`startswith("droso:")`, but journal `nearest` entries are bare text carrying **no
+who-prefix at all** (30 entries, 0 prefixed), so it could never match. The claim
+"taught evidence does not reach retrieval" is **withdrawn**. E19's eviction
+finding is unaffected and stands.
+
+**Where the constraint actually sits.** The taught row is resident, findable, and
+on 4 of 9 gate asks ranked first by the gate itself — and the ask still fails,
+because `must` demands question syntax and passive morphology a declarative tell
+can never contain (`what is bitten by the frost?` asks the row
+`the frost bites the latch` for `bitten`, `by` and `is`). That is the coverage
+denominator E12a/E14a measured and closed at a **0.5488 ceiling**. Where the row
+is *not* retrieved, de-framing the cue shows it losing to corpus mass: under the
+fully de-framed cue `[bell, turn]` the top three are all book rows about bells,
+and the count-1 taught row sits at rank 10.
+
+The constraint chain, corrected: gen 2 / gen 6 said *score*; E12a / E14a said
+*score*; `passing_ask_analysis` said *candidate set*; E19 said *cue
+construction*; E20 returned it to *score*; **E21a closes cue dilution too**.
+
+**Instrument limitation, recorded.** The E21a probe's `binder.recall(cue, k=200)`
+does **not** reproduce the gate's internal retrieval — it disagrees with the
+gate's recorded `nearest` in both directions on 2 of 4 asks. Its ranks therefore
+cannot certify a repair, and the guarded ask was unattributable
+(`taught_row=None`), so guarded-ask safety was never measurable. No repair was
+proposed and no organ behaviour, genome or score was changed by any of the three
+probes.
+
 ## What is in the tree
 
 | path | contents |
