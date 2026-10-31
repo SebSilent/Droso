@@ -1244,6 +1244,13 @@ def cmd_run(args) -> int:
     else:
         nl.NeuralLanguage.RECALL_UNFILTERED_FALLBACK = False
         CODE_FLAGS["recall_unfiltered_fallback"] = False
+    if args.resonance_scope:
+        nl.NeuralLanguage.RESONANCE_SESSION_SCOPE = True
+        CODE_FLAGS["resonance_session_scope"] = True
+        print("E9 ON: RESONANCE_SESSION_SCOPE = True")
+    else:
+        nl.NeuralLanguage.RESONANCE_SESSION_SCOPE = False
+        CODE_FLAGS["resonance_session_scope"] = False
     tiers = tuple(args.tier.split(","))
     battery = load_battery(tiers, args.only, args.open_batch)
     pop = build_population(args, base)
@@ -1646,6 +1653,18 @@ def main() -> int:
                          "below the floor, so this converts an unmeasured silence into a "
                          "measured refusal. Default off; inert when off because the only "
                          "use site is guarded by `not hits`")
+    ap.add_argument("--resonance-scope", action="store_true",
+                    help="experiment E9: narrow the spoken-word resonance pool to this "
+                         "session's own tells instead of the whole 11,439-word taught "
+                         "vocabulary. The mouth class is a resonance defect -- the winner "
+                         "is a static corpus attractor (top score 0.5738/0.5811/0.5722/"
+                         "0.5730 across four different asks, `numbered` top-5 in 4 of 4) "
+                         "and reply_threshold 0.55 sits inside that band, so no threshold "
+                         "separates it from the answer. Scoping removes the attractor as a "
+                         "candidate rather than out-scoring it. Falls back to the full pool "
+                         "when the session set is empty or narrowing would empty it, so it "
+                         "can never silence an organism that would otherwise speak. "
+                         "Default off; inert when off")
     ap.add_argument("--dry-run", action="store_true",
                     help="build and print the population -- genome ids and mutation "
                          "values -- then stop. Costs nothing and shows the mutants "

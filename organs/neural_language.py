@@ -1850,6 +1850,62 @@ class NeuralLanguage:
         s = str(w or "")
         return len(s) >= 2 and s.isalpha() and " " not in s
 
+    def _session_words(self) -> set:
+        """Words attributable to THIS session's own tells.
+
+        The idiom is _ordinal_answer's: binder rows with `who == "you"` and
+        `when >= session_t0`, tokens lower-cased and stripped to letters and
+        apostrophes. Corpus rows (`who == "book"`) and anything heard before this
+        session began are excluded -- that is the whole point, since the corpus is
+        what out-resonates the tells.
+
+        Returns an empty set when there is no store to consult; callers must treat
+        empty as "do not scope", never as "say nothing".
+        """
+        t0 = float(getattr(self, "session_t0", 0.0) or 0.0)
+        try:
+            meta = list(self.cortex.binder.meta)
+        except Exception:                  # noqa: BLE001 - no store, no scoping
+            return set()
+        out = set()
+        for mem in meta:
+            if str(mem.get("who") or "") != "you":
+                continue
+            if float(mem.get("when", 0.0) or 0.0) < t0:
+                continue
+            toks = mem.get("tokens") or []
+            if isinstance(toks, str):
+                toks = toks.split()
+            for t in toks:
+                w = re.sub(r"[^a-z']", "", str(t).lower())
+                if w:
+                    out.add(w)
+        return out
+
+    def _resonance_mates(self, user_text: str) -> list:
+        """The words he may answer a heard utterance with.
+
+        Flag off this is line-for-line the old inline computation: every speakable
+        word in the vocabulary minus the utterance itself when it is a single word.
+
+        Flag on (RESONANCE_SESSION_SCOPE) the pool is narrowed to this session's
+        tells, with two fallbacks that both restore the full pool -- an empty session
+        set, and a narrowing that would leave nothing to say. The second matters:
+        an empty `mates` makes the mouth path return "heard; no words it could
+        answer with", which is a silence this flag is not allowed to cause.
+        """
+        exclude = ({user_text.strip().lower()}
+                   if " " not in user_text.strip() else set())
+        mates = [m for m, r in self.word_patterns.items()
+                 if self._speakable(m) and m not in exclude]
+        if not self.RESONANCE_SESSION_SCOPE:
+            return mates
+        scoped = self._session_words()
+        if not scoped:
+            return mates                   # nothing to scope by: old behaviour
+        narrowed = [m for m in mates if m in scoped]
+        return narrowed or mates           # never trade speech for silence
+
     def _teach_key(self, sentence: str) -> str:
         """The word worth teaching from this phrase: the longest content word he
         does not know yet, else the longest one he does."""
@@ -1956,6 +2012,29 @@ class NeuralLanguage:
     # is guarded by `not hits`. A class attribute, like the floor beside it, so an
     # arm of an A/B can set it without touching the module for everyone.
     RECALL_UNFILTERED_FALLBACK = False
+
+    # E9 (docs/evidence/mouth_diagnosis.md): scope the resonance candidate pool to
+    # this session's own tells.
+    #
+    # The `mouth` class is a RESONANCE defect, not a retrieval one. `mates` below is
+    # the whole taught vocabulary -- 11,439 words, essentially the book corpus -- and
+    # nothing restricts it to the session. Measured over the four gen-10 mouth asks:
+    # top resonance 0.5738 / 0.5811 / 0.5722 / 0.5730, a range of 0.009 across four
+    # different questions, with `numbered` top-5 in 4 of 4 and `sold` in 3 of 4,
+    # while the wanted words score 0.1134-0.4131 and rank 1008-11228 of 11,439. The
+    # winner is a static corpus attractor, and reply_threshold (0.55) sits INSIDE the
+    # attractor band, so no threshold separates it from the answer: the defect is the
+    # ranking, not the cut.
+    #
+    # Scoping does not out-score the attractor, it removes it as a candidate. Uses
+    # the session_t0 idiom already trusted here (_ordinal_answer, and twelve other
+    # read sites). Deliberately NOT _provenance_vote: that is Brain B, behind
+    # DROSO_SECOND_BRAIN, and out of scope.
+    #
+    # Inert when off -- _resonance_mates returns the old list unchanged. Falls back
+    # to the full pool when the session set is empty OR when narrowing would empty
+    # it, so the flag can never turn a speaking organism into a silent one.
+    RESONANCE_SESSION_SCOPE = False
 
     # The question-shape parser's word sets. Deliberately NOT stemming.STOPWORDS:
     # that set is baked into 295 stored procedure signatures and is tuned for
@@ -3942,10 +4021,7 @@ class NeuralLanguage:
                     "mood": round(self.social_drive, 3),
                     "reason": "heard; no language learned yet",
                     "thought": thought}
-        exclude = ({user_text.strip().lower()}
-                   if " " not in user_text.strip() else set())
-        mates = [m for m, r in self.word_patterns.items()
-                 if self._speakable(m) and m not in exclude]
+        mates = self._resonance_mates(user_text)
         if not mates:
             return {"spoken": False, "heard": True,
                     "mood": round(self.social_drive, 3),
