@@ -2,7 +2,7 @@
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-0a3069?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
 [![Topology: 12,867 Nodes / 173,294 Synapses](https://img.shields.io/badge/Topology-12%2C867%20Nodes%20%2F%20173%2C294%20Synapses-5b2d8e?style=flat-square&labelColor=0d1117)](#substrate)
 [![Footprint: Python 3.10 + requirements.txt](https://img.shields.io/badge/Footprint-Python%203.10%20%2B%20requirements.txt-7d4e00?style=flat-square&labelColor=0d1117)](#install-and-run)
-[![Tests: 657 passed · 3 skipped](https://img.shields.io/badge/Tests-657%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#running-the-suite)
+[![Tests: 668 passed · 3 skipped](https://img.shields.io/badge/Tests-668%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#running-the-suite)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#the-held-out-script-harness)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#the-guard-scripts)
 
@@ -288,6 +288,24 @@ still verifies against its own record. Pre-registered in
 `docs/evidence/stage_cause_preregistration.md`; the corrected classification in
 `docs/evidence/harness_coverage_diagnosis.md` §8.
 
+The corrected census then ranked the nine downstream failures and proposed **E8**
+(`POLAR_ABSENCE_MEANS_NO`) against the three `gating` ones — the only class where a
+single repair moves the frozen score. **E8 was aborted at its own pre-registered
+condition and never implemented** (`docs/evidence/e8_preregistration.md`). The licence it
+required — an inventory the organism actually holds — does not exist: the organ has no
+relation store, and all three asks are refused by the **mood** gate at
+`organs/neural_language.py:3956-3977` before any answer forms, which the journal shows as
+`coverage: null` and `source: null`. So there is no suppressed negative to unlock; saying
+`no` would fabricate one. The organ already forbids this at `:3052-3054` — *"It never says
+`no`: defect B stays closed until a mechanism can express absence without asserting a
+false negative."* Scores are unchanged by construction and no battery was run, because
+with no code change both arms would reproduce generation 9/10 ask for ask. E8' is recorded
+as future work with the design that *would* satisfy the condition: a session-scoped
+closed-world inventory over `who == "you"` rows, answering `no` only when that inventory
+is non-empty and contains the queried verb. `tests/test_e8_abort.py` pins the absence, so
+a future pass cannot add the flag and mistake a confabulated `no` for the +1 frozen it
+would appear to score.
+
 The table prints `warm`, `cold` and `delta` per script and overall. Warm is with
 the session's own context, cold is after a restart from saved state; a delta of
 `+0.00` means the restart changed nothing. `override` also prints its winner.
@@ -331,7 +349,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 657 passed, 3 skipped (660 collected, at `de340ef` + generation 10) |
+| Test suite | 668 passed, 3 skipped (671 collected, at `0abd505` + the E8 abort) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

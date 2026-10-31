@@ -1,6 +1,6 @@
 # Repository state
 
-[![Tests: 657 passed · 3 skipped](https://img.shields.io/badge/Tests-657%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Tests: 668 passed · 3 skipped](https://img.shields.io/badge/Tests-668%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
@@ -12,8 +12,8 @@ No recommendations.
 
 <a id="last-recorded-numbers"></a>
 
-Suite last run on the tree committed as **`de340ef` plus the generation-10
-changes**: **657 passed, 3 skipped** (660 collected), exit 0. The held-out and
+Suite last run on the tree committed as **`0abd505` plus the E8 abort**:
+**668 passed, 3 skipped** (671 collected), exit 0. The held-out and
 guard numbers in the tables below were measured at **`f2e1748`** and have not
 been re-run since; the entries added after them (generations 7–10, E7, the
 `cause` field) carry their own numbers and journals.
@@ -512,6 +512,59 @@ The corrected census is in `docs/evidence/downstream_repair_proposal.md`, which 
 remaining classes by frozen passes recoverable per distinct defect and proposes E8
 (`POLAR_ABSENCE_MEANS_NO`) against the three `gating` failures — one proposition in three
 framings, and the only class where a single repair moves the frozen score.
+
+## E8 — `POLAR_ABSENCE_MEANS_NO`, aborted at its own pre-registered condition
+
+Pre-registered in `docs/evidence/e8_preregistration.md`. **The flag was never implemented
+and no battery was run.** Scores are unchanged by construction: frozen **19/24**,
+paraphrase probes **0/14**, guarded **4/4**, zero erosion, no state written.
+
+The proposal was coherent — `hop-and-inventory` really does teach a closed two-relation
+inventory (`bites(frost,latch)`, `holds(latch,door)`) and `holds(door,frost)` really is
+absent from it, so `no` is the correct answer. It assumed an inventory exists to close a
+world over. Four measurements say otherwise:
+
+| check | result |
+|---|---|
+| (a) an inventory mechanism in the organ | **none** — zero hits for `inventory` or any relation store (`relations`/`triples`/`facts`/`roles`/`propositions`/`edges`). `hop-and-inventory` is a corpus label, not code |
+| (b) do the three asks reach retrieval | **no** — all three journal rows carry `coverage: null` and `source: null`; the refusal is the **mood** gate at `organs/neural_language.py:3956-3977` (`understands` True, `wants_to` False), which fires before any answer path |
+| (c) what the only memory can licence | **null retrieval** — the binder is 60,000 rows at capacity, 99.19% unrelated `book` prose, blind FIFO eviction; emptiness there carries no information about the taught inventory |
+| (d) the organ's own standing policy | **prohibits it** — `_ordinal_answer`'s docstring at `:3052-3054`: "It never says `no`: defect B stays closed until a mechanism can express absence without asserting a false negative." Defect B is this defect |
+
+(b) is the decisive one and it inverts the proposal: there is no suppressed negative to
+unlock. Emitting `no` would not release an answer he already reached — it would replace a
+mood silence with a fabricated proposition, which is exactly the confabulation the abort
+condition was written to prevent, arrived at from the opposite direction.
+
+The condition was quoted verbatim in the proposal: *"If the implementation cannot
+distinguish a held inventory from a null retrieval, the experiment is abandoned rather
+than shipped."* It cannot, so it is abandoned. The two-arm battery was deliberately not
+run: with no code change, both arms would reproduce generation 9/10 ask for ask, and
+~36 minutes and ~84 builds to re-measure a known-identical result is not a measurement.
+
+This is the second consecutive proposal to fail its own pre-registration (E7's P2
+falsified, E8 aborted), and both were caught by the pre-registration rather than by the
+score — which is the intended function of the practice.
+
+**E8' is recorded as future work, not shipped.** A sound negative needs a session-scoped
+closed-world relation inventory, and the scoping primitive already exists:
+`_ordinal_answer` restricts itself to this session's `who == "you"` rows via `session_t0`
+(`:3070-3080`). E8' would answer `no` only when the session inventory is non-empty,
+contains at least one relation with the queried verb, and lacks `(A,V,B)` in both
+directions — otherwise silence. That non-empty-plus-verb clause *is* the distinction E8
+could not make. Two standing constraints keep it out of scope: it must override the mood
+gate (a change to the reply-decision path, not an additive answer path like R1/R1'/R2 or
+E7), and it needs passive normalisation, where R2's `SHAPE_ALLOW_PASSIVE` was measured
+**inert** in E5 and cannot be assumed to work.
+
+Pinned by `tests/test_e8_abort.py` (11 tests), which assert an **absence**: no
+`POLAR_ABSENCE_MEANS_NO` attribute, no occurrence of the string in the organ source, the
+prohibition still in `_ordinal_answer`'s docstring with no `no` in its body, and the three
+polar asks still `spoken: false` with `coverage: null` and `source: null` in generations 9
+and 10. Without those tests the next pass could add the flag, see frozen move 19/24 →
+20/24, and read that as a repair rather than as a confabulation — a wrong `no` scores the
+same as silence on this battery and asserts something false, so only the tests and the
+pre-registration tell them apart.
 
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
