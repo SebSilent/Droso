@@ -1,0 +1,1004 @@
+{
+  "candidates": [],
+  "failing": {
+    "cause_all": {
+      "comprehension": 1,
+      "gating": 3,
+      "mouth": 4,
+      "recall_gate": 9,
+      "shape_arbiter": 2
+    },
+    "coverage_absent": 10,
+    "coverage_max": 0.555,
+    "coverage_mean": 0.463667,
+    "coverage_min": 0.34,
+    "coverage_n": 9,
+    "coverage_present": 9,
+    "label": "failing",
+    "n": 19,
+    "nearest_all_book": 9,
+    "nearest_has_taught": 0,
+    "stage_all": {
+      "gating": 3,
+      "mouth": 4,
+      "recall": 10,
+      "shape_arbiter": 2
+    },
+    "with_nearest": 9,
+    "with_required": 9
+  },
+  "journal": "state\\selection\\generation_15_asks.jsonl",
+  "passing": {
+    "cause_all": {
+      "other": 17,
+      "recall_gate": 1,
+      "shape_arbiter": 5
+    },
+    "coverage_absent": 22,
+    "coverage_max": 0.57,
+    "coverage_mean": 0.57,
+    "coverage_min": 0.57,
+    "coverage_n": 1,
+    "coverage_present": 1,
+    "label": "passing",
+    "n": 23,
+    "nearest_all_book": 1,
+    "nearest_has_taught": 0,
+    "stage_all": {
+      "other": 17,
+      "recall": 1,
+      "shape_arbiter": 5
+    },
+    "with_nearest": 1,
+    "with_required": 1
+  },
+  "per_ask": [
+    {
+      "ask": "how many times did i tell you the coat is wet?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "three"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "how many things did i tell you about the coat?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "two"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "how many times did i tell you about the scarf?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "zero"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "did i ever tell you about the moon?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "no"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "which did i tell you first the lantern or the kettle?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "lantern"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "which did i tell you last the kettle or the gate?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "gate"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "what did i tell you about before the kettle?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.555,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "did you not tell me about it sooner",
+        "i wanted to tell you about the picnic",
+        "i ll tell you all about it some"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "about",
+        "before",
+        "did",
+        "kettle",
+        "tell",
+        "you"
+      ],
+      "required_answerable": [
+        "before",
+        "kettle"
+      ],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['lantern']"
+    },
+    {
+      "ask": "how many objects did i tell you about?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "three"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "what is both wet and on the hook?",
+      "cause": null,
+      "cause_all": "shape_arbiter",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "coat",
+        "on",
+        "hook"
+      ],
+      "stage": null,
+      "stage_all": "shape_arbiter",
+      "why": "ok"
+    },
+    {
+      "ask": "what is wet but not on the hook?",
+      "cause": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "coat",
+        "on",
+        "hook"
+      ],
+      "stage": "shape_arbiter",
+      "stage_all": "shape_arbiter",
+      "why": "forbidden word said: coat"
+    },
+    {
+      "ask": "where did i say the scarf is?",
+      "cause": null,
+      "cause_all": "recall_gate",
+      "coverage": 0.57,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "the scarf is wet",
+        "toward pierre and began knitting a striped scarf",
+        "did he say when the battles are to"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [
+        "did",
+        "is",
+        "say",
+        "scarf"
+      ],
+      "required_answerable": [
+        "scarf"
+      ],
+      "said": [],
+      "stage": null,
+      "stage_all": "recall",
+      "why": "refused, as the invariant requires"
+    },
+    {
+      "ask": "is the coat dry or wet?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "wet"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "say exactly the copper bell turns twice",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "copper",
+        "bell",
+        "turns",
+        "twice"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "which word did i use for the metal?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "copper"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "how many times does the bell turn?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.417,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "done about the same time as the bell",
+        "many times again until his face was a",
+        "of many faults at different times but this"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "bell",
+        "does",
+        "many",
+        "times",
+        "turn"
+      ],
+      "required_answerable": [
+        "bell",
+        "many",
+        "turn"
+      ],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['twice', 'two']"
+    },
+    {
+      "ask": "what turns twice?",
+      "cause": null,
+      "cause_all": "shape_arbiter",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "bell"
+      ],
+      "stage": null,
+      "stage_all": "shape_arbiter",
+      "why": "ok"
+    },
+    {
+      "ask": "what does the frost bite?",
+      "cause": null,
+      "cause_all": "shape_arbiter",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "latch"
+      ],
+      "stage": null,
+      "stage_all": "shape_arbiter",
+      "why": "ok"
+    },
+    {
+      "ask": "what does the thing the frost bites hold?",
+      "cause": "shape_arbiter",
+      "cause_all": "shape_arbiter",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [],
+      "stage": "shape_arbiter",
+      "stage_all": "shape_arbiter",
+      "why": "answer slot empty: wanted ['door']"
+    },
+    {
+      "ask": "what bites the latch?",
+      "cause": null,
+      "cause_all": "shape_arbiter",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "frost"
+      ],
+      "stage": null,
+      "stage_all": "shape_arbiter",
+      "why": "ok"
+    },
+    {
+      "ask": "does the door hold the frost?",
+      "cause": "gating",
+      "cause_all": "gating",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [],
+      "stage": "gating",
+      "stage_all": "gating",
+      "why": "answer slot empty: wanted ['no']"
+    },
+    {
+      "ask": "how many eggs did i mention first?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "four"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "how many eggs broke?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "two"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "did any egg break?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "yes"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "how many eggs are left in the basket?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "two"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "how often did i say the coat is wet?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.454,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "tails of my coat were all soaking wet",
+        "does not often say all this to herself",
+        "do you suppose she does not often say"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "coat",
+        "did",
+        "is",
+        "often",
+        "say",
+        "wet"
+      ],
+      "required_answerable": [
+        "coat",
+        "often",
+        "wet"
+      ],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['three']"
+    },
+    {
+      "ask": "have i mentioned the moon to you?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "no"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "which thing did i mention earlier than the kettle?",
+      "cause": "mouth",
+      "cause_all": "mouth",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "bridle",
+        "adding",
+        "establish",
+        "gargery"
+      ],
+      "stage": "mouth",
+      "stage_all": "mouth",
+      "why": "answer slot empty: wanted ['lantern']"
+    },
+    {
+      "ask": "what came before the kettle in what i said?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.46,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "when the water in the kettle was boiling",
+        "in gracechurch street the evening before i came",
+        "came to him and said believe in me"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "before",
+        "came",
+        "in",
+        "kettle",
+        "said"
+      ],
+      "required_answerable": [
+        "before",
+        "kettle"
+      ],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['lantern']"
+    },
+    {
+      "ask": "of the lantern and the kettle which one came first?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "lantern"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "which of them is wet and is not on the hook?",
+      "cause": "mouth",
+      "cause_all": "mouth",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "numbered"
+      ],
+      "stage": "mouth",
+      "stage_all": "mouth",
+      "why": "answer slot empty: wanted ['scarf']"
+    },
+    {
+      "ask": "name the wet thing that is not on the hook",
+      "cause": "mouth",
+      "cause_all": "mouth",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "agin"
+      ],
+      "stage": "mouth",
+      "stage_all": "mouth",
+      "why": "answer slot empty: wanted ['scarf']"
+    },
+    {
+      "ask": "is the coat wet or is it dry?",
+      "cause": null,
+      "cause_all": "other",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "wet"
+      ],
+      "stage": null,
+      "stage_all": "other",
+      "why": "ok"
+    },
+    {
+      "ask": "how often does the bell turn?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.514,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "the copper bell turns twice",
+        "does not often say all this to herself",
+        "be sure jane one does not often see"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "bell",
+        "does",
+        "often",
+        "turn"
+      ],
+      "required_answerable": [
+        "bell",
+        "often",
+        "turn"
+      ],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['twice', 'two']"
+    },
+    {
+      "ask": "the bell turns how often?",
+      "cause": null,
+      "cause_all": "shape_arbiter",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": true,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "copper",
+        "bell",
+        "turns",
+        "twice"
+      ],
+      "stage": null,
+      "stage_all": "shape_arbiter",
+      "why": "ok"
+    },
+    {
+      "ask": "repeat after me the copper bell turns twice",
+      "cause": "mouth",
+      "cause_all": "mouth",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [
+        "sold"
+      ],
+      "stage": "mouth",
+      "stage_all": "mouth",
+      "why": "missing: ['copper', 'bell', 'turns', 'twice']"
+    },
+    {
+      "ask": "which thing turns twice?",
+      "cause": "comprehension",
+      "cause_all": "comprehension",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['bell']"
+    },
+    {
+      "ask": "what is held by the thing the frost bites?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.51,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "the frost bites the latch",
+        "poison is by no means a new thing",
+        "he was being held by the arms and"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "bites",
+        "by",
+        "frost",
+        "held",
+        "is",
+        "thing"
+      ],
+      "required_answerable": [],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['door']"
+    },
+    {
+      "ask": "what does the bitten thing hold?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.385,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "the next thing i laid hold of was",
+        "my emma does not every thing serve to",
+        "churchill does every thing that any other fine"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "bitten",
+        "does",
+        "hold",
+        "thing"
+      ],
+      "required_answerable": [],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['door']"
+    },
+    {
+      "ask": "is the frost held by the door?",
+      "cause": "gating",
+      "cause_all": "gating",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [],
+      "stage": "gating",
+      "stage_all": "gating",
+      "why": "answer slot empty: wanted ['no']"
+    },
+    {
+      "ask": "is it true that the door holds the frost?",
+      "cause": "gating",
+      "cause_all": "gating",
+      "coverage": null,
+      "coverage_present": false,
+      "expect": {},
+      "nearest": [],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [],
+      "required_answerable": [],
+      "said": [],
+      "stage": "gating",
+      "stage_all": "gating",
+      "why": "answer slot empty: wanted ['no']"
+    },
+    {
+      "ask": "what is bitten by the frost?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.34,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "the frost bites the latch",
+        "in spite of the slight frost it would",
+        "slight frost it would be well that it"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "bitten",
+        "by",
+        "frost",
+        "is"
+      ],
+      "required_answerable": [],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['latch']"
+    },
+    {
+      "ask": "what number of eggs is left in the basket?",
+      "cause": "recall_gate",
+      "cause_all": "recall_gate",
+      "coverage": 0.538,
+      "coverage_present": true,
+      "expect": {},
+      "nearest": [
+        "there are four eggs in the basket",
+        "as he leaned back in a basket chair",
+        "in which a number of frogs were sitting"
+      ],
+      "nearest_book": [],
+      "nearest_taught": [],
+      "pass": false,
+      "required": [
+        "basket",
+        "eggs",
+        "in",
+        "is",
+        "left",
+        "number",
+        "of"
+      ],
+      "required_answerable": [
+        "eggs"
+      ],
+      "said": [],
+      "stage": "recall",
+      "stage_all": "recall",
+      "why": "answer slot empty: wanted ['two']"
+    }
+  ],
+  "total": 42
+}
