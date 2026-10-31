@@ -585,6 +585,61 @@ pre-registration tell them apart.
 | `docs/evidence/e15_entailment_probe.py` | E15: zero builds, entailment over provenanced rows |
 | `docs/evidence/e15_result.md` | E15 ABORTED — C1, C2, C4 all fired |
 | `docs/evidence/architecture_decision_review.md` | the seven closed lines; recommends E16a |
+| `docs/evidence/e16a_relation_index.py` | E16a: zero builds, offline (s,r,o) extraction |
+| `docs/evidence/e16a_result.md` | E16a ABORTED at D2 — guard structural, fillers wrong |
+| `docs/evidence/counting_primitive_design.md` | events not state; regression avoided by placement |
+
+### E15 — provenanced entailment, ABORTED at C1/C2/C4 (`46d8a56`)
+
+Zero builds. The design claimed the guarded scarf ask would refuse *structurally*, because the
+query is locative and the scarf's provenanced evidence is a property. **That reasoning was
+wrong**: the script also tells `the coat is on the hook`, a locative row about a **different
+subject**, so the ask was licensed — with filler `'the'`. G2 then licensed **five**
+currently-passing asks, **four confidently wrong**: `what bites the latch?` → `latch`,
+`how many eggs broke?` → `four` from a row saying eggs are *in the basket*.
+
+**Provenance separates *what he was told* from *what resembles the question*. It does not
+separate *which told fact answers this question*.** That needs a subject-specific signal — the
+axis E11a also lacked. Seven accounts of the `mouth`/`recall` boundary are now closed, and the
+pattern is consistent: **every mechanism that makes the agent answer more often also makes it
+answer wrongly.** The guarded invariant is not an obstacle to the repair; it is the repair
+working, and it has correctly rejected six proposed answer-licensing changes.
+
+### E16a — write-time relation index, ABORTED at D2 (`127337c`)
+
+Zero builds, `scripts_heldout.json` only. **D1 clear — the positive result:** a subject-keyed
+index refuses the scarf ask for the right reason (*"subject 'scarf' is indexed but has NO
+locative relation — only a property"*). The coat's row **cannot** license it. This is what E15
+could not do, and it confirms subject binding is the missing axis.
+
+**D2 fires — three wrong fillers**, from two defects that are missing representational
+commitments, not tuning: **multi-word subjects** (`copper bell` where `bell` is expected and
+`copper` is forbidden — no head/modifier distinction, the same gap E11a's `head` field was added
+for) and **quantity change over time** (answers `four` where `two` is expected and `four` is
+forbidden; a static index cannot represent a quantity that changes, and `quantity-change` is a
+class the baseline passes **4/4**, so the index would *regress* it).
+
+**Test 4 also failed**: a conservative suffix normaliser maps `bites → bit`, not `bite`.
+Write-time morphology is not derivable without a lexicon. D3 fired on a probe-coverage
+limitation — only 2 of the 9 recall-gate asks are in the frozen file. D4/D5/D6 clear.
+
+**Right shape of primitive, wrong first primitive.** The relational index is recorded as
+**validated and deferred**; the quantity asks need a counting mechanism with update semantics.
+
+### Counting-primitive design (`2ecc2dd`)
+
+`docs/evidence/counting_primitive_design.md`. Three load-bearing decisions. **Regression avoided
+by PLACEMENT, not by testing**: the primitive is consulted only inside the existing
+`best_cov < floor` refusal branch, so the `quantity-change` asks — which pass at the coverage
+gate — never reach it and cannot regress by construction. This is the one arrangement seven
+experiments have not falsified: E12a failed by changing the ratio *inside* the gate, E15 by
+licensing broadly enough to reach passing asks. **Store events, derive state**: `there are four
+eggs` is *absolute* (a later one replaces), `two eggs broke` is an *event*; folding is ordered by
+tell sequence, which is the update-not-add semantics E16a lacked. **Polarity is never guessed**:
+a verb lexicon would trip D4 and E10's Finding 1, so event-count queries are answered (`how many
+eggs broke?` → 2, stated in the tell) and state queries **refuse**. E17a is specified with seven
+checks (H1–H7) and seven abort conditions (E1–E7); **E4 is the real risk** — that the
+event-count asks are also already answered, making the primitive safe and worthless as E14a was.
 | `docs/evidence/` | raw run output cited by the docs |
 
 ## E9 — `RESONANCE_SESSION_SCOPE`, refuted and aborted (`ce04020`)
