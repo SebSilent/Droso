@@ -1,6 +1,6 @@
 # Repository state
 
-[![Tests: 668 passed · 3 skipped](https://img.shields.io/badge/Tests-668%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Tests: 734 passed · 3 skipped](https://img.shields.io/badge/Tests-734%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
@@ -13,7 +13,7 @@ No recommendations.
 <a id="last-recorded-numbers"></a>
 
 Suite last run on the tree committed as **`0abd505` plus the E8 abort**:
-**668 passed, 3 skipped** (671 collected), exit 0. The held-out and
+**734 passed, 3 skipped**, exit 0 (at `cb59a2d` + the E9/E10 records). The held-out and
 guard numbers in the tables below were measured at **`f2e1748`** and have not
 been re-run since; the entries added after them (generations 7–10, E7, the
 `cause` field) carry their own numbers and journals.
@@ -568,4 +568,92 @@ pre-registration tell them apart.
 
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
+| `docs/evidence/e9_result.md` | E9: session-scoped resonance, refuted |
+| `docs/evidence/e10_preregistration.md` | E10 pre-registration, written before the gene |
+| `docs/evidence/e10_result.md` | E10: content-scoped resonance, refuted |
+| `docs/evidence/comprehension_signal_design.md` | what E9/E10 leave as the real blocker |
 | `docs/evidence/` | raw run output cited by the docs |
+
+## E9 — `RESONANCE_SESSION_SCOPE`, refuted and aborted (`ce04020`)
+
+The `mouth` class was diagnosed as **resonance**, not a mouth defect: in all four cases the
+wanted word was present in the candidate pool but lost by ~3.8× to static corpus attractors
+(`numbered`, `sold`) that the session never mentioned. Top resonance scores ran ~0.009 while
+`reply_threshold = 0.55` sits **inside the attractor band** (0.550–0.581).
+
+E9 restricted the resonance candidate pool to words the session actually contains. P2 and P3
+passed — scoping did exclude the corpus attractor — but **P4 failed**: the wanted word still
+lost, because the session's own function word `the` became a second attractor. All four
+`mouth` and three `gating` failures turned into silent refusals. Arm A (gen 11) and arm B
+(gen 12) both scored **19/24 frozen, 0/14 probes, 4/4 guarded**.
+
+The organ's existing content/function distinction is `df * 4 <= n_mem`
+(`organs/neural_language.py:3380`). E9's abort clause forbade widening *that* experiment and
+said why: a function-word filter "is not obviously wrong, which is exactly why it needs its
+own pre-registration with its own predictions rather than being folded into a repair that has
+already been refuted."
+
+## E10 — `RESONANCE_CONTENT_SCOPE`, refuted and aborted (`cb59a2d`)
+
+E10 was that separate pre-registration. It applied the organ's own recall-gate predicate
+(`df > 0 and df * 4 <= n_mem`) as a content-word filter on top of session scope — **not** a
+stopword list, and deliberately not `SHAPE_FUNCTION_WORDS`, the hand-written 86-word set
+declared a few lines below the new gene.
+
+Arm A (gen 13, both flags off) and arm B (gen 14, `--resonance-scope --resonance-content`)
+both scored **19/24 frozen, 0/14 probes, 4/4 guarded, clean, exit 0**. Zero asks gained,
+zero lost. Arm B is **indistinguishable from E9's arm B** at every level the battery
+measures — same scores, same stages `{recall: 17, shape_arbiter: 2}`, same seven silences.
+
+| prediction | result |
+|---|---|
+| P1 flag-off identity | **PASS** — 0 field differences vs gen 11 |
+| P2 content filter engages | **MIXED 1/4** — `the` removed on all four; `is`/`on` survive on three |
+| P3 both attractor classes gone | **MIXED 1/4** — corpus absent 4/4, function words 1/4 |
+| P4 wanted word wins | **MIXED 2/4** — `bell` rank 1, `lantern` rank 1, **`scarf` rank 5/6** → abort cond. 1 |
+| P5 zero erosion | **PASS** — no pass lost; five `banc_brain.npz` byte-identical to seal `546adb1bb8e433c3` |
+| P6 no new babble | **PASS** — none gained, four went silent |
+| P7 score rises | **FAIL** — 0/14 → 0/14; winner clears 0.55 on **0 of 4** → abort cond. 4 |
+
+Displacement census **unchanged at 60,000 rows** (book 59,515 / droso 466 / parent 19 / you
+0), identical to pre-E9 — a selection battery teaches nothing.
+
+A 4-build pre-flight (`docs/evidence/e10_scope_probe.py`, ~2 min) confirmed
+`predicted_silent: 4/4` and `P7: NONE (0/4)` **before** the 84-build battery was committed.
+
+### Finding 1 — the distributional rule is not a function-word rule
+
+The rule removes `the` (df ≈ 59,000 of 60,000) and keeps `scarf` (df 14), but it **keeps
+`is` and `on`**, because in this binder they occur in fewer than a quarter of rows. The
+binder is **99.19% `book`**, where `the` is near-ubiquitous and `is`/`on` merely common. So
+"distinctive in my memory" and "content word in English" come apart — in exactly the
+direction that matters: the residue beating `scarf` (`is` 0.2459, `on` 0.2043) *is* the
+function words the rule was meant to catch. Document frequency here measures **corpus style,
+not lexical class**. Neither a distributional rule nor a hand list is available until the
+binder holds something other than one book.
+
+### Finding 2 — once the organ is silent, filtering cannot help
+
+E9 already drove the winner below 0.55; removing *more* candidates from a pool whose argmax
+cannot clear the bar leaves the verdict unchanged. **The ranking repair is downstream of the
+real blocker.**
+
+### Finding 3 — `reply_threshold` is the binding constraint, confirmed twice
+
+E10 measures the ceiling for honest content words: **`lantern` 0.4129, `bell` 0.1221,
+`scarf` 0.1526**. Nothing a session actually taught reaches 0.55. On this path
+**comprehension and attractor are the same event** — the only words that can make the
+organism report understanding are high-frequency corpus words unrelated to the question.
+Lowering the bar is correctly forbidden: it would make `lantern` speak and would equally
+make any moderately resonant corpus word speak where it is wrong.
+
+### Disposition
+
+Both genes stay in the organ, default `False`, inert, with results recorded beside them —
+joining `RECALL_UNFILTERED_FALLBACK` (E7) and the three E5 shape genes. **Four measured
+negatives, all kept**: deleting a refuted gene invites a retry. All forbidden-on-abort
+clauses were respected. Pinned by `tests/test_mouth_resonance_scope.py` (79 tests).
+
+The blocker is now localised to a single scalar whose value encodes "a corpus attractor is
+present" rather than "the question was understood". Repairing it needs a comprehension
+signal that is not `max(resonance)` — see `docs/evidence/comprehension_signal_design.md`.

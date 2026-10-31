@@ -2,7 +2,7 @@
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-0a3069?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
 [![Topology: 12,867 Nodes / 173,294 Synapses](https://img.shields.io/badge/Topology-12%2C867%20Nodes%20%2F%20173%2C294%20Synapses-5b2d8e?style=flat-square&labelColor=0d1117)](#substrate)
 [![Footprint: Python 3.10 + requirements.txt](https://img.shields.io/badge/Footprint-Python%203.10%20%2B%20requirements.txt-7d4e00?style=flat-square&labelColor=0d1117)](#install-and-run)
-[![Tests: 668 passed · 3 skipped](https://img.shields.io/badge/Tests-668%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#running-the-suite)
+[![Tests: 734 passed · 3 skipped](https://img.shields.io/badge/Tests-734%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#running-the-suite)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#the-held-out-script-harness)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#the-guard-scripts)
 
@@ -310,6 +310,41 @@ The table prints `warm`, `cold` and `delta` per script and overall. Warm is with
 the session's own context, cold is after a restart from saved state; a delta of
 `+0.00` means the restart changed nothing. `override` also prints its winner.
 
+### Four measured negatives, kept inert in the organ
+
+Four flag-gated repairs have been run and refuted. Each gene stays in the organ, default
+`False`, with its result recorded beside it — deleting a refuted gene invites a retry.
+
+| gene | experiment | what it tried | why it failed |
+|---|---|---|---|
+| three shape genes | E5 | widen the interrogative parser | **completely inert**; the shape parser is not the binding constraint |
+| `RECALL_UNFILTERED_FALLBACK` | E7 | answer from unfiltered recall | never fires — no ask reaches the `if not hits` branch |
+| `RESONANCE_SESSION_SCOPE` | E9 | restrict resonance to session words | wanted word still lost to the session's own `the` |
+| `RESONANCE_CONTENT_SCOPE` | E10 | also drop function words | winner then sits below `reply_threshold` |
+
+E9 and E10 attacked the `mouth` failure class, diagnosed as **resonance**: the wanted word
+was in the candidate pool in all four cases but lost by ~3.8× to static corpus attractors
+(`numbered`, `sold`) the session never mentioned. Scoping removed those attractors — and the
+organism went silent instead of answering, because `reply_threshold = 0.55` sits **inside the
+attractor band** (0.550–0.581).
+
+E10 measured the ceiling for honest content words: `lantern` 0.4129, `bell` 0.1221, `scarf`
+0.1526. Nothing a session actually taught reaches 0.55. On this path **comprehension and
+attractor are the same event** — the only words that make the organism report understanding
+are high-frequency corpus words unrelated to the question. Arm B scored 19/24 frozen, 0/14
+probes, 4/4 guarded, **indistinguishable from E9's arm B**: once the organ is silent,
+filtering the pool further cannot help.
+
+E10 also refuted its own method. It used the organ's distributional rule (`df * 4 <= n_mem`)
+rather than a stopword list, and that rule **keeps `is` and `on`** — the binder is 99.19%
+`book` rows, where `the` is ubiquitous and `is`/`on` merely common. Document frequency here
+measures corpus style, not lexical class.
+
+Full write-ups: `docs/evidence/e9_result.md`, `docs/evidence/e10_result.md`. The blocker they
+leave behind is a single scalar encoding "a corpus attractor is present" rather than "the
+question was understood"; `docs/evidence/comprehension_signal_design.md` proposes what could
+replace it.
+
 ### Talking to him directly
 
 `tools/converse.py` holds Droso in process with the house down: the real state is
@@ -349,7 +384,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 668 passed, 3 skipped (671 collected, at `0abd505` + the E8 abort) |
+| Test suite | 734 passed, 3 skipped (at `cb59a2d` + the E9/E10 records) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 
