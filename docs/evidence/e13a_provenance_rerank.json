@@ -1,0 +1,462 @@
+{
+ "floor": 0.6,
+ "n": 10,
+ "promoted": 0,
+ "recall_gate_crossing": 0,
+ "recall_gate_n": 9,
+ "scarf_flips": false,
+ "verdict": "NEGATIVE -- provenance re-ranking gains nothing: best_cov is already the MAXIMUM over hits, so re-ranking can only lower it. No E13b.",
+ "records": [
+  {
+   "ask": "what did i tell you about before the kettle?",
+   "script": "order-first-last",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "frozen",
+   "recorded_coverage": 0.555,
+   "must": [
+    "about",
+    "before",
+    "did",
+    "kettle",
+    "tell",
+    "you"
+   ],
+   "n_cands": 3,
+   "n_taught": 0,
+   "top_by_cov": "did you not tell me about it sooner",
+   "top_by_cov_taught": false,
+   "cov_by_cov": 0.547031,
+   "top_by_prov": "did you not tell me about it sooner",
+   "top_by_prov_taught": false,
+   "cov_by_prov": 0.547031,
+   "cands": [
+    {
+     "row": "did you not tell me about it sooner",
+     "taught": false,
+     "cov": 0.547031
+    },
+    {
+     "row": "i wanted to tell you about the picnic",
+     "taught": false,
+     "cov": 0.408829
+    },
+    {
+     "row": "i ll tell you all about it some",
+     "taught": false,
+     "cov": 0.408829
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "where did i say the scarf is?",
+   "script": "conjunction-and-absence",
+   "stage": null,
+   "cause": null,
+   "pass": true,
+   "tier": "frozen",
+   "recorded_coverage": 0.57,
+   "must": [
+    "did",
+    "is",
+    "say",
+    "scarf"
+   ],
+   "n_cands": 3,
+   "n_taught": 1,
+   "top_by_cov": "the scarf is wet",
+   "top_by_cov_taught": true,
+   "cov_by_cov": 0.579691,
+   "top_by_prov": "the scarf is wet",
+   "top_by_prov_taught": true,
+   "cov_by_prov": 0.579691,
+   "cands": [
+    {
+     "row": "the scarf is wet",
+     "taught": true,
+     "cov": 0.579691
+    },
+    {
+     "row": "toward pierre and began knitting a striped scarf",
+     "taught": false,
+     "cov": 0.452435
+    },
+    {
+     "row": "did he say when the battles are to",
+     "taught": false,
+     "cov": 0.420309
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "how many times does the bell turn?",
+   "script": "exact-repeat",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "frozen",
+   "recorded_coverage": 0.417,
+   "must": [
+    "bell",
+    "does",
+    "many",
+    "times",
+    "turn"
+   ],
+   "n_cands": 3,
+   "n_taught": 0,
+   "top_by_cov": "done about the same time as the bell",
+   "top_by_cov_taught": false,
+   "cov_by_cov": 0.444239,
+   "top_by_prov": "done about the same time as the bell",
+   "top_by_prov_taught": false,
+   "cov_by_prov": 0.444239,
+   "cands": [
+    {
+     "row": "done about the same time as the bell",
+     "taught": false,
+     "cov": 0.444239
+    },
+    {
+     "row": "many times again until his face was a",
+     "taught": false,
+     "cov": 0.37818
+    },
+    {
+     "row": "of many faults at different times but this",
+     "taught": false,
+     "cov": 0.37818
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "how often did i say the coat is wet?",
+   "script": "sel-count-frequency",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.454,
+   "must": [
+    "coat",
+    "did",
+    "is",
+    "often",
+    "say",
+    "wet"
+   ],
+   "n_cands": 3,
+   "n_taught": 0,
+   "top_by_cov": "tails of my coat were all soaking wet",
+   "top_by_cov_taught": false,
+   "cov_by_cov": 0.456943,
+   "top_by_prov": "tails of my coat were all soaking wet",
+   "top_by_prov_taught": false,
+   "cov_by_prov": 0.456943,
+   "cands": [
+    {
+     "row": "tails of my coat were all soaking wet",
+     "taught": false,
+     "cov": 0.456943
+    },
+    {
+     "row": "does not often say all this to herself",
+     "taught": false,
+     "cov": 0.329081
+    },
+    {
+     "row": "do you suppose she does not often say",
+     "taught": false,
+     "cov": 0.329081
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "what came before the kettle in what i said?",
+   "script": "sel-order-first-last",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.46,
+   "must": [
+    "before",
+    "came",
+    "in",
+    "kettle",
+    "said"
+   ],
+   "n_cands": 3,
+   "n_taught": 0,
+   "top_by_cov": "when the water in the kettle was boiling",
+   "top_by_cov_taught": false,
+   "cov_by_cov": 0.475304,
+   "top_by_prov": "when the water in the kettle was boiling",
+   "top_by_prov_taught": false,
+   "cov_by_prov": 0.475304,
+   "cands": [
+    {
+     "row": "when the water in the kettle was boiling",
+     "taught": false,
+     "cov": 0.475304
+    },
+    {
+     "row": "in gracechurch street the evening before i came",
+     "taught": false,
+     "cov": 0.447332
+    },
+    {
+     "row": "came to him and said believe in me",
+     "taught": false,
+     "cov": 0.43764
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "how often does the bell turn?",
+   "script": "sel-exact-repeat",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.514,
+   "must": [
+    "bell",
+    "does",
+    "often",
+    "turn"
+   ],
+   "n_cands": 3,
+   "n_taught": 1,
+   "top_by_cov": "the copper bell turns twice",
+   "top_by_cov_taught": true,
+   "cov_by_cov": 0.544512,
+   "top_by_prov": "the copper bell turns twice",
+   "top_by_prov_taught": true,
+   "cov_by_prov": 0.544512,
+   "cands": [
+    {
+     "row": "the copper bell turns twice",
+     "taught": true,
+     "cov": 0.544512
+    },
+    {
+     "row": "does not often say all this to herself",
+     "taught": false,
+     "cov": 0.455488
+    },
+    {
+     "row": "be sure jane one does not often see",
+     "taught": false,
+     "cov": 0.455488
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "what is held by the thing the frost bites?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.51,
+   "must": [
+    "bites",
+    "by",
+    "frost",
+    "held",
+    "is",
+    "thing"
+   ],
+   "n_cands": 3,
+   "n_taught": 1,
+   "top_by_cov": "the frost bites the latch",
+   "top_by_cov_taught": true,
+   "cov_by_cov": 0.533637,
+   "top_by_prov": "the frost bites the latch",
+   "top_by_prov_taught": true,
+   "cov_by_prov": 0.533637,
+   "cands": [
+    {
+     "row": "the frost bites the latch",
+     "taught": true,
+     "cov": 0.533637
+    },
+    {
+     "row": "poison is by no means a new thing",
+     "taught": false,
+     "cov": 0.299703
+    },
+    {
+     "row": "he was being held by the arms and",
+     "taught": false,
+     "cov": 0.259219
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "what does the bitten thing hold?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.385,
+   "must": [
+    "bitten",
+    "does",
+    "hold",
+    "thing"
+   ],
+   "n_cands": 3,
+   "n_taught": 0,
+   "top_by_cov": "the next thing i laid hold of was",
+   "top_by_cov_taught": false,
+   "cov_by_cov": 0.403621,
+   "top_by_prov": "the next thing i laid hold of was",
+   "top_by_prov_taught": false,
+   "cov_by_prov": 0.403621,
+   "cands": [
+    {
+     "row": "the next thing i laid hold of was",
+     "taught": false,
+     "cov": 0.403621
+    },
+    {
+     "row": "my emma does not every thing serve to",
+     "taught": false,
+     "cov": 0.383098
+    },
+    {
+     "row": "churchill does every thing that any other fine",
+     "taught": false,
+     "cov": 0.383098
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "what is bitten by the frost?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.34,
+   "must": [
+    "bitten",
+    "by",
+    "frost",
+    "is"
+   ],
+   "n_cands": 3,
+   "n_taught": 1,
+   "top_by_cov": "the frost bites the latch",
+   "top_by_cov_taught": true,
+   "cov_by_cov": 0.347511,
+   "top_by_prov": "the frost bites the latch",
+   "top_by_prov_taught": true,
+   "cov_by_prov": 0.347511,
+   "cands": [
+    {
+     "row": "the frost bites the latch",
+     "taught": true,
+     "cov": 0.347511
+    },
+    {
+     "row": "in spite of the slight frost it would",
+     "taught": false,
+     "cov": 0.347511
+    },
+    {
+     "row": "slight frost it would be well that it",
+     "taught": false,
+     "cov": 0.347511
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  },
+  {
+   "ask": "what number of eggs is left in the basket?",
+   "script": "sel-quantity-change",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.538,
+   "must": [
+    "basket",
+    "eggs",
+    "in",
+    "is",
+    "left",
+    "number",
+    "of"
+   ],
+   "n_cands": 3,
+   "n_taught": 1,
+   "top_by_cov": "there are four eggs in the basket",
+   "top_by_cov_taught": true,
+   "cov_by_cov": 0.548798,
+   "top_by_prov": "there are four eggs in the basket",
+   "top_by_prov_taught": true,
+   "cov_by_prov": 0.548798,
+   "cands": [
+    {
+     "row": "there are four eggs in the basket",
+     "taught": true,
+     "cov": 0.548798
+    },
+    {
+     "row": "as he leaned back in a basket chair",
+     "taught": false,
+     "cov": 0.299273
+    },
+    {
+     "row": "in which a number of frogs were sitting",
+     "taught": false,
+     "cov": 0.297357
+    }
+   ],
+   "rerank_changes_top": false,
+   "cov_delta": 0.0,
+   "crosses_floor_orig": false,
+   "crosses_floor_prov": false
+  }
+ ]
+}

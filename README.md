@@ -368,6 +368,27 @@ and the floor was calibrated against that inflated denominator. Speakability and
 echo/bigram constraints are **not** implicated: all nine refuse at the floor before any of
 them runs.
 
+**E12a and E13a both closed, at zero brain builds.** E12a (`docs/evidence/e12a_result.md`)
+recomputed coverage over answerable terms and the pre-registered prediction fired: the guarded
+scarf ask goes **0.5797 → 0.6676**, over the floor — it was passing *by refusing*, so the
+repair would make him answer. It buys only **2 of 9** recall-gate asks and makes **two worse**
+(`what did i tell you about before the kettle?` 0.5470 → **0.2839**), because the repair is
+**not monotone**: question-frame words sometimes appear in the memory row, so deleting them
+removes *matched* numerator terms too. B5 was clean — no content term dropped — so the failure
+is structural, not a bad word set: the floor is a *ratio*, and the guarded ask sits 0.020 below
+it. **`ANSWER_COVERAGE_FLOOR` and the guarded invariant are jointly unsatisfiable with this
+coverage formula.** E13a (`docs/evidence/e13a_result.md`) tested Class C and moved nothing:
+**top row changes on 0/10 asks**, because wherever a taught row is among the candidates it is
+*already* top, and for the five asks where a book row wins the taught fact is **not in the
+candidate list at all**. So **Class C is candidate generation, not ranking** — a tie-break
+cannot promote a row that is not in the pool. No E13b: the gene would be a default-off branch
+that provably never fires, the shape of E9's `RECALL_UNFILTERED_FALLBACK`. Together they close
+the argument: asks lacking their taught fact need generation, asks having it already score
+0.3475–0.5488 with the correct row on top, and the numerator fix that would lift them breaks
+the guard. **Five accounts of the `mouth`/`recall` boundary are now closed** — resonance
+ranking, comprehension signalling, coverage numerator, coverage threshold, coverage ranking —
+leaving only irregular morphology, which needs a lexical resource the organ does not have.
+
 ### Talking to him directly
 
 `tools/converse.py` holds Droso in process with the house down: the real state is

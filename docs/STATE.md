@@ -575,6 +575,10 @@ pre-registration tell them apart.
 | `docs/evidence/e11a_support_probe.py` | E11a probe: zero builds, aborts loudly if tells unresolved |
 | `docs/evidence/e11a_result.md` | E11a REFUTED — support cannot separate mouth from recall |
 | `docs/evidence/answer_formation_diagnosis.md` | the coverage accounting trace, Classes A/B/C, E12 proposal |
+| `docs/evidence/e12a_coverage_probe.py` | E12a: zero builds, recomputes coverage over answerable terms |
+| `docs/evidence/e12a_result.md` | E12a ABORTED — the guarded scarf ask flips to 0.6676 |
+| `docs/evidence/e13a_provenance_rerank.py` | E13a: zero builds, provenance re-ranking of candidates |
+| `docs/evidence/e13a_result.md` | E13a NEGATIVE — Class C is generation, not ranking |
 | `docs/evidence/` | raw run output cited by the docs |
 
 ## E9 — `RESONANCE_SESSION_SCOPE`, refuted and aborted (`ce04020`)
@@ -744,3 +748,61 @@ unsatisfiable with this coverage formula — closing the coverage line as E11a c
 comprehension line, and leaving Classes A and C as the only untested accounts, both needing
 machinery the organ does not have. Abort conditions B1–B5 are pinned in the diagnosis doc; B2
 (any guarded ask reaching ≥ 0.6, or any guarded pass lost) is the load-bearing one.
+
+### E12a ran — ABORTED, and E13a ran — NEGATIVE. Both at zero brain builds.
+
+**E12a** (`e12a_coverage_probe.py` → `e12a_result.md`). The pre-registered prediction fired
+exactly. `where did i say the scarf is?` — `must` `[did,is,say,scarf]` → `[say,scarf]`, best
+row `the scarf is wet` — goes **0.5797 → 0.6676**, over the 0.6 floor. It was already passing
+*by refusing*; the repair would make him answer. That is generation 2's g2-3 loss at floor
+0.566857, reached by raising the numerator instead of lowering the threshold. **B2 met, E12
+refuted, no gene written.**
+
+It does not even buy what it was designed to buy: **2 of 9** recall-gate asks cross (bell
+0.5445→0.6996, frost/held 0.5336→0.6399), the eggs ask reaches only 0.5983, and **two asks
+get worse** — `what did i tell you about before the kettle?` 0.5470→**0.2839**. The repair is
+**not monotone**: question-frame words sometimes appear in the memory row, so deleting them
+from `must` deletes *matched* numerator terms as well as unmatched denominator ones.
+`the scarf is wet` contains `is`.
+
+**B5 was clean** — no content term (`kettle`, `frost`, `eggs`, `bell`, `coat`, `scarf`,
+`basket`) was dropped. The organ's own parser vocabulary behaved as intended, which is what
+makes the negative informative: **the failure is structural, not a bad word set.** The floor is
+a *ratio*, so removing denominator terms raises every score uniformly, and the guarded ask sits
+only 0.020 below it. Fidelity: recomputed vs recorded coverage n=10, max delta 0.0305; the
+scarf margin is ~3× that, so the flip is not an approximation artefact.
+
+**Disposition: `ANSWER_COVERAGE_FLOOR` and the guarded invariant are jointly unsatisfiable with
+this coverage formula.** The numerator cannot be fixed without breaking the guard, and the
+guard is load-bearing — it is the only thing between a coverage change and E8's confabulation
+class.
+
+**E13a** (`e13a_provenance_rerank.py` → `e13a_result.md`) tested Class C. Predicted before
+running: the gate sorts by coverage descending and takes `scored[0]`, so `best_cov` is already
+the **maximum** over hits and re-ranking can only lower it. Measured: **top row changes on
+0/10 asks, coverage rose on 0 and fell on 0.**
+
+The `taught_in_cands` column is the finding. **Wherever a taught row is among the candidates it
+is already the top row** (eggs 1/3, bell 1/3, frost-held 1/3, frost-bitten 1/3, scarf 1/1).
+For the five asks where a book row wins, the taught fact is **not in the candidate list at
+all** — `taught_in_cands=0/3`. So **Class C is not a ranking problem, it is a candidate
+generation problem**: `the copper bell turns twice` was never a candidate for
+`how many times does the bell turn?`, and a tie-break cannot promote a row that is not in the
+pool. Class C was mis-classified in the diagnosis doc.
+
+Recall-gate asks crossing 0.6: **0/9**. Guarded scarf: **does not flip** (0.5797 unchanged,
+top row already the taught fact). **No E13b** — a provenance tie-break would be a default-off
+branch that provably never fires on this battery, the same shape as E9's
+`RECALL_UNFILTERED_FALLBACK`.
+
+**The two results compose into a closed argument.** The asks that *lack* their taught fact need
+candidate generation; the asks that *have* it already score 0.3475–0.5488 with the correct row
+on top, so generation alone would not lift them either — they are capped by Class B, and E12a
+established that fixing Class B breaks the guard.
+
+**Five accounts of the `mouth`/`recall` boundary are now tested and closed**: resonance ranking
+(E9, E10), comprehension signalling (E11a), coverage numerator (E12a), coverage threshold
+(gen 2, gen 6), coverage ranking (E13a). What remains is Class A — irregular morphology,
+`bitten` ≠ `bite`, `held` ≠ `hold` — needing a lexical resource the organ does not have, and
+candidate generation, which E13a bounds by Class B. Total cost of E12a+E13a: **zero brain
+builds**, against E10's 88 and ~38 min.
