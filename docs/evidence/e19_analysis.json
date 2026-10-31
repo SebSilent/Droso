@@ -1,0 +1,924 @@
+{
+  "failing": [
+    {
+      "ask": "what did i tell you about before the kettle?",
+      "cause_all": "recall_gate",
+      "class": "retrieval",
+      "coverage": 0.555,
+      "coverage_present": true,
+      "expected_tell": "the gate is open",
+      "nearest": [
+        "did you not tell me about it sooner",
+        "i wanted to tell you about the picnic",
+        "i ll tell you all about it some"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "kettle"
+      ],
+      "taught_resident": true,
+      "taught_row": "the lantern is lit",
+      "why": "resident_not_ranked",
+      "window": 3
+    },
+    {
+      "ask": "what is wet but not on the hook?",
+      "cause_all": "shape_arbiter",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the scarf is wet",
+      "nearest": null,
+      "stage_all": "shape_arbiter",
+      "taught_count": 1,
+      "taught_rank": 5,
+      "taught_rank_cue": [
+        "hook",
+        "not",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 5 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "how many times does the bell turn?",
+      "cause_all": "recall_gate",
+      "class": "retrieval",
+      "coverage": 0.417,
+      "coverage_present": true,
+      "expected_tell": "the copper bell turns twice",
+      "nearest": [
+        "done about the same time as the bell",
+        "many times again until his face was a",
+        "of many faults at different times but this"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": 20,
+      "taught_rank_cue": [
+        "bell",
+        "times",
+        "turn"
+      ],
+      "taught_resident": true,
+      "taught_row": "the copper bell turns twice",
+      "why": "rank 20 outside window 3",
+      "window": 3
+    },
+    {
+      "ask": "what does the thing the frost bites hold?",
+      "cause_all": "shape_arbiter",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the latch holds the door",
+      "nearest": null,
+      "stage_all": "shape_arbiter",
+      "taught_count": 1,
+      "taught_rank": 2,
+      "taught_rank_cue": [
+        "bites",
+        "frost",
+        "hold",
+        "thing"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 2 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "does the door hold the frost?",
+      "cause_all": "gating",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the latch holds the door",
+      "nearest": null,
+      "stage_all": "gating",
+      "taught_count": 1,
+      "taught_rank": 3,
+      "taught_rank_cue": [
+        "door",
+        "frost",
+        "hold"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 3 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "how often did i say the coat is wet?",
+      "cause_all": "recall_gate",
+      "class": "neither",
+      "coverage": 0.454,
+      "coverage_present": true,
+      "expected_tell": "the coat is torn",
+      "nearest": [
+        "tails of my coat were all soaking wet",
+        "does not often say all this to herself",
+        "do you suppose she does not often say"
+      ],
+      "stage_all": "recall",
+      "taught_count": 3,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "coat",
+        "say",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 1 inside window 3",
+      "window": 3
+    },
+    {
+      "ask": "which thing did i mention earlier than the kettle?",
+      "cause_all": "mouth",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the gate is open",
+      "nearest": null,
+      "stage_all": "mouth",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "earlier",
+        "kettle",
+        "mention",
+        "thing"
+      ],
+      "taught_resident": true,
+      "taught_row": "the lantern is lit",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "what came before the kettle in what i said?",
+      "cause_all": "recall_gate",
+      "class": "retrieval",
+      "coverage": 0.46,
+      "coverage_present": true,
+      "expected_tell": "the gate is open",
+      "nearest": [
+        "when the water in the kettle was boiling",
+        "in gracechurch street the evening before i came",
+        "came to him and said believe in me"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "came",
+        "kettle",
+        "said"
+      ],
+      "taught_resident": true,
+      "taught_row": "the lantern is lit",
+      "why": "resident_not_ranked",
+      "window": 3
+    },
+    {
+      "ask": "which of them is wet and is not on the hook?",
+      "cause_all": "mouth",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the scarf is wet",
+      "nearest": null,
+      "stage_all": "mouth",
+      "taught_count": 1,
+      "taught_rank": 4,
+      "taught_rank_cue": [
+        "hook",
+        "not",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 4 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "name the wet thing that is not on the hook",
+      "cause_all": "mouth",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the scarf is wet",
+      "nearest": null,
+      "stage_all": "mouth",
+      "taught_count": 1,
+      "taught_rank": 8,
+      "taught_rank_cue": [
+        "hook",
+        "name",
+        "not",
+        "thing",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 8 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "how often does the bell turn?",
+      "cause_all": "recall_gate",
+      "class": "retrieval",
+      "coverage": 0.514,
+      "coverage_present": true,
+      "expected_tell": "the copper bell turns twice",
+      "nearest": [
+        "the copper bell turns twice",
+        "does not often say all this to herself",
+        "be sure jane one does not often see"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": 11,
+      "taught_rank_cue": [
+        "bell",
+        "turn"
+      ],
+      "taught_resident": true,
+      "taught_row": "the copper bell turns twice",
+      "why": "rank 11 outside window 3",
+      "window": 3
+    },
+    {
+      "ask": "repeat after me the copper bell turns twice",
+      "cause_all": "mouth",
+      "class": "attribution_failed",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": null,
+      "nearest": null,
+      "stage_all": "mouth",
+      "taught_count": null,
+      "taught_rank": null,
+      "taught_rank_cue": null,
+      "taught_resident": null,
+      "taught_row": null,
+      "why": "no_answer_words",
+      "window": 0
+    },
+    {
+      "ask": "which thing turns twice?",
+      "cause_all": "comprehension",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the copper bell turns twice",
+      "nearest": null,
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": 3,
+      "taught_rank_cue": [
+        "thing",
+        "turns",
+        "twice"
+      ],
+      "taught_resident": true,
+      "taught_row": "the copper bell turns twice",
+      "why": "rank 3 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "what is held by the thing the frost bites?",
+      "cause_all": "recall_gate",
+      "class": "neither",
+      "coverage": 0.51,
+      "coverage_present": true,
+      "expected_tell": "the latch holds the door",
+      "nearest": [
+        "the frost bites the latch",
+        "poison is by no means a new thing",
+        "he was being held by the arms and"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": 2,
+      "taught_rank_cue": [
+        "bites",
+        "frost",
+        "held",
+        "thing"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 2 inside window 3",
+      "window": 3
+    },
+    {
+      "ask": "what does the bitten thing hold?",
+      "cause_all": "recall_gate",
+      "class": "retrieval",
+      "coverage": 0.385,
+      "coverage_present": true,
+      "expected_tell": "the latch holds the door",
+      "nearest": [
+        "the next thing i laid hold of was",
+        "my emma does not every thing serve to",
+        "churchill does every thing that any other fine"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "bitten",
+        "hold",
+        "thing"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "resident_not_ranked",
+      "window": 3
+    },
+    {
+      "ask": "is the frost held by the door?",
+      "cause_all": "gating",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the latch holds the door",
+      "nearest": null,
+      "stage_all": "gating",
+      "taught_count": 1,
+      "taught_rank": 2,
+      "taught_rank_cue": [
+        "door",
+        "frost",
+        "held"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 2 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "is it true that the door holds the frost?",
+      "cause_all": "gating",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the latch holds the door",
+      "nearest": null,
+      "stage_all": "gating",
+      "taught_count": 1,
+      "taught_rank": 25,
+      "taught_rank_cue": [
+        "door",
+        "frost",
+        "holds",
+        "true"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 25 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "what is bitten by the frost?",
+      "cause_all": "recall_gate",
+      "class": "neither",
+      "coverage": 0.34,
+      "coverage_present": true,
+      "expected_tell": "the latch holds the door",
+      "nearest": [
+        "the frost bites the latch",
+        "in spite of the slight frost it would",
+        "slight frost it would be well that it"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "bitten",
+        "frost"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 1 inside window 3",
+      "window": 3
+    },
+    {
+      "ask": "what number of eggs is left in the basket?",
+      "cause_all": "recall_gate",
+      "class": "neither",
+      "coverage": 0.538,
+      "coverage_present": true,
+      "expected_tell": "then two eggs break",
+      "nearest": [
+        "there are four eggs in the basket",
+        "as he leaned back in a basket chair",
+        "in which a number of frogs were sitting"
+      ],
+      "stage_all": "recall",
+      "taught_count": 1,
+      "taught_rank": 2,
+      "taught_rank_cue": [
+        "basket",
+        "eggs",
+        "left",
+        "number"
+      ],
+      "taught_resident": true,
+      "taught_row": "there are four eggs in the basket",
+      "why": "rank 2 inside window 3",
+      "window": 3
+    }
+  ],
+  "journal": "state\\selection\\generation_19_asks.jsonl",
+  "passing": [
+    {
+      "ask": "how many times did i tell you the coat is wet?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the coat is torn",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 3,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "coat",
+        "times",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 1 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "how many things did i tell you about the coat?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the coat is torn",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 3,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "coat",
+        "things"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 1 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "how many times did i tell you about the scarf?",
+      "cause_all": "other",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the coat is torn",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 3,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "scarf",
+        "times"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "did i ever tell you about the moon?",
+      "cause_all": "other",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the coat is torn",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 3,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "moon"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "which did i tell you first the lantern or the kettle?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the gate is open",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": 4,
+      "taught_rank_cue": [
+        "first",
+        "kettle",
+        "lantern"
+      ],
+      "taught_resident": true,
+      "taught_row": "the lantern is lit",
+      "why": "rank 4 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "which did i tell you last the kettle or the gate?",
+      "cause_all": "other",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the gate is open",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "gate",
+        "kettle",
+        "last"
+      ],
+      "taught_resident": true,
+      "taught_row": "the lantern is lit",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "how many objects did i tell you about?",
+      "cause_all": "other",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the gate is open",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "objects"
+      ],
+      "taught_resident": true,
+      "taught_row": "the lantern is lit",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "what is both wet and on the hook?",
+      "cause_all": "shape_arbiter",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the scarf is wet",
+      "nearest": null,
+      "stage_all": "shape_arbiter",
+      "taught_count": 1,
+      "taught_rank": 9,
+      "taught_rank_cue": [
+        "both",
+        "hook",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 9 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "where did i say the scarf is?",
+      "cause_all": "recall_gate",
+      "class": "attribution_failed",
+      "coverage": 0.57,
+      "coverage_present": true,
+      "expected_tell": null,
+      "nearest": [
+        "the scarf is wet",
+        "toward pierre and began knitting a striped scarf",
+        "did he say when the battles are to"
+      ],
+      "stage_all": "recall",
+      "taught_count": null,
+      "taught_rank": null,
+      "taught_rank_cue": null,
+      "taught_resident": null,
+      "taught_row": null,
+      "why": "no_answer_words",
+      "window": 3
+    },
+    {
+      "ask": "is the coat dry or wet?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the scarf is wet",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "coat",
+        "dry",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 1 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "say exactly the copper bell turns twice",
+      "cause_all": "other",
+      "class": "attribution_failed",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": null,
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": null,
+      "taught_rank": null,
+      "taught_rank_cue": null,
+      "taught_resident": null,
+      "taught_row": null,
+      "why": "no_answer_words",
+      "window": 0
+    },
+    {
+      "ask": "which word did i use for the metal?",
+      "cause_all": "other",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the copper bell turns twice",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "metal",
+        "use",
+        "word"
+      ],
+      "taught_resident": true,
+      "taught_row": "the copper bell turns twice",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "what turns twice?",
+      "cause_all": "shape_arbiter",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the copper bell turns twice",
+      "nearest": null,
+      "stage_all": "shape_arbiter",
+      "taught_count": 1,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "turns",
+        "twice"
+      ],
+      "taught_resident": true,
+      "taught_row": "the copper bell turns twice",
+      "why": "rank 1 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "what does the frost bite?",
+      "cause_all": "shape_arbiter",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the latch holds the door",
+      "nearest": null,
+      "stage_all": "shape_arbiter",
+      "taught_count": 1,
+      "taught_rank": 2,
+      "taught_rank_cue": [
+        "bite",
+        "frost"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 2 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "what bites the latch?",
+      "cause_all": "shape_arbiter",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the latch holds the door",
+      "nearest": null,
+      "stage_all": "shape_arbiter",
+      "taught_count": 1,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "bites",
+        "latch"
+      ],
+      "taught_resident": true,
+      "taught_row": "the frost bites the latch",
+      "why": "rank 1 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "how many eggs did i mention first?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "then two eggs break",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": 5,
+      "taught_rank_cue": [
+        "eggs",
+        "first",
+        "mention"
+      ],
+      "taught_resident": true,
+      "taught_row": "there are four eggs in the basket",
+      "why": "rank 5 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "how many eggs broke?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "then two eggs break",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": 2,
+      "taught_rank_cue": [
+        "broke",
+        "eggs"
+      ],
+      "taught_resident": true,
+      "taught_row": "there are four eggs in the basket",
+      "why": "rank 2 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "did any egg break?",
+      "cause_all": "other",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "then two eggs break",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "any",
+        "break",
+        "egg"
+      ],
+      "taught_resident": true,
+      "taught_row": "there are four eggs in the basket",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "how many eggs are left in the basket?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "then two eggs break",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "basket",
+        "eggs",
+        "left"
+      ],
+      "taught_resident": true,
+      "taught_row": "there are four eggs in the basket",
+      "why": "rank 1 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "have i mentioned the moon to you?",
+      "cause_all": "other",
+      "class": "retrieval",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the coat is torn",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 3,
+      "taught_rank": null,
+      "taught_rank_cue": [
+        "have",
+        "mentioned",
+        "moon"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "resident_not_ranked",
+      "window": 0
+    },
+    {
+      "ask": "of the lantern and the kettle which one came first?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the gate is open",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": 5,
+      "taught_rank_cue": [
+        "came",
+        "first",
+        "kettle",
+        "lantern",
+        "one"
+      ],
+      "taught_resident": true,
+      "taught_row": "the lantern is lit",
+      "why": "rank 5 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "is the coat wet or is it dry?",
+      "cause_all": "other",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the scarf is wet",
+      "nearest": null,
+      "stage_all": "other",
+      "taught_count": 1,
+      "taught_rank": 1,
+      "taught_rank_cue": [
+        "coat",
+        "dry",
+        "wet"
+      ],
+      "taught_resident": true,
+      "taught_row": "the coat is wet",
+      "why": "rank 1 inside window 0",
+      "window": 0
+    },
+    {
+      "ask": "the bell turns how often?",
+      "cause_all": "shape_arbiter",
+      "class": "neither",
+      "coverage": null,
+      "coverage_present": false,
+      "expected_tell": "the copper bell turns twice",
+      "nearest": null,
+      "stage_all": "shape_arbiter",
+      "taught_count": 1,
+      "taught_rank": 2,
+      "taught_rank_cue": [
+        "bell",
+        "turns"
+      ],
+      "taught_resident": true,
+      "taught_row": "the copper bell turns twice",
+      "why": "rank 2 inside window 0",
+      "window": 0
+    }
+  ],
+  "tally": {
+    "failing": {
+      "attribution_failed": 1,
+      "neither": 12,
+      "retrieval": 6
+    },
+    "passing": {
+      "attribution_failed": 2,
+      "neither": 14,
+      "retrieval": 7
+    }
+  },
+  "total": 42
+}

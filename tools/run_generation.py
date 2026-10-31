@@ -547,6 +547,118 @@ def load_battery(tiers: tuple, only: str | None, open_batch=None,
     return out
 
 
+# E19: default-off, read-only binder attribution. Off means the journal carries no
+# attribution keys at all, so a control run is byte-identical to generation 15.
+BINDER_ATTRIBUTION = False
+
+_E19_STOP = frozenset("""a an the and or but if then than that this these those of to in on at by
+for with about into over after before did does do done is are was were be been being i you he she
+it we they me him her us them my your his its our their what which who whom whose when where why
+how many much often ever tell told""".split())
+
+
+def _binder_attribution(agent, script: dict, index: int, step: dict) -> dict:
+    """E19: is the expected taught row still resident, and where does it rank?
+
+    Read-only. Inspects the binder after the ask has been put; writes, evicts and
+    reorders nothing, and touches no score, organ behaviour or genome. Every failure
+    path returns a dict with ``ok=False`` rather than raising, so a probe bug can
+    never break a battery.
+
+    ``taught_rank`` is the rank under a PROBE query built from the ask's own content
+    words -- not the gate's internal cue, which cannot be recovered without
+    instrumenting the organ (forbidden here). The cue actually used is recorded in
+    ``taught_rank_cue`` so the number stays auditable and is never mistaken for the
+    gate's own ranking.
+    """
+    out = {"ok": False, "taught_resident": None, "taught_count": None,
+           "taught_rank": None, "taught_row": None, "taught_rank_cue": None,
+           "expected_answer": None, "expected_tell": None, "why": None}
+    try:
+        exp = step.get("expect") or {}
+        answers = [str(w).lower() for w in (exp.get("answer") or []) if w]
+        out["expected_answer"] = answers
+        if not answers:
+            out["why"] = "no_answer_words"
+            return out
+
+        tell = None
+        for st in script["turns"][:index]:
+            s = str(st.get("say") or "").lower()
+            if s and any(a in s for a in answers):
+                tell = st["say"]
+                break
+        out["expected_tell"] = tell
+
+        cortex = getattr(getattr(agent, "language", None), "cortex", None)
+        binder = getattr(cortex, "binder", None)
+        meta = getattr(binder, "meta", None)
+        if binder is None or not isinstance(meta, list):
+            out["why"] = "no_binder"
+            return out
+
+        # Expected rows are the scripted TELLS, not the answer words. On a counting
+        # ask the expected answer is a quantity that never appears in the tell it
+        # counts, so answer-word matching resolves to an unrelated droso row that
+        # merely happens to contain that quantity -- the smoke test caught exactly
+        # that. Match each tell's content words as a subset of a non-book row's
+        # tokens instead. No task text is quoted here on purpose: the harness holds
+        # no ask content of its own, and a test enforces it.
+        def _words_of(s):
+            return frozenset(w for w in str(s).lower().replace(",", " ")
+                             .replace(".", " ").replace("?", " ").replace("!", " ").split()
+                             if w and w not in _E19_STOP)
+
+        tells = [st["say"] for st in script["turns"][:index] if st.get("say")]
+        out["expected_tell"] = tells[-1] if tells else None
+        tell_words = [_words_of(s) for s in tells]
+
+        resident = None
+        for row in meta:
+            if not isinstance(row, dict):
+                continue
+            if str(row.get("who", "book")) == "book":
+                continue
+            toks = frozenset(str(x).lower() for x in (row.get("tokens") or []))
+            if not toks:
+                continue
+            if any(tw and tw <= toks for tw in tell_words):
+                if resident is None or int(row.get("count", 0)) > int(resident.get("count", 0)):
+                    resident = row
+        if resident is None:
+            out["ok"] = True
+            out["taught_resident"] = False
+            out["why"] = "not_resident"
+            return out
+
+        out["ok"] = True
+        out["taught_resident"] = True
+        out["taught_count"] = int(resident.get("count", 0))
+        rtok = [str(x).lower() for x in (resident.get("tokens") or [])]
+        out["taught_row"] = " ".join(rtok)[:80]
+
+        ask = str(step.get("ask") or "").lower()
+        cue = [w for w in _words_of(ask) if len(w) > 2]
+        out["taught_rank_cue"] = sorted(cue)[:8]
+        if not cue:
+            out["why"] = "empty_cue"
+            return out
+        rows = binder.recall(cue, k=200) or []
+        rank = None
+        for i, r_ in enumerate(rows):
+            d = r_ if isinstance(r_, dict) else {}
+            rtoks = [str(x).lower() for x in (d.get("tokens") or [])]
+            if rtoks and rtoks == rtok:
+                rank = i + 1
+                break
+        out["taught_rank"] = rank
+        out["why"] = None if rank is not None else "resident_not_ranked"
+        return out
+    except Exception as exc:  # a probe must never break a battery
+        out["why"] = f"probe_error: {type(exc).__name__}: {exc}"[:160]
+        return out
+
+
 def ask_id(script_name: str, ask: str) -> str:
     """The same id form heldout_eval journals, so a selection row and a campaign
     row name the same ask and the two records can be diffed."""
@@ -627,6 +739,10 @@ def run_ask(entry: dict, index: int, genome: dict, base: dict, tag: str,
                # answered by a path that does not reach the recall gate". Without
                # it a passing ask's blank coverage is uninterpretable.
                "coverage_present": "coverage" in r,
+               # E19: read-only, default-off. Absent entirely when the flag is off,
+               # so a control run stays byte-identical to generation 15.
+               **({"attribution": _binder_attribution(agent, script, index, step)}
+                  if BINDER_ATTRIBUTION else {}),
                "source": r.get("source"), "filler": r.get("recovered_filler"),
                "reason": r.get("reason"),
                # Raw recall diagnostics, recorded for EVERY ask and not just
@@ -1730,6 +1846,11 @@ def main() -> int:
                          "mutation run that touches an ANSWER_MODULE gene, since "
                          "those are process-wide; the restore is a promise and a "
                          "subprocess is a fact")
+    ap.add_argument("--binder-attribution", action="store_true",
+                    help="E19: record read-only binder attribution (taught_resident, "
+                         "taught_count, taught_rank) on every ask. Default off; off "
+                         "means the journal carries no attribution keys at all. "
+                         "Writes, evicts and reorders nothing and touches no score")
     ap.add_argument("--worker", action="store_true", help=argparse.SUPPRESS)
     ap.add_argument("--line-no", type=int, default=1, help=argparse.SUPPRESS)
     ap.add_argument("--genome-file", default=None, help=argparse.SUPPRESS)
@@ -1742,6 +1863,9 @@ def main() -> int:
                          "current fitness and selection rules, keeping the as-run "
                          "rows beside it and printing both verdicts")
     a = ap.parse_args()
+    if getattr(a, "binder_attribution", False):
+        global BINDER_ATTRIBUTION
+        BINDER_ATTRIBUTION = True
     if a.worker:
         return cmd_worker(a)
     if a.report:
