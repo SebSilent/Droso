@@ -340,10 +340,33 @@ rather than a stopword list, and that rule **keeps `is` and `on`** — the binde
 `book` rows, where `the` is ubiquitous and `is`/`on` merely common. Document frequency here
 measures corpus style, not lexical class.
 
-Full write-ups: `docs/evidence/e9_result.md`, `docs/evidence/e10_result.md`. The blocker they
-leave behind is a single scalar encoding "a corpus attractor is present" rather than "the
-question was understood"; `docs/evidence/comprehension_signal_design.md` proposes what could
-replace it.
+Full write-ups: `docs/evidence/e9_result.md`, `docs/evidence/e10_result.md`.
+
+**E11 closed the comprehension line too, at zero brain builds.**
+`docs/evidence/comprehension_signal_design.md` proposed replacing that scalar with
+*session-provenanced term support* — does a row he was **told**, rather than a book row,
+contain this question's terms together? Provenance is the axis resonance lacks, and it needs
+no content/function distinction, which E10 proved we do not have. `docs/evidence/e11a_result.md`
+records the refutation: the signal **is** ask-dependent (range 0.10–0.75 over 42 asks) and
+**is** frequency-independent (no ask's best row overlaps `numbered`/`sold`), exactly as
+designed — and it still cannot separate the classes. `min(mouth)` 0.2222 against
+`max(recall)` 0.5000; **zero** thresholds admit all four `mouth` asks and no recall-gate
+failure. The reason is the substantive result: the recall-gate asks are *equally*
+well-supported, because he **was** told the coat is wet, the eggs, the frost biting. Having
+the material was never what separated them. No gene was written.
+
+`docs/evidence/answer_formation_diagnosis.md` then traced the nine recall-gate asks and found
+the boundary is in the **accounting**, not the retrieval: in five of nine the exact taught
+fact *is* the top-scoring row (`there are four eggs in the basket`, `the copper bell turns
+twice`) and coverage still lands at 0.538 and 0.514. The gate already stems both sides and
+already IDF-weights the terms, so neither naive matching nor an unweighted denominator is to
+blame. What remains is that `must` is built from the *question*, so it carries terms no
+truthful answer could contain (`is`, `left`, `number`, `of`) plus irregular forms `stem()`
+cannot bridge (`bitten` ≠ `bite`, `held` ≠ `hold`). Coverage measures how much of the
+question's wording appears in the memory, not how much of the answer's content is supported —
+and the floor was calibrated against that inflated denominator. Speakability and the
+echo/bigram constraints are **not** implicated: all nine refuse at the floor before any of
+them runs.
 
 ### Talking to him directly
 

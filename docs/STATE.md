@@ -572,6 +572,9 @@ pre-registration tell them apart.
 | `docs/evidence/e10_preregistration.md` | E10 pre-registration, written before the gene |
 | `docs/evidence/e10_result.md` | E10: content-scoped resonance, refuted |
 | `docs/evidence/comprehension_signal_design.md` | what E9/E10 leave as the real blocker |
+| `docs/evidence/e11a_support_probe.py` | E11a probe: zero builds, aborts loudly if tells unresolved |
+| `docs/evidence/e11a_result.md` | E11a REFUTED — support cannot separate mouth from recall |
+| `docs/evidence/answer_formation_diagnosis.md` | the coverage accounting trace, Classes A/B/C, E12 proposal |
 | `docs/evidence/` | raw run output cited by the docs |
 
 ## E9 — `RESONANCE_SESSION_SCOPE`, refuted and aborted (`ce04020`)
@@ -654,6 +657,90 @@ joining `RECALL_UNFILTERED_FALLBACK` (E7) and the three E5 shape genes. **Four m
 negatives, all kept**: deleting a refuted gene invites a retry. All forbidden-on-abort
 clauses were respected. Pinned by `tests/test_mouth_resonance_scope.py` (79 tests).
 
-The blocker is now localised to a single scalar whose value encodes "a corpus attractor is
-present" rather than "the question was understood". Repairing it needs a comprehension
-signal that is not `max(resonance)` — see `docs/evidence/comprehension_signal_design.md`.
+The blocker was localised to a single scalar whose value encodes "a corpus attractor is
+present" rather than "the question was understood".
+
+## E11a — the comprehension line is closed (zero brain builds)
+
+`docs/evidence/comprehension_signal_design.md` proposed *session-provenanced term support*:
+does a row he was **told**, rather than a `book` row, contain this question's terms together?
+Provenance is the axis resonance lacks, and it needs no content/function distinction — which
+E10 Finding 1 established we do not have.
+
+`docs/evidence/e11a_support_probe.py` → `e11a_support_probe.json`, `e11a_result.md`. Read-only,
+one binder read, **no builds, no organ change, no gene written**.
+
+- **A1 ask-dependence PASS** — range 0.1000–0.7500 over 42 asks, 21 distinct values. No ask's
+  best row overlaps `numbered`/`sold`, so provenance does defeat frequency-domination.
+- **A2 separation FAIL** — `min(mouth)` 0.2222 vs `max(recall)` 0.5000, margin **−0.2778**.
+  Mouth *mean* 0.4229 exceeds recall mean 0.3355, so the signal is not noise — but a mean
+  difference cannot be thresholded and `understands` needs a threshold.
+- **Item 6 FAIL** — thresholds admitting all 4 `mouth` and no recall-gate failure: **0**.
+
+The pre-registered second clause **held exactly**: both classes are questions the session
+taught material for, so the difference between them is coverage, not comprehension. The
+overlaps are the proof — `how often did i say the coat is wet?` matches `coat/is/the/wet` at
+0.4444; `what number of eggs is left in the basket?` matches `basket/eggs` at 0.4444. He was
+told all of it and fails at the floor anyway.
+
+**A loader bug invalidated the first run and its failure was not evidence.**
+`tools/scripts_heldout.json` names scripts `count-frequency` while the journal records
+`sel-count-frequency`; every lookup missed and all 42 asks **silently fell back** to live-only
+rows, measuring support against droso's 466 prior rows instead of the taught facts. The
+overlaps gave it away (`['is','the']`, `['which']`, `['in']` — no content). Fixed by
+normalising the prefix and making the fallback **loud**: the script now aborts if any ask's
+script is unresolved or no tells precede an ask. Same class as E10's `_CStub`, inverted —
+there a stub silently failed to override so assertions passed for the wrong reason; here a
+lookup silently missed so a *refutation* would have been recorded for the wrong reason. The
+design doc's premise was also wrong: session rows are **not** on disk in the live binder
+(`you` census 0 of 60,000) because each ask is built fresh in scratch, so the tells had to be
+synthesised from the script file.
+
+## Answer-formation diagnosis — the boundary is in the accounting
+
+`docs/evidence/answer_formation_diagnosis.md`. Read-only, traced from the generation-13
+journal against `organs/neural_language.py:3463-3476`. **No core code changed.**
+
+The gate is more sophisticated than assumed: coverage is **already stem-matched on both
+sides** (`stem(w) in hs`, :3471-3473) and terms are **already IDF-weighted** over the 60,000-row
+binder (:3464-3467). Neither naive string comparison nor an unweighted denominator is to blame.
+
+In **five of nine** recall-gate asks the exact taught fact *is* the top-scoring row and
+coverage still fails: `there are four eggs in the basket` → **0.538**; `the copper bell turns
+twice` → **0.514**; `the frost bites the latch` → **0.340**. Retrieval is not failing.
+
+Three classes. **A — irregular morphology survives `stem()`** (3 asks): `bitten`→`bitten` but
+`bites`→`bite`, `held`→`held` but `holds`→`hold`, never matching; the one term that would
+prove comprehension is the one the comparison cannot see, and being rare it carries a *high*
+IDF weight. **B — the answer cannot contain the question's syntax** (all 9): `must` is built
+from the question, so it carries `is`, `left`, `number`, `of`, `does`, `by` — damped by IDF
+but collectively decisive. Coverage measures how much of the *question's wording* appears in
+the memory, not how much of the *answer's content* is supported, and the floor was calibrated
+against that inflated denominator. **C — a book row outranks the taught fact** (2 asks):
+`done about the same time as the bell` beats `the copper bell turns twice` — E9/E10's
+frequency-domination reappearing in the coverage *ranking*.
+
+**Speakability and the echo/bigram constraints are not implicated.** All nine refuse at :3476
+before any of them runs; `spoken` is False and `after_echo_filter` /
+`after_interrogative_filter` / `after_question_filter` are `None` for every one. They must not
+be touched.
+
+This also explains why the floor cannot simply be lowered: with the exact taught fact as top
+row the coverages are 0.34–0.555, so admitting them admits the guarded scarf ask at 0.566857 —
+precisely what generation 2's g2-3 did, losing the invariant at `shape_arbiter`. **Fix the
+numerator and the floor can stay at 0.6.**
+
+**E12 proposed, not implemented**: `COVERAGE_ANSWERABLE_TERMS`, default `False`, restricting
+`must` to terms that could appear in an answer using the organ's **own** question-shape parser
+word sets at :2112 — already maintained there, deliberately *not* `stemming.STOPWORDS`. One
+gene, one site, floor unchanged, IDF unchanged, `stem()` unchanged. It reuses existing organ
+machinery rather than adding a hand list, which is the specific way E10 went wrong.
+
+**E12a is a read-only recomputation over the recorded journal — zero builds, no organ
+change.** Pre-registered: the guarded scarf ask **will** flip, because 0.566857 sits 0.033
+below the floor and the repair removes denominator terms uniformly. If it does, E12 is
+refuted at zero cost and `ANSWER_COVERAGE_FLOOR` and the guarded invariant are **jointly**
+unsatisfiable with this coverage formula — closing the coverage line as E11a closed the
+comprehension line, and leaving Classes A and C as the only untested accounts, both needing
+machinery the organ does not have. Abort conditions B1–B5 are pinned in the diagnosis doc; B2
+(any guarded ask reaching ≥ 0.6, or any guarded pass lost) is the load-bearing one.
