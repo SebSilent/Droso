@@ -49,6 +49,23 @@ who-prefix at all** (30 entries, 0 prefixed), so it could never match. The claim
 "taught evidence does not reach retrieval" is **withdrawn**. E19's eviction
 finding is unaffected and stands.
 
+**Six-lever conclusion.** E19 (eviction), E20 (cue omission), E21a (cue dilution),
+E12a/E14a (score/admission), E22a (reinforcement) and E23 (coverage denominator) are
+all closed. E23 is the strongest: excluding closed-class question syntax from the
+denominator **works** — recovering 2, 3 or 5 of the 9 gate failures — and **all
+three variants break the guarded scarf invariant** (0.5797 → 0.6676 → 1.0 → 1.0
+against a 0.6 floor). The obstruction is structural: the scarf cue
+`[did, is, say, scarf]` is three-quarters closed-class and its row
+`the scarf is wet` contains `scarf` and `is`, so removing syntax collapses the
+denominator onto terms the row trivially matches. **The guard depends on the
+denominator being wrong in exactly the way the nine failures need it fixed.** A
+repair was found, measured, and shown inseparable from breaking a correct refusal.
+E23 was refuted by its own read-only pre-test; no flag, organ change or test was
+added. The nine gate failures and the one guarded refusal are governed by a single
+quantity, and no monotone change to it separates them — so progress requires a
+mechanism that is not a coverage threshold. E24 (session-scoped absence inventory)
+is pre-registered at `docs/evidence/absence_inventory_design.md`.
+
 **Where the constraint actually sits.** The taught row is resident, findable, and
 on 4 of 9 gate asks ranked first by the gate itself — and the ask still fails,
 because `must` demands question syntax and passive morphology a declarative tell

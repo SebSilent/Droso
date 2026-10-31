@@ -299,9 +299,53 @@ so it could not have certified a repair, and the guarded ask was unattributable.
 The constraint chain, corrected: gen 2 / gen 6 said *score*; E12a / E14a said
 *score* and measured a 0.5488 ceiling; `passing_ask_analysis` said *candidate
 set*; E19 said *cue construction*; E20 returned it to *score*; E21a closes cue
-dilution. What remains open does not operate on retrieval of an existing row:
-reinforcement at teach time, an ordering primitive, and the coverage denominator
-itself. Records in `docs/evidence/`.
+dilution. Records in `docs/evidence/`.
+
+**E22a closed reinforcement.** Taught-row `count` looks predictive — count=3 passes
+5/6 (83%) against count=1 at 16/33 (48%) — but the gap is entirely ask-type
+confounding: five of the six count=3 asks are meta-cognitive rehearsal questions
+(`how many times did i tell you…`, `did i ever tell you…`) that carry
+`cause=other` and never enter the recall gate. Restricted to gate asks, where
+reinforcement could act, the **single** count=3 ask scores **0.454 — below the
+count=1 gate mean of 0.4649** — with its row at rank 1. The best-reinforced row in
+the battery, retrieved first, has worse gate coverage than the average count-1 row.
+
+**E23 closed the coverage denominator, and it is the strongest result of the six.**
+Excluding closed-class question syntax from the denominator *works*: it recovers 2,
+3 or 5 of the 9 gate failures depending on how much syntax is removed. And **all
+three variants break the guarded scarf invariant** — 0.5797 → 0.6676 → 1.0 → 1.0
+against a 0.6 floor. The obstruction is structural: the scarf cue
+`[did, is, say, scarf]` is three-quarters closed-class and its row
+`the scarf is wet` contains `scarf` and `is`, so removing syntax collapses the
+denominator onto terms the row trivially matches. **The guard depends on the
+denominator being wrong in exactly the way the nine failures need it fixed** — the
+scarf ask is *supposed* to refuse, and refuses only because `did`/`is`/`say` drag it
+0.0203 below the floor. Refuted by its own read-only pre-test; **no flag, organ
+change or test was added.** Exclusion is also not monotone:
+`what did i tell you about before the kettle?` *falls* 0.547 → 0.415 → 0.238 → 0.0.
+
+#### Six levers closed, and what that implies
+
+| lever | probe | verdict |
+|---|---|---|
+| eviction | E19 | falsified — 0/19 failures |
+| cue omission | E20 | falsified — gate ranks the row **first** on 4/9, still refuses |
+| cue dilution | E21a | falsified — de-framing recovers 0 of 4 |
+| score / admission | E12a, E14a | closed — ceiling 0.5488 < 0.6 |
+| reinforcement | E22a | falsified — count=3 gate ask below the count=1 mean |
+| denominator | E23 | **refuted pre-implementation — works, and is undeployable** |
+
+E23 is the sharpest because it is the only lever that **works**. That is a stronger
+statement than "no repair was found": a repair was found, measured, and shown to be
+**inseparable from breaking a correct refusal**. The nine gate failures and the one
+guarded refusal are governed by a single quantity, and no monotone change to it
+separates them.
+
+Progress therefore needs a mechanism that is **not a coverage threshold** — a way to
+represent *absence*, so the scarf ask refuses for a reason other than a low ratio.
+If the guard's refusal came from an inventory of what was actually told rather than
+from the denominator, E23's lever would become deployable. That is E24,
+pre-registered in `docs/evidence/absence_inventory_design.md`.
 
 #### `stage` is a default bucket, and one failure was misfiled for ten generations
 
