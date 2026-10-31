@@ -1373,6 +1373,17 @@ def cmd_run(args) -> int:
     else:
         nl.NeuralLanguage.RECALL_UNFILTERED_FALLBACK = False
         CODE_FLAGS["recall_unfiltered_fallback"] = False
+    # E24 phase 1: session-scoped absence inventory. A CODE flag, not a genome
+    # gene -- both arms of the A/B carry the same genome, so this is what
+    # distinguishes them, and it is recorded in provenance.code_flags. Must be one
+    # arm per process, since it is a class attribute.
+    if args.absence_inventory:
+        nl.NeuralLanguage.ABSENCE_INVENTORY = True
+        CODE_FLAGS["absence_inventory"] = True
+        print("E24 ON: ABSENCE_INVENTORY = True (phase 1, refusal-only)")
+    else:
+        nl.NeuralLanguage.ABSENCE_INVENTORY = False
+        CODE_FLAGS["absence_inventory"] = False
     if args.resonance_scope:
         nl.NeuralLanguage.RESONANCE_SESSION_SCOPE = True
         CODE_FLAGS["resonance_session_scope"] = True
@@ -1788,6 +1799,16 @@ def main() -> int:
                     help="repair R2: parse `what is <verb> by <agent>` into the existing "
                          "object_unknown kind. Separate flag again, so a result is "
                          "attributable to one cut")
+    ap.add_argument("--absence-inventory", action="store_true",
+                    help="experiment E24 phase 1: keep a session-scoped inventory of "
+                         "told facts keyed by subject, written at teach time, and let it "
+                         "license a REFUSAL when the subject was told but the queried "
+                         "relation never was. Consulted before retrieval and before the "
+                         "coverage floor, so the guarded scarf ask refuses because the "
+                         "location was never told rather than because a ratio was low. "
+                         "PHASE 1 NEVER LICENSES AN ANSWER: it can only add a reason to "
+                         "stay silent. Default off; expected score change is ZERO, which "
+                         "is the pre-registered success criterion, not a failure")
     ap.add_argument("--recall-fallback", action="store_true",
                     help="experiment E7: when the three retrieval filters remove EVERY "
                          "posting the binder offered, hand the raw postings to the "

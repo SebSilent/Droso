@@ -72,6 +72,114 @@ def freshness_key(age_s: float, who: str) -> float:
     return math.exp(-max(0.0, age_s - FRESH_FLOOR_S) / FRESH_TAU_S)
 
 
+# ---------------------------------------------------------------------------
+# E24 phase 1 -- session-scoped absence inventory.
+#
+# Module-level pure functions so the behaviour is testable without a brain build
+# (tests/test_absence_inventory.py). The organ methods delegate to these.
+#
+# THE RULE THAT SEPARATES THIS FROM E15: absence is licensed only by a
+# positively-built inventory, never by a failure to find something. Extraction
+# failure and unknown subjects both fall through to the existing coverage gate
+# unchanged. E24a measured that the predicted quantity-frame defect produced
+# garbage subjects (`four`, `then`) and was harmless precisely because every ask
+# in that script fell through.
+# ---------------------------------------------------------------------------
+
+# Closed grammatical classes only -- no content vocabulary. Design abort A8: a
+# hand-written list of the battery's subjects would be ask-fitting, which E16a's
+# D4 and E10's Finding 1 both forbid.
+_ABSENCE_STOP = frozenset("""
+the a an of by in on at to for and or but not no is are was were be been being
+do does did done it that this there i you me my your we they he she him her as
+than left ever any all both one thing things what which who whom whose where when
+why how say said tell told mention mentioned name repeat often many much times
+time number about before after earlier last first true
+""".split())
+_ABSENCE_COPULA = frozenset("is are was were".split())
+_ABSENCE_PLACE_PREP = frozenset(
+    "on in at under beside near above below".split())
+# Interrogative -> the relation being queried. Only the three classes in scope
+# for phase 1 (design section 2.1); quantity and ordering are separate designs.
+_ABSENCE_RELATIONS = ("place", "property", "agent")
+
+
+def _absence_frame(tell):
+    """Extract one (relation, subject, object) frame from a tell, or None.
+
+    Copula / locative / agent only -- the three classes E16a's extractor handled
+    correctly. Quantity frames are out of scope and return None, which the caller
+    treats as fall_through, never as refusal.
+    """
+    words = [w for w in re.sub(r"[^a-z ]", " ", str(tell or "").lower()).split() if w]
+    if not words:
+        return None
+
+    def content(seq):
+        return [w for w in seq if w not in _ABSENCE_STOP]
+
+    # locative:  the X is on the Y
+    for i, tok in enumerate(words):
+        if tok in _ABSENCE_COPULA and i + 1 < len(words) \
+                and words[i + 1] in _ABSENCE_PLACE_PREP:
+            subj, obj = content(words[:i]), content(words[i + 2:])
+            if len(subj) == 1 and obj:
+                return ("place", subj[0], " ".join(obj))
+    # property:  the X is Y
+    for i, tok in enumerate(words):
+        if tok in _ABSENCE_COPULA:
+            subj, obj = content(words[:i]), content(words[i + 1:])
+            if len(subj) == 1 and len(obj) == 1:
+                return ("property", subj[0], obj[0])
+    # agent:  the X verbs the Y
+    cw = content(words)
+    if len(cw) >= 2:
+        return ("agent", cw[0], " ".join(cw[1:]))
+    return None
+
+
+def _absence_licence(question, inventory):
+    """Return ("refusal", reason) or None. PHASE 1 NEVER RETURNS "answer".
+
+    Keyed lookup only -- no recall, no similarity search (design abort A6), so
+    E14a's candidate gap, E21a's corpus mass and E19's eviction cannot reach it.
+
+    Branches (design section 2.2):
+      subject present, relation absent -> licensed refusal
+      subject present, relation present -> None (phase 1 does not license answers)
+      subject absent or ambiguous       -> None (fall through, unchanged)
+    """
+    if not inventory:
+        return None
+    ask = str(question or "").lower()
+    words = set(re.sub(r"[^a-z ]", " ", ask).split())
+
+    # Which relation is being queried?
+    if "where" in words:
+        rel = "place"
+    elif re.search(r"\bwhat does\b|\bwhat is \w+ by\b|\bwhat \w+s\b", ask) \
+            and "like" not in words:
+        rel = "agent"
+    elif re.search(r"\b(is|are)\s+\w+\s+(or|and)\b", ask) \
+            or ("what" in words and "like" in words):
+        rel = "property"
+    else:
+        return None
+
+    # Bind by matching inventory subjects against the ask's own words. Never
+    # guesses a head noun: E16a measured the head rule as mis-binding multi-word
+    # subjects. Ambiguity falls through rather than picking one.
+    hits = sorted(s for s in inventory if s in words)
+    if len(hits) != 1:
+        return None
+    subj = hits[0]
+
+    # Cross-subject licence is structurally impossible: the lookup is by key.
+    if rel in inventory.get(subj, {}):
+        return None          # phase 1 does not license answers (E24a section 2)
+    return ("refusal", f"{subj} was told but no {rel} was ever told for {subj}")
+
+
 class NeuralLanguage:
     """Words as KC activation patterns in the carved BANC graph."""
 
@@ -95,6 +203,12 @@ class NeuralLanguage:
         self._san_last_save = 0.0
         self.speech_stream: deque = deque(maxlen=200)
         self.event_stream: deque = deque(maxlen=600)
+        # E24 phase 1: session-scoped inventory of told facts, keyed by subject.
+        # Append-only within a session, never persisted, never merged across
+        # brains. Empty per instance, so a fresh session starts with no licence
+        # to refuse anything -- absence is licensed only by what was positively
+        # told, never by a failure to find something.
+        self._absence_inv: dict = {}
         # Thoughts get their own stream. They used to share event_stream, and at
         # 17 ticks a second 600 slots is about 35 seconds of history -- so a
         # parent's phrase, a book line or anything else he actually HEARD was
@@ -2072,6 +2186,31 @@ class NeuralLanguage:
     # arm of an A/B can set it without touching the module for everyone.
     RECALL_UNFILTERED_FALLBACK = False
 
+    # E24 phase 1 (docs/evidence/absence_inventory_design.md), default off.
+    #
+    # E23 measured that excluding closed-class question syntax from the coverage
+    # denominator WORKS -- it recovers 2, 3 or 5 of the 9 gate failures -- and that
+    # all three variants break the guarded scarf invariant, because that ask passes
+    # by refusing at coverage 0.5797, only 0.0203 below the floor. The guard and the
+    # repair are governed by one quantity, so no monotone change to it separates them.
+    #
+    # This flag relocates the guard. A session-scoped inventory of what was actually
+    # told, keyed by subject, gives the organ a POSITIVE reason to refuse: `scarf` is
+    # held with `property: wet` and no `place`, so a `where` question about the scarf
+    # is refused because the location was never told -- not because a ratio was low.
+    # Once refusal no longer depends on the denominator, E23 becomes re-testable.
+    #
+    # PHASE 1 LICENSES REFUSAL ONLY, never answers. E24a measured that 2 of 3 answer
+    # licences were wrong (multi-hop composition, and passive directionality), one of
+    # them on a currently-passing ask. So the inventory can only add a reason to stay
+    # silent, never a reason to speak -- which is also what keeps it clear of E8's
+    # mood-gate abort: a licensed refusal IS silence, so no override is needed and the
+    # standing policy against saying "no" is untouched.
+    #
+    # A class attribute, like the floor above it, so an arm of an A/B can set it
+    # without touching the module for everyone.
+    ABSENCE_INVENTORY = False
+
     # E9 (docs/evidence/mouth_diagnosis.md): scope the resonance candidate pool to
     # this session's own tells.
     #
@@ -3341,6 +3480,24 @@ class NeuralLanguage:
         gl = self._glossary_answer(text)
         if gl is not None:
             return gl
+        # E24 phase 1: the relocated guard. Consulted BEFORE retrieval and BEFORE
+        # the coverage floor, so refusal no longer depends on the denominator --
+        # which is the whole point (E23 measured that the denominator lever works
+        # and is undeployable only because this ask refuses on a low ratio).
+        #
+        # Keyed lookup, no recall, no similarity search (abort A6). Licenses
+        # REFUSAL ONLY: phase 1 can add a reason to stay silent, never a reason to
+        # speak, so it cannot assert a false negative and needs no mood-gate
+        # override (E8's abort). Subject-absent and ambiguous asks fall through
+        # untouched (abort A4).
+        abs_lic = self._absence_licence(text)
+        if abs_lic is not None:
+            return {"answered": False, "spoken": False,
+                    "reason": abs_lic[1],
+                    "licensed_refusal": True,
+                    "cue": [t for t in q if t],
+                    "absence_relation": abs_lic[1].rsplit("no ", 1)[-1]
+                                        .split(" was ever")[0]}
         inter = [w for w in q if self.is_interrogative(w)]
         content = [w for w in q if not self.is_interrogative(w)
                    and self._speakable(w)]
@@ -3968,6 +4125,11 @@ class NeuralLanguage:
         the sound is decided by its own state. Returns the neural record.
         """
         exp = self.live(text, learn=True, speaker=speaker)
+        # E24 write side: the inventory records what the USER told this session.
+        # Written at teach time, never retrieved at ask time -- that is what keeps
+        # it clear of E15's null retrieval and E21a's corpus-mass ranking.
+        if self.ABSENCE_INVENTORY and str(speaker) == "you":
+            self._absence_note(text)
         thought = self.form_thought(text, scent=self.person_scent(speaker))
         pool = thought["action"]
         for _ in range(4):
@@ -3985,6 +4147,27 @@ class NeuralLanguage:
                                       exp["known_words_fired"]})
         return {"act": exp["act"], "thought": thought, "pool": pool,
                 "known_words_fired": exp["known_words_fired"]}
+
+    def _absence_note(self, text):
+        """E24 write side: record one frame from a tell into the session inventory.
+
+        Called from `hear` for user speech only. Extraction failure is silent --
+        a missing entry is NOT evidence of absence, it is evidence that this tell
+        was not one of the three in-scope frame classes.
+        """
+        frame = _absence_frame(text)
+        if frame is None:
+            return
+        rel, subj, obj = frame
+        self._absence_inv.setdefault(subj, {}).setdefault(rel, obj)
+
+    def _absence_licence(self, question):
+        """E24 read side: ("refusal", reason) or None. Phase 1 never licenses an
+        answer, so this can only add a reason to stay silent. Keyed lookup only --
+        no recall, no similarity search."""
+        if not self.ABSENCE_INVENTORY or not self._absence_inv:
+            return None
+        return _absence_licence(question, self._absence_inv)
 
     def _echo_instruction(self, user_text):
         """`say exactly <sentence>` is an instruction to REPEAT, not a question.
