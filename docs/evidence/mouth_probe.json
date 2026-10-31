@@ -1,0 +1,230 @@
+[
+  {
+    "script": "sel-conjunction-and-absence",
+    "ask": "name the wet thing that is not on the hook",
+    "wanted": [
+      "scarf"
+    ],
+    "said": "worked rigging",
+    "said_words": 2,
+    "source": "meaning resonance + chain",
+    "chain_fired": true,
+    "reason": null,
+    "spoken": true,
+    "tells": 3,
+    "vocabulary": 11439,
+    "reply_threshold": 0.55,
+    "phrase_threshold": 6,
+    "max_sentence_words": 6,
+    "best_resonance": null,
+    "social_drive": null,
+    "top5": [
+      [
+        "agin",
+        0.5738
+      ],
+      [
+        "sold",
+        0.5677
+      ],
+      [
+        "numbered",
+        0.5622
+      ],
+      [
+        "midnight",
+        0.5536
+      ],
+      [
+        "strain",
+        0.5502
+      ]
+    ],
+    "argmax_word": "agin",
+    "argmax_score": 0.5738,
+    "emitted_is_argmax": false,
+    "wanted_in_vocabulary": {
+      "scarf": true
+    },
+    "wanted_rank": {
+      "scarf": 10999
+    },
+    "wanted_score": {
+      "scarf": 0.1508
+    }
+  },
+  {
+    "script": "sel-conjunction-and-absence",
+    "ask": "which of them is wet and is not on the hook?",
+    "wanted": [
+      "scarf"
+    ],
+    "said": "numbered",
+    "said_words": 1,
+    "source": "meaning resonance",
+    "chain_fired": false,
+    "reason": null,
+    "spoken": true,
+    "tells": 3,
+    "vocabulary": 11439,
+    "reply_threshold": 0.55,
+    "phrase_threshold": 6,
+    "max_sentence_words": 6,
+    "best_resonance": null,
+    "social_drive": null,
+    "top5": [
+      [
+        "numbered",
+        0.5811
+      ],
+      [
+        "sold",
+        0.5743
+      ],
+      [
+        "tears",
+        0.5696
+      ],
+      [
+        "agin",
+        0.5664
+      ],
+      [
+        "unconsciousness",
+        0.5625
+      ]
+    ],
+    "argmax_word": "numbered",
+    "argmax_score": 0.5811,
+    "emitted_is_argmax": true,
+    "wanted_in_vocabulary": {
+      "scarf": true
+    },
+    "wanted_rank": {
+      "scarf": 10993
+    },
+    "wanted_score": {
+      "scarf": 0.16
+    }
+  },
+  {
+    "script": "sel-exact-repeat",
+    "ask": "repeat after me the copper bell turns twice",
+    "wanted": [
+      "copper",
+      "bell",
+      "turns",
+      "twice"
+    ],
+    "said": "sold",
+    "said_words": 1,
+    "source": "meaning resonance",
+    "chain_fired": false,
+    "reason": null,
+    "spoken": true,
+    "tells": 1,
+    "vocabulary": 11439,
+    "reply_threshold": 0.55,
+    "phrase_threshold": 6,
+    "max_sentence_words": 6,
+    "best_resonance": null,
+    "social_drive": null,
+    "top5": [
+      [
+        "sold",
+        0.5722
+      ],
+      [
+        "numbered",
+        0.5635
+      ],
+      [
+        "composed",
+        0.5498
+      ],
+      [
+        "unconsciousness",
+        0.5434
+      ],
+      [
+        "bungling",
+        0.5429
+      ]
+    ],
+    "argmax_word": "sold",
+    "argmax_score": 0.5722,
+    "emitted_is_argmax": true,
+    "wanted_in_vocabulary": {
+      "copper": true,
+      "bell": true,
+      "turns": true,
+      "twice": true
+    },
+    "wanted_rank": {
+      "copper": 11190,
+      "bell": 11187,
+      "turns": 11228,
+      "twice": 11189
+    },
+    "wanted_score": {
+      "copper": 0.1213,
+      "bell": 0.1221,
+      "turns": 0.1134,
+      "twice": 0.1214
+    }
+  },
+  {
+    "script": "sel-order-first-last",
+    "ask": "which thing did i mention earlier than the kettle?",
+    "wanted": [
+      "lantern"
+    ],
+    "said": "compile leagues",
+    "said_words": 2,
+    "source": "meaning resonance + chain",
+    "chain_fired": true,
+    "reason": null,
+    "spoken": true,
+    "tells": 3,
+    "vocabulary": 11439,
+    "reply_threshold": 0.55,
+    "phrase_threshold": 6,
+    "max_sentence_words": 6,
+    "best_resonance": null,
+    "social_drive": null,
+    "top5": [
+      [
+        "sold",
+        0.573
+      ],
+      [
+        "numbered",
+        0.5666
+      ],
+      [
+        "tears",
+        0.5587
+      ],
+      [
+        "composed",
+        0.5558
+      ],
+      [
+        "headway",
+        0.55
+      ]
+    ],
+    "argmax_word": "sold",
+    "argmax_score": 0.573,
+    "emitted_is_argmax": false,
+    "wanted_in_vocabulary": {
+      "lantern": true
+    },
+    "wanted_rank": {
+      "lantern": 1008
+    },
+    "wanted_score": {
+      "lantern": 0.4131
+    }
+  }
+]
