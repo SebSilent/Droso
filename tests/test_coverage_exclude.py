@@ -199,9 +199,13 @@ def test_e25_arms_differ_only_in_the_flag():
     fc = gc["provenance"]["code_flags"]
     ft = gt["provenance"]["code_flags"]
     assert fc["absence_inventory"] is True and ft["absence_inventory"] is True
-    assert fc["coverage_exclude_synt"] is False
+    # Gen 21 ran before this flag existed, so it has no such key. A missing key
+    # means off -- which is why the harness now stamps False explicitly on both
+    # branches, so the two can never be confused again.
+    assert fc.get("coverage_exclude_synt", False) is False
     assert ft["coverage_exclude_synt"] is True
-    differing = {k for k in fc if fc[k] != ft[k]}
+    differing = {k for k in set(fc) | set(ft)
+                 if fc.get(k, False) != ft.get(k, False)}
     assert differing == {"coverage_exclude_synt"}, differing
 
 
