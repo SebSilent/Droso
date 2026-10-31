@@ -149,23 +149,46 @@ rewordings of a smaller set of facts, so failure counts overstate distinct defec
 
 ## 6. Proposed experiment — the smallest flag-gated change that could make an ABSENT memory recallable
 
-**Target: the single ABSENT ask. Mechanism: `required_words` returning empty.**
+**Target: the single ABSENT ask.**
 
-The gate refuses to score when it has no required words. That is correct behaviour
-for a cue with no content — but `which thing turns twice?` *has* content (`turns`,
-`twice`); the filter dropped it. So the smallest possible intervention is a
-fallback that only fires when the filter returns nothing:
+> **Correction, recorded rather than quietly fixed.** This section originally
+> proposed a fallback for "`informativeness.required_words` returning empty".
+> **That mechanism does not exist.** `required_words` is nowhere in the codebase —
+> it was named speculatively from the journal's `required` field without reading the
+> gate. The real gate computes `must` at `organs/neural_language.py:3231`, and only
+> ever reaches it under `if hits and content:` (line 3228). So an ABSENT ask is not
+> one whose required list came back empty; it is one where **`binder.recall(content,
+> k=40)` returned postings and three filters removed every one of them** — drop the
+> question itself (3195), drop memories bearing an interrogative (3202), drop
+> echo-subsequences of the question (3220). The originally proposed fallback would
+> have been **inert**, guarded by a condition that could not fire, and would have
+> "confirmed" P1 for the wrong reason. This is the same error class as E6's probe:
+> reasoning from a field's *name* in a journal instead of the code that writes it.
+> The instrument now in place is what caught it.
+
+E7 as implemented targets the real mechanism:
 
 ```
-RECALL_EMPTY_REQUIRED_FALLBACK = False      # default off, inert
+RECALL_UNFILTERED_FALLBACK = False      # class attribute, default off, inert
 
-# in the recall gate, where required_words() is called:
-required = informativeness.required_words(utterance)
-if not required and RECALL_EMPTY_REQUIRED_FALLBACK:
-    required = [w for w in tokens(utterance)
-                if w.isalpha() and len(w) >= 2
-                and w not in INTERROGATIVES and w not in STOPWORDS]
+# at the recall gate, after the three filters:
+if not hits and raw_n and self.RECALL_UNFILTERED_FALLBACK:
+    hits = self.cortex.binder.recall(content, k=40)
+    hits = [h for h in hits
+            if {str(t).lower() for t in h["tokens"]} != qset]
 ```
+
+When every posting was filtered out, re-query the binder and keep only the
+exact-question filter, handing the survivors to the coverage gate. This does **not**
+bypass a safeguard: the gate still demands every distinctive word at IDF weight,
+still refuses below the floor, and the shape arbiter still vetoes afterwards. What
+changes is that the refusal becomes a **measured GATE with a coverage number**
+instead of a silent ABSENT with none.
+
+The ABSENT return also now carries `recall`, `after_question_filter`,
+`after_interrogative_filter`, `after_echo_filter` and `fallback_applied`, recorded
+unconditionally — they are pure recording, and they are what separates "no posting
+exists" from "postings existed and a filter removed them all, and here is which".
 
 Why this is the smallest thing that could work:
 
@@ -184,15 +207,26 @@ Why this is the smallest thing that could work:
 
 **Pre-registered predictions, to be written before the run:**
 
-- **P1** With the flag **off**, all 42 asks are byte-identical to generation 7.
-  This is the inertness check and it must hold exactly, ask for ask.
-- **P2** With the flag **on**, `which thing turns twice?` records a non-empty
-  `required` and a non-empty `nearest`. It leaves the ABSENT class.
-- **P3** With the flag **on**, no other ask changes class, coverage, stage, or
+Restated for the real mechanism. **P1 is qualified**: the ABSENT return now carries
+five new diagnostic keys, so the journal is *not* byte-identical to generation 7 by
+construction. Inertness is therefore about **verdicts**, not bytes.
+
+- **P1** With the flag **off** (generation 8), all 42 asks have the **same `pass`,
+  `stage` and `coverage`** as generation 7, ask for ask, and the same 23/19 split
+  and the same `MEMBERSHIP` 19/19. The new keys may appear; no verdict may move.
+- **P2** With the flag **on** (generation 9), `which thing turns twice?` records a
+  non-empty `required` and a non-empty `nearest`, i.e. it **leaves the ABSENT
+  class**. Its `fallback_applied` is `true`. If `recall` (raw binder hits) was 0,
+  the fallback cannot fire and the ask stays ABSENT — which would itself be the
+  finding that no posting exists at all, and would close the class rather than
+  repair it.
+- **P3** With the flag **on**, no other ask changes class, coverage, stage or
   verdict. Specifically the 0.570 passing ask and all nine GATE coverages are
-  unchanged, because their `required` was never empty.
+  unchanged, because their `hits` was never empty and the branch is guarded by
+  `not hits`.
 - **P4** The flag **on** does not by itself raise the frozen or probe score. If it
   does, P3 is wrong and the fallback is firing somewhere it should not.
+- **P5** Zero erosion: frozen stays 19/24 and guarded stays 4/4 in both arms.
 
 **What success would mean.** P2 without a score change is still a real result: it
 would show that an absent memory can be made *addressable* — the cue reaches a

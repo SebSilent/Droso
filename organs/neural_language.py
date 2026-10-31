@@ -1946,6 +1946,17 @@ class NeuralLanguage:
     # he will answer from it. Below this he says the closest memory covers only
     # part of the question, which is a true report and not a guess.
     ANSWER_COVERAGE_FLOOR = 0.6
+
+    # E7, default off. When the three retrieval filters remove EVERY posting the
+    # binder offered, the ask dies as ABSENT -- no coverage, no required, no
+    # nearest, and no threshold can reach it. With this on, the raw postings go to
+    # the coverage gate instead, which still demands every distinctive word at IDF
+    # weight and still refuses below ANSWER_COVERAGE_FLOOR. It converts an
+    # unmeasured silence into a measured refusal. Inert when off: the only use site
+    # is guarded by `not hits`. A class attribute, like the floor beside it, so an
+    # arm of an A/B can set it without touching the module for everyone.
+    RECALL_UNFILTERED_FALLBACK = False
+
     # The question-shape parser's word sets. Deliberately NOT stemming.STOPWORDS:
     # that set is baked into 295 stored procedure signatures and is tuned for
     # cue-building, not for finding the content word a question asks about. The
@@ -3185,6 +3196,12 @@ class NeuralLanguage:
             return {"answered": False, "spoken": False,
                     "reason": "no content words to look up"}
         hits = self.cortex.binder.recall(content, k=40)
+        # Kept so the "nothing remembered" return can say WHY. Until generation 7
+        # an ABSENT ask and a gated ask were indistinguishable from outside: both
+        # report stage=recall, and only the gated one carries coverage. The counts
+        # below are the difference between "the binder has no posting" and "the
+        # binder had postings and a filter removed every one".
+        raw_n = len(hits)
         # Drop only the question itself. A remembered question is not knowledge,
         # and without this the question he was just asked out-matches the answer
         # it belongs to -- he replies "who feeds droso" to "who feeds droso",
@@ -3194,6 +3211,7 @@ class NeuralLanguage:
         qset = {str(t).lower() for t in q}
         hits = [h for h in hits
                 if {str(t).lower() for t in h["tokens"]} != qset]
+        n_after_q = len(hits)
         # Other remembered questions are not answers either. This filter is safe
         # now in a way it was not before: a word only counts as an interrogative
         # after repeated evidence, so a mis-learned one cannot blacklist ordinary
@@ -3202,6 +3220,7 @@ class NeuralLanguage:
         hits = [h for h in hits
                 if not any(self.is_interrogative(t)
                            for t in (str(x).lower() for x in h["tokens"]))]
+        n_after_interrog = len(hits)
         # And never with a piece of the question itself. Hearing a question stores
         # it, so on the second asking his memory of being asked is the best match
         # there is -- perfect coverage, no information. Echoing the asker's own
@@ -3218,6 +3237,27 @@ class NeuralLanguage:
                        for i in range(len(q_stems) - len(hs) + 1))
 
         hits = [h for h in hits if not _echoes(h)]
+        n_after_echo = len(hits)
+        if not hits and raw_n and self.RECALL_UNFILTERED_FALLBACK:
+            # E7. Every posting the binder offered was removed by one of the three
+            # filters above, so the ask dies as ABSENT: no `required`, no
+            # `coverage`, no `nearest`, and nothing a threshold could ever move.
+            # The filters are right in general -- an echoed question is not an
+            # answer -- but they are applied before anything scores the survivors,
+            # so when they remove ALL of them the ask never reaches the coverage
+            # gate that would have judged it. Handing the raw postings to the gate
+            # does not bypass a safeguard: the gate still demands every distinctive
+            # word at IDF weight and still refuses below the floor, and the shape
+            # arbiter still vetoes after it. What changes is that the refusal
+            # becomes a measured GATE with a coverage number instead of a silent
+            # ABSENT with none. Default off; inert by construction when off,
+            # because this branch is guarded by `not hits`.
+            hits = self.cortex.binder.recall(content, k=40)
+            hits = [h for h in hits
+                    if {str(t).lower() for t in h["tokens"]} != qset]
+            fallback_applied = True
+        else:
+            fallback_applied = False
         # A memory must contain EVERY distinctive word of the question. Asked
         # "who gives food" he answered "parent gives the day" -- right agent,
         # invented object, delivered with total confidence, because `gives`
@@ -3315,7 +3355,17 @@ class NeuralLanguage:
                                 if c >= self.ANSWER_COVERAGE_FLOOR]
         if not hits:
             return {"answered": False, "spoken": False,
-                    "reason": "nothing remembered about that", "cue": content}
+                    "reason": "nothing remembered about that", "cue": content,
+                    # Why it was empty. `recall` is what the binder offered,
+                    # `after_*` is what survived each filter, so a reader can tell
+                    # "no posting exists" (recall == 0) from "postings existed and
+                    # a filter removed them all" (recall > 0, after_echo == 0) --
+                    # and which filter did it.
+                    "recall": raw_n,
+                    "after_question_filter": n_after_q,
+                    "after_interrogative_filter": n_after_interrog,
+                    "after_echo_filter": n_after_echo,
+                    "fallback_applied": fallback_applied}
         role = self.role_for(inter[0]) if inter else None
         trace = {"cue": content, "role": role, "join": join_trace,
                  "recalled": [{"tokens": h["tokens"],

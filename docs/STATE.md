@@ -295,6 +295,115 @@ capability was lost and the guard held, so §7b stays deferred — but its justi
 now an observed event rather than an argument about a future horizon.
 
 Suite after this step: **531 passed, 3 skipped**.
+
+---
+
+## Generation 7 — the recall gate measured from inside the scored run
+
+`docs/evidence/harness_coverage_diagnosis.md` · classifier
+`docs/evidence/harness_coverage_classify.py` · data
+`docs/evidence/harness_coverage_diagnosis.json` · journal
+`state/selection/generation_7_asks.jsonl`
+
+Until now **every coverage number in this project came from a probe reconstructing the
+context**, not from the run that grades the ask. That is why E6's P2 was falsified: a
+probe-measured 0.592 did not transfer. Three fields were added to `_clean()`'s keep-list
+and to the journal row — `coverage`, `required`, `nearest` — recorded for every ask,
+passing and failing. **No threshold moved and no answer-path code changed**; the organ was
+byte-identical, `ANSWER_COVERAGE_FLOOR` still 0.6.
+
+Control genome `abffa2b7f101` only (`--lines 1`, no mutation, so no culling and no lineage
+decision). 42 asks: **23 passed, 19 failed**. `MEMBERSHIP: 19 in every line, 19 in at least
+one` — identical to generations 0, 1, 2, 3, 6.
+
+| class | n | rule |
+|---|---|---|
+| **ABSENT** | **1** | `required` empty **and** `nearest` empty — cue reached no posting |
+| **UNREACHABLE** | **0** | postings found but nothing bindable |
+| **GATE** | **9** | `required` set, `coverage` set, `< 0.6` |
+| **DOWNSTREAM** | **9** | shape_arbiter 2, gating 3, mouth 4 |
+
+**UNREACHABLE = 0 is a result, not a gap in the instrument.** All nine GATE asks have
+exactly 3 neighbours and a non-empty required list; the one ABSENT ask has 0 and empty. The
+discriminator ran on real data and nothing landed in the middle.
+
+### The window is not unmeasured — it is **empty**
+
+```
+passing asks        n=1   0.570
+failed recall asks  n=9   min 0.340   max 0.555
+```
+
+The best failing ask (0.555) sits **below** the passing-by-refusal ask (0.570). A floor `F`
+admits an ask when `coverage >= F`, so admitting a target needs `F <= 0.555` while keeping
+the guard refusing needs `F > 0.570`. Those cannot both hold, and the window is empty in the
+**hostile** direction: lowering the floor hits the guard *first*, because its coverage is the
+highest number in the battery. A test brute-forces this across the gene's own bounds
+`[0.45, 0.75]` at 1e-4. This collapses generation 2's scarf loss (0.566857) and E6's null
+(0.587206) into **one ordering fact** instead of two separate null results.
+
+**C1 is answered definitively: no floor exists.** Not "none measured" — none possible, on
+this battery, at this genome.
+
+### The probe was wrong, and by how much
+
+| ask | probe | harness | Δ |
+|---|---|---|---|
+| `what did i tell you about before the kettle?` | 0.555 | **0.555** | 0 |
+| `where did i say the scarf is?` | 0.570 | **0.570** | 0 |
+| `what is bitten by the frost?` | 0.592 | **0.340** | **−0.252** |
+
+Two of three transferred exactly; the one E6 was built on was off by a quarter. At the real
+0.340, floor 0.587206 could never have admitted it — the ask needed the floor lowered by
+0.26, far past the guard. The two that agreed are the two whose scripts the probe happened to
+reconstruct faithfully, and **there is no way to know in advance which is which**. That class
+of error is now closed rather than merely flagged.
+
+### Distinct defects, not 19
+
+The 4 mouth failures rendered **noise** (`bridle adding establish gargery`, `numbered`,
+`agin`, `sold`) — a rendering defect in a different organ that no recall change can touch.
+The 3 gating failures are the **same** proposition (*the door holds the frost*) in three
+framings. One shape_arbiter failure answered *"the coat is on the hook"* to `what is wet but
+not on the hook?` — it took the conjunction and **dropped the negation**. Counting distinct
+propositions rather than probe rewordings, the 19 failures are roughly 1 absent, 9 gated,
+1 negation-dropping, 1 passive-frame, 4 mouth-rendering, 1 gated-proposition-in-3-forms: the
+battery's 14 probes reword a smaller fact set, so **failure counts overstate distinct
+defects**.
+
+Suite after this step: **607 passed, 3 skipped**.
+
+---
+
+## E7 — `RECALL_UNFILTERED_FALLBACK`, and a correction to the proposed mechanism
+
+The diagnosis document proposed a fallback for "`required_words` returning empty". **That
+mechanism does not exist.** `required_words` is not in the codebase; the real gate computes
+`must` at `organs/neural_language.py:3231` and only ever reaches it under `if hits and
+content:` (line 3228). So an ABSENT ask is not one whose required list came back empty — it
+is one where **`binder.recall(content, k=40)` returned postings and three filters removed
+every one of them**: drop the question itself, drop memories bearing an interrogative, drop
+echo-subsequences of the question. The proposed fallback would have been **inert**, guarded
+by a condition that could not fire.
+
+E7 was therefore implemented against the real mechanism. `RECALL_UNFILTERED_FALLBACK`
+(default `False`, a **class attribute** beside `ANSWER_COVERAGE_FLOOR` so an A/B arm can set
+it without touching the module for everyone) makes the `not hits and raw_n` case re-query the
+binder and keep only the exact-question filter, handing the survivors to the coverage gate.
+This does **not** bypass a safeguard: the gate still demands every distinctive word at IDF
+weight, still refuses below the floor, and the shape arbiter still vetoes afterwards. What
+changes is that the refusal becomes a **measured GATE with a coverage number** instead of a
+silent ABSENT with none.
+
+The ABSENT return also now carries `recall`, `after_question_filter`,
+`after_interrogative_filter`, `after_echo_filter` and `fallback_applied` — recorded
+unconditionally, because they are pure recording and they are what separates "no posting
+exists" from "postings existed and a filter removed them all, and here is which".
+
+Wired as `--recall-fallback`, recorded in `provenance.code_flags` beside the interpreter and
+git head, since two arms of an A/B carry the **same genome** and the flag is the only thing
+that distinguishes them.
+
 | `docs/archive/experiment_log.md` | historical experiment log written by prior agents |
 | `docs/archive/role_chain_proposal.md` | historical proposal, not applied |
 | `docs/evidence/` | raw run output cited by the docs |

@@ -1221,6 +1221,13 @@ def cmd_run(args) -> int:
         print("R2 ON: SHAPE_ALLOW_PASSIVE = True")
     else:
         CODE_FLAGS["shape_allow_passive"] = False
+    if args.recall_fallback:
+        nl.NeuralLanguage.RECALL_UNFILTERED_FALLBACK = True
+        CODE_FLAGS["recall_unfiltered_fallback"] = True
+        print("E7 ON: RECALL_UNFILTERED_FALLBACK = True")
+    else:
+        nl.NeuralLanguage.RECALL_UNFILTERED_FALLBACK = False
+        CODE_FLAGS["recall_unfiltered_fallback"] = False
     tiers = tuple(args.tier.split(","))
     battery = load_battery(tiers, args.only, args.open_batch)
     pop = build_population(args, base)
@@ -1615,6 +1622,14 @@ def main() -> int:
                     help="repair R2: parse `what is <verb> by <agent>` into the existing "
                          "object_unknown kind. Separate flag again, so a result is "
                          "attributable to one cut")
+    ap.add_argument("--recall-fallback", action="store_true",
+                    help="experiment E7: when the three retrieval filters remove EVERY "
+                         "posting the binder offered, hand the raw postings to the "
+                         "coverage gate instead of dying as ABSENT. The gate still "
+                         "demands every distinctive word at IDF weight and still refuses "
+                         "below the floor, so this converts an unmeasured silence into a "
+                         "measured refusal. Default off; inert when off because the only "
+                         "use site is guarded by `not hits`")
     ap.add_argument("--dry-run", action="store_true",
                     help="build and print the population -- genome ids and mutation "
                          "values -- then stop. Costs nothing and shows the mutants "

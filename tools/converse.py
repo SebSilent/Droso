@@ -338,7 +338,13 @@ def _clean(reply) -> dict | None:
             "reason", "resonance", "best_resonance", "threshold", "mood",
             "to", "words", "recovered_filler", "filler_score",
             "memories_matched", "interrogatives", "parser", "band_walk",
-            "join", "coverage", "required", "nearest")
+            "join", "coverage", "required", "nearest",
+            # E7: why `hits` was empty, filter by filter. `recall` is what the
+            # binder offered; the `after_*` counts are what survived each filter.
+            # Together they separate "no posting exists" from "postings existed
+            # and a filter removed every one", and say which filter did it.
+            "recall", "after_question_filter", "after_interrogative_filter",
+            "after_echo_filter", "fallback_applied")
     out = {k: reply[k] for k in keep if k in reply}
     # On the answered path the parser verdict, the join trace and the second
     # brain's vote ride inside "retrieval", which is far too big to keep
