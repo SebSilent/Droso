@@ -342,6 +342,122 @@ def test_the_exclude_rule_is_single_sourced():
     assert NeuralLanguage._resonance_exclude("  hi  ") == {"hi"}
 
 
+# ------------------------------------------- 9. the E9 OUTCOME, refuted
+
+E9J = os.path.join(ROOT, "docs", "evidence", "e9_scope_probe.json")
+GEN11 = os.path.join(ROOT, "state", "selection", "generation_11_asks.jsonl")
+GEN12 = os.path.join(ROOT, "state", "selection", "generation_12_asks.jsonl")
+
+
+def _e9_probe():
+    if not os.path.exists(E9J):
+        pytest.skip("e9 scope probe json not present")
+    return json.load(io.open(E9J, encoding="utf-8"))
+
+
+def _asks(path):
+    if not os.path.exists(path):
+        pytest.skip("%s not present" % os.path.basename(path))
+    rows = [json.loads(l) for l in io.open(path, encoding="utf-8") if l.strip()]
+    return {(r.get("script"), r.get("ask")): r for r in rows}
+
+
+def test_the_flag_stays_default_off_because_e9_was_refuted():
+    # P4 failed: the wanted word does not win its scoped pool. The pre-registered
+    # abort condition fired, so the gene is kept inert as a measured negative --
+    # not deleted, because deleting it invites someone to try it again.
+    assert NeuralLanguage.RESONANCE_SESSION_SCOPE is False
+
+
+def test_P2_scoping_engaged_and_shrank_the_pool():
+    rows = _e9_probe()
+    assert len(rows) == 4
+    for r in rows:
+        assert r["full_pool"] > 10000
+        assert 0 < r["scoped_pool"] < 100, r["ask"]
+        assert all(r["P2_wanted_in_pool"].values()), r["ask"]
+
+
+def test_P3_the_corpus_attractor_was_excluded_not_outscored():
+    for r in _e9_probe():
+        assert r["P3_pass"] is True, r["ask"]
+        assert all(r["P3_attractors_absent"].values())
+
+
+def test_P4_refuted_the_wanted_word_never_wins_its_scoped_pool():
+    # The abort condition. Pinned so the refutation cannot be quietly forgotten.
+    rows = _e9_probe()
+    assert rows and all(r["wanted_wins_scoped_pool"] is False for r in rows)
+
+
+def test_the_second_attractor_is_the_function_word_the():
+    # Removing the corpus attractor left the session's own function word on top,
+    # in all four cases, at 0.504-0.522.
+    rows = _e9_probe()
+    assert all(r["scoped_argmax"] == "the" for r in rows)
+    for r in rows:
+        assert 0.50 <= r["scoped_argmax_score"] <= 0.53
+
+
+def test_the_scoped_argmax_falls_below_the_threshold_so_the_organ_goes_silent():
+    # `the` at ~0.52 is under reply_threshold 0.55, so understands is False and
+    # the babble becomes a refusal. This is why mouth and gating both emptied.
+    for r in _e9_probe():
+        assert r["scoped_argmax_score"] < r["reply_threshold"]
+        assert r["spoken"] is False
+        assert r["said"] == ""
+
+
+def test_lantern_and_bell_would_win_but_for_the_function_word():
+    # Recorded because it is the seductive next step, and it is FORBIDDEN by the
+    # E9 abort clause (no frequency/stopword penalty). If someone proposes it,
+    # it needs its own pre-registration, not a widening of this one.
+    rows = {r["ask"]: r for r in _e9_probe()}
+    lantern = rows["which thing did i mention earlier than the kettle?"]
+    assert lantern["wanted_rank_in_scoped"]["lantern"] == 2
+    echo = rows["repeat after me the copper bell turns twice"]
+    assert echo["wanted_rank_in_scoped"]["bell"] == 2
+
+
+def test_P1_arm_a_is_identical_to_generation_10():
+    a, b = _asks(GEN10), _asks(GEN11)
+    assert set(a) == set(b)
+    for k in a:
+        for f in ("pass", "stage", "cause", "source", "coverage"):
+            assert a[k].get(f) == b[k].get(f), (k, f)
+
+
+def test_P4_no_ask_changed_its_pass_verdict_between_arms():
+    a, b = _asks(GEN11), _asks(GEN12)
+    assert set(a) == set(b)
+    assert all(bool(a[k].get("pass")) == bool(b[k].get("pass")) for k in a)
+
+
+def test_arm_b_emptied_the_mouth_and_gating_classes_into_silence():
+    a, b = _asks(GEN11), _asks(GEN12)
+    moved = [k for k in a
+             if a[k].get("stage") in ("mouth", "gating")
+             and b[k].get("stage") == "recall"]
+    assert len(moved) == 7                      # 4 mouth + 3 gating
+    for k in moved:
+        assert b[k].get("source") is None       # it stopped speaking
+        assert a[k].get("pass") is False and b[k].get("pass") is False
+
+
+def test_understands_was_an_artifact_of_the_corpus_attractor():
+    # The stronger finding: on the resonance path `understands` is
+    # res[best] >= reply_threshold, and in arm A that bar was cleared by
+    # `numbered`/`sold` -- corpus words unrelated to the question. Under
+    # scoping all seven previously-"understood" asks report they do not
+    # understand. Any future work reading `understands` as comprehension is
+    # reading noise.
+    rows = _probe_rows()
+    assert all(r["argmax_score"] >= r["reply_threshold"] for r in rows)
+    assert all(r["argmax_word"] not in WANTED for r in rows)
+    for r in _e9_probe():
+        assert r["spoken"] is False
+
+
 def test_the_attractor_words_recur_across_asks():
     rows = _probe_rows()
     tops = [t[0] for r in rows for t in r["top5"]]

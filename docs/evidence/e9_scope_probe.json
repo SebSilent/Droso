@@ -1,0 +1,242 @@
+[
+  {
+    "script": "sel-conjunction-and-absence",
+    "ask": "name the wet thing that is not on the hook",
+    "wanted": [
+      "scarf"
+    ],
+    "is_target": true,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 7,
+    "scoped_pool": 7,
+    "P2_engaged": true,
+    "P2_wanted_in_pool": {
+      "scarf": true
+    },
+    "P3_attractors_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": true,
+    "scoped_top5": [
+      [
+        "the",
+        0.5215
+      ],
+      [
+        "is",
+        0.2459
+      ],
+      [
+        "on",
+        0.2043
+      ],
+      [
+        "coat",
+        0.1663
+      ],
+      [
+        "hook",
+        0.1586
+      ]
+    ],
+    "scoped_argmax": "the",
+    "scoped_argmax_score": 0.5215,
+    "wanted_rank_in_scoped": {
+      "scarf": 6
+    },
+    "wanted_score_in_scoped": {
+      "scarf": 0.1526
+    },
+    "wanted_wins_scoped_pool": false,
+    "reply_threshold": 0.55
+  },
+  {
+    "script": "sel-conjunction-and-absence",
+    "ask": "which of them is wet and is not on the hook?",
+    "wanted": [
+      "scarf"
+    ],
+    "is_target": true,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 7,
+    "scoped_pool": 7,
+    "P2_engaged": true,
+    "P2_wanted_in_pool": {
+      "scarf": true
+    },
+    "P3_attractors_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": true,
+    "scoped_top5": [
+      [
+        "the",
+        0.5199
+      ],
+      [
+        "is",
+        0.3309
+      ],
+      [
+        "on",
+        0.2338
+      ],
+      [
+        "wet",
+        0.1721
+      ],
+      [
+        "coat",
+        0.1626
+      ]
+    ],
+    "scoped_argmax": "the",
+    "scoped_argmax_score": 0.5199,
+    "wanted_rank_in_scoped": {
+      "scarf": 6
+    },
+    "wanted_score_in_scoped": {
+      "scarf": 0.16
+    },
+    "wanted_wins_scoped_pool": false,
+    "reply_threshold": 0.55
+  },
+  {
+    "script": "sel-exact-repeat",
+    "ask": "repeat after me the copper bell turns twice",
+    "wanted": [
+      "copper",
+      "bell",
+      "turns",
+      "twice"
+    ],
+    "is_target": false,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 5,
+    "scoped_pool": 5,
+    "P2_engaged": true,
+    "P2_wanted_in_pool": {
+      "copper": true,
+      "bell": true,
+      "turns": true,
+      "twice": true
+    },
+    "P3_attractors_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": true,
+    "scoped_top5": [
+      [
+        "the",
+        0.5076
+      ],
+      [
+        "bell",
+        0.1221
+      ],
+      [
+        "twice",
+        0.1214
+      ],
+      [
+        "copper",
+        0.1213
+      ],
+      [
+        "turns",
+        0.1134
+      ]
+    ],
+    "scoped_argmax": "the",
+    "scoped_argmax_score": 0.5076,
+    "wanted_rank_in_scoped": {
+      "copper": 4,
+      "bell": 2,
+      "turns": 5,
+      "twice": 3
+    },
+    "wanted_score_in_scoped": {
+      "copper": 0.1213,
+      "bell": 0.1221,
+      "turns": 0.1134,
+      "twice": 0.1214
+    },
+    "wanted_wins_scoped_pool": false,
+    "reply_threshold": 0.55
+  },
+  {
+    "script": "sel-order-first-last",
+    "ask": "which thing did i mention earlier than the kettle?",
+    "wanted": [
+      "lantern"
+    ],
+    "is_target": true,
+    "said": "",
+    "source": "",
+    "spoken": false,
+    "reason": "it did not understand and was not in the mood to babble",
+    "full_pool": 11439,
+    "session_words": 8,
+    "scoped_pool": 8,
+    "P2_engaged": true,
+    "P2_wanted_in_pool": {
+      "lantern": true
+    },
+    "P3_attractors_absent": {
+      "numbered": true,
+      "sold": true,
+      "agin": true
+    },
+    "P3_pass": true,
+    "scoped_top5": [
+      [
+        "the",
+        0.5041
+      ],
+      [
+        "lantern",
+        0.4129
+      ],
+      [
+        "singing",
+        0.3188
+      ],
+      [
+        "lit",
+        0.2634
+      ],
+      [
+        "is",
+        0.1868
+      ]
+    ],
+    "scoped_argmax": "the",
+    "scoped_argmax_score": 0.5041,
+    "wanted_rank_in_scoped": {
+      "lantern": 2
+    },
+    "wanted_score_in_scoped": {
+      "lantern": 0.4129
+    },
+    "wanted_wins_scoped_pool": false,
+    "reply_threshold": 0.55
+  }
+]
