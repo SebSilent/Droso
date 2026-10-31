@@ -1,0 +1,345 @@
+{
+ "floor": 0.6,
+ "n": 10,
+ "gap": 5,
+ "have": 5,
+ "gate_crossing": 0,
+ "gate_n": 9,
+ "scarf_flips": false,
+ "verdict": "NEGATIVE -- admitting session rows gains nothing: even with every tell as a candidate no recall-gate ask reaches 0.6. The cap is the coverage formula, not the candidate pool. No E14b.",
+ "records": [
+  {
+   "ask": "what did i tell you about before the kettle?",
+   "script": "order-first-last",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "frozen",
+   "recorded_coverage": 0.555,
+   "must": [
+    "about",
+    "before",
+    "did",
+    "kettle",
+    "tell",
+    "you"
+   ],
+   "n_tells": 3,
+   "taught_in_candidates": 0,
+   "best_tell": "the kettle is singing",
+   "best_tell_cov": 0.311326,
+   "all_tell_cov": [
+    [
+     0.311326,
+     "the kettle is singing"
+    ],
+    [
+     0.0,
+     "the lantern is lit"
+    ],
+    [
+     0.0,
+     "the gate is open"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": -0.243674
+  },
+  {
+   "ask": "where did i say the scarf is?",
+   "script": "conjunction-and-absence",
+   "stage": null,
+   "cause": null,
+   "pass": true,
+   "tier": "frozen",
+   "recorded_coverage": 0.57,
+   "must": [
+    "did",
+    "is",
+    "say",
+    "scarf"
+   ],
+   "n_tells": 3,
+   "taught_in_candidates": 1,
+   "best_tell": "the scarf is wet",
+   "best_tell_cov": 0.579691,
+   "all_tell_cov": [
+    [
+     0.579691,
+     "the scarf is wet"
+    ],
+    [
+     0.127257,
+     "the coat is wet"
+    ],
+    [
+     0.127257,
+     "the coat is on the hook"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": 0.009691
+  },
+  {
+   "ask": "how many times does the bell turn?",
+   "script": "exact-repeat",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "frozen",
+   "recorded_coverage": 0.417,
+   "must": [
+    "bell",
+    "does",
+    "many",
+    "times",
+    "turn"
+   ],
+   "n_tells": 1,
+   "taught_in_candidates": 0,
+   "best_tell": "the copper bell turns twice",
+   "best_tell_cov": 0.441889,
+   "all_tell_cov": [
+    [
+     0.441889,
+     "the copper bell turns twice"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": 0.024889
+  },
+  {
+   "ask": "how often did i say the coat is wet?",
+   "script": "sel-count-frequency",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.454,
+   "must": [
+    "coat",
+    "did",
+    "is",
+    "often",
+    "say",
+    "wet"
+   ],
+   "n_tells": 4,
+   "taught_in_candidates": 0,
+   "best_tell": "the coat is wet",
+   "best_tell_cov": 0.541438,
+   "all_tell_cov": [
+    [
+     0.541438,
+     "the coat is wet"
+    ],
+    [
+     0.541438,
+     "the coat is wet"
+    ],
+    [
+     0.541438,
+     "the coat is wet"
+    ],
+    [
+     0.30146,
+     "the coat is torn"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": 0.087438
+  },
+  {
+   "ask": "what came before the kettle in what i said?",
+   "script": "sel-order-first-last",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.46,
+   "must": [
+    "before",
+    "came",
+    "in",
+    "kettle",
+    "said"
+   ],
+   "n_tells": 3,
+   "taught_in_candidates": 0,
+   "best_tell": "the kettle is singing",
+   "best_tell_cov": 0.386511,
+   "all_tell_cov": [
+    [
+     0.386511,
+     "the kettle is singing"
+    ],
+    [
+     0.0,
+     "the lantern is lit"
+    ],
+    [
+     0.0,
+     "the gate is open"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": -0.073489
+  },
+  {
+   "ask": "how often does the bell turn?",
+   "script": "sel-exact-repeat",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.514,
+   "must": [
+    "bell",
+    "does",
+    "often",
+    "turn"
+   ],
+   "n_tells": 1,
+   "taught_in_candidates": 1,
+   "best_tell": "the copper bell turns twice",
+   "best_tell_cov": 0.544512,
+   "all_tell_cov": [
+    [
+     0.544512,
+     "the copper bell turns twice"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": 0.030512
+  },
+  {
+   "ask": "what is held by the thing the frost bites?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.51,
+   "must": [
+    "bites",
+    "by",
+    "frost",
+    "held",
+    "is",
+    "thing"
+   ],
+   "n_tells": 2,
+   "taught_in_candidates": 1,
+   "best_tell": "the frost bites the latch",
+   "best_tell_cov": 0.533637,
+   "all_tell_cov": [
+    [
+     0.533637,
+     "the frost bites the latch"
+    ],
+    [
+     0.0,
+     "the latch holds the door"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": 0.023637
+  },
+  {
+   "ask": "what does the bitten thing hold?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.385,
+   "must": [
+    "bitten",
+    "does",
+    "hold",
+    "thing"
+   ],
+   "n_tells": 2,
+   "taught_in_candidates": 0,
+   "best_tell": "the latch holds the door",
+   "best_tell_cov": 0.221974,
+   "all_tell_cov": [
+    [
+     0.221974,
+     "the latch holds the door"
+    ],
+    [
+     0.0,
+     "the frost bites the latch"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": -0.163026
+  },
+  {
+   "ask": "what is bitten by the frost?",
+   "script": "sel-hop-and-inventory",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.34,
+   "must": [
+    "bitten",
+    "by",
+    "frost",
+    "is"
+   ],
+   "n_tells": 2,
+   "taught_in_candidates": 1,
+   "best_tell": "the frost bites the latch",
+   "best_tell_cov": 0.347511,
+   "all_tell_cov": [
+    [
+     0.347511,
+     "the frost bites the latch"
+    ],
+    [
+     0.0,
+     "the latch holds the door"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": 0.007511
+  },
+  {
+   "ask": "what number of eggs is left in the basket?",
+   "script": "sel-quantity-change",
+   "stage": "recall",
+   "cause": "recall_gate",
+   "pass": false,
+   "tier": "probe",
+   "recorded_coverage": 0.538,
+   "must": [
+    "basket",
+    "eggs",
+    "in",
+    "is",
+    "left",
+    "number",
+    "of"
+   ],
+   "n_tells": 2,
+   "taught_in_candidates": 1,
+   "best_tell": "there are four eggs in the basket",
+   "best_tell_cov": 0.548798,
+   "all_tell_cov": [
+    [
+     0.548798,
+     "there are four eggs in the basket"
+    ],
+    [
+     0.249526,
+     "then two eggs break"
+    ]
+   ],
+   "crosses_with_all_tells": false,
+   "gain_over_recorded": 0.010798
+  }
+ ]
+}
