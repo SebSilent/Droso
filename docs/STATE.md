@@ -579,6 +579,9 @@ pre-registration tell them apart.
 | `docs/evidence/e12a_result.md` | E12a ABORTED — the guarded scarf ask flips to 0.6676 |
 | `docs/evidence/e13a_provenance_rerank.py` | E13a: zero builds, provenance re-ranking of candidates |
 | `docs/evidence/e13a_result.md` | E13a NEGATIVE — Class C is generation, not ranking |
+| `docs/evidence/candidate_generation_diagnosis.md` | the gap is real but immaterial; ceiling 0.5488 |
+| `docs/evidence/e14a_candidate_gap.py` | E14a: zero builds, admits every tell as a candidate |
+| `docs/evidence/post_coverage_gate_design.md` | provenanced entailment licensing; E15 probe |
 | `docs/evidence/` | raw run output cited by the docs |
 
 ## E9 — `RESONANCE_SESSION_SCOPE`, refuted and aborted (`ce04020`)
