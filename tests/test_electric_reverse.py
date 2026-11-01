@@ -155,3 +155,26 @@ def test_an_unparseable_churn_file_falls_back_to_the_stat_key(tmp_path):
     before = converse.guard_live_files("t", root)
     f.write_bytes(b"still not a zip, but longer")
     assert converse.guard_check(before, root) == ["banc_brain.npz"]
+
+
+# ------------------------------------------------- the guard, not luck, is what stops it
+
+MISBIND = {
+    "frost": {"agent": "the frost bites the latch"},
+    "latch": {"agent": "the latch holds the door"},
+}
+
+
+def test_a_live_misbind_is_caught_by_the_verb_guard():
+    """Measured in the A/B arm, not assumed: `what bites the latch?` DOES bind --
+    to ('agent', 'latch'), because `latch` is a subject in its own right -- and the
+    tell behind that key is "the latch holds the door", the WRONG FACT ABOUT THE
+    RIGHT NOUN. The ask names the OBJECT of the frost tell, so this is the C3
+    reverse-role shape. Silence here comes from the verb guard rejecting `bites`
+    against `holds`, so it must stay silence if either half is ever loosened."""
+    assert nl._electric_bind("what bites the latch?", MISBIND,
+                             broad_agent=True, who_agent=True) == ("agent", "latch"), \
+        "the mis-bind must stay live, or this test proves nothing"
+    for rev in (False, True):
+        assert nl._electric_answer("what bites the latch?", MISBIND, reverse=rev) is None, \
+            "a bound-but-wrong tell must never be spoken"

@@ -109,6 +109,16 @@ blocks: a persistence claim that depended on the shutdown hook would be testing 
   exposure to question/answer pairs, which is a learning question, not a demo question.
 - Untouched, as ever: the `copper`/`bell` multi-relation modifier-keying limitation.
 
+## 7. Flags and battery runs
+
+ELECTRIC remains off by default in every path that measurement depends on: the class
+attributes stay `False`, the demo sets them per-instance in its own process, and
+`serve.py` needs `--electric` explicitly. `tests/test_electric_live.py` spawns
+subprocesses, so it cannot mutate the parent interpreter's defaults even in principle —
+and the leakage test asserts it cannot in practice either.
+
+**Suite: 826 passed, 3 skipped, 5 warnings** (was 819; +7 new; **zero erosion**). Wall
+clock 182 s → 218 s, all of it the new live tests booting real processes.
 ## 8. The real house, over HTTP, across three processes
 
 `serve.py --electric --session-dir state\sessions\c4live2 --port 8138`, driven by
@@ -248,13 +258,87 @@ Measured: lives D, E and F all print `live files untouched: True` — the rewrit
 were content-neutral, so the old report was a false positive about churn and equally blind
 to a real write. Three tests pin it, including the two that must still flag.
 
-## 7. Flags and battery runs
 
-ELECTRIC remains off by default in every path that measurement depends on: the class
-attributes stay `False`, the demo sets them per-instance in its own process, and
-`serve.py` needs `--electric` explicitly. `tests/test_electric_live.py` spawns
-subprocesses, so it cannot mutate the parent interpreter's defaults even in principle —
-and the leakage test asserts it cannot in practice either.
+## 10. How much does `--electric-reverse` actually buy? (A/B arm, `tools/electric_reverse_ab.py`)
 
-**Suite: 826 passed, 3 skipped, 5 warnings** (was 819; +7 new; **zero erosion**). Wall
-clock 182 s → 218 s, all of it the new live tests booting real processes.
+§9 showed the flag works on one ask. This measures **how little** it works on the rest.
+
+Two arms of a bare organ, six tells, fourteen asks, one variable (`ELECTRIC_REVERSE`
+off/on), separate instances because `answer()` wires as it reads — a question asked in one
+arm must not change the other. Inventories matched (6 facts each). This is a **dedicated
+experimental arm**, not a standard battery run: ELECTRIC stays off the default path and the
+guarded grader contract was not touched.
+
+| shade | ask | off | on |
+|---|---|---|---|
+| who-stranded | `who does the lantern belong to?` | miss | **correct** |
+| who-stranded | `who does the lantern belong to` | miss | **correct** |
+| who-stranded | `who does the mouse chase to?` | miss | **correct** |
+| who-bare | `who does the mouse chase?` | other | other |
+| no-such-fact | `who does the ledger belong to?` | miss | miss |
+| wrong-verb | `who does the lantern report to?` | miss | miss |
+| wrong-frame | `who does the scarf belong to?` | miss | miss |
+| **c3-h1-reverse** | `what bites the latch?` | **miss** | **miss** |
+| forward-agent-inflected | `what does the frost bite?` | miss | **correct** |
+| no-such-fact | `what does the scarf sit on?` | refusal | refusal |
+| forward-place | `where is the scarf?` / `where is the ledger?` | correct | correct |
+| absence-refusal | `what is the scarf like?` | refusal | refusal |
+| ambiguous | `who does the lantern belong to and where is the scarf?` | miss | miss |
+
+**Recovered 4/14. Regressions 0. Confabulations 0 in both arms.** Refusals identical (2/2)
+— the licence did not gain a voice. Forward place recall identical.
+
+### The honest headline: it does not fix the C3 number
+
+C3 counted its reverse-role misses in the shape `what {verb} the {object}?` — an ask that
+names the **object** of a tell. `what bites the latch?` stays a miss with the flag **on**.
+The stranding rule cannot reach that shape: there is no preposition to strand. So the "2 of
+15" figure from C3 is **not** what §9 recovered, and anyone reading §9 as having closed the
+C3 gap is wrong. What got closed is a narrower, different class: possessor/source asks with
+`who … to`.
+
+### The mis-bind is live, and the guard is what stops it (not luck)
+
+`what bites the latch?` **does bind**: `_electric_bind` returns `('agent', 'latch')`,
+because `latch` is a subject in its own right (`the latch holds the door`). That tell is the
+wrong fact about the right noun. The silence comes from the verb guard rejecting `bites`
+against `holds`. Pinned as `test_a_live_misbind_is_caught_by_the_verb_guard`, which asserts
+**both halves** — that the mis-bind still happens, and that nothing is spoken — so it cannot
+quietly turn into a test of nothing if either side is loosened.
+
+### Attribution: two mechanisms, and one of them is out of scope
+
+`who-branch needed` = would the bind have failed without the new `who` arm;
+`guard` = did the recovery depend on comparing stems instead of exact words.
+
+| recovered ask | who-branch | guard |
+|---|---|---|
+| `who does the lantern belong to?` (+ no-`?` variant) | needed | stem-only |
+| `who does the mouse chase to?` | needed | stem-only |
+| **`what does the frost bite?`** | **not needed** | stem-only |
+
+All four needed the stem relaxation; three also needed the `who` arm. The fourth is the
+finding: **`--electric-reverse` is not purely reverse-role.** `_verb_stem` is applied in the
+guard regardless of ask shape, so a *forward* agent ask with an inflected tell
+(`the frost bites the latch` vs `…bite?`) that previously missed now answers. It is the
+correct fact — bound from the ask's own subject, verb stem matched — but it is a widening of
+the forward path that the flag's name does not advertise, and it is **only** gated by the
+same flag. Recorded here rather than smoothed over: the flag should be read as
+"reverse binding **plus** stem-tolerant agreement", and any future attempt to split them
+needs its own arm.
+
+Every recovery is stem-only. **No ask recovered on an exact word match**, which is the
+clearest statement of what the original guard was actually costing.
+
+### A pre-existing leak this arm exposed
+
+`who does the mouse chase?` is graded `other`, not `miss`, because something **was** spoken:
+`source: arbiter head`, utterance `'to?'` — identical in both arms, so it is not caused by
+the flag. ELECTRIC declined correctly; the house's own path then uttered a two-character
+fragment of the question. That is a real defect in the fallback, independent of this work,
+and it is why the grader now prints the raw utterance for any row that is neither silence
+nor the right fact: a verdict without the utterance is not checkable, and my first version
+of this table would have hidden `'to?'` inside a bucket named `other`.
+
+Suite with this arm added: full suite after this arm and its test: **840 passed, 3 skipped, 5 warnings in 219.39s (0:03:39)**.
+Raw: `evidence/electric_reverse_ab.txt`.

@@ -567,7 +567,13 @@ relation came back as an admission. `--electric-reverse` (§9) additionally lets
 reverse-role ask like `who does the lantern belong to?` reach the inventory — but only when
 the ask **strands a preposition**, because that is what proves the noun in the middle is
 the tell's own subject; `who does the mouse chase?` still misses rather than answering the
-wrong fact. Off by default, and verified off on the house.
+wrong fact. Off by default, and verified off on the house. Measured in a dedicated A/B arm
+(`tools/electric_reverse_ab.py`, §10): **4 of 14 asks recovered, 0 regressions, 0
+confabulations** — and it does **not** fix C3's reverse-role shape (`what bites the latch?`
+stays a miss: nothing to strand). Two things that arm says out loud: the flag also relaxes
+verb agreement on *forward* asks, which its name does not advertise; and the ask that
+should be the safety case is answered by nothing in ELECTRIC but still leaks a two-character
+fragment (`'to?'`) from the house's own fallback path.
 
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json

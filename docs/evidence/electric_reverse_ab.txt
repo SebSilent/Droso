@@ -1,0 +1,31 @@
+ELECTRIC REVERSE A/B   6 tells, 14 asks
+inventory: arm A 6 facts, arm B 6 facts  (must match)
+
+  who-stranded             'who does the lantern belong to?'                    off=miss          on=correct        <== RECOVERED
+  who-stranded             'who does the lantern belong to'                     off=miss          on=correct        <== RECOVERED
+  who-stranded             'who does the mouse chase to?'                       off=miss          on=correct        <== RECOVERED
+  who-bare                 'who does the mouse chase?'                          off=miss          on=miss         
+  no-such-fact             'who does the ledger belong to?'                     off=miss          on=miss         
+  wrong-verb               'who does the lantern report to?'                    off=miss          on=miss         
+  wrong-frame              'who does the scarf belong to?'                      off=miss          on=miss         
+  c3-h1-reverse            'what bites the latch?'                              off=miss          on=miss         
+  forward-agent-inflected  'what does the frost bite?'                          off=miss          on=correct        <== RECOVERED
+  no-such-fact             'what does the scarf sit on?'                        off=refusal       on=refusal      
+  forward-place            'where is the scarf?'                                off=correct       on=correct      
+  forward-place            'where is the ledger?'                               off=correct       on=correct      
+  absence-refusal          'what is the scarf like?'                            off=refusal       on=refusal      
+  ambiguous                'who does the lantern belong to and where is the scarf?' off=miss          on=miss         
+
+--- tally ---
+  reverse OFF: {'miss': 10, 'refusal': 2, 'correct': 2}
+  reverse ON : {'correct': 6, 'miss': 6, 'refusal': 2}
+
+  RECOVERED  4/14: ['who does the lantern belong to?', 'who does the lantern belong to', 'who does the mouse chase to?', 'what does the frost bite?']
+  REGRESSIONS 0: []
+  CONFABULATIONS off=0 on=0 []
+
+--- attribution (bind vs stem) ---
+  'who does the lantern belong to?'                    who-branch needed=True  guard=stem-only
+  'who does the lantern belong to'                     who-branch needed=True  guard=stem-only
+  'who does the mouse chase to?'                       who-branch needed=True  guard=stem-only
+  'what does the frost bite?'                          who-branch needed=False  guard=stem-only
