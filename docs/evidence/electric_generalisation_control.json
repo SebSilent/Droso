@@ -1,0 +1,321 @@
+{
+ "arm": "CONTROL (all flags off)",
+ "seed": 1,
+ "facts": 20,
+ "counts": {
+  "correct": 14,
+  "confabulation": 6,
+  "refusal": 0,
+  "silence": 0,
+  "other": 0
+ },
+ "by_frame": {
+  "H2": {
+   "total": 6,
+   "correct": 0,
+   "confabulation": 6,
+   "refusal": 0,
+   "silence": 0,
+   "other": 0
+  },
+  "H3": {
+   "total": 12,
+   "correct": 12,
+   "confabulation": 0,
+   "refusal": 0,
+   "silence": 0,
+   "other": 0
+  },
+  "H1": {
+   "total": 2,
+   "correct": 2,
+   "confabulation": 0,
+   "refusal": 0,
+   "silence": 0,
+   "other": 0
+  }
+ },
+ "direct_source": 0,
+ "rows": [
+  {
+   "tell": "the dainty towns the bottom",
+   "frame": "H2-question-word",
+   "ask": "which thing does the dainty towns?",
+   "need": "bottom",
+   "forbid": [
+    "dainty"
+   ],
+   "kind": "confabulation",
+   "said": "which thing does the dainty towns?",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the continuation shouldn the rendered",
+   "frame": "H2-question-word",
+   "ask": "which thing does the continuation shouldn?",
+   "need": "rendered",
+   "forbid": [
+    "continuation"
+   ],
+   "kind": "confabulation",
+   "said": "which thing does the continuation shouldn?",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the overthrow figure the clattering",
+   "frame": "H2-question-word",
+   "ask": "which thing does the overthrow figure?",
+   "need": "clattering",
+   "forbid": [
+    "overthrow"
+   ],
+   "kind": "confabulation",
+   "said": "which thing does the overthrow figure?",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the argmax pecked the random",
+   "frame": "H3-passive",
+   "ask": "what is pecked by the argmax?",
+   "need": "random",
+   "forbid": [
+    "argmax"
+   ],
+   "kind": "correct",
+   "said": "the argmax pecked the random",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the abuse rejoicing the holmes",
+   "frame": "H3-passive",
+   "ask": "what is rejoicing by the abuse?",
+   "need": "holmes",
+   "forbid": [
+    "abuse"
+   ],
+   "kind": "correct",
+   "said": "the abuse rejoicing the holmes",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the fulfil vanish the command",
+   "frame": "H2-question-word",
+   "ask": "which thing does the fulfil vanish?",
+   "need": "command",
+   "forbid": [
+    "fulfil"
+   ],
+   "kind": "confabulation",
+   "said": "which thing does the fulfil vanish?",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the artery annoyance the appearing",
+   "frame": "H3-passive",
+   "ask": "what is annoyance by the artery?",
+   "need": "appearing",
+   "forbid": [
+    "artery"
+   ],
+   "kind": "correct",
+   "said": "the artery annoyance the appearing",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the summits adorned the paid",
+   "frame": "H3-passive",
+   "ask": "what is adorned by the summits?",
+   "need": "paid",
+   "forbid": [
+    "summits"
+   ],
+   "kind": "correct",
+   "said": "the summits adorned the paid",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the flogged proposal the arithmetic",
+   "frame": "H3-passive",
+   "ask": "what is proposal by the flogged?",
+   "need": "arithmetic",
+   "forbid": [
+    "flogged"
+   ],
+   "kind": "correct",
+   "said": "the flogged proposal the arithmetic",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the forge receipt the shovel",
+   "frame": "H3-passive",
+   "ask": "what is receipt by the forge?",
+   "need": "shovel",
+   "forbid": [
+    "forge"
+   ],
+   "kind": "correct",
+   "said": "the forge receipt the shovel",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the gather mills the gaily",
+   "frame": "H3-passive",
+   "ask": "what is mills by the gather?",
+   "need": "gaily",
+   "forbid": [
+    "gather"
+   ],
+   "kind": "correct",
+   "said": "the gather mills the gaily",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the folks reviewed the insisted",
+   "frame": "H1-reverse-role",
+   "ask": "what reviewed the insisted?",
+   "need": "folks",
+   "forbid": [
+    "insisted"
+   ],
+   "kind": "correct",
+   "said": "folks",
+   "direct": false,
+   "source": "arbiter head",
+   "stage": null
+  },
+  {
+   "tell": "the princess testify the collapses",
+   "frame": "H1-reverse-role",
+   "ask": "what testify the collapses?",
+   "need": "princess",
+   "forbid": [
+    "collapses"
+   ],
+   "kind": "correct",
+   "said": "princess",
+   "direct": false,
+   "source": "arbiter head",
+   "stage": null
+  },
+  {
+   "tell": "the invisible cope the maintained",
+   "frame": "H3-passive",
+   "ask": "what is cope by the invisible?",
+   "need": "maintained",
+   "forbid": [
+    "invisible"
+   ],
+   "kind": "correct",
+   "said": "the invisible cope the maintained",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the euston jurors the indulgence",
+   "frame": "H3-passive",
+   "ask": "what is jurors by the euston?",
+   "need": "indulgence",
+   "forbid": [
+    "euston"
+   ],
+   "kind": "correct",
+   "said": "the euston jurors the indulgence",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the signs slightest the permanently",
+   "frame": "H3-passive",
+   "ask": "what is slightest by the signs?",
+   "need": "permanently",
+   "forbid": [
+    "signs"
+   ],
+   "kind": "correct",
+   "said": "the signs slightest the permanently",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the assurance screw the granted",
+   "frame": "H3-passive",
+   "ask": "what is screw by the assurance?",
+   "need": "granted",
+   "forbid": [
+    "assurance"
+   ],
+   "kind": "correct",
+   "said": "the assurance screw the granted",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the poets pretend the earlier",
+   "frame": "H2-question-word",
+   "ask": "which thing does the poets pretend?",
+   "need": "earlier",
+   "forbid": [
+    "poets"
+   ],
+   "kind": "confabulation",
+   "said": "which thing does the poets pretend?",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the sword opium the charred",
+   "frame": "H2-question-word",
+   "ask": "which thing does the sword opium?",
+   "need": "charred",
+   "forbid": [
+    "sword"
+   ],
+   "kind": "confabulation",
+   "said": "which thing does the sword opium?",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  },
+  {
+   "tell": "the smote computes the documents",
+   "frame": "H3-passive",
+   "ask": "what is computes by the smote?",
+   "need": "documents",
+   "forbid": [
+    "smote"
+   ],
+   "kind": "correct",
+   "said": "the smote computes the documents",
+   "direct": false,
+   "source": "recalled proposition",
+   "stage": null
+  }
+ ]
+}

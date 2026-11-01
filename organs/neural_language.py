@@ -177,7 +177,7 @@ def _absence_licence(question, inventory):
     return ("refusal", f"{subj} was told but no {rel} was ever told for {subj}")
 
 
-def _electric_bind(question, inventory):
+def _electric_bind(question, inventory, broad_agent=False):
     """ELECTRIC: which (relation, subject) is this ask asking about?
 
     This is E24's licence detection, lifted out verbatim so the answer path and
@@ -201,6 +201,23 @@ def _electric_bind(question, inventory):
         rel = "place"
     elif re.search(r"\bwhat does\b|\bwhat is \w+ by\b|\bwhat \w+s\b", ask) \
             and "like" not in words:
+        rel = "agent"
+    elif broad_agent and "like" not in words and re.search(
+            r"\b(what|which)\b[^?.]*\b(do|does|did)\b", ask):
+        # STRUCTURAL, not phrase-driven. The branch above matches the LITERAL
+        # strings "what does" / "what is X by" / "what Vs", which is why E1's
+        # held-out frame `which thing does the dainty towns?` bound to NOTHING:
+        # it is an agent question in every way that matters and does not contain
+        # the word "what". The structure of an agent ask is a wh-word plus
+        # do-support, whatever the wh-word is.
+        #
+        # `broad_agent` is passed by the ELECTRIC answer path only, NOT by
+        # E24's absence licence. That asymmetry is deliberate and it is the only
+        # safe direction to be asymmetric in: widening the licence would let the
+        # organ claim to know-it-doesn't about asks E24 never licensed it to
+        # discuss, changing a measured 24-generation-old behaviour. Widening the
+        # ANSWER path instead means ELECTRIC may speak a fact it was genuinely
+        # told, keyed, where the licence would merely have stayed silent.
         rel = "agent"
     elif re.search(r"\b(is|are)\s+\w+\s+(or|and)\b", ask) \
             or ("what" in words and "like" in words):
@@ -234,7 +251,9 @@ def _electric_answer(question, says):
     warrant E24 required before allowing a negative answer -- the organ may only
     say what it was actually told, keyed, with no similarity search.
     """
-    bound = _electric_bind(question, says)
+    # broad_agent: this path only ever SPEAKS a fact it was actually told, so it
+    # may recognise an agent ask by structure. E24's licence keeps the narrow one.
+    bound = _electric_bind(question, says, broad_agent=True)
     if bound is None:
         return None
     rel, subj = bound

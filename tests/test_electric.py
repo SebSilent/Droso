@@ -82,6 +82,32 @@ def test_agent_ask_naming_the_object_is_not_claimed():
     assert nl._electric_answer("what does the frost bite?", says) is None
 
 
+def test_broad_agent_binds_a_held_out_frame():
+    """E1's `which thing does the {a} {v}?` is an agent question that never says
+    "what", so the phrase-driven detector missed it and the generalisation run
+    scored 0/3 with 3/3 confabulated echoes."""
+    says = {"dainty": {"agent": "the dainty towns the bottom"}}
+    assert nl._electric_answer("which thing does the dainty towns?", says) == \
+        "the dainty towns the bottom"
+    # Structure, not the literal phrase: `which` + do-support binds, and so does a
+    # different auxiliary. Scope is what|which -- `who did the dainty town?` is NOT
+    # claimed, because no evidence in E1's frames asked for it and widening on a
+    # guess is how the guarded battery silently breaks.
+    assert nl._electric_bind("which thing did the dainty town?", says,
+                             broad_agent=True) == ("agent", "dainty")
+    assert nl._electric_answer("who did the dainty town?", says) is None
+
+
+def test_licence_keeps_the_narrow_detector():
+    """The asymmetry is the point. E24's absence licence is a 24-generation-old
+    measured behaviour and must NOT widen: an ask the licence never licensed must
+    still fail to bind on the narrow path."""
+    inv = {"dainty": {"agent": "bottom"}}
+    assert nl._electric_bind("which thing does the dainty towns?", inv) is None
+    assert nl._electric_bind("which thing does the dainty towns?", inv,
+                             broad_agent=True) == ("agent", "dainty")
+
+
 def test_bind_is_shared_by_answer_and_refusal():
     """The answer path and the refusal path must agree on the binding, or one ask
     can be refused for a relation and answered for another."""
