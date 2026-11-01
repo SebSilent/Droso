@@ -177,6 +177,41 @@ def test_demo_does_not_flip_the_class_defaults(tmp_path):
     assert nl.NeuralLanguage.ELECTRIC_ANSWER is False
 
 
+def test_serve_telemetry_does_not_report_loaded_facts_as_taught():
+    """The bug this caught by running the real house: `taught_this_turn` was a diff
+    against zero, so the FIRST turn of a restarted session reported the inventory it had
+    LOADED from disk as if that turn had taught it -- 3 facts, taught_this_turn: 3, on a
+    question.  A user watching that column would conclude the demo rewrites memory every
+    turn.  Driven straight through completion_payload with a stub, no house boot."""
+    import types
+    from tools.serve import completion_payload
+
+    says = {"scarf": {"on the hook": "the scarf is on the hook"},
+            "lantern": {"belongs to": "the lantern belongs to Mira"},
+            "ledger": {"under": "the ledger is under the desk"}}
+
+    def srv(electric, seen):
+        s = types.SimpleNamespace()
+        s.session = types.SimpleNamespace(lang=types.SimpleNamespace(_taught_says=says))
+        s.electric = electric
+        s.taught_seen = seen
+        s.turns_served = 0
+        return s
+
+    turn = {"reply": {"spoken": True, "utterance": "the scarf is on the hook",
+                      "source": "electric_taught"}}
+    e = completion_payload(turn, srv(True, 3))["choices"][0]["electric"]
+    assert e["inventory"] == 3 and e["subjects"] == 3
+    assert e["taught_this_turn"] == 0, \
+        f"a loaded fact was reported as taught this turn: {e}"
+    assert e["source"] == "electric_taught"
+
+    # and the contract that matters for battery runs: no flag, no new wire member.
+    plain = completion_payload(turn, srv(False, 0))
+    assert "electric" not in plain["choices"][0], \
+        "the payload grew an ELECTRIC member with the flag off"
+
+
 def test_serve_has_the_flag_and_is_off_without_it():
     """serve.py --electric must EXIST and must be opt-in.  Checked through the real
     argparse (--help exits before the house loads, so this costs no boot)."""

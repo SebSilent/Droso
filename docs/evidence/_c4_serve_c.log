@@ -1,0 +1,13 @@
+[serve] loading Droso (session dir: state\sessions\c4live2) ...
+[serve] ELECTRIC on: loaded=True taught facts=3 subjects=3
+[serve] loaded in 17.6s: 11555 words, 60000 propositions
+[serve] reading state from: the live tree (read-only)
+[serve] listening on http://127.0.0.1:8138/v1 (model: droso, single-threaded)
+127.0.0.1 - - [01/Nov/2026 14:18:49] "POST /v1/chat/completions HTTP/1.1" 200 -
+127.0.0.1 - - [01/Nov/2026 14:18:49] "POST /v1/chat/completions HTTP/1.1" 200 -
+127.0.0.1 - - [01/Nov/2026 14:18:49] "POST /v1/chat/completions HTTP/1.1" 200 -
+127.0.0.1 - - [01/Nov/2026 14:18:50] "POST /v1/chat/completions HTTP/1.1" 200 -
+127.0.0.1 - - [01/Nov/2026 14:18:50] "POST /shutdown HTTP/1.1" 200 -
+[serve] 4 turns served; live files untouched: False
+[serve] LIVE FILES TOUCHED: ['live_learner\\current\\banc_brain.npz', 'live_learner\\staging\\ep3_6f21ec569a26\\banc_brain.npz', 'live_learner\\staging\\ep4_1fa13bbd81d7\\banc_brain.npz', 'live_learner\\versions\\v0_a7808217f2da\\banc_brain.npz', 'live_learner\\versions\\v1_8be802548643\\banc_brain.npz']
+[serve] session state written under state\sessions\c4live2

@@ -29,6 +29,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import threading
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
@@ -74,7 +75,7 @@ def completion_payload(turn: dict, server: "DrosoHTTPServer") -> dict:
     said = reply.get("utterance") or reply.get("response") or ""
     content = str(said) if reply.get("spoken") else ""
     server.turns_served += 1
-    return {
+    payload = {
         "id": f"chatcmpl-droso-{server.turns_served}",
         "object": "chat.completion",
         "created": int(time.time()),
@@ -83,6 +84,28 @@ def completion_payload(turn: dict, server: "DrosoHTTPServer") -> dict:
                      "message": {"role": "assistant", "content": content},
                      "finish_reason": "stop"}],
     }
+    if getattr(server, "electric", False):
+        # The demo's telemetry.  respond() returns no such keys -- the inventory is
+        # state on the organ, so it is read there -- and `taught_this_turn` is a
+        # DIFF against what this server saw before the turn, which is the only way to
+        # know a fact entered on THIS utterance rather than sometime earlier.
+        # Gated on the flag: without --electric this payload is byte-identical to
+        # yesterday's, which is what "ELECTRIC off for battery runs" has to mean for
+        # the wire format too, not just for the organ.
+        says = getattr(server.session.lang, "_taught_says", {}) or {}
+        inv = sum(len(v) for v in says.values())
+        before = getattr(server, "taught_seen", 0)
+        server.taught_seen = inv
+        payload["choices"][0]["electric"] = {
+            "spoken": reply.get("spoken"),
+            "source": reply.get("source"),
+            "reason": reply.get("reason"),
+            "licensed_refusal": reply.get("licensed_refusal"),
+            "inventory": inv,
+            "subjects": len(says),
+            "taught_this_turn": inv - before,
+        }
+    return payload
 
 
 def models_payload(server: "DrosoHTTPServer") -> dict:
@@ -130,6 +153,30 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         path = urlsplit(self.path).path
+        if path == "/shutdown":
+            # DEMO MODE ONLY: without --electric this 404s, so the route is not a new
+            # door on the production server.  A person closing the demo and a test that
+            # restarts it both need an exit that runs main()'s finally -- the session
+            # save lives there -- because terminate() on Windows skips it, and a
+            # persistence claim resting on a killed process would be testing nothing.
+            if not getattr(self.server, "electric", False):
+                self._error(404, f"unknown path {path!r}", "invalid_request_error")
+                return
+            try:
+                state_hygiene.save_session_state(self.server.session.lang,
+                                                 "serve session (demo shutdown)")
+            except Exception as exc:   # never report a save that did not happen
+                self._error(500, f"shutdown save failed: {type(exc).__name__}: {exc}",
+                            "droso_internal_error")
+                return
+            self._send(200, {"saved": True, "turns": self.server.turns_served})
+            # Another thread, always.  This server is single-threaded, so this handler
+            # is running INSIDE serve_forever, and shutdown() blocks until that loop
+            # reports itself stopped -- I hit exactly that deadlock in
+            # tools/electric_chat.py and a test hung 180 s on a process waiting for
+            # itself.
+            threading.Thread(target=self.server.shutdown, daemon=True).start()
+            return
         if path == "/v1/models":
             self._error(405, "models are GET", "invalid_request_error")
             return
@@ -230,6 +277,13 @@ def main() -> int:
           f"{args.state or 'the live tree (read-only)'}", flush=True)
 
     httpd = DrosoHTTPServer((args.host, args.port), Handler, session)
+    httpd.electric = bool(args.electric)
+    # Seed the diff from what the organ ALREADY HAS, not from zero.  Without this a
+    # restarted session reports its loaded inventory as if this turn taught it --
+    # measured: the first ask after a restart printed taught_this_turn: 3 for 3 facts
+    # it had loaded from disk and had not been told in that life at all.
+    httpd.taught_seen = sum(len(v) for v in
+                            session.lang._taught_says.values()) if args.electric else 0
     print(f"[serve] listening on http://{args.host}:{args.port}/v1 "
           f"(model: droso, single-threaded)", flush=True)
     try:
