@@ -1,0 +1,594 @@
+{
+ "jane_eyre (382 question lines)|A1": {
+  "marks": false,
+  "admissibility": false,
+  "attribution": {
+   "lines": 400,
+   "q_lines": 66,
+   "q_rows": 117,
+   "q_tagged": 0,
+   "q_quotable": 117,
+   "s_rows": 1050,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 1173
+  },
+  "probes": {
+   "why have i alluded to this man": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 41% of the question"
+   },
+   "what does bessie say i have done": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 49% of the question"
+   },
+   "what were you doing behind the curtain": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "and is it that makes you so miserable": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 43% of the question"
+   },
+   "is the satirist of vanity fair admired in high places": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 19% of the question"
+   },
+   "why was it useless to try to win any one s favour": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "why have i alluded to this that": {
+    "spoken": true,
+    "said": "why have i alluded to this man",
+    "src": "recalled proposition",
+    "leaked": true,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what does bessie say i have that": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "nothing he remembers has that shape"
+   },
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 28% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 1
+ },
+ "jane_eyre (382 question lines)|A2": {
+  "marks": false,
+  "admissibility": true,
+  "attribution": {
+   "lines": 400,
+   "q_lines": 66,
+   "q_rows": 117,
+   "q_tagged": 0,
+   "q_quotable": 117,
+   "s_rows": 1050,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 1173
+  },
+  "probes": {
+   "why have i alluded to this man": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 41% of the question"
+   },
+   "what does bessie say i have done": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 49% of the question"
+   },
+   "what were you doing behind the curtain": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "and is it that makes you so miserable": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 43% of the question"
+   },
+   "is the satirist of vanity fair admired in high places": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 19% of the question"
+   },
+   "why was it useless to try to win any one s favour": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "why have i alluded to this that": {
+    "spoken": true,
+    "said": "why have i alluded to this man",
+    "src": "recalled proposition",
+    "leaked": true,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what does bessie say i have that": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "nothing he remembers has that shape"
+   },
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 28% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 1
+ },
+ "jane_eyre (382 question lines)|A3": {
+  "marks": true,
+  "admissibility": false,
+  "attribution": {
+   "lines": 400,
+   "q_lines": 66,
+   "q_rows": 117,
+   "q_tagged": 117,
+   "q_quotable": 0,
+   "s_rows": 1050,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 1173
+  },
+  "probes": {
+   "why have i alluded to this man": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 41% of the question"
+   },
+   "what does bessie say i have done": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 49% of the question"
+   },
+   "what were you doing behind the curtain": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "and is it that makes you so miserable": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 43% of the question"
+   },
+   "is the satirist of vanity fair admired in high places": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 19% of the question"
+   },
+   "why was it useless to try to win any one s favour": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "why have i alluded to this that": {
+    "spoken": true,
+    "said": "why have i alluded to this man",
+    "src": "recalled proposition",
+    "leaked": true,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what does bessie say i have that": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "nothing he remembers has that shape"
+   },
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 28% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 1
+ },
+ "jane_eyre (382 question lines)|A4": {
+  "marks": true,
+  "admissibility": true,
+  "attribution": {
+   "lines": 400,
+   "q_lines": 66,
+   "q_rows": 117,
+   "q_tagged": 117,
+   "q_quotable": 0,
+   "s_rows": 1050,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 1173
+  },
+  "probes": {
+   "why have i alluded to this man": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 41% of the question"
+   },
+   "what does bessie say i have done": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 49% of the question"
+   },
+   "what were you doing behind the curtain": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "and is it that makes you so miserable": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 43% of the question"
+   },
+   "is the satirist of vanity fair admired in high places": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 19% of the question"
+   },
+   "why was it useless to try to win any one s favour": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 22% of the question"
+   },
+   "why have i alluded to this that": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": true,
+    "reason": "what he remembers there is only the asking itself"
+   },
+   "what does bessie say i have that": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": true,
+    "reason": "what he remembers there is only the asking itself"
+   },
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 28% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 0
+ },
+ "caregiver (no marks at all)|A1": {
+  "marks": false,
+  "admissibility": false,
+  "attribution": {
+   "lines": 200,
+   "q_lines": 0,
+   "q_rows": 0,
+   "q_tagged": 0,
+   "q_quotable": 0,
+   "s_rows": 200,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 206
+  },
+  "probes": {
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 31% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 0
+ },
+ "caregiver (no marks at all)|A2": {
+  "marks": false,
+  "admissibility": true,
+  "attribution": {
+   "lines": 200,
+   "q_lines": 0,
+   "q_rows": 0,
+   "q_tagged": 0,
+   "q_quotable": 0,
+   "s_rows": 200,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 206
+  },
+  "probes": {
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 31% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 0
+ },
+ "caregiver (no marks at all)|A3": {
+  "marks": true,
+  "admissibility": false,
+  "attribution": {
+   "lines": 200,
+   "q_lines": 0,
+   "q_rows": 0,
+   "q_tagged": 0,
+   "q_quotable": 0,
+   "s_rows": 200,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 206
+  },
+  "probes": {
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 31% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 0
+ },
+ "caregiver (no marks at all)|A4": {
+  "marks": true,
+  "admissibility": true,
+  "attribution": {
+   "lines": 200,
+   "q_lines": 0,
+   "q_rows": 0,
+   "q_tagged": 0,
+   "q_quotable": 0,
+   "s_rows": 200,
+   "s_tagged": 0,
+   "rows_shared_by_question_and_statement": 0,
+   "rows_total": 206
+  },
+  "probes": {
+   "who does the mouse chase": {
+    "spoken": false,
+    "said": "",
+    "src": "",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": "the closest memory of his covers 31% of the question"
+   },
+   "where is the scarf": {
+    "spoken": true,
+    "said": "hook",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   },
+   "what bites the latch": {
+    "spoken": true,
+    "said": "frost",
+    "src": "arbiter head",
+    "leaked": false,
+    "ask_refused": false,
+    "reason": ""
+   }
+  },
+  "leaks": 0
+ }
+}

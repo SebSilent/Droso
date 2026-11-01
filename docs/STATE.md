@@ -1266,3 +1266,85 @@ object-role, so a run that shows it costing something can say which switch did i
   `tests/test_electric.py`'s deliberate signature pin caught the new parameter and was satisfied
   by RECORDING the knob (with `default is False`), not by loosening it. That pin is doing its job.
 - **Suite:** 902 collected; the only failure anywhere was that pin.
+
+## ELECTRIC knows a book printed a question (`ELECTRIC_ASK_MARKS`, off by default)
+
+**The bottleneck was one hop wide, and the mark was already recovered.** `_load_next_book`
+tokenizes with `c if c.isalnum() else " "`, which destroys the `?` before `row_is_ask`'s token
+fallback can ever see it -- but the SAME function already records `_book_is_q` per line off the
+RAW text, and `expose_tick` uses it for `learn_qa` and `question_initial` and **nothing else**.
+So this is not a recovery, it is a channel: positions of the marks, handed to `hear` beside the
+tokens.
+
+- **Why a side channel and not the obvious fix:** putting the mark back on the token would make
+  `you` and `you?` different tokens to the binder key, the cue and the concept vector -- it
+  re-keys every row he has ever heard. Positions cost the row nothing.
+- **Three corpus facts set the design.** 2,687 question lines in 83,537. **1,618 of them (60%)
+  are longer than `max_roles = 8`**, so a line becomes several rows: a rule tagging only the
+  window the mark physically sat in would leave 60% of a question quotable as a fact. Hence
+  `marks_cover`: a mark on the LAST token scopes the utterance, an INTERIOR mark scopes only its
+  own window. And `_book_is_q`'s `endswith("?")` misses interior marks outright -- `07_prose`
+  15 lines vs 11, `war_and_peace` 339 vs 334; the channel sees those, the boolean cannot.
+- **`books/` opens on `01_caregiver.txt`, which contains ZERO `?` characters** -- so do 02, 03,
+  04 and 06_stories (36,000 lines). That is the whole reason an earlier audit reported "0 marked
+  rows in 60,000". A live check on book 0 measures nothing at all; the arm reads Jane Eyre (382
+  question lines) AND a mark-free book, so the zero is reported as a fact about the book rather
+  than mistaken for a dead flag.
+- **A test caught a real bug, not a test bug.** The delta's 6th element was set by ANY mark, so
+  an interior mark widened on replay: `he asked who? and left then went away ...` tagged every
+  window after a save (`'left then went away outside the gate today'` went False -> True). The
+  boolean now means "this utterance is an asking" -- a TRAILING mark -- and the new 7th element
+  carries the positions. An old 6-element delta therefore loses interior tagging, which fails
+  toward "not tagged", the pre-channel behaviour, never toward over-tagging.
+- **The store is not the mouth.** While building this check a probe fed the utterance as one
+  giant token; index 6 was out of range, the junk-position guard rejected it, the row went
+  untagged -- and the row-level metric still reported QUOTABLE=0 while the house recited the
+  question. `tests/test_electric_ask_marks.py::test_the_tag_reaches_the_hit_dict_the_mouth_reads`
+  now pins the propagation through `binder.recall` -> `h["ask"]` -> `_hit_is_ask`, because a tag
+  that dies before the hit dict makes every write-side count a lie.
+- **The live tool's `dropped` metric read a trace key that does not exist.** Every arm returned
+  None, which looked like "no leak" and meant "not measured". It is replaced by `leaked` (he
+  spoke, and what he spoke is a row a question line made) and `ask_refused` (the reason the gate
+  names itself). The first report's "no probe leaked" was this artifact.
+
+**The leak is real, and the pair closes it -- on the real house.** 400 beats of Jane Eyre, 66
+question lines, 117 rows:
+
+| arm | tagged | quotable as fact | LEAKS |
+|---|---|---|---|
+| A1 nothing on | 0/117 | 117 | **1** |
+| A2 admissibility alone | **0/117** | 117 | **1** |
+| A3 marks alone | 117/117 | 0 | **1** |
+| A4 the pair | 117/117 | 0 | **0** |
+
+The probe was `why have i alluded to this that`, one word off a line the book printed as a
+question. A1, A2 and A3 all answer `why have i alluded to this man`, source
+`recalled proposition` -- the book's own question, recited as a fact. A4 is silent with the
+reason `what he remembers there is only the asking itself`. **A2 is the arm that matters:
+admissibility on its own tags nothing from a book and leaks exactly as much as nothing on.** The
+gate has no idea what it is looking at until the channel tells it. A3 matters equally: a tag is
+not a refusal.
+
+Safety, measured in the same run: rows that exist **1173 / 1173 / 1173 / 1173** (and 206 across
+all four arms on the mark-free book) -- the channel renames rows, never makes or loses one; zero
+statement rows tagged in any arm; zero question/statement row collisions in this sample; A1 and
+A3 speak identically on every probe, so marks alone are inaudible; the two taught asks answer
+`hook` and `frost` byte-identically in all four arms. `tools/book_question_marks_live.py`,
+evidence in `docs/evidence/book_question_marks_live.json`.
+
+- **`live()` does not feed the channel into `chunk`.** Binding a 14-word book question whole
+  stores its first eight words and loses the rest; the channel says what a row IS, not how many
+  there are. Pinned at the call site.
+- **Read outside `--electric`**, like admissibility and shape: the rows it tags come out of the
+  recall path, which runs whatever else is on.
+- **Tests:** `tests/test_electric_ask_marks.py`, 15 -- positions, `marks_cover` both directions,
+  junk positions rejected, row-set equality against the channel-off organ, delta round-trip
+  through `save_delta`/`apply_delta`, the four-arm leak on two lines, the propagation pin, and
+  the two source-text wiring pins.
+- **Suite:** 915 passed, 3 skipped (902 + the 13 here, then 15 with the leak tests).
+- **Guarded contract untouched.** No token is altered. No brain was built.
+- **Gaps left open, on purpose:** re-echo does not UPGRADE a tag -- a row first stored as a
+  statement stays admissible if it is later heard inside a question (`shared=0` in this sample,
+  so it did not bite; the conservative direction is a fact staying a fact). The window step drops
+  the tail tokens of a >8-word line (pre-existing, not this flag). A mark-free book gains nothing
+  from this channel -- 0 marks there, and that is a fact about `books/`, not about the flag.

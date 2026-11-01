@@ -535,6 +535,34 @@ QUESTION_FRAGMENT_WORDS = frozenset({
 })
 
 
+def question_mark_positions(line) -> list:
+    """Where the question marks STOOD in a source line, as token indices.
+
+    The tokenizer is exactly the one `_load_next_book` uses (`c if c.isalnum() else " "`),
+    so an index here means the same token there. The mark is not put back into any token:
+    `you` and `you?` are different words to the binder key, the cue and the concept vector,
+    and re-adding punctuation to a token would silently re-key every row he has ever heard.
+    This is a record of position, nothing else. A line with no mark returns [].
+
+    A mark is not a word boundary, which is what makes `who? what?` two tokens with marks
+    at 0 and 1 rather than three tokens.
+    """
+    out, n, open_tok = [], 0, False
+    for ch in str(line or ""):
+        if ch.isalnum():
+            open_tok = True
+            continue
+        if ch == "?":
+            idx = n if open_tok else n - 1
+            if idx >= 0:
+                out.append(idx)
+            continue
+        if open_tok:
+            n += 1
+            open_tok = False
+    return out
+
+
 def _is_question_fragment(filler) -> bool:
     """Is this "answer" a piece of an ASKING rather than a piece of a fact?
 
@@ -820,6 +848,8 @@ class NeuralLanguage:
         self._book_pos = 0
         self._book_lines = []
         self._book_is_q = []
+        # Parallel to _book_is_q: WHERE the marks stood, per line. Positions, not tokens.
+        self._book_marks = []
         self._book_line_pos = 0
         self._expose_real_last = 0.0
         self._expose_accum = 0.0
@@ -895,7 +925,7 @@ class NeuralLanguage:
 
     def live(self, text: str, *, learn: bool = True,
              attention: float | None = None, speaker: str | None = None,
-             announce: bool = True, readout: bool = True) -> dict:
+             announce: bool = True, readout: bool = True, ask_marks=None) -> dict:
         """Experience language through the semantic cortex.
 
         Every token lights its SAN footprint; learned associations spread
@@ -944,9 +974,15 @@ class NeuralLanguage:
                                  (not mr or len(toks) <= mr) and
                                  self.question_shape(toks))
                 is_ask = bool(is_q or shape_ask)
+                # `chunk` is decided by is_q/is_ask alone -- the mark channel must NOT
+                # feed it. Binding a 12-word book question whole stores its first eight
+                # words and loses the rest (measured, and the reason shape authority
+                # declines past the cap); the channel's job is to say what the rows ARE.
                 res = self.cortex.hear(toks, who=str(speaker), chunk=not is_ask,
                                        ask=bool(is_ask and
-                                                self.ELECTRIC_ASK_ADMISSIBILITY))
+                                                self.ELECTRIC_ASK_ADMISSIBILITY),
+                                       ask_marks=(ask_marks if self.ELECTRIC_ASK_MARKS
+                                                  else None))
                 if res.get("error") is not None:
                     surprise = 1.0 + 2.0 * float(res["error"])
             except Exception:
@@ -2160,12 +2196,17 @@ class NeuralLanguage:
         # give me the" from a book whose actual line was "give me the word".
         self._book_lines = []
         self._book_is_q = []
+        self._book_marks = []
         for ln in str(raw).splitlines():
             ws = [w for w in "".join(
                 c if c.isalnum() else " " for c in ln.lower()).split() if w]
             if len(ws) >= 2:
                 self._book_lines.append(ws)
                 self._book_is_q.append(bool(ln.rstrip().endswith("?")))
+                # The mark is read off the RAW line, here, before the tokenizer above
+                # turns it into a space. This is the one place in the house that still
+                # has it, so it is the one place that can record where it was.
+                self._book_marks.append(question_mark_positions(ln))
         self._book_line_pos = 0
         return True
 
@@ -2785,6 +2826,17 @@ class NeuralLanguage:
     # relative clause cut mid-phrase, a fact eaten. 324 rows in, including real questions
     # the mark path never caught (the corpus drops every `?`: 0 marked rows in 60,000).
     ELECTRIC_ASK_SHAPE = False
+    # The mark CHANNEL: the exposure path already knows which lines of a book ended in
+    # `?` (`_book_is_q`, read off the raw text before the tokenizer drops it) and has
+    # always known -- it uses that knowledge for learn_qa and for nothing else. On: the
+    # positions are carried down into the row that gets stored, so a book question is
+    # RECOGNISED as an asking instead of being filed as five quotable statements.
+    # It changes no token and no chunking: `chunk` stays whatever `is_q` made it, so the
+    # tail of a long question still survives as windows the way it always did -- this
+    # flag decides what a row IS, not which rows exist. Read side: the tag is only
+    # consulted under ADMISSIBILITY, so marks alone change nothing anyone can hear, and
+    # marks + admissibility is the pair that closes the leak. Off: nothing is passed.
+    ELECTRIC_ASK_MARKS = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -4710,12 +4762,19 @@ class NeuralLanguage:
         if not self._book_words and not self._load_next_book():
             return None
         lines = getattr(self, "_book_lines", None)
+        qmarks = None
         if lines:
             # One whole sentence per beat, which is also how a parent talks.
             idx = self._book_line_pos % len(lines)
             line_words = lines[idx]
             qs = getattr(self, "_book_is_q", None)
             is_q = bool(qs and idx < len(qs) and qs[idx])
+            # The positions this line's marks stood at, in the tokens about to be handed
+            # to live(). Only the LINE mode has them: the word-stream mode reads a flat
+            # run of tokens with no sentence structure to attribute a mark to, and this
+            # channel does not guess.
+            mk = getattr(self, "_book_marks", None)
+            qmarks = list(mk[idx]) if (mk and idx < len(mk)) else None
             if is_q and idx + 1 < len(lines):
                 # A question immediately followed by its answer is the only
                 # supervision anywhere in this system, and it is enough.
@@ -4752,7 +4811,8 @@ class NeuralLanguage:
                  "text": line[:80], "attended": attends,
                  "mood": round(self.social_drive, 3)}
         if attends:
-            self.live(line, learn=True, speaker="book", readout=False)
+            self.live(line, learn=True, speaker="book", readout=False,
+                      ask_marks=qmarks)
             self.engine.teach(self.reward_exposure)
             assimilated = []
             for w in line_words:

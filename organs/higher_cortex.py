@@ -64,6 +64,25 @@ def row_is_ask(row) -> bool:
     return any(str(t).strip().endswith("?") for t in (row.get("tokens") or []))
 
 
+def marks_cover(i, j, marks, n) -> bool:
+    """Do the question marks recorded for an utterance bear on tokens [i, j) of it?
+
+    A mark on the LAST token scopes over the WHOLE utterance: a sentence-final `?`
+    punctuates the sentence, not its final word. And measured on the real corpus, 1,618
+    of 2,687 question lines are longer than the binder's 8-role window -- so a rule that
+    tagged only the window the mark physically sat in would leave 60% of a question
+    untagged and still quotable as a fact. An INTERIOR mark scopes only over the span
+    containing it: `he asked who? and left` is a statement with a question inside it, and
+    the windows around that mark are not all asks.
+    """
+    ms = [int(m) for m in (marks or [])]
+    if not ms or n <= 0:
+        return False
+    if n - 1 in ms:
+        return True
+    return any(i <= m < j for m in ms)
+
+
 class ConceptSpace:
     """A fixed random projection from tokens to dense bipolar concept vectors.
 
@@ -787,7 +806,7 @@ class HigherCortex:
 
     def hear(self, tokens, who: str = "", surprise_weight: float = 1.0,
              chunk: bool = True, replay: bool = False,
-             when: float = 0.0, ask: bool = False) -> dict:
+             when: float = 0.0, ask: bool = False, ask_marks=None) -> dict:
         """One utterance arrives. Predict it, then bind and store it.
 
         Prediction uses the running concept of what came before, so error is
@@ -813,6 +832,15 @@ class HigherCortex:
         toks = [str(t).strip().lower() for t in (tokens or []) if str(t).strip()]
         if not toks:
             return {"error": None}
+        # The side-channel: the token POSITIONS at which a question mark stood in the
+        # SOURCE text, as recorded by whoever read it. Tokens are NOT touched: the book
+        # tokenizer has already dropped the mark by the time a row exists, and putting it
+        # back would change every key, cue and concept vector derived from that token --
+        # `you` and `you?` are different words to everything downstream of here.
+        # A bool in this slot is rejected rather than read as index 0/1.
+        marks = sorted({int(m) for m in (ask_marks or [])
+                        if not isinstance(m, bool) and isinstance(m, (int, float))
+                        and 0 <= int(m) < len(toks)})
         now = time.time()
         if replay:
             when = float(when) or now
@@ -834,8 +862,19 @@ class HigherCortex:
                     # WINDOW of a statement that happens to start on "who".
                     self._heard.append([list(toks), str(who or ""), bool(chunk),
                                         float(surprise_weight), float(now),
+                                        # NOT `bool(marks)`: an INTERIOR mark qualifies one
+                                        # window, and the first version recorded it as a
+                                        # whole-utterance ask, so a replay tagged every
+                                        # window of `he asked who? and left ...` -- the tag
+                                        # silently widened across a save. The boolean means
+                                        # "this utterance is an asking", which is a trailing
+                                        # mark; the 7th element carries the rest.
                                         bool(ask) or any(
-                                            str(t).strip().endswith("?") for t in toks)])
+                                            str(t).strip().endswith("?") for t in toks)
+                                        or bool(marks) and (len(toks) - 1) in marks,
+                                        # ...and the POSITIONS, so a replay tags exactly
+                                        # the rows the mark covered instead of all of them.
+                                        list(marks)])
         phrase = self.space.of(" ".join(toks[:6]))
         step = self.predictor.observe(phrase, surprise_weight=surprise_weight)
         self.last_error = step.get("error")
@@ -845,7 +884,8 @@ class HigherCortex:
         # dependent on a caller that may be off.
         if len(toks) <= mr or not chunk:
             self.binder.remember(toks, who=who, when=when if replay else 0.0,
-                                 ask=bool(ask))
+                                 ask=bool(ask) or marks_cover(0, len(toks),
+                                                              marks, len(toks)))
         else:
             # A sentence longer than the role count used to lose its tail: the
             # binder kept the first eight words and the rest was never bound at
@@ -855,8 +895,16 @@ class HigherCortex:
             # makes them share structure rather than sit side by side.
             step_w = max(2, mr // 2)
             for i in range(0, max(1, len(toks) - mr + 1), step_w):
+                # Windows used to be untaggable: the loop never passed `ask`, and no
+                # window of a book line carries a `?` token. That is the leak -- a
+                # 12-word question left the house as five quotable statements. Threading
+                # `ask` here is a NO-OP for every caller that exists today, because a
+                # caller that passes ask=True also passes chunk=False and never reaches
+                # this branch; it is only reachable now by the mark channel.
                 self.binder.remember(toks[i:i + mr], who=who,
-                                     when=when if replay else 0.0)
+                                     when=when if replay else 0.0,
+                                     ask=bool(ask) or marks_cover(
+                                         i, min(i + mr, len(toks)), marks, len(toks)))
         return {"error": step.get("error"),
                 "predicted_cosine": step.get("predicted_cosine"),
                 "propositions": self.binder.X.shape[0]}
@@ -1090,10 +1138,13 @@ class HigherCortex:
                 # row[5] is the recorded ask tag; five-element rows are deltas an earlier
                 # session wrote, and their marked rows are still caught by the token
                 # fallback inside remember() -- only an UNMARKED asking is invisible there.
+                # row[6] is the mark positions; six-element rows are deltas written before
+                # the channel existed, and their recorded tag alone still applies.
                 self.hear(toks, who=str(who or ""), chunk=bool(chunk),
                           surprise_weight=float(sw), replay=True,
                           when=float(when),
-                          ask=bool(row[5]) if len(row) > 5 else False)
+                          ask=bool(row[5]) if len(row) > 5 else False,
+                          ask_marks=row[6] if len(row) > 6 else None)
                 n += 1
             for row in (doc.get("facts") or []):
                 if isinstance(row, (list, tuple)) and len(row) >= 4:

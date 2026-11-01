@@ -274,6 +274,19 @@ def main() -> int:
                          "anything. Read only under --electric-ask-admissibility, so "
                          "with it off which rows exist does not change. OFF by default: "
                          "the detector never runs.")
+    ap.add_argument("--electric-ask-marks", action="store_true",
+                    help="Carry the question marks a book actually printed. The "
+                         "exposure path has always known which lines ended in `?` "
+                         "(_book_is_q, read off the raw text) and used it only for "
+                         "learn_qa, so 2,687 question lines were stored as quotable "
+                         "statements. This passes their mark POSITIONS down to the row "
+                         "so a book question is recognised as an asking. It changes no "
+                         "token and no chunking -- a row's tokens stay exactly what the "
+                         "tokenizer produced, and a long question still survives as "
+                         "windows. The tag is only CONSULTED under "
+                         "--electric-ask-admissibility, so marks alone change nothing "
+                         "anyone can hear; marks + admissibility is the pair. OFF by "
+                         "default: nothing is passed.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -309,6 +322,11 @@ def main() -> int:
     # Shape authority is a WIDENING of admissibility, not a separate mouth: with
     # admissibility off it can tag rows but nothing reads the tag, so it is inert.
     agent.language.ELECTRIC_ASK_SHAPE = bool(args.electric_ask_shape)
+    # The mark channel is read OUTSIDE the --electric block like the two above it: the
+    # rows it tags come out of the recall path, and it writes positions into a row that
+    # exists whether or not ELECTRIC is on. It does not touch tokenization, so it cannot
+    # move a row's key, cue or vector -- only what the row is called.
+    agent.language.ELECTRIC_ASK_MARKS = bool(args.electric_ask_marks)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into
