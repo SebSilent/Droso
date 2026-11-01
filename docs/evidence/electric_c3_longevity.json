@@ -1,0 +1,1870 @@
+{
+ "arm": "longevity_probe-on",
+ "probe_electric": "on",
+ "cycles": 3,
+ "per_cycle": 5,
+ "budget": 200,
+ "seed": 1,
+ "generator": {
+  "seed": 1,
+  "facts": [
+   {
+    "n": 1,
+    "a": "dainty",
+    "v": "towns",
+    "b": "bottom",
+    "tell": "the dainty towns the bottom",
+    "ask_T": "what does the dainty towns?",
+    "answer_T": "bottom",
+    "forbid_T": [
+     "dainty"
+    ],
+    "frame_H": "H2-question-word",
+    "ask_H": "which thing does the dainty towns?",
+    "answer_H": "bottom",
+    "forbid_H": [
+     "dainty"
+    ],
+    "cycle": 1
+   },
+   {
+    "n": 2,
+    "a": "continuation",
+    "v": "shouldn",
+    "b": "rendered",
+    "tell": "the continuation shouldn the rendered",
+    "ask_T": "what does the continuation shouldn?",
+    "answer_T": "rendered",
+    "forbid_T": [
+     "continuation"
+    ],
+    "frame_H": "H2-question-word",
+    "ask_H": "which thing does the continuation shouldn?",
+    "answer_H": "rendered",
+    "forbid_H": [
+     "continuation"
+    ],
+    "cycle": 1
+   },
+   {
+    "n": 3,
+    "a": "overthrow",
+    "v": "figure",
+    "b": "clattering",
+    "tell": "the overthrow figure the clattering",
+    "ask_T": "what does the overthrow figure?",
+    "answer_T": "clattering",
+    "forbid_T": [
+     "overthrow"
+    ],
+    "frame_H": "H2-question-word",
+    "ask_H": "which thing does the overthrow figure?",
+    "answer_H": "clattering",
+    "forbid_H": [
+     "overthrow"
+    ],
+    "cycle": 1
+   },
+   {
+    "n": 4,
+    "a": "argmax",
+    "v": "pecked",
+    "b": "random",
+    "tell": "the argmax pecked the random",
+    "ask_T": "what does the argmax pecked?",
+    "answer_T": "random",
+    "forbid_T": [
+     "argmax"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is pecked by the argmax?",
+    "answer_H": "random",
+    "forbid_H": [
+     "argmax"
+    ],
+    "cycle": 1
+   },
+   {
+    "n": 5,
+    "a": "abuse",
+    "v": "rejoicing",
+    "b": "holmes",
+    "tell": "the abuse rejoicing the holmes",
+    "ask_T": "what does the abuse rejoicing?",
+    "answer_T": "holmes",
+    "forbid_T": [
+     "abuse"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is rejoicing by the abuse?",
+    "answer_H": "holmes",
+    "forbid_H": [
+     "abuse"
+    ],
+    "cycle": 1
+   },
+   {
+    "n": 6,
+    "a": "fulfil",
+    "v": "vanish",
+    "b": "command",
+    "tell": "the fulfil vanish the command",
+    "ask_T": "what does the fulfil vanish?",
+    "answer_T": "command",
+    "forbid_T": [
+     "fulfil"
+    ],
+    "frame_H": "H2-question-word",
+    "ask_H": "which thing does the fulfil vanish?",
+    "answer_H": "command",
+    "forbid_H": [
+     "fulfil"
+    ],
+    "cycle": 2
+   },
+   {
+    "n": 7,
+    "a": "artery",
+    "v": "annoyance",
+    "b": "appearing",
+    "tell": "the artery annoyance the appearing",
+    "ask_T": "what does the artery annoyance?",
+    "answer_T": "appearing",
+    "forbid_T": [
+     "artery"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is annoyance by the artery?",
+    "answer_H": "appearing",
+    "forbid_H": [
+     "artery"
+    ],
+    "cycle": 2
+   },
+   {
+    "n": 8,
+    "a": "summits",
+    "v": "adorned",
+    "b": "paid",
+    "tell": "the summits adorned the paid",
+    "ask_T": "what does the summits adorned?",
+    "answer_T": "paid",
+    "forbid_T": [
+     "summits"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is adorned by the summits?",
+    "answer_H": "paid",
+    "forbid_H": [
+     "summits"
+    ],
+    "cycle": 2
+   },
+   {
+    "n": 9,
+    "a": "flogged",
+    "v": "proposal",
+    "b": "arithmetic",
+    "tell": "the flogged proposal the arithmetic",
+    "ask_T": "what does the flogged proposal?",
+    "answer_T": "arithmetic",
+    "forbid_T": [
+     "flogged"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is proposal by the flogged?",
+    "answer_H": "arithmetic",
+    "forbid_H": [
+     "flogged"
+    ],
+    "cycle": 2
+   },
+   {
+    "n": 10,
+    "a": "forge",
+    "v": "receipt",
+    "b": "shovel",
+    "tell": "the forge receipt the shovel",
+    "ask_T": "what does the forge receipt?",
+    "answer_T": "shovel",
+    "forbid_T": [
+     "forge"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is receipt by the forge?",
+    "answer_H": "shovel",
+    "forbid_H": [
+     "forge"
+    ],
+    "cycle": 2
+   },
+   {
+    "n": 11,
+    "a": "gather",
+    "v": "mills",
+    "b": "gaily",
+    "tell": "the gather mills the gaily",
+    "ask_T": "what does the gather mills?",
+    "answer_T": "gaily",
+    "forbid_T": [
+     "gather"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is mills by the gather?",
+    "answer_H": "gaily",
+    "forbid_H": [
+     "gather"
+    ],
+    "cycle": 3
+   },
+   {
+    "n": 12,
+    "a": "folks",
+    "v": "reviewed",
+    "b": "insisted",
+    "tell": "the folks reviewed the insisted",
+    "ask_T": "what does the folks reviewed?",
+    "answer_T": "insisted",
+    "forbid_T": [
+     "folks"
+    ],
+    "frame_H": "H1-reverse-role",
+    "ask_H": "what reviewed the insisted?",
+    "answer_H": "folks",
+    "forbid_H": [
+     "insisted"
+    ],
+    "cycle": 3
+   },
+   {
+    "n": 13,
+    "a": "princess",
+    "v": "testify",
+    "b": "collapses",
+    "tell": "the princess testify the collapses",
+    "ask_T": "what does the princess testify?",
+    "answer_T": "collapses",
+    "forbid_T": [
+     "princess"
+    ],
+    "frame_H": "H1-reverse-role",
+    "ask_H": "what testify the collapses?",
+    "answer_H": "princess",
+    "forbid_H": [
+     "collapses"
+    ],
+    "cycle": 3
+   },
+   {
+    "n": 14,
+    "a": "invisible",
+    "v": "cope",
+    "b": "maintained",
+    "tell": "the invisible cope the maintained",
+    "ask_T": "what does the invisible cope?",
+    "answer_T": "maintained",
+    "forbid_T": [
+     "invisible"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is cope by the invisible?",
+    "answer_H": "maintained",
+    "forbid_H": [
+     "invisible"
+    ],
+    "cycle": 3
+   },
+   {
+    "n": 15,
+    "a": "euston",
+    "v": "jurors",
+    "b": "indulgence",
+    "tell": "the euston jurors the indulgence",
+    "ask_T": "what does the euston jurors?",
+    "answer_T": "indulgence",
+    "forbid_T": [
+     "euston"
+    ],
+    "frame_H": "H3-passive",
+    "ask_H": "what is jurors by the euston?",
+    "answer_H": "indulgence",
+    "forbid_H": [
+     "euston"
+    ],
+    "cycle": 3
+   }
+  ],
+  "pool_size": 10234,
+  "rejections": {
+   "not_alpha": 91,
+   "too_short": 518,
+   "function_word": 73,
+   "no_postings": 639,
+   "not_speakable": 0
+  },
+  "attempts": 16,
+  "absence_checks": 15,
+  "binder_collisions": 0,
+  "frame": "the {a} {v} the {b}",
+  "ask_frame_T": "what does the {a} {v}?",
+  "ask_frames_H": {
+   "H1-reverse-role": "what {v} the {b}?",
+   "H2-question-word": "which thing does the {a} {v}?",
+   "H3-passive": "what is {v} by the {a}?"
+  },
+  "vocab_source": "lang.word_patterns (live vocabulary)",
+  "filter": "organ's own closed-class sets + binder stem postings + len >= 4"
+ },
+ "facts": [
+  {
+   "n": 1,
+   "a": "dainty",
+   "v": "towns",
+   "b": "bottom",
+   "tell": "the dainty towns the bottom",
+   "frame_H": "H2-question-word",
+   "answer_H": "bottom"
+  },
+  {
+   "n": 2,
+   "a": "continuation",
+   "v": "shouldn",
+   "b": "rendered",
+   "tell": "the continuation shouldn the rendered",
+   "frame_H": "H2-question-word",
+   "answer_H": "rendered"
+  },
+  {
+   "n": 3,
+   "a": "overthrow",
+   "v": "figure",
+   "b": "clattering",
+   "tell": "the overthrow figure the clattering",
+   "frame_H": "H2-question-word",
+   "answer_H": "clattering"
+  },
+  {
+   "n": 4,
+   "a": "argmax",
+   "v": "pecked",
+   "b": "random",
+   "tell": "the argmax pecked the random",
+   "frame_H": "H3-passive",
+   "answer_H": "random"
+  },
+  {
+   "n": 5,
+   "a": "abuse",
+   "v": "rejoicing",
+   "b": "holmes",
+   "tell": "the abuse rejoicing the holmes",
+   "frame_H": "H3-passive",
+   "answer_H": "holmes"
+  },
+  {
+   "n": 6,
+   "a": "fulfil",
+   "v": "vanish",
+   "b": "command",
+   "tell": "the fulfil vanish the command",
+   "frame_H": "H2-question-word",
+   "answer_H": "command"
+  },
+  {
+   "n": 7,
+   "a": "artery",
+   "v": "annoyance",
+   "b": "appearing",
+   "tell": "the artery annoyance the appearing",
+   "frame_H": "H3-passive",
+   "answer_H": "appearing"
+  },
+  {
+   "n": 8,
+   "a": "summits",
+   "v": "adorned",
+   "b": "paid",
+   "tell": "the summits adorned the paid",
+   "frame_H": "H3-passive",
+   "answer_H": "paid"
+  },
+  {
+   "n": 9,
+   "a": "flogged",
+   "v": "proposal",
+   "b": "arithmetic",
+   "tell": "the flogged proposal the arithmetic",
+   "frame_H": "H3-passive",
+   "answer_H": "arithmetic"
+  },
+  {
+   "n": 10,
+   "a": "forge",
+   "v": "receipt",
+   "b": "shovel",
+   "tell": "the forge receipt the shovel",
+   "frame_H": "H3-passive",
+   "answer_H": "shovel"
+  },
+  {
+   "n": 11,
+   "a": "gather",
+   "v": "mills",
+   "b": "gaily",
+   "tell": "the gather mills the gaily",
+   "frame_H": "H3-passive",
+   "answer_H": "gaily"
+  },
+  {
+   "n": 12,
+   "a": "folks",
+   "v": "reviewed",
+   "b": "insisted",
+   "tell": "the folks reviewed the insisted",
+   "frame_H": "H1-reverse-role",
+   "answer_H": "folks"
+  },
+  {
+   "n": 13,
+   "a": "princess",
+   "v": "testify",
+   "b": "collapses",
+   "tell": "the princess testify the collapses",
+   "frame_H": "H1-reverse-role",
+   "answer_H": "princess"
+  },
+  {
+   "n": 14,
+   "a": "invisible",
+   "v": "cope",
+   "b": "maintained",
+   "tell": "the invisible cope the maintained",
+   "frame_H": "H3-passive",
+   "answer_H": "maintained"
+  },
+  {
+   "n": 15,
+   "a": "euston",
+   "v": "jurors",
+   "b": "indulgence",
+   "tell": "the euston jurors the indulgence",
+   "frame_H": "H3-passive",
+   "answer_H": "indulgence"
+  }
+ ],
+ "cycles_out": [
+  {
+   "cycle": 1,
+   "facts_taught": 5,
+   "inventory": {
+    "before": 0,
+    "after_teach": 5,
+    "after_cons": 5,
+    "subjects": 5,
+    "absence_inv": 5,
+    "clobbered": []
+   },
+   "consolidate": {
+    "rows_scanned": 2000,
+    "rows_urgent": 334,
+    "rows_replayed": 200,
+    "passes": 3,
+    "attention": 0.5,
+    "urgency_line": 0.1,
+    "san_real_before": 1452646,
+    "san_real_after": 1446106,
+    "deltas": [
+     {
+      "text": "the world is dark now",
+      "who": "parent",
+      "count": 3143,
+      "min_pair_before": 0.07337180525064468,
+      "min_pair_after": 0.3307269811630249
+     },
+     {
+      "text": "you know more now",
+      "who": "parent",
+      "count": 24,
+      "min_pair_before": 0.0967182070016861,
+      "min_pair_after": 0.42671823501586914
+     },
+     {
+      "text": "droso says attorney general",
+      "who": "droso",
+      "count": 58,
+      "min_pair_before": 0.09819395840167999,
+      "min_pair_after": 0.6591939926147461
+     },
+     {
+      "text": "droso says muzzled i",
+      "who": "droso",
+      "count": 38,
+      "min_pair_before": 0.08063642680644989,
+      "min_pair_after": 0.3826286196708679
+     },
+     {
+      "text": "droso says persist the",
+      "who": "droso",
+      "count": 32,
+      "min_pair_before": 0.0791415199637413,
+      "min_pair_after": 0.5710338354110718
+     },
+     {
+      "text": "droso says please place",
+      "who": "droso",
+      "count": 30,
+      "min_pair_before": 0.08521459251642227,
+      "min_pair_after": 0.4152145981788635
+     },
+     {
+      "text": "droso says please don t",
+      "who": "droso",
+      "count": 26,
+      "min_pair_before": 0.08540806919336319,
+      "min_pair_after": 0.41540807485580444
+     },
+     {
+      "text": "droso says exclaimed his",
+      "who": "droso",
+      "count": 16,
+      "min_pair_before": 0.0782996341586113,
+      "min_pair_after": 0.39579230546951294
+     },
+     {
+      "text": "droso says killed when",
+      "who": "droso",
+      "count": 9,
+      "min_pair_before": 0.09325303882360458,
+      "min_pair_after": 0.4045414328575134
+     },
+     {
+      "text": "the old sea dog at the admiral benbow",
+      "who": "book",
+      "count": 2,
+      "min_pair_before": 0.05176917091012001,
+      "min_pair_after": 0.05176917091012001
+     },
+     {
+      "text": "droso says data csv is",
+      "who": "droso",
+      "count": 8,
+      "min_pair_before": 0.09155789762735367,
+      "min_pair_after": 0.3501110076904297
+     },
+     {
+      "text": "droso says pruned below in",
+      "who": "droso",
+      "count": 6,
+      "min_pair_before": 0.07135545462369919,
+      "min_pair_after": 0.5878538489341736
+     },
+     {
+      "text": "droso says sh tov s",
+      "who": "droso",
+      "count": 6,
+      "min_pair_before": 0.07797639816999435,
+      "min_pair_after": 0.38197487592697144
+     },
+     {
+      "text": "droso says sound is",
+      "who": "droso",
+      "count": 4,
+      "min_pair_before": 0.0872584655880928,
+      "min_pair_after": 0.41725850105285645
+     },
+     {
+      "text": "droso says jacques one",
+      "who": "droso",
+      "count": 4,
+      "min_pair_before": 0.09486483782529831,
+      "min_pair_after": 0.400560200214386
+     },
+     {
+      "text": "still in the same moment i saw that",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.0768703743815422,
+      "min_pair_after": 0.5938950777053833
+     },
+     {
+      "text": "presently a dark object was seen in it",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.09598461538553238,
+      "min_pair_after": 0.42598462104797363
+     },
+     {
+      "text": "and to have been struck on the head",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.08933115750551224,
+      "min_pair_after": 0.35129958391189575
+     },
+     {
+      "text": "the officer who steered the galley gave the",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 1.401298464324817e-44,
+      "min_pair_after": 1.401298464324817e-44
+     },
+     {
+      "text": "felt that that was my place henceforth while",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.05991712585091591,
+      "min_pair_after": 0.05991712585091591
+     }
+    ],
+    "elapsed_s": 55.7
+   },
+   "state_kb": 4387,
+   "by_cohort_H": {
+    "1": {
+     "correct": 5
+    }
+   },
+   "by_cohort_T": {
+    "1": {
+     "correct": 5
+    }
+   },
+   "paths_H": {
+    "electric_taught": 5
+   },
+   "contaminated": [],
+   "rows": [
+    {
+     "n": 1,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the dainty towns?",
+     "need": "bottom",
+     "said": "the dainty towns the bottom",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 852.3,
+     "contam": []
+    },
+    {
+     "n": 1,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the dainty towns?",
+     "need": "bottom",
+     "said": "the dainty towns the bottom",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 590.0,
+     "contam": []
+    },
+    {
+     "n": 2,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the continuation shouldn?",
+     "need": "rendered",
+     "said": "the continuation shouldn the rendered",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 576.7,
+     "contam": []
+    },
+    {
+     "n": 2,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the continuation shouldn?",
+     "need": "rendered",
+     "said": "the continuation shouldn the rendered",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 709.2,
+     "contam": []
+    },
+    {
+     "n": 3,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the overthrow figure?",
+     "need": "clattering",
+     "said": "the overthrow figure the clattering",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 689.6,
+     "contam": []
+    },
+    {
+     "n": 3,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the overthrow figure?",
+     "need": "clattering",
+     "said": "the overthrow figure the clattering",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 711.5,
+     "contam": []
+    },
+    {
+     "n": 4,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the argmax pecked?",
+     "need": "random",
+     "said": "the argmax pecked the random",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 867.3,
+     "contam": []
+    },
+    {
+     "n": 4,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is pecked by the argmax?",
+     "need": "random",
+     "said": "the argmax pecked the random",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 707.6,
+     "contam": []
+    },
+    {
+     "n": 5,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the abuse rejoicing?",
+     "need": "holmes",
+     "said": "the abuse rejoicing the holmes",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 692.2,
+     "contam": []
+    },
+    {
+     "n": 5,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is rejoicing by the abuse?",
+     "need": "holmes",
+     "said": "the abuse rejoicing the holmes",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 706.7,
+     "contam": []
+    }
+   ]
+  },
+  {
+   "cycle": 2,
+   "facts_taught": 10,
+   "inventory": {
+    "before": 5,
+    "after_teach": 10,
+    "after_cons": 10,
+    "subjects": 10,
+    "absence_inv": 10,
+    "clobbered": []
+   },
+   "consolidate": {
+    "rows_scanned": 2000,
+    "rows_urgent": 277,
+    "rows_replayed": 200,
+    "passes": 3,
+    "attention": 0.5,
+    "urgency_line": 0.1,
+    "san_real_before": 1447010,
+    "san_real_after": 1438548,
+    "deltas": [
+     {
+      "text": "droso says pulling an",
+      "who": "droso",
+      "count": 438,
+      "min_pair_before": 0.08590669929981232,
+      "min_pair_after": 0.41590672731399536
+     },
+     {
+      "text": "droso says woman s",
+      "who": "droso",
+      "count": 12,
+      "min_pair_before": 0.08347505331039429,
+      "min_pair_after": 0.41347503662109375
+     },
+     {
+      "text": "the abuse rejoicing the holmes",
+      "who": "you",
+      "count": 1,
+      "min_pair_before": 0.08870767056941986,
+      "min_pair_after": 0.08870767056941986
+     },
+     {
+      "text": "the artery annoyance the appearing",
+      "who": "you",
+      "count": 1,
+      "min_pair_before": 0.0886230543255806,
+      "min_pair_after": 0.0886230543255806
+     },
+     {
+      "text": "the flogged proposal the arithmetic",
+      "who": "you",
+      "count": 1,
+      "min_pair_before": 1.1725753433340321e-15,
+      "min_pair_after": 1.1725753433340321e-15
+     },
+     {
+      "text": "droso says church ain",
+      "who": "droso",
+      "count": 5,
+      "min_pair_before": 0.08981519192457199,
+      "min_pair_after": 0.41981518268585205
+     },
+     {
+      "text": "droso says princess kur gin s",
+      "who": "droso",
+      "count": 5,
+      "min_pair_before": 0.07733061909675598,
+      "min_pair_after": 0.40733063220977783
+     },
+     {
+      "text": "droso says probe revise plan md towards",
+      "who": "droso",
+      "count": 4,
+      "min_pair_before": 0.07667092978954315,
+      "min_pair_after": 0.3930065631866455
+     },
+     {
+      "text": "the two steamers were gone but everybody knew",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.081448994576931,
+      "min_pair_after": 0.34514182806015015
+     },
+     {
+      "text": "the officer who steered the galley gave the",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 1.401298464324817e-44,
+      "min_pair_after": 1.401298464324817e-44
+     },
+     {
+      "text": "felt that that was my place henceforth while",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.044354308396577835,
+      "min_pair_after": 0.044354308396577835
+     },
+     {
+      "text": "sit where i can see you when i",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 5.855121186643547e-30,
+      "min_pair_after": 5.855121186643547e-30
+     },
+     {
+      "text": "between the property and the owner don t",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.007675844244658947,
+      "min_pair_after": 0.007675844244658947
+     },
+     {
+      "text": "more than that i m going to ask",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.02712240070104599,
+      "min_pair_after": 0.02712240070104599
+     },
+     {
+      "text": "m going to ask you to take a",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.02712240070104599,
+      "min_pair_after": 0.02712240070104599
+     },
+     {
+      "text": "at his particular request i appointed to call",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 1.401298464324817e-44,
+      "min_pair_after": 1.401298464324817e-44
+     },
+     {
+      "text": "as the gloves were white kid gloves and",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.08521988987922668,
+      "min_pair_after": 0.08521988987922668
+     },
+     {
+      "text": "white kid gloves and as the post office",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.08521988987922668,
+      "min_pair_after": 0.41521990299224854
+     },
+     {
+      "text": "engaged in substituting for her green kid gloves",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.07898283749818802,
+      "min_pair_after": 0.4095284640789032
+     },
+     {
+      "text": "her green kid gloves a pair of white",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.07898283749818802,
+      "min_pair_after": 0.5197197198867798
+     }
+    ],
+    "elapsed_s": 54.4
+   },
+   "state_kb": 4389,
+   "by_cohort_H": {
+    "1": {
+     "correct": 5
+    },
+    "2": {
+     "correct": 5
+    }
+   },
+   "by_cohort_T": {
+    "1": {
+     "correct": 5
+    },
+    "2": {
+     "correct": 5
+    }
+   },
+   "paths_H": {
+    "electric_taught": 10
+   },
+   "contaminated": [],
+   "rows": [
+    {
+     "n": 1,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the dainty towns?",
+     "need": "bottom",
+     "said": "the dainty towns the bottom",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 895.0,
+     "contam": []
+    },
+    {
+     "n": 1,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the dainty towns?",
+     "need": "bottom",
+     "said": "the dainty towns the bottom",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 608.3,
+     "contam": []
+    },
+    {
+     "n": 2,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the continuation shouldn?",
+     "need": "rendered",
+     "said": "the continuation shouldn the rendered",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 591.0,
+     "contam": []
+    },
+    {
+     "n": 2,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the continuation shouldn?",
+     "need": "rendered",
+     "said": "the continuation shouldn the rendered",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 739.5,
+     "contam": []
+    },
+    {
+     "n": 3,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the overthrow figure?",
+     "need": "clattering",
+     "said": "the overthrow figure the clattering",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 741.4,
+     "contam": []
+    },
+    {
+     "n": 3,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the overthrow figure?",
+     "need": "clattering",
+     "said": "the overthrow figure the clattering",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 717.7,
+     "contam": []
+    },
+    {
+     "n": 4,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the argmax pecked?",
+     "need": "random",
+     "said": "the argmax pecked the random",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 951.1,
+     "contam": []
+    },
+    {
+     "n": 4,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is pecked by the argmax?",
+     "need": "random",
+     "said": "the argmax pecked the random",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 713.3,
+     "contam": []
+    },
+    {
+     "n": 5,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the abuse rejoicing?",
+     "need": "holmes",
+     "said": "the abuse rejoicing the holmes",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 695.3,
+     "contam": []
+    },
+    {
+     "n": 5,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is rejoicing by the abuse?",
+     "need": "holmes",
+     "said": "the abuse rejoicing the holmes",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 722.8,
+     "contam": []
+    },
+    {
+     "n": 6,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the fulfil vanish?",
+     "need": "command",
+     "said": "the fulfil vanish the command",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 722.5,
+     "contam": []
+    },
+    {
+     "n": 6,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the fulfil vanish?",
+     "need": "command",
+     "said": "the fulfil vanish the command",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 764.7,
+     "contam": []
+    },
+    {
+     "n": 7,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the artery annoyance?",
+     "need": "appearing",
+     "said": "the artery annoyance the appearing",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 717.8,
+     "contam": []
+    },
+    {
+     "n": 7,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is annoyance by the artery?",
+     "need": "appearing",
+     "said": "the artery annoyance the appearing",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 720.6,
+     "contam": []
+    },
+    {
+     "n": 8,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the summits adorned?",
+     "need": "paid",
+     "said": "the summits adorned the paid",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 965.2,
+     "contam": []
+    },
+    {
+     "n": 8,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is adorned by the summits?",
+     "need": "paid",
+     "said": "the summits adorned the paid",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 609.3,
+     "contam": []
+    },
+    {
+     "n": 9,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the flogged proposal?",
+     "need": "arithmetic",
+     "said": "the flogged proposal the arithmetic",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 637.0,
+     "contam": []
+    },
+    {
+     "n": 9,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is proposal by the flogged?",
+     "need": "arithmetic",
+     "said": "the flogged proposal the arithmetic",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 637.0,
+     "contam": []
+    },
+    {
+     "n": 10,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the forge receipt?",
+     "need": "shovel",
+     "said": "the forge receipt the shovel",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 586.5,
+     "contam": []
+    },
+    {
+     "n": 10,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is receipt by the forge?",
+     "need": "shovel",
+     "said": "the forge receipt the shovel",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 734.3,
+     "contam": []
+    }
+   ]
+  },
+  {
+   "cycle": 3,
+   "facts_taught": 15,
+   "inventory": {
+    "before": 10,
+    "after_teach": 15,
+    "after_cons": 15,
+    "subjects": 15,
+    "absence_inv": 15,
+    "clobbered": []
+   },
+   "consolidate": {
+    "rows_scanned": 2000,
+    "rows_urgent": 274,
+    "rows_replayed": 200,
+    "passes": 3,
+    "attention": 0.5,
+    "urgency_line": 0.1,
+    "san_real_before": 1440730,
+    "san_real_after": 1438400,
+    "deltas": [
+     {
+      "text": "droso says sharing supply",
+      "who": "droso",
+      "count": 86,
+      "min_pair_before": 0.0861397460103035,
+      "min_pair_after": 0.41613978147506714
+     },
+     {
+      "text": "droso says sharing supply of",
+      "who": "droso",
+      "count": 83,
+      "min_pair_before": 0.0861397460103035,
+      "min_pair_after": 0.7461398243904114
+     },
+     {
+      "text": "droso says different benevolent minded ladies",
+      "who": "droso",
+      "count": 61,
+      "min_pair_before": 0.09146329015493393,
+      "min_pair_after": 0.32999998331069946
+     },
+     {
+      "text": "droso says please god",
+      "who": "droso",
+      "count": 29,
+      "min_pair_before": 0.0961117148399353,
+      "min_pair_after": 0.42611169815063477
+     },
+     {
+      "text": "the abuse rejoicing the holmes",
+      "who": "you",
+      "count": 1,
+      "min_pair_before": 0.0656668171286583,
+      "min_pair_after": 0.0656668171286583
+     },
+     {
+      "text": "the folks reviewed the insisted",
+      "who": "you",
+      "count": 1,
+      "min_pair_before": 1.401298464324817e-44,
+      "min_pair_after": 1.401298464324817e-44
+     },
+     {
+      "text": "droso says unread lines",
+      "who": "droso",
+      "count": 8,
+      "min_pair_before": 0.09329047054052353,
+      "min_pair_after": 0.423290491104126
+     },
+     {
+      "text": "let us flatter ourselves that i may be",
+      "who": "book",
+      "count": 2,
+      "min_pair_before": 0.09329047054052353,
+      "min_pair_after": 0.423290491104126
+     },
+     {
+      "text": "droso says order is",
+      "who": "droso",
+      "count": 8,
+      "min_pair_before": 0.09425058960914612,
+      "min_pair_after": 0.42425060272216797
+     },
+     {
+      "text": "droso says adopted fraternity will",
+      "who": "droso",
+      "count": 7,
+      "min_pair_before": 0.09329047054052353,
+      "min_pair_after": 0.423290491104126
+     },
+     {
+      "text": "droso says springing forward he",
+      "who": "droso",
+      "count": 6,
+      "min_pair_before": 0.08922341465950012,
+      "min_pair_after": 0.7492234706878662
+     },
+     {
+      "text": "droso says princess yus pova wore then",
+      "who": "droso",
+      "count": 5,
+      "min_pair_before": 0.0751190185546875,
+      "min_pair_after": 0.4702354669570923
+     },
+     {
+      "text": "droso says springing forward and",
+      "who": "droso",
+      "count": 5,
+      "min_pair_before": 0.08922341465950012,
+      "min_pair_after": 1.4092235565185547
+     },
+     {
+      "text": "droso says prediction uses the",
+      "who": "droso",
+      "count": 5,
+      "min_pair_before": 0.09962485730648041,
+      "min_pair_after": 0.6606248617172241
+     },
+     {
+      "text": "droso says off by",
+      "who": "droso",
+      "count": 4,
+      "min_pair_before": 0.08847980946302414,
+      "min_pair_after": 0.7228884100914001
+     },
+     {
+      "text": "the officer who steered the galley gave the",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 1.401298464324817e-44,
+      "min_pair_after": 1.401298464324817e-44
+     },
+     {
+      "text": "felt that that was my place henceforth while",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.0328337624669075,
+      "min_pair_after": 0.0328337624669075
+     },
+     {
+      "text": "best as a gentleman should not be knowed",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.07638020068407059,
+      "min_pair_after": 0.3472675085067749
+     },
+     {
+      "text": "sit where i can see you when i",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 4.334317753063819e-30,
+      "min_pair_after": 4.334317753063819e-30
+     },
+     {
+      "text": "please god i will be as true to",
+      "who": "book",
+      "count": 1,
+      "min_pair_before": 0.0961117148399353,
+      "min_pair_after": 0.49560755491256714
+     }
+    ],
+    "elapsed_s": 55.5
+   },
+   "state_kb": 4390,
+   "by_cohort_H": {
+    "1": {
+     "correct": 5
+    },
+    "2": {
+     "correct": 5
+    },
+    "3": {
+     "correct": 5
+    }
+   },
+   "by_cohort_T": {
+    "1": {
+     "correct": 5
+    },
+    "2": {
+     "correct": 5
+    },
+    "3": {
+     "correct": 5
+    }
+   },
+   "paths_H": {
+    "electric_taught": 13,
+    "arbiter head": 2
+   },
+   "contaminated": [],
+   "rows": [
+    {
+     "n": 1,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the dainty towns?",
+     "need": "bottom",
+     "said": "the dainty towns the bottom",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 848.7,
+     "contam": []
+    },
+    {
+     "n": 1,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the dainty towns?",
+     "need": "bottom",
+     "said": "the dainty towns the bottom",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 579.6,
+     "contam": []
+    },
+    {
+     "n": 2,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the continuation shouldn?",
+     "need": "rendered",
+     "said": "the continuation shouldn the rendered",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 582.5,
+     "contam": []
+    },
+    {
+     "n": 2,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the continuation shouldn?",
+     "need": "rendered",
+     "said": "the continuation shouldn the rendered",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 580.6,
+     "contam": []
+    },
+    {
+     "n": 3,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the overthrow figure?",
+     "need": "clattering",
+     "said": "the overthrow figure the clattering",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 688.7,
+     "contam": []
+    },
+    {
+     "n": 3,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the overthrow figure?",
+     "need": "clattering",
+     "said": "the overthrow figure the clattering",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 714.0,
+     "contam": []
+    },
+    {
+     "n": 4,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the argmax pecked?",
+     "need": "random",
+     "said": "the argmax pecked the random",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 885.2,
+     "contam": []
+    },
+    {
+     "n": 4,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is pecked by the argmax?",
+     "need": "random",
+     "said": "the argmax pecked the random",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 707.1,
+     "contam": []
+    },
+    {
+     "n": 5,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the abuse rejoicing?",
+     "need": "holmes",
+     "said": "the abuse rejoicing the holmes",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 691.2,
+     "contam": []
+    },
+    {
+     "n": 5,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is rejoicing by the abuse?",
+     "need": "holmes",
+     "said": "the abuse rejoicing the holmes",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 709.4,
+     "contam": []
+    },
+    {
+     "n": 6,
+     "which": "T",
+     "frame": "H2-question-word",
+     "ask": "what does the fulfil vanish?",
+     "need": "command",
+     "said": "the fulfil vanish the command",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 689.7,
+     "contam": []
+    },
+    {
+     "n": 6,
+     "which": "H",
+     "frame": "H2-question-word",
+     "ask": "which thing does the fulfil vanish?",
+     "need": "command",
+     "said": "the fulfil vanish the command",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 711.9,
+     "contam": []
+    },
+    {
+     "n": 7,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the artery annoyance?",
+     "need": "appearing",
+     "said": "the artery annoyance the appearing",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 689.9,
+     "contam": []
+    },
+    {
+     "n": 7,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is annoyance by the artery?",
+     "need": "appearing",
+     "said": "the artery annoyance the appearing",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 708.6,
+     "contam": []
+    },
+    {
+     "n": 8,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the summits adorned?",
+     "need": "paid",
+     "said": "the summits adorned the paid",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 877.5,
+     "contam": []
+    },
+    {
+     "n": 8,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is adorned by the summits?",
+     "need": "paid",
+     "said": "the summits adorned the paid",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 733.5,
+     "contam": []
+    },
+    {
+     "n": 9,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the flogged proposal?",
+     "need": "arithmetic",
+     "said": "the flogged proposal the arithmetic",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 587.1,
+     "contam": []
+    },
+    {
+     "n": 9,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is proposal by the flogged?",
+     "need": "arithmetic",
+     "said": "the flogged proposal the arithmetic",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 583.5,
+     "contam": []
+    },
+    {
+     "n": 10,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the forge receipt?",
+     "need": "shovel",
+     "said": "the forge receipt the shovel",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 588.9,
+     "contam": []
+    },
+    {
+     "n": 10,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is receipt by the forge?",
+     "need": "shovel",
+     "said": "the forge receipt the shovel",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 710.4,
+     "contam": []
+    },
+    {
+     "n": 11,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the gather mills?",
+     "need": "gaily",
+     "said": "the gather mills the gaily",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 685.6,
+     "contam": []
+    },
+    {
+     "n": 11,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is mills by the gather?",
+     "need": "gaily",
+     "said": "the gather mills the gaily",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 904.9,
+     "contam": []
+    },
+    {
+     "n": 12,
+     "which": "T",
+     "frame": "H1-reverse-role",
+     "ask": "what does the folks reviewed?",
+     "need": "folks",
+     "said": "the folks reviewed the insisted",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 692.5,
+     "contam": []
+    },
+    {
+     "n": 12,
+     "which": "H",
+     "frame": "H1-reverse-role",
+     "ask": "what reviewed the insisted?",
+     "need": "folks",
+     "said": "folks",
+     "source": "arbiter head",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 1597.0,
+     "contam": []
+    },
+    {
+     "n": 13,
+     "which": "T",
+     "frame": "H1-reverse-role",
+     "ask": "what does the princess testify?",
+     "need": "princess",
+     "said": "the princess testify the collapses",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 689.2,
+     "contam": []
+    },
+    {
+     "n": 13,
+     "which": "H",
+     "frame": "H1-reverse-role",
+     "ask": "what testify the collapses?",
+     "need": "princess",
+     "said": "princess",
+     "source": "arbiter head",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 831.5,
+     "contam": []
+    },
+    {
+     "n": 14,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the invisible cope?",
+     "need": "maintained",
+     "said": "the invisible cope the maintained",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 690.5,
+     "contam": []
+    },
+    {
+     "n": 14,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is cope by the invisible?",
+     "need": "maintained",
+     "said": "the invisible cope the maintained",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 709.0,
+     "contam": []
+    },
+    {
+     "n": 15,
+     "which": "T",
+     "frame": "H3-passive",
+     "ask": "what does the euston jurors?",
+     "need": "indulgence",
+     "said": "the euston jurors the indulgence",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 905.4,
+     "contam": []
+    },
+    {
+     "n": 15,
+     "which": "H",
+     "frame": "H3-passive",
+     "ask": "what is jurors by the euston?",
+     "need": "indulgence",
+     "said": "the euston jurors the indulgence",
+     "source": "electric_taught",
+     "answered": true,
+     "licensed_refusal": false,
+     "verdict": "correct",
+     "ms": 710.5,
+     "contam": []
+    }
+   ]
+  }
+ ],
+ "final": {
+  "T": {
+   "correct": 15
+  },
+  "H": {
+   "correct": 15
+  }
+ }
+}

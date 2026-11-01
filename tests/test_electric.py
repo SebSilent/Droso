@@ -234,6 +234,47 @@ def test_consolidation_with_teach_mode_on_does_not_pollute(tmp_path):
         "consolidation must not add relations to the taught inventory"
 
 
+# ------------------------------------------------------------ longevity
+def test_three_cycles_do_not_erode_the_inventory(tmp_path):
+    """C3's finding as a test: repeated teach/consolidate/restart accumulates, it
+    does not erode. Three cohorts of two, each cohort taught over a RESTARTED organ
+    (a fresh object over the same file), consolidated and saved.
+
+    Asserts the two things the experiment actually measured: the inventory keeps
+    every cohort (no loss), and no cohort's tell is overwritten by a later one
+    (no interference). It does NOT assert answer quality -- C3 showed that is a
+    frame problem, not a persistence problem.
+    """
+    sp = tmp_path / "s.json"
+    cohorts = [
+        [("the scarf is on the hook", "scarf"), ("the bell rings the copper", "bell")],
+        [("the lantern lights the porch", "lantern"), ("the kettle boils the water", "kettle")],
+        [("the map shows the harbor", "map"), ("the fence guards the garden", "fence")],
+    ]
+    for tells in cohorts:
+        o = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                              TokenizerOrgan(), state_path=sp)
+        o.ELECTRIC_TEACH = True
+        o.load_state()
+        for tell, _ in tells:
+            o.hear(tell, speaker="you")
+        o.ELECTRIC_TEACH = False
+        o.consolidate(budget=8)
+        o.save_state(force=True)
+        del o
+
+    final = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                              TokenizerOrgan(), state_path=sp)
+    final.ELECTRIC_ANSWER = True
+    final.load_state()
+    expected = [(t, s) for tells in cohorts for t, s in tells]
+    # _taught_says is subject -> relation -> verbatim tell (:4347)
+    held = {s: dict(v) for s, v in final._taught_says.items()}
+    for tell, subj in expected:
+        assert subj in held, f"cohort fact lost after repeated cycles: {tell}"
+        assert tell in held[subj].values(), f"cohort fact overwritten: {tell}"
+
+
 # ------------------------------------------------------------- persistence
 def test_survives_a_restart(tmp_path):
     """The success criterion, as a test: life 1 teaches, life 2 answers."""
