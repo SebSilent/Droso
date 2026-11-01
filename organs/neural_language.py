@@ -167,6 +167,30 @@ def _absence_licence(question, inventory):
       subject present, relation present -> None (phase 1 does not license answers)
       subject absent or ambiguous       -> None (fall through, unchanged)
     """
+    bound = _electric_bind(question, inventory)
+    if bound is None:
+        return None
+    rel, subj = bound
+    # Cross-subject licence is structurally impossible: the lookup is by key.
+    if rel in inventory.get(subj, {}):
+        return None          # phase 1 does not license answers (E24a section 2)
+    return ("refusal", f"{subj} was told but no {rel} was ever told for {subj}")
+
+
+def _electric_bind(question, inventory):
+    """ELECTRIC: which (relation, subject) is this ask asking about?
+
+    This is E24's licence detection, lifted out verbatim so the answer path and
+    the refusal path cannot drift apart. Two copies of "which relation is being
+    queried" would be a real hazard: the refusal and the answer must agree on the
+    binding, or an ask can be refused for a relation and answered for another.
+
+    Keyed lookup only -- no recall, no similarity search (E24 abort A6). Returns
+    None when the subject is absent or ambiguous, which means FALL THROUGH, never
+    "unknown". That distinction is load-bearing: an unbound ask is the organ not
+    knowing, an ask bound to a subject with no such relation is the organ knowing
+    that it was never told.
+    """
     if not inventory:
         return None
     ask = str(question or "").lower()
@@ -190,12 +214,54 @@ def _absence_licence(question, inventory):
     hits = sorted(s for s in inventory if s in words)
     if len(hits) != 1:
         return None
-    subj = hits[0]
+    return (rel, hits[0])
 
-    # Cross-subject licence is structurally impossible: the lookup is by key.
-    if rel in inventory.get(subj, {}):
-        return None          # phase 1 does not license answers (E24a section 2)
-    return ("refusal", f"{subj} was told but no {rel} was ever told for {subj}")
+
+def _electric_answer(question, says):
+    """ELECTRIC read side: the sentence the user actually said, or None.
+
+    `says` maps subject -> relation -> the ORIGINAL TELL. The answer is that
+    tell, emitted verbatim.
+
+    Why verbatim and not a regenerated sentence: `_absence_frame` drops the
+    locative preposition, so "the scarf is on the hook" and "the scarf is in the
+    box" both store obj="hook"/"box" with no preposition attached. Rebuilding
+    "the {subj} is on the {obj}" would INVENT a preposition the organ was never
+    told. Carrying the tell itself is both honest and smaller.
+
+    This is the phase-2 half of E24: the inventory already held the value, and
+    phase 1 deliberately refused to use it. The warrant to speak it is the same
+    warrant E24 required before allowing a negative answer -- the organ may only
+    say what it was actually told, keyed, with no similarity search.
+    """
+    bound = _electric_bind(question, says)
+    if bound is None:
+        return None
+    rel, subj = bound
+    tell = says.get(subj, {}).get(rel)
+    if tell is None:
+        return None
+    # AGENT GUARD. The inventory keys on SUBJECTS, but an agent ask often names
+    # the OBJECT: "what bites the latch?" is about the frost, and `latch` is
+    # itself a subject in the inventory (the latch holds the door). Binding to the
+    # noun the ask happens to mention returns a DIFFERENT FACT, confidently --
+    # measured in generation 24, where this exact ask went from the correct "frost"
+    # to "the latch holds the door".
+    #
+    # An agent question is a question about an ACTION, so the action must match.
+    # Require at least one shared content word between the ask and the taught tell
+    # besides the bound subject. No similarity search and no guessing: an ask whose
+    # verb is not the taught verb is not a question about this fact, and falls
+    # through to every existing path untouched.
+    if rel == "agent":
+        ask_words = set(re.sub(r"[^a-z ]", " ", str(question or "").lower()).split())
+        tell_words = {w for w in
+                      re.sub(r"[^a-z ]", " ", str(tell).lower()).split()
+                      if w and w not in _ABSENCE_STOP}
+        if not (tell_words - {subj}) & {w for w in ask_words
+                                         if w not in _ABSENCE_STOP}:
+            return None
+    return tell
 
 
 class NeuralLanguage:
@@ -227,6 +293,10 @@ class NeuralLanguage:
         # to refuse anything -- absence is licensed only by what was positively
         # told, never by a failure to find something.
         self._absence_inv: dict = {}
+        # ELECTRIC: subject -> relation -> the verbatim tell. Same keys as
+        # _absence_inv, so a subject the organ was told about in ANY frame is
+        # bound identically by the answer path and the refusal path.
+        self._taught_says: dict = {}
         # Thoughts get their own stream. They used to share event_stream, and at
         # 17 ticks a second 600 slots is about 35 seconds of history -- so a
         # parent's phrase, a book line or anything else he actually HEARD was
@@ -2228,6 +2298,13 @@ class NeuralLanguage:
     # A class attribute, like the floor above it, so an arm of an A/B can set it
     # without touching the module for everyone.
     ABSENCE_INVENTORY = False
+    # ELECTRIC. Two levers, both default off, both inert until a run asks.
+    # TEACH records the tell itself beside the frame, so a fact survives the
+    # session; ANSWER emits it. Split because the demo must be able to persist
+    # without changing any answer path, and because E24's refusal-only phase 1
+    # has to stay reachable as a control.
+    ELECTRIC_TEACH = False
+    ELECTRIC_ANSWER = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3528,8 +3605,41 @@ class NeuralLanguage:
         # speak, so it cannot assert a false negative and needs no mood-gate
         # override (E8's abort). Subject-absent and ambiguous asks fall through
         # untouched (abort A4).
+        # ELECTRIC: direct answer emission from a taught fact, BEFORE the shape
+        # arbiter, the binder recall and the resonance competition. This is the
+        # series-gate cut from docs/capability_first_plan.md section 3 -- a taught
+        # fact currently has to win coverage, shape arbitration, resonance above
+        # reply_threshold, and the mood gate in SERIES, so a known fact can still
+        # come out silent (E10 measured a resonance winner at 0.4129 against a
+        # 0.55 floor on an ask whose fact was correctly retrieved).
+        #
+        # It fires ONLY on a keyed (subject, relation) hit in what the user
+        # actually said. No similarity search, no guessing: an ask that is not
+        # bound falls through to every existing path untouched. That is what keeps
+        # this from being a shim -- it cannot answer a question it was not taught.
+        if self.ELECTRIC_ANSWER:
+            told = _electric_answer(text, self._taught_says)
+            if told:
+                return {"spoken": True, "heard": True, "answered": True,
+                        "utterance": told, "response": told,
+                        "source": "electric_taught", "direct": True}
         abs_lic = self._absence_licence(text)
         if abs_lic is not None:
+            # ELECTRIC: say it out loud. E24 phase 1 deliberately licensed
+            # SILENCE only, because the organ could not distinguish "I was never
+            # told" from "I do not want to speak" -- E8's abort. It can now: the
+            # inventory holds the subject and the relation it lacks, so the
+            # refusal is warranted by a keyed fact, not by a low ratio.
+            if self.ELECTRIC_ANSWER:
+                return {"spoken": True, "heard": True, "answered": False,
+                        "utterance": "i don't know, " + abs_lic[1],
+                        "response": "i don't know, " + abs_lic[1],
+                        "source": "electric_absence",
+                        "licensed_refusal": True,
+                        "reason": abs_lic[1],
+                        "cue": [t for t in q if t],
+                        "absence_relation": abs_lic[1].rsplit("no ", 1)[-1]
+                                            .split(" was ever")[0]}
             return {"answered": False, "spoken": False,
                     "reason": abs_lic[1],
                     "licensed_refusal": True,
@@ -4178,7 +4288,7 @@ class NeuralLanguage:
         # E24 write side: the inventory records what the USER told this session.
         # Written at teach time, never retrieved at ask time -- that is what keeps
         # it clear of E15's null retrieval and E21a's corpus-mass ranking.
-        if self.ABSENCE_INVENTORY and str(speaker) == "you":
+        if (self.ABSENCE_INVENTORY or self.ELECTRIC_TEACH) and str(speaker) == "you":
             self._absence_note(text)
         thought = self.form_thought(text, scent=self.person_scent(speaker))
         pool = thought["action"]
@@ -4210,6 +4320,13 @@ class NeuralLanguage:
             return
         rel, subj, obj = frame
         self._absence_inv.setdefault(subj, {}).setdefault(rel, obj)
+        if self.ELECTRIC_TEACH:
+            # First tell wins, and a re-tell does not overwrite. Overwriting on
+            # contradiction would make the organ's answer depend on teaching
+            # ORDER, and a fact that changes because a later sentence arrived is
+            # not a remembered fact -- it is a recency artifact.
+            self._taught_says.setdefault(subj, {}).setdefault(
+                rel, str(text).strip())
 
     def _absence_licence(self, question):
         """E24 read side: ("refusal", reason) or None. Phase 1 never licenses an
@@ -4825,6 +4942,15 @@ class NeuralLanguage:
                                  "last_phase": self._last_phase,
                                  "was_tired": bool(self._was_tired)},
                    "teacher": self.teacher_stats,
+                   # ELECTRIC: the taught-fact inventory and the absence
+                   # inventory, both keyed the same way. Without this a restart
+                   # erases every fact the organism was taught -- E24's inventory
+                   # was session-scoped by design, which is right for a diagnostic
+                   # and fatal for a learner that has to remember across restarts.
+                   "taught_says": (self._taught_says
+                                   if self.ELECTRIC_TEACH else {}),
+                   "absence_inventory": (self._absence_inv
+                                         if self.ABSENCE_INVENTORY else {}),
                    "questions": {"roles": self.question_roles,
                                  "interrogatives": sorted(self.interrogatives),
                                  "answer_types": self.answer_types,
@@ -5090,6 +5216,20 @@ class NeuralLanguage:
                         self.load_error = self.last_error
                 except Exception as e:
                     self.last_error = "higher cortex: " + str(e)[:100]
+                # ELECTRIC: restore the taught-fact and absence inventories.
+                # Shape is VALIDATED, not trusted -- a hand-edited or
+                # half-written state file must not become a source of answers,
+                # so anything that is not dict -> dict -> str is dropped and the
+                # organism simply does not remember, which is the honest failure.
+                for _key, _attr in (("taught_says", "_taught_says"),
+                                    ("absence_inventory", "_absence_inv")):
+                    blob = raw.get(_key)
+                    if isinstance(blob, dict):
+                        setattr(self, _attr, {
+                            str(s): {str(r): str(v) for r, v in rels.items()
+                                     if isinstance(r, str) and isinstance(v, str)}
+                            for s, rels in blob.items()
+                            if isinstance(rels, dict)})
                 bgc = raw.get("bigram_counts")
                 if isinstance(bgc, dict):
                     self.bigram_counts = {str(k): int(v)

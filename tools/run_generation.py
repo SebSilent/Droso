@@ -1407,6 +1407,20 @@ def cmd_run(args) -> int:
             print("  WARNING: --coverage-exclude without --absence-inventory "
                   "re-runs E23, which is refuted. The scarf guard would be back "
                   "on the denominator.")
+    # ELECTRIC: teach mode + direct answer emission. Both stamped explicitly on
+    # every path, per the E25 invariant that a missing key must never be
+    # indistinguishable from a deliberate off.
+    nl.NeuralLanguage.ELECTRIC_TEACH = bool(args.electric)
+    CODE_FLAGS["electric_teach"] = bool(args.electric)
+    nl.NeuralLanguage.ELECTRIC_ANSWER = bool(args.electric)
+    CODE_FLAGS["electric_answer"] = bool(args.electric)
+    if args.electric:
+        print("ELECTRIC ON: ELECTRIC_TEACH = True, ELECTRIC_ANSWER = True "
+              "(keyed direct emission from what the user actually said)")
+        if not args.absence_inventory:
+            print("  NOTE: --electric without --absence-inventory still teaches "
+                  "and answers, but cannot say it does not know -- the absence "
+                  "refusal is E24's lever, not this one's.")
     if args.resonance_scope:
         nl.NeuralLanguage.RESONANCE_SESSION_SCOPE = True
         CODE_FLAGS["resonance_session_scope"] = True
@@ -1832,6 +1846,13 @@ def main() -> int:
                          "PHASE 1 NEVER LICENSES AN ANSWER: it can only add a reason to "
                          "stay silent. Default off; expected score change is ZERO, which "
                          "is the pre-registered success criterion, not a failure")
+    ap.add_argument("--electric", action="store_true",
+                    help="ELECTRIC: teach mode (the taught-fact inventory is "
+                         "persisted across restarts) plus direct answer "
+                         "emission from a keyed (subject, relation) hit, which "
+                         "bypasses the shape arbiter, the binder recall and the "
+                         "resonance competition. Default OFF: nothing changes "
+                         "unless a run asks for it.")
     ap.add_argument("--coverage-exclude", choices=["synt", "frame"], default=None,
                     help="experiment E25: `synt` drops function words from `must`, the "
                          "set whose size is the coverage DENOMINATOR. E23 measured this "

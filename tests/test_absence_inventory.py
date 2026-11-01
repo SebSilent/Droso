@@ -44,23 +44,50 @@ def test_e24_flag_default_off():
 
 
 def test_e24_flag_is_a_module_gene():
-    """It must be a scalar set once at construction, never restored from state."""
+    """It must be a scalar set once at construction, never restored from state.
+
+    Amended by ELECTRIC. The original check was blunt -- "save_state must not
+    mention the flag" -- because the inventory itself was never written, so any
+    mention was proof the flag had leaked into state. ELECTRIC does write the
+    inventory, so the blunt check now fires on legitimate code. The invariant
+    that actually matters is narrower and still holds: the FLAG is a gene set at
+    construction and is not itself serialised or restored. ELECTRIC reads
+    ABSENCE_INVENTORY in save_state only to decide whether to write the
+    inventory; it never writes the flag, and load_state never restores it.
+    """
     src = inspect.getsource(nl)
     assert "ABSENCE_INVENTORY" in src
-    # not persisted: save_state/load_state must not mention it
-    assert "ABSENCE_INVENTORY" not in inspect.getsource(nl.NeuralLanguage.save_state)
-    assert "ABSENCE_INVENTORY" not in inspect.getsource(nl.NeuralLanguage.load_state)
+    save = inspect.getsource(nl.NeuralLanguage.save_state)
+    load = inspect.getsource(nl.NeuralLanguage.load_state)
+    # the flag is never WRITTEN as a state key, and never READ BACK as one
+    assert '"ABSENCE_INVENTORY":' not in save, "flag must not be serialised"
+    assert 'raw.get("ABSENCE_INVENTORY' not in load
+    assert 'self.ABSENCE_INVENTORY =' not in load, "flag must not be restored"
+    assert 'self.ABSENCE_INVENTORY =' not in save
 
 
 # ------------------------------------------------------- 2. session scoping
 def test_e24_inventory_is_session_scoped():
-    """Design section 2.1: append-only within a session, not persisted, not merged."""
+    """Amended by ELECTRIC: session-scoped BY DEFAULT, persisted only on request.
+
+    Design section 2.1 said "not persisted". That was right for a diagnostic
+    instrument and is wrong for a learner that has to remember across restarts --
+    ELECTRIC's whole premise. The real invariant is not "never on disk", it is
+    "nothing is persisted unless the run opted in", so the E24 control arm stays
+    byte-identical and the capability is additive.
+    """
     src = inspect.getsource(nl.NeuralLanguage._absence_note)
     assert "_absence_inv" in src
     init = inspect.getsource(nl.NeuralLanguage.__init__)
     assert "_absence_inv" in init, "inventory must start empty per instance"
-    # never written to disk
-    assert "_absence_inv" not in inspect.getsource(nl.NeuralLanguage.save_state)
+    save = inspect.getsource(nl.NeuralLanguage.save_state)
+    # Persisted only behind the flag: with every flag off, nothing goes to disk.
+    assert '"absence_inventory": (self._absence_inv' in save
+    assert "if self.ABSENCE_INVENTORY else {}" in save, \
+        "absence inventory must write an empty dict when the flag is off"
+    assert '"taught_says": (self._taught_says' in save
+    assert "if self.ELECTRIC_TEACH else {}" in save, \
+        "taught facts must write an empty dict when the flag is off"
 
 
 # --------------------------------------------------------- 3. write-side frames

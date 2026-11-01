@@ -1,0 +1,226 @@
+"""ELECTRIC: teach mode, persistence, keyed direct answer emission, spoken ignorance.
+
+Written against the design in docs/capability_first_plan.md and the abort
+conditions C1-C5. The load-bearing test is test_electric_cannot_answer_an_untaught
+_question -- it is the shim detector.
+"""
+import inspect
+import sys
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+import organs.neural_language as nl  # noqa: E402
+from connectome.engine import HybridEngine  # noqa: E402
+from connectome.substrate import build_core_graph  # noqa: E402
+from organs.tokenizer import TokenizerOrgan  # noqa: E402
+
+SAYS = {"scarf": {"place": "the scarf is on the hook"},
+        "bell": {"property": "the bell is copper"}}
+
+
+# ------------------------------------------------------- pure read side
+def test_direct_function_is_pure():
+    """No self, no binder, no engine -- a lookup the tests can hold still."""
+    fn = nl._electric_answer
+    assert list(inspect.signature(fn).parameters) == ["question", "says"]
+    assert fn.__qualname__ == "_electric_answer", "module level, not an organ method"
+
+
+def test_answers_a_taught_fact():
+    assert nl._electric_answer("where is the scarf?", SAYS) == \
+        "the scarf is on the hook"
+
+
+def test_none_for_untaught_subject():
+    """C4 shim detector, subject half."""
+    assert nl._electric_answer("where is the hat?", SAYS) is None
+
+
+def test_none_for_untaught_relation():
+    """C4 shim detector, relation half: a known subject with an unknown
+    relationship must not be answered from an adjacent one."""
+    assert nl._electric_answer("what is the scarf like?", SAYS) is None
+
+
+def test_none_when_subject_is_ambiguous():
+    """Two subjects in the ask -> bind nothing, fall through. E16a measured the
+    head-noun rule as mis-binding multi-word subjects, so guessing is banned."""
+    two = {"scarf": {"place": "A"}, "bell": {"place": "B"}}
+    assert nl._electric_answer("where is the scarf or the bell?", two) is None
+
+
+def test_no_similarity_search():
+    """Keyed lookup only (E24 abort A6). 'scarf' ~ 'scarves' is a real English
+    relation and the organ must not guess it."""
+    assert nl._electric_answer("where are the scarves?", SAYS) is None
+
+
+def test_agent_ask_naming_the_object_is_not_claimed():
+    """The generation-24 regression, as a test.
+
+    `what bites the latch?` asks about the FROST. `latch` is itself a subject in
+    the inventory (the latch holds the door), so a bare keyed bind answers a
+    question nobody asked, confidently. The control path got this right; the
+    direct path must not make it worse.
+    """
+    says = {"frost": {"agent": "the frost bites the latch"},
+            "latch": {"agent": "the latch holds the door"}}
+    # the ask's noun binds to `latch`, whose taught verb is not the asked verb
+    assert nl._electric_answer("what bites the latch?", says) is None
+    # Asked about the fact it does match, with the taught verb present verbatim.
+    assert nl._electric_answer("what bites the latch and holds the door?",
+                               {"latch": {"agent": "the latch holds the door"}}) == \
+        "the latch holds the door"
+    # A morphological variant is NOT guessed. "bite" vs taught "bites" shares no
+    # exact content word, so the ask falls through to the pre-ELECTRIC path.
+    # This is a deliberate loss: E24 abort A6 bans similarity search, and the
+    # safe failure is silence, not a stemmer that decides which fact was meant.
+    assert nl._electric_answer("what does the frost bite?", says) is None
+
+
+def test_bind_is_shared_by_answer_and_refusal():
+    """The answer path and the refusal path must agree on the binding, or one ask
+    can be refused for a relation and answered for another."""
+    bound = nl._electric_bind("what is the bell like?", SAYS)
+    assert bound == ("property", "bell")
+    src = inspect.getsource(nl._absence_licence)
+    assert "_electric_bind(" in src
+
+
+# ------------------------------------------------------------- organ flags
+def test_flags_default_off():
+    assert nl.NeuralLanguage.ELECTRIC_TEACH is False
+    assert nl.NeuralLanguage.ELECTRIC_ANSWER is False
+
+
+def test_teach_records_the_verbatim_tell(tmp_path):
+    organ = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                              TokenizerOrgan(), state_path=tmp_path / "s.json")
+    organ.ELECTRIC_TEACH = True
+    organ.hear("the scarf is on the hook", speaker="you")
+    assert organ._taught_says["scarf"]["place"] == "the scarf is on the hook"
+
+
+def test_first_tell_wins_not_the_last(tmp_path):
+    """A fact that changes because a later sentence arrived is a recency
+    artifact, not a memory."""
+    organ = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                              TokenizerOrgan(), state_path=tmp_path / "s.json")
+    organ.ELECTRIC_TEACH = True
+    organ.hear("the scarf is on the hook", speaker="you")
+    organ.hear("the scarf is in the box", speaker="you")
+    assert organ._taught_says["scarf"]["place"] == "the scarf is on the hook"
+
+
+def test_teach_is_inert_when_the_flag_is_off(tmp_path):
+    organ = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                              TokenizerOrgan(), state_path=tmp_path / "s.json")
+    organ.hear("the scarf is on the hook", speaker="you")
+    assert organ._taught_says == {}
+
+
+# ------------------------------------------------------------- persistence
+def test_survives_a_restart(tmp_path):
+    """The success criterion, as a test: life 1 teaches, life 2 answers."""
+    sp = tmp_path / "s.json"
+    a = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    a.ELECTRIC_TEACH = True
+    a.hear("the scarf is on the hook", speaker="you")
+    a.save_state(force=True)
+
+    b = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    b.ELECTRIC_TEACH = True
+    b.ELECTRIC_ANSWER = True
+    assert b.load_state().get("loaded") is True
+    assert b._taught_says["scarf"]["place"] == "the scarf is on the hook"
+    assert b.answer("where is the scarf?").get("source") == "electric_taught"
+
+
+def test_state_shaped_garbage_is_dropped(tmp_path):
+    """A corrupt or hand-edited state file must not become a source of answers."""
+    sp = tmp_path / "s.json"
+    a = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    a.ELECTRIC_TEACH = True
+    a.hear("the scarf is on the hook", speaker="you")
+    a.save_state(force=True)
+    import json
+    doc = json.loads(sp.read_text(encoding="utf-8"))
+    doc["taught_says"] = {"scarf": "not a dict", "bell": {"place": 3}}
+    sp.write_text(json.dumps(doc), encoding="utf-8")
+
+    b = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    b.ELECTRIC_TEACH = True
+    b.load_state()
+    assert b._taught_says.get("scarf") in (None, {})
+    assert "place" not in b._taught_says.get("bell", {}) or \
+        b._taught_says["bell"]["place"] == "3"
+
+
+# ------------------------------------------------------------ answer path
+def test_direct_answer_bypasses_the_arbiter(tmp_path):
+    """The claimed ask must never reach the shape arbiter or the resonance
+    competition -- that is the point of the change."""
+    sp = tmp_path / "s.json"
+    a = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    a.ELECTRIC_TEACH = True
+    a.hear("the scarf is on the hook", speaker="you")
+    b = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=tmp_path / "t.json")
+    b.ELECTRIC_TEACH = True
+    b.ELECTRIC_ANSWER = True
+    b._taught_says = {"scarf": {"place": "the scarf is on the hook"}}
+    r = b.answer("where is the scarf?")
+    assert r.get("spoken") is True
+    assert r.get("answered") is True
+    assert r.get("direct") is True
+    assert r.get("stage") is None, "a claimed ask must not be staged downstream"
+    assert "coverage" not in r, "the coverage gate must not have been consulted"
+
+
+def test_absence_is_admitted_out_loud(tmp_path):
+    """E24 phase 2: the refusal is now SPOKEN, warranted by a keyed fact."""
+    b = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=tmp_path / "s.json")
+    b.ABSENCE_INVENTORY = True
+    b.ELECTRIC_ANSWER = True
+    b._absence_inv = {"scarf": {"place": "hook"}}
+    r = b.answer("what is the scarf like?")
+    assert r.get("licensed_refusal") is True
+    assert r.get("spoken") is True
+    assert "don't know" in r.get("utterance", "")
+
+
+def test_control_path_is_unchanged(tmp_path):
+    """With every flag off, the refusal stays SILENT -- E24's phase 1 behaviour
+    is preserved, so the battery baseline keeps its meaning."""
+    b = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=tmp_path / "s.json")
+    # E24's phase 1 exactly: the inventory is on, ELECTRIC's voice is not.
+    b.ABSENCE_INVENTORY = True
+    b.ELECTRIC_ANSWER = False
+    b._absence_inv = {"scarf": {"place": "hook"}}
+    r = b.answer("what is the scarf like?")
+    assert r.get("licensed_refusal") is True
+    assert r.get("spoken") is False, \
+        "phase 1 licenses a REASON TO STAY SILENT, never speech"
+    assert "don't know" not in str(r.get("utterance", ""))
+
+
+def test_harness_flag_exists():
+    """--electric must be declared and both flags stamped on every path, so a
+    missing key can never be read as a deliberate off (E25 invariant)."""
+    src = (ROOT / "tools" / "run_generation.py").read_text(encoding="utf-8")
+    decl = [ln for ln in src.splitlines() if '"--electric"' in ln]
+    assert decl, "--electric not declared"
+    assert "action=" in "".join(decl)
+    assert 'CODE_FLAGS["electric_teach"] = bool(args.electric)' in src
+    assert 'CODE_FLAGS["electric_answer"] = bool(args.electric)' in src
