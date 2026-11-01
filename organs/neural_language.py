@@ -208,7 +208,8 @@ _ELECTRIC_REVERSE_ASK = re.compile(
     r"\b(to|with|from|by|of|about|for)\b\??[.?\s]*$")
 
 
-def _electric_bind(question, inventory, broad_agent=False, who_agent=False):
+def _electric_bind(question, inventory, broad_agent=False, who_agent=False,
+                   normalize=False):
     """ELECTRIC: which (relation, subject) is this ask asking about?
 
     This is E24's licence detection, lifted out verbatim so the answer path and
@@ -255,6 +256,15 @@ def _electric_bind(question, inventory, broad_agent=False, who_agent=False):
         # by the ELECTRIC answer path with reverse=True and by nothing else: E24's
         # licence calls this function with the defaults, so the set of asks it may
         # refuse -- and the measured refusal wording -- is untouched.
+        rel = "agent"
+    elif normalize and "like" not in words and _ASK_PARTICIPANT.search(ask):
+        # A copula ask that strands a preposition is after the tell's PARTICIPANT:
+        # "who is the lantern with?" is about the same person as "who does the lantern
+        # belong to?", and the tell that answers it is the same tell. Binding is only the
+        # lookup -- what licenses SPEECH is `_participant_answer`, which refuses unless the
+        # tell itself strands a compatible preposition and has someone on the other end.
+        # `normalize` is passed by the ELECTRIC answer path and by nothing else: E24's
+        # licence keeps the defaults, so the asks it may refuse are the measured ones.
         rel = "agent"
     elif re.search(r"\b(is|are)\s+\w+\s+(or|and)\b", ask) \
             or ("what" in words and "like" in words):
@@ -345,6 +355,178 @@ def _electric_object_answer(question, says):
     return hits[0]
 
 
+# ------------------------------------------------------- ELECTRIC ask normalizer
+#
+# A normalizer of FORMS, not of meanings. It exists because the read paths above match a
+# taught tell by its verb stem and its own nouns, and they do that correctly -- but they
+# only ever see the ask's SURFACE, so a fact that was taught in active voice goes silent
+# the moment the ask arrives in the passive, and a tell that strands a preposition goes
+# silent when the ask uses a copula instead of do-support. `who is the lantern with?` and
+# `what was the door opened by?` are not unknown relations; they are known facts wearing
+# forms the binder was never shown.
+#
+# Two rules keep this from becoming a grammar:
+#   * it rewrites FUNCTION words only. A content word is never substituted, stemmed into
+#     a different word, or invented -- the ask's nouns go through untouched.
+#   * its output is a KEY, not an utterance. The variant is fed back into the existing
+#     matchers, which still return the verbatim taught tell or nothing. So the normalizer
+#     cannot make the organ say a sentence it was not told; it can only let an ask reach
+#     a matcher that was already going to refuse on its own terms.
+ASK_NORMALIZE_COPULAS = frozenset(
+    {"is", "are", "was", "were", "be", "been", "being", "am"})
+ASK_NORMALIZE_AUX = ASK_NORMALIZE_COPULAS | frozenset(
+    {"do", "does", "did", "have", "has", "had"})
+ASK_STRANDED_PREP = frozenset(
+    {"to", "with", "from", "by", "of", "about", "for", "on", "at", "in"})
+
+# The one semantic claim this file makes, stated where it is used: a copula ask that
+# strands `with` asks for the same participant a tell strands `to` ("who is the lantern
+# with?" <- "the lantern belongs to Mira"). Every other entry is IDENTITY -- an ask that
+# strands `by` is answered only by a tell that strands `by`. That is why `who is the mouse
+# with?` stays silent: "the mouse chases the cat" strands nothing, so it has no
+# participant to give and the ask has no warrant to speak it.
+ASK_PARTICIPANT_PREP = {
+    "with": ("to", "with"),
+    "to": ("to",), "from": ("from",), "by": ("by",), "of": ("of",),
+    "about": ("about",), "for": ("for",), "on": ("on",), "at": ("at",),
+}
+
+# Past participles no rule derives. SIXTEEN entries, closed, and deliberately not a
+# conjugation engine: there is no `-%en` rule here at all, because it mangles ordinary
+# words (`green`, `men`, `ten`). And a table entry buys nothing on its own -- a variant is
+# only emitted when the stem it produces is a verb SOME TAUGHT TELL actually uses, so the
+# house's own inventory, not this table, decides what can be recovered.
+ASK_IRREGULAR_PARTICIPLE = {
+    "broken": "break", "taken": "take", "given": "give", "held": "hold",
+    "told": "tell", "said": "say", "made": "make", "done": "do",
+    "seen": "see", "known": "know", "written": "write", "thrown": "throw",
+    "found": "find", "kept": "keep", "bitten": "bite", "gone": "go",
+}
+
+_ASK_PARTICIPANT = re.compile(
+    # who/what + a bare copula + a noun + a stranded preposition AT THE END. The stranding
+    # carries the same warrant it carries for the reverse path above: it proves the ask is
+    # after a participant of the tell, not after the tell's subject. `what is the scarf
+    # like?` does not match -- `like` is not a preposition here -- and that row's measured
+    # refusal is why.
+    r"\b(who|what)\b\s+(?:\w+\s+)*?\b(?:is|are|was|were|be|been)\b"
+    r"[^?.]*\b(?:to|with|from|by|of|about|for|on|at)\b\??[.?\s]*$")
+
+
+def participle_stem(word):
+    """`opened` -> `open`, `bitten` -> `bite`. Regular forms by suffix, irregulars by the
+    closed table above, anything else unchanged. Not a lemmatiser: it never lengthens a
+    word and never maps two different verbs onto each other."""
+    w = str(word).lower()
+    if w in ASK_IRREGULAR_PARTICIPLE:
+        return ASK_IRREGULAR_PARTICIPLE[w]
+    if len(w) > 5 and w.endswith("ed"):
+        return w[:-2]
+    if len(w) > 4 and w.endswith("d"):
+        return w[:-1]
+    return w
+
+
+def _taught_verb_stems(says):
+    """The verbs this house has actually been told, stemmed the way the matchers stem them.
+    The normalizer may only produce a key whose verb is one of these."""
+    out = set()
+    for rels in (says or {}).values():
+        for rel, tell in (rels or {}).items():
+            if rel != "agent":
+                continue
+            frame = _absence_frame(tell)
+            if not frame or frame[0] != "agent":
+                continue
+            otoks = [t for t in re.sub(r"[^a-z ]", " ", str(frame[2]).lower()).split()
+                     if t and t not in _ABSENCE_STOP]
+            if otoks:
+                out.add(_verb_stem(otoks[0]))
+    return out
+
+
+def normalize_ask_variants(question, says):
+    """Passive / auxiliary asks -> the ACTIVE key the object-role path already accepts.
+
+    `what was the door opened by?` -> `what open the door?`. The variant is a lookup key,
+    not a sentence: the bare stem is exactly what `_electric_object_answer` compares
+    against a tell's own stemmed verb, and the answer it returns is still the verbatim
+    tell. Nothing is composed and nothing is guessed -- a variant is emitted only when the
+    stem it would use is a verb a taught tell actually carries, so an ask about an action
+    this house was never told produces NO variant at all.
+    """
+    toks = [t for t in re.sub(r"[^a-z ]", " ", str(question or "").lower()).split() if t]
+    if len(toks) < 4 or toks[0] not in ("what", "who"):
+        return []
+    if toks[1] not in ASK_NORMALIZE_AUX:
+        return []
+    body = toks[2:]
+    if body[-1] in ASK_STRANDED_PREP:
+        body = body[:-1]
+    if len(body) < 2:
+        return []
+    part = body[-1]
+    np = [t for t in body[:-1] if t not in ASK_NORMALIZE_AUX]
+    if not np:
+        return []
+    # The slot must actually hold a participle. A bare verb there ("what was the door
+    # open by?") is not a passive anyone was taught, and reading it as one would be the
+    # normalizer inventing a form, so it produces no variant.
+    if part not in ASK_IRREGULAR_PARTICIPLE and not (
+            len(part) > 4 and (part.endswith("ed") or part.endswith("d"))):
+        return []
+    stem = participle_stem(part)
+    # The warrant: only a verb this house was TAUGHT can be looked up with. An ask about
+    # an action nobody mentioned produces no variant at all, not a near miss.
+    if stem not in _taught_verb_stems(says):
+        return []
+    return [f"{toks[0]} {stem} {' '.join(np)}"]
+
+
+def _participant_answer(question, tell, subj):
+    """The guard for a copula participant ask, kept SEPARATE from the shared-stem guard
+    because it cannot use it: the ask names no verb, so there is no stem to share.
+    It is not weaker -- it requires all of:
+      * the tell is an AGENT frame that itself strands a preposition, and that
+        preposition is one the ask's stranded preposition can mean (table above);
+      * the tell has a participant after that preposition (nothing to answer with -> no);
+      * the ask introduces no content word besides the subject it bound to, so an ask
+        about a different action or a second noun is refused rather than approximated.
+    """
+    frame = _absence_frame(tell)
+    if not frame or frame[0] != "agent":
+        return None
+    otoks = [t for t in re.sub(r"[^a-z ]", " ", str(frame[2]).lower()).split()
+             if t and t not in _ABSENCE_STOP]
+    # The tell's OWN SURFACE decides whether it strands a preposition -- not the frame's
+    # object, which `_absence_frame` has already stop-worded (`to` is a stop, so the frame
+    # of "the lantern belongs to Mira" carries no `to` at all and the check would refuse
+    # every possessor fact in the house). Reading the surface is also the honest direction:
+    # the warrant is that the SENTENCE he was told leaves a participant stranded, and that
+    # is a fact about the sentence, not about the extraction.
+    raw = [t for t in re.sub(r"[^a-z ]", " ", str(tell).lower()).split() if t]
+    tell_preps = [t for t in raw if t in ASK_STRANDED_PREP]
+    if not tell_preps:
+        return None                       # the tell has no participant to give
+    if len(otoks) < 2:
+        return None                       # a verb and nothing on the other end of it
+    ask = [t for t in re.sub(r"[^a-z ]", " ", str(question or "").lower()).split() if t]
+    ask_preps = [t for t in ask if t in ASK_STRANDED_PREP]
+    if not ask_preps:
+        return None
+    if not any(p in ASK_PARTICIPANT_PREP.get(ask_preps[-1], ()) for p in tell_preps):
+        return None
+    extra = {t for t in ask if t not in _ABSENCE_STOP and t not in ASK_NORMALIZE_AUX
+             and t not in ASK_STRANDED_PREP and t not in ("who", "what", "which")
+             and t != subj}
+    if extra:
+        return None                       # the ask is about something else too
+    participant = otoks[-1]
+    if participant in ASK_STRANDED_PREP:
+        return None
+    return tell
+
+
 QUESTION_FRAGMENT_WORDS = frozenset({
     "to", "of", "for", "from", "in", "on", "at", "with", "by", "as",
     "who", "whom", "whose", "what", "which", "where", "when", "why", "how",
@@ -376,7 +558,8 @@ def _is_question_fragment(filler) -> bool:
     return stem(s) in QUESTION_FRAGMENT_WORDS
 
 
-def _electric_answer(question, says, reverse=False, object_role=False):
+def _electric_answer(question, says, reverse=False, object_role=False,
+                     normalize=False):
     """ELECTRIC read side, dispatch only -- so the ordering is stated once and enforced.
 
     The subject path runs FIRST and in full, unchanged. The object-role path is consulted
@@ -386,13 +569,27 @@ def _electric_answer(question, says, reverse=False, object_role=False):
     MISS into an answer, never one right fact into a different one. Both paths return a
     verbatim taught tell or None; neither composes, neither guesses.
     """
-    got = _electric_subject_answer(question, says, reverse=reverse)
+    got = _electric_subject_answer(question, says, reverse=reverse,
+                                   normalize=normalize)
     if got is None and object_role:
-        return _electric_object_answer(question, says)
+        got = _electric_object_answer(question, says)
+    if got is None and normalize:
+        # The ask found nothing on its own surface, so try it in the voice the matchers
+        # already accept. SAME two paths, SAME guards, and the variant is deliberately
+        # passed with normalize=False -- no recursion, no widening of anything that was
+        # already speaking. This can only turn a MISS into an answer, never one right
+        # fact into a different one, because every path here was already free to speak
+        # the tell it holds.
+        for variant in normalize_ask_variants(question, says):
+            got = _electric_subject_answer(variant, says, reverse=reverse)
+            if got is None and object_role:
+                got = _electric_object_answer(variant, says)
+            if got:
+                break
     return got
 
 
-def _electric_subject_answer(question, says, reverse=False):
+def _electric_subject_answer(question, says, reverse=False, normalize=False):
     """ELECTRIC read side: the sentence the user actually said, or None.
 
     `says` maps subject -> relation -> the ORIGINAL TELL. The answer is that
@@ -412,7 +609,7 @@ def _electric_subject_answer(question, says, reverse=False):
     # broad_agent: this path only ever SPEAKS a fact it was actually told, so it
     # may recognise an agent ask by structure. E24's licence keeps the narrow one.
     bound = _electric_bind(question, says, broad_agent=True,
-                           who_agent=reverse)
+                           who_agent=reverse, normalize=normalize)
     if bound is None:
         return None
     rel, subj = bound
@@ -432,6 +629,11 @@ def _electric_subject_answer(question, says, reverse=False):
     # verb is not the taught verb is not a question about this fact, and falls
     # through to every existing path untouched.
     if rel == "agent":
+        if normalize and _ASK_PARTICIPANT.search(
+                re.sub(r"[^a-z ]", " ", str(question or "").lower())):
+            # Not the shared-stem guard: this ask names no verb, so there is no stem to
+            # share. `_participant_answer` carries its own, stricter, warrant.
+            return _participant_answer(question, tell, subj)
         ask_words = set(re.sub(r"[^a-z ]", " ", str(question or "").lower()).split())
         tell_words = {w for w in
                       re.sub(r"[^a-z ]", " ", str(tell).lower()).split()
@@ -2537,6 +2739,14 @@ class NeuralLanguage:
     # ELECTRIC_REVERSE: C4d showed that flag already does more than its name says, so
     # folding a third behaviour into it would make the flag un-analysable.
     ELECTRIC_OBJECT_ROLE = False
+    # ELECTRIC ask normalizer: recover asks whose FORM, not whose relation, is what has
+    # been silencing them. Copula participant asks ("who is the lantern with?") and
+    # passive/auxiliary asks ("what was the door opened by?", "who was the lantern given
+    # to?") are known facts wearing forms the binders never see, because those binders
+    # match a tell by its own verb stem and the ask's surface. Off by default: with this
+    # switch off the dispatch, the binds and the guards are the measured ones, byte for
+    # byte -- `normalize` is only ever True from here, and E24's licence never passes it.
+    ELECTRIC_ASK_NORMALIZE = False
     # ELECTRIC fragment guard: stop a licensed absence from falling through to
     # fragment speech.  The leak is not ELECTRIC's -- it is the house path uttering a
     # remembered question's stranded preposition (`to?`) as if it were a fact -- but it
@@ -3949,7 +4159,8 @@ class NeuralLanguage:
         if self.ELECTRIC_ANSWER:
             told = _electric_answer(text, self._taught_says,
                                 reverse=self.ELECTRIC_REVERSE,
-                                object_role=self.ELECTRIC_OBJECT_ROLE)
+                                object_role=self.ELECTRIC_OBJECT_ROLE,
+                                normalize=self.ELECTRIC_ASK_NORMALIZE)
             if told:
                 return {"spoken": True, "heard": True, "answered": True,
                         "utterance": told, "response": told,

@@ -1220,3 +1220,49 @@ LEARNED judgement (`is_interrogative` needs role votes) and the corpus never del
   window of a statement is not an asking; the cap declines AND deletes nothing; shape is inert
   without admissibility even to a detector pinned always-true; no tell is ever tagged; serve
   wiring; the measured arms still cannot see either switch.
+
+
+**ELECTRIC recovers three more ask FORMS** (`ELECTRIC_ASK_NORMALIZE`, off by default,
+`--electric-ask-normalize` -- a fourth permission inside `--electric`, alongside reverse and
+object-role, so a run that shows it costing something can say which switch did it).
+
+- What was silent was the FORM, not the relation. The matchers key on a tell's own verb stem
+  and the ask's nouns, so `who is the lantern with?` (a copula where do-support was expected)
+  and `what was the door opened by?` (a passive where the object-role path expects the active)
+  fell through to the recall path -- which, with admissibility off, answers them out of
+  remembered QUESTIONS. Those rows now get their fact instead of an echo.
+- **Two rules keep this from becoming a grammar:** function words only (no content word is
+  substituted, stemmed into a different word, or invented), and the output is a LOOKUP KEY, not
+  an utterance -- the variant goes back through the EXISTING matchers, which still return a
+  verbatim taught tell or nothing. So the normalizer cannot make the organ say a sentence it was
+  not told; it can only let an ask reach a matcher that was already free to speak that tell.
+- **The participant guard is separate from the shared-stem guard because it cannot use it** -- a
+  copula ask names no verb, so there is no stem to share. It requires: the tell is an agent frame
+  that ITSELF strands a preposition the ask's stranded preposition can mean; a participant on the
+  other end of it; and no content word in the ask besides the subject it bound to.
+  `ASK_PARTICIPANT_PREP` makes exactly ONE semantic claim (`with` -> `to`/`with`); every other
+  entry is identity. That is why `who is the mouse with?` stays silent: `the mouse chases the cat`
+  strands nothing, so it has no participant to give -- the row a stem guard could not protect,
+  because `mouse` is in both sentences.
+- **Found while writing it: `_absence_frame` stop-words the preposition out of its own object.**
+  `the lantern belongs to Mira` extracts to an object with no `to` anywhere in it, so the first
+  version of this guard refused every possessor fact in the house. Whether a tell strands a
+  preposition is a fact about the SENTENCE he was told, so the guard reads the tell's surface.
+- **Irregular table: 16 entries, closed, and deliberately no `-%en` rule** (it mangles `green`,
+  `men`, `ten`). A table entry buys nothing on its own -- a variant is emitted only when the stem
+  it produces is a verb some TAUGHT TELL actually uses, so the house's inventory decides what can
+  be recovered, not the table. `what was the latch broken by?` yields no variant at all, because
+  nobody was ever told about breaking; the nearest known action is not an answer.
+- **Arm `tools/electric_normalizer_ab.py`** (8 tells, 33 asks -- the ENTIRE object-role table
+  replayed plus 13 new rows, so a normalizer that quietly breaks `what bites the latch?` is
+  caught here): **recovered 6, regressions 0, confabulations caused 0**; refusals 4/4 identical,
+  silence 9/9 identical, `other` 9 -> 3. The pre-existing confabulation `what holds the latch?`
+  is unchanged and still reported. A second ISOLATED pass (one fresh organ per ask) confirms the
+  same 6 and 0 and separates this flag's effect from the sequence effect of asks being learned
+  while they are asked.
+- **Guarded contract:** `_absence_licence` still calls `_electric_bind(question, inventory)` on
+  defaults -- asserted both behaviourally and at the call site, because a future edit that
+  threads `normalize` through would otherwise be invisible until a measured refusal went missing.
+  `tests/test_electric.py`'s deliberate signature pin caught the new parameter and was satisfied
+  by RECORDING the knob (with `default is False`), not by loosening it. That pin is doing its job.
+- **Suite:** 902 collected; the only failure anywhere was that pin.

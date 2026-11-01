@@ -1,0 +1,496 @@
+{
+ "tells": [
+  "the scarf is on the hook",
+  "the lantern belongs to Mira",
+  "the mouse chases the cat",
+  "the frost bites the latch",
+  "the latch holds the door",
+  "the ledger is under the desk",
+  "the boy opens the door",
+  "Mira gives the lantern"
+ ],
+ "sequence": [
+  {
+   "ask": "who does the lantern belong to?",
+   "shade": "who-stranded",
+   "want": "the lantern belongs to Mira",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the lantern belongs to Mira",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the lantern belongs to Mira"
+  },
+  {
+   "ask": "who does the lantern belong to",
+   "shade": "who-stranded",
+   "want": "the lantern belongs to Mira",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the lantern belongs to Mira",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the lantern belongs to Mira"
+  },
+  {
+   "ask": "who does the mouse chase to?",
+   "shade": "who-stranded",
+   "want": "the mouse chases the cat",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the mouse chases the cat",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the mouse chases the cat"
+  },
+  {
+   "ask": "who does the mouse chase?",
+   "shade": "who-bare",
+   "want": null,
+   "a": "other",
+   "a_src": "arbiter head",
+   "a_said": "to?",
+   "b": "other",
+   "b_src": "arbiter head",
+   "b_said": "to?"
+  },
+  {
+   "ask": "who does the ledger belong to?",
+   "shade": "no-such-fact",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "who does the lantern report to?",
+   "shade": "wrong-verb",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "other",
+   "b_src": "arbiter head",
+   "b_said": "mira"
+  },
+  {
+   "ask": "who does the scarf belong to?",
+   "shade": "wrong-frame",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "what bites the latch?",
+   "shade": "c3-h1-reverse",
+   "want": "the frost bites the latch",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the frost bites the latch",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the frost bites the latch"
+  },
+  {
+   "ask": "what does the frost bite?",
+   "shade": "forward-agent-inflected",
+   "want": "the frost bites the latch",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the frost bites the latch",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the frost bites the latch"
+  },
+  {
+   "ask": "what does the scarf sit on?",
+   "shade": "no-such-fact",
+   "want": null,
+   "a": "refusal",
+   "a_src": "electric_absence",
+   "a_said": "i don't know, scarf was told but no agent was ever told for scarf",
+   "b": "refusal",
+   "b_src": "electric_absence",
+   "b_said": "i don't know, scarf was told but no agent was ever told for scarf"
+  },
+  {
+   "ask": "where is the scarf?",
+   "shade": "forward-place",
+   "want": "the scarf is on the hook",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the scarf is on the hook",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the scarf is on the hook"
+  },
+  {
+   "ask": "where is the ledger?",
+   "shade": "forward-place",
+   "want": "the ledger is under the desk",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the ledger is under the desk",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the ledger is under the desk"
+  },
+  {
+   "ask": "what is the scarf like?",
+   "shade": "absence-refusal",
+   "want": null,
+   "a": "refusal",
+   "a_src": "electric_absence",
+   "a_said": "i don't know, scarf was told but no property was ever told for scarf",
+   "b": "refusal",
+   "b_src": "electric_absence",
+   "b_said": "i don't know, scarf was told but no property was ever told for scarf"
+  },
+  {
+   "ask": "who does the lantern belong to and where is the scarf?",
+   "shade": "ambiguous",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "what bites the latch",
+   "shade": "object-role-no?",
+   "want": "the frost bites the latch",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the frost bites the latch",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the frost bites the latch"
+  },
+  {
+   "ask": "what chases the cat?",
+   "shade": "object-role",
+   "want": "the mouse chases the cat",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the mouse chases the cat",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the mouse chases the cat"
+  },
+  {
+   "ask": "what bit the latch?",
+   "shade": "object-role-irregular",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "what holds the door?",
+   "shade": "object-role-other",
+   "want": "the latch holds the door",
+   "a": "correct",
+   "a_src": "electric_taught",
+   "a_said": "the latch holds the door",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the latch holds the door"
+  },
+  {
+   "ask": "what breaks the latch?",
+   "shade": "object-role-nofact",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "what holds the latch?",
+   "shade": "hazard-preexisting",
+   "want": null,
+   "a": "CONFABULATION",
+   "a_src": "electric_taught",
+   "a_said": "the latch holds the door",
+   "b": "CONFABULATION",
+   "b_src": "electric_taught",
+   "b_said": "the latch holds the door"
+  },
+  {
+   "ask": "who is the lantern with?",
+   "shade": "copula-with",
+   "want": "the lantern belongs to Mira",
+   "a": "other",
+   "a_src": "recalled proposition",
+   "a_said": "who is the lantern with?",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the lantern belongs to Mira"
+  },
+  {
+   "ask": "who is the lantern with",
+   "shade": "copula-no-mark",
+   "want": "the lantern belongs to Mira",
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the lantern belongs to Mira"
+  },
+  {
+   "ask": "what was the door opened by?",
+   "shade": "passive-was",
+   "want": "the boy opens the door",
+   "a": "other",
+   "a_src": "recalled proposition",
+   "a_said": "what was the door opened by?",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the boy opens the door"
+  },
+  {
+   "ask": "what is the door opened by?",
+   "shade": "passive-is",
+   "want": "the boy opens the door",
+   "a": "other",
+   "a_src": "recalled proposition",
+   "a_said": "what is the door opened by?",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the boy opens the door"
+  },
+  {
+   "ask": "what is the latch bitten by?",
+   "shade": "passive-irregular",
+   "want": "the frost bites the latch",
+   "a": "other",
+   "a_src": "recalled proposition",
+   "a_said": "what is the latch bitten by?",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "the frost bites the latch"
+  },
+  {
+   "ask": "who was the lantern given by?",
+   "shade": "passive-other-subject",
+   "want": "Mira gives the lantern",
+   "a": "other",
+   "a_src": "recalled proposition",
+   "a_said": "who was the lantern given by?",
+   "b": "correct",
+   "b_src": "electric_taught",
+   "b_said": "Mira gives the lantern"
+  },
+  {
+   "ask": "what was the latch broken by?",
+   "shade": "ctl-untaught-verb",
+   "want": null,
+   "a": "other",
+   "a_src": "recalled proposition",
+   "a_said": "what was the latch broken by?",
+   "b": "other",
+   "b_src": "recalled proposition",
+   "b_said": "what was the latch broken by?"
+  },
+  {
+   "ask": "what was the ledger hidden by?",
+   "shade": "ctl-untaught-verb-2",
+   "want": null,
+   "a": "refusal",
+   "a_src": "electric_absence",
+   "a_said": "i don't know, ledger was told but no agent was ever told for ledger",
+   "b": "refusal",
+   "b_src": "electric_absence",
+   "b_said": "i don't know, ledger was told but no agent was ever told for ledger"
+  },
+  {
+   "ask": "who is the mouse with?",
+   "shade": "ctl-tell-strands-nothing",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "who is the scarf with?",
+   "shade": "ctl-place-frame-only",
+   "want": null,
+   "a": "miss",
+   "a_src": "",
+   "a_said": "",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "who is the door with?",
+   "shade": "ctl-noun-is-not-a-subject",
+   "want": null,
+   "a": "other",
+   "a_src": "recalled proposition",
+   "a_said": "who is the lantern with",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  },
+  {
+   "ask": "what is the scarf like?",
+   "shade": "ctl-measured-refusal",
+   "want": null,
+   "a": "refusal",
+   "a_src": "electric_absence",
+   "a_said": "i don't know, scarf was told but no property was ever told for scarf",
+   "b": "refusal",
+   "b_src": "electric_absence",
+   "b_said": "i don't know, scarf was told but no property was ever told for scarf"
+  },
+  {
+   "ask": "who does the lantern report to?",
+   "shade": "ctl-wrong-verb",
+   "want": null,
+   "a": "other",
+   "a_src": "arbiter head",
+   "a_said": "where",
+   "b": "miss",
+   "b_src": "",
+   "b_said": ""
+  }
+ ],
+ "isolated": [
+  {
+   "ask": "who is the lantern with?",
+   "shade": "copula-with",
+   "want": "the lantern belongs to Mira",
+   "off": "other",
+   "off_said": "who is the lantern with?",
+   "on": "correct",
+   "on_said": "the lantern belongs to Mira"
+  },
+  {
+   "ask": "who is the lantern with",
+   "shade": "copula-no-mark",
+   "want": "the lantern belongs to Mira",
+   "off": "miss",
+   "off_said": "",
+   "on": "correct",
+   "on_said": "the lantern belongs to Mira"
+  },
+  {
+   "ask": "what was the door opened by?",
+   "shade": "passive-was",
+   "want": "the boy opens the door",
+   "off": "other",
+   "off_said": "what was the door opened by?",
+   "on": "correct",
+   "on_said": "the boy opens the door"
+  },
+  {
+   "ask": "what is the door opened by?",
+   "shade": "passive-is",
+   "want": "the boy opens the door",
+   "off": "other",
+   "off_said": "what is the door opened by?",
+   "on": "correct",
+   "on_said": "the boy opens the door"
+  },
+  {
+   "ask": "what is the latch bitten by?",
+   "shade": "passive-irregular",
+   "want": "the frost bites the latch",
+   "off": "other",
+   "off_said": "what is the latch bitten by?",
+   "on": "correct",
+   "on_said": "the frost bites the latch"
+  },
+  {
+   "ask": "who was the lantern given by?",
+   "shade": "passive-other-subject",
+   "want": "Mira gives the lantern",
+   "off": "other",
+   "off_said": "who was the lantern given by?",
+   "on": "correct",
+   "on_said": "Mira gives the lantern"
+  },
+  {
+   "ask": "what was the latch broken by?",
+   "shade": "ctl-untaught-verb",
+   "want": null,
+   "off": "other",
+   "off_said": "what was the latch broken by?",
+   "on": "other",
+   "on_said": "what was the latch broken by?"
+  },
+  {
+   "ask": "what was the ledger hidden by?",
+   "shade": "ctl-untaught-verb-2",
+   "want": null,
+   "off": "refusal",
+   "off_said": "i don't know, ledger was told but no agent was ever told for ledger",
+   "on": "refusal",
+   "on_said": "i don't know, ledger was told but no agent was ever told for ledger"
+  },
+  {
+   "ask": "who is the mouse with?",
+   "shade": "ctl-tell-strands-nothing",
+   "want": null,
+   "off": "other",
+   "off_said": "who is the mouse with?",
+   "on": "other",
+   "on_said": "who is the mouse with?"
+  },
+  {
+   "ask": "who is the scarf with?",
+   "shade": "ctl-place-frame-only",
+   "want": null,
+   "off": "other",
+   "off_said": "who is the scarf with?",
+   "on": "other",
+   "on_said": "who is the scarf with?"
+  },
+  {
+   "ask": "who is the door with?",
+   "shade": "ctl-noun-is-not-a-subject",
+   "want": null,
+   "off": "other",
+   "off_said": "who is the door with?",
+   "on": "other",
+   "on_said": "who is the door with?"
+  },
+  {
+   "ask": "what is the scarf like?",
+   "shade": "ctl-measured-refusal",
+   "want": null,
+   "off": "refusal",
+   "off_said": "i don't know, scarf was told but no property was ever told for scarf",
+   "on": "refusal",
+   "on_said": "i don't know, scarf was told but no property was ever told for scarf"
+  },
+  {
+   "ask": "who does the lantern report to?",
+   "shade": "ctl-wrong-verb",
+   "want": null,
+   "off": "miss",
+   "off_said": "",
+   "on": "miss",
+   "on_said": ""
+  }
+ ]
+}

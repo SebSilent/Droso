@@ -236,6 +236,14 @@ def main() -> int:
                          "that the subject path mis-binds it, so this is a THIRD, separate "
                          "permission. It only ever runs after the subject path has found "
                          "nothing. OFF by default, and inert without --electric.")
+    ap.add_argument("--electric-ask-normalize", action="store_true",
+                    help="Within --electric only: read an ask's FORM before giving up on "
+                         "it. A copula ask that strands a preposition ('who is the lantern "
+                         "with?') reaches the tell that strands it ('the lantern belongs to "
+                         "Mira'); a passive ('what was the door opened by?') is looked up as "
+                         "the active question the object-role path already answers. Function "
+                         "words only, and only ever a lookup key -- the reply is still a "
+                         "verbatim taught tell or nothing. OFF by default.")
     ap.add_argument("--electric-fragment-guard", action="store_true",
                     help="Independent of --electric: when nothing he remembers answers "
                          "the ask, do not let the house speak a fragment of the ask "
@@ -320,6 +328,10 @@ def main() -> int:
         # ELECTRIC_REVERSE already turned out to do more than its name says (C4d) --
         # folding a third behaviour into it would make the flag un-analysable.
         lang.ELECTRIC_OBJECT_ROLE = bool(args.electric_object_role)
+        # Ask normalization is a FOURTH separate permission, for the same reason as the
+        # other two: it changes which asks reach which matchers, and a run that shows it
+        # costing something has to be able to say which switch did it.
+        lang.ELECTRIC_ASK_NORMALIZE = bool(args.electric_ask_normalize)
         # THE RESTART HALF. converse.build() repoints writes into the session dir and
         # never reads them back, so a second serve.py over the same --session-dir would
         # come up amnesiac even though the state is on disk.  load_state() is a no-op
