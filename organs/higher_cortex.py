@@ -826,8 +826,16 @@ class HigherCortex:
                     self._heard_overflow = True
                     self._heard.clear()
                 else:
+                    # The 6th element is the ask tag, RECORDED. A replay re-hears tokens
+                    # and nothing else in the delta says what KIND of turn this was, so
+                    # without it the tag written at hear-time is simply lost on reload.
+                    # Recorded here rather than re-guessed at read time, because guessing
+                    # from a row's tokens cannot tell a whole asking from an eight-word
+                    # WINDOW of a statement that happens to start on "who".
                     self._heard.append([list(toks), str(who or ""), bool(chunk),
-                                        float(surprise_weight), float(now)])
+                                        float(surprise_weight), float(now),
+                                        bool(ask) or any(
+                                            str(t).strip().endswith("?") for t in toks)])
         phrase = self.space.of(" ".join(toks[:6]))
         step = self.predictor.observe(phrase, surprise_weight=surprise_weight)
         self.last_error = step.get("error")
@@ -1079,9 +1087,13 @@ class HigherCortex:
                 if not isinstance(row, (list, tuple)) or len(row) < 5:
                     continue
                 toks, who, chunk, sw, when = row[:5]
+                # row[5] is the recorded ask tag; five-element rows are deltas an earlier
+                # session wrote, and their marked rows are still caught by the token
+                # fallback inside remember() -- only an UNMARKED asking is invisible there.
                 self.hear(toks, who=str(who or ""), chunk=bool(chunk),
                           surprise_weight=float(sw), replay=True,
-                          when=float(when))
+                          when=float(when),
+                          ask=bool(row[5]) if len(row) > 5 else False)
                 n += 1
             for row in (doc.get("facts") or []):
                 if isinstance(row, (list, tuple)) and len(row) >= 4:

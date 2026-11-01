@@ -1170,3 +1170,53 @@ at all - `recalled proposition` reads out a WHOLE remembered question, which is 
   not pass `ask` at all, so questions read in prose are untagged by design of this stroke. Both are the
   same open question, one level up: is `is_q` the right authority for what counts as an asking, or
   should admissibility be decided by the shape of the row rather than by the caller's intent?
+
+
+**Ask-admissibility is now SHAPE-authoritative** (`ELECTRIC_ASK_SHAPE`, off by default,
+`--electric-ask-shape`, read only under `ELECTRIC_ASK_ADMISSIBILITY`). Yesterday's flag decided
+an asking by the caller's intent; intent was the wrong authority because the organ's `is_q` is a
+LEARNED judgement (`is_interrogative` needs role votes) and the corpus never delivers a mark.
+
+- **No second lexicon.** `question_shape()` reads `SHAPE_INTERROGATIVES` -- the answer arbiter's
+  own closed set -- so a row is tagged exactly when the arbiter could have parsed it as an ask,
+  and the binder keeps its promise not to own an interrogative lexicon (`row_is_ask`'s docstring).
+  Three rejections, each aimed at a documented prose class: interrogative must be FIRST (a
+  mid-sentence `what` is a relative); the word after it must not be a SUBJECT ("what the loop
+  does", "what he did next"); no copula after that ("what matters most IS the latch").
+- **The write throttle, which is what this project has been calling flicker.** `hear()` DROPS any
+  utterance arriving within `MIN_HEAR_INTERVAL_S = 0.05` of the last and only counts it in
+  `skipped`. Every inconsistent number in my own probes and tests this week came from that gate: a
+  test that fires `live()`/`answer()` back to back is measuring which writes the throttle allowed,
+  not what the flag does. Three tests changed behaviour between runs until the interval was
+  neutralised; the live house reports **0 skipped** (its writes are spaced), so this is a
+  harness-and-rapid-conversation hazard, not a house defect.
+- **Shape had to reach `chunk`, or it was inert.** An unmarked ask that windows has no
+  interrogative in first position in ANY window, so no shape reader could call any fragment an
+  asking -- tag-only authority would have missed exactly the class it targets. Under the flag a
+  fitting ask is bound whole.
+- **Read-side guessing removed.** The first version re-derived shape from a recalled row's tokens,
+  which looked replay-proof and was not safe: in the real house it ate eight-token **windows of
+  statements**. Only the writer knows a row's boundary, so the verdict is now **recorded** in the
+  session delta (a 6th element; `apply_delta` unpacks `row[:5]` and old deltas are unaffected) and
+  `_hit_is_ask` reads tag-or-mark, nothing more.
+- **The cap, decided on measurement.** `remember()` binds at most `max_roles` (8) tokens, so binding
+  an over-long ask whole stores its head and the rest never exists. Without that limit the live
+  house tagged **324 rows** (197 `what`, 65 `who`, 62 `where`) -- genuine book questions the mark
+  path never caught -- and among them `who sacrificed everything for him chimed in the`, a relative
+  clause cut off mid-phrase: a fact eaten, silently. With the limit: **3 rows tagged, zero delta on
+  ten queries**. The wider coverage was declined because its price is silent deletion.
+- **Why the corpus is nearly uncatchable by shape at all: 0 marked rows in 60,000.** The exposure
+  path lowercases and drops punctuation before `live()` sees the line, so `?` never reaches the
+  binder -- the mark fallback has been catching only chat. The right fix is at the token/exposure
+  boundary (keep the mark), and it changes every row's tokens, hence every guarded battery number:
+  explicitly not this stroke.
+- **Collateral, pre-existing and flag-independent:** the window loop's last start is
+  `len(toks) - max_roles` stepped by `max(2, mr//2)`, so an 11-token line at mr=8 bounds tokens 0-7
+  only -- the last three words never exist anywhere. The house's own diet is "mostly prose at eleven
+  words a line" (the binder's comment says so). Worth its own stroke.
+- **Tests:** `tests/test_electric_ask_admissibility.py` 9 -> 20: detector over 6 asks and 9 prose
+  classes; unmarked ask tagged only under shape; the book path; a real `save_delta` ->
+  `apply_delta` round-trip proving the tag survives a replay that rehearses only tokens; a
+  window of a statement is not an asking; the cap declines AND deletes nothing; shape is inert
+  without admissibility even to a detector pinned always-true; no tell is ever tagged; serve
+  wiring; the measured arms still cannot see either switch.

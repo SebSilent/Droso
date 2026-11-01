@@ -248,7 +248,24 @@ def main() -> int:
                          "the recall hits before the arbiter -- so no read path can "
                          "answer from a remembered question (the `to?` fragment and the "
                          "whole-question read-back are both its symptoms). OFF by "
-                         "default: nothing is tagged, nothing is dropped.")
+                         "default: nothing is dropped (a row carrying `?` is tagged "
+                         "either way -- the mark is evidence, not a switch).")
+    ap.add_argument("--electric-ask-shape", action="store_true",
+                    help="With --electric-ask-admissibility: decide an asking by its "
+                         "SHAPE, not by whether the organ happened to know the word. "
+                         "Tags unmarked interrogatives (`who pets the mouse`) and book "
+                         "questions whose mark did not survive, and RECORDS the verdict "
+                         "in the session delta so a replay keeps it (the tag is never "
+                         "guessed from a row's tokens at read time: a window of a "
+                         "statement can begin on 'who' and nothing in the row says so). "
+                         "Reads the "
+                         "arbiter's own question-word set, so nothing is dropped that "
+                         "the arbiter could not have parsed as an ask. It also binds "
+                         "such a question WHOLE -- a windowed question has no question "
+                         "word in first position and could not be recognised as one by "
+                         "anything. Read only under --electric-ask-admissibility, so "
+                         "with it off which rows exist does not change. OFF by default: "
+                         "the detector never runs.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -281,6 +298,9 @@ def main() -> int:
     # Both switches are read OUTSIDE the --electric block: the leak they address
     # reproduces with ELECTRIC off entirely, because the branch is in the recall path.
     agent.language.ELECTRIC_ASK_ADMISSIBILITY = bool(args.electric_ask_admissibility)
+    # Shape authority is a WIDENING of admissibility, not a separate mouth: with
+    # admissibility off it can tag rows but nothing reads the tag, so it is inert.
+    agent.language.ELECTRIC_ASK_SHAPE = bool(args.electric_ask_shape)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into

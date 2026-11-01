@@ -718,8 +718,32 @@ class NeuralLanguage:
                 # never heard of". He was answering with the asking.
                 is_q = str(text or "").strip().endswith("?") or \
                     any(self.is_interrogative(t) for t in toks)
-                res = self.cortex.hear(toks, who=str(speaker), chunk=not is_q,
-                                       ask=bool(is_q and
+                # A question is bound whole or not at all -- and the SHAPE verdict has
+                # to reach that choice, not just the tag. Measured: with `chunk` left on
+                # the learned is_q, `who pets the mouse` windowed into ['who','pets']
+                # ['pets','the'] ['the','mouse'], and NO window has an interrogative in
+                # first position, so the detector could not see an asking in any of them
+                # and shape authority was inert for exactly the class it targets. Same
+                # rule as the comment above this block, with a better detector.
+                # Both halves are gated by ADMISSIBILITY, so the pair is one experiment:
+                # with admissibility off the row set, the tags and the answers are
+                # byte-identical to before this flag existed.
+                # ...and only for a row that FITS. remember() binds at most
+                # `max_roles` tokens, so a longer line is stored as its first eight
+                # words: the live audit caught `who sacrificed everything for him chimed
+                # in the` tagged as an asking -- a relative clause cut off mid-phrase,
+                # and a fact the house could no longer answer from. The writer is the one
+                # place that knows the row will be truncated, so the writer declines:
+                # past the cap, shape authority does not tag and does not rebind, and the
+                # tail of the sentence survives as windows the way it always did.
+                mr = int(getattr(self.cortex.binder, "max_roles", 0) or 0)
+                shape_ask = bool(self.ELECTRIC_ASK_ADMISSIBILITY and
+                                 self.ELECTRIC_ASK_SHAPE and
+                                 (not mr or len(toks) <= mr) and
+                                 self.question_shape(toks))
+                is_ask = bool(is_q or shape_ask)
+                res = self.cortex.hear(toks, who=str(speaker), chunk=not is_ask,
+                                       ask=bool(is_ask and
                                                 self.ELECTRIC_ASK_ADMISSIBILITY))
                 if res.get("error") is not None:
                     surprise = 1.0 + 2.0 * float(res["error"])
@@ -2535,6 +2559,22 @@ class NeuralLanguage:
     # (higher_cortex.row_is_ask), so with this flag off marked questions are still tagged
     # and only the read side changes.
     ELECTRIC_ASK_ADMISSIBILITY = False
+    # Make admissibility SHAPE-authoritative instead of intent-authoritative. The tag
+    # above is written from `is_q`, a LEARNED judgement (is_interrogative needs role
+    # votes), so an unmarked ask -- `who pets the mouse` -- and a book question whose
+    # mark did not survive were stored as facts and could still be answered from. On:
+    # a row with interrogative SYNTAX counts as an asking too, on the same closed set
+    # the answer arbiter parses with, so nothing is dropped that the arbiter could not
+    # have answered from. Off: the detector never runs. Both flags default off, and this
+    # one is READ ONLY UNDER ADMISSIBILITY -- it also moves `chunk`, because a windowed
+    # question has no interrogative in first position and so cannot be recognised as an
+    # asking by anything. With admissibility off, which rows exist is untouched.
+    # It applies only to a row that FITS in `max_roles`, measured, not cautious: binding
+    # an over-long ask whole stores its first eight words and drops the rest, and the
+    # live house then tagged `who sacrificed everything for him chimed in the` -- a
+    # relative clause cut mid-phrase, a fact eaten. 324 rows in, including real questions
+    # the mark path never caught (the corpus drops every `?`: 0 marked rows in 60,000).
+    ELECTRIC_ASK_SHAPE = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -2743,6 +2783,65 @@ class NeuralLanguage:
         arm twice -- the kind of defect that produces a clean, confident, empty result.
         """
         return self.SHAPE_BASE_INTERROGATIVES + tuple(self.SHAPE_EXTRA_INTERROGATIVES)
+
+    # Closed classes only. These are the two things that make an `what`-initial run of
+    # words a STATEMENT rather than an ask, and both are function-word classes, which is
+    # the one kind of list this project allows (the fly_v2 lesson at _question_shape is
+    # about listing CONTENT words -- "old, copper, heavy" -- not about closed grammar).
+    ASK_SHAPE_SUBJECTS = ("the", "a", "an", "one", "this", "that", "these", "those",
+                          "his", "her", "its", "their", "my", "our", "your",
+                          "i", "me", "he", "him", "she", "it", "they", "them",
+                          "we", "us", "you", "there", "someone", "everybody")
+    ASK_SHAPE_COPULAS = ("is", "are", "was", "were")
+
+    def question_shape(self, tokens) -> bool:
+        """Does this UNMARKED row have interrogative syntax? Shape, not intent.
+
+        Deliberately narrower than "contains a question word", which is precisely the
+        failure already documented inside is_interrogative: a book harvested from this
+        repo's own docstrings turned "what the loop does" and "where the state lives"
+        into interrogatives and deleted every answer he could give. Three rejections,
+        each aimed at one prose class:
+
+          * the question word must be FIRST -- a mid-sentence `what` is a relative;
+          * the word right after it must not be a SUBJECT, so "what the loop does" and
+            "what he did next" stay statements;
+          * no copula after that, so a subject clause ("what matters most IS the latch")
+            stays a statement -- an English ask puts its verb second.
+
+        It reads SHAPE_INTERROGATIVES, the arbiter's own set, so a row is tagged exactly
+        when the arbiter could have parsed it as an ask: `which thing turns twice` is NOT
+        tagged by default, because by default the arbiter has no shape for it either.
+        Making this authoritative makes that one authoritative too, in one place. A row
+        carrying `?` is an ask on the mark alone (higher_cortex.row_is_ask), which is why
+        this does not trouble itself over marks.
+        """
+        toks = [str(t).strip().lower() for t in (tokens or []) if str(t).strip()]
+        if len(toks) < 3:
+            return False
+        if toks[0] not in self.SHAPE_INTERROGATIVES:
+            return False
+        if toks[1] in self.ASK_SHAPE_SUBJECTS:
+            return False
+        if any(t in self.ASK_SHAPE_COPULAS for t in toks[2:]):
+            return False
+        return True
+
+    def _hit_is_ask(self, hit) -> bool:
+        """The read-side predicate: the RECORDED tag, or the token's own mark. Nothing
+        is guessed from the row's shape here, and that is a measured decision, not an
+        oversight.
+
+        A first version re-derived shape at read time, which looked replay-proof and was
+        not safe: run against the real house it ate 324 rows, and among them were
+        eight-token WINDOWS of statements -- `who sacrificed everything for him chimed in
+        the` is a relative clause that happens to begin a window, and nothing in the row
+        says so. Only the writer knows whether a row is a whole utterance or a window,
+        so only the writer decides what kind of turn it was; the delta now carries that
+        verdict (higher_cortex hear/apply_delta, the 6th element).
+        """
+        from organs.higher_cortex import row_is_ask
+        return row_is_ask(hit)
 
     def _question_shape(self, q_tokens) -> dict:
         """Classify a question into a shape the answer-checker can verify.
@@ -4156,8 +4255,7 @@ class NeuralLanguage:
             # An asking is not a fact. Dropped HERE, at the one place a recalled memory
             # becomes an answer, rather than in each branch that speaks one -- so neither
             # `arbiter head` nor `recalled proposition` can be reached by a question row.
-            from organs.higher_cortex import row_is_ask
-            kept = [h for h in hits if not row_is_ask(h)]
+            kept = [h for h in hits if not self._hit_is_ask(h)]
             trace["ask_hits_dropped"] = len(hits) - len(kept)
             hits = kept
             if not hits:
