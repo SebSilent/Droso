@@ -236,6 +236,12 @@ def main() -> int:
                          "that the subject path mis-binds it, so this is a THIRD, separate "
                          "permission. It only ever runs after the subject path has found "
                          "nothing. OFF by default, and inert without --electric.")
+    ap.add_argument("--electric-fragment-guard", action="store_true",
+                    help="Independent of --electric: when nothing he remembers answers "
+                         "the ask, do not let the house speak a fragment of the ask "
+                         "itself (measured: `to?`). Repairs a licensed absence "
+                         "falling through to fragment speech. OFF by default, and "
+                         "inert without --electric.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -259,6 +265,12 @@ def main() -> int:
     print(f"[serve] loading Droso (session dir: {session_dir}) ...", flush=True)
     t0 = time.time()
     agent = converse.build(session_dir, project_root=args.state)
+    # NOT an ELECTRIC feature.  Measured with ELECTRIC entirely off, the house still
+    # speaks `to?` for `who does the mouse chase?` once it has remembered the stranded
+    # variant of that ask -- the fragment comes out of the recall path, not out of
+    # ELECTRIC.  So this switch is read outside the --electric block: off by default,
+    # and when set it applies to the house path whatever else is on.
+    agent.language.ELECTRIC_FRAGMENT_GUARD = bool(args.electric_fragment_guard)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into

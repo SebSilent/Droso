@@ -345,6 +345,37 @@ def _electric_object_answer(question, says):
     return hits[0]
 
 
+QUESTION_FRAGMENT_WORDS = frozenset({
+    "to", "of", "for", "from", "in", "on", "at", "with", "by", "as",
+    "who", "whom", "whose", "what", "which", "where", "when", "why", "how",
+    "does", "do", "did", "is", "are", "was", "were", "has", "have", "had",
+    "and", "but", "or", "that", "this", "these", "those",
+})
+
+
+def _is_question_fragment(filler) -> bool:
+    """Is this "answer" a piece of an ASKING rather than a piece of a fact?
+
+    Measured, tools/electric_object_ab.py, row `who-bare`: the arbiter head spoke
+    `to?` for `who does the mouse chase?`.  Traced, the hit it spoke from was a
+    remembered QUESTION -- tokens ['who', 'does', 'the', 'lantern', 'belong', 'to?'],
+    who='you' -- because asks heard in chat are learned into memory like statements
+    are, and `_shape_matches` reads a token list without asking what kind of turn it
+    came from.  The "filler" it returns is therefore a stranded preposition with the
+    question mark still on it, and line 4147 utters it as an answer.
+
+    Content words are NOT fragments: `mouse`, `bell`, `latch` pass.  This predicate
+    only rejects what could never have been a fact -- an empty token, anything carrying
+    '?', or a bare function word.
+    """
+    s = str(filler or "").strip().lower()
+    if not s:
+        return True
+    if "?" in s:
+        return True
+    return stem(s) in QUESTION_FRAGMENT_WORDS
+
+
 def _electric_answer(question, says, reverse=False, object_role=False):
     """ELECTRIC read side, dispatch only -- so the ordering is stated once and enforced.
 
@@ -2480,6 +2511,16 @@ class NeuralLanguage:
     # ELECTRIC_REVERSE: C4d showed that flag already does more than its name says, so
     # folding a third behaviour into it would make the flag un-analysable.
     ELECTRIC_OBJECT_ROLE = False
+    # ELECTRIC fragment guard: stop a licensed absence from falling through to
+    # fragment speech.  The leak is not ELECTRIC's -- it is the house path uttering a
+    # remembered question's stranded preposition (`to?`) as if it were a fact -- but it
+    # is measured inside the ELECTRIC arm, where ELECTRIC's own decline is what makes
+    # the fall-through visible.  It is NOT an ELECTRIC feature: with ELECTRIC off
+    # entirely the house still speaks `to?` for the same pair of asks, so the switch is
+    # read outside the --electric block and applies to the recall path as such.
+    # Off by default: the guarded battery keeps its exact current outputs, including
+    # this leak, until a run says otherwise.
+    ELECTRIC_FRAGMENT_GUARD = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -4144,6 +4185,14 @@ class NeuralLanguage:
             sf = shape_filler if shape is not None else None
             if sf:
                 sf = str(sf)
+                # A question is not a fact.  Speak the licensed absence instead of
+                # letting the asking itself come out of the mouth.
+                if self.ELECTRIC_FRAGMENT_GUARD and _is_question_fragment(sf):
+                    return {"answered": False, "spoken": False,
+                            "reason": "the only thing that matched was the asking "
+                                      "itself",
+                            "cue": content,
+                            "parser": {"shape": shape, "verdict": "fragment"}}
                 said, source, words = sf, "arbiter head", [sf]
             else:
                 said, source, words = " ".join(tokens), "recalled proposition", tokens

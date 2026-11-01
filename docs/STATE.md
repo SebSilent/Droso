@@ -1081,3 +1081,44 @@ Open: 10 of 20 asks are still silence or a fragment, so 4/20 is not a coverage e
 proven on synthetic inventories, not on a corpus brain; the `arbiter head` fragment leak is still unowned
 and this arm only happened to close one instance of it; nothing here has been tested on a brain that also
 has a corpus.
+
+
+**The arbiter-head fragment leak, owned.** C4d recorded it as unowned: ELECTRIC declines and
+the house utters a fragment of the question. It is now reproduced in two asks and fixed behind
+a switch.
+
+- **Mechanism, measured.** `answer("who does the mouse chase to?")` is heard and remembered as
+  a proposition. Ask `answer("who does the mouse chase?")` and the shape arbiter matches that
+  remembered question (verb `chase`, subject `mouse`); `_shape_matches` returns the post-verbal
+  token as the *filler*, which for a question is the stranded preposition with its mark still
+  attached - `to?` - and the `arbiter head` branch speaks it as an answer. Nothing anywhere
+  asked whether the filler came from a statement or from an asking. Asks are learned into memory
+  like statements are, independently of `ELECTRIC_TEACH`, which is why the pair is enough.
+- **It is not an ELECTRIC defect.** It reproduces with ELECTRIC off entirely (`build(False)`),
+  because the branch is in the recall path. So `--electric-fragment-guard` is read **outside**
+  the `--electric` block - my first wiring put it inside, which would have made the switch dead
+  in exactly the configuration that needs it, and the help text claimed a scope the measurement
+  refutes.
+- **The fix is a refusal, not a re-route.** `ELECTRIC_FRAGMENT_GUARD` (default off) replaces the
+  utterance with the licensed absence the veto path already produces: `spoken=False`, reason
+  *"the only thing that matched was the asking itself"*, parser verdict `fragment`. The predicate
+  rejects only what could never have been a fact - empty, anything carrying `?`, or a bare
+  function word. Content-word fillers (`mouse`, `latch`, `bell`) pass untouched, and an unrelated
+  ask returns byte-identical output with the guard on or off.
+- **The live house does not reach it.** A real `converse.build` (corpus and state, the path
+  serve.py takes) refused at the coverage floor - *"the closest memory of his covers 37%"* - on
+  both settings, before the arbiter branch ran. The leak needs the corpus-free condition the
+  ELECTRIC demo builds. That asymmetry is the reason this is a guard and not a rewrite of the
+  filler logic: I have not measured it on a brain with a corpus, so I am not going to restructure
+  one on that evidence.
+- **Why the arm's row flickered.** C4e's run 3 showed `to?` for `who-bare`; run 4 showed silence
+  for the same row, same code. The row depends on whether the stranded variant was heard first,
+  which the table guarantees and my ad-hoc probes did not - two probes of mine missed the leak
+  for exactly that reason. Pinned now as an explicit precondition (`_organ()` asks the stranded
+  form before the bare one), not as an accident of table order.
+
+Open: the guard is unmeasured on a corpus brain; the `recalled proposition` branch reads out a whole
+token list and the guard does not touch it, so a remembered question may still come out in full -
+**not measured, deliberately not fixed in the same stroke**; and the deeper question -
+should a question be admissible as a memory at all - is untouched and is the one worth answering
+next.
