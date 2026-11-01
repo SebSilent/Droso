@@ -82,6 +82,48 @@ def test_agent_ask_naming_the_object_is_not_claimed():
     assert nl._electric_answer("what does the frost bite?", says) is None
 
 
+def test_taught_facts_survive_teach_mode_being_switched_off(tmp_path):
+    """C2's whole finding. Teach mode is a WRITE PERMISSION, and it is the correct
+    thing to switch off before consolidation -- consolidate() replays corpus
+    sentences through live(learn=True), and with teach mode on every one of them
+    becomes a fact the user supposedly told. That safe choice used to erase the
+    learner, because the save gate keyed on the permission flag."""
+    sp = tmp_path / "s.json"
+    a = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    a.ELECTRIC_TEACH = True
+    a.ELECTRIC_ANSWER = True
+    a.hear("the copper bell turns twice", speaker="you")
+    assert len(a._taught_says) == 1
+    a.ELECTRIC_TEACH = False            # exactly what consolidation requires
+    assert a.save_state(force=True).get("saved")
+
+    b = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    b.ELECTRIC_TEACH = False
+    b.ELECTRIC_ANSWER = True
+    assert b.load_state().get("loaded") is True
+    assert b._taught_says, "teach mode off wiped the taught facts"
+    # Keyed on 'copper', NOT 'bell': _absence_frame takes the first content word
+    # after the article, so a multi-word noun phrase keys on its MODIFIER. Asserted
+    # as measured rather than as I expected it -- the expectation was wrong.
+    assert b._taught_says["copper"]["agent"] == "the copper bell turns twice"
+
+
+def test_electric_off_still_writes_an_empty_inventory(tmp_path):
+    """The battery must not move. With ELECTRIC never enabled the inventory is
+    empty, so the widened gate writes {} and the state bytes are unchanged."""
+    sp = tmp_path / "s.json"
+    a = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                          TokenizerOrgan(), state_path=sp)
+    a.hear("the copper bell turns twice", speaker="you")
+    assert a._taught_says == {}, "ELECTRIC off must not mint taught facts"
+    a.save_state(force=True)
+    import json
+    doc = json.loads(sp.read_text(encoding="utf-8"))
+    assert doc.get("taught_says") == {}, "the widened gate must be battery-neutral"
+
+
 def test_broad_agent_binds_a_held_out_frame():
     """E1's `which thing does the {a} {v}?` is an agent question that never says
     "what", so the phrase-driven detector missed it and the generalisation run

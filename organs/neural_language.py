@@ -4966,8 +4966,28 @@ class NeuralLanguage:
                    # erases every fact the organism was taught -- E24's inventory
                    # was session-scoped by design, which is right for a diagnostic
                    # and fatal for a learner that has to remember across restarts.
+                   # GATE IS "IS THERE ANYTHING TO KEEP", NOT "AM I STILL
+                   # ALLOWED TO LEARN". ELECTRIC_TEACH is a WRITE permission and
+                   # it is correct to switch it off the moment teaching stops --
+                   # consolidate() replays up to 600 CORPUS sentences through
+                   # live(learn=True), and if teach mode is on each of those
+                   # becomes a fact the user supposedly told, so the organism
+                   # wakes up believing the library spoke to it. Measured in
+                   # generation C2: with the old gate, doing exactly that --
+                   # turning teach mode off before consolidation, which is the
+                   # safe thing to do -- wrote an EMPTY inventory and lost all 20
+                   # taught facts on restart (20/20 correct without
+                   # consolidation, 0/20 with it). The permission flag must not
+                   # double as the memory flag, or the safest choice is the one
+                   # that erases the learner.
+                   #
+                   # BATTERY NEUTRAL BY CONSTRUCTION: _taught_says can only be
+                   # non-empty if ELECTRIC_TEACH was on at some point this
+                   # session, so every run with ELECTRIC off still writes {} and
+                   # the state bytes are unchanged.
                    "taught_says": (self._taught_says
-                                   if self.ELECTRIC_TEACH else {}),
+                                   if (self.ELECTRIC_TEACH
+                                       or self._taught_says) else {}),
                    "absence_inventory": (self._absence_inv
                                          if self.ABSENCE_INVENTORY else {}),
                    "questions": {"roles": self.question_roles,

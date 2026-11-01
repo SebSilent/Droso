@@ -86,8 +86,23 @@ def test_e24_inventory_is_session_scoped():
     assert "if self.ABSENCE_INVENTORY else {}" in save, \
         "absence inventory must write an empty dict when the flag is off"
     assert '"taught_says": (self._taught_says' in save
-    assert "if self.ELECTRIC_TEACH else {}" in save, \
-        "taught facts must write an empty dict when the flag is off"
+    # C2 moved this gate from `if self.ELECTRIC_TEACH else {}` to
+    # `if (self.ELECTRIC_TEACH or self._taught_says) else {}`, because the permission
+    # flag was doubling as a memory flag: turning teach mode off before consolidate()
+    # -- which is REQUIRED, or 600 replayed corpus sentences become "facts the user
+    # told" -- wrote an empty inventory and lost every taught fact (0/20 after
+    # consolidation vs 20/20 without). See docs/electric_c2_consolidation.md.
+    #
+    # This was a SOURCE-TEXT PIN, and it is the reason the change showed up as an E24
+    # regression rather than as a behaviour difference. Retargeted to the test's INTENT
+    # -- the write must stay conditional and must still emit an empty dict when nothing
+    # was ever taught -- not deleted. The intent is now also asserted BEHAVIOURALLY,
+    # which is the stronger form: tests/test_electric.py::
+    # test_electric_off_still_writes_an_empty_inventory.
+    assert "if (self.ELECTRIC_TEACH" in save and "else {}" in save, \
+        "taught facts must still write conditionally"
+    assert "or self._taught_says" in save, \
+        "the gate must key on having facts, not only on write permission"
 
 
 # --------------------------------------------------------- 3. write-side frames

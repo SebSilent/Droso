@@ -1,0 +1,329 @@
+{
+  "arm": "nocons",
+  "budget": 200,
+  "runs": 1,
+  "seed": 1,
+  "consolidation": {
+    "ran": false
+  },
+  "taught_before": 20,
+  "taught_after_load": 20,
+  "polluted_subjects": [],
+  "lost_subjects": [],
+  "tally": {
+    "correct": 20,
+    "confabulation": 0,
+    "refusal": 0,
+    "silence": 0,
+    "other": 0
+  },
+  "by_frame": {
+    "H2": {
+      "total": 6,
+      "correct": 6,
+      "confabulation": 0,
+      "refusal": 0,
+      "silence": 0,
+      "other": 0
+    },
+    "H3": {
+      "total": 12,
+      "correct": 12,
+      "confabulation": 0,
+      "refusal": 0,
+      "silence": 0,
+      "other": 0
+    },
+    "H1": {
+      "total": 2,
+      "correct": 2,
+      "confabulation": 0,
+      "refusal": 0,
+      "silence": 0,
+      "other": 0
+    }
+  },
+  "direct_answers": 18,
+  "rows": [
+    {
+      "frame": "H2",
+      "taught": "the dainty towns the bottom",
+      "ask": "which thing does the dainty towns?",
+      "need": "bottom",
+      "forbid": [
+        "dainty"
+      ],
+      "spoken": "the dainty towns the bottom",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H2",
+      "taught": "the continuation shouldn the rendered",
+      "ask": "which thing does the continuation shouldn?",
+      "need": "rendered",
+      "forbid": [
+        "continuation"
+      ],
+      "spoken": "the continuation shouldn the rendered",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H2",
+      "taught": "the overthrow figure the clattering",
+      "ask": "which thing does the overthrow figure?",
+      "need": "clattering",
+      "forbid": [
+        "overthrow"
+      ],
+      "spoken": "the overthrow figure the clattering",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the argmax pecked the random",
+      "ask": "what is pecked by the argmax?",
+      "need": "random",
+      "forbid": [
+        "argmax"
+      ],
+      "spoken": "the argmax pecked the random",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the abuse rejoicing the holmes",
+      "ask": "what is rejoicing by the abuse?",
+      "need": "holmes",
+      "forbid": [
+        "abuse"
+      ],
+      "spoken": "the abuse rejoicing the holmes",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H2",
+      "taught": "the fulfil vanish the command",
+      "ask": "which thing does the fulfil vanish?",
+      "need": "command",
+      "forbid": [
+        "fulfil"
+      ],
+      "spoken": "the fulfil vanish the command",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the artery annoyance the appearing",
+      "ask": "what is annoyance by the artery?",
+      "need": "appearing",
+      "forbid": [
+        "artery"
+      ],
+      "spoken": "the artery annoyance the appearing",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the summits adorned the paid",
+      "ask": "what is adorned by the summits?",
+      "need": "paid",
+      "forbid": [
+        "summits"
+      ],
+      "spoken": "the summits adorned the paid",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the flogged proposal the arithmetic",
+      "ask": "what is proposal by the flogged?",
+      "need": "arithmetic",
+      "forbid": [
+        "flogged"
+      ],
+      "spoken": "the flogged proposal the arithmetic",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the forge receipt the shovel",
+      "ask": "what is receipt by the forge?",
+      "need": "shovel",
+      "forbid": [
+        "forge"
+      ],
+      "spoken": "the forge receipt the shovel",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the gather mills the gaily",
+      "ask": "what is mills by the gather?",
+      "need": "gaily",
+      "forbid": [
+        "gather"
+      ],
+      "spoken": "the gather mills the gaily",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H1",
+      "taught": "the folks reviewed the insisted",
+      "ask": "what reviewed the insisted?",
+      "need": "folks",
+      "forbid": [
+        "insisted"
+      ],
+      "spoken": "folks",
+      "outcome": "correct",
+      "source": "arbiter head",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H1",
+      "taught": "the princess testify the collapses",
+      "ask": "what testify the collapses?",
+      "need": "princess",
+      "forbid": [
+        "collapses"
+      ],
+      "spoken": "princess",
+      "outcome": "correct",
+      "source": "arbiter head",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the invisible cope the maintained",
+      "ask": "what is cope by the invisible?",
+      "need": "maintained",
+      "forbid": [
+        "invisible"
+      ],
+      "spoken": "the invisible cope the maintained",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the euston jurors the indulgence",
+      "ask": "what is jurors by the euston?",
+      "need": "indulgence",
+      "forbid": [
+        "euston"
+      ],
+      "spoken": "the euston jurors the indulgence",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the signs slightest the permanently",
+      "ask": "what is slightest by the signs?",
+      "need": "permanently",
+      "forbid": [
+        "signs"
+      ],
+      "spoken": "the signs slightest the permanently",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the assurance screw the granted",
+      "ask": "what is screw by the assurance?",
+      "need": "granted",
+      "forbid": [
+        "assurance"
+      ],
+      "spoken": "the assurance screw the granted",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H2",
+      "taught": "the poets pretend the earlier",
+      "ask": "which thing does the poets pretend?",
+      "need": "earlier",
+      "forbid": [
+        "poets"
+      ],
+      "spoken": "the poets pretend the earlier",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H2",
+      "taught": "the sword opium the charred",
+      "ask": "which thing does the sword opium?",
+      "need": "charred",
+      "forbid": [
+        "sword"
+      ],
+      "spoken": "the sword opium the charred",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    },
+    {
+      "frame": "H3",
+      "taught": "the smote computes the documents",
+      "ask": "what is computes by the smote?",
+      "need": "documents",
+      "forbid": [
+        "smote"
+      ],
+      "spoken": "the smote computes the documents",
+      "outcome": "correct",
+      "source": "electric_taught",
+      "answered": true,
+      "licensed_refusal": false
+    }
+  ]
+}
