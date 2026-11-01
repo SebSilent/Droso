@@ -718,7 +718,9 @@ class NeuralLanguage:
                 # never heard of". He was answering with the asking.
                 is_q = str(text or "").strip().endswith("?") or \
                     any(self.is_interrogative(t) for t in toks)
-                res = self.cortex.hear(toks, who=str(speaker), chunk=not is_q)
+                res = self.cortex.hear(toks, who=str(speaker), chunk=not is_q,
+                                       ask=bool(is_q and
+                                                self.ELECTRIC_ASK_ADMISSIBILITY))
                 if res.get("error") is not None:
                     surprise = 1.0 + 2.0 * float(res["error"])
             except Exception:
@@ -2521,6 +2523,18 @@ class NeuralLanguage:
     # Off by default: the guarded battery keeps its exact current outputs, including
     # this leak, until a run says otherwise.
     ELECTRIC_FRAGMENT_GUARD = False
+    # Memory admissibility for asks. A question someone said is a real event -- he
+    # should remember THAT someone asked -- but it is not a fact, and the recall path
+    # was answering from it as if it were (the `to?` leak was one symptom; the whole
+    # remembered question read back by `recalled proposition` was the other, unguarded
+    # one). On: rows heard as questions are tagged at storage and dropped from the hit
+    # list BEFORE the provenance vote and the shape arbiter, so no read path that turns
+    # a memory into an utterance can see them. Off: nothing is dropped, so the guarded
+    # battery's outputs -- leak included -- are untouched. The TAG is not gated the same
+    # way: a row whose own tokens carry the mark is an asking whatever the switches say
+    # (higher_cortex.row_is_ask), so with this flag off marked questions are still tagged
+    # and only the read side changes.
+    ELECTRIC_ASK_ADMISSIBILITY = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -4138,6 +4152,18 @@ class NeuralLanguage:
         # WHICH memory is offered but never how strictly it is judged. That is
         # the whole difference from band-hop, and from the meaning-cosine
         # version that died promoting a corpus line over a true tell.
+        if self.ELECTRIC_ASK_ADMISSIBILITY:
+            # An asking is not a fact. Dropped HERE, at the one place a recalled memory
+            # becomes an answer, rather than in each branch that speaks one -- so neither
+            # `arbiter head` nor `recalled proposition` can be reached by a question row.
+            from organs.higher_cortex import row_is_ask
+            kept = [h for h in hits if not row_is_ask(h)]
+            trace["ask_hits_dropped"] = len(hits) - len(kept)
+            hits = kept
+            if not hits:
+                return {"answered": False, "spoken": False,
+                        "reason": "what he remembers there is only the asking itself",
+                        "cue": content}
         hits, vote = self._provenance_vote(hits)
         trace["vote"] = vote
         shape = self._question_shape(q)

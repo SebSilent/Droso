@@ -47,6 +47,23 @@ MAX_PROPOSITIONS = 60000
 BETA = 8.0
 
 
+def row_is_ask(row) -> bool:
+    """Whether a remembered row is an ASKING rather than a statement.
+
+    Two halves, deliberately. The tag is what the organ knows at hear-time (it has the
+    interrogative lexicon; this binder must not grow a second copy of one). The token
+    check is the un-tagged fallback: a question is stored whole, so its mark survives in
+    the row, and the replay/delta path re-hears tokens without re-deriving the tag. That
+    fallback is what makes the tag hold across a save/replay and is why it is checked on
+    the read side too, not trusted from the write side alone.
+    """
+    if not isinstance(row, dict):
+        return False
+    if row.get("ask"):
+        return True
+    return any(str(t).strip().endswith("?") for t in (row.get("tokens") or []))
+
+
 class ConceptSpace:
     """A fixed random projection from tokens to dense bipolar concept vectors.
 
@@ -367,7 +384,8 @@ class Binder:
         n = float(np.linalg.norm(v))
         return (v / n).astype(np.float32) if n else v
 
-    def remember(self, tokens, who: str = "", when: float = 0.0) -> dict:
+    def remember(self, tokens, who: str = "", when: float = 0.0,
+                 ask: bool = False) -> dict:
         p = self.encode(tokens)
         if not float(np.linalg.norm(p)):
             return {"stored": False, "reason": "empty"}
@@ -375,6 +393,12 @@ class Binder:
         key = tuple(str(t).strip().lower() for t in tokens)[:self.max_roles]
         row = {"tokens": list(key), "who": who,
                "when": float(when or time.time()), "count": 1}
+        # Admissibility, not storage: the asking is remembered (he must know someone
+        # asked it) but it is tagged as an asking, so the factual read paths can refuse
+        # it. Tagged rows only -- untagged meta stays byte-identical, and meta is a JSON
+        # sidecar, so an old individual's file simply has no tag anywhere.
+        if ask or row_is_ask(row):
+            row["ask"] = True
         with self._lock:
             at = self._seen.get(key)
             if at is not None and at < len(self.meta):
@@ -521,6 +545,9 @@ class Binder:
         score = sims + 0.05 * overlap + 0.05 * np.log1p(counts)
         order = np.argsort(-score)[:int(k)]
         return [{"tokens": meta[int(i)]["tokens"],
+                 # Admissibility rides into the hit, not just into storage: this dict is
+                 # a whitelist, so a tag the reader cannot see is a tag that does not exist.
+                 "ask": bool(meta[int(i)].get("ask")) or row_is_ask(meta[int(i)]),
                  "who": meta[int(i)].get("who", ""),
                  "when": float(meta[int(i)].get("when", 0.0) or 0.0),
                  "count": int(meta[int(i)].get("count", 1)),
@@ -760,7 +787,7 @@ class HigherCortex:
 
     def hear(self, tokens, who: str = "", surprise_weight: float = 1.0,
              chunk: bool = True, replay: bool = False,
-             when: float = 0.0) -> dict:
+             when: float = 0.0, ask: bool = False) -> dict:
         """One utterance arrives. Predict it, then bind and store it.
 
         Prediction uses the running concept of what came before, so error is
@@ -805,8 +832,12 @@ class HigherCortex:
         step = self.predictor.observe(phrase, surprise_weight=surprise_weight)
         self.last_error = step.get("error")
         mr = int(self.binder.max_roles)
+        # `ask` is what the organ knew (it owns the interrogative lexicon); remember()
+        # also tags a row whose own tokens carry the mark, so the tag is not solely
+        # dependent on a caller that may be off.
         if len(toks) <= mr or not chunk:
-            self.binder.remember(toks, who=who, when=when if replay else 0.0)
+            self.binder.remember(toks, who=who, when=when if replay else 0.0,
+                                 ask=bool(ask))
         else:
             # A sentence longer than the role count used to lose its tail: the
             # binder kept the first eight words and the rest was never bound at

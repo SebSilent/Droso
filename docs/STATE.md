@@ -1128,3 +1128,45 @@ token list and the guard does not touch it, so a remembered question may still c
 **not measured, deliberately not fixed in the same stroke**; and the deeper question -
 should a question be admissible as a memory at all - is untouched and is the one worth answering
 next.
+
+
+**Memory admissibility for asks, implemented.** The `to?` leak was one symptom of a class:
+`live()` learns a question into the binder exactly like a statement, and the recall path reads
+token lists without asking what kind of turn they came from. The other symptom was never guarded
+at all - `recalled proposition` reads out a WHOLE remembered question, which is not a fragment, so
+`_is_question_fragment` could not catch it by construction.
+
+- **The change.** `ELECTRIC_ASK_ADMISSIBILITY` (off by default, `--electric-ask-admissibility`).
+  Write side: `live()` already computes `is_q` to decide whether to bind a question whole, and now
+  passes it to `cortex.hear(..., ask=)`, which tags the meta row. Read side: ask rows are dropped
+  from `hits` **before** the provenance vote and the shape arbiter - the one place a recalled memory
+  becomes an utterance - so neither `arbiter head` nor `recalled proposition` can be reached by an
+  asking. One filter, not one per mouth.
+- **The tag is not solely the switch's doing.** `higher_cortex.row_is_ask()` is the single predicate,
+  shared by writer and reader: the organ's `is_q` OR any token carrying `?`. The second half is what
+  makes the tag survive a delta replay (the replay path re-hears tokens and does not re-derive `ask`)
+  and what tags marked questions even with the flag off. Only the read side is gated.
+- **A tag a reader cannot see is a tag that does not exist.** `binder.recall()` builds its hit dict
+  from a whitelist of meta keys, so the tag would have been stored and silently dropped at retrieval -
+  the whole feature would have been inert and every test of the *write* side would still have passed.
+  `ask` is now copied into the hit, and `test_the_tag_reaches_the_reader_not_just_the_writer` pins it.
+- **Cost, measured per-process.** Object arm's own 20-ask table, one condition per process: tallies
+  are **identical** off/on (correct 6, absence 9, arbiter head 2, electric_taught 1,
+  electric_absence 2). The only change is *which* licensed absence a row gets: the unmarked
+  `what bites the latch` moved from "nothing he remembers has that shape" to "the closest memory of
+  his covers 0%" - silence either way, because the question row is no longer the thing being counted.
+  Running both conditions in ONE process gives a spurious delta (an answer appears to be lost). That
+  is the arm not being hermetic across builds in a process, the same hazard as the flickering
+  `who-bare` row - it bit me here first and I nearly recorded a cost that does not exist.
+- **Live house: zero delta.** Real `converse.build` (60,000-row binder, corpus and state), seven asks,
+  two separate houses: every ask produced the same `spoken` and the same utterance off and on. The tag
+  landed precisely - 7 tagged rows, exactly the 7 token-marked ones, **no prose row caught** - and the
+  two `recalled proposition` answers survived untouched, including
+  `where does the lantern belong to?`, which now reads a corpus statement instead of the asking.
+- **Not fixed, and now visible.** The tag covers what the organ recognises as a question plus anything
+  carrying a mark. In the hermetic arm organ `is_interrogative("who")` is False, so
+  `live("who pets the mouse", speaker="you")` stores an UNTAGGED question row (measured: tagged=[False])
+  - admissibility cannot see an asking the organ does not know it heard. And the book/exposure path does
+  not pass `ask` at all, so questions read in prose are untagged by design of this stroke. Both are the
+  same open question, one level up: is `is_q` the right authority for what counts as an asking, or
+  should admissibility be decided by the shape of the row rather than by the caller's intent?

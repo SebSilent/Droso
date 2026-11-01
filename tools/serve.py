@@ -240,8 +240,15 @@ def main() -> int:
                     help="Independent of --electric: when nothing he remembers answers "
                          "the ask, do not let the house speak a fragment of the ask "
                          "itself (measured: `to?`). Repairs a licensed absence "
-                         "falling through to fragment speech. OFF by default, and "
-                         "inert without --electric.")
+                         "falling through to fragment speech. OFF by default; the leak "
+                         "reproduces with --electric off, so this is not gated by it.")
+    ap.add_argument("--electric-ask-admissibility", action="store_true",
+                    help="Independent of --electric: a question someone asked is "
+                         "remembered as an ASKING, tagged at storage, and dropped from "
+                         "the recall hits before the arbiter -- so no read path can "
+                         "answer from a remembered question (the `to?` fragment and the "
+                         "whole-question read-back are both its symptoms). OFF by "
+                         "default: nothing is tagged, nothing is dropped.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -271,6 +278,9 @@ def main() -> int:
     # ELECTRIC.  So this switch is read outside the --electric block: off by default,
     # and when set it applies to the house path whatever else is on.
     agent.language.ELECTRIC_FRAGMENT_GUARD = bool(args.electric_fragment_guard)
+    # Both switches are read OUTSIDE the --electric block: the leak they address
+    # reproduces with ELECTRIC off entirely, because the branch is in the recall path.
+    agent.language.ELECTRIC_ASK_ADMISSIBILITY = bool(args.electric_ask_admissibility)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into
