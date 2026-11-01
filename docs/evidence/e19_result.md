@@ -13,10 +13,16 @@ touches no score, organ behaviour or genome.
 > correct taught row at rank 1.** The eviction finding in §1 below is unaffected and stands. Read
 > §4 of this file together with `e20_result.md`.
 
-**Headline: `taught_resident` is True on 40 of 42 asks — 0 of 19 failures are eviction. H1 is
-falsified. But of the 8 attributed asks where the recall gate actually ran, 4 have the correct
-taught row at probe rank 1–2 while the gate's own `nearest` list is all book. The row is resident
-and a plain content-word query finds it first; the gate's cue does not.**
+**Headline: `taught_resident` is True on 39 of 42 asks (3 asks unattributable) — **0 of 19
+failures are eviction**. H1 is falsified. Of the 9 attributed asks where the recall gate actually
+ran, 4 have the correct taught row at probe rank 1–2 — and on 4 of those 9 the **gate's own**
+retrieval ranks the row **first**, then refuses it at coverage 0.340–0.538. The row is resident and
+findable by both cues; the failure is downstream of retrieval.**
+
+> **Numbers corrected on recheck (see §8).** This headline originally read `40 of 42`, `8 attributed
+> asks`, and `the gate's own nearest list is all book`. Recomputed from the journal the first two are
+> 39 and 9, and the third is the claim E20 retracted — the gate surfaces the taught row at rank 1 on
+> 4 of the 9.
 
 ---
 
@@ -60,31 +66,43 @@ under a gate that ran; 0 passing asks do** — because 22 of 23 passing asks nev
 all (`passing_ask_analysis.md` §2a). Retrieval is a property of the failing path, not of asks
 generally.
 
-## 3. The 8 attributed gate failures, ranked
+## 3. The 9 attributed gate failures, ranked
 
 These are the failing asks with `coverage_present=True` — the gate ran, so `nearest` and coverage
-are real measurements.
+are real measurements. `gate rank` is added on recheck: where the taught row appears in the gate's
+own `nearest` list, by exact string equality.
 
-| ask | cov | probe rank | window | taught row | count |
-|---|---|---|---|---|---|
-| `how often did i say the coat is wet?` | 0.454 | **1** | 3 | `the coat is wet` | 3 |
-| `what is bitten by the frost?` | 0.340 | **1** | 3 | `the frost bites the latch` | 1 |
-| `what is held by the thing the frost bites?` | 0.510 | **2** | 3 | `the frost bites the latch` | 1 |
-| `what number of eggs is left in the basket?` | 0.538 | **2** | 3 | `there are four eggs in the basket` | 1 |
-| `how often does the bell turn?` | 0.514 | 11 | 3 | `the copper bell turns twice` | 1 |
-| `how many times does the bell turn?` | 0.417 | 20 | 3 | `the copper bell turns twice` | 1 |
-| `what did i tell you about before the kettle?` | 0.555 | None | 3 | `the lantern is lit` | 1 |
-| `what came before the kettle in what i said?` | 0.460 | None | 3 | `the lantern is lit` | 1 |
+| ask | cov | probe rank | **gate rank** | window | taught row | count |
+|---|---|---|---|---|---|---|
+| `how often did i say the coat is wet?` | 0.454 | **1** | absent | 3 | `the coat is wet` | 3 |
+| `what is bitten by the frost?` | 0.340 | **1** | **1** | 3 | `the frost bites the latch` | 1 |
+| `what is held by the thing the frost bites?` | 0.510 | **2** | **1** | 3 | `the frost bites the latch` | 1 |
+| `what number of eggs is left in the basket?` | 0.538 | **2** | **1** | 3 | `there are four eggs in the basket` | 1 |
+| `how often does the bell turn?` | 0.514 | 11 | **1** | 3 | `the copper bell turns twice` | 1 |
+| `how many times does the bell turn?` | 0.417 | 20 | absent | 3 | `the copper bell turns twice` | 1 |
+| `what did i tell you about before the kettle?` | 0.555 | None | absent | 3 | `the lantern is lit` | 1 |
+| `what came before the kettle in what i said?` | 0.460 | None | absent | 3 | `the lantern is lit` | 1 |
+| `what does the bitten thing hold?` | 0.385 | None | absent | 3 | `the frost bites the latch` | 1 |
 
-(`where did i say the scarf is?` also ran the gate, cov 0.570, but is `attribution_failed`:
-its `expect` carries no answer words.)
+The last row was missing from the original table (it is a probe-tier ask, cov 0.385, cue
+`[bitten, hold, thing]` against a row whose words are `frost bites latch` — population (c) below).
+
+The only other ask that ran the gate is `where did i say the scarf is?` (cov 0.570,
+`attribution_failed` — its `expect` carries no answer words). **It is not a failure: it passes**, and
+it is the sole passing gate ask of the 10. Its `nearest[0]` is `the scarf is wet`, the taught row,
+ranked first by the gate. The original text listed it among the gate *failures*, which is wrong.
 
 Three distinct populations, not one:
 
-**(a) Cue mismatch — 4 asks, probe rank 1–2, gate `nearest` all book.** The correct row is
-resident, reinforced (count 3 for the coat), and a plain content-word query ranks it **first**. The
-gate did not surface it. This is the sharpest result in the run and it is not a threshold, ranking
-or eviction problem — it is **how the gate builds its cue**.
+**(a) Retrieved and still refused — 4 asks, probe rank 1–2.** As first written this population was
+called "cue mismatch: gate `nearest` all book", and that is the claim E20 retracted. Measured by
+exact string equality the gate surfaces the correct row **at rank 1 on 3 of the 4**
+(`what is bitten by the frost?`, `what is held by the thing the frost bites?`,
+`what number of eggs is left in the basket?`) and misses on 1 (`how often did i say the coat is
+wet?`, the only count-3 row in the set). So the sharp result is not that the gate cannot find the
+row — **it finds it, ranks it first, and refuses at coverage 0.340–0.538 anyway.** That is the
+denominator, which E20 returned to and E12a/E14a had already closed at a 0.5488 ceiling. The one
+genuine cue mismatch is the coat ask, and it is a single observation.
 
 **(b) Genuinely deep — 2 asks, probe rank 11 and 20.** The `bell turn` family. Resident at count 1,
 but far down even under a favourable probe query. Last turn I proposed a rank-keyed repair for
@@ -149,3 +167,31 @@ count-1 row, (c) is an ordering primitive that no retrieval repair can supply.
 | `tools/run_generation.py` | `--binder-attribution` (default off), `BINDER_ATTRIBUTION`, `_binder_attribution()`, `_E19_STOP`. Read-only; off means no attribution keys, so a control run stays byte-identical to generation 15. |
 | `state/selection/generation_19.jsonl`, `generation_19_asks.jsonl` | new, instrumented control battery. |
 | `docs/evidence/e19_analysis.py`, `.json`, `.md` | new probe, data and this file. |
+
+## 8. Recheck (later turn, read-only, no re-run)
+
+The run was not repeated. Every number above was re-derived from the published journal
+`state/selection/generation_19_asks.jsonl` (42 rows; each row carries `attribution` with
+`taught_resident`, `taught_count`, `taught_rank`, `taught_row`, `taught_rank_cue`), so this checks
+the write-up against the data it was written from, not the harness against itself.
+
+**Confirmed, and it is the claim that carries the experiment:** `taught_resident=False` occurs on
+**zero** asks, failing or passing. 0 of 19 failures are eviction. H1 stays falsified and §1's verdict
+is unaffected by any correction below.
+
+**Wrong, and now fixed in place:**
+
+| claim | was | journal says |
+|---|---|---|
+| `taught_resident` True | 40 of 42 | **39 of 42** (18 failing + 21 passing; the other 3 are `attribution_failed`, `why=no_answer_words`) |
+| attributed asks where the gate ran | 8 | **9** — `what does the bitten thing hold?` (cov 0.385, probe rank None, row `the frost bites the latch`) was omitted from §3 |
+| scarf ask status | a gate failure | **passes**; it is the only passing gate ask of 10, and its `nearest[0]` is the taught row |
+| gate `nearest` on population (a) | all book | **row at gate rank 1 on 3 of the 4** — this is E20's retraction, which §3's body had not yet absorbed |
+
+Arithmetic that does check out: 19 failing / 23 passing; attribution_failed 1 failing + 2 passing = 3;
+22 of 23 passing asks never run the gate (§2's control on the `window=0` misclassification); and the
+§1 tally rows sum to 19 and 23 as printed.
+
+**Consequence for §6.** §6 proposed probing the gate's cue for population (a) as the next step. That
+step was taken and answered by E20 and E21a — the cue does not omit the taught terms, and de-framing
+recovers 0 of 4 — so §6 is superseded, not open.

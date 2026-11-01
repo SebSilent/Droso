@@ -5,6 +5,22 @@
 and it was the *same* answer. E26 additionally cleared four `recall` failures, but three of them
 died at the next gate instead of becoming answers. The coverage lever is exhausted.
 
+> **Status update (records closed).** E26 **ran** — generation 23 exists, and `e26_user_visible.py`
+> re-derives its published numbers from the journal exactly (newly answered 1, newly broken 0, three
+> `recall` asks crossing into `shape_arbiter`, 23/42 → 24/42, B1–B5+B8 all pass). Nothing is owed
+> there. **Generation 24 is consumed**, and not by this plan: it was the ELECTRIC-on battery run,
+> where abort **C3 fired** (`frozen 19/24 → 17/24`, net 0 — see `docs/electric_result.md` §6b), and
+> the standing instruction from it is *do not turn ELECTRIC on for battery runs*. So §5 and §6's
+> "generation 24" is now **generation 25** against generation 23 as control.
+>
+> A second consequence the plan did not anticipate: the battery is a poor instrument for this plan's
+> own success criterion. The grader scores silence as correct on `where did i say the scarf is?`, so
+> an organism that answers *or* truthfully admits ignorance is graded FAIL — the gen-24 run lost a
+> point that way without losing a capability (`docs/scoring_contract_issue.md`, open question, still
+> open). §8 already says the criterion is E1-style generalisation rather than battery score; that now
+> needs to be the **primary** measure, not the confirmation, because two of the four gates this plan
+> wants to bypass are gates the battery punishes passing.
+
 ---
 
 ## 1. What the measurements actually say
@@ -100,8 +116,10 @@ Scope, deliberately minimal:
   from being a shim — it cannot answer a question it was not taught.
 
 **Why this is the minimal thing that could work:** it removes *two* of the four series gates for the
-class of asks that already retrieve correctly, which E19 established is **40 of 42 asks**
-(`taught_resident` True). The facts are there. The series composition is what loses them.
+class of asks that already retrieve correctly, which E19 established is **39 of 42 asks**
+(`taught_resident` True; re-derived from the journal — the figure published here as 40 of 42 is
+corrected in `docs/evidence/e19_result.md` §8.) The facts are there. The series composition is what
+loses them.
 
 ## 5. Predicted outcome, pre-registered
 

@@ -1428,8 +1428,9 @@ Four harness defects this check had to be rebuilt around, each of which moved a 
   drop, row-set equality, taught-before-store precedence.
 - **Suite:** 934 passed, 3 skipped, 0 failed (287s), including `test_coverage_exclude_frame.py`
   (12) and the E25 tests whose source-inspection assertions had been breaking in the E26 work --
-  this change touches neither, so their passing is not attributable to it and was not chased. The E26 battery run (gen 23,
-  `--coverage-exclude frame`) is still outstanding and is not this flag.
+  this change touches neither, so their passing is not attributable to it and was not chased. (This
+  line originally called the E26 gen-23 battery run "still outstanding" -- it is not: generation 23
+  exists and its published numbers re-derive from the journal. See the closing record below.)
 - **Guarded contract untouched.** No token is altered. No brain was built.
 - **Gaps left open, on purpose:** this is not comprehension -- the store answers only the exact key
   of a line pair printed as question/answer, and on the 16 real novels it holds nothing at all. It
@@ -1439,3 +1440,104 @@ Four harness defects this check had to be rebuilt around, each of which moved a 
   `might a mere warmint ask what property?` with `the scarf is on the hook` from
   `recalled proposition`: a taught fact reaching an unrelated ask, pre-existing, printed by the tool
   rather than asserted away.
+
+## Closing the outstanding records (E19, E26) -- and what the recheck found
+
+Both items carried as "pending" were **already closed**; the handover was stale, not the tree. They
+were re-verified against their own journals rather than re-run, and the recheck found four errors in
+a published evidence file.
+
+**E26 / generation 23: nothing owed.** `state/selection/generation_23_asks.jsonl` is complete (42
+rows) and `docs/evidence/e26_user_visible.py`, re-executed this turn, re-derives every published
+number from the journal: newly answered **1** (`how often does the bell turn?` -> `the copper bell
+turns twice`), newly broken **0**, three `recall` asks crossing into `shape_arbiter`, stage mass
+`recall 10 -> 6` / `shape_arbiter 2 -> 5`, total **23/42 -> 24/42**, and abort conditions B1, B2
+(4/4), B3 (19/24, `frozen_lost_n` 0), B4, B5, B8 all pass. ACCEPTED stands; the coverage line stays
+closed. **Generation 24 is consumed** -- it was the ELECTRIC-on battery run where abort **C3 fired**
+(`frozen 19/24 -> 17/24`, net 0, `docs/electric_result.md` section 6b), so the next free generation
+is **25**
+and `docs/capability_first_plan.md`, which had reserved 24 for its own treatment arm, now says so.
+
+**E19: written, and corrected in place.** The file exists and the run is real -- all 42 rows carry
+`attribution` with `taught_resident`/`taught_count`/`taught_rank`/`taught_row`/`taught_rank_cue`.
+Recomputing them: **`taught_resident=False` occurs on zero asks, failing or passing. 0 of 19 failures
+are eviction. H1 stays falsified** -- the load-bearing claim survives intact. Four things did not:
+
+| claim | published | journal |
+|---|---|---|
+| `taught_resident` True | 40 of 42 | **39 of 42** (18 failing + 21 passing; 3 are `attribution_failed`) |
+| attributed asks where the gate ran | 8 | **9** -- `what does the bitten thing hold?` (cov 0.385) was missing from the table |
+| `where did i say the scarf is?` | a gate failure | **passes**; the only passing gate ask of 10, and its `nearest[0]` is `the scarf is wet` |
+| gate `nearest` on population (a) | all book | **row at gate rank 1 on 3 of the 4** -- E20's retraction, which section 3's body had not absorbed |
+
+The third was the one that mattered for the guarded line: the scarf ask is not a failure to explain,
+it is a refusal-shaped pass whose gate retrieval ranks the taught row first. `docs/evidence/e19_result.md`
+now carries these as a Recheck section, with the corrections applied in the body; the same 40/42
+figure was quoted in `docs/capability_first_plan.md` section 4 and is fixed there too.
+
+## Next capability-first experiment: E27 -- attack the subject key, do not confirm it
+
+**The measured reason, found this turn.** `_absence_frame` (`organs/neural_language.py:125`) keys a
+frame on the **first content word** of the tell. Run against the battery's own taught sentences, that
+is what the inventory looks like:
+
+```
+the coat is wet                 -> subject 'coat'    rel=property   (right)
+the frost bites the latch       -> subject 'frost'   rel=agent      (right)
+the scarf is on the hook        -> subject 'scarf'   rel=place      (right)
+the copper bell turns twice     -> subject 'copper'  rel=agent      (WRONG KEY)
+there are four eggs in the basket -> subject 'four'  rel=agent      (WRONG KEY, and not a quantity frame)
+the big copper bell turns twice -> subject 'big'     rel=agent      (an adjective)
+the coat is very wet            -> subject 'coat'    rel=agent      (property falls through to agent)
+```
+
+Consequence, measured through `_electric_answer` with all three read flags in every combination
+(`--electric` enables only TEACH+ANSWER; REVERSE/OBJECT_ROLE/NORMALIZE are separately gated and have
+never been on for a battery run): asks naming the *semantic* subject get **no answer** regardless of
+flags -- `what turns twice?`, `which thing turns twice?`, `how often does the bell turn?`,
+`what number of eggs is left in the basket?`, `what is bitten by the frost?` -- each answers in **0
+of 8** combinations. Of the nine asks probed, only 2 answer with the read flags off, and both of
+those are the divergence below; `what bites the latch?` answers in 4 of 8, only when `object_role` is
+on. Reproducible as `docs/evidence/electric_subject_key_probe.py`.
+
+**Why the published 20/20 did not show this.** `tools/electric_generalise.py` imports E1's generator,
+whose training frame is `the {a} {v} the {b}` -- a **one-word subject by construction**. Position 0 is
+the head noun in exactly that template, so the run that certifies ELECTRIC cannot see the defect that
+only appears when a subject is modified, quantified, or is not the first word. The 20/20 is depth on
+one frame shape, not breadth. The generalisation doc's own next line already asks for a multi-relation
+widening; this sharpens it into a target.
+
+**E27, as proposed (measurement only -- no organ change, no flag, no genome, no battery score):**
+widen the held-out protocol's *training* templates from the single one-word-subject agent frame to
+four shapes -- modified subject (`the copper bell turns twice`), quantified subject
+(`there are four eggs in the basket`), multi-word property (`the coat is very wet`), and an ordering
+pair -- keeping E1's live-vocabulary draw, its held-out ask frames, and its control arm intact.
+Report per-shape treatment vs control. Pre-registered expectation, derived from the extractor rather
+than hoped for: one-word-subject shapes hold (~20/20 as today); modified and quantified subjects
+**collapse to near zero**, because the key is a modifier or a numeral; multi-word properties fall
+through to the agent branch. **If a modified-subject shape scores near the one-word baseline, the
+extraction reading above is wrong and that is the interesting result** -- it would mean something
+downstream repairs the key, which would change what a repair should be.
+
+**Second half of E27, and it is not optional:** the pure-function probe and the organ **disagree**, and
+the disagreement must be resolved before any repair is proposed. Driven by a hand-built inventory,
+`_electric_answer` returns `the frost bites the latch` for `what is held by the thing the frost bites?`
+(a wrong fact: the answer wanted is what the latch holds) and `the scarf is on the hook` for the
+**guarded** `where did i say the scarf is?` -- in all eight flag combinations. The gen-24 journal
+shows neither: that ask died at `shape_arbiter`, and the scarf ask produced the spoken *admission*
+`i don't know, scarf was told but no place was ever told for scarf`. So the probe bypasses something
+the organ does not bypass -- most likely the `_absence_licence` ordering, which the pure read side
+never sees. E27 must therefore run the identical inventory through the real `hear()`/`answer()` path
+and report where it diverges from the pure function, exactly as E21a recorded its instrument
+limitation when `binder.recall` disagreed with the gate's own `nearest`. **Until that is done, neither
+disagreement above is claimed as a live defect, and the guarded contract is not claimed to be broken.**
+
+**What E27 deliberately is not.** Not `v_all` (a third coverage lever, deprioritised in the plan's section 7).
+Not a battery-score target: C3 fired, and the grader scores silence as correct on the scarf ask, so an
+organ that answers *or* truthfully admits ignorance can lose points without losing capability
+(`docs/scoring_contract_issue.md`, still open -- it is a decision for you, not for me to make by
+editing a grader). Not a subject-key fix: that is E28, and it should be a learned head-noun rule
+rather than position 0, proposed only once E27 has measured how wide the miss actually is.
+
+**Cost bound:** one tool file widened, one run, zero organ edits, flags untouched, guarded contract
+untouched, no multi-brain work.
