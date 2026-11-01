@@ -1111,11 +1111,17 @@ a switch.
   ELECTRIC demo builds. That asymmetry is the reason this is a guard and not a rewrite of the
   filler logic: I have not measured it on a brain with a corpus, so I am not going to restructure
   one on that evidence.
-- **Why the arm's row flickered.** C4e's run 3 showed `to?` for `who-bare`; run 4 showed silence
-  for the same row, same code. The row depends on whether the stranded variant was heard first,
-  which the table guarantees and my ad-hoc probes did not - two probes of mine missed the leak
-  for exactly that reason. Pinned now as an explicit precondition (`_organ()` asks the stranded
-  form before the bare one), not as an accident of table order.
+- **Why the arm's row flickered - and what that cost me.** C4e's run 3 showed `to?` for `who-bare`;
+  run 4 showed silence, same code (the guard is off by default and was not in that path). My first
+  explanation was table order. **Wrong, and refuted in one command:** two arm runs with
+  `PYTHONHASHSEED=0` still differ on that row (`A=other B=other` vs `A=other B=miss`), so it is not
+  hash randomization either - it is per-row nondeterminism inside the process (unseeded engine
+  randomness is the standing suspect; not isolated). The precondition I pinned (stranded ask heard
+  first) is real and necessary - two of my probes missed the leak without it - but it is not
+  sufficient, which is why the row flickers. **Consequence for everything measured with this arm:
+  single-row verdicts are not stable and must not be cited as if they were. The aggregates are:
+  RECOVERED 4/20 and REGRESSIONS 0 held across all six runs.**
+  `docs/evidence/electric_object_ab.json` is therefore one sample, not a reproducible record.
 
 Open: the guard is unmeasured on a corpus brain; the `recalled proposition` branch reads out a whole
 token list and the guard does not touch it, so a remembered question may still come out in full -

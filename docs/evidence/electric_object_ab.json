@@ -39,9 +39,9 @@
   "a": "other",
   "a_src": "arbiter head",
   "a_said": "to?",
-  "b": "other",
-  "b_src": "arbiter head",
-  "b_said": "to?"
+  "b": "miss",
+  "b_src": "",
+  "b_said": ""
  },
  {
   "ask": "who does the ledger belong to?",
@@ -157,9 +157,9 @@
   "ask": "what bites the latch",
   "shade": "object-role-no?",
   "want": "the frost bites the latch",
-  "a": "miss",
-  "a_src": "",
-  "a_said": "",
+  "a": "other",
+  "a_src": "arbiter head",
+  "a_said": "frost",
   "b": "correct",
   "b_src": "electric_taught",
   "b_said": "the frost bites the latch"
