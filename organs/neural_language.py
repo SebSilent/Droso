@@ -177,7 +177,38 @@ def _absence_licence(question, inventory):
     return ("refusal", f"{subj} was told but no {rel} was ever told for {subj}")
 
 
-def _electric_bind(question, inventory, broad_agent=False):
+def _verb_stem(word):
+    """ELECTRIC reverse-role helper: collapse a trivially inflected verb.
+
+    "who does the lantern belong to?" was told as "the lantern belongs to Mira". The
+    agent guard compares content words EXACTLY, so `belong` never meets `belongs` and
+    the ask falls through. Stripping a regular suffix is not a similarity search: it
+    maps two spellings of ONE verb onto each other and nothing else. Only the two
+    forms actually present are touched, and the comparison is still a set intersection
+    of literal tokens.
+    """
+    w = str(word).lower()
+    if len(w) > 4 and w.endswith("es"):
+        return w[:-2]
+    if len(w) > 3 and w.endswith("s"):
+        return w[:-1]
+    return w
+
+
+_ELECTRIC_REVERSE_ASK = re.compile(
+    # A reverse-role ask is "who does [the subject] V to?" -- a WH-word, do-support,
+    # and a PREPOSITION STRANDED AT THE END. The stranding is not decoration, it is
+    # the whole warrant: it proves the noun sitting in the middle of the ask is the
+    # tell's OWN subject, which is exactly what the inventory keys on. "Who does the
+    # mouse chase?" strands nothing; it asks who chased the mouse, and the frame
+    # stored under `mouse` ("the mouse chases the cat") answers a DIFFERENT question.
+    # Without the stranded-preposition requirement the reverse path would trade a
+    # miss for a confidently wrong hit, which is the one exchange that is not allowed.
+    r"\bwho\b[^?.]*\b(do|does|did)\b[^?.]*"
+    r"\b(to|with|from|by|of|about|for)\b\??[.?\s]*$")
+
+
+def _electric_bind(question, inventory, broad_agent=False, who_agent=False):
     """ELECTRIC: which (relation, subject) is this ask asking about?
 
     This is E24's licence detection, lifted out verbatim so the answer path and
@@ -219,6 +250,12 @@ def _electric_bind(question, inventory, broad_agent=False):
         # ANSWER path instead means ELECTRIC may speak a fact it was genuinely
         # told, keyed, where the licence would merely have stayed silent.
         rel = "agent"
+    elif who_agent and "like" not in words and _ELECTRIC_REVERSE_ASK.search(ask):
+        # The ONLY branch here that a possessor/benefactive fact can reach. Reached
+        # by the ELECTRIC answer path with reverse=True and by nothing else: E24's
+        # licence calls this function with the defaults, so the set of asks it may
+        # refuse -- and the measured refusal wording -- is untouched.
+        rel = "agent"
     elif re.search(r"\b(is|are)\s+\w+\s+(or|and)\b", ask) \
             or ("what" in words and "like" in words):
         rel = "property"
@@ -234,7 +271,19 @@ def _electric_bind(question, inventory, broad_agent=False):
     return (rel, hits[0])
 
 
-def _electric_answer(question, says):
+def _verb_stem(w):
+    """ELECTRIC reverse-role: `belong` and `belongs` are the SAME verb.
+
+    A deterministic inflection strip, NOT a similarity search: two tokens are
+    equal after this only if one is the other plus a trailing "s". Nothing here
+    can make "belongs" resemble "holds" -- the guard that stops a mis-bound ask
+    from speaking a DIFFERENT fact is fully intact, it just stops being tripped
+    by English conjugation.
+    """
+    return w[:-1] if len(w) > 3 and w.endswith("s") else w
+
+
+def _electric_answer(question, says, reverse=False):
     """ELECTRIC read side: the sentence the user actually said, or None.
 
     `says` maps subject -> relation -> the ORIGINAL TELL. The answer is that
@@ -253,7 +302,8 @@ def _electric_answer(question, says):
     """
     # broad_agent: this path only ever SPEAKS a fact it was actually told, so it
     # may recognise an agent ask by structure. E24's licence keeps the narrow one.
-    bound = _electric_bind(question, says, broad_agent=True)
+    bound = _electric_bind(question, says, broad_agent=True,
+                           who_agent=reverse)
     if bound is None:
         return None
     rel, subj = bound
@@ -277,8 +327,17 @@ def _electric_answer(question, says):
         tell_words = {w for w in
                       re.sub(r"[^a-z ]", " ", str(tell).lower()).split()
                       if w and w not in _ABSENCE_STOP}
-        if not (tell_words - {subj}) & {w for w in ask_words
-                                         if w not in _ABSENCE_STOP}:
+        ask_content = {w for w in ask_words if w not in _ABSENCE_STOP}
+        if reverse:
+            # `who does the lantern belong to?` against the tell "the lantern
+            # belongs to Mira": the ask and the tell share the verb, but not the
+            # STRING. Compare stems; the requirement that some verb be SHARED is
+            # unchanged.
+            shared = ({_verb_stem(w) for w in tell_words - {subj}}
+                      & {_verb_stem(w) for w in ask_content})
+        else:
+            shared = (tell_words - {subj}) & ask_content
+        if not shared:
             return None
     return tell
 
@@ -2324,6 +2383,16 @@ class NeuralLanguage:
     # has to stay reachable as a control.
     ELECTRIC_TEACH = False
     ELECTRIC_ANSWER = False
+    # ELECTRIC reverse-role asks, default off -- a SEPARATE permission from the read
+    # path, not a fold into it. An ordinary ELECTRIC miss returns None and every other
+    # path runs as measured; a reverse miss can return the wrong fact about the right
+    # noun, so it gets its own gate, its own test, and its own A/B.
+    ELECTRIC_REVERSE = False
+    # ELECTRIC phase 3: let a `who`-question reach an agent fact keyed under the
+    # noun the ask itself names, and let the verb guard match inflection
+    # ("belong" ~ "belongs").  Default OFF: the answer path keeps its exact-token,
+    # what/which-only behaviour, and E24's refusal licence is NOT widened at all.
+    ELECTRIC_REVERSE = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3637,7 +3706,8 @@ class NeuralLanguage:
         # bound falls through to every existing path untouched. That is what keeps
         # this from being a shim -- it cannot answer a question it was not taught.
         if self.ELECTRIC_ANSWER:
-            told = _electric_answer(text, self._taught_says)
+            told = _electric_answer(text, self._taught_says,
+                                reverse=self.ELECTRIC_REVERSE)
             if told:
                 return {"spoken": True, "heard": True, "answered": True,
                         "utterance": told, "response": told,

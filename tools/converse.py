@@ -232,9 +232,22 @@ def _tree_snapshot(root: Path | None = None) -> dict:
         if rel.parts[0] in GUARD_EXCLUDE:
             continue
         try:
-            if str(rel) in KNOWN_CHURN:
-                out[str(rel)] = ("crc", _npz_content_key(p))
-                continue
+            # Match on the FILE NAME, not on the path. The churn organ rewrites
+            # banc_brain.npz under live_learner/{current,staging,versions} as well as
+            # at the state root, and `str(rel) in KNOWN_CHURN` only ever equalled the
+            # root copy, so every subdir copy was keyed by (size, mtime_ns) and flagged
+            # on a no-op rewrite. Keying by content at every depth is STRICTER, not
+            # looser: it still flags a real byte change, it just stops reporting one
+            # that never happened.
+            if rel.name in KNOWN_CHURN:
+                key = _npz_content_key(p)
+                if key is not None:
+                    out[str(rel)] = ("crc", key)
+                    continue
+                # A file we cannot parse as a zip gets the stat key after all. The old
+                # code stored ("crc", None) for it, which compares equal forever: an
+                # unreadable churn file was invisible to the guard. Falling through
+                # closes that hole instead of widening it.
             st = p.stat()
             out[str(rel)] = (st.st_size, st.st_mtime_ns)
         except OSError:

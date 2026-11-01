@@ -561,10 +561,13 @@ The server is single-threaded: one session, one turn at a time.
 statement heard from `you` enters the keyed taught inventory, a question may be answered
 from it, and a relation that was never told is answered with an admission instead of a
 guess. Restarting over the same `--session-dir` reloads what was taught — verified on the
-real house across three separate processes (`docs/electric_c4_live.md` §8): told three
-facts, restarted, `loaded=True taught facts=3`, and forward paraphrases came back
-verbatim while an untaught relation came back as an admission. **Reverse-role asks do not
-reach the keyed inventory** and are not reliable.
+real house (`docs/electric_c4_live.md` §8): told three facts, restarted,
+`loaded=True taught facts=3`, forward paraphrases came back verbatim and an untaught
+relation came back as an admission. `--electric-reverse` (§9) additionally lets a
+reverse-role ask like `who does the lantern belong to?` reach the inventory — but only when
+the ask **strands a preposition**, because that is what proves the noun in the middle is
+the tell's own subject; `who does the mouse chase?` still misses rather than answering the
+wrong fact. Off by default, and verified off on the house.
 
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json

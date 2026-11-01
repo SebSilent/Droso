@@ -148,16 +148,13 @@ from disk: scarf and ledger recalled verbatim, the untaught relation admitted ag
 the lantern ask came back **silent**: `spoken: false`, `reason: "nothing he remembers has
 that shape"`.
 
-### What that lantern row is telling us
+### What that lantern row was telling us (now fixed — see §9)
 
-The reverse-role ask (`who does X belong to?`) **never reaches the keyed inventory** —
-`_electric_answer` looks the subject up by its own key, and "lantern/belongs to" is keyed
-under the possessor's frame, not the object's. This is the same limitation C3 measured
-(2 of 15 facts fell off `electric_taught` on reverse-role asks) now seen on the house. And
-what covers for it is the house's own associative retrieval, which is **not stable across
-lives**: one life answered `mira` from `arbiter head`, the next said nothing. So the
-honest summary is *forward* paraphrase recall is reliable and verbatim; **reverse-role
-recall is not**, and nothing in ELECTRIC yet makes it so.
+The reverse-role ask missed, and what covered for the miss was the house's own associative
+retrieval, which is **not stable across lives**: one life answered `mira` from
+`arbiter head`, the next said nothing. §8's guess at the cause — that the fact was keyed
+under the *possessor* — was wrong; §9 has the measured one. At the time of this run
+forward paraphrase recall was reliable and verbatim, reverse-role recall was not.
 
 ### Two telemetry bugs the house caught (both now fixed + tested)
 
@@ -181,7 +178,7 @@ harness computes it itself. The admission is identified on the house by
 `source == electric_absence` plus its `reason`. I left the null rather than deriving a
 second definition of the same word.
 
-### A pre-existing guard report, not an ELECTRIC effect
+### A pre-existing guard report, not an ELECTRIC effect — fixed, see §9
 
 Every serve life printed `[serve] live files untouched: False` with five paths, all named
 `banc_brain.npz` under `live_learner\{current,staging,versions}`. That is the documented
@@ -190,6 +187,66 @@ no-op churn (debt entry 6) which serve.py tries to exclude — but the exclusion
 `known` branch is dead code. It is not gated on `--electric` and would print identically
 without it; no content drift was reported. I did not touch it: it is a reporting bug in a
 guarded contract path, outside this task, and worth its own fix.
+
+## 9. Reverse-role asks (`--electric-reverse`), and the churn key fixed
+
+§8 left one hole: `who does the lantern belong to?` never reached the inventory. It is
+now closed, and the diagnosis was different from the one §8 guessed at.
+
+**The fact was already keyed correctly.** `the lantern belongs to Mira` extracts as
+`("agent", "`,`, "belongs mira")` — subject `lantern`, the very noun the ask names. The
+ask failed at the **bind**: `_electric_bind` recognises place/agent/property from
+`where`, ` `what`-phrases and `what/which … do`, and `who` matched none of them. Earlier
+work had already added a `who_agent` parameter to that function and a `reverse` parameter
+to `_electric_answer` — **neither was ever used**: the call site passed no `reverse`, the
+class had no `ELECTRIC_REVERSE`, and `who_agent` was accepted and ignored. Dead plumbing,
+not a capability.
+
+**The rule that makes it safe.** A reverse ask is allowed to bind only when it **strands a
+preposition at the end**: `who does the lantern belong to?`. The stranding is the warrant —
+it proves the noun in the middle is the tell's own subject, which is what the key is.
+`who does the mouse chase?` strands nothing: it asks who chased the mouse, and the frame
+stored under `mouse` is `the mouse chases the cat` — the wrong fact about the right noun.
+Without that requirement the change would trade a miss for a confident error, which is the
+one exchange ELECTRIC is not allowed to make. Verb agreement still has to hold; `reverse`
+compares **stems** (`belong`/`belongs` are one verb spelled twice), and a genuinely
+different verb (`report`) still returns nothing.
+
+**House evidence** (`state\sessions\c4live3`, four processes):
+
+| life | flags | `who does the lantern belong to?` | `who does the ledger belong to?` (no such fact) |
+|---|---|---|---|
+| D teach | `--electric --electric-reverse` | — (taught: `the lantern belongs to Mira`) | — |
+| E ask | `--electric --electric-reverse` | **`the lantern belongs to Mira`**, `source: electric_taught` | silent, `source: null` |
+| F control | `--electric` only | **silent, `source: null`** | silent, `source: null` |
+
+Life F is the point: with the flag off the ask misses exactly as before, while
+`where is the scarf?`, `where is the ledger?` and the `electric_absence` admission all
+answer identically in E and F. Forward recall, the refusal and the licence are untouched;
+the new branch is reachable only from the answer path, and `_absence_licence` still calls
+the binder with defaults (asserted in `test_the_licence_did_not_gain_the_who_branch`).
+
+Raw: `electric_c4_live_teach3.json`, `electric_c4_live_ask3.json`,
+`electric_c4_live_ask_norev.json`, `_c4_serve_{d,e,f}.log`.
+
+### The churn key (§8's "pre-existing report") — fixed, and the fix is stricter
+
+`KNOWN_CHURN` was compared against a **relative path**, so only the copy at the state root
+got a content key; the copies under `live_learner/{current,staging,versions}` were keyed by
+`(size, mtime_ns)` and flagged on every no-op rewrite. serve.py's own exclusion compared a
+bare filename against those same path strings, so its `known` branch matched nothing and the
+run always printed `live files untouched: False`.
+
+Matching basenames makes the guard **stronger**, not looser, in two ways: a content change
+to any copy still flags, and a churn file that cannot be parsed as a zip now falls back to
+the stat key instead of storing `("crc", None)` — which compared equal forever and made an
+unreadable churn file invisible. serve.py no longer excuses churn names at all: with
+content keys in place, one appearing in `moved` means its **bytes** changed, so it is
+printed as `LIVE FILES CONTENT CHANGED`, separately from `LIVE FILES TOUCHED`.
+
+Measured: lives D, E and F all print `live files untouched: True` — the rewrites really
+were content-neutral, so the old report was a false positive about churn and equally blind
+to a real write. Three tests pin it, including the two that must still flag.
 
 ## 7. Flags and battery runs
 

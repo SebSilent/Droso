@@ -1,0 +1,72 @@
+{
+ "turns": [
+  {
+   "said": "where is the scarf?",
+   "reply": "the scarf is on the hook",
+   "source": "electric_taught",
+   "reason": null,
+   "spoken": true,
+   "taught_this_turn": 0,
+   "licensed_refusal": null,
+   "inventory": 3,
+   "subjects": 3,
+   "want": "the scarf is on the hook",
+   "recalled": true
+  },
+  {
+   "said": "who does the lantern belong to?",
+   "reply": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": null,
+   "spoken": true,
+   "taught_this_turn": 0,
+   "licensed_refusal": null,
+   "inventory": 3,
+   "subjects": 3,
+   "want": "the lantern belongs to Mira",
+   "recalled": true
+  },
+  {
+   "said": "where is the ledger?",
+   "reply": "the ledger is under the desk",
+   "source": "electric_taught",
+   "reason": null,
+   "spoken": true,
+   "taught_this_turn": 0,
+   "licensed_refusal": null,
+   "inventory": 3,
+   "subjects": 3,
+   "want": "the ledger is under the desk",
+   "recalled": true
+  },
+  {
+   "said": "who does the ledger belong to?",
+   "reply": "",
+   "source": null,
+   "reason": "nothing he remembers has that shape",
+   "spoken": false,
+   "taught_this_turn": 0,
+   "licensed_refusal": null,
+   "inventory": 3,
+   "subjects": 3,
+   "want": "MUST-STAY-A-MISS",
+   "recalled": false
+  },
+  {
+   "said": "what is the scarf like?",
+   "reply": "i don't know, scarf was told but no property was ever told for scarf",
+   "source": "electric_absence",
+   "reason": "scarf was told but no property was ever told for scarf",
+   "spoken": true,
+   "taught_this_turn": 0,
+   "licensed_refusal": null,
+   "inventory": 3,
+   "subjects": 3,
+   "want": "<admission>"
+  }
+ ],
+ "shutdown": {
+  "saved": true,
+  "turns": 5
+ }
+}

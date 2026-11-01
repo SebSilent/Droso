@@ -223,6 +223,12 @@ def main() -> int:
     ap.add_argument("--beats", type=int, default=2,
                     help="autonomous ticks between turns (as in the harness)")
     ap.add_argument("--session-dir", default=None)
+    ap.add_argument("--electric-reverse", action="store_true",
+                    help="Within --electric only: let a reverse-role ask like 'who does X "
+                         "belong to?' reach the keyed inventory. Requires the ask to strand a "
+                         "preposition, which is what proves the noun in the middle of the "
+                         "question is the tell's own subject. OFF by default, and inert without "
+                         "--electric.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -257,6 +263,10 @@ def main() -> int:
         lang.ELECTRIC_TEACH = True
         lang.ELECTRIC_ANSWER = True
         lang.ABSENCE_INVENTORY = True
+        # Reverse-role asks are a separate permission (see NeuralLanguage.
+        # ELECTRIC_REVERSE): a miss there can return the wrong fact about the right
+        # noun instead of nothing, so it is not folded into --electric.
+        lang.ELECTRIC_REVERSE = bool(args.electric_reverse)
         # THE RESTART HALF. converse.build() repoints writes into the session dir and
         # never reads them back, so a second serve.py over the same --session-dir would
         # come up amnesiac even though the state is on disk.  load_state() is a no-op
@@ -267,7 +277,8 @@ def main() -> int:
         lres = lang.load_state()
         print(f"[serve] ELECTRIC on: loaded={bool((lres or {}).get('loaded'))} "
               f"taught facts={sum(len(v) for v in lang._taught_says.values())} "
-              f"subjects={len(lang._taught_says)}", flush=True)
+              f"subjects={len(lang._taught_says)} "
+              f"reverse={args.electric_reverse}", flush=True)
     session = converse.Session(agent, beats=args.beats)
     print(f"[serve] loaded in {time.time() - t0:.1f}s: "
           f"{len(agent.language.word_patterns)} words, "
@@ -297,13 +308,21 @@ def main() -> int:
         # rewrite whose mtime moves while the arrays stay identical.  Named
         # here, excluded from the verdict; the drift check re-verifies its
         # content on every run.
-        known = sorted(m for m in moved if m == "banc_brain.npz")
-        unexpected = sorted(m for m in moved if m != "banc_brain.npz")
+        # With the snapshot keyed by CONTENT at every depth, a churn name in
+        # `moved` means its BYTES changed -- that is not "known no-op churn" and must
+        # not be excused, so the bare-filename exclusion below is gone rather than
+        # extended. It never worked anyway: these keys are relative paths
+        # ("live_learner/current/banc_brain.npz"), so `m == "banc_brain.npz"` matched
+        # nothing, `known` stayed empty, and every life printed "live files untouched:
+        # False" over mtime-only rewrites while being equally blind to a real write.
+        churn = {Path(m).name for m in converse.KNOWN_CHURN}
+        changed = sorted(m for m in moved if Path(m).name in churn)
+        unexpected = sorted(m for m in moved if Path(m).name not in churn)
         print(f"[serve] {httpd.turns_served} turns served; "
-              f"live files untouched: {not unexpected}", flush=True)
-        if known:
-            print(f"[serve] known no-op churn (debt entry 6): {known}",
-                  flush=True)
+              f"live files untouched: {not moved}", flush=True)
+        if changed:
+            print(f"[serve] LIVE FILES CONTENT CHANGED (churn files, NOT no-op): "
+                  f"{changed}", flush=True)
         if unexpected:
             print(f"[serve] LIVE FILES TOUCHED: {unexpected}", flush=True)
         # Delta save, fatal on failure: a smoke test that half-saved its

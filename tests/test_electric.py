@@ -26,7 +26,13 @@ SAYS = {"scarf": {"place": "the scarf is on the hook"},
 def test_direct_function_is_pure():
     """No self, no binder, no engine -- a lookup the tests can hold still."""
     fn = nl._electric_answer
-    assert list(inspect.signature(fn).parameters) == ["question", "says"]
+    # The signature is pinned deliberately. It grew a third parameter for the
+    # reverse-role ask, so the pin records that too: a new knob on a pure lookup is
+    # fine, a knob that defaults to ON is not.
+    params = inspect.signature(fn).parameters
+    assert list(params) == ["question", "says", "reverse"], list(params)
+    assert params["reverse"].default is False, \
+        "reverse-role binding is a permission; defaulting it on would hand it to every caller"
     assert fn.__qualname__ == "_electric_answer", "module level, not an organ method"
 
 

@@ -1,0 +1,11 @@
+[serve] loading Droso (session dir: state\sessions\c4live3) ...
+[serve] ELECTRIC on: loaded=False taught facts=0 subjects=0 reverse=True
+[serve] loaded in 15.0s: 11555 words, 60000 propositions
+[serve] reading state from: the live tree (read-only)
+[serve] listening on http://127.0.0.1:8138/v1 (model: droso, single-threaded)
+127.0.0.1 - - [01/Nov/2026 14:46:34] "POST /v1/chat/completions HTTP/1.1" 200 -
+127.0.0.1 - - [01/Nov/2026 14:46:37] "POST /v1/chat/completions HTTP/1.1" 200 -
+127.0.0.1 - - [01/Nov/2026 14:46:40] "POST /v1/chat/completions HTTP/1.1" 200 -
+127.0.0.1 - - [01/Nov/2026 14:46:40] "POST /shutdown HTTP/1.1" 200 -
+[serve] 3 turns served; live files untouched: True
+[serve] session state written under state\sessions\c4live3

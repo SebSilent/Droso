@@ -1,0 +1,41 @@
+{
+ "turns": [
+  {
+   "said": "the scarf is on the hook",
+   "reply": "sold",
+   "source": "meaning resonance",
+   "reason": null,
+   "spoken": true,
+   "taught_this_turn": 1,
+   "licensed_refusal": null,
+   "inventory": 1,
+   "subjects": 1
+  },
+  {
+   "said": "the lantern belongs to Mira",
+   "reply": "",
+   "source": null,
+   "reason": "it understood but did not feel like speaking",
+   "spoken": false,
+   "taught_this_turn": 1,
+   "licensed_refusal": null,
+   "inventory": 2,
+   "subjects": 2
+  },
+  {
+   "said": "the ledger is under the desk",
+   "reply": "sold",
+   "source": "meaning resonance",
+   "reason": null,
+   "spoken": true,
+   "taught_this_turn": 1,
+   "licensed_refusal": null,
+   "inventory": 3,
+   "subjects": 3
+  }
+ ],
+ "shutdown": {
+  "saved": true,
+  "turns": 3
+ }
+}
