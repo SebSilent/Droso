@@ -283,7 +283,85 @@ def _verb_stem(w):
     return w[:-1] if len(w) > 3 and w.endswith("s") else w
 
 
-def _electric_answer(question, says, reverse=False):
+def _electric_object_answer(question, says):
+    """ELECTRIC object-role: the taught tell whose OBJECT this ask names and whose VERB it shares.
+
+    `what bites the latch?` wants the biter. The inventory is keyed by SUBJECT, so the tell
+    that answers it -- `the frost bites the latch` -- is filed under `frost`, a word that does
+    not appear in the question. The subject path cannot reach it, and C4d measured that it does
+    worse than miss: it MIS-BINDS to `latch` and is stopped only by the verb guard.
+
+    Nothing is composed. Every candidate is a tell that was ACTUALLY TAUGHT, read back out of
+    its own frame, and it must satisfy all of:
+
+      * the ask opens `what/who` followed by a verb, with NO `do` support --
+        `what does the latch bite?` asks for the OBJECT and the forward key already serves it;
+        letting this path see it would answer one question with two different facts;
+      * the ask's verb matches the tell's verb by STEM, never by substring;
+      * a noun the ask puts after the verb is this tell's OBJECT;
+      * this tell's own SUBJECT is not one of the ask's nouns -- if it is, the tell makes that
+        noun the doer and the ask makes it the donee, which is a role clash, not a match;
+      * exactly ONE tell survives. Two taught tells with the same verb and object is an
+        ambiguity, and the answer is silence, never a pick.
+
+    Returns the VERBATIM tell, or None. No similarity search, no composing, no negative.
+    """
+    if not says or not question:
+        return None
+    q = re.sub(r"[^a-z ]", " ", str(question).lower())
+    toks = [t for t in q.split() if t]
+    if len(toks) < 3 or toks[0] not in ("what", "who"):
+        return None
+    if any(t in ("do", "does", "did") for t in toks):
+        return None
+    verb = _verb_stem(toks[1])
+    if not verb or verb in _ABSENCE_STOP:
+        return None
+    nouns = {t for t in toks[2:] if t not in _ABSENCE_STOP and t != toks[1]}
+    if not nouns:
+        return None
+    hits = []
+    for subj, rels in says.items():
+        for rel, tell in (rels or {}).items():
+            if rel != "agent":
+                continue
+            frame = _absence_frame(tell)
+            if not frame or frame[0] != "agent":
+                continue
+            _, _, obj = frame
+            otoks = [t for t in re.sub(r"[^a-z ]", " ", str(obj).lower()).split()
+                     if t and t not in _ABSENCE_STOP]
+            if not otoks or _verb_stem(otoks[0]) != verb:
+                continue
+            onouns = set(otoks[1:])
+            if not onouns or not (nouns & onouns):
+                continue
+            if subj in nouns:
+                continue
+            if tell not in hits:
+                hits.append(tell)
+    if len(hits) != 1:
+        return None
+    return hits[0]
+
+
+def _electric_answer(question, says, reverse=False, object_role=False):
+    """ELECTRIC read side, dispatch only -- so the ordering is stated once and enforced.
+
+    The subject path runs FIRST and in full, unchanged. The object-role path is consulted
+    only when it found nothing -- whether the bind failed or the verb guard rejected a
+    mis-bind. That ordering is the whole safety argument: every ask that answered correctly
+    before this feature answers identically after it, and the new path can only ever turn a
+    MISS into an answer, never one right fact into a different one. Both paths return a
+    verbatim taught tell or None; neither composes, neither guesses.
+    """
+    got = _electric_subject_answer(question, says, reverse=reverse)
+    if got is None and object_role:
+        return _electric_object_answer(question, says)
+    return got
+
+
+def _electric_subject_answer(question, says, reverse=False):
     """ELECTRIC read side: the sentence the user actually said, or None.
 
     `says` maps subject -> relation -> the ORIGINAL TELL. The answer is that
@@ -2383,16 +2461,25 @@ class NeuralLanguage:
     # has to stay reachable as a control.
     ELECTRIC_TEACH = False
     ELECTRIC_ANSWER = False
-    # ELECTRIC reverse-role asks, default off -- a SEPARATE permission from the read
-    # path, not a fold into it. An ordinary ELECTRIC miss returns None and every other
-    # path runs as measured; a reverse miss can return the wrong fact about the right
-    # noun, so it gets its own gate, its own test, and its own A/B.
-    ELECTRIC_REVERSE = False
     # ELECTRIC phase 3: let a `who`-question reach an agent fact keyed under the
     # noun the ask itself names, and let the verb guard match inflection
     # ("belong" ~ "belongs").  Default OFF: the answer path keeps its exact-token,
     # what/which-only behaviour, and E24's refusal licence is NOT widened at all.
+    # A SEPARATE permission from the read path, not a fold into it: an ordinary ELECTRIC
+    # miss returns None and every other path runs as measured, while a reverse miss can
+    # return the wrong fact about the right noun -- so it gets its own gate, its own
+    # test, and its own A/B. (This line used to be declared twice; the first copy was
+    # dead code, which is how a duplicate flag reads: harmless until someone edits it.)
     ELECTRIC_REVERSE = False
+    # ELECTRIC object-role: the ask that names a tell's OBJECT and wants its SUBJECT
+    # (`what bites the latch?`). C4d measured that the reverse flag does NOT reach this
+    # shape -- there is no preposition to strand -- and that the subject path does worse
+    # than miss it: `_electric_bind` returns ('agent','latch'), because `latch` is a
+    # subject in its own right, and the tell under that key is `the latch holds the door`
+    # -- the wrong fact about the right noun. Kept off by default, and kept SEPARATE from
+    # ELECTRIC_REVERSE: C4d showed that flag already does more than its name says, so
+    # folding a third behaviour into it would make the flag un-analysable.
+    ELECTRIC_OBJECT_ROLE = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3707,7 +3794,8 @@ class NeuralLanguage:
         # this from being a shim -- it cannot answer a question it was not taught.
         if self.ELECTRIC_ANSWER:
             told = _electric_answer(text, self._taught_says,
-                                reverse=self.ELECTRIC_REVERSE)
+                                reverse=self.ELECTRIC_REVERSE,
+                                object_role=self.ELECTRIC_OBJECT_ROLE)
             if told:
                 return {"spoken": True, "heard": True, "answered": True,
                         "utterance": told, "response": told,

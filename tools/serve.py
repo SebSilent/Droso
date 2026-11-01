@@ -229,6 +229,13 @@ def main() -> int:
                          "preposition, which is what proves the noun in the middle of the "
                          "question is the tell's own subject. OFF by default, and inert without "
                          "--electric.")
+    ap.add_argument("--electric-object-role", action="store_true",
+                    help="Within --electric only: let an ask that names a tell's OBJECT and "
+                         "wants its SUBJECT ('what bites the latch?') reach that tell. "
+                         "C4d measured that --electric-reverse does NOT cover this shape and "
+                         "that the subject path mis-binds it, so this is a THIRD, separate "
+                         "permission. It only ever runs after the subject path has found "
+                         "nothing. OFF by default, and inert without --electric.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -267,6 +274,10 @@ def main() -> int:
         # ELECTRIC_REVERSE): a miss there can return the wrong fact about the right
         # noun instead of nothing, so it is not folded into --electric.
         lang.ELECTRIC_REVERSE = bool(args.electric_reverse)
+        # Object-role asks get their own switch for the same reason, and because
+        # ELECTRIC_REVERSE already turned out to do more than its name says (C4d) --
+        # folding a third behaviour into it would make the flag un-analysable.
+        lang.ELECTRIC_OBJECT_ROLE = bool(args.electric_object_role)
         # THE RESTART HALF. converse.build() repoints writes into the session dir and
         # never reads them back, so a second serve.py over the same --session-dir would
         # come up amnesiac even though the state is on disk.  load_state() is a no-op
@@ -278,7 +289,8 @@ def main() -> int:
         print(f"[serve] ELECTRIC on: loaded={bool((lres or {}).get('loaded'))} "
               f"taught facts={sum(len(v) for v in lang._taught_says.values())} "
               f"subjects={len(lang._taught_says)} "
-              f"reverse={args.electric_reverse}", flush=True)
+              f"reverse={args.electric_reverse} object_role={args.electric_object_role}",
+              flush=True)
     session = converse.Session(agent, beats=args.beats)
     print(f"[serve] loaded in {time.time() - t0:.1f}s: "
           f"{len(agent.language.word_patterns)} words, "

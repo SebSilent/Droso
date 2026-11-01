@@ -989,3 +989,95 @@ established that fixing Class B breaks the guard.
 `bitten` ≠ `bite`, `held` ≠ `hold` — needing a lexical resource the organ does not have, and
 candidate generation, which E13a bounds by Class B. Total cost of E12a+E13a: **zero brain
 builds**, against E10's 88 and ~38 min.
+
+
+---
+
+## ELECTRIC C4c/C4d (live demo, reverse-role asks, and what the flag actually buys)
+
+Docs: `electric_c4_live.md` sections 8-10. Code: `ELECTRIC_REVERSE` on
+`NeuralLanguageOrgan`, `tools/electric_reverse_ab.py`, `tools/electric_chat.py`.
+Suite at this point: **840 passed, 3 skipped**.
+
+**C4c - the live house, over HTTP, across processes.** `serve.py --electric` answers from the
+taught inventory across a restart, and a second process reads the same inventory off disk
+(`load_state` moved after the corpus build, which had been overwriting it). `tools/converse.py`'s
+churn key was **content-keyed by basename**, so any copy of a brain under `state/churn/g*` made
+every later run report `LIVE FILES TOUCHED`; it now keys by full path and falls back to the old
+stat key if the content read fails. A defect in the safety plumbing, found by a test that did not
+exist, not by the live test.
+
+**C4c - reverse-role asks.** `who does the lantern belong to?` reaches the keyed tell, but only
+when the ask **strands a preposition**: `who does the mouse chase?` must NOT answer
+`the mouse chases the cat` (it wants the chaser), so the who-branch binds only if the frame is
+`<verb> the <noun> <prep>`. Verb agreement is by stem, never substring.
+
+**C4d - the A/B arm (14 asks, 6 tells, one variable, separate organs).** Recovered **4/14**,
+regressions **0**, confabulations **0 in both arms**, refusals identical **2/2**.
+
+- **It does not fix the C3 reverse-role count.** `what bites the latch?` stays a miss with the
+  flag on: that shape has no preposition to strand. What closed is a different, narrower class.
+- **The flag is misnamed.** All four recoveries needed the STEM relaxation; only three needed the
+  who-branch. `what does the frost bite?` recovered with the who-branch NOT needed - a FORWARD
+  agent ask. So the flag is "reverse binding plus stem-tolerant agreement".
+- **A live mis-bind, caught by the guard and not by luck.**
+  `_electric_bind("what bites the latch?")` returns `('agent','latch')` - `latch` is a subject in
+  its own right, and the tell behind that key is `the latch holds the door`, the wrong fact about
+  the right noun. Pinned both-halves in `test_a_live_misbind_is_caught_by_the_verb_guard`.
+- **A pre-existing leak, not an ELECTRIC bug.** `who does the mouse chase?` is not silence:
+  ELECTRIC declines and the house path (`source: arbiter head`) utters the fragment `'to?'`,
+  identical in both arms. The A/B grader now prints the raw utterance for any row that is neither
+  silence nor the right fact.
+
+Open: the `arbiter head` fragment leak is unowned; the 14 asks are hand-picked shapes, so 4/14 is
+not a coverage estimate; nothing here has been tested on a brain that also has a corpus.
+
+
+**C4e - object-role asks.** `what bites the latch?` names a tell's **object** and wants its
+**subject**. C4d proved `--electric-reverse` cannot reach it (nothing to strand) and that the
+subject path *mis-binds* it: `_electric_bind` returns `('agent','latch')`, whose tell is
+`the latch holds the door` - the wrong fact about the right noun, stopped only by the verb guard.
+So this is a third, separate permission: `ELECTRIC_OBJECT_ROLE` / `--electric-object-role`, off by
+default, inert without `--electric`.
+
+- **Order is the whole safety argument.** `_electric_answer` is now a dispatch wrapper: the subject
+  path runs first and in full, the object path is consulted **only on its miss**. A row that answered
+  before answers identically after; the new path can only turn silence into an answer, never one right
+  fact into a different one. Pinned by `test_the_subject_path_wins_when_it_answers_at_all`, which
+  deliberately pins the *pre-existing* wrong-ish answer to `what holds the latch?` so that any future
+  re-ordering is a deliberate act with its own arm.
+- **Four guards, each one a silence:** stem-matched verb (never substring), the ask's noun must be the
+  tell's *object*, a tell that makes the ask's noun its *subject* is skipped (role clash), and **exactly
+  one** surviving candidate - two matching tells is silence, never a pick, never a tie-break.
+  Do-support asks (`what does the latch bite?`) are excluded outright, so one question cannot reach two
+  paths and get two facts.
+- **My first version of this was dead code.** The hook sat after `return tell`, but the subject path
+  returns early at three points, so nothing ever reached it. Caught by behaviour on a hand probe, not by
+  a test - the usual outcome for a fallback inserted where no control flow goes. While fixing it I found
+  `ELECTRIC_REVERSE = False` was declared **twice** in the class body, the first copy unreachable
+  because the second overwrote it at import. Merged into one declaration; the class body now carries
+  exactly one of each flag.
+- **A/B arm (20 asks, 6 tells, reverse ON in both arms, one variable).** Correct **6 -> 10**,
+  RECOVERED **4/20** (`what bites the latch?`, `what bites the latch`, `what chases the cat?`,
+  `what holds the door?`), regressions **0**, **confabulations caused by this feature 0**, refusals
+  identical **2/2**. `what holds the door?` is the sharpest row: with the flag off the house path
+  uttered the bare fragment `latch` (scored a confabulation), with it on the organ says the whole right
+  tell - the new path *removed* a leak rather than adding one.
+- **Two harness errors of my own, both caught before the result was believed.** (1) I reused C4d's ask
+  table, where `what bites the latch?` had `want=None` because C4d's question was *whether the reverse
+  flag reaches it*. So the arm scored the correct answer as a **CONFABULATION** and aborted on a
+  success. The expectation is overridden in this arm only - rewriting a measured arm's table would
+  quietly un-report C4d. (2) My appended rows were `(shade, ask, want)` against an `(ask, shade, want)`
+  table, so the "same question answered twice, once silent" was the organ being asked the literal string
+  `"object-role"`. I had written that up as order-dependence inside `answer()`.
+- **That claim is refuted, and pinned as refuted.** `_absence_note` has exactly one call site, in
+  `hear()`, and `answer()` never calls `hear()` - questions cannot become facts. Probed: three asks of
+  the same question, teach open or closed, inventory steady at 6, answer identical, and a warm organ
+  matches a fresh one. `tests/test_electric_ask_idempotence.py` pins the property *and* the row shape
+  that manufactured the phantom, because a phantom this plausible will be believed again.
+
+Open: 10 of 20 asks are still silence or a fragment, so 4/20 is not a coverage estimate; irregular past
+(`what bit the latch?`) is out of the stem rule and stays silent by design; the ambiguity-silence rule is
+proven on synthetic inventories, not on a corpus brain; the `arbiter head` fragment leak is still unowned
+and this arm only happened to close one instance of it; nothing here has been tested on a brain that also
+has a corpus.
