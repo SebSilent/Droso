@@ -38,12 +38,22 @@ was clean, so nothing had overwritten them. Cause, one line in `save_state`:
 
 **`ELECTRIC_TEACH` is a write permission, and I had used it as a memory flag.**
 
-Teaching must be switched off before consolidation, and this is not a hypothetical:
-`consolidate()` replays up to 600 **corpus** sentences through `live(..., learn=True)` —
-the same entry point teach mode uses. With teach mode left on, every replayed library
-sentence becomes a fact *the user told*, and the organism wakes up believing the corpus
-spoke to it. So the harness turns teach mode off. That is the correct, defensive choice —
-and under the old gate it **wrote an empty inventory and lost every taught fact.**
+The harness turns teach mode off before consolidating, and under the old gate that
+**wrote an empty inventory and lost every taught fact.**
+
+> **CORRECTION (measured later, `docs/electric_c2_hazard.md`):** this section originally
+> justified the off-switch by claiming `consolidate()` replays 600 corpus sentences through
+> `live(..., learn=True)`, "the same entry point teach mode uses", so leaving teach mode on
+> would mint each of them as a fact the user told. **That mechanism does not exist.** The
+> only write site of `_taught_says` is `_absence_note` (`:4347`), reachable only from
+> `hear()` (`:4311`) under a `speaker == "you"` guard; `consolidate()` calls `live()`
+> directly with `speaker="parent"/"book"` and **never calls `hear()`**. Measured: teach mode
+> left ON through all 600 replays ⇒ `_taught_says` 20/20, `_absence_inv` 20→20, **pollution
+> zero**. The off-switch is defence in depth, not a measured necessity.
+>
+> **The fix still stands, and stands on the 0/20 alone** — that part was observed. What was
+> wrong was the *story about why*, and I wrote it into a code comment and a doc without
+> testing it, because it sounded like the obvious shape of the hazard.
 
 The consequence reaches past this experiment: under the old gate, **any learner that stops
 being in teach mode forgets everything it was taught at its next save.** A design that
@@ -135,9 +145,9 @@ Final counts are in §8.
   object in one process against a scratch copy. A genuine `serve.py` shutdown/startup is
   untested.
 - **Not many cycles.** One `consolidate(budget=200)` call, not the live tool's loop-until-
-  drained (up to 12 runs). Whether repeated consolidation, or consolidation with teach mode
-  left ON, erodes anything is unmeasured — and the second is now known to *inject* corpus
-  sentences as taught facts, which is a hazard worth its own experiment.
+  drained (up to 12 runs). Whether repeated consolidation erodes anything is unmeasured.
+  (The other item this bullet used to list as "worth its own experiment" — consolidation
+  with teach mode left on — **has now been run.** See `docs/electric_c2_hazard.md`.)
 - **Not that the binder kept the facts.** It probably did not; the keyed JSON inventory is
   what answered. E1's displacement cost stands exactly where it was.
 - **Not multi-relation.** All 20 facts are `the {a} {v} the {b}` agent sentences.

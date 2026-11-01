@@ -19,18 +19,25 @@ identical call shape the live tool uses: consolidate(budget=200), then a forced 
 
 THE HAZARD THIS DESIGN EXISTS TO AVOID
 consolidate() is read-only on the binder and writes ONLY through live(..., learn=True): it
-replays up to 600 corpus sentences through the same entry point teach mode uses. With
-ELECTRIC_TEACH left on, every replayed corpus sentence would be recorded as a FACT THE
-USER TOLD -- the organism would wake up believing the library spoke to it. So teach mode is
-switched OFF before consolidation. The size and membership of the taught inventory after
-consolidation is therefore a DIRECT pollution check: any subject in it that is not one of
-the taught subjects means the guard failed.
+replays up to 600 corpus sentences. An earlier draft of this header claimed that leaving
+ELECTRIC_TEACH on would therefore record each replayed sentence as a FACT THE USER TOLD.
+THE HAZARD ARM MEASURED IT AND THE CLAIM IS FALSE: the only write site of _taught_says is
+_absence_note (neural_language :4347), reachable only from hear() (:4311) under a
+speaker=="you" guard, and consolidate() calls live() directly with speaker="parent"/"book"
+-- it never calls hear(). Teach mode left ON through 600 replays: _taught_says stayed
+20/20, _absence_inv 20 -> 20, pollution ZERO subjects.
 
-ARMS (one variable: did the consolidator run?)
-  nocons  teach -> save(force=True) -> restart -> ask
-  cons    teach -> ELECTRIC_TEACH off -> consolidate(budget) -> save(force=True)
-          -> restart -> ask
-Both ask E1's HELD-OUT frames graded by role word.
+So teach mode is switched off before the `cons` arm as DEFENCE IN DEPTH, not because a
+measured pollution path exists. The inventory size and membership is still the right thing
+to check -- it is what would catch such a path if one were ever added, and it is the check
+that refuted the claim.
+
+ARMS (one variable: what ran between teaching and saving?)
+  nocons   teach -> save(force=True) -> restart -> ask
+  cons     teach -> ELECTRIC_TEACH off -> consolidate(budget) -> save -> restart -> ask
+  teachon  teach -> ELECTRIC_TEACH LEFT ON -> consolidate(budget) -> save -> restart -> ask
+           ^ the HAZARD TEST. Identical outcome to `cons`, which is the result.
+All ask E1's HELD-OUT frames graded by role word.
 
 Usage:
   .venv\\Scripts\\python.exe tools\\electric_consolidate.py --arm cons --facts 20 --seed 1
@@ -54,7 +61,7 @@ LIVE_STATE = "language_state.json"
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--arm", choices=("nocons", "cons"), default="cons")
+    ap.add_argument("--arm", choices=("nocons", "cons", "teachon"), default="cons")
     ap.add_argument("--facts", type=int, default=20)
     ap.add_argument("--seed", type=int, default=1)
     ap.add_argument("--budget", type=int, default=200,
@@ -90,15 +97,19 @@ def main() -> int:
 
     # ------------------------------------------------ consolidate ------------
     cons = {"ran": False}
-    if args.arm == "cons":
-        a.ELECTRIC_TEACH = False          # replay must not mint taught facts
+    if args.arm in ("cons", "teachon"):
+        if args.arm == "cons":
+            a.ELECTRIC_TEACH = False      # replay must not mint taught facts
+        # arm "teachon" is the HAZARD TEST: teach mode left ON through 600 replayed
+        # corpus sentences. See docs/electric_c2_hazard.md for what this measured.
         real_before = int((a.san_w >= 1e-6).sum())
         rows = []
         t0 = time.time()
         for _ in range(args.runs):
             r = a.consolidate(budget=args.budget)
             rows.append({k: v for k, v in r.items() if k != "deltas"})
-        cons = {"ran": True, "runs": rows,
+        cons = {"ran": True, "teach_flag_during": bool(a.ELECTRIC_TEACH),
+                "runs": rows,
                 "taught_says_during": sum(len(v) for v in a._taught_says.values()),
                 "subjects_during": len(a._taught_says),
                 "absence_inv_after": len(a._absence_inv),

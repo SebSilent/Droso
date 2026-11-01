@@ -4967,19 +4967,26 @@ class NeuralLanguage:
                    # was session-scoped by design, which is right for a diagnostic
                    # and fatal for a learner that has to remember across restarts.
                    # GATE IS "IS THERE ANYTHING TO KEEP", NOT "AM I STILL
-                   # ALLOWED TO LEARN". ELECTRIC_TEACH is a WRITE permission and
-                   # it is correct to switch it off the moment teaching stops --
-                   # consolidate() replays up to 600 CORPUS sentences through
-                   # live(learn=True), and if teach mode is on each of those
-                   # becomes a fact the user supposedly told, so the organism
-                   # wakes up believing the library spoke to it. Measured in
-                   # generation C2: with the old gate, doing exactly that --
-                   # turning teach mode off before consolidation, which is the
-                   # safe thing to do -- wrote an EMPTY inventory and lost all 20
-                   # taught facts on restart (20/20 correct without
+                   # ALLOWED TO LEARN". ELECTRIC_TEACH is a WRITE permission, and
+                   # with the old gate it ALSO acted as the memory flag: turning
+                   # it off before consolidation wrote an EMPTY inventory and lost
+                   # all 20 taught facts on restart (20/20 correct without
                    # consolidation, 0/20 with it). The permission flag must not
                    # double as the memory flag, or the safest choice is the one
                    # that erases the learner.
+                   #
+                   # CORRECTION, measured in the follow-up (C2 hazard arm,
+                   # docs/electric_c2_hazard.md): an earlier draft of this comment
+                   # claimed that leaving teach mode ON during consolidation would
+                   # mint ~600 corpus sentences as taught facts. THAT IS FALSE.
+                   # The only write site of _taught_says is _absence_note (:4347),
+                   # reachable only from hear() (:4311) under a speaker=="you"
+                   # guard, and consolidate() calls live() directly with
+                   # speaker="parent"/"book" -- it never calls hear(). Measured:
+                   # teach mode left on through 600 replays, _taught_says stayed
+                   # 20/20 and pollution was ZERO subjects. The fix below stands on
+                   # the 0/20 alone, which is the part that was actually observed;
+                   # it does not need the hazard, and the hazard does not exist.
                    #
                    # BATTERY NEUTRAL BY CONSTRUCTION: _taught_says can only be
                    # non-empty if ELECTRIC_TEACH was on at some point this

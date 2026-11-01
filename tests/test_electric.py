@@ -191,6 +191,49 @@ def test_teach_is_inert_when_the_flag_is_off(tmp_path):
     assert organ._taught_says == {}
 
 
+# ------------------------------------------------- hazard: replay vs teaching
+# The C2 hazard arm (docs/electric_c2_hazard.md) found NO pollution path. These two
+# tests pin WHY, as behaviour rather than as a grep of the implementation.
+def test_live_alone_never_mints_a_taught_fact(tmp_path):
+    """The mechanism, isolated: consolidation writes through live(), not hear().
+
+    Teach mode is left ON -- the worst case -- and text is pushed through the exact
+    entry point consolidate() uses. If the recording hook were on live(), this would
+    put a subject in the inventory and the hazard would be real.
+    """
+    organ = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                              TokenizerOrgan(), state_path=tmp_path / "s.json")
+    organ.ELECTRIC_TEACH = True
+    organ.live("the library sentence turns twice", learn=True, speaker="parent")
+    organ.live("another corpus line is on the shelf", learn=True, speaker="book")
+    assert organ._taught_says == {}, \
+        "live() must not record taught facts; only hear(speaker='you') may"
+    assert organ._absence_inv == {}
+
+
+def test_consolidation_with_teach_mode_on_does_not_pollute(tmp_path):
+    """The arm itself, at unit scale: teach, consolidate WITH the flag on, re-check.
+
+    Same shape as tools/electric_consolidate.py --arm teachon, which measured 20/20
+    retention and zero polluted subjects against the live state.
+    """
+    organ = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
+                              TokenizerOrgan(), state_path=tmp_path / "s.json")
+    organ.ELECTRIC_TEACH = True
+    organ.hear("the scarf is on the hook", speaker="you")
+    before = dict(organ._taught_says)
+    assert before, "precondition: teaching must have recorded something"
+
+    organ.ELECTRIC_TEACH = True          # NOT switched off -- this is the hazard
+    organ.consolidate(budget=8)
+
+    assert set(organ._taught_says) == set(before), \
+        "consolidation must not add subjects to the taught inventory"
+    assert sum(len(v) for v in organ._taught_says.values()) == \
+        sum(len(v) for v in before.values()), \
+        "consolidation must not add relations to the taught inventory"
+
+
 # ------------------------------------------------------------- persistence
 def test_survives_a_restart(tmp_path):
     """The success criterion, as a test: life 1 teaches, life 2 answers."""
