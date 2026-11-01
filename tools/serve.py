@@ -176,6 +176,12 @@ def main() -> int:
     ap.add_argument("--beats", type=int, default=2,
                     help="autonomous ticks between turns (as in the harness)")
     ap.add_argument("--session-dir", default=None)
+    ap.add_argument("--electric", action="store_true",
+                    help="ELECTRIC demo mode: statements heard in chat are taught into "
+                         "the keyed inventory and questions may be answered from it, "
+                         "including an admitted ignorance for a relation never told. "
+                         "OFF by default -- without it this server is byte-identical to "
+                         "yesterday's, and every battery run stays ELECTRIC-free.")
     args = ap.parse_args()
 
     try:
@@ -193,6 +199,28 @@ def main() -> int:
     print(f"[serve] loading Droso (session dir: {session_dir}) ...", flush=True)
     t0 = time.time()
     agent = converse.build(session_dir, project_root=args.state)
+    if args.electric:
+        # Flags on the INSTANCE, never on the class: if this flipped
+        # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into
+        # whatever battery run came after it.  ELECTRIC_TEACH is a write permission,
+        # ELECTRIC_ANSWER a read permission, and ABSENCE_INVENTORY is what licenses the
+        # admission at all -- without it an untaught relation produces silence, not "I
+        # don't know", which would make the demo's honesty invisible.
+        lang = agent.language
+        lang.ELECTRIC_TEACH = True
+        lang.ELECTRIC_ANSWER = True
+        lang.ABSENCE_INVENTORY = True
+        # THE RESTART HALF. converse.build() repoints writes into the session dir and
+        # never reads them back, so a second serve.py over the same --session-dir would
+        # come up amnesiac even though the state is on disk.  load_state() is a no-op
+        # returning {"loaded": False} when the file is absent (:5082), so the first life
+        # of a session is untouched.  The save at exit is already a delta save, and
+        # save_state writes the json -- which carries taught_says -- even in delta mode
+        # (:5015-5017, :4995).
+        lres = lang.load_state()
+        print(f"[serve] ELECTRIC on: loaded={bool((lres or {}).get('loaded'))} "
+              f"taught facts={sum(len(v) for v in lang._taught_says.values())} "
+              f"subjects={len(lang._taught_says)}", flush=True)
     session = converse.Session(agent, beats=args.beats)
     print(f"[serve] loaded in {time.time() - t0:.1f}s: "
           f"{len(agent.language.word_patterns)} words, "

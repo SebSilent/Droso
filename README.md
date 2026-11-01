@@ -557,6 +557,19 @@ GET  /v1/models
 
 The server is single-threaded: one session, one turn at a time.
 
+`serve.py --electric` (off by default) additionally lets a chat turn **teach**: a
+statement heard from `you` enters the keyed taught inventory, a question may be answered
+from it, and a relation that was never told is answered with an admission instead of a
+guess. Restarting over the same `--session-dir` reloads what was taught. See
+`docs/electric_c4_live.md` — including the part that is **not** yet verified end-to-end
+against the real house.
+
+```bash
+python tools/electric_chat.py --state state/electric_chat/neural_lang.json
+#   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,
+#   "?where is the scarf?"        asks       so the act is declared: see the doc)
+```
+
 ## Snapshot figures
 
 Figures below are snapshots with the file they came from; re-measure rather than
