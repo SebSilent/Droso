@@ -1348,3 +1348,94 @@ evidence in `docs/evidence/book_question_marks_live.json`.
   so it did not bite; the conservative direction is a fact staying a fact). The window step drops
   the tail tokens of a >8-word line (pre-existing, not this flag). A mark-free book gains nothing
   from this channel -- 0 marks there, and that is a fact about `books/`, not about the flag.
+
+## ELECTRIC keeps what a book paired (`ELECTRIC_QA_STORE`, off by default)
+
+`learn_qa` already existed and was nearly inert. Audited before touching it
+(`tools/book_qa_learn_audit.py`, 300 beats, `docs/evidence/book_qa_learn_audit.json`): it decides
+whether the line under a question is that question with its question-word replaced, then **throws
+the pair away** and keeps only a role vote -- `pair LINKED in state = 0/119`. Corpus-wide: 2,687
+question lines, every one with a next line, **165 pairs pass the gate, and 164 of them are in the
+two books written as Q/A** (`05_questions` 140, `grounded_primer` 24). Across the 16 real novels
+the gate accepts **one** pair, and it is not an answer:
+
+```
+Might a mere warmint ask what property?     great_expectations L1855
+Might a mere warmint ask whose property?    L1856
+```
+
+Two Dickens rhetorical questions side by side, passing the arithmetic because `what`->`whose` looks
+like a filler. Jane Eyre at 300 beats: 49 pairs attempted, **0 accepted**. So the path is inert on
+prose, and the 49 asks on the best-case book that were refused `nothing he remembers has that
+shape` had their answer line read directly underneath them.
+
+What the flag adds: the accepted pair is KEPT, with provenance, and answered by exact key.
+
+- **Write** (`_qa_keep`): no provenance, no memory. A question cannot answer a question -- the
+  guard reads the mark positions of the NEXT line, and those are built for every book whether or
+  not `ELECTRIC_ASK_MARKS` is on, so the safety does not depend on a second flag. First pair wins,
+  as in `_taught_says`.
+- **Read** (`_qa_store_answer`, in `answer()` **after** the taught path and **before** the absence
+  refusal): exact `qa_key`, the ask must end in `?`, and what he says is the answer line word for
+  word. A keyed lookup, not a retrieval -- it cannot answer a question it was never paired with.
+- **Persistence**: `qa_store` rides in the `questions` blob; on load a record with no provenance
+  or no answer is dropped, not resurrected.
+
+Organ A/B (`book_qa_learn_audit.json`, store arm): 05_questions stored **119**, answerable
+**70/119 -> 119/119**, right-filler **69 -> 119**, gained 49, **lost 0**, reworded 25 (every reword
+is `parent` -> `parent feeds droso`); `grounded_primer` stored 24, **19 -> 24**, lost 0;
+`jane_eyre` stored **0**, 0 -> 0.
+
+Live house (`tools/book_qa_store_live.py`, `docs/evidence/book_qa_store_live.json`) -- the real
+agent from `world.connectome_house`, flags wired as `serve.py` wires them, saved and booted again:
+
+| book | store | rows (pre-probe) | pairs stored | answered | by store | LEAKS | after restart |
+|---|---|---|---|---|---|---|---|
+| `05_questions` | off | 303 | 0 | 3/8 | 0 | 0 | 4/8, 0 leaks |
+| `05_questions` | on | 303 | **119** | **5/8** | **4** | 0 | 6/8, **119 kept** |
+| `jane_eyre` | off | 870 | 0 | 2/6 | 0 | 0 | 4/6, 0 leaks |
+| `jane_eyre` | on | 870 | **0** | 2/6 | **0** | 0 | 4/6, 0 leaks |
+
+Both books: rows equal **and row-key sets equal**, leaks `0 -> 0`, the taught asks
+(`where is the scarf` -> `the scarf is on the hook`) byte-identical in both arms before and after
+restart, and **wherever the store did not answer, the two arms said exactly the same words**. The
+Dickens pair, fed to the house verbatim as a two-line excerpt, stores nothing and is not answered
+by the store.
+
+Four harness defects this check had to be rebuilt around, each of which moved a number:
+
+- `converse.build(..., project_root=None)` boots against the **live** state: the house came up with
+  60,000 rows already in it and every probe measured that. Each house now gets its own empty shadow
+  root, which also cut a full save from 20.7s to 1.8s and the whole run to ~2 minutes.
+- the "restart" was not one. Saves land in the **session** dir (converse re-points every path after
+  construction) while a boot loads from `<project_root>/state`; the first version reported
+  `stored_after=0` and the second build silently reloaded the live tree. The restart now copies the
+  session files into the shadow's state dir and boots again.
+- the session dir was not wiped between runs, so a previous run's files were copied in. That is the
+  same contamination that invalidated the first before-audit; its JSON is deleted and the clean
+  before-state is the store-off arm of the current one.
+- rows were counted **after** probing. Answering writes memory -- six probes added seven rows on Jane
+  Eyre -- and the arms showed 877/878 while the store held **nothing** in either. Pre-probe: 870/870
+  with equal key sets. Three houses booted in sequence with identical flags (off, off, on) come up
+  byte-identical, which is what exonerated the flag.
+- one metric was deleted rather than tuned: `echoed_untagged_row` lit up on every correct answer,
+  because answering from memory IS saying the text of a stored statement row. What replaced it is
+  narrower and claimable: where the store did not answer, both arms must agree.
+
+- **Tests:** `tests/test_electric_qa_store.py`, 17 -- the Dickens refusal, an interior-mark refusal
+  (`parent? fed droso`, whose trailing boolean is false), the two-normalizers-agree pin (a store whose
+  key and lookup disagree stores forever and answers nothing), restart round-trip, corrupt-record
+  drop, row-set equality, taught-before-store precedence.
+- **Suite:** 934 passed, 3 skipped, 0 failed (287s), including `test_coverage_exclude_frame.py`
+  (12) and the E25 tests whose source-inspection assertions had been breaking in the E26 work --
+  this change touches neither, so their passing is not attributable to it and was not chased. The E26 battery run (gen 23,
+  `--coverage-exclude frame`) is still outstanding and is not this flag.
+- **Guarded contract untouched.** No token is altered. No brain was built.
+- **Gaps left open, on purpose:** this is not comprehension -- the store answers only the exact key
+  of a line pair printed as question/answer, and on the 16 real novels it holds nothing at all. It
+  changes the voice on asks that were already answered (`parent` -> `parent feeds droso`): the book's
+  own line, but a different utterance than the arbiter's. No eviction -- the store grows with
+  accepted pairs and is unbounded per book. And the Dickens house still answers
+  `might a mere warmint ask what property?` with `the scarf is on the hook` from
+  `recalled proposition`: a taught fact reaching an unrelated ask, pre-existing, printed by the tool
+  rather than asserted away.

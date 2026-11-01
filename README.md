@@ -575,6 +575,18 @@ verb agreement on *forward* asks, which its name does not advertise; and the ask
 should be the safety case is answered by nothing in ELECTRIC but still leaks a two-character
 fragment (`'to?'`) from the house's own fallback path.
 
+On the reading side, `--electric-ask-marks` tells him where a book printed a `?`, which is what lets
+the admissibility gate refuse to hand back a remembered question as a fact
+(`docs/STATE.md`, `ELECTRIC_ASK_MARKS`). `--electric-qa-store` goes one step further and *keeps* the
+question/answer pairs a book prints adjacent to each other, answering them by exact key with the
+line the book wrote. It is off by default, it stores nothing without provenance, and a question
+cannot answer a question — the only pair the sixteen real novels yield is Dickens putting one
+rhetorical question under another, and that one is refused. Measured in the real house: on a book
+written as Q/A it takes answerable asks from 70/119 to 119/119 with zero losses and the pairs
+surviving a restart; on Jane Eyre it stores **0** pairs and changes nothing at all, which is the
+honest bound — it is memory of what was printed next to what, not comprehension.
+`tools/book_qa_store_live.py` re-runs that check.
+
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
 #   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,

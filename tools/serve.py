@@ -287,6 +287,19 @@ def main() -> int:
                          "--electric-ask-admissibility, so marks alone change nothing "
                          "anyone can hear; marks + admissibility is the pair. OFF by "
                          "default: nothing is passed.")
+    ap.add_argument("--electric-qa-store", action="store_true",
+                    help="Remember the book questions he was READ an answer to. "
+                         "learn_qa already judges, per pair, whether the next line is "
+                         "the question with its question-word replaced, and then throws "
+                         "the pair away keeping only the role vote. This keeps the "
+                         "accepted pairs, tagged with the book and line they came from, "
+                         "and answers an ask from them by EXACT key -- no retrieval, no "
+                         "similarity, so it cannot answer a question it was never "
+                         "paired. A pair with no provenance is not stored, and a "
+                         "question whose next line was itself printed as a question is "
+                         "refused (the only pair the 16 real novels yield is exactly "
+                         "that: two Dickens rhetorical questions side by side). OFF by "
+                         "default: the store stays empty and cannot answer anything.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -327,6 +340,11 @@ def main() -> int:
     # exists whether or not ELECTRIC is on. It does not touch tokenization, so it cannot
     # move a row's key, cue or vector -- only what the row is called.
     agent.language.ELECTRIC_ASK_MARKS = bool(args.electric_ask_marks)
+    # Self-contained, so wired outside the --electric block: it WRITES while he reads a
+    # book (a pair learn_qa already accepted) and READS in answer() by exact key. It
+    # needs no taught inventory and no admissibility -- it never retrieves, so it cannot
+    # recite a row, and with the flag off the store is empty and the branch cannot fire.
+    agent.language.ELECTRIC_QA_STORE = bool(args.electric_qa_store)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into

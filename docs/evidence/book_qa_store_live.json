@@ -1,0 +1,532 @@
+{
+  "beats": 300,
+  "houses": {
+    "05_questions": {
+      "S1": {
+        "rows": 303,
+        "rows_after_probe": 311,
+        "stored": 0,
+        "answered": 3,
+        "leaks": 0,
+        "by_store": 0,
+        "refused": 1,
+        "probes": {
+          "who feeds droso?": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who opens droso?": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the home?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the light?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what is droso's name?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        },
+        "answered_after": 4,
+        "leaks_after": 0,
+        "stored_after": 0,
+        "probes_after": {
+          "who feeds droso?": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who opens droso?": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the home?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the light?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what is droso's name?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": true,
+            "said": "frost",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        }
+      },
+      "S2": {
+        "rows": 303,
+        "rows_after_probe": 311,
+        "stored": 119,
+        "answered": 5,
+        "leaks": 0,
+        "by_store": 4,
+        "refused": 1,
+        "probes": {
+          "who feeds droso?": {
+            "spoken": true,
+            "said": "parent feeds droso",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who opens droso?": {
+            "spoken": true,
+            "said": "parent opens droso",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the home?": {
+            "spoken": true,
+            "said": "the home is here",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the light?": {
+            "spoken": true,
+            "said": "the light is here",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what is droso's name?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        },
+        "answered_after": 6,
+        "leaks_after": 0,
+        "stored_after": 119,
+        "probes_after": {
+          "who feeds droso?": {
+            "spoken": true,
+            "said": "parent feeds droso",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who opens droso?": {
+            "spoken": true,
+            "said": "parent opens droso",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the home?": {
+            "spoken": true,
+            "said": "the home is here",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the light?": {
+            "spoken": true,
+            "said": "the light is here",
+            "src": "electric_qa_store",
+            "from_store": true,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what is droso's name?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": true,
+            "said": "frost",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        }
+      }
+    },
+    "jane_eyre": {
+      "S1": {
+        "rows": 870,
+        "rows_after_probe": 877,
+        "stored": 0,
+        "answered": 2,
+        "leaks": 0,
+        "by_store": 0,
+        "refused": 2,
+        "probes": {
+          "why have i alluded to this that": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "what does bessie say i have that": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "why have i alluded to this man?": {
+            "spoken": true,
+            "said": "why have i alluded to this that",
+            "src": "recalled proposition",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        },
+        "answered_after": 4,
+        "leaks_after": 0,
+        "stored_after": 0,
+        "probes_after": {
+          "why have i alluded to this that": {
+            "spoken": true,
+            "said": "droso says why have i alluded to this",
+            "src": "recalled proposition",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what does bessie say i have that": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "why have i alluded to this man?": {
+            "spoken": true,
+            "said": "why have i alluded to this that",
+            "src": "recalled proposition",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": true,
+            "said": "frost",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        }
+      },
+      "S2": {
+        "rows": 870,
+        "rows_after_probe": 877,
+        "stored": 0,
+        "answered": 2,
+        "leaks": 0,
+        "by_store": 0,
+        "refused": 2,
+        "probes": {
+          "why have i alluded to this that": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "what does bessie say i have that": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "why have i alluded to this man?": {
+            "spoken": true,
+            "said": "why have i alluded to this that",
+            "src": "recalled proposition",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        },
+        "answered_after": 4,
+        "leaks_after": 0,
+        "stored_after": 0,
+        "probes_after": {
+          "why have i alluded to this that": {
+            "spoken": true,
+            "said": "droso says why have i alluded to this",
+            "src": "recalled proposition",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what does bessie say i have that": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": true
+          },
+          "why have i alluded to this man?": {
+            "spoken": true,
+            "said": "why have i alluded to this that",
+            "src": "recalled proposition",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "who holds the latch": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "what bites the latch": {
+            "spoken": true,
+            "said": "frost",
+            "src": "arbiter head",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "from_store": false,
+            "leaked": false,
+            "ask_refused": false
+          }
+        }
+      }
+    },
+    "dickens": {
+      "stored": 0,
+      "probe": {
+        "spoken": true,
+        "said": "the scarf is on the hook",
+        "src": "recalled proposition",
+        "from_store": false,
+        "leaked": false,
+        "ask_refused": false
+      }
+    }
+  }
+}

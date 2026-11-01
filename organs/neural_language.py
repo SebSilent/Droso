@@ -794,6 +794,12 @@ class NeuralLanguage:
         self.question_roles: dict = {}
         self.interrogatives: set = set()
         self.qa_pairs_seen = 0
+        # The pairs themselves, kept only when ELECTRIC_QA_STORE is on. learn_qa has
+        # always DECIDED whether a line is a question's answer and then discarded it;
+        # this is that decision, retained, keyed by the question exactly as it was read
+        # and tagged with the line it came from. Empty unless the flag is on, and an
+        # empty store cannot answer anything, so the read path is inert by default.
+        self.qa_store: dict = {}
         self.answer_types: dict = {}
         self.statement_words: dict = {}
         # How often a word has OPENED a question. This is the signal that decides
@@ -2181,6 +2187,9 @@ class NeuralLanguage:
             return False
         self._book_idx = self._book_idx % len(files)
         path = files[self._book_idx]
+        # Which book a stored pair came from. Provenance is the pair's only claim to
+        # being an answer, so the name has to be recorded where the pair was read.
+        self._book_name = path.name
         try:
             raw = path.read_text(encoding="utf-8", errors="ignore").lower()
         except OSError as e:
@@ -2837,6 +2846,21 @@ class NeuralLanguage:
     # consulted under ADMISSIBILITY, so marks alone change nothing anyone can hear, and
     # marks + admissibility is the pair that closes the leak. Off: nothing is passed.
     ELECTRIC_ASK_MARKS = False
+    # Turn the book Q/A path from a VOTER into a MEMORY. `learn_qa` already decides,
+    # per pair, whether the next line really is the question with its question-word
+    # replaced -- and then throws the pair away, keeping only the vote. Audited in
+    # tools/book_qa_learn_audit.py: of 2,687 question lines in the corpus the path
+    # attempts, 165 pass that gate, and 164 of them are in the two books WRITTEN as
+    # Q/A pairs. The one pair a real novel ever yields is Dickens printing two
+    # rhetorical questions back to back -- `Might a mere warmint ask what property?`
+    # followed by `Might a mere warmint ask whose property?` -- which is a question
+    # "answered" by a question. On: an accepted pair is KEPT, tagged with where it
+    # came from, and a question he was read with an answer can be answered from that
+    # pair by exact key, before the resonance contest that E10 measured can silence a
+    # known fact. Pairs whose answer line was itself printed as a question are refused
+    # at the door, which deletes the only spurious pair in the corpus.
+    # Off: nothing is stored and nothing is read -- the votes are all the path does.
+    ELECTRIC_QA_STORE = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -2925,7 +2949,20 @@ class NeuralLanguage:
         "through", "toward", "towards", "upon", "within", "inside", "outside",
         "off", "onto", "between", "beyond", "along", "around"})
 
-    def learn_qa(self, q_tokens, a_tokens) -> dict:
+    @staticmethod
+    def qa_key(tokens) -> str:
+        """The one normalization a stored question and a heard ask are both keyed by.
+        Deliberately the SAME split `_load_next_book` uses for a book line, not the
+        speech tokenizer: a pair learned from a book has to be findable by the words
+        the book printed, and if the two normalizers disagreed the store would answer
+        nothing and look identical to an empty one."""
+        if isinstance(tokens, str):
+            src = "".join(c if c.isalnum() else " " for c in str(tokens).lower()).split()
+        else:
+            src = [str(t).strip().lower() for t in (tokens or []) if str(t).strip()]
+        return " ".join(src)
+
+    def learn_qa(self, q_tokens, a_tokens, provenance=None) -> dict:
         """Learn which role a question word asks about, from a Q and its A.
 
         No grammar and no table written by hand. The answer is a proposition whose
@@ -2935,6 +2972,12 @@ class NeuralLanguage:
         asks for it. "who feeds droso" against "parent feeds droso" is missing
         role 0 and adds "who", so who asks for role 0. Ambiguous pairs (two roles
         missing, or two new words) are refused rather than guessed.
+
+        `provenance` is where the pair was read from -- book, line, and whether the
+        answer line was itself printed as a question. It changes nothing about the
+        vote. Under ELECTRIC_QA_STORE it is also the price of admission to the store:
+        a pair with no provenance is not kept, because the only claim a stored answer
+        can make is "this book printed this line directly under that question".
         """
         q = [str(t).strip().lower() for t in (q_tokens or []) if str(t).strip()]
         a = [str(t).strip().lower() for t in (a_tokens or []) if str(t).strip()]
@@ -2959,8 +3002,66 @@ class NeuralLanguage:
         types = self.answer_types.setdefault(w, {})
         types[filler] = int(types.get(filler, 0)) + 1
         self.qa_pairs_seen += 1
+        if self.ELECTRIC_QA_STORE:
+            kept = self._qa_keep(q, a, w, role, filler, provenance)
+            if kept:
+                return {"learned": True, "interrogative": w, "role": role,
+                        "filler": filler, "stored": kept}
         return {"learned": True, "interrogative": w, "role": role,
                 "filler": filler}
+
+    def _qa_keep(self, q, a, w, role, filler, provenance):
+        """Admit one validated pair to the store, or refuse it. Returns the key kept,
+        or "" for a refusal -- a refusal is never silent overwriting.
+
+        Two rules, both from the audit. (1) NO PROVENANCE, NO MEMORY: an unattributed
+        pair is a sentence that happened to be shaped like an answer. (2) A QUESTION
+        CANNOT ANSWER A QUESTION: the only pair the real novels yield is Dickens's
+        `Might a mere warmint ask what property?` followed by `Might a mere warmint
+        ask whose property?`, which passes the arithmetic and is not an answer.
+        First tell wins, as in `_taught_says`: a pair re-read must not become a
+        different pair.
+        """
+        if not provenance:
+            return ""
+        if provenance.get("answer_is_question"):
+            return ""
+        key = self.qa_key(q)
+        if not key or key in self.qa_store:
+            return ""
+        self.qa_store[key] = {"q": list(q), "a": list(a), "word": w,
+                              "role": int(role), "filler": str(filler),
+                              "prov": dict(provenance)}
+        return key
+
+    def _qa_store_answer(self, text):
+        """Answer an ask from a pair he was READ, by exact key or not at all.
+
+        Same shape as `_electric_answer`'s contract and for the same reason: this is a
+        keyed lookup, not a retrieval, so it cannot answer a question it was never
+        paired with, and an ask that is not in the store falls through to every path
+        that already exists. The ask must be an asking in the book's own sense -- it
+        ends in `?` -- because a sentence typed without one is not evidence anyone
+        wants an answer.
+
+        What comes back is the answer line, word for word as it was printed. No
+        reconstruction and no template: the only thing this path knows is that this
+        line sat under that question in that book.
+        """
+        if not str(text or "").strip().endswith("?"):
+            return None
+        rec = self.qa_store.get(self.qa_key(text))
+        if not rec:
+            return None
+        said = " ".join(rec.get("a") or [])
+        if not said.strip():
+            return None
+        return {"spoken": True, "heard": True, "answered": True,
+                "utterance": said, "response": said,
+                "source": "electric_qa_store", "direct": True,
+                "asked": " ".join(rec.get("q") or []),
+                "filler": rec.get("filler"), "role": rec.get("role"),
+                "provenance": dict(rec.get("prov") or {})}
 
     def role_votes_report(self) -> dict:
         """Votes per question word, marking the ones demoted for appearing in
@@ -4217,6 +4318,10 @@ class NeuralLanguage:
                 return {"spoken": True, "heard": True, "answered": True,
                         "utterance": told, "response": told,
                         "source": "electric_taught", "direct": True}
+        if self.ELECTRIC_QA_STORE and self.qa_store:
+            kept = self._qa_store_answer(text)
+            if kept is not None:
+                return kept
         abs_lic = self._absence_licence(text)
         if abs_lic is not None:
             # ELECTRIC: say it out loud. E24 phase 1 deliberately licensed
@@ -4778,7 +4883,26 @@ class NeuralLanguage:
             if is_q and idx + 1 < len(lines):
                 # A question immediately followed by its answer is the only
                 # supervision anywhere in this system, and it is enough.
-                self.learn_qa(line_words, lines[idx + 1])
+                # The channel, not `_book_is_q`, decides whether the NEXT line is a question:
+                # is_q is trailing-only, and a line like `is he dead, or is it a rumour? and
+                # he lived.` ends in a full stop while carrying a question inside it. The
+                # positions are built for every book whether or not the marks flag is on, so
+                # the store's safety does not depend on a second flag.
+                qs_next = bool(mk and idx + 1 < len(mk) and mk[idx + 1]) or \
+                    bool(qs and idx + 1 < len(qs) and qs[idx + 1])
+                self.learn_qa(line_words, lines[idx + 1], provenance={
+                    "book": str(getattr(self, "_book_name", "") or ""),
+                    "line": int(idx),
+                    # The mark the channel recorded, if any: the position the `?` stood
+                    # at inside THIS line's tokens. Pairing itself still runs off
+                    # `_book_is_q` (a trailing mark), which is what the audit measured --
+                    # an interior mark is not an asking and does not earn supervision.
+                    "mark": int(qmarks[-1]) if qmarks else None,
+                    "tokens": len(line_words),
+                    # What the next line was, as printed. A question under a question is
+                    # not an answer, whatever the arithmetic says.
+                    "answer_is_question": qs_next,
+                    "answer_line": int(idx) + 1})
             if is_q:
                 if line_words:
                     w0 = str(line_words[0]).strip().lower()
@@ -5601,6 +5725,9 @@ class NeuralLanguage:
                                          if self.ABSENCE_INVENTORY else {}),
                    "questions": {"roles": self.question_roles,
                                  "interrogatives": sorted(self.interrogatives),
+                                 "qa_store": (self.qa_store
+                                              if (self.ELECTRIC_QA_STORE
+                                                  or self.qa_store) else {}),
                                  "answer_types": self.answer_types,
                                  "statement_words": dict(
                                      list(self.statement_words.items())[:4000]),
@@ -5793,6 +5920,21 @@ class NeuralLanguage:
                             if v and max(int(x) for x in v.values())
                             >= self.INTERROGATIVE_MIN_VOTES}
                     self.qa_pairs_seen = int(qs.get("pairs_seen", 0) or 0)
+                    qst = qs.get("qa_store")
+                    if isinstance(qst, dict):
+                        # Rebuilt, not trusted: a record with no provenance or no answer
+                        # is not a memory, it is a hole in the file, and the store's
+                        # whole claim is that every answer in it came from a line.
+                        self.qa_store = {
+                            str(k): {"q": [str(t) for t in v.get("q") or []],
+                                     "a": [str(t) for t in v.get("a") or []],
+                                     "word": str(v.get("word") or ""),
+                                     "role": int(v.get("role") or 0),
+                                     "filler": str(v.get("filler") or ""),
+                                     "prov": dict(v.get("prov") or {})}
+                            for k, v in qst.items()
+                            if isinstance(v, dict) and v.get("prov")
+                            and (v.get("a") or [])}
                     at = qs.get("answer_types")
                     if isinstance(at, dict):
                         self.answer_types = {

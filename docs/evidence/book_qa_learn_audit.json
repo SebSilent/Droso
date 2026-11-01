@@ -1,0 +1,452 @@
+{
+  "beats": 300,
+  "books": {
+    "05_questions (written as Q/A)": {
+      "paired": 150,
+      "passed": 119,
+      "refused_reasons": {
+        "1 missing": 14,
+        "5 missing": 13,
+        "4 missing": 1,
+        "0 missing": 3
+      },
+      "marked_lines": 150,
+      "interior_marked": 0,
+      "pairs_linked_in_state": 0,
+      "answer_rows_present": 119,
+      "accepted_answer_is_question_too": 0,
+      "arms": {
+        "nomarks_nostore": {
+          "paired": 150,
+          "passed": 119,
+          "refused": 31,
+          "reasons": {
+            "1 missing": 14,
+            "5 missing": 13,
+            "4 missing": 1,
+            "0 missing": 3
+          },
+          "marked_lines": 150,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 0,
+          "answer_rows_present": 119,
+          "accepted_answer_is_question_too": 0,
+          "stored": 0,
+          "stored_after": 0,
+          "answerable_before": 70,
+          "right_before": 69,
+          "answerable_after": 70,
+          "right_after": 69
+        },
+        "marks_nostore": {
+          "paired": 150,
+          "passed": 119,
+          "refused": 31,
+          "reasons": {
+            "1 missing": 14,
+            "5 missing": 13,
+            "4 missing": 1,
+            "0 missing": 3
+          },
+          "marked_lines": 150,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 0,
+          "answer_rows_present": 119,
+          "accepted_answer_is_question_too": 0,
+          "stored": 0,
+          "stored_after": 0,
+          "answerable_before": 70,
+          "right_before": 69,
+          "answerable_after": 70,
+          "right_after": 69
+        },
+        "marks_store": {
+          "paired": 150,
+          "passed": 119,
+          "refused": 31,
+          "reasons": {
+            "1 missing": 14,
+            "5 missing": 13,
+            "4 missing": 1,
+            "0 missing": 3
+          },
+          "marked_lines": 150,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 119,
+          "answer_rows_present": 119,
+          "accepted_answer_is_question_too": 0,
+          "stored": 119,
+          "stored_after": 119,
+          "answerable_before": 119,
+          "right_before": 119,
+          "answerable_after": 119,
+          "right_after": 119
+        }
+      },
+      "store_ab": {
+        "answered_before": [
+          70,
+          119
+        ],
+        "gained": [
+          "where is the home?",
+          "where is the light?",
+          "where is the food?",
+          "where is the water?",
+          "where is the hand?",
+          "where is the word?",
+          "where is the name?",
+          "where is the sound?",
+          "where is the day?",
+          "where is the night?",
+          "where is the world?",
+          "where is the room?",
+          "where is the door?",
+          "where is the bed?",
+          "where is the table?",
+          "where is the book?",
+          "where is the voice?",
+          "where is the eye?",
+          "where is the arm?",
+          "where is the chair?",
+          "where is the window?",
+          "where is the path?",
+          "where is the stone?",
+          "where is the fire?",
+          "where is the rain?",
+          "where is the wind?",
+          "where is the morning?",
+          "where is the evening?",
+          "where is the friend?",
+          "where is the child?",
+          "where is the mother?",
+          "where is the father?",
+          "where is the sister?",
+          "where is the brother?",
+          "where is the animal?",
+          "where is the bird?",
+          "where is the fish?",
+          "where is the tree?",
+          "where is the leaf?",
+          "where is the seed?",
+          "where is the garden?",
+          "where is the road?",
+          "where is the bridge?",
+          "where is the cup?",
+          "where is the bowl?",
+          "where is the cloth?",
+          "where is notes txt?",
+          "where is plan md?",
+          "where is main py?"
+        ],
+        "lost": [],
+        "reworded": [
+          "who feeds droso?",
+          "who pets droso?",
+          "who holds droso?",
+          "who opens droso?",
+          "who closes droso?",
+          "who gives droso?",
+          "who washes droso?",
+          "who warms droso?",
+          "who helps droso?",
+          "who carries droso?",
+          "who shows droso?",
+          "who reads droso?",
+          "who sees the light?",
+          "who hears the light?",
+          "who wants the light?",
+          "who learns the light?",
+          "who finds the light?",
+          "who watches the light?",
+          "who smells the light?",
+          "who touches the light?",
+          "who follows the light?",
+          "who remembers the light?",
+          "who says the light?",
+          "who tries the light?",
+          "how is the door?"
+        ],
+        "answered_after": [
+          70,
+          119
+        ],
+        "right_after": [
+          69,
+          119
+        ],
+        "stored": [
+          119,
+          119
+        ]
+      }
+    },
+    "grounded_primer (written as Q/A)": {
+      "paired": 24,
+      "passed": 24,
+      "refused_reasons": {},
+      "marked_lines": 24,
+      "interior_marked": 0,
+      "pairs_linked_in_state": 0,
+      "answer_rows_present": 24,
+      "accepted_answer_is_question_too": 0,
+      "arms": {
+        "nomarks_nostore": {
+          "paired": 24,
+          "passed": 24,
+          "refused": 0,
+          "reasons": {},
+          "marked_lines": 24,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 0,
+          "answer_rows_present": 24,
+          "accepted_answer_is_question_too": 0,
+          "stored": 0,
+          "stored_after": 0,
+          "answerable_before": 19,
+          "right_before": 19,
+          "answerable_after": 19,
+          "right_after": 19
+        },
+        "marks_nostore": {
+          "paired": 24,
+          "passed": 24,
+          "refused": 0,
+          "reasons": {},
+          "marked_lines": 24,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 0,
+          "answer_rows_present": 24,
+          "accepted_answer_is_question_too": 0,
+          "stored": 0,
+          "stored_after": 0,
+          "answerable_before": 19,
+          "right_before": 19,
+          "answerable_after": 19,
+          "right_after": 19
+        },
+        "marks_store": {
+          "paired": 24,
+          "passed": 24,
+          "refused": 0,
+          "reasons": {},
+          "marked_lines": 24,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 24,
+          "answer_rows_present": 24,
+          "accepted_answer_is_question_too": 0,
+          "stored": 24,
+          "stored_after": 24,
+          "answerable_before": 24,
+          "right_before": 24,
+          "answerable_after": 24,
+          "right_after": 24
+        }
+      },
+      "store_ab": {
+        "answered_before": [
+          19,
+          24
+        ],
+        "gained": [
+          "where is droso?",
+          "where is parent?",
+          "where is light?",
+          "where is food?",
+          "where is file?"
+        ],
+        "lost": [],
+        "reworded": [
+          "who feeds droso?",
+          "who pets droso?",
+          "who warms food?",
+          "who holds light?",
+          "who opens file?",
+          "who sees light?",
+          "who hears world?",
+          "who learns word?"
+        ],
+        "answered_after": [
+          19,
+          24
+        ],
+        "right_after": [
+          19,
+          24
+        ],
+        "stored": [
+          24,
+          24
+        ]
+      }
+    },
+    "jane_eyre (a real novel)": {
+      "paired": 49,
+      "passed": 0,
+      "refused_reasons": {
+        "7 missing": 6,
+        "19 missing": 2,
+        "20 missing": 2,
+        "8 missing": 7,
+        "9 missing": 2,
+        "11 missing": 2,
+        "15 missing": 3,
+        "5 missing": 2,
+        "6 missing": 3,
+        "10 missing": 3,
+        "21 missing": 1,
+        "18 missing": 3,
+        "23 missing": 2,
+        "24 missing": 3,
+        "26 missing": 1,
+        "27 missing": 1,
+        "12 missing": 2,
+        "17 missing": 1,
+        "14 missing": 2,
+        "22 missing": 1
+      },
+      "marked_lines": 49,
+      "interior_marked": 0,
+      "pairs_linked_in_state": 0,
+      "answer_rows_present": 0,
+      "accepted_answer_is_question_too": 0,
+      "arms": {
+        "nomarks_nostore": {
+          "paired": 49,
+          "passed": 0,
+          "refused": 49,
+          "reasons": {
+            "7 missing": 6,
+            "19 missing": 2,
+            "20 missing": 2,
+            "8 missing": 7,
+            "9 missing": 2,
+            "11 missing": 2,
+            "15 missing": 3,
+            "5 missing": 2,
+            "6 missing": 3,
+            "10 missing": 3,
+            "21 missing": 1,
+            "18 missing": 3,
+            "23 missing": 2,
+            "24 missing": 3,
+            "26 missing": 1,
+            "27 missing": 1,
+            "12 missing": 2,
+            "17 missing": 1,
+            "14 missing": 2,
+            "22 missing": 1
+          },
+          "marked_lines": 49,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 0,
+          "answer_rows_present": 0,
+          "accepted_answer_is_question_too": 0,
+          "stored": 0,
+          "stored_after": 0,
+          "answerable_before": 0,
+          "right_before": 0,
+          "answerable_after": 0,
+          "right_after": 0
+        },
+        "marks_nostore": {
+          "paired": 49,
+          "passed": 0,
+          "refused": 49,
+          "reasons": {
+            "7 missing": 6,
+            "19 missing": 2,
+            "20 missing": 2,
+            "8 missing": 7,
+            "9 missing": 2,
+            "11 missing": 2,
+            "15 missing": 3,
+            "5 missing": 2,
+            "6 missing": 3,
+            "10 missing": 3,
+            "21 missing": 1,
+            "18 missing": 3,
+            "23 missing": 2,
+            "24 missing": 3,
+            "26 missing": 1,
+            "27 missing": 1,
+            "12 missing": 2,
+            "17 missing": 1,
+            "14 missing": 2,
+            "22 missing": 1
+          },
+          "marked_lines": 49,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 0,
+          "answer_rows_present": 0,
+          "accepted_answer_is_question_too": 0,
+          "stored": 0,
+          "stored_after": 0,
+          "answerable_before": 0,
+          "right_before": 0,
+          "answerable_after": 0,
+          "right_after": 0
+        },
+        "marks_store": {
+          "paired": 49,
+          "passed": 0,
+          "refused": 49,
+          "reasons": {
+            "7 missing": 6,
+            "19 missing": 2,
+            "20 missing": 2,
+            "8 missing": 7,
+            "9 missing": 2,
+            "11 missing": 2,
+            "15 missing": 3,
+            "5 missing": 2,
+            "6 missing": 3,
+            "10 missing": 3,
+            "21 missing": 1,
+            "18 missing": 3,
+            "23 missing": 2,
+            "24 missing": 3,
+            "26 missing": 1,
+            "27 missing": 1,
+            "12 missing": 2,
+            "17 missing": 1,
+            "14 missing": 2,
+            "22 missing": 1
+          },
+          "marked_lines": 49,
+          "interior_marked": 0,
+          "pairs_linked_in_state": 0,
+          "answer_rows_present": 0,
+          "accepted_answer_is_question_too": 0,
+          "stored": 0,
+          "stored_after": 0,
+          "answerable_before": 0,
+          "right_before": 0,
+          "answerable_after": 0,
+          "right_after": 0
+        }
+      },
+      "store_ab": {
+        "answered_before": [
+          0,
+          0
+        ],
+        "gained": [],
+        "lost": [],
+        "reworded": [],
+        "answered_after": [
+          0,
+          0
+        ],
+        "right_after": [
+          0,
+          0
+        ],
+        "stored": [
+          0,
+          0
+        ]
+      }
+    }
+  }
+}
