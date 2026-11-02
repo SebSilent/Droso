@@ -35,6 +35,11 @@ tools/_tmp_report_dump.py
 # Local working paper
 PAPER.md
 PLAN.md
+# The handover note stays off the remote: it names live defects and points at work
+# parked on a local branch. It lives on disk and on the local branch `handover-local`.
+# Untracking it takes it off the TIP, not out of history: the blobs are still reachable
+# from af2a739 and the three commits after it, and af2a739's own message names the file.
+docs/HANDOVER.md
 
 # Derived neural state. Regenerable from books/ via tools/population.py, and far
 # too large for git. Lineages on state/lineage/ where a lived individual can be restored without a clone.
