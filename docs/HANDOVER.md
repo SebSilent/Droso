@@ -4,6 +4,11 @@ Objective, state, commands, and boundaries as of this handover. The long-form hi
 `docs/CHANGELOG.md` and `docs/STATE.md`; the design record is `README.md`. This file is the operational
 layer: what is true right now, how to re-check it, and what not to touch.
 
+**Commit: `af2a739`** -- `ELECTRIC_ARBITER_TELL: the arbiter verified the memory; now the house says it`,
+15 files, +1180/-468, on `main`. **Local only, never pushed** (`main` is ahead of `origin/main` by 63),
+which is why the caveat numbers in this commit could be amended rather than left wrong in history. The
+full suite was re-run at this commit after every correction: **1126 passed, 3 skipped, exit 0**.
+
 ## What was in flight
 
 `ELECTRIC_ARBITER_TELL` -- the **seventh** widening of learn mode. When the shape arbiter has verified
@@ -26,7 +31,8 @@ Full entry: `docs/STATE.md`, section `ELECTRIC_ARBITER_TELL`. Tests:
 
 | claim | number | how to re-check |
 |---|---|---|
-| full suite | **1126 passed, 3 skipped, 5 warnings, 490.98s**, exit 0 | `.venv\Scripts\python.exe -m pytest tests -q` |
+| full suite, at `af2a739` | **1126 passed, 3 skipped, 5 warnings, 492.42s**, exit 0 | `.venv\Scripts\python.exe -m pytest tests -q` (run in background: ~500s is inside a 600s shell cap only if nothing else shares the call) |
+| the 5 files that pin this flag's text and behaviour | **83 passed in 107.85s** | `.venv\Scripts\python.exe -m pytest tests/test_electric_arbiter_tell.py tests/test_electric_learn_mode.py tests/test_electric_teach_mode.py tests/test_electric_ask_do_support.py tests/test_electric_qa_answer_memory.py -q` (brace expansion is bash; this shell is cmd) |
 | new flag's tests | 18 passed in 2.21s | `.venv\Scripts\python.exe -m pytest tests/test_electric_arbiter_tell.py -q` |
 | benchmark | 40 items, 136 probes, 3 arms, **no invention in any arm at any depth**, exit 0 | `.venv\Scripts\python.exe tools/electric_learn_bench.py` (~8.5 min) |
 | learn correct (live), depths 1/2/3 | **38 / 75 / 115** of 39/124/124 (pre-flag: 37/71/108) | same, or `--arms learn --depth 3` for one cell |
@@ -51,9 +57,12 @@ pre-flag snapshot: all 36 `arbiter tell` rows were `arbiter head` rows at the sa
 same thing, and every one moved `partial -> correct` -- the branch converting is exactly the branch. But
 **16 further rows moved `refused -> partial`**, and that is not this branch's work. They are 3 distinct
 ungrammatical asks -- `what the nora carry`, `what the dog guard`, `what the bridge cross` -- that used
-to be refused with `nothing he remembers has that shape` and now reach the one-word branch, because
-probes are asked in order against one house that stores what it hears: once the flag has said rows
-whole, a row of that shape exists. They recur across depths and phases, which is how 3 asks become 16
+to be refused with `nothing he remembers has that shape` and now reach the one-word branch. **Proven:**
+the routing (an A/B that flips only the instance flag moves the same probe) and the reply's own
+admission -- source `arbiter head` means the arbiter found a row where before it found none. **Not
+traced here, and stated as inference:** the reason a row exists at that moment is that probes are asked
+in order of one house whose store grows with what it admits, and a whole sentence admitted is a row of a
+shape a one-word answer never was. They recur across depths and phases, which is how 3 asks become 16
 rows. No row lost `correct`; the teach and control arms did not move at all (0 rows changed).
 
 **The word those 3 asks now speak is `says`, which is in nobody's mouth.** `says` appears in none of the
@@ -64,7 +73,8 @@ and this is a word. The defect belongs to `arbiter head`, not to the bound -- th
 stops those 3 asks being handed a sentence, so with the flag on they still get only the word. **But by
 this project's own standard (`docs/electric_generalisation.md`: confabulation is "the category that is
 worse than silence"), a probe that honestly declined now uttering an unsupported word is a regression,
-and the flag's +7 at depth 3 must be read against it.** Open, not fixed here.
+and the flag's +7 at depth 3 must be read against it.** Not fixed here; recorded as the **Known gap**
+below, which is where the next session should look if it wants to pick it up.
 
 **A correction, because the first draft of this handover got it wrong.** It said "no probe moved to a
 worse class" and "20 of the 36 rows are the branch converting, 16 arrive through state". Both came from
@@ -79,6 +89,34 @@ until `ready port=` and then stop touching the pipe, so the child blocked in `pr
 loop was ever reached -- it presented as a `/shutdown` problem and was not. The readiness line now
 prints **last**, because the client's own scan is what drains it. If you add another mode line, the
 banner grows again.
+
+## Known gap -- `arbiter head` can name a word nobody said
+
+Status: **documented and accepted, deliberately not fixed in `af2a739`.** It is not this flag's defect --
+it lives in `arbiter head`, one of the earlier widenings, and changing that branch means re-measuring a
+contract that is not this commit's to move. Nothing is scheduled. These are the facts for whoever takes
+it:
+
+- **What.** The one-word branch speaks the word the arbiter named, and that word is not required to be
+  traceable to anything the house was told. In the committed run the word is `says`, spoken by 3
+  ungrammatical asks (`what the nora carry`, `what the dog guard`, `what the bridge cross`) across 16
+  rows. `says` is in none of the 27 told sentences, and it is not even a word of the rows the arbiter
+  drew from (`nora carries the lantern`, `the dog guards the gate`, `the bridge crosses the river`) -- so
+  the row does not license it either.
+- **Why it survived every gate.** The benchmark's INVENTED grader compares *sentences* against the told
+  sentences, so a single unsupported word is invisible to it: `failures` stayed **0** while those rows
+  moved `refused -> partial`. The suite does not pin it either -- `tests/test_electric_arbiter_tell.py`
+  pins the bound and the leak, not `arbiter head`'s word choice.
+- **Why it counts.** `docs/electric_generalisation.md` states this project's own ranking: confabulation
+  is "the category that is worse than silence". Before this flag those 3 asks declined honestly.
+- **What the flag did and did not do.** It routed 3 refuses into a branch that already had the hole. The
+  bound is what keeps them from being handed a whole sentence, so the flag neither created the pathology
+  nor widened it into row speech.
+- **If it is picked up.** The shape of the fix is the word-level version of what the row-level bound
+  already does: the word the arbiter names has to be traceable to something told. Re-measure the two
+  things that would break first -- the guarded absence (**24 rows**, `src == electric_absence`) and the
+  graded leak `what turns twice? -> bell` -- both are pinned in tests, so a fix that breaks them fails
+  loudly rather than silently.
 
 ## Commands
 
@@ -127,7 +165,11 @@ flag commit:
 - `tools/electric_shape_generalise.py` -- untracked, +380 lines, no tests, not wired into any mode
 - `state/electric_chat/` -- untracked runtime state, rewritten by every live run; never commit it
 - `_tmp/` -- this session's scratch (A/B logs, the regression sweep, the pre-flag benchmark snapshot
-  `bench_pre_arbiter_tell_HEAD.json`, sha256 `83a774515c5adc67...`). Ignored, safe to delete.
+  `bench_pre_arbiter_tell_HEAD.json`, sha256
+  `83a774515c5adc676283f30f48625d363db5c941116fbb55a499a73949d6cb26`, itself re-probed as 40 items /
+  136 probes / 3 arms / 0 failures / 27 told sentences). Ignored, safe to delete -- **the row matrix in
+  the next section cannot be re-derived without this file**, so delete it only if you are ready to
+  re-run the pre-flag benchmark to get it back.
 
 ## Commit boundary for this work
 
@@ -146,8 +188,13 @@ shipped artifact -- they are at commit `af32c0f`, and both documents now say so.
 
 - `README.md`'s badge figures (vocabulary, propositions, fitness) are from a different corpus and are
   flagged as such in the file. Not re-measured here.
-- `docs/STATE.md`'s "electric neighbourhood 267 passed in 5:08" is a historical measurement. The
-  subset re-run during this handover was killed by a shell timeout before finishing, so that number
-  was **not** re-verified; the full suite (which contains it) is green.
+- `docs/STATE.md`'s "electric neighbourhood 267 passed in 5:08" is a historical measurement. That subset
+  was never re-run standalone (a shell timeout killed the attempt), so **267 itself is not verified** --
+  what is verified is the full suite at `af2a739`, which contains it and is green. Do not quote 267 as
+  a current number.
+- The comment, help-text and docstring corrections made after `0508ab2` were checked by re-running the
+  5 files that pin that text (**83 passed**) and then the whole suite (**1126 passed, exit 0**). Nothing
+  in those edits was behavioural, but "nothing was behavioural" is a claim, so it was tested rather than
+  asserted.
 - `tools/electric_learn_live.py` (the live 3-arm tool) was not re-run on this tree; only its evidence
   note text changed.
