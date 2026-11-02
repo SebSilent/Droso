@@ -1876,3 +1876,101 @@ taught path (:4595) and the store's consult (:4604), pinned as text by
   fold is O(store) per missed lookup, fine at 214 rows and unmeasured at corpus scale. Nothing here
   ran on the battery: generation 25 is still the free one.
 
+## ELECTRIC teach mode -- one switch for the stack that makes a pair teachable
+
+`tools/electric_teach_mode.py` (the table, and the only place the list is written down),
+`tools/serve.py --electric-teach`, `tools/electric_chat.py --electric-teach`,
+`tests/test_electric_teach_mode.py` (18), `tools/qa_teach_mode_live.py` →
+`docs/evidence/qa_teach_mode_live.json`.
+
+Seven flags stood between "he remembers the pair a person gave him" and "he can be talked into
+remembering one", each added on its own with its own live measurement. The cost of that honesty is
+that anyone who just wants to teach him something has to get the DEPENDENCIES right, because two of
+them are inert without another and the symptom of an inert flag is that nothing happens and nothing
+is said. `--electric-teach` is those seven plus the three that `--electric` already means, defined
+once and read by both wiring sites, with the inertness rules in the same table so `serve.py` and
+`electric_chat.py` warn in identical words.
+
+The reason a bundle was safe to add at all is a fact about the stack, not a preference: six of the
+seven can only ever REFUSE to speak or refuse to store -- the store holds pairs the audit already
+refused, elicitation routes an ask that was already being typed, the fold answers only from a pair
+that exists, provenance narrows admission, marks and admissibility drop remembered questions out of
+the hits, the fragment guard replaces a spoken `to?` with silence. That is why the guard is IN and
+the four WIDENINGS are out: `ELECTRIC_ASK_SHAPE`, `ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`,
+`ELECTRIC_ASK_NORMALIZE` each let more asks reach more matchers, and each was measured alone
+precisely so a run could name which one cost something. `ELECTRIC_ASK_NORMALIZE` looks like an
+omission and is not: `ELECTRIC_QA_PARAPHRASE` calls `normalize_ask_variants` itself, so a folded
+ask does use the normalizer with that flag off -- but as a LOOKUP KEY into the store, where a wrong
+key returns nothing, rather than as a route into the keyed inventory, where a wrong variant returns
+a wrong fact.
+
+Everything is set on the instance, never on `NeuralLanguage` (`test_the_mode_sets_nothing_on_the_class`
+re-reads every class default after the mode has taught a pair). And the mode implies `--electric`,
+which is not cosmetic: `serve.py` runs `load_state()` only inside its `--electric` block, so a server
+started with the QA flags and not `--electric` wrote every pair to disk and came back remembering
+none.
+
+**Measured in a real house, three arms x restart** (`tools/qa_teach_mode_live.py`; T0 = plain
+`--electric`, T1 = the mode through the shipped `enable()`, T2 = the seven flags spelled out by
+hand, literally, without reading the table it is checking): T1 and T2 are **byte-identical** on rows,
+store keys and every probe reply, before and after a real restart -- the bundle IS the list, not a
+new configuration nobody measured. Two elicited pairs answer **6** phrasings from the store with the
+line the person gave and the evidence named (`person_marked` on the exact key, `person_paraphrase`
+on `what ring the bell` and `what is ringing the bell`); T0 answers **0** of them from a store it
+never filled. Rows **9/9** across arms; probing 13 asks taught nothing in any arm (pair count
+unchanged); the guarded admission still refuses from `electric_absence`, `lantern was told but no
+place was ever told`, in the same words in every arm, after a restart; leaks **0**, no ask echoed.
+After the restart the pairs are still answerable in every phrasing the fold reaches, and the held
+ask is gone -- by design, and now said out loud: two `--say` calls are two lives, so `electric_chat`
+warns on stderr when it exits holding a question, because that silence previously read as a broken
+feature.
+
+**What the live check found rather than confirmed -- and did not fix.** `_absence_note`
+(`neural_language.py:5365`) files a frame from ANYTHING it is told, and a question's words yield a
+frame. A question the house cannot classify is therefore HEARD as a statement and enters
+`_taught_says` -- the one store that answers *before* the QA store does. The QA store refuses exactly
+this pair (`answer_is_question`, the Dickens warmint case); the taught inventory has no counterpart.
+Measured across four states:
+
+| arm | elicited pairs | `what` votes | filed as a tell | what the house said to `what rings the bell` |
+|---|---|---|---|---|
+| control | 1 | 0/2 | yes | nothing -- it never classified the ask |
+| control | 2 | 0/2 | yes | nothing |
+| mode | 1 | 1/2 | yes | **`what rings the bell twice`** (`electric_taught`) |
+| mode | 2 | 2/2 | no | `the copper bell rings` (`electric_qa_store`) |
+
+So the filing is universal and pre-existing, but only a house that has since learned the word can be
+CAUGHT by it -- and the control arm's safety there is not safety, it is the same inability to answer
+anything. The mode's own second pair is what closes it: the word earns its two role votes, the ask
+routes to `answer()` instead of being heard, and there is no frame left to file.
+
+Two candidate repairs were measured and rejected rather than assumed. `ELECTRIC_ASK_SHAPE` does not
+close it: with the flag on, both rows are tagged `row_is_ask=True` and the reply still comes from
+`electric_taught`, because admissibility and shape are cortex-row concepts while `_taught_says` is a
+different store. A guard at the write site would close it, and is the right fix, but it is a
+narrowing of a write path the graded E24 work owns, and `question_shape` mis-fires on relative
+clauses -- the row tagger already had to learn that, which is why it declines past the binder's
+`max_roles` cap. Declining a WRITE there loses a fact silently, which is worse than losing one
+lookup. `_absence_inv` -- the grader's input -- is untouched by the mode and by this document.
+Pinned instead: `test_pinned_an_unclassified_ask_is_filed_as_tell`,
+`test_pinned_the_store_refuses_what_the_inventory_files`,
+`test_pinned_the_learned_word_closes_the_filing`, and the four-state table in the live check, so
+that whoever fixes it is making a deliberate choice against a failing test.
+
+- **Tests:** `tests/test_electric_teach_mode.py`, 18 -- the table (exactly the stack and the base,
+  the four widenings off, nothing written to the class), what it buys (a pair the control cannot
+  teach, a paraphrase with its evidence named, the second pair earning the word), what it must not
+  cost (the guarded admission identical in both arms, the same four utterances writing the same
+  number of rows), the inert-flag warnings walked up the whole chain (paraphrase → elicitation →
+  store: clearing one parent only moves the warning), and the CLI: `--electric-teach` implying
+  `--electric`, `--no-electric --electric-teach` refusing to pretend it is the control arm, and a
+  pair taught over HTTP, `/shutdown`, then answered in other words by a second process that shared
+  nothing but the state file. **Suite: 1021 passed, 3 skipped in 376.28s, exit 0**
+(`_tmp/suite_full2.log`), run after the teach-mode tests and the serve.py guard fix landed; the
+last recorded figure was 1003 passed, 3 skipped at the end of the E27 entry. One edit came after
+the run started -- the live tool's opening docstring line, which no test reads.
+- **Still open.** The write-site guard (above), priced on its own. A house that has not earned a
+  question word stays exposed for that word. The `teach` member of `serve.py`'s payload appears only
+  under the mode, so the `--electric` wire format is unchanged for every run that did not ask for
+  teach mode -- and nothing in the mode has been run on the battery.
+

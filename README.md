@@ -619,10 +619,51 @@ droso tomorrow`, `who carried droso`, `who own the lantern`, `what rings the bel
 refusals are half the design — the fold keeps word order, because a bag of stems would answer a
 role-inverted ask, and it under-folds tense the shared stemmer has not been told to bridge.
 
+Those seven flags are now one switch. `--electric-teach` (in `tools/serve.py` and
+`tools/electric_chat.py`, defined once in `tools/electric_teach_mode.py` so the two wiring sites
+cannot drift) turns on the store, elicitation, the paraphrase fold, provenance, the mark channel,
+admissibility and the fragment guard, on top of what `--electric` already means, and it implies
+`--electric` — which matters because `serve.py` only runs `load_state()` inside its `--electric`
+block, so a server started with the QA flags and not `--electric` saved every pair and came back
+remembering none. Four switches stay out of it, and stay out on purpose: `ELECTRIC_ASK_SHAPE`,
+`ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE` each widen which asks reach
+which matchers, and each was measured alone precisely so a run could say which one cost something.
+Everything is set on the instance, never on `NeuralLanguage`.
+
+Measured by `tools/qa_teach_mode_live.py` in a real house, three arms — control (plain
+`--electric`), the mode through the shipped `enable()`, and the seven flags spelled out by hand:
+**the mode is byte-identical to the list** on rows, store keys and every probe reply, before and
+after a real restart. Two elicited pairs answer six phrasings from the store (`what rings the
+bell`, `what ring the bell`, `what is ringing the bell`, the marked ask, and the door pair's two),
+each naming its evidence (`person_marked`, `person_paraphrase`); the control arm answers none of
+them from a store it never filled; rows are identical across arms (9/9); the guarded admission
+still refuses from `electric_absence`, in the same words, in every arm, after a restart; asking in
+one phrasing and answering in another teaches nothing (pair count unchanged by 13 probes).
+
+And the check found a hole, which is **pinned rather than fixed** because repairing it means
+narrowing a write site the graded absence work owns: `_absence_note` (`neural_language.py:5365`)
+files a frame from anything it is told, and a question's words yield a frame. So a question the
+house cannot classify is heard as a statement and enters `_taught_says` — the one store that
+answers *before* the QA store does. The QA store refuses exactly this pair (`answer_is_question`,
+the Dickens warmint case); the taught inventory has no such check, and that asymmetry is the
+defect. Measured in four states: the filing happens in **every** arm, control included, but only a
+house that has since learned the word can be caught by it — which is the mode, in its one-pair
+state, where it repeats the person's own question back at them (`what rings the bell` →
+`what rings the bell twice`). The control arm is silent there for the same reason it can answer
+nothing: it never classified the ask. The mode's second elicited pair earns the word (two role
+votes), the ask stops being heard as a tell, and the store answers it. Evidence:
+`docs/evidence/qa_teach_mode_live.json`; unit pins: `tests/test_electric_teach_mode.py` (18
+tests, including teaching a pair over HTTP, shutting down, and answering a paraphrase in a second
+process that shared nothing but the file).
+
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
 #   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,
 #   "?where is the scarf?"        asks       so the act is declared: see the doc)
+python tools/electric_chat.py --electric-teach --state state/electric_chat/neural_lang.json
+#   type:  what rings the bell?        then:  the copper bell rings     <- one session, a pair
+#   then ask it in other words:  what ring the bell   ->   the copper bell rings
+#   (--say is one life per call: a held ask does not survive it, and the tool says so)
 ```
 
 ## Snapshot figures
@@ -637,7 +678,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 734 passed, 3 skipped (at `cb59a2d` + the E9/E10 records) |
+| Test suite | 1021 passed, 3 skipped (at the `--electric-teach` commit; the battery count grows with each entry) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

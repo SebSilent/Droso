@@ -28,6 +28,18 @@ correct once the state carries language.  The marker is stripped before the orga
 the text, so it enters neither the SAN, the binder, nor the stored tell.  Run against
 the real house with ``tools/serve.py --electric``, no marker is needed.
 
+``--electric-teach`` changes that, and the reason is a fact about the mechanism rather than a
+user-interface choice.  The pairing that makes a question and the next sentence ONE QA pair lives
+at the top of ``respond()`` (``neural_language.py:5427``) and nowhere else, so a ``?`` sent
+straight to ``answer()`` is never held as a question and a ``+`` sent straight to ``hear()`` can
+never be heard as the answer to a held one -- the held question would sit waiting and pair with
+some unrelated turn much later, which is exactly the false adjacency the adjacency rule exists to
+prevent.  So under the mode every turn goes through ``respond()``, the door the house uses
+anyway: an ask the store holds a pair for still reaches ``answer()`` (``:5473``), keyed on the
+RECORD rather than on punctuation, and a statement still reaches ``hear()`` (``:5495``), which
+stays the only write site of the taught inventory.  The stack itself is defined once, in
+``tools/electric_teach_mode.py``, the same table ``tools/serve.py`` reads.
+
 Persistence is a RESTART, not a re-instantiation.  ``--say`` boots a process, loads
 state from disk, serves one utterance, saves, and exits; two ``--say`` calls are two
 lives of one organism with nothing but the file between them.  C2/C3 could only rebuild
@@ -56,25 +68,40 @@ import organs.neural_language as nl  # noqa: E402
 from connectome.substrate import build_core_graph  # noqa: E402
 from connectome.engine import HybridEngine  # noqa: E402
 from organs.tokenizer import TokenizerOrgan  # noqa: E402
+from tools import electric_teach_mode  # noqa: E402
 
 DEFAULT_STATE = ROOT / "state" / "electric_chat" / "neural_lang.json"
 
 
-def build_organ(state_path, electric=True):
+def build_organ(state_path, electric=True, teach=False):
     """A bare language organ on its own state file -- no house, no corpus.
 
     Flags on the instance.  ``ELECTRIC_TEACH`` is a write permission,
     ``ELECTRIC_ANSWER`` a read permission, and ``ABSENCE_INVENTORY`` is what licenses
     the admission of ignorance at all (``:4354`` returns None without it, which would
     make silence the only "I don't know" the demo could show).
+
+    ``teach`` turns on the whole teachable-QA stack through the SAME table
+    ``tools/serve.py`` reads, so "teach mode" is one definition and not two that can drift.
     """
     lang = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
                              TokenizerOrgan(), state_path=str(state_path))
     lang.ELECTRIC_TEACH = bool(electric)
     lang.ELECTRIC_ANSWER = bool(electric)
     lang.ABSENCE_INVENTORY = bool(electric)
+    if teach:
+        electric_teach_mode.enable(lang)
     lang.persist = True
     return lang
+
+
+def _pairs(lang):
+    """How many QA pairs he holds, and how many of those a PERSON taught him. The store is
+    the teach mode's whole point, and nothing in the demo's output counted it before."""
+    store = getattr(lang, "qa_store", {}) or {}
+    conv = sum(1 for r in store.values()
+               if str((((r or {}).get("prov") or {}).get("source") or "")) == "conversation")
+    return len(store), conv
 
 
 def _count(lang):
@@ -111,6 +138,17 @@ def turn(lang, text):
     marker = raw[:1]
     body = raw[1:] if marker in ("+", "?") else raw
     door = {"+": "hear", "?": "answer"}.get(marker, "respond")
+    if getattr(lang, "ELECTRIC_QA_ELICIT", False):
+        # TEACH MODE takes over the declared door, and has to.  The pairing that turns an ask
+        # and the next sentence into a QA pair sits at the TOP of `respond`
+        # (neural_language.py:5427) and nowhere else: a `?` sent straight to answer() is never
+        # held as a question, and a `+` sent straight to hear() cannot be heard as the answer to
+        # a held ask -- so the held one would sit waiting and pair with some unrelated turn much
+        # later, which is the false adjacency the adjacency rule exists to prevent.  `respond`
+        # is not a weaker door: an ask the store holds a pair for still goes to answer() (:5473),
+        # and a statement still reaches hear() (:5495), which stays the only write site of the
+        # taught inventory.
+        door = "respond"
     before = _count(lang)
     if door == "hear":
         r = lang.hear(body, speaker="you")
@@ -124,15 +162,25 @@ def turn(lang, text):
         r = r if isinstance(r, dict) else {"response": r}
     after = _count(lang)
     said = str(r.get("utterance") or r.get("response") or "").strip()
-    return {"text": body, "door": door,
-            "reply": said,
-            "spoken": bool(r.get("spoken")),
-            "source": r.get("source"),
-            "licensed_refusal": bool(r.get("licensed_refusal")),
-            "reason": r.get("reason"),
-            "heard": bool(r.get("heard")) or after > before,
-            "inventory": after,
-            "taught_this_turn": after - before}
+    out = {"text": body, "door": door,
+           "reply": said,
+           "spoken": bool(r.get("spoken")),
+           "source": r.get("source"),
+           "licensed_refusal": bool(r.get("licensed_refusal")),
+           "reason": r.get("reason"),
+           "heard": bool(r.get("heard")) or after > before,
+           "inventory": after,
+           "taught_this_turn": after - before}
+    if getattr(lang, "ELECTRIC_QA_ELICIT", False):
+        # The mode's own members, added only while it is on, so a plain --electric turn keeps
+        # the exact JSON shape that was measured. `ask_held` is the one that matters: an ask is
+        # answered by the NEXT thing the person says, and without this nothing on the wire told
+        # them he was holding the question.
+        pairs, conv = _pairs(lang)
+        out.update({"qa_pairs": pairs, "taught_pairs": conv,
+                    "ask_held": bool(getattr(lang, "_qa_pending", None)),
+                    "ask_evidence": r.get("ask_evidence")})
+    return out
 
 
 def save(lang, force=False):
@@ -175,9 +223,16 @@ class Handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path in ("/health", "/v1/models"):
-            return self._send(200, {"status": "ok", "turns": self.server.turns,
-                                    "inventory": _count(self.server.lang),
-                                    "electric": self.server.opts["electric"]})
+            health = {"status": "ok", "turns": self.server.turns,
+                      "inventory": _count(self.server.lang),
+                      "electric": self.server.opts["electric"]}
+            if self.server.opts.get("teach"):
+                # A script driving the demo has to be able to ask "is the mode on, and did the
+                # pair land?" without reading a turn for it. Gated on the mode, so /health is
+                # the response it always was for every run that did not ask for teach mode.
+                pairs, conv = _pairs(self.server.lang)
+                health.update({"teach": True, "qa_pairs": pairs, "taught_pairs": conv})
+            return self._send(200, health)
         return self._send(404, {"error": "unknown path"})
 
     def do_POST(self):
@@ -227,6 +282,16 @@ def main() -> int:
     ap.add_argument("--no-electric", action="store_true",
                     help="control arm: flags off, so nothing is taught and nothing is "
                          "recalled from the keyed inventory")
+    ap.add_argument("--electric-teach", action="store_true",
+                    help="the teachable-QA stack in one switch -- the store, elicitation, the "
+                         "paraphrase fold, provenance, the question marks, admissibility and "
+                         "the fragment guard, from the same table tools/serve.py reads. Teach "
+                         "a pair by asking a question and saying the answer next; ask it again "
+                         "in other words later. Implies --electric. It WIDENS NOTHING beyond "
+                         "that: --electric-reverse, --electric-object-role and "
+                         "--electric-ask-normalize have no switch here at all, and a bare organ "
+                         "has no learned question words, so a pair he holds is answered by the "
+                         "RECORD, not by punctuation.")
     ap.add_argument("--reset", action="store_true",
                     help="delete the state file first (a new organism, not amnesia)")
     ap.add_argument("--no-autosave", action="store_true",
@@ -234,7 +299,6 @@ def main() -> int:
     args = ap.parse_args()
 
     state = Path(args.state)
-    electric = not args.no_electric
     if args.reset:
         for p in (state, state.with_suffix(".json.tmp"),
                   Path(str(state) + ".cortex.delta.json")):
@@ -243,26 +307,61 @@ def main() -> int:
             except FileNotFoundError:
                 pass
 
-    lang = build_organ(state, electric)
+    teach = bool(args.electric_teach)
+    electric = not args.no_electric or teach
+    if teach and args.no_electric:
+        # A contradictory pair of switches has to be announced, not resolved quietly: --no-electric
+        # is the CONTROL arm, and teach mode sits on top of the flags it turns off, so this run is
+        # not the control it thinks it asked for.
+        print("[chat] --no-electric with --electric-teach: teach mode implies the ELECTRIC "
+              "flags underneath it, so this is not the control arm. Drop --electric-teach to "
+              "measure the control.", file=sys.stderr, flush=True)
+    lang = build_organ(state, electric, teach)
+    for line in electric_teach_mode.warnings(lang):
+        print("[chat] " + line, flush=True)
     loaded = lang.load_state()
+    pairs, conv = _pairs(lang)
     boot = {"loaded": bool((loaded or {}).get("loaded")),
             "inventory_at_boot": _count(lang),
-            "electric": electric, "state": str(state)}
+            "electric": electric, "state": str(state),
+            "teach": teach, "qa_pairs_at_boot": pairs, "taught_pairs_at_boot": conv}
 
     if args.say is not None:
         out = turn(lang, args.say)
         out["boot"] = boot
         out["saved"] = bool(save(lang, force=True).get("saved"))
+        if out.get("ask_held"):
+            # Measured, not guessed at: two `--say` calls are two lives of one organism, the
+            # pair was never formed, and the user typed an answer into a void.  A HELD ASK is
+            # memory-only by design -- a question from a previous life must not pair with an
+            # unrelated sentence in this one, which is the false adjacency the adjacency rule
+            # exists to prevent -- so the fix is to say the answer in the same session, not to
+            # persist the question.  Silence about it would look like the feature is broken.
+            print("[chat] he is holding your question, and a held ask does not survive the "
+                  "restart this process is about to make: teach the pair inside one session "
+                  "(server mode, or a script) -- ask, then say the answer.",
+                  file=sys.stderr, flush=True)
         print(json.dumps(out, ensure_ascii=False))
         return 0
 
     state.parent.mkdir(parents=True, exist_ok=True)
     httpd = ChatHTTPServer((args.host, args.port), Handler, lang,
-                           {"electric": electric, "autosave": not args.no_autosave})
+                           {"electric": electric, "autosave": not args.no_autosave,
+                            "teach": teach})
     # The bound port goes on stdout because port 0 means "whatever is free", and a
     # scripted client has to be able to find out what that was.
-    print(f"[chat] ready port={httpd.server_address[1]} "
-          f"electric={electric} inventory={boot['inventory_at_boot']}", flush=True)
+    ready = (f"[chat] ready port={httpd.server_address[1]} electric={electric} "
+             f"inventory={boot['inventory_at_boot']}")
+    if teach:
+        ready += f" teach=on pairs={boot['qa_pairs_at_boot']}"
+    print(ready, flush=True)
+    if teach:
+        # Say what is on, and say the protocol, because the protocol is the part a person
+        # cannot infer: an ask is not answered until the NEXT thing they say arrives.
+        for line in electric_teach_mode.describe():
+            print(f"[chat]   {line}", flush=True)
+        print("[chat]   teach a pair: `what rings the bell?` then `the copper bell rings`"
+              " -- ask it again in other words and it answers", flush=True)
     print(f"[chat] POST /chat {json.dumps({'text': 'the scarf is on the hook'})} "
           f"| POST /v1/chat/completions | POST /shutdown", flush=True)
     try:

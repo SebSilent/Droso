@@ -38,7 +38,7 @@ from urllib.parse import urlsplit
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 import tools.converse as converse  # noqa: E402
-from tools import state_hygiene  # noqa: E402
+from tools import electric_teach_mode, state_hygiene  # noqa: E402
 
 
 # ------------------------------------------------------------- payloads ----
@@ -104,6 +104,23 @@ def completion_payload(turn: dict, server: "DrosoHTTPServer") -> dict:
             "inventory": inv,
             "subjects": len(says),
             "taught_this_turn": inv - before,
+        }
+    if getattr(server, "teach", False):
+        # Teach mode's OWN telemetry, and a wire member a plain --electric run never had, so
+        # the payload above stays byte-identical to what was measured. Two things a person
+        # teaching pairs cannot see any other way: whether a pair actually LANDED (the
+        # inventory counts tells, not pairs) and whether he is HOLDING their question, which
+        # is the moment the protocol is easiest to lose -- an ask is answered by the NEXT
+        # thing they say, and nothing on the wire said it was waiting.
+        lang = server.session.lang
+        store = getattr(lang, "qa_store", {}) or {}
+        conv = [k for k, r in store.items()
+                if str(((r or {}).get("prov") or {}).get("source") or "") == "conversation"]
+        payload["choices"][0]["teach"] = {
+            "pairs": len(store),
+            "taught_pairs": len(conv),
+            "ask_held": bool(getattr(lang, "_qa_pending", None)),
+            "evidence": reply.get("ask_evidence"),
         }
     return payload
 
@@ -362,6 +379,21 @@ def main() -> int:
                          "including an admitted ignorance for a relation never told. "
                          "OFF by default -- without it this server is byte-identical to "
                          "yesterday's, and every battery run stays ELECTRIC-free.")
+    ap.add_argument("--electric-teach", action="store_true",
+                    help="One switch for the TEACHABLE-QA stack: what --electric means, "
+                         "plus the store, elicitation, the paraphrase fold, provenance, "
+                         "the question marks, admissibility and the fragment guard, plus "
+                         "the restart half (load_state) that only --electric runs today. "
+                         "Those seven each exist for a measured reason and two of them are "
+                         "INERT without another, so a single flag has to name the set rather "
+                         "than guess it: the list lives in tools/electric_teach_mode.py, the "
+                         "same table tools/electric_chat.py reads, so the two doors cannot "
+                         "grow different ideas of what teach mode means. It WIDENS NOTHING: "
+                         "--electric-reverse, --electric-object-role, "
+                         "--electric-ask-normalize and --electric-ask-shape stay behind their "
+                         "own flags, because each lets more asks reach more matchers and a run "
+                         "that costs something has to be able to say which switch cost it. OFF "
+                         "by default: with it off this server is the server that was measured.")
     args = ap.parse_args()
 
     try:
@@ -412,14 +444,34 @@ def main() -> int:
     # The paraphrase lookup is inert without the route its parent opens, so it is wired
     # beside it and not inside --electric: a folded ask still has to reach `answer`.
     agent.language.ELECTRIC_QA_PARAPHRASE = bool(args.electric_qa_paraphrase)
-    if args.electric_qa_elicit and not args.electric_qa_store:
-        print("[serve] --electric-qa-elicit without --electric-qa-store: a paired "
-              "question is voted and forgotten. Nothing said in chat will be answerable "
-              "from it.", flush=True)
-    if args.electric_qa_paraphrase and not args.electric_qa_elicit:
-        print("[serve] --electric-qa-paraphrase without --electric-qa-elicit: nothing "
-              "routes a rephrased ask to answer(), so a pair taught in one phrasing stays "
-              "reachable only in that phrasing.", flush=True)
+    # --electric-teach: the whole teachable stack, from the ONE table in
+    # tools/electric_teach_mode.py that tools/electric_chat.py reads too. Applied AFTER the
+    # individual switches above: each of those is store_true, so they can only ever add, and
+    # applying the mode last means no combination of flags can leave it half-on.
+    teach = bool(args.electric_teach)
+    if teach:
+        electric_teach_mode.enable(agent.language)
+    # An INERT flag is worse than an off one: the symptom is that nothing happens and nothing
+    # says so. The dependency rule lives with the flags, not in either caller.
+    for line in electric_teach_mode.warnings(agent.language):
+        print("[serve] " + line, flush=True)
+    # The mode implies --electric, because the stack is pointless without it: elicitation writes
+    # a pair into the store, the store is only consulted on a path that is answering, and the
+    # restart half a few lines below is the only thing that makes a taught pair outlive the
+    # window. Today a server started with the QA flags and NOT --electric saves everything and
+    # comes back with nothing.
+    if teach:
+        # Recorded on the parsed args, not in a local condition, and the reason is a guard rail
+        # rather than taste: five committed tests read this file as TEXT and anchor the wiring of
+        # --electric-reverse, --electric-object-role, --electric-ask-normalize,
+        # --electric-ask-marks and --electric-ask-admissibility on the literal line
+        # `if args.electric:` below. They exist to prove those read paths cannot come on without
+        # --electric; renaming the condition to a local would not be a tidy refactor, it would
+        # delete that guarantee and leave the tests passing for the wrong reason.
+        args.electric = True
+        print("[serve] ELECTRIC teach mode on: " + ", ".join(electric_teach_mode.STACK_ATTRS),
+              flush=True)
+    electric = bool(args.electric)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into
@@ -465,13 +517,14 @@ def main() -> int:
           f"{args.state or 'the live tree (read-only)'}", flush=True)
 
     httpd = DrosoHTTPServer((args.host, args.port), Handler, session)
-    httpd.electric = bool(args.electric)
+    httpd.electric = electric
+    httpd.teach = teach
     # Seed the diff from what the organ ALREADY HAS, not from zero.  Without this a
     # restarted session reports its loaded inventory as if this turn taught it --
     # measured: the first ask after a restart printed taught_this_turn: 3 for 3 facts
     # it had loaded from disk and had not been told in that life at all.
     httpd.taught_seen = sum(len(v) for v in
-                            session.lang._taught_says.values()) if args.electric else 0
+                            session.lang._taught_says.values()) if electric else 0
     print(f"[serve] listening on http://{args.host}:{args.port}/v1 "
           f"(model: droso, single-threaded)", flush=True)
     try:
