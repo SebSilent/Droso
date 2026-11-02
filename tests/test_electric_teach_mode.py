@@ -137,15 +137,18 @@ def test_the_mode_sets_nothing_on_the_class():
     assert nl.NeuralLanguage.ELECTRIC_REVERSE is False
 
 
-def test_the_four_widening_switches_stay_off():
+def test_the_widening_switches_stay_off():
     """The mode is not "everything ELECTRIC". Each of these lets MORE asks reach MORE matchers,
-    and each was measured alone precisely so a run could say which one cost something."""
+    and each was measured alone precisely so a run could say which one cost something. Named here
+    one by one on purpose: a new widening has to be added to this list, which is the moment
+    somebody has to decide whether teach mode should really have it."""
     o = _organ()
     st = tm.state(o)
     assert not any(st[a] for a in tm.EXCLUDED_ATTRS), \
         f"the mode turned on a widening: {sorted(a for a in tm.EXCLUDED_ATTRS if st[a])}"
     assert set(tm.EXCLUDED_ATTRS) == {"ELECTRIC_ASK_SHAPE", "ELECTRIC_REVERSE",
-                                      "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE"}
+                                      "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE",
+                                      "ELECTRIC_ASK_DO_SUPPORT"}
 
 
 def test_enable_without_base_is_the_stack_alone():

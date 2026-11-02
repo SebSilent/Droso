@@ -36,11 +36,17 @@ def test_direct_function_is_pure():
     # ...and a fifth for the ask normalizer. Same rule as the third and fourth: the knob
     # is fine because it defaults OFF and is passed by the organ's answer hook and nothing
     # else -- E24's licence still calls the bind with defaults, so no refusal can move.
+    # ...and a sixth for the do-support fold (ELECTRIC_ASK_DO_SUPPORT, found by
+    # tools/electric_learn_bench.py: 17 of 21 asks WITH the auxiliary answer, 0 of 21 without).
+    # The same rule again, and it is the rule that matters: it defaults OFF, it is reached only
+    # from the organ's answer hook, and it changes WHICH ASK REACHES THE MATCHERS -- the value it
+    # returns is still a verbatim taught tell, so no new sentence is possible on any path.
     assert list(params) == ["question", "says", "reverse", "object_role",
-                            "normalize"], list(params)
+                            "normalize", "do_support"], list(params)
     assert params["reverse"].default is False, "reverse-role knob must default off"
     assert params["object_role"].default is False, "object-role knob must default off"
     assert params["normalize"].default is False, "form-normalizing knob must default off"
+    assert params["do_support"].default is False, "do-support fold must default off"
     assert params["reverse"].default is False, \
         "reverse-role binding is a permission; defaulting it on would hand it to every caller"
     assert fn.__qualname__ == "_electric_answer", "module level, not an organ method"

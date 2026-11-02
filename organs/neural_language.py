@@ -453,7 +453,57 @@ def _taught_verb_stems(says):
     return out
 
 
-def normalize_ask_variants(question, says):
+def _do_support_variant(toks, says):
+    """ELECTRIC_ASK_DO_SUPPORT: `what the dog bite` -> `what does the dog bite`.
+
+    Measured on a 40-item curriculum (tools/electric_learn_bench.py, learn mode, the clean
+    restarted house): the do-support form of an object ask returns its tell verbatim 17 times in
+    21, and the SAME ask with the auxiliary dropped -- the form a person types when they are in a
+    hurry -- returns NOTHING 19 times in 21, every one of them refusing with `nothing he
+    remembers has that shape`. The two strings differ by exactly one word, the word English
+    requires in that slot. This emits it, and it is the only word this function ever adds.
+
+    The warrant is the same KIND as the passive fold's, and it is two keyed facts rather than
+    one: some tell this house was actually TOLD must carry the ask's noun phrase as its SUBJECT
+    and the ask's verb as its ACTION, both read out of `_absence_frame` -- the same extractor the
+    absence licence uses, so the subject here is the same single content word the inventory is
+    keyed by. An ask about an actor nobody mentioned, or an action nobody mentioned, produces no
+    variant at all, not a near miss. And what comes back from a variant that DOES match is still
+    the verbatim tell: this widens which ask reaches the matcher, never what the matcher may say.
+
+    A stranded preposition stays where the person put it (`who the lantern belong to` -> `who does
+    the lantern belong to`), because the reverse-role path is keyed on that preposition and
+    dropping it would answer a different question.
+    """
+    if len(toks) < 4 or toks[0] not in ("what", "who") or toks[1] not in ASK_PARAPHRASE_DROP:
+        return None
+    body = toks[1:]
+    prep = ""
+    if body[-1] in ASK_STRANDED_PREP:
+        prep, body = " " + body[-1], body[:-1]
+    if len(body) < 2:
+        return None
+    verb, np = body[-1], [t for t in body[:-1] if t not in _ABSENCE_STOP]
+    if not np:
+        return None
+    stem = _verb_stem(verb)
+    for rels in (says or {}).values():
+        for rel, tell in (rels or {}).items():
+            if rel != "agent":
+                continue
+            frame = _absence_frame(tell)
+            if not frame or frame[0] != "agent":
+                continue
+            vt = [t for t in str(frame[2]).split() if t]
+            # BOTH halves from one tell: this noun is that tell's subject and this verb is its
+            # action. Matching only the verb would let `what the moon bite` fold onto a form the
+            # house then answers with somebody else's tell.
+            if " ".join(np) == str(frame[1]) and vt and _verb_stem(vt[0]) == stem:
+                return f"{toks[0]} does {' '.join(body)}{prep}"
+    return None
+
+
+def normalize_ask_variants(question, says, do_support=False):
     """Passive / auxiliary asks -> the ACTIVE key the object-role path already accepts.
 
     `what was the door opened by?` -> `what open the door?`. The variant is a lookup key,
@@ -462,33 +512,38 @@ def normalize_ask_variants(question, says):
     tell. Nothing is composed and nothing is guessed -- a variant is emitted only when the
     stem it would use is a verb a taught tell actually carries, so an ask about an action
     this house was never told produces NO variant at all.
+
+    `do_support` adds a SECOND, unrelated fold for a different miss -- an ask whose auxiliary is
+    missing rather than whose voice is passive -- and it is a parameter rather than always-on for
+    the reason the flag exists: this function is also the store's paraphrase key
+    (`_qa_paraphrase_hit`), which is in the teach stack, while the widening is not. Callers that
+    do not ask for it get byte-identical behavior to the run that was measured.
     """
     toks = [t for t in re.sub(r"[^a-z ]", " ", str(question or "").lower()).split() if t]
     if len(toks) < 4 or toks[0] not in ("what", "who"):
         return []
-    if toks[1] not in ASK_NORMALIZE_AUX:
-        return []
-    body = toks[2:]
-    if body[-1] in ASK_STRANDED_PREP:
-        body = body[:-1]
-    if len(body) < 2:
-        return []
-    part = body[-1]
-    np = [t for t in body[:-1] if t not in ASK_NORMALIZE_AUX]
-    if not np:
-        return []
-    # The slot must actually hold a participle. A bare verb there ("what was the door
-    # open by?") is not a passive anyone was taught, and reading it as one would be the
-    # normalizer inventing a form, so it produces no variant.
-    if part not in ASK_IRREGULAR_PARTICIPLE and not (
-            len(part) > 4 and (part.endswith("ed") or part.endswith("d"))):
-        return []
-    stem = participle_stem(part)
-    # The warrant: only a verb this house was TAUGHT can be looked up with. An ask about
-    # an action nobody mentioned produces no variant at all, not a near miss.
-    if stem not in _taught_verb_stems(says):
-        return []
-    return [f"{toks[0]} {stem} {' '.join(np)}"]
+    if toks[1] in ASK_NORMALIZE_AUX:
+        body = toks[2:]
+        if body[-1] in ASK_STRANDED_PREP:
+            body = body[:-1]
+        if len(body) >= 2:
+            part = body[-1]
+            np = [t for t in body[:-1] if t not in ASK_NORMALIZE_AUX]
+            # The slot must actually hold a participle. A bare verb there ("what was the door
+            # open by?") is not a passive anyone was taught, and reading it as one would be the
+            # normalizer inventing a form, so it produces no variant.
+            if np and (part in ASK_IRREGULAR_PARTICIPLE or (
+                    len(part) > 4 and (part.endswith("ed") or part.endswith("d")))):
+                stem = participle_stem(part)
+                # The warrant: only a verb this house was TAUGHT can be looked up with. An ask
+                # about an action nobody mentioned produces no variant at all, not a near miss.
+                if stem in _taught_verb_stems(says):
+                    return [f"{toks[0]} {stem} {' '.join(np)}"]
+    if do_support:
+        got = _do_support_variant(toks, says)
+        if got:
+            return [got]
+    return []
 
 
 def _participant_answer(question, tell, subj):
@@ -595,7 +650,7 @@ def _is_question_fragment(filler) -> bool:
 
 
 def _electric_answer(question, says, reverse=False, object_role=False,
-                     normalize=False):
+                     normalize=False, do_support=False):
     """ELECTRIC read side, dispatch only -- so the ordering is stated once and enforced.
 
     The subject path runs FIRST and in full, unchanged. The object-role path is consulted
@@ -616,7 +671,7 @@ def _electric_answer(question, says, reverse=False, object_role=False,
         # already speaking. This can only turn a MISS into an answer, never one right
         # fact into a different one, because every path here was already free to speak
         # the tell it holds.
-        for variant in normalize_ask_variants(question, says):
+        for variant in normalize_ask_variants(question, says, do_support=do_support):
             got = _electric_subject_answer(variant, says, reverse=reverse)
             if got is None and object_role:
                 got = _electric_object_answer(variant, says)
@@ -2811,6 +2866,23 @@ class NeuralLanguage:
     # switch off the dispatch, the binds and the guards are the measured ones, byte for
     # byte -- `normalize` is only ever True from here, and E24's licence never passes it.
     ELECTRIC_ASK_NORMALIZE = False
+    # ELECTRIC do-support fold: an object ask with the auxiliary MISSING, in the form the
+    # object-role path already answers. `tools/electric_learn_bench.py` taught 24 tells and
+    # asked each one several ways; the ask WITH `does` ("what does the dog bite") returned its
+    # tell verbatim 17 times in 21, and the same ask without it ("what the dog bite") returned
+    # nothing 19 times in 21, refusing with `nothing he remembers has that shape`. That is the
+    # largest single mechanism in the whole QA gap -- 20 of 45 failing probes -- and the two
+    # strings differ by one word, the word English requires in that slot.
+    #
+    # On: `_do_support_variant` inserts that one word, and only when a tell this house was
+    # TOLD carries the ask's noun as its SUBJECT and the ask's verb as its ACTION -- both read
+    # out of `_absence_frame`, the extractor the absence licence already uses. No similarity,
+    # no table, no re-voicing: what comes back is still the verbatim tell. An ask about an actor
+    # or an action nobody mentioned produces no variant, exactly as the passive fold above.
+    # INERT without ELECTRIC_ASK_NORMALIZE, which is the block this runs inside -- so the
+    # dependency is declared in tools/electric_teach_mode.py and the door says so out loud.
+    # Off by default: with it off the dispatch is the one that was measured, byte for byte.
+    ELECTRIC_ASK_DO_SUPPORT = False
     # ELECTRIC fragment guard: stop a licensed absence from falling through to
     # fragment speech.  The leak is not ELECTRIC's -- it is the house path uttering a
     # remembered question's stranded preposition (`to?`) as if it were a fact -- but it
@@ -4632,7 +4704,8 @@ class NeuralLanguage:
             told = _electric_answer(text, self._taught_says,
                                 reverse=self.ELECTRIC_REVERSE,
                                 object_role=self.ELECTRIC_OBJECT_ROLE,
-                                normalize=self.ELECTRIC_ASK_NORMALIZE)
+                                normalize=self.ELECTRIC_ASK_NORMALIZE,
+                                do_support=self.ELECTRIC_ASK_DO_SUPPORT)
             if told:
                 return {"spoken": True, "heard": True, "answered": True,
                         "utterance": told, "response": told,

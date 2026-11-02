@@ -2196,9 +2196,10 @@ nothing is worse than no restart arm, because it reads like evidence.
 `NeuralLanguage`; `_absence_licence` binds on the class defaults and the graded contract is
 untouched (`tests/test_electric_learn_mode.py` compares the class against a snapshot taken at
 import, before any organ exists), and `git diff --stat HEAD -- organs/` for this work is **empty**
--- the claim is a file list, not a recollection. `--electric-teach` still refuses the four widenings, and the two
-modes differ by exactly those four -- asserted, not by reading the tables but by diffing the state
-of two organs built through them. Nothing here has been run on the battery.
+-- the claim is a file list, not a recollection. `--electric-teach` still refuses the widenings (five
+of them as of `ELECTRIC_ASK_DO_SUPPORT`, and the count is read from the table, not written into the
+test), and the two modes differ by exactly those -- asserted, not by reading the tables but by
+diffing the state of two organs built through them. Nothing here has been run on the battery.
 
 **Numbers at this commit.** `1062 passed, 3 skipped, 0 failed in 458.97s` -- 1045 at the
 `ELECTRIC_ASK_SHAPE_STORE` commit plus the 17 tests in `tests/test_electric_learn_mode.py`, the
@@ -2208,3 +2209,186 @@ tasks back). The electric neighbourhood by itself is 267 passed in 5:08, which i
 re-run when only a flag table moved. `tools/electric_learn_live.py` costs 4.1-4.5s per arm and
 `tools/electric_restart_qrow.py` 62.9s for 24 cells plus 3 replicas; both exit non-zero on a
 failure rather than printing an empty cell, and both wrote the evidence files cited above.
+
+## ELECTRIC_ASK_DO_SUPPORT -- the QA gap decomposed by mechanism, and the largest class closed by one word
+
+**The instrument.** `tools/electric_learn_bench.py` (new, ~11 min, 9 houses, evidence
+`docs/evidence/electric_learn_bench.json`). `electric_learn_live.py` proved a wiring with four tells
+and two pairs; this asks the scale question. A curriculum of **24 tells and 16 question-answer
+pairs (40 items)** taught in **three sessions with a restart between every session**, then asked back
+in **136 generated probes** -- subject, subject-with-the-inflection-folded, object, object-with-the-
+auxiliary-dropped, reverse, reverse-folded, pair-exact, pair-folded -- plus **12 distractors** that
+are never taught, six of them role swaps built only out of words the house knows. Three arms
+(control / teach / learn) x three depths x three phases.
+
+**The measurement trap, defused before it could produce a finding.** Asking writes a row, and the
+previous task established that a pool of remembered question rows changes what a narrow house
+answers -- so a benchmark that probes one house six times measures its own probing. The state is
+saved **before** the live probe round, so the restarted house loads the taught state with no probe
+rows in it; that house is then probed a second time after its own 136 probe rows accumulate, and the
+delta between the two columns is printed as the artifact rather than buried. In learn at depth 3 it
+moved **exactly one probe** (a refusal became an echo) and the 79 correct did not move.
+
+**Retention across a restart is perfect, and that is the number the mode needed.** Probes gained on
+restart 0, probes lost on restart 0, at every depth, in both ELECTRIC arms (teach 14/27/39 correct,
+learn 28/52/79 -- identical live and restarted). Every failure in the tables below was a failure
+before the house went down. The remembered-question artifact from the last task is real, but it is
+not forgetting.
+
+**The floor holds at scale.** No arm said a sentence nobody said, at any depth, in any phase --
+which is also what the first draft of the classifier contradicted, until three behaviours were named
+apart: the **licensed refusal speaking** (`i don't know, bell was told but no place was ever told
+for bell`, source `electric_absence`) is a refusal and not a fabrication; **control answering
+`what the dog guard` with the bare word `what`** is the question word falling out of a parse; and an
+item not yet taught, answered correctly from a tell the house does have, is the mode working. All
+three had been counted as confabulation, which is how a benchmark reported 16 inventions in an arm
+with no ELECTRIC flag on at all.
+
+**False acceptance, measured against the largest sample this repo has.** At depth 1, 97 of the 136
+probes ask about items that will not be taught for one or two more sessions: refused 89, answered
+correctly from a tell already in the house 4, handed a question back 3, **mis-answered 1**. That one
+is `what chases the mouse` -> `the mouse chases the dog` -- the opposite direction of a tell, in both
+ELECTRIC arms, at every depth, in every phase. Stable enough to be a signature, and a mechanism
+rather than a fluke.
+
+**THE DECOMPOSITION.** Every failing probe is classified by which part of the pipeline did not do
+its job, and every branch is an observable in the evidence -- the store's own keys, the organ's own
+`qa_key`, its `qa_paraphrase_key` -- not a reading of the organ. Learn mode, depth 3, the clean
+restarted house, 124 probes about things it was told:
+
+| mechanism | probes | what it means |
+|---|---|---|
+| **ask_not_recognized** | **20** | 19 `object_fold` + 1 `reverse_fold`, every one refusing with *nothing he remembers has that shape* |
+| pair_never_admitted | 10 | 5 pairs x 2 probes. A **write** loss, upstream of every read-path flag |
+| fallback_fragment | 8 | a word or a question came out (`arbiter head`, `recalled proposition`) |
+| refusal_silence | 4 | coverage near-miss, reverse asks |
+| key_shadowed | 3 | the store held the exact key and the inventory spoke a different tell |
+
+The QA-store probes on their own (32): answered 19, pair_never_admitted 10, key_shadowed 2,
+fallback_fragment 1. **The largest class was one word wide**: `what does the dog bite` returns its
+tell verbatim 17 times in 21, and the same ask with the auxiliary dropped returns nothing 19 times
+in 21.
+
+**THE FIX.** `ELECTRIC_ASK_DO_SUPPORT` (class default **False**), `_do_support_variant(toks, says)`.
+It inserts the one word English requires -- `what the dog bite` -> `what does the dog bite` -- and
+nothing else. The warrant is two keyed facts from **one** tell: some sentence this house was actually
+told must carry the ask's noun as its SUBJECT and the ask's verb as its ACTION, both read out of
+`_absence_frame`, the extractor the absence licence already uses. `what the moon bite` matches a
+moon tell and a bite verb separately and gets no variant, because no tell says the moon bit anything.
+A stranded preposition stays where the person put it (`who the lantern belong to` -> `who does the
+lantern belong to`), because the reverse path is keyed on it. What comes back is still a verbatim
+taught tell: the fold widens **which ask reaches the matcher** and never touches what the matcher may
+say -- `test_everything_the_fold_says_is_a_sentence_it_was_told` states that as a sweep.
+
+It is a **fifth widening**, so `--electric-teach` still refuses it and `--electric-learn` is the mode
+that has it (sixteen switches now, one table). It is **inert without `ELECTRIC_ASK_NORMALIZE`**,
+because the variant is generated inside that block, and `DEPENDS_ON` says so out loud rather than
+letting a flag that does nothing be reported as one that does. And because `normalize_ask_variants`
+is *also* the store's paraphrase key -- a path in the teach stack -- the fold is a **parameter**, not
+an addition to the default list: `normalize_ask_variants(q, says)` returns exactly what it returned
+before this flag existed, pinned by a test that compares the passive case with and without.
+
+**POST-FIX, same instrument, same curriculum, same phase (the clean restarted house at depth 3).**
+Learn mode went from **79 to 98 correct of 124** taught probes, refused 30 -> **11**, and
+`object_fold` from **0/21 to 17/21**; `reverse_fold` 0/2 -> 1/2. The mechanism column moved exactly
+where the flag reaches and nowhere else: `ask_not_recognized` **20 -> 4**, while
+`pair_never_admitted` 10 -> 9, `fallback_fragment` 8 -> 8, `key_shadowed` 3 -> 3, `refusal_silence`
+4 -> 2. Per item, **kept on every probe went 10 -> 28** (part 23 -> 5, lost 7 -> 7) -- the mode
+answers the shape it was taught in *and* now most of the shapes it wasn't. The QA-store probes
+themselves barely moved (19 -> 20 answered), because this class was never about the store.
+
+**Nothing else moved, which is the half of the result that matters.** The teach arm is identical to
+the pre-fix run -- 39 correct, `object_fold` 0/21, all 21 refused -- so the widening is really behind
+the flag and the counterfactual survived. Control is identical (0 correct, 83 partial). **Invented:
+0 in every arm, every depth, every phase** (the tool's own floor, exit 0). Restart cost is still
+exactly nothing: learn live 35/65/98 equals restarted 35/65/98, gained 0 and lost 0 at every depth in
+both ELECTRIC arms. Re-probing the house a second time still moves one probe (correct 98 -> 98).
+
+**False acceptance did not grow, and the number is now stated per cell.** Untaught probes answered
+with a sentence they were told: **exactly one ask, `what chases the mouse` -> `the mouse chases the
+dog`, in teach and in learn, at all three depths, in all three phases -- 18 cells, the same fault,
+and zero in control.** It is not caused by this flag (it predates it in the same run) and it is not
+a fluke (it is the only one, and it is always that one). Learn's depth-1 sample, where 97 of the 136
+probes ask about items taught later: refused 89, entailed-correct 4, echo 3, misattrib 1.
+
+**The 4 that remain are two named things, not a mystery.** `what the nora carry`,
+`what the bridge cross`, `what the net catch` fail the warrant because `_verb_stem` under-folds the
+`-ies`/`-es` class: it gives `bites -> bite`, `holds -> hold`, `guards -> guard` correctly, but
+`carries -> carrie`, `crosses -> crosse`, `catches -> catche`, none of which equals the bare stem the
+ask uses (`carry`, `cross`, `catch`) -- and it over-folds `cross -> cros` on the way. The fourth,
+`what the dog guard`, is correct behaviour for a broken inventory: no tell in the house pairs dog
+with guard, because `the dog bites the latch` already owns the (subject `dog`, relation `agent`) key
+and `_taught_says` keeps one tell per key. **Neither is fixed here on purpose.** The stemmer is
+shared by the binders, the paraphrase key and the absence frame -- widening it is a change to every
+path at once, which is the opposite of a flag-gated one-class fix, and the second is a write-side
+collision that needs its own measurement. They are recorded as the next two candidates, in that
+order, with the numbers above as the baseline to beat.
+
+**A WIRING BUG FOUND ON THE WAY, and it is the bigger half of this entry.** `tools/serve.py` applies
+the mode table and *then* assigns its individual switches from argparse as `= bool(args.x)`. Three of
+the four widenings were on the wrong side of that order, so `--electric --electric-learn` set
+`ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE` and `ELECTRIC_ASK_NORMALIZE` back to **False**: the widest
+mode ran as teach mode plus one, and the banner printed the user's intent (`reverse={args...}`)
+instead of the organ's state, so nothing said so. `--electric-learn` without `--electric-teach` was
+worse: the `if teach:` guard skipped the whole `--electric` block, which is where `load_state()`
+lives, so the mode that teaches the most came up amnesiac while its own help text claimed it implied
+the flag whose code it had not run. Both are fixed -- `or learn` on each widening, `or teach or
+learn` on the store guard, `if teach or learn:` -- and the banner reads the organ. This is the failure
+this project keeps hitting, named in `tools/electric_teach_mode.py` as the reason the table exists:
+**a rule duplicated in a second wiring site drifts, and the drift is silent.**
+`test_no_door_switches_a_mode_flag_back_off` is the guard.
+
+**WHAT THIS DID NOT FIX, and why that is the honest order.** `pair_never_admitted` (10 probes, 6 of
+16 taught pairs) is `learn_qa`'s admission arithmetic -- a pair is kept only when the answer differs
+from the ask by **exactly one word on each side** -- and the store inherits a rule that was written to
+learn *which role a question word asks about*, not to remember a lesson. Spot check on pairs a person
+would actually say: `where does the bell hang? / the bell hangs on the wall` refused (3 missing, 3
+new), `who fed the mouse? / Mira fed the mouse last night` refused. **An answer that tells you
+something new is unteachable by construction**, which is why 0 of the 3 pair-only items -- the only
+sentences in the house that live nowhere else -- ever reach the store. `key_shadowed` (3) is the
+ordering in `answer()`: the keyed inventory is consulted one step before the store, so an exactly
+taught pair loses to a shape-matched tell. `shadow()` proves it in three houses and one ask: with
+only `the rope holds the shelf` the answer is right; add the unrelated `the shelf holds the lamp` and
+the same ask returns *that*, and in a third house where the competitor is the only tell it still
+does -- which rules out "the tell beat the pair" and leaves "the pair was never reached", while all
+three houses hold the right sentence under the exact key. Neither is touched here: one fix per class,
+and both live in the graded organ's read/write paths.
+
+**The contract, stated as a file list.** This task **did** edit `organs/neural_language.py`, unlike
+the last two, so the claim has to be narrower and exact: four call sites changed
+(`_do_support_variant` is new, `normalize_ask_variants` gained a keyword-only parameter with the
+default list byte-identical, `_electric_answer` threads it, `answer()` reads the instance flag) and
+one class attribute was added with default `False`. `_absence_licence`, `ABSENCE_INVENTORY`,
+`ELECTRIC_TEACH` and `ELECTRIC_ANSWER` are untouched, the new flag is off on the class, and
+`tests/test_electric_ask_do_support.py` compares the whole class against a snapshot taken at import
+before any organ exists. Nothing was run on the battery.
+
+**Tests added.** `tests/test_electric_ask_do_support.py` (11: the on/off A/B on one organ, the
+no-warrant sweep, verbatim-or-nothing, the stranded preposition, the unchanged default variant list,
+inertness plus the warning that names it, the table's own bookkeeping, the serve.py wiring guard, and
+the benchmark taxonomy pinned so `ask_not_recognized` and `pair_never_admitted` cannot silently swap)
+and `tests/test_electric_learn_bench.py` (18, all pure-function and under a second: the curriculum's
+size and integrity, no distractor answerable by any tell, the three pair-only items named, probe
+vocabulary checked against the curriculum's own words rather than the organ's stemmer -- and every
+classifier class, because a benchmark whose classes are wrong measures its own vocabulary).
+
+**Numbers at this commit.** `1091 passed, 3 skipped, 0 failed in 466.76s` -- 1062 at the
+`ELECTRIC_LEARN` commit plus the 11 and the 18 above, the arithmetic checked against the files
+(`findstr /R "^def test_"` says 11, 18, 17) rather than trusted, and the suite run on a settled tree.
+One committed test failed on the first pass and it was a real one:
+`tests/test_electric.py::test_direct_function_is_pure` pins `_electric_answer`'s signature by name, and
+the new `do_support` knob was the sixth. The pin's own comments are a procedure -- every knob so far
+was admitted by adding the name, asserting the default is `False`, and saying in the file why that
+knob is safe -- so it was extended that way, not loosened. `tools/electric_learn_bench.py` costs
+149-172s per arm (three arms, nine houses, ~11 min for the full grid; `--arms learn --depth 1` is the
+40-second version), exits 1 if any house says a sentence nobody said, and its evidence is
+`docs/evidence/electric_learn_bench.json`.
+
+**And one thing this commit fixes that had nothing to do with either flag.** Four files had been
+rewritten by a helper script that read them in text mode and wrote them back with `newline=""`, which
+silently converted them from CRLF to LF -- `tools/electric_chat.py`, `tools/electric_learn_live.py`,
+`tools/electric_teach_mode.py`, `tools/qa_teach_mode_live.py`. `git diff --stat` did not show it,
+because `core.autocrlf` normalizes before comparing: the diff still read 8/8/44/7 lines. The only tell
+was the warning on the status line. They are back to CRLF with the diffstat unchanged, which is the
+check that says the content was never touched -- and the lesson is that a script that rewrites a whole
+file is not a smaller edit than `edit_file`, it is a bigger one with less visible blast radius.

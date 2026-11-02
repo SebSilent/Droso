@@ -1,0 +1,733 @@
+#!/usr/bin/env python
+"""ELECTRIC_LEARN_BENCH -- how much of a 40-item curriculum a learn-mode house actually keeps.
+
+`tools/electric_learn_live.py` answers one question: does the full mode reach the asks the narrow
+mode refuses. It does that with four tells and two pairs, which is enough to prove a wiring and
+nowhere near enough to find a bottleneck. This asks the scale question instead: teach a real
+curriculum -- 24 tells and 16 question-answer pairs (40 items, 136 probes), in three sessions, with
+a restart between every session -- then ask everything back in every shape the mode claims to
+handle, and count what comes out as the right sentence, the wrong sentence, one word, or silence.
+
+THE NUMBERS, and why they are separate. A benchmark that reports "82% correct" hides the only thing
+that matters, which is the SHAPE of the failures:
+  retention      per ITEM, not per probe: kept = every way of asking it still gets its own tell
+  correct        per probe SHAPE, at the last checkpoint -- the widenings' report card
+  refusal        of the things it was NEVER told, how many it leaves alone. The number that makes
+                 the other two mean anything: a mode that answers everything scores 100% on
+                 retention by answering the distractors too.
+  confabulation  not one number, because it is not one fault. MISATTRIBUTION is a sentence it WAS
+                 told, in answer to a question it was not. ECHO is the question handed back, folded
+                 or framed (`where does the bell hang` -> `where the bell hang`), and includes the
+                 bare interrogative: control answers `what the dog guard` with `what`, which is the
+                 question word falling out of a parse, not a fabricated fact. CROSS_ECHO is a
+                 DIFFERENT question out of the remembered pool -- the pool chose the sentence, not
+                 the ask. INVENTION is a sentence nobody said in any form, the only class that fails
+                 this tool's exit code. ABSENCE is the licensed refusal SPEAKING (`i don't know,
+                 bell was told but no place was ever told for bell`) and ENTAILED is a not-yet-taught
+                 item answered correctly from a tell the house does have: neither is a failure, and
+                 the first draft of this file scored both of them as inventions, which is how a
+                 benchmark reports 16 confabulations in an arm that has no ELECTRIC at all. PARTIAL
+                 is one word out of a tell -- a reach problem, not a truth problem.
+
+WHAT IT MEASURED (`docs/evidence/electric_learn_bench.json`). The clean restarted house at the end
+of the curriculum, 124 probes about things the house was told:
+    control   0 correct  83 partial  26 echo  9 refused  6 cross-echo  0 misattrib  0 invented
+    teach    39 correct  43 partial 34 refused 4 absence  3 misattrib  1 cross-echo  0 invented
+    learn    79 correct   7 partial 30 refused 4 absence  3 misattrib  1 cross-echo  0 invented
+  Of the 12 probes about things it was NEVER told, learn refused 11; at depth 1, where 97 of the 136
+  probes ask about items it will be taught two sessions later, it refused 89, answered 4 of them
+  correctly from a tell it did already have, handed a question back 3 times, and mis-answered 1. No arm said a sentence nobody said, at any depth, in any phase: the
+  floor holds at scale, and the widenings bought retention (0 -> 39 -> 79) without buying false
+  acceptance. **The restart itself cost nothing: probes gained on restart 0, probes lost on restart
+  0, at every depth, in both ELECTRIC arms** -- every failure in this table was a failure before the
+  house went down. That is the number `--electric-learn` needed, and it is a different number from
+  the one the previous task was chasing: the remembered-question artifact is real, but it is not
+  forgetting, and at this scale it moved one probe.
+
+THE BOTTLENECK THIS FINDS, and `shadow()` is its proof rather than a paragraph: a `what V the N`
+ask binds N to the SUBJECT slot of whichever tell carries V, so the house answers the OPPOSITE
+question. `what holds the shelf` in a house told `the rope holds the shelf` is answered
+`the shelf holds the lamp` as soon as that second tell is in the house -- and in a house where the
+competitor is the ONLY tell, the same wrong sentence still comes back, which rules out "the tell
+beat the pair" and leaves "the pair was never reached". The store holds the right answer under an
+exact key in all three houses. `answer()` consults the keyed inventory one step before the store,
+and the inventory returned, so the record the person taught by the protocol is dead code on the path
+the protocol exists to feed. Same mechanism, one notch worse, on the distractor `what chases the
+mouse`: answered `the mouse chases the dog` in both ELECTRIC arms, at every depth, in every phase --
+a wrong sentence for a question nobody taught, stable enough to be a signature.
+
+SECOND, behind it: PAIR ADMISSION. `learn_qa` admits a pair only when the answer differs from the
+ask by exactly one word on each side, and the QA store inherits that test -- it is the grammar's
+role-learning rule, doing store duty. 10 of 16 curriculum pairs reached the store, and 0 of the 3
+whose answer sentence no tell carries, which are the only three the store is FOR. Spot check on
+pairs a person would actually say: `where does the bell hang? / the bell hangs on the wall` refused
+(3 missing, 3 new), `who fed the mouse? / Mira fed the mouse last night` refused (3 missing). An
+answer that tells you something new is, by construction, unteachable here.
+
+THE DESIGN TRAP, handled explicitly. Asking a question writes a row, and the previous task
+established that a pool of remembered question rows changes what a narrow house answers -- so a
+benchmark that probes the same house six times measures its own probing. Three defusings:
+  * the state is saved BEFORE the live probe round, so the restarted house loads the taught state
+    with NO probe rows in it. The restart number is retention of teaching, not of asking.
+  * the restarted house is then probed a SECOND time, after its own 136 probe rows have accumulated.
+    The delta between those two columns is the measurement artifact, quantified, rather than a
+    finding nobody notices: in learn at depth 3 it moved exactly one probe (a refusal became an
+    echo), and the 79 correct did not move at all -- so the headline number is not an artifact of
+    the asking, and the asking is not free either.
+  * every depth is a FRESH house (boot, teach sessions 1..d, restart). Depth 1 therefore asks about
+    97 probes the house has not been taught yet, which is the largest false-acceptance sample
+    available anywhere in this repo: the future curriculum, asked back before it was told.
+
+NOTHING HERE IS A GRADER. It prints, and it writes docs/evidence/electric_learn_bench.json, and it
+exits non-zero if a house says a sentence nobody said. The guarded absence contract is untouched:
+this file only ever sets attributes on an instance, through tools/electric_teach_mode.py.
+
+Run:  .venv/Scripts/python.exe tools/electric_learn_bench.py [--arms learn] [--depth 3]
+"""
+from __future__ import annotations
+
+import json
+import shutil
+import sys
+import time
+from pathlib import Path
+
+sys.path.insert(0, ".")
+
+import tools.converse as converse                    # noqa: E402
+import tools.electric_teach_mode as tm               # noqa: E402
+from organs.neural_language import NeuralLanguage     # noqa: E402  (qa_key / qa_paraphrase_key)
+
+TMP = Path("_tmp/electric_learn_bench")
+EVIDENCE = Path("docs/evidence/electric_learn_bench.json")
+
+
+def svo(tell, q, subj, verb, stem, obj):
+    return dict(kind="svo", tell=tell, q=q, subj=subj, verb=verb, stem=stem, obj=obj)
+
+
+def obl(tell, subj, verb, stem, tail, q, prep):
+    return dict(kind="obl", tell=tell, q=q, subj=subj, verb=verb, stem=stem, tail=tail, prep=prep)
+
+
+def intr(tell, subj, verb, stem):
+    return dict(kind="intr", tell=tell, q="what", subj=subj, verb=verb, stem=stem)
+
+
+# THE CURRICULUM, three sessions. Words are introduced by the tells themselves -- the house has no
+# seed vocabulary, so a probe can only ever use a word this file already taught, and a refusal can
+# never be blamed on a missing noun unless the reason string says exactly that.
+SESSIONS = [
+    [svo("the dog bites the latch", "what", "dog", "bites", "bite", "latch"),
+     svo("the mouse chases the dog", "what", "mouse", "chases", "chase", "dog"),
+     svo("Nora carries the lantern", "who", "nora", "carries", "carry", "lantern"),
+     intr("the copper bell rings", "copper bell", "rings", "ring"),
+     obl("the lantern belongs to Mira", "lantern", "belongs", "belong", "to Mira", "who", "to"),
+     svo("the key opens the door", "what", "key", "opens", "open", "door"),
+     svo("the rope holds the shelf", "what", "rope", "holds", "hold", "shelf"),
+     svo("the kettle warms the water", "what", "kettle", "warms", "warm", "water")],
+    [svo("the dog guards the gate", "what", "dog", "guards", "guard", "gate"),
+     svo("Mira feeds the mouse", "who", "mira", "feeds", "feed", "mouse"),
+     obl("the bell hangs on the wall", "bell", "hangs", "hang", "on the wall", "where", "on"),
+     svo("the rain fills the bucket", "what", "rain", "fills", "fill", "bucket"),
+     svo("the socket powers the lamp", "what", "socket", "powers", "power", "lamp"),
+     svo("the thread binds the button", "what", "thread", "binds", "bind", "button"),
+     svo("the gate blocks the road", "what", "gate", "blocks", "block", "road"),
+     svo("the shelf holds the lamp", "what", "shelf", "holds", "hold", "lamp")],
+    [svo("the collar fits the dog", "what", "collar", "fits", "fit", "dog"),
+     svo("the bridge crosses the river", "what", "bridge", "crosses", "cross", "river"),
+     svo("the lamp lights the door", "what", "lamp", "lights", "light", "door"),
+     svo("the net catches the mouse", "what", "net", "catches", "catch", "mouse"),
+     svo("the moon pulls the tide", "what", "moon", "pulls", "pull", "tide"),
+     svo("the tide floods the road", "what", "tide", "floods", "flood", "road"),
+     svo("the wind wakes the dog", "what", "wind", "wakes", "wake", "dog"),
+     svo("the boy mends the net", "who", "boy", "mends", "mend", "net")],
+]
+
+# Question-answer pairs, taught by the protocol (marked ask, then the answer). Most repeat a tell,
+# which is the normal case -- a person asks about something they were told. The last three are
+# PAIR-ONLY: nothing else in the house carries that sentence, so those three measure the QA store
+# by itself, with no keyed inventory underneath it.
+PAIRS = [
+    [("what bites the latch?", "the dog bites the latch"),
+     ("who carries the lantern?", "Nora carries the lantern"),
+     ("what rings in the tower?", "the copper bell rings"),
+     ("who does the lantern belong to?", "the lantern belongs to Mira"),
+     ("what opens the door?", "the key opens the door")],
+    [("where does the bell hang?", "the bell hangs on the wall"),
+     ("what holds the shelf?", "the rope holds the shelf"),
+     ("what warms the water?", "the kettle warms the water"),
+     ("who feeds the mouse?", "Mira feeds the mouse"),
+     ("what fills the bucket?", "the rain fills the bucket")],
+    [("what powers the lamp?", "the socket powers the lamp"),
+     ("what binds the button?", "the thread binds the button"),
+     ("what crosses the river?", "the bridge crosses the river"),
+     # pair-only: the answer is a sentence this house was never TOLD, only answered with
+     ("what does Mira love most?", "she loves the lantern most"),
+     ("when does the bell toll?", "it tolls at dusk"),
+     ("how many dogs sleep?", "two dogs sleep")],
+]
+
+# Never taught, in every case. The first six are ROLE SWAPS and near-misses built entirely out of
+# words the house knows -- if a widening reaches into a tell to answer one of these, that is the
+# failure this benchmark exists to catch. The rest are question words the mode makes no claim on.
+DISTRACTORS = [
+    ("role_swap", "what chases the mouse", "the mouse chases the dog is the other direction"),
+    ("role_swap", "who does the dog carry", "Nora carries the lantern, not the reverse"),
+    ("role_swap", "what bites the bell", "no such tell"),
+    ("role_swap", "who does the kettle belong to", "no such tell"),
+    ("role_swap", "what floods the bridge", "the tide floods the road"),
+    ("role_swap", "what crosses the dog", "no such tell"),
+    ("qword", "why does the dog bite the latch", "no why path claimed"),
+    ("qword", "how does the rope hold the shelf", "no how path claimed"),
+    ("qword", "which bell rings", "no which path claimed"),
+    ("qword", "where is the harbor", "harbor was never taught"),
+    ("qword", "who mends the latch", "no such tell"),
+    ("qword", "what sleeps at dusk", "answerable only by the pair-only item, and not this way"),
+]
+
+
+def probes_for(f):
+    """Every way this fact can be asked. The answer to all of them is the tell, verbatim -- that is
+    the mode's whole contract, and it is why PARTIAL (one word) is scored separately rather than
+    rounded up into correct."""
+    k = f["kind"]
+    if k == "svo":
+        yield "subject", f'{f["q"]} {f["verb"]} the {f["obj"]}'
+        yield "subject_fold", f'{f["q"]} {f["stem"]} the {f["obj"]}'
+        yield "object", f'what does the {f["subj"]} {f["stem"]}'
+        yield "object_fold", f'what the {f["subj"]} {f["stem"]}'
+    elif k == "obl":
+        yield "subject", f'what {f["verb"]} {f["tail"]}'
+        if f["q"] == "where":
+            yield "reverse", f'where does the {f["subj"]} {f["stem"]}'
+            yield "reverse_fold", f'where the {f["subj"]} {f["stem"]}'
+        else:
+            yield "reverse", f'who does the {f["subj"]} {f["stem"]} {f["prep"]}'
+            yield "reverse_fold", f'who the {f["subj"]} {f["stem"]} {f["prep"]}'
+    else:
+        yield "subject", f'what {f["verb"]}'
+        yield "subject_fold", f'what {f["stem"]}'
+
+
+def probes_for_pair(ask, ans):
+    a = ask.rstrip("?")
+    yield "pair_exact", a
+    # The fold the widening is named for: the auxiliary goes, the content words stay.
+    yield "pair_fold", a.replace("does ", "").replace(" is ", " ").replace("does", "")
+
+
+# The whole probe set, built once: (item_id, shape, ask, tell_or_None). tell is None for anything
+# this file does not intend the house to answer.
+def build_probes():
+    out = []
+    for d, facts in enumerate(SESSIONS):
+        for i, f in enumerate(facts):
+            iid = f"tell{d}.{i}"
+            for shape, ask in probes_for(f):
+                out.append((iid, shape, ask, f["tell"], d))
+    for d, ps in enumerate(PAIRS):
+        for i, (ask, ans) in enumerate(ps):
+            iid = f"pair{d}.{i}"
+            # The key the STORE would hold this pair under, computed with the organ's own key
+            # function -- the same one `_qa_keep` writes with and `_qa_store_answer` reads with.
+            # Without it the mechanism split below is guesswork: "key not found" and "pair never
+            # admitted" are different faults with the same symptom, and only the store says which.
+            PAIR_KEYS[iid] = NeuralLanguage.qa_key(ask)
+            for shape, a in probes_for_pair(ask, ans):
+                out.append((iid, shape, a, ans, d))
+    for i, (shape, ask, _why) in enumerate(DISTRACTORS):
+        out.append((f"dist{i}", shape, ask, None, 99))
+    return out
+
+
+PAIR_KEYS = {}
+PROBES = build_probes()
+# What the house is allowed to say, in total. Anything else out of its mouth is an invention.
+TOLD = {f["tell"].lower() for s in SESSIONS for f in s} | {a.lower() for s in PAIRS for _q, a in s}
+ALL_ITEMS = sum(len(s) for s in SESSIONS) + sum(len(s) for s in PAIRS)
+
+
+def boot(tag, mode, root):
+    """One real house, flags wired in the order serve.py uses, timing knobs set BEFORE the tells
+    (set after, and which tells produced a row depends on wall-clock -- tools/electric_learn_live.py
+    carries the reason)."""
+    agent = converse.build(TMP / "sess" / tag, project_root=str(root))
+    lang = agent.language
+    if mode != "control":
+        for attr in tm.BASE_ATTRS:
+            setattr(lang, attr, True)
+    if mode == "teach":
+        tm.enable(lang)
+    elif mode == "learn":
+        tm.enable_learn(lang)
+    lang.exposure_enabled = False
+    lang.social_drive = 1.0
+    lang.EXPOSURE_MIN_REAL_S = 0.0
+    lang.exposure_speed_s = 0.0
+    lang.cortex.MIN_HEAR_INTERVAL_S = 0.0
+    lang.persist = True
+    return lang
+
+
+def teach(lang, depth):
+    """Sessions 1..depth, tells by `hear`, pairs by the elicitation protocol."""
+    for d in range(depth):
+        for f in SESSIONS[d]:
+            lang.hear(f["tell"], speaker="you")
+        for ask, ans in PAIRS[d]:
+            lang.respond(ask, speaker="you")
+            lang.respond(ans, speaker="you")
+            lang._qa_pending = None
+
+
+def probe(lang, taught_depth):
+    """Ask everything. An item taught at a LATER depth is, right now, a distractor -- which is the
+    free sample on purpose."""
+    rows = []
+    store = {str(k) for k in (lang.qa_store or {})}
+    for iid, shape, ask, tell, d in PROBES:
+        want = tell if (tell is not None and d < taught_depth) else None
+        r = lang.answer(ask) or {}
+        row = dict(item=iid, shape=shape, ask=ask,
+                   own=(tell or "").lower() or None,
+                   taught=(want or "").lower() or None,
+                   answered=bool(r.get("answered")),
+                   said=str(r.get("utterance") or "").strip(),
+                   src=str(r.get("source") or ""),
+                   reason=str(r.get("reason") or "")[:90])
+        row["mech"] = mechanism(row, store)
+        rows.append(row)
+    return rows
+
+
+NORM_DROP = ("does", "did", "is", "are", "was", "the", "a", "an")
+
+
+def norm(s):
+    """An ask and an answer compared on the same ground: lower, no punctuation, no report frame,
+    no auxiliary or article.
+
+    The house says `droso says where the bell hang`. With the frame left on, every echo looks like
+    an invention. And WITHOUT the aux dropped, a question handed back folded does not match the
+    question it came from -- `where does the bell hang` vs `where the bell hang` -- so it lands in
+    CROSS_ECHO, the class reserved for a sentence the POOL chose rather than the ask. That would
+    overstate the pool leak in exactly the column this benchmark is read for, so the two forms are
+    one string here.
+    """
+    s = (s or "").lower().strip().rstrip("?")
+    for p in ("droso says ", "droso said ", "droso answers "):
+        if s.startswith(p):
+            s = s[len(p):]
+    return " ".join(w for w in s.split() if w not in NORM_DROP)
+
+
+ASK_NORMS = {norm(a) for _i, _s, a, _t, _d in PROBES}
+
+
+QWORDS = {"what", "who", "where", "when", "why", "how", "which", "whose", "whether"}
+
+
+def classify(row):
+    """One of: correct / partial / refused / absence / entailed / echo / cross_echo / misattrib /
+    invented.
+
+    `taught` is None for anything this file does not expect an answer to, and for those the only
+    passing classes are refused and absence. The classes that are NOT failures of truthfulness, and
+    the first draft of this file scored as inventions, are the ones worth naming:
+
+      ABSENCE    the licensed refusal speaking (`i don't know, bell was told but no place was ever
+                 told for bell`). A sentence nobody told, said AS A REFUSAL. Counted apart so the
+                 invention rate means fabrication. When it fires on an item whose tell IS in the
+                 house, that is its own finding, and `absence_on_told` counts it.
+      ECHO       handing the question back, folded or framed (`where does the bell hang` -> `where
+                 the bell hang`), including the bare interrogative: control answers `what the dog
+                 guard` with `what`, which is the question word falling out of the parse, not a
+                 fabricated fact.
+      CROSS_ECHO the same, with some OTHER question out of the remembered pool. Worse than an echo:
+                 the pool, not the ask, chose the sentence.
+      ENTAILED   an item not yet taught at this depth, answered with the right sentence because a
+                 TELL it does have carries it. At depth 1 the future curriculum is a distractor
+                 set, and a house that answers `what holds the shelf` from the rope sentence in
+                 hand is not wrong -- the first version of this file called that a false
+                 acceptance, which is a benchmark bug, not a capability.
+      PARTIAL    one word lifted out of a tell. The shape arbiter saying `dog` where the keyed
+                 inventory says `the dog bites the latch`: a reach problem, not a truth problem.
+
+    INVENTED is a sentence nobody said in any form, and the only class that fails the exit code.
+    """
+    said = row["said"].lower().strip()
+    want = row["taught"]
+    n = norm(said)
+    if row["src"] == "electric_absence":
+        return "absence"
+    if said and n == norm(row["ask"]):
+        return "echo"
+    if said and len(said.split()) == 1 and said in QWORDS:
+        return "echo"
+    if said and n in ASK_NORMS:
+        return "cross_echo"
+    if want is None:
+        if not said:
+            return "refused"
+        if row.get("own") and said == row["own"]:
+            return "entailed"
+        if said in TOLD:
+            return "misattrib"
+        if len(said.split()) == 1:
+            return "partial"
+        return "invented"
+    if not said:
+        return "refused"
+    if said == want:
+        return "correct"
+    if said in TOLD:
+        return "misattrib"
+    if len(said.split()) == 1:
+        return "partial"              # the right tell or the wrong one, one word of it
+    return "invented"
+
+
+def reason_family(r):
+    t = (r["reason"] or "").lower()
+    for key, fam in (("only the asking", "ask-only"), ("asking itself", "ask-only"),
+                     ("no word", "unknown-word"), ("no content", "no-content"),
+                     ("nothing remembered", "nothing-matched"),
+                     ("nothing he remembers has that shape", "no-shape"),
+                     ("closest memory", "near-miss"),
+                     ("was told but no", "absence-claim"), ("told but no", "absence-claim")):
+        if key in t:
+            return fam
+    return t[:40] or ("answered" if r["answered"] else "empty")
+
+
+MECH = ("answered", "key_shadowed", "key_found_store_silent", "pair_never_admitted",
+        "paraphrase_mismatch", "fold_not_taken", "ask_not_recognized", "fallback_fragment",
+        "wrong_fact_reached", "invented", "refusal_silence")
+
+
+def mechanism(row, store_keys):
+    """WHY this probe did not get its own sentence back, in the machinery's terms.
+
+    `cls` says what came out; this says which part of the pipeline did not do its job, and the two
+    are not the same split. A refusal is one class and four mechanisms: the pair was never admitted
+    to the store (a WRITE loss, upstream of every read-path flag), it was admitted and this
+    phrasing does not fold onto the stored key (a READ loss the paraphrase flag owns), it was
+    admitted and does fold but the fold was not taken (the ambiguity bound, or the flag), or the
+    ask was never recognised as a question at all. Only the first of those is fixed by touching the
+    store's admission test, and picking the fix is exactly the question this function answers.
+
+    Every branch is an observable recorded in the evidence -- the store's own keys, the organ's own
+    key function and its own paraphrase key -- so the decomposition is reproducible from the file,
+    not from a reading of the organ.
+    """
+    cls = classify(row)
+    if cls == "correct":
+        return "answered"
+    ask_key = NeuralLanguage.qa_key(row["ask"])
+    pair_key = PAIR_KEYS.get(row["item"])
+    is_pair = pair_key is not None
+    exact_in = ask_key in store_keys
+    pair_in = bool(pair_key) and pair_key in store_keys
+    folds = (is_pair and pair_in
+             and NeuralLanguage.qa_paraphrase_key(row["ask"])
+             == NeuralLanguage.qa_paraphrase_key(pair_key))
+    if cls in ("partial", "echo", "cross_echo"):
+        return "fallback_fragment"      # a word, or a question, came out instead of an answer
+    if exact_in and cls in ("misattrib", "invented"):
+        return "key_shadowed"           # the store held THIS ask, and something else spoke
+    if cls == "misattrib":
+        return "wrong_fact_reached"     # a sentence it was told, for a different fact
+    if cls == "invented":
+        return "invented"
+    if exact_in:
+        return "key_found_store_silent"  # the key matched and the store still said nothing
+    if is_pair and not pair_in:
+        return "pair_never_admitted"    # WRITE side: the lesson was heard and not kept
+    if is_pair and not folds:
+        return "paraphrase_mismatch"    # kept, but this phrasing is not the key and does not fold
+    if is_pair and folds:
+        return "fold_not_taken"         # kept, and it folds -- the read path did not use it
+    if reason_family(row) in ("no-shape", "no-content", "unknown-word"):
+        return "ask_not_recognized"     # never reached a question path at all
+    return "refusal_silence"
+
+
+def run_arm(mode, depths):
+    """One arm, every depth, in a fresh house each time. Returns {depth: {phase: rows}} plus the
+    wiring facts a reader needs to distrust or trust the numbers."""
+    root = TMP / "root" / mode
+    res = {"mode": mode, "depths": {}, "runs": []}
+    t0 = time.time()
+    for depth in depths:
+        tag = f"{mode}-d{depth}"
+        for p in (root, TMP / "sess" / tag):
+            if p.exists():
+                shutil.rmtree(p, ignore_errors=True)
+        (root / "state").mkdir(parents=True, exist_ok=True)
+        lang = boot(tag, mode, root)
+        teach(lang, depth)
+        # SAVE FIRST. Everything the live probe round writes after this line stays in RAM, so the
+        # restarted house loads the taught state with no question rows in it.
+        sv = lang.save_state(force=True)
+        live = probe(lang, depth)
+        sdir = TMP / "sess" / tag
+        for f in sdir.iterdir():
+            if f.is_file():
+                shutil.copy2(f, root / "state" / f.name)
+        lang2 = boot(tag, mode, root)
+        loaded = lang2.load_state() or {}
+        restarted = probe(lang2, depth)     # clean: never asked anything
+        reasked = probe(lang2, depth)       # same house, second pass, its own rows now in the pool
+        # THE TEACHING CHANNEL, counted separately from the answering channel. A pair that never
+        # reaches the store was not forgotten by a restart -- it was never learned, and no widening
+        # downstream can reach a record that was not written. `pair_only` is the sharp subset: pairs
+        # whose ANSWER sentence no tell in this house carries, so the store is the only place that
+        # sentence could possibly live.
+        told_now = {f["tell"].lower() for dd in range(depth) for f in SESSIONS[dd]}
+        kept_keys = {str(k).lower() for k in (lang2.qa_store or {})}
+        taught_pairs = [p for dd in range(depth) for p in PAIRS[dd]]
+        pair_only = [(a, ans) for a, ans in taught_pairs if ans.lower() not in told_now]
+        res["runs"].append(dict(depth=depth,
+                                flags=sorted(a for a, v in tm.state(lang2).items() if v),
+                                save=sorted(str(k) for k in (sv or {})),
+                                loaded=bool(loaded.get("loaded")),
+                                rows=len(lang2.cortex.binder.meta),
+                                inventory=sum(len(v) for v in
+                                              (lang2._taught_says or {}).values()),
+                                qa=len(getattr(lang2, "qa_store", {}) or {}),
+                                qa_keys=sorted(kept_keys),
+                                pairs_taught=len(taught_pairs),
+                                pairs_in_store=sum(1 for a, _ in taught_pairs
+                                                   if a.lower().rstrip("?") in kept_keys),
+                                pair_only=len(pair_only),
+                                pair_only_in_store=sum(1 for a, _ in pair_only
+                                                       if a.lower().rstrip("?") in kept_keys),
+                                pair_only_lost=[a for a, _ in pair_only
+                                                if a.lower().rstrip("?") not in kept_keys]))
+        res["depths"][depth] = {"live": live, "restarted": restarted, "reasked": reasked}
+        print(f"  [{mode:7}] depth {depth}: rows={res['runs'][-1]['rows']} "
+              f"inv={res['runs'][-1]['inventory']} "
+              f"pairs={res['runs'][-1]['pairs_in_store']}/{res['runs'][-1]['pairs_taught']} "
+              f"correct={sum(1 for r in restarted if classify(r) == 'correct')}"
+              f"/{sum(1 for r in restarted if r['taught'])} "
+              f"invented={sum(1 for r in restarted if classify(r) == 'invented')}", flush=True)
+    res["seconds"] = round(time.time() - t0, 1)
+    return res
+
+
+def tally(rows):
+    c = {}
+    for r in rows:
+        c[classify(r)] = c.get(classify(r), 0) + 1
+    return c
+
+
+def by_shape(rows):
+    out = {}
+    for r in rows:
+        d = out.setdefault(r["shape"], {"n": 0, "correct": 0, "partial": 0, "refused": 0,
+                                        "absence": 0, "entailed": 0, "misattrib": 0,
+                                        "echo": 0, "cross_echo": 0, "invented": 0})
+        d["n"] += 1
+        d[classify(r)] += 1
+    return out
+
+
+def retention(rows):
+    """Per ITEM (not per probe): kept = every probe for it answered with its own tell; part = some;
+    lost = none. An item with no probes taught yet is not counted."""
+    per = {}
+    for r in rows:
+        if not r["taught"]:
+            continue
+        d = per.setdefault(r["item"], dict(kept=0, n=0))
+        d["n"] += 1
+        d["kept"] += classify(r) == "correct"
+    kept = sum(1 for v in per.values() if v["kept"] == v["n"])
+    part = sum(1 for v in per.values() if 0 < v["kept"] < v["n"])
+    lost = sum(1 for v in per.values() if v["kept"] == 0)
+    return dict(items=len(per), kept=kept, part=part, lost=lost,
+                probes=sum(v["n"] for v in per.values()),
+                probes_correct=sum(v["kept"] for v in per.values()))
+
+
+def shadow():
+    """THE MECHANISM, three houses and one ask, so the bottleneck claim is a reproducible sub-experiment
+    of this file rather than something a temp script once printed.
+
+    The ask is `what holds the shelf`, and the house is taught the pair that answers it. House A has
+    one tell. House B has that tell PLUS `the shelf holds the lamp`, a sentence about a different
+    thing. House C has only the competitor -- so the rope sentence exists in C nowhere but the pair.
+
+    A answers correctly. B answers `the shelf holds the lamp`, which is the answer to `what does the
+    shelf hold`: the noun the person asked ABOUT was bound to the subject slot of a tell it only
+    ever sat in the object slot of. C answers the same way as B, which rules out the tell being
+    preferred over the pair -- the pair is simply never reached, and in C the pair is the ONLY place
+    the right sentence is. The store is consulted one step after the inventory in `answer()`, and the
+    inventory returned, so the exact key `what holds the shelf` -> `the rope holds the shelf` that
+    all three houses hold is dead code on this path.
+    """
+    SH_ASK = "what holds the shelf"
+    SH_PAIR = [("what holds the shelf?", "the rope holds the shelf")]
+    houses = (("A_pair_and_its_own_tell", ["the rope holds the shelf"]),
+              ("B_plus_a_competing_tell", ["the rope holds the shelf", "the shelf holds the lamp"]),
+              ("C_competing_tell_only", ["the shelf holds the lamp"]))
+    out = []
+    for tag, tells in houses:
+        root = TMP / "root" / f"shadow-{tag}"
+        if root.exists():
+            shutil.rmtree(root, ignore_errors=True)
+        (root / "state").mkdir(parents=True, exist_ok=True)
+        lang = boot(tag, "learn", root)
+        for t in tells:
+            lang.hear(t, speaker="you")
+        for q, a in SH_PAIR:
+            lang.respond(q, speaker="you")
+            lang.respond(a, speaker="you")
+            lang._qa_pending = None
+        r = lang.answer(SH_ASK) or {}
+        s = lang._qa_store_answer(SH_ASK) or {}
+        out.append(dict(house=tag, tells=tells, ask=SH_ASK,
+                        said=str(r.get("utterance") or "").strip(),
+                        src=str(r.get("source") or ""),
+                        store_holds=str(s.get("utterance") or "").strip()))
+        print(f"  [shadow {tag[:1]}] tells={len(tells)} -> {out[-1]['said']!r} "
+              f"(src={out[-1]['src']})  while the store holds {out[-1]['store_holds']!r}", flush=True)
+    out.append(dict(flipped=out[0]["said"] != out[1]["said"],
+                    right_in_store=all(o["store_holds"] == "the rope holds the shelf" for o in out[:3])))
+    return out
+
+
+CLS = ("correct", "partial", "refused", "absence", "entailed", "echo", "cross_echo",
+       "misattrib", "invented")
+
+
+def report(res):
+    """One arm, the deepest depth, the CLEAN restarted house -- the column that measures teaching
+    rather than probing. Everything else in this file exists to make this table trustworthy."""
+    depth = max(res["depths"])
+    rows = res["depths"][depth]["restarted"]
+    print(f"\n[report] {res['mode']} at depth {depth}: a house that has been restarted and never "
+          f"asked anything", flush=True)
+    print("   shape             n  " + "  ".join(f"{c[:6]:>6}" for c in CLS))
+    for shape, d in sorted(by_shape(rows).items()):
+        print(f"   {shape:<16}{d['n']:>3}  " + "  ".join(f"{d.get(c, 0):>6}" for c in CLS))
+    for tag, sub in (("taught  ", [r for r in rows if r["taught"]]),
+                     ("untaught", [r for r in rows if not r["taught"]])):
+        t = tally(sub)
+        print(f"   {tag} ({len(sub):>3} probes): " +
+              "  ".join(f"{c}={t.get(c, 0)}" for c in CLS if t.get(c, 0)))
+    for label, sub in (("taught probes", rows),
+                       ("QA-store probes", [r for r in rows if r["item"].startswith("pair")])):
+        sub = [r for r in sub if r["taught"]]
+        mq = {}
+        for r in sub:
+            mq[r["mech"]] = mq.get(r["mech"], 0) + 1
+        order = sorted((k for k in mq if k != "answered"), key=lambda k: -mq[k])
+        print(f"   mechanism, {label} ({len(sub)}): answered={mq.get('answered', 0)}  "
+              + "  ".join(f"{k}={mq[k]}" for k in order))
+    ret = retention(rows)
+    print(f"   items: {ret['items']} asked about, {ret['kept']} kept on EVERY probe, "
+          f"{ret['part']} part, {ret['lost']} lost -- probes correct "
+          f"{ret['probes_correct']}/{ret['probes']}")
+    per = {}
+    for r in rows:
+        if r["taught"]:
+            per.setdefault(r["item"], []).append(classify(r))
+    lost = sorted(i for i, cl in per.items() if "correct" not in cl)
+    print(f"   items with no correct probe at all: {len(lost)} {lost}")
+    rec = [x for x in res["runs"] if x["depth"] == depth][-1]
+    print(f"   teaching channel: {rec['pairs_in_store']}/{rec['pairs_taught']} taught pairs are in "
+          f"the store; of the {rec['pair_only']} whose answer NO tell carries, "
+          f"{rec['pair_only_in_store']} reached it -- lost: {rec['pair_only_lost']}")
+    fa = sorted({r["ask"] for r in rows if classify(r) == "absence" and r["taught"]})
+    print(f"   licensed refusal spoken where the tell IS in the house: {len(fa)} {fa}")
+    reasons = {}
+    for r in rows:
+        if classify(r) in ("refused", "partial", "echo", "cross_echo"):
+            f = reason_family(r)
+            reasons[f] = reasons.get(f, 0) + 1
+    print("   why it did not answer: " + ", ".join(
+        f"{k}={v}" for k, v in sorted(reasons.items(), key=lambda kv: -kv[1])[:8]))
+    a = tally(res["depths"][depth]["restarted"])
+    b = tally(res["depths"][depth]["reasked"])
+    print("   the probing artifact (restarted -> reasked): " +
+          ", ".join(f"{c} {a.get(c, 0)}->{b.get(c, 0)}" for c in CLS))
+
+
+def main():
+    args = sys.argv[1:]
+    modes = ["control", "teach", "learn"]
+    if "--arms" in args:
+        modes = args[args.index("--arms") + 1].split(",")
+    depths = [1, 2, 3]
+    if "--depth" in args:
+        depths = [int(args[args.index("--depth") + 1])]
+    if TMP.exists():
+        shutil.rmtree(TMP, ignore_errors=True)
+    TMP.mkdir(parents=True, exist_ok=True)
+    print(f"[bench] {ALL_ITEMS} items, {len(PROBES)} probes, depths {depths}, arms {modes}",
+          flush=True)
+    arms = {}
+    for m in modes:
+        arms[m] = run_arm(m, depths)
+
+    # The floor this whole thing stands on: a house may not say a sentence nobody said, at any
+    # depth, in any phase, in any arm. Everything else on this page is a rate.
+    fails = []
+    for m, res in arms.items():
+        for run in res["runs"]:
+            if not run["loaded"]:
+                fails.append(f"{m}/d{run['depth']}: the restarted house loaded no state -- its "
+                             f"retention number is a boot number, not a memory number")
+        for depth, ph in res["depths"].items():
+            for phase, rows in ph.items():
+                for r in rows:
+                    if classify(r) == "invented":
+                        fails.append(f"{m}/d{depth}/{phase}/{r['item']}/{r['shape']}: "
+                                     f"{r['ask']!r} -> {r['said']!r} (nobody said that)")
+
+    summary = {}
+    for m, res in arms.items():
+        summary[m] = {}
+        for depth, ph in res["depths"].items():
+            summary[m][depth] = {p: dict(tally(ph[p]),
+                                         retention=retention(ph[p]),
+                                         by_shape=by_shape(ph[p]))
+                                 for p in ph}
+    sh = shadow() if "learn" in arms else []
+    if sh:
+        v = sh[-1]
+        print(f"[shadow] one more tell in the house changed the answer to a question the person "
+              f"explicitly taught: {v['flipped']}; the store held the right sentence in every "
+              f"house: {v['right_in_store']}", flush=True)
+    for m in arms:
+        report(arms[m])
+    last = {m: {p: summary[m][max(summary[m])][p] for p in ("live", "restarted", "reasked")}
+            for m in summary}
+    print(json.dumps(last, indent=1, sort_keys=True), flush=True)
+
+    out = dict(shadow=sh,
+               arms={m: dict(seconds=r["seconds"], runs=r["runs"],
+                             probes={str(d): {p: [dict(x, cls=classify(x)) for x in rows]
+                                              for p, rows in ph.items()}
+                                     for d, ph in r["depths"].items()})
+                          for m, r in arms.items()},
+               items=ALL_ITEMS, probes=len(PROBES), told=sorted(TOLD),
+               distractors=[d[1] for d in DISTRACTORS],
+               summary={m: {str(d): s for d, s in sum_.items()} for m, sum_ in summary.items()},
+               failures=fails)
+    EVIDENCE.write_text(json.dumps(out, indent=1, sort_keys=True), encoding="utf-8")
+    print(f"[bench] evidence -> {EVIDENCE}", flush=True)
+    if fails:
+        print(f"[bench] {len(fails)} INVENTIONS (a sentence nobody said):", flush=True)
+        for f in fails[:30]:
+            print("   - " + f, flush=True)
+        return 1
+    print("[bench] no invention in any arm at any depth", flush=True)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

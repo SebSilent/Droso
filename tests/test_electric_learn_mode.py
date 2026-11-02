@@ -1,27 +1,28 @@
 """ELECTRIC LEARN mode -- the FULL teach/learn stack in one switch, and what it must not cost.
 
 `--electric-teach` is the stack that can only ever REFUSE: a row dropped from the evidence, a
-fragment left unspoken, a write declined. `--electric-learn` is that stack plus the four switches
+fragment left unspoken, a write declined. `--electric-learn` is that stack plus the five switches
 it was built to leave out -- ELECTRIC_ASK_SHAPE, ELECTRIC_REVERSE, ELECTRIC_OBJECT_ROLE,
-ELECTRIC_ASK_NORMALIZE -- each of which can only ever REACH MORE: more rows counted as an asking,
-more asks matched against the inventory, more phrasings folded onto one key.
+ELECTRIC_ASK_NORMALIZE, ELECTRIC_ASK_DO_SUPPORT -- each of which can only ever REACH MORE: more
+rows counted as an asking, more asks matched against the inventory, more phrasings folded onto one
+key.
 
-Why a test file and not just a wider default. A mode that turns on fifteen switches at once is the
+Why a test file and not just a wider default. A mode that turns on sixteen switches at once is the
 configuration where an interaction is most likely and least attributable, and every one of these
-four was measured alone precisely so a run could say which one cost something (docs/STATE.md:
+five was measured alone precisely so a run could say which one cost something (docs/STATE.md:
 C4d for reverse vs object-role, the ELECTRIC_ASK_SHAPE entry for the shape tagger, the
 ELECTRIC_ASK_NORMALIZE entry for the fold). So this file asserts three things and only three:
 
-  * the SET is the set -- learn mode is teach mode's superset, exactly the four named widenings
+  * the SET is the set -- learn mode is teach mode's superset, exactly the five named widenings
     wider, and nothing is on the class (the graded contract binds `_absence_licence` on the class
     defaults, so a mode that flipped one of them would change the battery's answers while looking
     like a demo flag);
   * the mode cannot LIE about itself -- `_set` checks each name against the class before setting
     any of them, because `setattr` on an instance never raises for an unknown name and a run that
-    reports fifteen flags while eleven are real is worse than a run that reports fewer;
+    reports sixteen flags while eleven are real is worse than a run that reports fewer;
   * what it says is still ONLY what it was told -- every reply in every arm is a verbatim taught
     tell, a stored pair answer, or a licensed refusal. That invariant is the one that survives all
-    four widenings at once, and it is the one the grader cares about.
+    five widenings at once, and it is the one the grader cares about.
 
 What is deliberately NOT asserted here: which widening earned which answer. That is
 tools/electric_learn_live.py, which runs the arms side by side in a real house and writes
@@ -150,13 +151,14 @@ def _post(base, path, obj):
 
 # ------------------------------------------------------------------ the set ----
 
-def test_learn_is_the_stack_plus_exactly_the_four_widenings():
+def test_learn_is_the_stack_plus_exactly_the_five_widenings():
     assert tm.LEARN == tm.STACK + tm.EXCLUDED, \
         "the full mode is defined as the stack plus the widenings, not as a third list"
     assert tm.LEARN_ATTRS == tm.STACK_ATTRS + tm.EXCLUDED_ATTRS
     assert set(tm.LEARN_ATTRS) | set(tm.BASE_ATTRS) == set(tm.ALL_ATTRS)
     assert set(tm.EXCLUDED_ATTRS) == {"ELECTRIC_ASK_SHAPE", "ELECTRIC_REVERSE",
-                                      "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE"}
+                                      "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE",
+                                      "ELECTRIC_ASK_DO_SUPPORT"}
 
 
 def test_learn_mode_turns_on_everything_and_nothing_on_the_class():
@@ -171,7 +173,7 @@ def test_learn_mode_turns_on_everything_and_nothing_on_the_class():
         "a demo mode moved a class default; every battery number after this is suspect"
 
 
-def test_learn_mode_is_teach_mode_wider_by_exactly_four():
+def test_learn_mode_is_teach_mode_wider_by_exactly_the_widenings():
     # Both arms built through the table, from the same base, so the difference is the mode and
     # not the order in which the flags were set.
     a, b = _organ(learn=False), _organ(learn=False)
@@ -180,12 +182,12 @@ def test_learn_mode_is_teach_mode_wider_by_exactly_four():
     narrow, full = tm.state(a), tm.state(b)
     diff = sorted(a for a in tm.ALL_ATTRS if narrow[a] != full[a])
     assert diff == sorted(tm.EXCLUDED_ATTRS), \
-        f"the two modes differ by something other than the four widenings: {diff}"
+        f"the two modes differ by something other than the widenings the table names: {diff}"
 
 
 def test_a_flag_the_organ_does_not_read_raises_instead_of_lying():
-    """`setattr` on an instance accepts ANY name. A mode that turns on fifteen switches must not
-    be able to report fifteen and behave like eleven, so an unknown name raises -- and it raises
+    """`setattr` on an instance accepts ANY name. A mode that turns on sixteen switches must not
+    be able to report sixteen and behave like eleven, so an unknown name raises -- and it raises
     before a single attribute is set, so a half-applied mode cannot exist."""
     o = _organ(learn=False)
     before = o.ELECTRIC_TEACH
@@ -209,7 +211,8 @@ def test_describe_learn_marks_which_lines_reach_more():
     lines = tm.describe_learn()
     assert len(lines) == len(tm.STACK) + len(tm.EXCLUDED)
     widens = [l for l in lines if l.startswith("WIDENS")]
-    assert len(widens) == 4
+    assert len(widens) == len(tm.EXCLUDED), \
+        "a count written here instead of read from the table is how a widening goes unmarked"
     for attr in tm.EXCLUDED_ATTRS:
         assert any(attr in l for l in widens), f"{attr} is on and not marked as a widening"
     assert not any(l.startswith("WIDENS") for l in tm.describe()), \

@@ -27,11 +27,11 @@ a rule in two wiring sites is the failure this project keeps hitting; the store'
 is a function for exactly the same reason.
 
 What it is NOT.  It is not "everything ELECTRIC" -- that is ``--electric-learn``, the FULL
-teach/learn mode, this same stack plus the four widenings below, and it is a different flag
+teach/learn mode, this same stack plus the five widenings below, and it is a different flag
 because it has a different blast radius.  ``enable_learn`` exists so the two modes cannot drift
 into two lists in two wiring sites, and so the mode that reaches more can still be named exactly.
 
-Four switches stay out of the NARROW mode because each one is a WIDENING -- it lets more asks
+Five switches stay out of the NARROW mode because each one is a WIDENING -- it lets more asks
 reach more matchers, and each was measured separately precisely so a run could say which one
 cost something:
 
@@ -43,8 +43,12 @@ cost something:
     ELECTRIC_OBJECT_ROLE    a third matcher, added because reverse did not cover the shape and
                             the subject path mis-bound it.
     ELECTRIC_ASK_NORMALIZE  changes which asks reach which INVENTORY matchers.
+    ELECTRIC_ASK_DO_SUPPORT  the same widening one word narrower: it folds an object ask that
+                            dropped its auxiliary onto the do-support form the object-role path
+                            already answers, and it is inert unless ASK_NORMALIZE is on, because
+                            the variant is generated inside that block.
 
-The last one needs a word, because it looks like an omission: ELECTRIC_QA_PARAPHRASE calls
+ELECTRIC_ASK_NORMALIZE needs a word, because it looks like an omission: ELECTRIC_QA_PARAPHRASE calls
 ``normalize_ask_variants`` itself, so a folded ask DOES use the normalizer under teach mode with
 ``--electric-ask-normalize`` off. That is not this flag being smuggled in. The two uses have
 different blast radii: ELECTRIC_ASK_NORMALIZE lets a variant reach the keyed INVENTORY, where a
@@ -90,13 +94,13 @@ STACK = (
     ("ELECTRIC_FRAGMENT_GUARD", "electric_fragment_guard",
      "when nothing answered the ask, do not let the house speak a fragment of the ask itself "
      "(measured: `to?`). In the stack because it can only ever refuse to speak: it narrows the "
-     "output, where the four switches left out widen what is reachable"),
+     "output, where the five switches left out widen what is reachable"),
     ("ELECTRIC_ASK_SHAPE_STORE", "electric_ask_shape_store",
      "a tell whose SHAPE is an ask is not filed as a taught fact. `_taught_says` is read before "
      "every other store, so a question the house could not classify used to answer itself here; "
      "the row-side switches above cannot reach it, because they govern rows and this is a "
      "different store. In the stack for the same reason as the fragment guard -- it can only "
-     "ever refuse to write, and the four switches left out widen what is reachable"),
+     "ever refuse to write, and the five switches left out widen what is reachable"),
 )
 
 # What `--electric` already means, and what the stack is pointless without: an untaught ask has
@@ -116,6 +120,13 @@ EXCLUDED = (
     ("ELECTRIC_ASK_NORMALIZE", "electric_ask_normalize",
      "widens which asks reach the inventory matchers (the fold uses the normalizer as a store "
      "lookup key only, which is a different blast radius -- see the module docstring)"),
+    ("ELECTRIC_ASK_DO_SUPPORT", "electric_ask_do_support",
+     "an object ask whose auxiliary is missing (`what the dog bite`) is tried in the do-support "
+     "form the object-role path already answers (`what does the dog bite`). One inserted word, "
+     "and only when a tell this house was TOLD carries that noun as its subject and that verb as "
+     "its action. Measured: 17 of 21 asks WITH the auxiliary answer, 0 of 21 without it -- the "
+     "largest single mechanism in the QA gap. Inert without --electric-ask-normalize, whose "
+     "block generates it"),
 )
 
 # A flag whose parent is off is INERT, not merely weaker: the user has to be told, because the
@@ -139,6 +150,11 @@ DEPENDS_ON = {
                            "--electric-ask-shape without --electric-ask-admissibility: it can "
                            "tag rows, but nothing reads the tag, so which rows exist does not "
                            "change."),
+    "ELECTRIC_ASK_DO_SUPPORT": ("ELECTRIC_ASK_NORMALIZE",
+                                "--electric-ask-do-support without --electric-ask-normalize: the "
+                                "do-support variant is generated inside the normalizer's own "
+                                "block, so with the parent off nothing computes it and the ask "
+                                "refuses exactly as it did before this flag existed."),
     "ELECTRIC_ASK_SHAPE_STORE": ("ELECTRIC_TEACH",
                                  "--electric-ask-shape-store without --electric: nothing is "
                                  "filed as a taught fact in the first place, so there is no "
@@ -152,13 +168,13 @@ LEARN_ATTRS = STACK_ATTRS + EXCLUDED_ATTRS
 ALL_ATTRS = STACK_ATTRS + BASE_ATTRS + EXCLUDED_ATTRS
 
 
-# What the FULL teach/learn mode adds on top of the stack: the four widenings the narrow mode
+# What the FULL teach/learn mode adds on top of the stack: the five widenings the narrow mode
 # leaves off, each measured alone (docs/STATE.md: ELECTRIC_ASK_SHAPE, ELECTRIC_REVERSE,
-# ELECTRIC_OBJECT_ROLE, ELECTRIC_ASK_NORMALIZE) and each of them a change to WHICH ASK REACHES
-# WHICH MATCHER, not to what the matcher says about an ask it already reaches.
+# ELECTRIC_OBJECT_ROLE, ELECTRIC_ASK_NORMALIZE, ELECTRIC_ASK_DO_SUPPORT) and each of them a change
+# to WHICH ASK REACHES WHICH MATCHER, not to what the matcher says about an ask it already reaches.
 #
 # Read the two halves together and the mode's shape is honest: the stack can only ever refuse
-# (a row dropped, a fragment unspoken, a write declined), while these four can only ever
+# (a row dropped, a fragment unspoken, a write declined), while these five can only ever
 # REACH MORE -- more rows counted as an asking, more asks matched against the inventory, more
 # phrasings folded onto one key. That is why they were never in `--electric-teach`, and why
 # this mode is a different flag rather than a wider default: a widening that is right on the
@@ -177,8 +193,8 @@ def _set(lang, attrs):
     """Set instance attributes, and refuse to pretend about a name the class does not have.
 
     `setattr` on an instance never raises for an unknown name -- it just creates one that no
-    path reads. A mode that turns on fifteen switches must not be able to report fifteen on
-    and behave like the four that are real, so the name is checked against the CLASS first and
+    path reads. A mode that turns on sixteen switches must not be able to report sixteen on
+    and behave like the eleven that are real, so the name is checked against the CLASS first and
     a missing one raises. This is the sentence `enable()`'s docstring used to claim was true.
     """
     missing = [attr for attr in attrs if not hasattr(type(lang), attr)]
@@ -203,7 +219,7 @@ def enable(lang, base=True):
 
 
 def enable_learn(lang, base=True):
-    """Turn the FULL teach/learn mode on for THIS organ: the stack plus the four widenings.
+    """Turn the FULL teach/learn mode on for THIS organ: the stack plus the five widenings.
 
     Returns the attributes it set. Same instance-only discipline as ``enable``; the difference
     is blast radius, and it is the user's, made by one explicit flag.
@@ -239,9 +255,9 @@ def describe():
 
 
 def describe_learn():
-    """The full mode, one line each: the stack, then the four widenings marked as such.
+    """The full mode, one line each: the stack, then the five widenings marked as such.
 
-    A terminal that turns on fifteen switches should say which four of them reach more, in the
+    A terminal that turns on sixteen switches should say which five of them reach more, in the
     same words, rather than leaving that in a docstring nobody opens at 2 a.m.
     """
     return ([f"{attr:<26} {why}" for attr, _cli, why in STACK]

@@ -120,7 +120,7 @@
     "saved"
    ],
    "saved_files_seen": true,
-   "seconds": 5.3,
+   "seconds": 5.4,
    "session_files": [
     "language_state.json",
     "language_state.json.cortex.facts.json",
@@ -139,6 +139,7 @@
     "ABSENCE_INVENTORY",
     "ELECTRIC_ANSWER",
     "ELECTRIC_ASK_ADMISSIBILITY",
+    "ELECTRIC_ASK_DO_SUPPORT",
     "ELECTRIC_ASK_MARKS",
     "ELECTRIC_ASK_NORMALIZE",
     "ELECTRIC_ASK_SHAPE",
@@ -270,7 +271,7 @@
     "saved"
    ],
    "saved_files_seen": true,
-   "seconds": 4.2,
+   "seconds": 4.0,
    "session_files": [
     "language_state.json",
     "language_state.json.cortex.facts.json",
@@ -429,7 +430,7 @@
     "saved"
    ],
    "saved_files_seen": true,
-   "seconds": 4.1,
+   "seconds": 4.0,
    "session_files": [
     "language_state.json",
     "language_state.json.cortex.facts.json",
@@ -458,7 +459,7 @@
   }
  },
  "failures": [],
- "note": "control has no ELECTRIC at all; teach is the stack that can only refuse; learn is teach plus the four widenings. Every answer in every arm is a sentence from `taught` or silence -- the widenings change which asks REACH an answer, never what an answer may say.",
+ "note": "control has no ELECTRIC at all; teach is the stack that can only refuse; learn is teach plus the five widenings. Every answer in every arm is a sentence from `taught` or silence -- the widenings change which asks REACH an answer, never what an answer may say.",
  "probes": [
   "what ring the bell",
   "what rings the bell",

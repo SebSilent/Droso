@@ -681,21 +681,22 @@ down, and answering a paraphrase in a second process that shared nothing but the
 with it on, the statements and relative clauses still filed, the cap proved to be the binder's,
 fail-open on every failure mode, and rows/pairs/inventory/licence identical in both arms), plus
 `tests/test_electric_learn_mode.py` (17 — the set is the set, the two modes differ by *exactly* the
-four widenings when two organs are diffed rather than when two tables are read, an invented flag
+widenings when two organs are diffed rather than when two tables are read, an invented flag
 raises before anything is written, no switch is inert or off-by-default, both doors read the one
 table, and a real server teaches facts and a pair, shuts down, and answers a reverse ask and a
 paraphrase from the file -- plus the verbatim reverse answer re-asked in a house whose pool is full
 of remembered questions, which is the condition that makes the narrow arms answer one word).
 
 `--electric-learn` is the **full** teach/learn mode: the eight-flag stack, what `--electric` already
-means, *and* the four widenings teach mode was built to refuse (`ELECTRIC_ASK_SHAPE`,
-`ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE`) — fifteen switches, one list,
+means, *and* the widenings teach mode was built to refuse (`ELECTRIC_ASK_SHAPE`,
+`ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE`,
+`ELECTRIC_ASK_DO_SUPPORT`) — sixteen switches, one list,
 `LEARN` in the same table, both doors. It is a separate flag rather than a wider default because the
 two halves have opposite polarity: the stack can only ever **refuse** (a row dropped from the
-evidence, a fragment unspoken, a write declined), while those four can only ever **reach more**.
+evidence, a fragment unspoken, a write declined), while those five can only ever **reach more**.
 Both modes set their attributes through one `_set()` that checks every name against the *class*
-before writing any — `setattr` on an instance accepts any name at all, so a mode of fifteen switches
-could otherwise report fifteen and behave like eleven.
+before writing any — `setattr` on an instance accepts any name at all, so a mode of sixteen switches
+could otherwise report sixteen and behave like eleven.
 
 What the combination buys, measured in a real house across three arms, live and after a genuine
 restart (`tools/electric_learn_live.py` → `docs/evidence/electric_learn_live.json`; 14 rows in every
@@ -724,6 +725,50 @@ load, which is exactly where a wrong boot can hide: an arm nobody checks is an a
 fail. All three arms now load, and an arm that loads no state fails the run instead of printing
 empty cells.
 
+`--electric-learn` then needed a scale question asked, not another four-tell demo:
+**`tools/electric_learn_bench.py`** (→ `docs/evidence/electric_learn_bench.json`) teaches a real
+curriculum — 24 tells and 16 QA pairs, 40 items, in three sessions with a restart between every one —
+and asks it back in 136 generated shapes plus 12 distractors that are never taught, in three arms.
+Two things came out of it that no smaller run could have shown. **The restart is not the problem:**
+probes lost on restart 0 and gained 0, at every depth, in both ELECTRIC arms (learn 28/52/79 correct,
+identical live and restarted), and re-probing the same house twice moved exactly one probe — so the
+artifact the last task chased is real and is not forgetting. **The failures have a shape:** every
+failing probe is classified by which part of the pipeline missed, from the store's own keys and the
+organ's own key functions, and the largest class was one word wide — `what does the dog bite` returns
+its tell verbatim 17 times in 21 while `what the dog bite` returns nothing 19 times in 21, refusing
+with *nothing he remembers has that shape* (20 of 45 failing probes; then pair_never_admitted 10,
+fallback_fragment 8, refusal_silence 4, key_shadowed 3).
+
+That class is **`ELECTRIC_ASK_DO_SUPPORT`** (default off; the fifth widening, so `--electric-teach`
+still refuses it): it inserts the auxiliary the ask dropped, and only when **one** tell this house was
+told carries that noun as its subject *and* that verb as its action — so `what the moon bite` matches a
+moon tell and a bite verb separately and gets nothing, and what comes back is still a verbatim taught
+tell. It is inert without `--electric-ask-normalize`, which the table declares out loud rather than
+letting a do-nothing flag be reported as a working one, and because `normalize_ask_variants` is *also*
+the store's paraphrase key the fold is a parameter, not a change to the default list. Re-measured on
+the same instrument: learn **79 → 98** of 124 taught probes, `object_fold` **0/21 → 17/21**,
+`ask_not_recognized` **20 → 4**, items kept on every probe 10 → 28 — while every other mechanism held
+its count, **the teach arm came back byte-identical at 39** (so the widening is really behind the
+flag), restart cost stayed exactly nothing, and **no arm invented a sentence at any depth**. False
+acceptance did not grow either: one ask, `what chases the mouse` → `the mouse chases the dog`, in
+18 cells across both ELECTRIC arms and zero in control — the same fault that predates this flag, not a
+new one. The 4 that still refuse are two named things: `_verb_stem` under-folds `carries`/`crosses`/
+`catches` to `carrie`/`crosse`/`catche` (so the warrant never fires), and `what the dog guard` has no
+warrant to find because `the dog bites the latch` already owns the (dog, agent) key — neither is fixed
+here, because the stemmer is shared by the binders, the paraphrase key and the absence frame, and
+widening it is a change to every path at once rather than a flag-gated fix to one class. Chasing it also
+turned up a wiring bug worth more than the flag: `tools/serve.py` applied the mode table and *then*
+assigned its own switches as `= bool(args.x)`, so `--electric --electric-learn` was silently setting
+three of the four widenings back to **False** — the widest mode ran as teach mode plus one, and printed
+the user's intent instead of the organ's state — while `--electric-learn` alone skipped the
+`--electric` block that contains `load_state()`, so the mode that teaches the most came up amnesiac.
+Both fixed (`or learn`, `if teach or learn:`), guarded by
+`tests/test_electric_ask_do_support.py` (11) and `tests/test_electric_learn_bench.py` (18, pure
+function, under a second — including one test per classifier class, because a benchmark whose classes
+are wrong measures its own vocabulary: the first draft counted the licensed refusal *speaking* and an
+answer earned from an earlier tell as confabulations, and reported 16 inventions in an arm with no
+ELECTRIC flag on at all).
+
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
 #   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,
@@ -733,8 +778,10 @@ python tools/electric_chat.py --electric-teach --state state/electric_chat/neura
 #   then ask it in other words:  what ring the bell   ->   the copper bell rings
 #   (--say is one life per call: a held ask does not survive it, and the tool says so)
 python tools/electric_chat.py --electric-learn --state state/electric_chat/neural_lang.json
-#   the same fifteen, plus the four widenings:  what bites the latch  ->  the dog bites the latch
+#   the same sixteen, plus the five widenings:  what bites the latch  ->  the dog bites the latch
 #   (/health reports teach=true and learn=true; --no-electric overrides both)
+python tools/electric_learn_bench.py            # 40 items, 136 probes, 3 arms, ~11 min; exits 1 if
+python tools/electric_learn_bench.py --arms learn --depth 1   # any house says a sentence nobody said
 ```
 
 ## Snapshot figures
@@ -749,7 +796,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 1062 passed, 3 skipped (at the `ELECTRIC_LEARN` commit; 1045 before it, plus the 17 tests the full teach/learn mode added -- the arithmetic is checked, not assumed. The battery count grows with each entry) |
+| Test suite | 1091 passed, 3 skipped (at the `ELECTRIC_ASK_DO_SUPPORT` commit; 1062 at `ELECTRIC_LEARN`, 1045 before that -- the deltas are the 17 teach/learn tests, then the 11 do-support and 18 benchmark tests, checked against the files with `findstr /R "^def test_"` rather than assumed. The battery count grows with each entry) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

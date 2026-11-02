@@ -261,6 +261,17 @@ def main() -> int:
                          "the active question the object-role path already answers. Function "
                          "words only, and only ever a lookup key -- the reply is still a "
                          "verbatim taught tell or nothing. OFF by default.")
+    ap.add_argument("--electric-ask-do-support", action="store_true",
+                    help="Within --electric, and inert without --electric-ask-normalize: an "
+                         "object ask that dropped its auxiliary ('what the dog bite') is also "
+                         "tried in the form the object-role path already answers ('what does the "
+                         "dog bite'). Measured on a 40-item curriculum: 17 of 21 asks WITH the "
+                         "auxiliary return their tell verbatim, 0 of 21 without it -- 19 refuse "
+                         "with 'nothing he remembers has that shape', the largest single "
+                         "mechanism in the QA gap. One inserted word, and only when a tell this "
+                         "house was TOLD carries that noun as its subject and that verb as its "
+                         "action; the reply is still a verbatim taught tell or nothing. OFF by "
+                         "default: with it off the ask refuses exactly as the measured run did.")
     ap.add_argument("--electric-fragment-guard", action="store_true",
                     help="Independent of --electric: when nothing he remembers answers "
                          "the ask, do not let the house speak a fragment of the ask "
@@ -408,19 +419,21 @@ def main() -> int:
                          "same table tools/electric_chat.py reads, so the two doors cannot "
                          "grow different ideas of what teach mode means. It WIDENS NOTHING: "
                          "--electric-reverse, --electric-object-role, "
-                         "--electric-ask-normalize and --electric-ask-shape stay behind their "
+                         "--electric-ask-normalize, --electric-ask-do-support and "
+                         "--electric-ask-shape stay behind their "
                          "own flags, because each lets more asks reach more matchers and a run "
                          "that costs something has to be able to say which switch cost it. OFF "
                          "by default: with it off this server is the server that was measured.")
     ap.add_argument("--electric-learn", action="store_true",
-                    help="The FULL teach/learn mode: --electric-teach PLUS the four widenings "
+                    help="The FULL teach/learn mode: --electric-teach PLUS the five widenings "
                          "it refuses -- --electric-ask-shape, --electric-reverse, "
-                         "--electric-object-role and --electric-ask-normalize. Fifteen switches, "
+                         "--electric-object-role, --electric-ask-normalize and "
+                         "--electric-ask-do-support. Sixteen switches, "
                          "one list, from the same table (LEARN in tools/electric_teach_mode.py) "
                          "this flag reads, so the two modes cannot drift apart. It is a separate "
                          "flag and not a wider default because the two halves have different "
                          "blast radii: the stack can only ever REFUSE (a row dropped, a fragment "
-                         "unspoken, a write declined), while those four only ever REACH MORE -- "
+                         "unspoken, a write declined), while those five only ever REACH MORE -- "
                          "more rows counted as an asking, more asks matched against the "
                          "inventory, more phrasings folded onto one key. Each of the four was "
                          "measured alone and each is documented in docs/STATE.md; what this flag "
@@ -491,7 +504,7 @@ def main() -> int:
     # because it is its superset, so no combination of the two mode flags can leave the organ
     # half-on or ordered. enable_learn goes through the same _set() as enable, which checks each
     # name against the CLASS first: setattr on an instance never raises for an unknown name, and
-    # a mode that turns on fifteen switches must not be able to report fifteen and behave like the
+    # a mode that turns on sixteen switches must not be able to report sixteen and behave like the
     # eleven that are real.
     learn = bool(args.electric_learn)
     if learn:
@@ -505,7 +518,12 @@ def main() -> int:
     # restart half a few lines below is the only thing that makes a taught pair outlive the
     # window. Today a server started with the QA flags and NOT --electric saves everything and
     # comes back with nothing.
-    if teach:
+    # `or learn` because LEARN is the superset and its help text has always claimed it implies
+    # --electric: with `if teach:` alone, `--electric-learn` without `--electric-teach` skipped
+    # this block, and the block is where `load_state()` is -- so the mode that teaches the most
+    # was the mode that remembered nothing across a restart, while printing that it implied the
+    # flag whose half of the code it had not run.
+    if teach or learn:
         # Recorded on the parsed args, not in a local condition, and the reason is a guard rail
         # rather than taste: five committed tests read this file as TEXT and anchor the wiring of
         # --electric-reverse, --electric-object-role, --electric-ask-normalize,
@@ -517,10 +535,10 @@ def main() -> int:
         print("[serve] ELECTRIC teach mode on: " + ", ".join(electric_teach_mode.STACK_ATTRS),
               flush=True)
         if learn:
-            # Named separately, and named as a widening, because a banner that lists fifteen
-            # attributes without saying which four change which asks reach which matchers is a
+            # Named separately, and named as a widening, because a banner that lists sixteen
+            # attributes without saying which five change which asks reach which matchers is a
             # banner that hides the only risk in the mode.
-            print("[serve] ELECTRIC LEARN mode on: teach mode plus the four widenings -- "
+            print("[serve] ELECTRIC LEARN mode on: teach mode plus the five widenings -- "
                   + ", ".join(electric_teach_mode.EXCLUDED_ATTRS), flush=True)
     electric = bool(args.electric)
     if args.electric:
@@ -534,18 +552,33 @@ def main() -> int:
         lang.ELECTRIC_TEACH = True
         lang.ELECTRIC_ANSWER = True
         lang.ABSENCE_INVENTORY = True
+        # THE `or learn` ON EACH OF THESE IS NOT REDUNDANT, and it is the reason this block is
+        # written the way it is. The mode tables are applied ABOVE (enable_learn at the --electric-
+        # learn branch), so a bare `= bool(args.x)` here would silently switch the mode's own
+        # widening back OFF for anyone who asked for the mode and not for the individual flag:
+        # --electric --electric-learn used to leave ELECTRIC_REVERSE, ELECTRIC_OBJECT_ROLE and
+        # ELECTRIC_ASK_NORMALIZE False, which is teach mode plus one widening, not the mode the
+        # table defines and not the mode docs/STATE.md says was measured. Each individual switch is
+        # store_true, so `or learn` can only ever add -- the same argument the store-shape guard
+        # below already makes. A door that re-lists the mode's flags in its own order is the
+        # failure this project keeps hitting; this one reads the table and then only ADDS.
         # Reverse-role asks are a separate permission (see NeuralLanguage.
         # ELECTRIC_REVERSE): a miss there can return the wrong fact about the right
         # noun instead of nothing, so it is not folded into --electric.
-        lang.ELECTRIC_REVERSE = bool(args.electric_reverse)
+        lang.ELECTRIC_REVERSE = bool(args.electric_reverse) or learn
         # Object-role asks get their own switch for the same reason, and because
         # ELECTRIC_REVERSE already turned out to do more than its name says (C4d) --
         # folding a third behaviour into it would make the flag un-analysable.
-        lang.ELECTRIC_OBJECT_ROLE = bool(args.electric_object_role)
+        lang.ELECTRIC_OBJECT_ROLE = bool(args.electric_object_role) or learn
         # Ask normalization is a FOURTH separate permission, for the same reason as the
         # other two: it changes which asks reach which matchers, and a run that shows it
         # costing something has to be able to say which switch did it.
-        lang.ELECTRIC_ASK_NORMALIZE = bool(args.electric_ask_normalize)
+        lang.ELECTRIC_ASK_NORMALIZE = bool(args.electric_ask_normalize) or learn
+        # The do-support fold, a fifth: one word inserted into an ask that dropped it, and only
+        # when a taught tell carries both halves. It is INERT without the line above -- the variant
+        # is generated inside the normalizer's block -- so the two are wired adjacent, in that
+        # order, and tools/electric_teach_mode.py DEPENDS_ON says so out loud when they are not.
+        lang.ELECTRIC_ASK_DO_SUPPORT = bool(args.electric_ask_do_support) or learn
         # The store-shape guard, wired HERE and not beside the other ELECTRIC_QA_* switches,
         # for two reasons that are both about order. It is inert without ELECTRIC_TEACH -- the
         # write it declines only happens under that flag -- and its parent is set four lines
@@ -553,7 +586,12 @@ def main() -> int:
         # has its parent on. And `or teach` rather than a bare bool(): the mode's own table
         # already turned this on, several lines earlier, and a plain assignment would switch the
         # mode's fix back off for anyone who asked for the mode and not for this switch.
-        lang.ELECTRIC_ASK_SHAPE_STORE = bool(args.electric_ask_shape_store) or teach
+        # `or teach or learn`: the mode tables already turned this on, and a bare bool() here
+        # would switch the mode's own store guard back off. LEARN is teach's superset, so both
+        # modes own it -- `or teach` alone was written when there was only one mode, and it is
+        # the same overwrite the widenings above had, on the one flag that was supposed to be
+        # safe because it is in the stack.
+        lang.ELECTRIC_ASK_SHAPE_STORE = bool(args.electric_ask_shape_store) or teach or learn
         # THE RESTART HALF. converse.build() repoints writes into the session dir and
         # never reads them back, so a second serve.py over the same --session-dir would
         # come up amnesiac even though the state is on disk.  load_state() is a no-op
@@ -565,7 +603,13 @@ def main() -> int:
         print(f"[serve] ELECTRIC on: loaded={bool((lres or {}).get('loaded'))} "
               f"taught facts={sum(len(v) for v in lang._taught_says.values())} "
               f"subjects={len(lang._taught_says)} "
-              f"reverse={args.electric_reverse} object_role={args.electric_object_role} "
+              # Read off the ORGAN, not off argparse: what the user asked for is not what the
+              # house is running, and since the `or learn` wiring above the two can differ. A
+              # banner that prints intent while the code applies state is how a mode silently
+              # becoming another mode goes unnoticed for a whole session.
+              f"reverse={lang.ELECTRIC_REVERSE} object_role={lang.ELECTRIC_OBJECT_ROLE} "
+              f"normalize={lang.ELECTRIC_ASK_NORMALIZE} "
+              f"do_support={lang.ELECTRIC_ASK_DO_SUPPORT} "
               f"shape_store={lang.ELECTRIC_ASK_SHAPE_STORE}",
               flush=True)
     session = converse.Session(agent, beats=args.beats)

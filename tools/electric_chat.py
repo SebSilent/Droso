@@ -104,7 +104,7 @@ def build_organ(state_path, electric=True, teach=False, guard=False, learn=False
     lang.ELECTRIC_ASK_SHAPE_STORE = bool(guard)
     if teach:
         electric_teach_mode.enable(lang)
-    # `learn` is the FULL teach/learn mode -- the stack above plus the four widenings the narrow
+    # `learn` is the FULL teach/learn mode -- the stack above plus the five widenings the narrow
     # mode refuses to make -- and it is the only way this door reaches them, because there is no
     # individual --electric-reverse / --electric-object-role / --electric-ask-normalize switch
     # here. Applied last, because it is enable()'s superset: two mode switches cannot then come
@@ -339,7 +339,7 @@ def main() -> int:
                          "has no learned question words, so a pair he holds is answered by the "
                          "RECORD, not by punctuation.")
     ap.add_argument("--electric-learn", action="store_true",
-                    help="the FULL teach/learn mode: --electric-teach plus the four widenings "
+                    help="the FULL teach/learn mode: --electric-teach plus the five widenings "
                          "it refuses (ask-shape, reverse, object-role, ask-normalize), from the "
                          "same table tools/serve.py reads. This door has no individual switch for "
                          "those four, so this flag is the only way to reach them here. The stack "
@@ -386,7 +386,7 @@ def main() -> int:
               "measure the control.", file=sys.stderr, flush=True)
     if learn and args.no_electric:
         print("[chat] --no-electric with --electric-learn: the learn mode implies the ELECTRIC "
-              "flags underneath it AND the four widenings, so this is the widest arm, not the "
+              "flags underneath it AND the five widenings, so this is the widest arm, not the "
               "control. Drop --electric-learn to measure the control.",
               file=sys.stderr, flush=True)
     lang = build_organ(state, electric, teach,
@@ -432,7 +432,7 @@ def main() -> int:
         ready += f" teach=on pairs={boot['qa_pairs_at_boot']}"
     if learn:
         # The mode a person asked for has to be visible in the line they read to decide the run
-        # worked: `teach=on` alone would describe the narrow mode, and the four widenings are the
+        # worked: `teach=on` alone would describe the narrow mode, and the five widenings are the
         # difference between the two.
         ready += " learn=on (full teach/learn mode)"
     print(ready, flush=True)
