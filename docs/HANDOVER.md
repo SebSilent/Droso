@@ -5,14 +5,17 @@ Objective, state, commands, and boundaries as of this handover. The long-form hi
 layer: what is true right now, how to re-check it, and what not to touch.
 
 **Commit: `af2a739`** -- `ELECTRIC_ARBITER_TELL: the arbiter verified the memory; now the house says it`,
-15 files, +1180/-468, on `main`. This handover followed it as `b7f1da4`, and both are **pushed to
-`origin/main`** (`https://github.com/SebSilent/Droso.git`). `af2a739` was amended before that push, which
-is the only reason its caveat numbers could be corrected rather than left wrong in published history;
-now that the branch is level with the remote, nothing in it is amendable and a further correction is a
-new commit. This sentence is proof of that: an earlier draft of this file said "local only, never
-pushed, ahead of `origin/main` by 63", and the push made it false, so the commit you are reading exists
-to fix a handover about a push by being pushed. The full suite was re-run at `af2a739` after every
-correction: **1126 passed, 3 skipped, exit 0**.
+15 files, +1180/-468, on `main`. This handover followed it as `b7f1da4`, corrected by `e09c0b9`, and
+E27's work now sits on the local branch `e27-parking` (see "Not part of this work"). `af2a739` was
+amended before it was pushed, which is the only reason its caveat numbers could be corrected rather than
+left wrong in published history; once a commit is on `origin/main` it is not amendable and a correction
+has to be a new commit.
+
+**This file deliberately does not record push state.** An earlier draft said "local only, never pushed,
+ahead of `origin/main` by 63" and the push made that sentence false in the commit that shipped it. Prose
+about a moving ref goes stale the moment someone moves the ref: check
+`git ls-remote origin refs/heads/main` against `git rev-parse HEAD` instead. The full suite was re-run at
+`af2a739` after every correction: **1126 passed, 3 skipped, exit 0**.
 
 ## What was in flight
 
@@ -158,23 +161,73 @@ git show HEAD:organs/neural_language.py | .venv\Scripts\python.exe -c "import sy
   learn/d3 source mix in all three phases. `tools/electric_chat.py --fresh` is NOT deterministic across
   processes on the fragment path, and the repo says so; do not "fix" one by touching the other.
 
-## Not part of this work -- deliberately uncommitted
+## Not part of this work -- parked on `e27-parking`
 
-E27's shape-vs-paraphrase divergence investigation owns these, and they must not ride along with a
-flag commit:
+E27's shape-vs-paraphrase divergence investigation owns these files. They must not ride along with a flag
+commit and they must not be merged into `main`. They are now **committed on the local branch
+`e27-parking`** and are **not in `main`'s working tree**, so `git status` on `main` is empty. The branch
+exists only in this clone; nothing about it has been pushed, and pushing it is E27's owner's call, not
+something to do by reflex.
 
-- `docs/evidence/e27_divergence.json`, `e27_realpath_divergence.py`, `e27_shapes_analysis.py`,
-  `e27_shapes_control.json`, `e27_shapes_result.md`, `e27_shapes_treatment.json` -- **untracked**
-- `docs/evidence/electric_subject_key_probe.py` -- **tracked and modified** (+24/-6: the `--treatment`
-  switch and the `E27_SHAPE_DEBUG` trace). E27's, not this handover's.
-- `tools/electric_shape_generalise.py` -- untracked, +380 lines, no tests, not wired into any mode
-- `state/electric_chat/` -- untracked runtime state, rewritten by every live run; never commit it
-- `_tmp/` -- this session's scratch (A/B logs, the regression sweep, the pre-flag benchmark snapshot
-  `bench_pre_arbiter_tell_HEAD.json`, sha256
-  `83a774515c5adc676283f30f48625d363db5c941116fbb55a499a73949d6cb26`, itself re-probed as 40 items /
-  136 probes / 3 arms / 0 failures / 27 told sentences). Ignored, safe to delete -- **the row matrix in
-  the next section cannot be re-derived without this file**, so delete it only if you are ready to
-  re-run the pre-flag benchmark to get it back.
+| commit | message | holds |
+|---|---|---|
+| `1c4fedc` | `E27 shapes and treatment work, parked off main` | 8 files, +14379/-2 |
+| `f71fe9b` | `electric_chat runtime state that the live session left behind` | 1 file, +478 |
+
+What is stored there:
+
+- `docs/evidence/e27_divergence.json`, `e27_realpath_divergence.py` (+208), `e27_shapes_analysis.py`
+  (+167), `e27_shapes_control.json` (+6075), `e27_shapes_result.md` (+153), `e27_shapes_treatment.json`
+  (+6529) -- were untracked
+- `docs/evidence/electric_subject_key_probe.py` -- the tracked file E27 had modified (+24/-6: the
+  `--treatment` switch and the `E27_SHAPE_DEBUG` trace). `main` still carries the `139f2db` version
+  (verified with `git log -1 -- docs/evidence/electric_subject_key_probe.py`, not recalled), so
+  **`--treatment` does not exist on `main`** and running the probe there gets the old behaviour.
+- `tools/electric_shape_generalise.py` -- +377 lines, no tests, not wired into any mode
+- `state/electric_chat/neural_lang.json` -- 8 KB of live chat state. It was the only file in that
+  directory not already ignored: the `.san.npz`, `.cortex.*` and `.seq.*` siblings match `.gitignore`
+  patterns and stayed on disk. Parked rather than deleted so nobody's session output was destroyed in
+  order to make `main` look clean, and **it must not be committed to `main`**, which is what the ignore
+  block's "never snapshot a brain" rule is for.
+
+Restore, without merging anything into `main`:
+
+```bash
+git switch e27-parking                       # keep working on E27: the clean option
+git diff --stat main..e27-parking            # inspect what is parked
+git log --oneline main..e27-parking          # the two commits
+
+# or pull individual files back into THIS worktree:
+git checkout e27-parking -- docs/evidence/e27_divergence.json docs/evidence/e27_realpath_divergence.py docs/evidence/e27_shapes_analysis.py docs/evidence/e27_shapes_control.json docs/evidence/e27_shapes_result.md docs/evidence/e27_shapes_treatment.json tools/electric_shape_generalise.py
+git checkout e27-parking -- docs/evidence/electric_subject_key_probe.py
+git checkout e27-parking -- state/electric_chat/neural_lang.json
+```
+
+Note the trap in `git checkout <branch> -- <path>`: it copies the file into the worktree **and stages it**.
+On `main` that leaves a staged E27 change one careless `git commit -a` away from riding along with
+somebody else's work. Unstage it (`git restore --staged <path>`) if you only wanted to look.
+
+Two hazards the parking created, both accepted:
+
+- `state/electric_chat/` is now **split**. `neural_lang.json` is on the branch, its derived siblings are
+  still on disk. The next `tools/electric_chat.py` run rebuilds the json (that is what `--fresh` does
+  anyway), so nothing is broken -- but do not read the surviving `.san.npz` as that session's brain. It is
+  orphaned until the json comes back.
+- `docs/STATE.md` **cites three of the parked files by path**, in its "E27 RESULT" section:
+  `tools/electric_shape_generalise.py` (the harness), `docs/evidence/e27_shapes_analysis.py` (analysis)
+  and `docs/evidence/e27_shapes_result.md` (write-up). None of the three exists on `main` any more, so
+  that section now points at files the branch it lives on does not contain. The result itself is still
+  quotable from `STATE.md` -- S0 plain agent **60/60 against 40/60 control, gain +20**, and **zero gain on
+  all four widened shapes** (S1 57/57, S2 19/19, S3 12/12, S4 0/0) -- but it cannot be re-derived without
+  restoring the branch first. Deleting `e27-parking` would orphan a published result the way losing
+  `_tmp/bench_pre_arbiter_tell_HEAD.json` would orphan this handover's matrix.
+
+`_tmp/` is untouched by all of this: ignored, still on disk, holding the A/B logs, the regression sweep,
+and the pre-flag benchmark snapshot `bench_pre_arbiter_tell_HEAD.json` (sha256
+`83a774515c5adc676283f30f48625d363db5c941116fbb55a499a73949d6cb26`, itself re-probed as 40 items /
+136 probes / 3 arms / 0 failures / 27 told sentences). Safe to delete, except that **the row matrix under
+"Known gap" cannot be re-derived without it** -- delete it only if you are ready to re-run the pre-flag
+benchmark to get it back.
 
 ## Commit boundary for this work
 
