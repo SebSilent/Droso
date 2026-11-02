@@ -5,9 +5,14 @@ Objective, state, commands, and boundaries as of this handover. The long-form hi
 layer: what is true right now, how to re-check it, and what not to touch.
 
 **Commit: `af2a739`** -- `ELECTRIC_ARBITER_TELL: the arbiter verified the memory; now the house says it`,
-15 files, +1180/-468, on `main`. **Local only, never pushed** (`main` is ahead of `origin/main` by 63),
-which is why the caveat numbers in this commit could be amended rather than left wrong in history. The
-full suite was re-run at this commit after every correction: **1126 passed, 3 skipped, exit 0**.
+15 files, +1180/-468, on `main`. This handover followed it as `b7f1da4`, and both are **pushed to
+`origin/main`** (`https://github.com/SebSilent/Droso.git`). `af2a739` was amended before that push, which
+is the only reason its caveat numbers could be corrected rather than left wrong in published history;
+now that the branch is level with the remote, nothing in it is amendable and a further correction is a
+new commit. This sentence is proof of that: an earlier draft of this file said "local only, never
+pushed, ahead of `origin/main` by 63", and the push made it false, so the commit you are reading exists
+to fix a handover about a push by being pushed. The full suite was re-run at `af2a739` after every
+correction: **1126 passed, 3 skipped, exit 0**.
 
 ## What was in flight
 
