@@ -1694,6 +1694,13 @@ from the store, and pairs survive a restart answerable 100/100.
 - **Guarded contract untouched.** `_absence_licence` still binds with `_electric_bind(question,
   inventory)` and receives no flags, pinned at the call site, with the store's consult ordered
   **after** the taught path and **before** the licence. No token altered, no brain built.
+- **Flag default-off, and the guard is pinned.** `ELECTRIC_QA_PROVENANCE = False`; the store's
+  consult is gated on `ELECTRIC_QA_STORE` as before, and the new lookup branch inside
+  `_qa_store_answer` returns `None` unless the flag is on, so the off path runs the audited code.
+  The flags are **class** attributes (`organs/neural_language.py:2919`), not module globals —
+  `hasattr(nl, "ELECTRIC_QA_ELICIT")` is False and a module-level write does not reach the organ,
+  so every arm here sets them on the instance. Pinned by
+  `test_the_flag_defaults_off_and_is_a_class_attribute` rather than assumed.
 - **Gaps left open, on purpose.** The two halves interact: the vote gate removes votes, the lookup
   gate needs `INTERROGATIVE_MIN_VOTES = 2`, so a word whose second vote came from a refused pair
   loses its unmarked answer along with its corruption -- real in the stimulus for `what`, pinned by
@@ -1702,3 +1709,78 @@ from the store, and pairs survive a restart answerable 100/100.
   quoted asks are still not paired. No eviction. And the Dickens house still answers
   `might a mere warmint ask what property?` with `the scarf is on the hook` from
   `recalled proposition` -- pre-existing, printed by the tool, not asserted away.
+
+## ELECTRIC_QA_ELICIT -- a person can teach him a question
+
+`organs/neural_language.py:2919` (`ELECTRIC_QA_ELICIT`, default **False**),
+`tools/serve.py --electric-qa-elicit`, `tests/test_electric_qa_elicit.py` (25),
+`tools/qa_elicit_live.py` → `docs/evidence/qa_elicit_live.json`.
+
+The store has only ever held lines he was **READ**, which makes it useless in the one place it was
+built for: someone telling him something. This flag pairs a user's marked ask with the very next
+thing **that user** said and stores it with `source=conversation`. Three routes, each named:
+
+- **WRITE** (`_qa_elicit`, called first in `respond()` so it sees every turn, including the ones
+  that answer a pending ask). A trailing `?` makes a pending ask; the next utterance by the same
+  speaker is its only candidate answer, and the **same arithmetic the book path uses** decides
+  (`_qa_roles` + `_qa_admissible` + `_qa_keep`) -- no new pairing rule, one substituted trigger.
+  A second ask spends the first; `_qa_pending` is deliberately **not** persisted, because a
+  half-finished exchange is not a memory.
+- **READ** (`_qa_from_conversation`). An unmarked ask may hit the store when the record's provenance
+  says a **person** typed that exact question marked -- `ask_evidence="person_marked"`. This is a
+  separate route, not a widening of `learned`: the book branch is byte-unchanged and gated on
+  `ELECTRIC_QA_PROVENANCE` as before. It has to be separate because the vote arithmetic cannot do
+  this work -- one person teaching one pair gives `who` **one** role vote and
+  `INTERROGATIVE_MIN_VOTES = 2`, so `is_interrogative("who")` is False on a conversation-only house.
+  Pinned as a fact, not argued: `test_the_unmarked_route_is_the_record_not_a_learned_question_word`.
+- **ROUTE** (`respond`, :5355). To `answer()` when -- and only when -- the store holds a
+  **conversation** pair under that key. `respond` routes on `is_interrogative`, which needs two
+  votes, so without this the pair is stored, answerable through `answer`, and unreachable in chat.
+  Keyed on records rather than on words, so no ask he has no pair for changes path.
+
+**Measured in the real house, two arms × restart, two houses.** Conversation-only: rows **15/15**
+identical across arms, 0 pairs off / 2 on, both elicited asks answered marked (`typed`) and unmarked
+(`person_marked`, with the text the person typed). After reading `05_questions`: rows **214/214**,
+1 pair on. In both houses, **every ask the flag did not answer from a conversation pair said
+byte-identical words with the same refusal in both arms** (10/14 and 16/18 of the probes), before
+*and* after restart; the guard still refuses (`lantern was told but no place was ever told`);
+leaks **0 → 0**; pairs survive a restart, a hanging ask does not.
+
+**What the live house found rather than confirmed.**
+
+- **A marked ask used to be recorded as a tell, and then answered with its own text.**
+  `_absence_note` reads a sentence by position, so `what rings the bell?` landed in `_taught_says`
+  under subject `rings`, relation `agent`, value = **the question**. `answer()` consults the taught
+  path *before* the store, so the route above handed the ask straight back to the person
+  (`src=electric_taught said=what rings the bell?`, counted as a leak 0 → 1). Pre-existing and
+  identical in both arms -- invisible before this flag because nothing routed an unlearned unmarked
+  ask to `answer()` at all. Closed in `_absence_note`, gated on `ELECTRIC_QA_ELICIT` so every path
+  measured earlier is measured the same way. An **unmarked** ask is still noted: without the `?`
+  nothing in the sentence says it was a question, and inventing one is not this flag's job -- both
+  stated in tests.
+- **A person cannot overwrite a pair a book printed first.** House B's `who carries droso?` /
+  `parent carries droso` stores **nothing**: first-tell-wins refuses it and the book's line stands.
+  Correct by design, asserted as such (`first_tell holds ['who carries droso']`).
+- **A row-count difference was the harness, not the flag.** `boot()` zeroed `MIN_HEAR_INTERVAL_S`
+  *after* hearing the tells, so which tells produced a row depended on wall-clock (13 vs 15).
+  Moved the knobs before the tells; rows are now identical across arms.
+- **The guard I first chose was the wrong guard.** `where did i say the scarf is?` is the battery's
+  case, and the TELLS this house hears do say the scarf is on the hook -- refusing it would itself
+  be the bug. The check now guards an untaught relation (the lantern's place) and separately asserts
+  both arms say the same thing about the scarf ask.
+
+**Boundaries kept.** `ELECTRIC_QA_ELICIT` implies no grammar learning from a refused pair (the
+`_qa_keep` veto still precedes every vote, and elicit-without-store votes nothing at all); it is not
+`ELECTRIC_TEACH`, so a person's answer becomes a stored pair whether or not it also becomes a fact;
+it does not widen the book route, and it does not touch the grader. The grader call is
+`abs_lic = self._absence_licence(text)` (:4494) with **no flags passed**, and the store's consult
+`kept = self._qa_store_answer(text)` (:4491) stays ordered before it -- pinned by
+`test_the_grader_contract_and_the_answer_ordering_are_untouched`.
+
+- **Tests:** `tests/test_electric_qa_elicit.py`, 25. **Suite: 977 passed, 3 skipped, 0 failed**
+  (322s) -- 952 before this work plus these 25, nothing altered on the way.
+- **Still open.** A conversation pair is reachable unmarked only through this route; the `learned`
+  vote path is untouched, so a house with the flag off keeps its audited behaviour exactly. No
+  eviction, no cap on `qa_store`, and the pending ask lives in memory only. Nothing here ran on the
+  battery: generation 25 is still the free one.
+

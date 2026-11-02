@@ -800,6 +800,12 @@ class NeuralLanguage:
         # and tagged with the line it came from. Empty unless the flag is on, and an
         # empty store cannot answer anything, so the read path is inert by default.
         self.qa_store: dict = {}
+        # An ASK a person typed, waiting for the next thing they say to be its answer.
+        # Not a memory: it is a half-finished pair, and it is deliberately NOT saved --
+        # a question left hanging across a restart is not evidence that whatever gets
+        # typed next is its answer. See `_qa_elicit`.
+        self._qa_pending = None
+        self._qa_turn = 0
         self.answer_types: dict = {}
         self.statement_words: dict = {}
         # How often a word has OPENED a question. This is the signal that decides
@@ -2873,11 +2879,12 @@ class NeuralLanguage:
     #      keeps 0 pairs, `qa_pairs_seen` says 1, `what` joins the words that ask, and
     #      `what` is taught it asks role 5 and is answered by `whose`. A question cannot
     #      answer a question, and yet it was still taught.
-    #  (2) THE LOOKUP. A stored pair is reachable only by a typed `?`. Measured: an ask
-    #      with the mark missing is answered 10/10 -- and 0/10 from the store, 0/10 with
-    #      the line the book actually printed, every one of them from `arbiter head`,
-    #      which is the recall path the question-mark channel exists to keep out of the
-    #      asking business. He has a provenance-tagged answer and says a recalled guess.
+    #  (2) THE LOOKUP. A stored pair is reachable only by a typed `?`. Measured over the
+    #      100 pairs a 200-beat read leaves in the store, asked WITHOUT the mark: 0/100
+    #      reached the store. The sources were `recalled proposition` 38, silence 38,
+    #      `arbiter head` 24. The 38 from recall did happen to say the line the book
+    #      printed -- so the words are reachable and the PROVENANCE is not, which is the
+    #      honest form of the complaint, and 38 asks got nothing at all.
     #
     # On: a pair that would be refused admission casts no vote, and the store may answer
     #      an ask whose questionhood is EVIDENCED rather than typed -- exact key match on
@@ -2885,6 +2892,31 @@ class NeuralLanguage:
     #      real pair) to ask with. Nothing else: no similarity, no partial key, no table.
     # Off: byte-identical to the path as audited. Default off.
     ELECTRIC_QA_PROVENANCE = False
+    # ELECTRIC: let a PERSON be a book. The store has so far only ever held lines he was
+    # READ, which makes it useless in the one place it was built for: someone telling him
+    # something. In conversation a question is answered by the NEXT THING THE PERSON SAYS,
+    # which is the same evidence the book path runs on -- adjacency, not comprehension --
+    # and the audit spent a whole section measuring what loosening it costs (pair a
+    # question with any line held as a statement: 175 pairs, 73 of them with the answer
+    # BEFORE the question, and the ones that pass arithmetic teach inverted roles).
+    #
+    # On, three things, each narrower than it needs to be:
+    #  (1) WRITE. A user utterance ending in `?` is held as a pending ask; the very next
+    #      user utterance, and only that one, is offered to `learn_qa` as its answer. The
+    #      ask has to be MARKED: without the `?` nothing here separates an ask from a
+    #      remark, and a stored answer carries this person's name.
+    #  (2) READ. An unmarked ask may hit the store when the record's provenance says a
+    #      PERSON typed that exact question with a mark -- `person_marked`, alongside the
+    #      `learned` route above, and NOT a widening of it: with this flag off, book pairs
+    #      behave exactly as audited.
+    #  (3) ROUTE. `respond` sends an utterance to `answer` when -- and only when -- the
+    #      store holds a CONVERSATION pair under that key. Without it the pair is
+    #      unreachable in a house where the question word has one vote, because `respond`
+    #      routes on `is_interrogative` and needs two; with it, no ask he has no pair for
+    #      changes path at all, so this cannot hand the recall path a new way to speak.
+    # Needs ELECTRIC_QA_STORE to store anything and ELECTRIC_TEACH for the answer to also
+    # become a taught fact. Off by default: nothing is paired, nothing is routed.
+    ELECTRIC_QA_ELICIT = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3080,6 +3112,66 @@ class NeuralLanguage:
                               "prov": dict(provenance)}
         return key
 
+    def _qa_elicit(self, text, speaker):
+        """A person asks; the next thing the PERSON SAYS is the answer. Returns whatever
+        `learn_qa` said, or None when this turn did not complete a pair.
+
+        This is the only way into the store besides being read a book, and it is the same
+        KIND of evidence, not a new kind: adjacency. The book rule is that the answer line
+        sits immediately under the question line. Here it is that the answer is the very
+        next thing this speaker said. Nothing looser is on the table -- the audit measured
+        what loosening costs, and the price is inverted roles, not merely noise: `who
+        carries droso` paired with `droso carries wind` passes the arithmetic and votes
+        that `who` asks for role 2 instead of role 0.
+
+        Adjacency here counts USER TURNS, not turns of the house. That is not a relaxation,
+        it is what a conversation is: he answers, wrongly, and the person corrects him. The
+        correction is the next thing the person said, with the house's own bad guess in
+        between, and there is no version of this feature that pairs a question with the
+        person's own next sentence and does not also do that.
+
+        The ask must be MARKED. `who carries droso?` is a person typing a question; strip
+        the `?` and the same characters are a remark, and a stored answer carries this
+        person's name as its provenance. The mark is recorded so the read side can tell
+        later that these words WERE asked, which is what lets him answer them without one.
+        """
+        if not self.ELECTRIC_QA_ELICIT or str(speaker) != "you":
+            return None
+        raw = str(text or "").strip()
+        if not raw:
+            return None
+        self._qa_turn = int(self._qa_turn) + 1
+        # Keyed the way the store keys, from the same normalizer, so the words a person
+        # typed are the words a later ask has to match. Not the speech tokenizer: if the
+        # two disagreed the pair would be stored under a key nothing can ask with.
+        toks = self.qa_key(raw).split()
+        if not toks:
+            return None
+        if raw.endswith("?"):
+            # A new ask spends the old one. An unanswered question is not a memory, and
+            # carrying it forward is exactly the false adjacency described above.
+            self._qa_pending = {"tokens": list(toks), "text": raw,
+                                "turn": int(self._qa_turn)}
+            return None
+        p = self._qa_pending
+        self._qa_pending = None
+        if not p:
+            return None
+        return self.learn_qa(p["tokens"], toks, provenance={
+            "source": "conversation",
+            "speaker": str(speaker),
+            # Whose turn it was, in THIS session. Not persisted, so it restarts at 0 on a
+            # boot: it says where a pair came from, and is not part of any key.
+            "turn": int(p["turn"]),
+            # The person typed the `?`. This is the whole of the read side's licence to
+            # answer the same words later without one.
+            "marked": True,
+            # Computed, not asserted: a line ending in `?` never reaches here, so this is
+            # always False, and it is the shared admission test's job to say so.
+            "answer_is_question": raw.endswith("?"),
+            "tokens": len(p["tokens"]),
+            "answer_tokens": len(toks)})
+
     def _qa_store_answer(self, text):
         """Answer an ask from a pair he was READ, by exact key or not at all.
 
@@ -3101,6 +3193,7 @@ class NeuralLanguage:
         if not rec:
             return None
         typed = raw.endswith("?")
+        evidence = "typed"
         if not typed:
             # Questionhood WITHOUT punctuation, and only under the flag. Two things have
             # to hold, and neither is a table or a guess: the ask must be token-for-token
@@ -3111,11 +3204,23 @@ class NeuralLanguage:
             # in the good way: only a real answer can teach the word that unlocks it.
             # Everything else stays exactly where it was. A sentence with no mark and no
             # learned question word is not evidence anyone wants an answer.
-            if not self.ELECTRIC_QA_PROVENANCE:
+            prov = rec.get("prov") or {}
+            if (self.ELECTRIC_QA_ELICIT
+                    and str(prov.get("source") or "") == "conversation"
+                    and prov.get("marked")):
+                # A PERSON typed these exact words with a `?` at them, in this house. That
+                # is questionhood from the strongest source available: not a learned vote
+                # and not a table, but the record that somebody asked it. The `learned`
+                # route below cannot carry a pair a person taught in a house where that
+                # question word has one vote, which is what this is for.
+                evidence = "person_marked"
+            elif not self.ELECTRIC_QA_PROVENANCE:
                 return None
-            w = str(rec.get("word") or "").strip().lower()
-            if not w or not self.is_interrogative(w):
-                return None
+            else:
+                w = str(rec.get("word") or "").strip().lower()
+                if not w or not self.is_interrogative(w):
+                    return None
+                evidence = "learned"
         said = " ".join(rec.get("a") or [])
         if not said.strip():
             return None
@@ -3124,7 +3229,7 @@ class NeuralLanguage:
                 "source": "electric_qa_store", "direct": True,
                 "asked": " ".join(rec.get("q") or []),
                 "filler": rec.get("filler"), "role": rec.get("role"),
-                "ask_evidence": "typed" if typed else "learned",
+                "ask_evidence": evidence,
                 "provenance": dict(rec.get("prov") or {})}
 
     def role_votes_report(self) -> dict:
@@ -5098,7 +5203,17 @@ class NeuralLanguage:
         # Written at teach time, never retrieved at ask time -- that is what keeps
         # it clear of E15's null retrieval and E21a's corpus-mass ranking.
         if (self.ABSENCE_INVENTORY or self.ELECTRIC_TEACH) and str(speaker) == "you":
-            self._absence_note(text)
+            # A QUESTION IS NOT A TELL. `_absence_frame` reads a sentence by position, so
+            # `what rings the bell?` lands in the inventory under subject "rings" with
+            # relation "agent" -- and the taught path, which runs BEFORE the store, then
+            # answers that ask with the ask's own text. Measured in the live house
+            # (tools/qa_elicit_live.py); invisible before ELECTRIC_QA_ELICIT because
+            # nothing routed an unlearned, unmarked ask to `answer` at all. Gated on this
+            # flag so every path that was measured earlier is measured the same way.
+            # An UNMARKED ask is still noted: without the `?` there is nothing in the
+            # sentence saying it was a question, and inventing one is not this flag's job.
+            if not (self.ELECTRIC_QA_ELICIT and str(text).strip().endswith("?")):
+                self._absence_note(text)
         thought = self.form_thought(text, scent=self.person_scent(speaker))
         pool = thought["action"]
         for _ in range(4):
@@ -5193,6 +5308,10 @@ class NeuralLanguage:
 
     def respond(self, user_text: str, speaker: str = "you") -> dict:
         """Hear a human's words; speak ONLY if the being wants to."""
+        # FIRST thing, before every early return below: a person's ask and the next thing
+        # they say are a pair, and the pairing has to see the turn whatever ends up
+        # answering it. Off by default, and inert for anyone but `you`.
+        self._qa_elicit(user_text, speaker)
         toks = [t for t in self.tokenizer.tokenize(str(user_text or "")) if t]
         # A glossary question ("which word did i use for the metal") is answered
         # from provenance here, because `which` is not one of the interrogatives
@@ -5227,6 +5346,17 @@ class NeuralLanguage:
         cnt = self._count_answer(str(user_text or ""))
         if cnt is not None:
             return cnt
+        # ELECTRIC_QA_ELICIT, route (3): an ask the store holds a PERSON's pair for goes
+        # to `answer` even when its question word has not earned two votes, because
+        # without this an elicited pair is unreachable in exactly the house that earned it
+        # -- the one where a person taught him `who` once. Keyed on the RECORD, not on the
+        # punctuation: an ask with no pair under it keeps the path it always took, so this
+        # hands the recall path nothing new to say.
+        if self.ELECTRIC_QA_ELICIT and self.qa_store:
+            rec = self.qa_store.get(self.qa_key(user_text))
+            if rec and str((rec.get("prov") or {}).get("source")
+                           or "") == "conversation":
+                return self.answer(user_text, speaker=speaker)
         if any(self.is_interrogative(w) for w in toks):
             # He was asked something. Answering is a different act from replying:
             # it goes to memory first, and it is addressed to the asker.

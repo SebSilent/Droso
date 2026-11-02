@@ -1,0 +1,1098 @@
+{
+  "beats": 200,
+  "conversation": [
+    "who carries droso?",
+    "parent carries droso",
+    "what rings the bell?",
+    "the copper bell rings",
+    "where is the moon?",
+    "the kettle whistles twice",
+    "the moon is behind the barn",
+    "who feeds the dog",
+    "parent feeds the dog"
+  ],
+  "houses": {
+    "A_conversation_only": {
+      "E1": {
+        "rows": 15,
+        "stored": [],
+        "probes": {
+          "who carries droso?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who feeds the dog": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the moon": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "the moon is behind the barn": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "leaks": 0,
+        "by_store": 0,
+        "probes_after": {
+          "who carries droso": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "stored_after": [],
+        "guard_refused": true,
+        "guard_src": "electric_absence",
+        "prov_src": {},
+        "pending_after_restart": false
+      },
+      "E2": {
+        "rows": 15,
+        "stored": [
+          "what rings the bell",
+          "who carries droso"
+        ],
+        "probes": {
+          "who carries droso?": {
+            "spoken": true,
+            "said": "parent carries droso",
+            "src": "electric_qa_store",
+            "evidence": "typed",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell?": {
+            "spoken": true,
+            "said": "the copper bell rings",
+            "src": "electric_qa_store",
+            "evidence": "typed",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso": {
+            "spoken": true,
+            "said": "parent carries droso",
+            "src": "electric_qa_store",
+            "evidence": "person_marked",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": true,
+            "said": "the copper bell rings",
+            "src": "electric_qa_store",
+            "evidence": "person_marked",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "who feeds the dog": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the moon": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "the moon is behind the barn": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "leaks": 0,
+        "by_store": 4,
+        "probes_after": {
+          "who carries droso": {
+            "spoken": true,
+            "said": "parent carries droso",
+            "src": "electric_qa_store",
+            "evidence": "person_marked",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": true,
+            "said": "the copper bell rings",
+            "src": "electric_qa_store",
+            "evidence": "person_marked",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "stored_after": [
+          "what rings the bell",
+          "who carries droso"
+        ],
+        "guard_refused": true,
+        "guard_src": "electric_absence",
+        "prov_src": {
+          "who carries droso": "conversation",
+          "what rings the bell": "conversation"
+        },
+        "pending_after_restart": false
+      }
+    },
+    "B_after_book": {
+      "E1": {
+        "rows": 214,
+        "stored": [],
+        "probes": {
+          "who carries droso?": {
+            "spoken": true,
+            "said": "parent carries droso",
+            "src": "electric_qa_store",
+            "evidence": "typed",
+            "from_store": true,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell?": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who feeds the dog": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the moon": {
+            "spoken": true,
+            "said": "i don't know, moon was told but no place was ever told for moon",
+            "src": "electric_absence",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": true,
+            "leaked": false
+          },
+          "the moon is behind the barn": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": true,
+            "said": "mira",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the animal": {
+            "spoken": true,
+            "said": "the animal is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the arm": {
+            "spoken": true,
+            "said": "the arm is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the bed": {
+            "spoken": true,
+            "said": "the bed is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the bird": {
+            "spoken": true,
+            "said": "the bird is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "leaks": 0,
+        "by_store": 1,
+        "probes_after": {
+          "who carries droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": true,
+            "said": "mira",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "stored_after": [],
+        "guard_refused": true,
+        "guard_src": "electric_absence",
+        "prov_src": {
+          "who carries droso": ""
+        },
+        "pending_after_restart": false
+      },
+      "E2": {
+        "rows": 214,
+        "stored": [
+          "what rings the bell"
+        ],
+        "probes": {
+          "who carries droso?": {
+            "spoken": true,
+            "said": "parent carries droso",
+            "src": "electric_qa_store",
+            "evidence": "typed",
+            "from_store": true,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell?": {
+            "spoken": true,
+            "said": "the copper bell rings",
+            "src": "electric_qa_store",
+            "evidence": "typed",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": true,
+            "said": "the copper bell rings",
+            "src": "electric_qa_store",
+            "evidence": "person_marked",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "who feeds the dog": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the moon": {
+            "spoken": true,
+            "said": "i don't know, moon was told but no place was ever told for moon",
+            "src": "electric_absence",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": true,
+            "leaked": false
+          },
+          "the moon is behind the barn": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": true,
+            "said": "mira",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the animal": {
+            "spoken": true,
+            "said": "the animal is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the arm": {
+            "spoken": true,
+            "said": "the arm is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the bed": {
+            "spoken": true,
+            "said": "the bed is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "how is the bird": {
+            "spoken": true,
+            "said": "the bird is calm",
+            "src": "recalled proposition",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "leaks": 0,
+        "by_store": 3,
+        "probes_after": {
+          "who carries droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what rings the bell": {
+            "spoken": true,
+            "said": "the copper bell rings",
+            "src": "electric_qa_store",
+            "evidence": "person_marked",
+            "from_store": true,
+            "conv": "conversation",
+            "refused": false,
+            "leaked": false
+          },
+          "where did i say the scarf is?": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who does the lantern belong to?": {
+            "spoken": true,
+            "said": "mira",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "what bites the latch?": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "where is the scarf": {
+            "spoken": true,
+            "said": "the scarf is on the hook",
+            "src": "electric_taught",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries the droso": {
+            "spoken": true,
+            "said": "parent",
+            "src": "arbiter head",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "who carries droso tomorrow": {
+            "spoken": false,
+            "said": "",
+            "src": "",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          },
+          "is the kettle warm?": {
+            "spoken": true,
+            "said": "the light",
+            "src": "meaning resonance",
+            "evidence": "",
+            "from_store": false,
+            "conv": "",
+            "refused": false,
+            "leaked": false
+          }
+        },
+        "stored_after": [
+          "what rings the bell"
+        ],
+        "guard_refused": true,
+        "guard_src": "electric_absence",
+        "prov_src": {
+          "who carries droso": "",
+          "what rings the bell": "conversation"
+        },
+        "pending_after_restart": false
+      }
+    }
+  }
+}

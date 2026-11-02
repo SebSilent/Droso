@@ -300,6 +300,21 @@ def main() -> int:
                          "refused (the only pair the 16 real novels yield is exactly "
                          "that: two Dickens rhetorical questions side by side). OFF by "
                          "default: the store stays empty and cannot answer anything.")
+    ap.add_argument("--electric-qa-elicit", action="store_true",
+                    help="Let a PERSON be a book, in conversation: an utterance ending in "
+                         "`?` is held as a pending ask, and the very next thing that person "
+                         "says is offered to learn_qa as its answer. The pair is stored with "
+                         "provenance (source=conversation, speaker, turn, marked) and can "
+                         "then be answered WITH or WITHOUT the mark -- without it, on the "
+                         "evidence that a person typed the `?` at him once. Needs "
+                         "--electric-qa-store to remember anything. Three routes, each "
+                         "narrower than it needs to be: adjacency is the next utterance by "
+                         "the SAME speaker and nothing older; an unmarked ask needs the "
+                         "RECORD, not a learned question word, which is what makes a "
+                         "one-vote word answerable; and respond() routes to answer() only "
+                         "for a key the store holds a conversation pair under, so an ask he "
+                         "has no pair for keeps the path it always took. OFF by default: "
+                         "nothing is paired and nothing is routed.")
     ap.add_argument("--electric-qa-provenance", action="store_true",
                     help="Make a pair's PROVENANCE govern the pair, not just its "
                          "storage. Two things the audit (tools/book_qa_store_audit.py) "
@@ -368,6 +383,14 @@ def main() -> int:
     # order wrong: the vote that runs before the admission test, and the lookup that
     # demands a typed `?`. Off, the path is byte-identical to what was measured.
     agent.language.ELECTRIC_QA_PROVENANCE = bool(args.electric_qa_provenance)
+    # The conversation half of the store, wired outside --electric like the two above it:
+    # it lives in `respond`, the door every chat turn goes through, and it is inert while
+    # the store is empty, so it cannot fire on a path the graded batteries touch.
+    agent.language.ELECTRIC_QA_ELICIT = bool(args.electric_qa_elicit)
+    if args.electric_qa_elicit and not args.electric_qa_store:
+        print("[serve] --electric-qa-elicit without --electric-qa-store: a paired "
+              "question is voted and forgotten. Nothing said in chat will be answerable "
+              "from it.", flush=True)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into

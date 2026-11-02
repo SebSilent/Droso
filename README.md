@@ -587,6 +587,21 @@ surviving a restart; on Jane Eyre it stores **0** pairs and changes nothing at a
 honest bound — it is memory of what was printed next to what, not comprehension.
 `tools/book_qa_store_live.py` re-runs that check.
 
+`--electric-qa-elicit` points the same mechanism at a person instead of a book: an utterance ending
+in `?` is held as a pending ask, and the very next thing that same speaker says is offered as its
+answer, stored with `source=conversation` and the mark it was typed with. That mark is what lets him
+answer the same words later *without* it — the learned-question-word route needs two role votes, and
+one person teaching one pair gives one, so the memory existed and was unreachable. `respond()` routes
+to `answer()` only for a key the store holds a conversation pair under, so an ask he has no pair for
+keeps the path it always took. Measured in the real house (`tools/qa_elicit_live.py`): rows identical
+across arms (15/15 with no book read, 214/214 after reading one), both elicited asks answered with and
+without the mark, every ask the flag did not answer byte-identical to the arm without it, the guard
+still refusing, leaks 0→0, pairs surviving a restart while a hanging ask does not. It found two things
+rather than confirming them: a marked ask used to be written into the tell inventory, and the taught
+path then answered that ask with the ask's own text — closed here, under this flag, because this flag
+is what routes the ask there; and a person cannot overwrite a pair the book printed first, so teaching
+him `who carries droso?` after the primer stores nothing and the book's line stands.
+
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
 #   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,
