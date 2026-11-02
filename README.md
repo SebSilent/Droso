@@ -690,13 +690,13 @@ of remembered questions, which is the condition that makes the narrow arms answe
 `--electric-learn` is the **full** teach/learn mode: the eight-flag stack, what `--electric` already
 means, *and* the widenings teach mode was built to refuse (`ELECTRIC_ASK_SHAPE`,
 `ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE`,
-`ELECTRIC_ASK_DO_SUPPORT`) — sixteen switches, one list,
+`ELECTRIC_ASK_DO_SUPPORT`, `ELECTRIC_QA_ANSWER_MEMORY`) — seventeen switches, one list,
 `LEARN` in the same table, both doors. It is a separate flag rather than a wider default because the
 two halves have opposite polarity: the stack can only ever **refuse** (a row dropped from the
-evidence, a fragment unspoken, a write declined), while those five can only ever **reach more**.
+evidence, a fragment unspoken, a write declined), while those six can only ever **reach more**.
 Both modes set their attributes through one `_set()` that checks every name against the *class*
-before writing any — `setattr` on an instance accepts any name at all, so a mode of sixteen switches
-could otherwise report sixteen and behave like eleven.
+before writing any — `setattr` on an instance accepts any name at all, so a mode of seventeen switches
+could otherwise report seventeen and behave like eleven.
 
 What the combination buys, measured in a real house across three arms, live and after a genuine
 restart (`tools/electric_learn_live.py` → `docs/evidence/electric_learn_live.json`; 14 rows in every
@@ -769,6 +769,28 @@ are wrong measures its own vocabulary: the first draft counted the licensed refu
 answer earned from an earlier tell as confabulations, and reported 16 inventions in an arm with no
 ELECTRIC flag on at all).
 
+The gap's second class was a rule doing someone else's job. `learn_qa` admits a pair when the answer
+differs from the question by **exactly one word on each side** — the right way to learn that the swap
+in `what bites the latch` / `the dog bites the latch` means `what` asks about the subject, and the rule
+the QA store inherited. Taught 16 pairs in conversation: 10 reached memory, and of the three whose
+answer sentence exists nowhere else in the house — the only three a store is for — **zero**, because
+`where does the bell hang? / the bell hangs on the wall` is 3 missing and 3 new. An answer that says
+something new was unteachable by construction. **`ELECTRIC_QA_ANSWER_MEMORY`** (default off; the sixth
+widening, so `--electric-teach` still refuses it) keeps such a pair with its provenance and its verbatim
+answer and **casts no grammar vote** — `question_roles`, `interrogatives`, `answer_types`,
+`qa_pairs_seen` do not move, and the record is stored with its question word empty and role -1, so the
+`learned` route cannot open it and only a typed or person-marked ask can. Bounds: a marked conversation
+pair, the shared admissibility test, an answer that adds a word (an echo is not a memory), one content
+word in common (adjacency is not aboutness — without this, `what is your name?` and `the sky is blue`
+become a pair), and first tell wins across both admissions. Re-measured: learn **98 → 108** of 124,
+kept **28 → 33** of 40, pairs in store **10/16 → 15/16** and the three the store exists for **0/3 →
+2/3**, and `refusal_silence` 2 → 0 — while `ask_not_recognized` stayed at 4, `key_shadowed` at 3 and
+`fallback_fragment` at 8, and **the teach arm did not move at all** (14/27/39 correct at depths
+1/2/3), with no arm inventing a sentence or answering a second distractor. The one pair it still refuses is refused by its own bound: the ask says `toll`, the answer
+`tolls`, and the store keys on exact tokens — the same stemmer boundary as the residual above, on the
+write side now. `tests/test_electric_qa_answer_memory.py` (17), including a loose pair surviving a real
+save and reload.
+
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
 #   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,
@@ -778,7 +800,9 @@ python tools/electric_chat.py --electric-teach --state state/electric_chat/neura
 #   then ask it in other words:  what ring the bell   ->   the copper bell rings
 #   (--say is one life per call: a held ask does not survive it, and the tool says so)
 python tools/electric_chat.py --electric-learn --state state/electric_chat/neural_lang.json
-#   the same sixteen, plus the five widenings:  what bites the latch  ->  the dog bites the latch
+#   the same seventeen, plus the six widenings:  what bites the latch  ->  the dog bites the latch
+#   and a pair the role arithmetic refuses is still kept:  where does the bell hang?  ->  the bell
+#   hangs on the wall (stored with no grammar claim, so it teaches it nothing about `where`)
 #   (/health reports teach=true and learn=true; --no-electric overrides both)
 python tools/electric_learn_bench.py            # 40 items, 136 probes, 3 arms, ~11 min; exits 1 if
 python tools/electric_learn_bench.py --arms learn --depth 1   # any house says a sentence nobody said
@@ -796,7 +820,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 1091 passed, 3 skipped (at the `ELECTRIC_ASK_DO_SUPPORT` commit; 1062 at `ELECTRIC_LEARN`, 1045 before that -- the deltas are the 17 teach/learn tests, then the 11 do-support and 18 benchmark tests, checked against the files with `findstr /R "^def test_"` rather than assumed. The battery count grows with each entry) |
+| Test suite | 1108 passed, 3 skipped (at the `ELECTRIC_QA_ANSWER_MEMORY` commit; 1091 at `ELECTRIC_ASK_DO_SUPPORT`, 1062 at `ELECTRIC_LEARN`, 1045 before that -- the deltas are the 17 teach/learn tests, the 11 do-support and 18 benchmark tests, then the 17 answer-memory tests, checked against the files with `findstr /R "^def test_"` rather than assumed. The battery count grows with each entry) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

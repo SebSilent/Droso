@@ -3059,6 +3059,24 @@ class NeuralLanguage:
     # the parent's route, widened to follow the fold. Off by default, and with it off the
     # exact-key path is the code that ran before this flag existed.
     ELECTRIC_QA_PARAPHRASE = False
+    # ELECTRIC QA answer memory: a pair the ROLE arithmetic refuses may still be kept as a
+    # MEMORY. `learn_qa` admits a pair only when the answer differs from the ask by exactly one
+    # word on each side -- the right rule for learning which slot `what` asks about, and the rule
+    # the store inherited. Measured by `tools/electric_learn_bench.py`: of 16 pairs taught in
+    # conversation, 10 reached the store and the 3 whose answer sentence exists nowhere else in
+    # the house reached it 0 times; `where does the bell hang?` / `the bell hangs on the wall` is
+    # refused at 3 missing / 3 new, so an answer that says something new cannot be taught.
+    #
+    # On: such a pair is stored with its provenance and its verbatim answer, and NO grammar vote
+    # is cast -- `question_roles`, `interrogatives`, `answer_types`, `qa_pairs_seen` are untouched
+    # (that is what the strict rule protects, and it is why this is a separate permission and not
+    # a wider arithmetic). Bounds: conversation provenance the person MARKED with `?`, the shared
+    # `_qa_admissible` test, an answer that adds at least one word, and at least one shared
+    # content word between the two turns. `word` is stored empty, so the pair is reachable only by
+    # a typed or person-marked ask and never by the `learned` route. INERT without
+    # ELECTRIC_QA_STORE, which has nowhere to keep it. Off by default: with it off the refusal
+    # returns the dict it returned before, byte for byte.
+    ELECTRIC_QA_ANSWER_MEMORY = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3210,8 +3228,18 @@ class NeuralLanguage:
         missing = [i for i, w in enumerate(a) if w not in qset]
         novel = [w for w in q if w not in aset]
         if len(missing) != 1 or len(novel) != 1:
-            return {"learned": False,
-                    "reason": f"{len(missing)} roles missing, {len(novel)} new words"}
+            # The arithmetic is the GRAMMAR's rule and it stays the grammar's rule: no role is
+            # voted, no interrogative is learned, `qa_pairs_seen` does not move. What it has been
+            # doing until here is also gate the MEMORY, and a memory does not need to know which
+            # slot the question word asked about -- it needs to know what this person was told.
+            # ELECTRIC_QA_ANSWER_MEMORY is that separation, and it is a refusal until it is on.
+            kept = self._qa_memory_without_vote(q, a, provenance, missing, novel)
+            out = {"learned": False,
+                   "reason": f"{len(missing)} roles missing, {len(novel)} new words"}
+            if kept:
+                out["stored"] = kept
+                out["stored_without_vote"] = True
+            return out
         role = int(missing[0])
         w = novel[0]
         if self.ELECTRIC_QA_PROVENANCE:
@@ -3241,6 +3269,64 @@ class NeuralLanguage:
                         "filler": filler, "stored": kept}
         return {"learned": True, "interrogative": w, "role": role,
                 "filler": filler}
+
+    def _qa_memory_without_vote(self, q, a, provenance, missing, novel):
+        """ELECTRIC_QA_ANSWER_MEMORY: keep a pair the role arithmetic cannot vote on.
+
+        WHY THIS EXISTS, with the numbers that found it. `tools/electric_learn_bench.py` taught
+        sixteen question-answer pairs in a conversation and asked them back: **ten** reached the
+        store, and of the three whose answer sentence no tell in the house carries -- the only
+        three sentences the store is FOR, because the keyed inventory already holds the other
+        thirteen -- **zero** reached it. The gate is the arithmetic above, which admits a pair only
+        when the answer differs from the ask by EXACTLY ONE WORD ON EACH SIDE. That is a fine rule
+        for learning which slot a question word asks about: `what bites the latch` over `the dog
+        bites the latch` is one swap, and it tells you that `what` wanted the subject. It is a
+        terrible rule for remembering a lesson, because `where does the bell hang?` over `the bell
+        hangs on the wall` differs by three words each side -- and an answer that tells you
+        something new is, under that rule, unteachable by construction. The store borrowed the
+        grammar's test and inherited the grammar's scope.
+
+        WHAT THIS DOES NOT DO, and it is the longer half. It casts no vote: `question_roles`,
+        `interrogatives`, `answer_types` and `qa_pairs_seen` are not touched, because a pair that
+        does not pin a role must not teach one -- that is exactly how the corpus's refused warmint
+        pair taught this organ that `what` asks role 5. And it stores the person's OWN tokens: the
+        read side returns `" ".join(rec["a"])`, so the only sentences this path can ever speak are
+        sentences somebody actually said to him. It cannot invent, because it cannot compose.
+
+        Five bounds, each one a test:
+
+          1. this flag AND `ELECTRIC_QA_STORE` are on -- a validated pair with nowhere to go is
+             not a memory, it is a silent no-op, and the table says so out loud;
+          2. the provenance is a CONVERSATION pair whose question the person MARKED with `?`.
+             This flag is about a person teaching him, not about a corpus line that happened to
+             look like a pair;
+          3. `_qa_admissible`, the SAME shared test the vote uses -- no provenance, no memory, and
+             a question cannot answer a question;
+          4. the answer says at least one word the ask did not. An "answer" that repeats the
+             question is an echo, and storing it would teach him to hand questions back;
+          5. ask and answer share at least one non-stop content word. Adjacency is not aboutness:
+             `what is your name?` over `the sky is blue` is two turns that have nothing to do
+             with each other, and the strict rule's one-swap bound was doing that job implicitly.
+
+        The record is stored with `word` empty and `role` -1, which is not a placeholder -- it is
+        the claim. The grammar does not know what this question word asks about, so the pair is
+        reachable only by an ask typed with `?` or by the person-marked route, and never by the
+        `learned` route a bare question word would otherwise open. `_qa_keep` still applies FIRST
+        TELL WINS, so a loose pair can never overwrite a strict one.
+        """
+        if not (self.ELECTRIC_QA_ANSWER_MEMORY and self.ELECTRIC_QA_STORE):
+            return ""
+        prov = provenance or {}
+        if str(prov.get("source") or "") != "conversation" or not prov.get("marked"):
+            return ""
+        if not self._qa_admissible(provenance)[0]:
+            return ""
+        if len(missing) < 1:
+            return ""
+        aset = set(a)
+        if not [t for t in q if t in aset and t not in _ABSENCE_STOP]:
+            return ""
+        return self._qa_keep(q, a, "", -1, "", provenance)
 
     def _qa_admissible(self, provenance):
         """THE admission test for a pair, shared by the vote and by the store so the two

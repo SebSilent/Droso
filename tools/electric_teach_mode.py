@@ -27,11 +27,11 @@ a rule in two wiring sites is the failure this project keeps hitting; the store'
 is a function for exactly the same reason.
 
 What it is NOT.  It is not "everything ELECTRIC" -- that is ``--electric-learn``, the FULL
-teach/learn mode, this same stack plus the five widenings below, and it is a different flag
+teach/learn mode, this same stack plus the six widenings below, and it is a different flag
 because it has a different blast radius.  ``enable_learn`` exists so the two modes cannot drift
 into two lists in two wiring sites, and so the mode that reaches more can still be named exactly.
 
-Five switches stay out of the NARROW mode because each one is a WIDENING -- it lets more asks
+Six switches stay out of the NARROW mode because each one is a WIDENING -- it lets more asks
 reach more matchers, and each was measured separately precisely so a run could say which one
 cost something:
 
@@ -47,6 +47,9 @@ cost something:
                             dropped its auxiliary onto the do-support form the object-role path
                             already answers, and it is inert unless ASK_NORMALIZE is on, because
                             the variant is generated inside that block.
+    ELECTRIC_QA_ANSWER_MEMORY  reaches the STORE instead of the matchers: a pair the role
+                            arithmetic refuses is kept as a memory, verbatim and with its
+                            provenance, and casts no grammar vote.
 
 ELECTRIC_ASK_NORMALIZE needs a word, because it looks like an omission: ELECTRIC_QA_PARAPHRASE calls
 ``normalize_ask_variants`` itself, so a folded ask DOES use the normalizer under teach mode with
@@ -94,13 +97,13 @@ STACK = (
     ("ELECTRIC_FRAGMENT_GUARD", "electric_fragment_guard",
      "when nothing answered the ask, do not let the house speak a fragment of the ask itself "
      "(measured: `to?`). In the stack because it can only ever refuse to speak: it narrows the "
-     "output, where the five switches left out widen what is reachable"),
+     "output, where the six switches left out widen what is reachable"),
     ("ELECTRIC_ASK_SHAPE_STORE", "electric_ask_shape_store",
      "a tell whose SHAPE is an ask is not filed as a taught fact. `_taught_says` is read before "
      "every other store, so a question the house could not classify used to answer itself here; "
      "the row-side switches above cannot reach it, because they govern rows and this is a "
      "different store. In the stack for the same reason as the fragment guard -- it can only "
-     "ever refuse to write, and the five switches left out widen what is reachable"),
+     "ever refuse to write, and the six switches left out widen what is reachable"),
 )
 
 # What `--electric` already means, and what the stack is pointless without: an untaught ask has
@@ -127,6 +130,16 @@ EXCLUDED = (
      "its action. Measured: 17 of 21 asks WITH the auxiliary answer, 0 of 21 without it -- the "
      "largest single mechanism in the QA gap. Inert without --electric-ask-normalize, whose "
      "block generates it"),
+    ("ELECTRIC_QA_ANSWER_MEMORY", "electric_qa_answer_memory",
+     "a question-answer pair the ROLE arithmetic refuses is still kept as a MEMORY, with its "
+     "provenance and its verbatim answer, and it casts no grammar vote. The arithmetic admits a "
+     "pair only when the answer differs from the ask by exactly one word on each side, which is "
+     "the right rule for learning what `what` asks about and the wrong rule for remembering a "
+     "lesson: measured on 16 pairs taught in conversation, 10 reached the store and the 3 whose "
+     "answer sentence exists nowhere else in the house reached it ZERO times -- an answer that "
+     "says something new was unteachable by construction. Bounds: a conversation pair the person "
+     "marked with `?`, the shared admissibility test, an answer that adds at least one word, and "
+     "one content word in common. Inert without --electric-qa-store"),
 )
 
 # A flag whose parent is off is INERT, not merely weaker: the user has to be told, because the
@@ -155,6 +168,12 @@ DEPENDS_ON = {
                                 "do-support variant is generated inside the normalizer's own "
                                 "block, so with the parent off nothing computes it and the ask "
                                 "refuses exactly as it did before this flag existed."),
+    "ELECTRIC_QA_ANSWER_MEMORY": ("ELECTRIC_QA_STORE",
+                                  "--electric-qa-answer-memory without --electric-qa-store: the "
+                                  "pair passes every bound and then has nowhere to be kept, so "
+                                  "nothing is remembered and nothing changes (and the "
+                                  "conversation route needs --electric-qa-elicit to deliver a "
+                                  "MARKED ask at all, which is bound 2 of the five)."),
     "ELECTRIC_ASK_SHAPE_STORE": ("ELECTRIC_TEACH",
                                  "--electric-ask-shape-store without --electric: nothing is "
                                  "filed as a taught fact in the first place, so there is no "
@@ -168,9 +187,10 @@ LEARN_ATTRS = STACK_ATTRS + EXCLUDED_ATTRS
 ALL_ATTRS = STACK_ATTRS + BASE_ATTRS + EXCLUDED_ATTRS
 
 
-# What the FULL teach/learn mode adds on top of the stack: the five widenings the narrow mode
+# What the FULL teach/learn mode adds on top of the stack: the six widenings the narrow mode
 # leaves off, each measured alone (docs/STATE.md: ELECTRIC_ASK_SHAPE, ELECTRIC_REVERSE,
-# ELECTRIC_OBJECT_ROLE, ELECTRIC_ASK_NORMALIZE, ELECTRIC_ASK_DO_SUPPORT) and each of them a change
+# ELECTRIC_OBJECT_ROLE, ELECTRIC_ASK_NORMALIZE, ELECTRIC_ASK_DO_SUPPORT,
+# ELECTRIC_QA_ANSWER_MEMORY) and each of them a change
 # to WHICH ASK REACHES WHICH MATCHER, not to what the matcher says about an ask it already reaches.
 #
 # Read the two halves together and the mode's shape is honest: the stack can only ever refuse
@@ -193,7 +213,7 @@ def _set(lang, attrs):
     """Set instance attributes, and refuse to pretend about a name the class does not have.
 
     `setattr` on an instance never raises for an unknown name -- it just creates one that no
-    path reads. A mode that turns on sixteen switches must not be able to report sixteen on
+    path reads. A mode that turns on seventeen switches must not be able to report seventeen on
     and behave like the eleven that are real, so the name is checked against the CLASS first and
     a missing one raises. This is the sentence `enable()`'s docstring used to claim was true.
     """
@@ -219,7 +239,7 @@ def enable(lang, base=True):
 
 
 def enable_learn(lang, base=True):
-    """Turn the FULL teach/learn mode on for THIS organ: the stack plus the five widenings.
+    """Turn the FULL teach/learn mode on for THIS organ: the stack plus the six widenings.
 
     Returns the attributes it set. Same instance-only discipline as ``enable``; the difference
     is blast radius, and it is the user's, made by one explicit flag.
@@ -255,9 +275,9 @@ def describe():
 
 
 def describe_learn():
-    """The full mode, one line each: the stack, then the five widenings marked as such.
+    """The full mode, one line each: the stack, then the six widenings marked as such.
 
-    A terminal that turns on sixteen switches should say which five of them reach more, in the
+    A terminal that turns on seventeen switches should say which six of them reach more, in the
     same words, rather than leaving that in a docstring nobody opens at 2 a.m.
     """
     return ([f"{attr:<26} {why}" for attr, _cli, why in STACK]

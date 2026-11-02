@@ -383,6 +383,24 @@ def main() -> int:
                          "--electric-qa-elicit, which is what routes such an ask to "
                          "answer() at all. OFF by default: the exact-key lookup is the code "
                          "that ran before this flag existed.")
+    ap.add_argument("--electric-qa-answer-memory", action="store_true",
+                    help="Let a pair a PERSON taught be KEPT when the role arithmetic refuses "
+                         "it. That arithmetic -- the answer must differ from the question by "
+                         "exactly one word on each side -- is the rule that learns what `what` "
+                         "asks about, and the store inherited it. Measured on a 40-item "
+                         "curriculum (tools/electric_learn_bench.py): 10 of 16 pairs taught in "
+                         "conversation reached the store, and of the 3 whose answer sentence "
+                         "exists nowhere else in the house, 0 did. `where does the bell hang? / "
+                         "the bell hangs on the wall` is refused at 3 missing / 3 new, so an "
+                         "answer that says something new could not be taught at all. This keeps "
+                         "such a pair with its provenance and its verbatim answer and casts NO "
+                         "grammar vote: question_roles, interrogatives, answer_types and "
+                         "qa_pairs_seen do not move, the record is stored with its question word "
+                         "empty so only a typed or person-marked ask can reach it, and it still "
+                         "requires a marked conversation pair, the shared admissibility test, an "
+                         "answer that adds a word, and one content word in common. Inert without "
+                         "--electric-qa-store. OFF by default: the refusal returns the same dict "
+                         "it returned before this flag existed.")
     ap.add_argument("--electric-qa-provenance", action="store_true",
                     help="Make a pair's PROVENANCE govern the pair, not just its "
                          "storage. Two things the audit (tools/book_qa_store_audit.py) "
@@ -419,23 +437,23 @@ def main() -> int:
                          "same table tools/electric_chat.py reads, so the two doors cannot "
                          "grow different ideas of what teach mode means. It WIDENS NOTHING: "
                          "--electric-reverse, --electric-object-role, "
-                         "--electric-ask-normalize, --electric-ask-do-support and "
+                         "--electric-ask-normalize, --electric-ask-do-support, --electric-qa-answer-memory and "
                          "--electric-ask-shape stay behind their "
                          "own flags, because each lets more asks reach more matchers and a run "
                          "that costs something has to be able to say which switch cost it. OFF "
                          "by default: with it off this server is the server that was measured.")
     ap.add_argument("--electric-learn", action="store_true",
-                    help="The FULL teach/learn mode: --electric-teach PLUS the five widenings "
+                    help="The FULL teach/learn mode: --electric-teach PLUS the six widenings "
                          "it refuses -- --electric-ask-shape, --electric-reverse, "
                          "--electric-object-role, --electric-ask-normalize and "
-                         "--electric-ask-do-support. Sixteen switches, "
+                         "--electric-ask-do-support and --electric-qa-answer-memory. Seventeen switches, "
                          "one list, from the same table (LEARN in tools/electric_teach_mode.py) "
                          "this flag reads, so the two modes cannot drift apart. It is a separate "
                          "flag and not a wider default because the two halves have different "
                          "blast radii: the stack can only ever REFUSE (a row dropped, a fragment "
-                         "unspoken, a write declined), while those five only ever REACH MORE -- "
+                         "unspoken, a write declined), while those six only ever REACH MORE -- "
                          "more rows counted as an asking, more asks matched against the "
-                         "inventory, more phrasings folded onto one key. Each of the four was "
+                         "inventory, more phrasings folded onto one key, more pairs kept. Each of the six was "
                          "measured alone and each is documented in docs/STATE.md; what this flag "
                          "claims is the COMBINATION, not that the widenings are free. It implies "
                          "--electric, and it still sets every attribute on the INSTANCE, so the "
@@ -493,6 +511,11 @@ def main() -> int:
     # The paraphrase lookup is inert without the route its parent opens, so it is wired
     # beside it and not inside --electric: a folded ask still has to reach `answer`.
     agent.language.ELECTRIC_QA_PARAPHRASE = bool(args.electric_qa_paraphrase)
+    # Answer memory is wired HERE, with the other QA flags -- that is, BEFORE the mode tables are
+    # applied below -- because this block's order is load-bearing: an individual assignment after
+    # enable_learn() would take the mode's own widening back off, which is the bug that quietly
+    # turned `--electric-learn` into teach mode plus one. Set before, the mode can only ADD.
+    agent.language.ELECTRIC_QA_ANSWER_MEMORY = bool(args.electric_qa_answer_memory)
     # --electric-teach: the whole teachable stack, from the ONE table in
     # tools/electric_teach_mode.py that tools/electric_chat.py reads too. Applied AFTER the
     # individual switches above: each of those is store_true, so they can only ever add, and
@@ -504,7 +527,7 @@ def main() -> int:
     # because it is its superset, so no combination of the two mode flags can leave the organ
     # half-on or ordered. enable_learn goes through the same _set() as enable, which checks each
     # name against the CLASS first: setattr on an instance never raises for an unknown name, and
-    # a mode that turns on sixteen switches must not be able to report sixteen and behave like the
+    # a mode that turns on seventeen switches must not be able to report seventeen and behave like the
     # eleven that are real.
     learn = bool(args.electric_learn)
     if learn:
@@ -536,9 +559,9 @@ def main() -> int:
               flush=True)
         if learn:
             # Named separately, and named as a widening, because a banner that lists sixteen
-            # attributes without saying which five change which asks reach which matchers is a
+            # attributes without saying which six change which asks reach which matchers is a
             # banner that hides the only risk in the mode.
-            print("[serve] ELECTRIC LEARN mode on: teach mode plus the five widenings -- "
+            print("[serve] ELECTRIC LEARN mode on: teach mode plus the six widenings -- "
                   + ", ".join(electric_teach_mode.EXCLUDED_ATTRS), flush=True)
     electric = bool(args.electric)
     if args.electric:

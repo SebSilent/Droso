@@ -16002,7 +16002,7 @@
      ]
     }
    ],
-   "seconds": 171.9
+   "seconds": 169.9
   },
   "learn": {
    "probes": {
@@ -17257,29 +17257,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -19027,29 +19027,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -20797,29 +20797,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -21815,29 +21815,29 @@
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -22569,29 +22569,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -22647,29 +22647,29 @@
        "taught": "the key opens the door"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_exact",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -23585,29 +23585,29 @@
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -24339,29 +24339,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -24417,29 +24417,29 @@
        "taught": "the key opens the door"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_exact",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -25355,29 +25355,29 @@
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -26109,29 +26109,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -26187,29 +26187,29 @@
        "taught": "the key opens the door"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_exact",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -27127,29 +27127,29 @@
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -27881,29 +27881,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 26% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 26% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -27959,29 +27959,29 @@
        "taught": "the key opens the door"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_exact",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -28167,29 +28167,29 @@
        "taught": "the bridge crosses the river"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what does Mira love most",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.3",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "she loves the lantern most",
-       "reason": "nothing he remembers has that shape",
-       "said": "",
+       "reason": "",
+       "said": "she loves the lantern most",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "she loves the lantern most"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what Mira love most",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.3",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "she loves the lantern most",
-       "reason": "nothing he remembers has that shape",
-       "said": "",
+       "reason": "",
+       "said": "she loves the lantern most",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "she loves the lantern most"
       },
       {
@@ -28219,29 +28219,29 @@
        "taught": "it tolls at dusk"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "how many dogs sleep",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.5",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "two dogs sleep",
-       "reason": "the closest memory of his covers 46% of the question",
-       "said": "",
+       "reason": "",
+       "said": "two dogs sleep",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "two dogs sleep"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "how many dogs sleep",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.5",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "two dogs sleep",
-       "reason": "the closest memory of his covers 46% of the question",
-       "said": "",
+       "reason": "",
+       "said": "two dogs sleep",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "two dogs sleep"
       },
       {
@@ -28897,29 +28897,29 @@
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -29651,29 +29651,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 25% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -29729,29 +29729,29 @@
        "taught": "the key opens the door"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_exact",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -29937,29 +29937,29 @@
        "taught": "the bridge crosses the river"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what does Mira love most",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.3",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "she loves the lantern most",
-       "reason": "nothing he remembers has that shape",
-       "said": "",
+       "reason": "",
+       "said": "she loves the lantern most",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "she loves the lantern most"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what Mira love most",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.3",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "she loves the lantern most",
-       "reason": "nothing he remembers has that shape",
-       "said": "",
+       "reason": "",
+       "said": "she loves the lantern most",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "she loves the lantern most"
       },
       {
@@ -29989,29 +29989,29 @@
        "taught": "it tolls at dusk"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "how many dogs sleep",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.5",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "two dogs sleep",
-       "reason": "the closest memory of his covers 47% of the question",
-       "said": "",
+       "reason": "",
+       "said": "two dogs sleep",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "two dogs sleep"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "how many dogs sleep",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.5",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "two dogs sleep",
-       "reason": "the closest memory of his covers 47% of the question",
-       "said": "",
+       "reason": "",
+       "said": "two dogs sleep",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "two dogs sleep"
       },
       {
@@ -30667,29 +30667,29 @@
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "tell1.2",
-       "mech": "refusal_silence",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "reverse_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -31421,29 +31421,29 @@
        "taught": "nora carries the lantern"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 26% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what rings in the tower",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair0.2",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the copper bell rings",
-       "reason": "the closest memory of his covers 26% of the question",
-       "said": "",
+       "reason": "",
+       "said": "the copper bell rings",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "the copper bell rings"
       },
       {
@@ -31499,29 +31499,29 @@
        "taught": "the key opens the door"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where does the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_exact",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "where the bell hang",
-       "cls": "absence",
+       "cls": "correct",
        "item": "pair1.0",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "the bell hangs on the wall",
-       "reason": "bell was told but no place was ever told for bell",
-       "said": "i don't know, bell was told but no place was ever told for bell",
+       "reason": "",
+       "said": "the bell hangs on the wall",
        "shape": "pair_fold",
-       "src": "electric_absence",
+       "src": "electric_qa_store",
        "taught": "the bell hangs on the wall"
       },
       {
@@ -31707,29 +31707,29 @@
        "taught": "the bridge crosses the river"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what does Mira love most",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.3",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "she loves the lantern most",
-       "reason": "nothing he remembers has that shape",
-       "said": "",
+       "reason": "",
+       "said": "she loves the lantern most",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "she loves the lantern most"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "what Mira love most",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.3",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "she loves the lantern most",
-       "reason": "nothing he remembers has that shape",
-       "said": "",
+       "reason": "",
+       "said": "she loves the lantern most",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "she loves the lantern most"
       },
       {
@@ -31759,29 +31759,29 @@
        "taught": "it tolls at dusk"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "how many dogs sleep",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.5",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "two dogs sleep",
-       "reason": "the closest memory of his covers 46% of the question",
-       "said": "",
+       "reason": "",
+       "said": "two dogs sleep",
        "shape": "pair_exact",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "two dogs sleep"
       },
       {
-       "answered": false,
+       "answered": true,
        "ask": "how many dogs sleep",
-       "cls": "refused",
+       "cls": "correct",
        "item": "pair2.5",
-       "mech": "pair_never_admitted",
+       "mech": "answered",
        "own": "two dogs sleep",
-       "reason": "the closest memory of his covers 46% of the question",
-       "said": "",
+       "reason": "",
+       "said": "two dogs sleep",
        "shape": "pair_fold",
-       "src": "",
+       "src": "electric_qa_store",
        "taught": "two dogs sleep"
       },
       {
@@ -31957,6 +31957,7 @@
       "ELECTRIC_ASK_SHAPE_STORE",
       "ELECTRIC_FRAGMENT_GUARD",
       "ELECTRIC_OBJECT_ROLE",
+      "ELECTRIC_QA_ANSWER_MEMORY",
       "ELECTRIC_QA_ELICIT",
       "ELECTRIC_QA_PARAPHRASE",
       "ELECTRIC_QA_PROVENANCE",
@@ -31969,13 +31970,15 @@
      "pair_only": 0,
      "pair_only_in_store": 0,
      "pair_only_lost": [],
-     "pairs_in_store": 3,
+     "pairs_in_store": 5,
      "pairs_taught": 5,
-     "qa": 3,
+     "qa": 5,
      "qa_keys": [
       "what bites the latch",
       "what opens the door",
-      "who carries the lantern"
+      "what rings in the tower",
+      "who carries the lantern",
+      "who does the lantern belong to"
      ],
      "rows": 127,
      "save": [
@@ -31997,6 +32000,7 @@
       "ELECTRIC_ASK_SHAPE_STORE",
       "ELECTRIC_FRAGMENT_GUARD",
       "ELECTRIC_OBJECT_ROLE",
+      "ELECTRIC_QA_ANSWER_MEMORY",
       "ELECTRIC_QA_ELICIT",
       "ELECTRIC_QA_PARAPHRASE",
       "ELECTRIC_QA_PROVENANCE",
@@ -32009,16 +32013,19 @@
      "pair_only": 0,
      "pair_only_in_store": 0,
      "pair_only_lost": [],
-     "pairs_in_store": 7,
+     "pairs_in_store": 10,
      "pairs_taught": 10,
-     "qa": 7,
+     "qa": 10,
      "qa_keys": [
       "what bites the latch",
       "what fills the bucket",
       "what holds the shelf",
       "what opens the door",
+      "what rings in the tower",
       "what warms the water",
+      "where does the bell hang",
       "who carries the lantern",
+      "who does the lantern belong to",
       "who feeds the mouse"
      ],
      "rows": 139,
@@ -32041,6 +32048,7 @@
       "ELECTRIC_ASK_SHAPE_STORE",
       "ELECTRIC_FRAGMENT_GUARD",
       "ELECTRIC_OBJECT_ROLE",
+      "ELECTRIC_QA_ANSWER_MEMORY",
       "ELECTRIC_QA_ELICIT",
       "ELECTRIC_QA_PARAPHRASE",
       "ELECTRIC_QA_PROVENANCE",
@@ -32051,25 +32059,28 @@
      "inventory": 26,
      "loaded": true,
      "pair_only": 3,
-     "pair_only_in_store": 0,
+     "pair_only_in_store": 2,
      "pair_only_lost": [
-      "what does Mira love most?",
-      "when does the bell toll?",
-      "how many dogs sleep?"
+      "when does the bell toll?"
      ],
-     "pairs_in_store": 10,
+     "pairs_in_store": 15,
      "pairs_taught": 16,
-     "qa": 10,
+     "qa": 15,
      "qa_keys": [
+      "how many dogs sleep",
       "what binds the button",
       "what bites the latch",
       "what crosses the river",
+      "what does mira love most",
       "what fills the bucket",
       "what holds the shelf",
       "what opens the door",
       "what powers the lamp",
+      "what rings in the tower",
       "what warms the water",
+      "where does the bell hang",
       "who carries the lantern",
+      "who does the lantern belong to",
       "who feeds the mouse"
      ],
      "rows": 155,
@@ -32080,7 +32091,7 @@
      ]
     }
    ],
-   "seconds": 149.5
+   "seconds": 148.2
   },
   "teach": {
    "probes": {
@@ -48143,7 +48154,7 @@
      ]
     }
    ],
-   "seconds": 155.3
+   "seconds": 154.9
   }
  },
  "distractors": [
@@ -49463,7 +49474,7 @@
       },
       "pair_exact": {
        "absence": 0,
-       "correct": 4,
+       "correct": 5,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 2,
@@ -49471,11 +49482,11 @@
        "misattrib": 0,
        "n": 16,
        "partial": 0,
-       "refused": 9
+       "refused": 8
       },
       "pair_fold": {
        "absence": 0,
-       "correct": 4,
+       "correct": 5,
        "cross_echo": 0,
        "echo": 2,
        "entailed": 2,
@@ -49483,7 +49494,7 @@
        "misattrib": 0,
        "n": 16,
        "partial": 0,
-       "refused": 8
+       "refused": 7
       },
       "qword": {
        "absence": 0,
@@ -49558,19 +49569,19 @@
        "refused": 15
       }
      },
-     "correct": 35,
+     "correct": 37,
      "echo": 3,
      "entailed": 4,
      "misattrib": 1,
      "partial": 1,
-     "refused": 92,
+     "refused": 90,
      "retention": {
       "items": 13,
-      "kept": 11,
-      "lost": 1,
+      "kept": 12,
+      "lost": 0,
       "part": 1,
       "probes": 39,
-      "probes_correct": 35
+      "probes_correct": 37
      }
     },
     "reasked": {
@@ -49601,7 +49612,7 @@
       },
       "pair_exact": {
        "absence": 0,
-       "correct": 4,
+       "correct": 5,
        "cross_echo": 0,
        "echo": 2,
        "entailed": 2,
@@ -49609,11 +49620,11 @@
        "misattrib": 0,
        "n": 16,
        "partial": 0,
-       "refused": 8
+       "refused": 7
       },
       "pair_fold": {
        "absence": 0,
-       "correct": 4,
+       "correct": 5,
        "cross_echo": 0,
        "echo": 2,
        "entailed": 2,
@@ -49621,7 +49632,7 @@
        "misattrib": 0,
        "n": 16,
        "partial": 0,
-       "refused": 8
+       "refused": 7
       },
       "qword": {
        "absence": 0,
@@ -49696,20 +49707,20 @@
        "refused": 15
       }
      },
-     "correct": 35,
+     "correct": 37,
      "cross_echo": 1,
      "echo": 6,
      "entailed": 4,
      "misattrib": 1,
      "partial": 1,
-     "refused": 88,
+     "refused": 86,
      "retention": {
       "items": 13,
-      "kept": 11,
-      "lost": 1,
+      "kept": 12,
+      "lost": 0,
       "part": 1,
       "probes": 39,
-      "probes_correct": 35
+      "probes_correct": 37
      }
     },
     "restarted": {
@@ -49740,7 +49751,7 @@
       },
       "pair_exact": {
        "absence": 0,
-       "correct": 4,
+       "correct": 5,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 2,
@@ -49748,11 +49759,11 @@
        "misattrib": 0,
        "n": 16,
        "partial": 0,
-       "refused": 9
+       "refused": 8
       },
       "pair_fold": {
        "absence": 0,
-       "correct": 4,
+       "correct": 5,
        "cross_echo": 0,
        "echo": 2,
        "entailed": 2,
@@ -49760,7 +49771,7 @@
        "misattrib": 0,
        "n": 16,
        "partial": 0,
-       "refused": 8
+       "refused": 7
       },
       "qword": {
        "absence": 0,
@@ -49835,25 +49846,24 @@
        "refused": 15
       }
      },
-     "correct": 35,
+     "correct": 37,
      "echo": 3,
      "entailed": 4,
      "misattrib": 1,
      "partial": 1,
-     "refused": 92,
+     "refused": 90,
      "retention": {
       "items": 13,
-      "kept": 11,
-      "lost": 1,
+      "kept": 12,
+      "lost": 0,
       "part": 1,
       "probes": 39,
-      "probes_correct": 35
+      "probes_correct": 37
      }
     }
    },
    "2": {
     "live": {
-     "absence": 4,
      "by_shape": {
       "object": {
        "absence": 0,
@@ -49880,8 +49890,8 @@
        "refused": 10
       },
       "pair_exact": {
-       "absence": 1,
-       "correct": 7,
+       "absence": 0,
+       "correct": 9,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 2,
@@ -49889,11 +49899,11 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 5
+       "refused": 4
       },
       "pair_fold": {
-       "absence": 1,
-       "correct": 7,
+       "absence": 0,
+       "correct": 9,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 2,
@@ -49901,7 +49911,7 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 4
+       "refused": 3
       },
       "qword": {
        "absence": 0,
@@ -49916,8 +49926,8 @@
        "refused": 6
       },
       "reverse": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -49928,8 +49938,8 @@
        "refused": 0
       },
       "reverse_fold": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -49976,23 +49986,22 @@
        "refused": 8
       }
      },
-     "correct": 65,
+     "correct": 71,
      "echo": 1,
      "entailed": 4,
      "misattrib": 4,
      "partial": 4,
-     "refused": 54,
+     "refused": 52,
      "retention": {
       "items": 26,
-      "kept": 19,
-      "lost": 4,
-      "part": 3,
+      "kept": 22,
+      "lost": 2,
+      "part": 2,
       "probes": 80,
-      "probes_correct": 65
+      "probes_correct": 71
      }
     },
     "reasked": {
-     "absence": 4,
      "by_shape": {
       "object": {
        "absence": 0,
@@ -50019,8 +50028,8 @@
        "refused": 10
       },
       "pair_exact": {
-       "absence": 1,
-       "correct": 7,
+       "absence": 0,
+       "correct": 9,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 2,
@@ -50028,11 +50037,11 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 4
+       "refused": 3
       },
       "pair_fold": {
-       "absence": 1,
-       "correct": 7,
+       "absence": 0,
+       "correct": 9,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 2,
@@ -50040,7 +50049,7 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 4
+       "refused": 3
       },
       "qword": {
        "absence": 0,
@@ -50055,8 +50064,8 @@
        "refused": 6
       },
       "reverse": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50067,8 +50076,8 @@
        "refused": 0
       },
       "reverse_fold": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50115,23 +50124,22 @@
        "refused": 8
       }
      },
-     "correct": 65,
+     "correct": 71,
      "echo": 2,
      "entailed": 4,
      "misattrib": 4,
      "partial": 4,
-     "refused": 53,
+     "refused": 51,
      "retention": {
       "items": 26,
-      "kept": 19,
-      "lost": 4,
-      "part": 3,
+      "kept": 22,
+      "lost": 2,
+      "part": 2,
       "probes": 80,
-      "probes_correct": 65
+      "probes_correct": 71
      }
     },
     "restarted": {
-     "absence": 4,
      "by_shape": {
       "object": {
        "absence": 0,
@@ -50158,8 +50166,8 @@
        "refused": 10
       },
       "pair_exact": {
-       "absence": 1,
-       "correct": 7,
+       "absence": 0,
+       "correct": 9,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 2,
@@ -50167,11 +50175,11 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 5
+       "refused": 4
       },
       "pair_fold": {
-       "absence": 1,
-       "correct": 7,
+       "absence": 0,
+       "correct": 9,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 2,
@@ -50179,7 +50187,7 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 4
+       "refused": 3
       },
       "qword": {
        "absence": 0,
@@ -50194,8 +50202,8 @@
        "refused": 6
       },
       "reverse": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50206,8 +50214,8 @@
        "refused": 0
       },
       "reverse_fold": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50254,25 +50262,24 @@
        "refused": 8
       }
      },
-     "correct": 65,
+     "correct": 71,
      "echo": 1,
      "entailed": 4,
      "misattrib": 4,
      "partial": 4,
-     "refused": 54,
+     "refused": 52,
      "retention": {
       "items": 26,
-      "kept": 19,
-      "lost": 4,
-      "part": 3,
+      "kept": 22,
+      "lost": 2,
+      "part": 2,
       "probes": 80,
-      "probes_correct": 65
+      "probes_correct": 71
      }
     }
    },
    "3": {
     "live": {
-     "absence": 4,
      "by_shape": {
       "object": {
        "absence": 0,
@@ -50299,8 +50306,8 @@
        "refused": 4
       },
       "pair_exact": {
-       "absence": 1,
-       "correct": 10,
+       "absence": 0,
+       "correct": 14,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50308,11 +50315,11 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 4
+       "refused": 1
       },
       "pair_fold": {
-       "absence": 1,
-       "correct": 10,
+       "absence": 0,
+       "correct": 14,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 0,
@@ -50320,7 +50327,7 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 3
+       "refused": 0
       },
       "qword": {
        "absence": 0,
@@ -50335,8 +50342,8 @@
        "refused": 6
       },
       "reverse": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50347,8 +50354,8 @@
        "refused": 0
       },
       "reverse_fold": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50395,22 +50402,21 @@
        "refused": 0
       }
      },
-     "correct": 98,
+     "correct": 108,
      "echo": 1,
      "misattrib": 4,
      "partial": 7,
-     "refused": 22,
+     "refused": 16,
      "retention": {
       "items": 40,
-      "kept": 28,
-      "lost": 7,
-      "part": 5,
+      "kept": 33,
+      "lost": 3,
+      "part": 4,
       "probes": 124,
-      "probes_correct": 98
+      "probes_correct": 108
      }
     },
     "reasked": {
-     "absence": 4,
      "by_shape": {
       "object": {
        "absence": 0,
@@ -50437,8 +50443,8 @@
        "refused": 4
       },
       "pair_exact": {
-       "absence": 1,
-       "correct": 10,
+       "absence": 0,
+       "correct": 14,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 0,
@@ -50446,11 +50452,11 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 3
+       "refused": 0
       },
       "pair_fold": {
-       "absence": 1,
-       "correct": 10,
+       "absence": 0,
+       "correct": 14,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 0,
@@ -50458,7 +50464,7 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 3
+       "refused": 0
       },
       "qword": {
        "absence": 0,
@@ -50473,8 +50479,8 @@
        "refused": 6
       },
       "reverse": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50485,8 +50491,8 @@
        "refused": 0
       },
       "reverse_fold": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50533,22 +50539,21 @@
        "refused": 0
       }
      },
-     "correct": 98,
+     "correct": 108,
      "echo": 2,
      "misattrib": 4,
      "partial": 7,
-     "refused": 21,
+     "refused": 15,
      "retention": {
       "items": 40,
-      "kept": 28,
-      "lost": 7,
-      "part": 5,
+      "kept": 33,
+      "lost": 3,
+      "part": 4,
       "probes": 124,
-      "probes_correct": 98
+      "probes_correct": 108
      }
     },
     "restarted": {
-     "absence": 4,
      "by_shape": {
       "object": {
        "absence": 0,
@@ -50575,8 +50580,8 @@
        "refused": 4
       },
       "pair_exact": {
-       "absence": 1,
-       "correct": 10,
+       "absence": 0,
+       "correct": 14,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50584,11 +50589,11 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 4
+       "refused": 1
       },
       "pair_fold": {
-       "absence": 1,
-       "correct": 10,
+       "absence": 0,
+       "correct": 14,
        "cross_echo": 0,
        "echo": 1,
        "entailed": 0,
@@ -50596,7 +50601,7 @@
        "misattrib": 1,
        "n": 16,
        "partial": 0,
-       "refused": 3
+       "refused": 0
       },
       "qword": {
        "absence": 0,
@@ -50611,8 +50616,8 @@
        "refused": 6
       },
       "reverse": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50623,8 +50628,8 @@
        "refused": 0
       },
       "reverse_fold": {
-       "absence": 1,
-       "correct": 1,
+       "absence": 0,
+       "correct": 2,
        "cross_echo": 0,
        "echo": 0,
        "entailed": 0,
@@ -50671,18 +50676,18 @@
        "refused": 0
       }
      },
-     "correct": 98,
+     "correct": 108,
      "echo": 1,
      "misattrib": 4,
      "partial": 7,
-     "refused": 22,
+     "refused": 16,
      "retention": {
       "items": 40,
-      "kept": 28,
-      "lost": 7,
-      "part": 5,
+      "kept": 33,
+      "lost": 3,
+      "part": 4,
       "probes": 124,
-      "probes_correct": 98
+      "probes_correct": 108
      }
     }
    }

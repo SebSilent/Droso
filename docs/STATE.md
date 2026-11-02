@@ -2281,7 +2281,7 @@ taught tell: the fold widens **which ask reaches the matcher** and never touches
 say -- `test_everything_the_fold_says_is_a_sentence_it_was_told` states that as a sweep.
 
 It is a **fifth widening**, so `--electric-teach` still refuses it and `--electric-learn` is the mode
-that has it (sixteen switches now, one table). It is **inert without `ELECTRIC_ASK_NORMALIZE`**,
+that has it (seventeen switches now, one table). It is **inert without `ELECTRIC_ASK_NORMALIZE`**,
 because the variant is generated inside that block, and `DEPENDS_ON` says so out loud rather than
 letting a flag that does nothing be reported as one that does. And because `normalize_ask_variants`
 is *also* the store's paraphrase key -- a path in the teach stack -- the fold is a **parameter**, not
@@ -2392,3 +2392,87 @@ because `core.autocrlf` normalizes before comparing: the diff still read 8/8/44/
 was the warning on the status line. They are back to CRLF with the diffstat unchanged, which is the
 check that says the content was never touched -- and the lesson is that a script that rewrites a whole
 file is not a smaller edit than `edit_file`, it is a bigger one with less visible blast radius.
+
+## ELECTRIC_QA_ANSWER_MEMORY -- the lesson is kept; the arithmetic still decides what grammar it proves
+
+`ELECTRIC_ASK_DO_SUPPORT` closed 20 of the 24 asks in `ask_not_recognized` and left the rest of the
+gap named: 9 probes still `pair_never_admitted` -- pairs a person had taught in conversation that
+never reached the QA store. The gate was `learn_qa`'s own rule, which the store inherited: a pair is
+admitted when the answer differs from the question by **exactly one word on each side**. That is the
+right rule for the job it was written for -- `what bites the latch` against `the dog bites the latch`
+is one swap, and the swap is what tells the organ that `what` asks about the subject. It is the wrong
+rule for the job the store has. Measured on the same instrument: 16 pairs taught in conversation, 10
+reached memory, and of the three whose answer sentence exists nowhere else in the house -- the only
+three the store is *for* -- **zero**. `where does the bell hang? / the bell hangs on the wall` is
+refused at 3 missing / 3 new. An answer that tells you something new is, by construction, the kind
+this rule refuses; a one-word swap is the narrow case where the answer adds nothing but the slot it
+fills.
+
+So the flag (`ELECTRIC_QA_ANSWER_MEMORY`, default off, the **sixth** widening, so `--electric-teach`
+still refuses it and `--electric-learn` turns it on) keeps such a pair and **casts no grammar vote**.
+That separation is the whole design, not a detail of it: `question_roles`, `interrogatives`,
+`answer_types` and `qa_pairs_seen` do not move on a loose keep, because a pair that does not pin a
+role must not teach one -- that is exactly how the corpus's refused warmint pair once taught this
+organ that `what` asks about role 5, a fact the store inherited as a bug. The record is written with
+its `word` empty and its `role` at -1, which is not a placeholder but an assertion: the grammar does
+not know what this question word asks about, so the `learned` route is closed on this record and only
+a typed or person-marked ask can open it.
+
+Five bounds, one test each. It must be a conversation pair the person **marked** (a book line that
+happens to sit in question order is not this flag's business, and the `?` is the only signal that the
+second turn is an answer rather than the next sentence); the shared `_qa_admissible` test still has to
+pass; the answer must **add** at least one word, or it is the question repeated back; and the two
+turns must share at least one non-stop content word, because adjacency is not aboutness and without
+that bound `what is your name?` paired with `the sky is blue` becomes a memory he would answer you
+with. The last bound is what still refuses one of the curriculum's own pairs, named below. A loose
+keep never overwrites a strict one -- first tell wins across both admissions, the same rule `_qa_keep`
+already applies to a pair re-read.
+
+**Numbers, same instrument, three arms, depths 1/2/3.** Learn at depth 3, after a real restart:
+correct **98 -> 108** of 124, items kept **28 -> 33** of 40, lost **7 -> 3** and part 5 -> 4,
+`pairs_in_store` **10/16 -> 15/16** and `pair_only_in_store` **0/3 -> 2/3** -- the three the store
+exists for. Mechanism by mechanism:
+`pair_never_admitted` **9 -> 1** and `refusal_silence` **2 -> 0**, which together are the whole
+recovery (26 failing probes -> 16), while `fallback_fragment` **8 -> 8**, `ask_not_recognized`
+**4 -> 4** and `key_shadowed` **3 -> 3** did not move -- the check that this flag moved the class it
+was aimed at and nothing else. The counterfactual holds probe for probe: **the teach arm did not move
+at all** (14/27/39 correct at depths 1/2/3, 10 pairs in store at depth 3, `pair_never_admitted` still
+10) and neither did control (0 correct at every depth). Restart still costs nothing -- live equals
+restarted at every depth in every arm, which is now four runs of that result. **No arm invented a sentence** -- the
+tool's own `failures` list is empty, its floor, exit 0 -- and false acceptance did not grow: exactly
+one of the twelve untaught distractor asks is answered, `what chases the mouse` -> `the mouse chases
+the dog`, and it is answered **identically in the teach arm at every depth and both phases**, which is
+what makes it demonstrably not this flag's; control answers none. Grammar state after
+five loose keeps in a real house: `qa_pairs_seen` 10, roles `{what, who}` -- identical to the strict
+house.
+
+**What it does not fix, and why that is not an omission.** `when does the bell toll? / it tolls at
+dusk` is still refused, and it is refused by the bound this flag added: the ask says `toll`, the
+answer says `tolls`, and the store's key is exact tokens, so the two turns share no content word.
+That is the same stemmer boundary as the do-support residual, arriving on the write side this time --
+`tools/electric_learn_bench.py`'s classifier names it, and a test pins the refusal rather than
+wishing it away. `what holds the shelf?` still answers `the shelf holds the lamp` (3 probes,
+`key_shadowed`, unchanged): the store does hold `the rope holds the shelf` and the keyed inventory
+speaks first, which is an ordering question about two memories, not an admission question. And the 8
+`fallback_fragment` probes are the shape arbiter returning one word instead of the tell, which
+predates every flag in this section.
+
+**Numbers at this commit.** `1108 passed, 3 skipped, 0 failed in 480.18s` -- 1091 at the do-support
+commit, and the delta is the 17 tests in the new file, counted out of the file with
+`findstr /R "^def test_"` rather than subtracted from a total. The benchmark ran clean: exit 0,
+`failures` empty, all three arms and both phases.
+
+`tests/test_electric_qa_answer_memory.py` (17): the class default and both modes, a refused pair kept
+while the refusal is still reported, the grammar-does-not-move test (state of the four structures
+before and after, not a count of what the call returned), the flag-off counterfactual, one test per
+bound, first-tell-wins across the two admissions, `word` empty and `role` -1 as a claim about the
+route, the sweep stated as an invariant (every sentence this path can speak is one a person said), a
+loose pair surviving a real save/reload, the table listing it as a widening with its parent declared,
+inertness without `--electric-qa-store` reported by `unmet()`, and a text pin that `tools/serve.py`
+wires it **above** the mode tables -- because an individual assignment placed after `enable_learn`
+takes the mode's own widening back off, which is the wiring bug that once made `--electric-learn` run
+as teach mode plus one. One pinned surprise belongs to a different flag: under learn mode
+`where the bell hangs` -- no mark, no auxiliary -- *does* reach the store, because the ask-shape
+normalizer canonicalizes it onto the stored key. That is `ELECTRIC_ASK_SHAPE` and
+`ELECTRIC_ASK_NORMALIZE` doing what they were measured to do; this flag only put something worth
+answering behind the door.

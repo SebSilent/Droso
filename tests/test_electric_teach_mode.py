@@ -148,7 +148,8 @@ def test_the_widening_switches_stay_off():
         f"the mode turned on a widening: {sorted(a for a in tm.EXCLUDED_ATTRS if st[a])}"
     assert set(tm.EXCLUDED_ATTRS) == {"ELECTRIC_ASK_SHAPE", "ELECTRIC_REVERSE",
                                       "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE",
-                                      "ELECTRIC_ASK_DO_SUPPORT"}
+                                      "ELECTRIC_ASK_DO_SUPPORT",
+                                      "ELECTRIC_QA_ANSWER_MEMORY"}
 
 
 def test_enable_without_base_is_the_stack_alone():
