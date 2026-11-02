@@ -2476,3 +2476,82 @@ as teach mode plus one. One pinned surprise belongs to a different flag: under l
 normalizer canonicalizes it onto the stored key. That is `ELECTRIC_ASK_SHAPE` and
 `ELECTRIC_ASK_NORMALIZE` doing what they were measured to do; this flag only put something worth
 answering behind the door.
+
+## ELECTRIC_ARBITER_TELL -- the arbiter verified the memory; now the house says it
+
+`arbiter head` is a branch that works and then chooses to be less useful than it is. The shape
+arbiter has already done the hard part: it verified a memory against the queried shape and named the
+one content word in it that answers the ask. The organism speaks that word and nothing else. That is
+deliberate -- reading a row out loud speaks its modifiers too, which is how `what turns twice?` tripped
+its own forbid on `copper` and answered `bell` correctly only because it said one word.
+
+What it costs was measured before this flag existed, on the run committed at `af32c0f`: of the 8
+`fallback_fragment` probes left in learn mode at depth 3, SEVEN are this branch, and in seven of
+seven the row the arbiter chose IS the tell the person taught, word for word. He is holding the
+sentence and handing over a syllable.
+
+The flag says the sentence, under one bound: the row may add **no word the ask did not already name**,
+except the answering word itself. Plus the bounds that keep it a memory and not a window: the row was
+said to him (`who == "you"`), it is not itself an asking, the named word is in it, and every content
+word of it is in the ask or is that word.
+
+Re-measured on this tree by re-running `tools/electric_learn_bench.py` (40 items, 136 probes, 3 arms,
+exit 0), not by reading the shipped file back: learn correct live **37/71/108 -> 38/75/115** at depths
+1/2/3 (of 39/124/124); `arbiter tell` spoken **36** times and **only** in the learn arm;
+`arbiter head` 1034 -> 1014; silence 1535 -> 1519; `fallback_fragment` at learn depth 3 live **8 -> 3**;
+teach unmoved at **14/27/39**; control unmoved; guarded-absence rows **24 -> 24**; **no invention in
+any arm at any depth**.
+
+The transition matrix, taken row by row against the pre-flag snapshot (27 cells x 136 rows; every ask
+text matched its own position in both runs, so this is positional and not inferred):
+
+| learn-arm transition | rows | class movement |
+|---|---|---|
+| `arbiter head` -> `arbiter tell` | **36** | `partial -> correct` |
+| `""` (refused) -> `arbiter head` | **16** | `refused -> partial` |
+
+Nothing else moved, in either the teach or the control arm (**0 rows changed in both**), and **no row
+lost `correct`**. The arithmetic closes: `arbiter head` 1034 - 36 + 16 = **1014**, silence 1535 - 16 =
+**1519**, and the gain in the headline numbers is fully accounted for by the 36.
+
+**The 36 are the branch doing its job. The 16 are not, and they are the finding.** They are 3 distinct
+ungrammatical asks -- `what the nora carry`, `what the dog guard`, `what the bridge cross` -- which used
+to be refused with `nothing he remembers has that shape` and now reach the one-word branch and answer
+`says`; they appear 16 times because the same 3 asks recur across depths and phases. The mechanism is
+the house, not the branch: probes are asked in order against one store, and once the flag has said rows
+whole, a row of that shape exists, so an ask that used to find nothing now finds something. The A/B
+inside a single tree with only the instance flag differing (off reproduces HEAD exactly) shows the same
+thing at depth 1 in one probe; 108 of the 110 replies in that cell are identical either way.
+
+`says` is in none of the 27 told sentences, and in neither the ask nor the row it is drawn from
+(`nora carries the lantern`, `the dog guards the gate`, `the bridge crosses the river`). The one-word
+branch can name a word the house was never told, and the INVENTED grader cannot see it because it grades
+sentences and this is a word. The defect is `arbiter head`'s, not the bound's -- the bound is exactly
+what stops those 3 asks being handed a sentence, so with the flag on they still get only the word -- but
+this flag is what routes them into it.
+
+**This is a regression, not a curiosity.** `docs/electric_generalisation.md` states this project's own
+standard: confabulation is "the category that is worse than silence". A probe that honestly declined now
+utters a word nothing in the house supports. The guarded-absence rows did not move and no row lost
+`correct`, so the graded contract held -- but `refused -> partial` is not neutral, and an earlier draft
+of this section, of `docs/HANDOVER.md`, and of `README.md` asserted "no probe moved to a worse class"
+off aggregate arithmetic instead of the matrix. Corrected here, and the correction is the point of
+writing the matrix down. **Open: the `says` fallback inside `arbiter head`, and whether routing 3
+refuses into it is a price worth paying for +7 correct at depth 3.**
+
+`tests/test_electric_arbiter_tell.py` (18): the seven taught rows spoken, every bound as a rejection of
+the predicate, the graded leak (`what turns twice` still answers `bell`) with the flag on, and the
+wiring -- excluded from teach mode, present in `ALL_ATTRS`, a `WIDENS` line in `describe_learn()`.
+`serve.py --electric-arbiter-tell` and `electric_chat.py --arbiter-tell`, both default off; learn mode
+turns it on as the **seventh** widening. Teach mode's guarantee is therefore now six refusals and seven
+widenings, and the README's older claim that the widenings "never change what the house is willing to
+SAY" is no longer true: what survives is the narrower invariant the flag actually holds -- it never
+widens what the house KNOWS, only what it says of a memory already verified against the ask.
+
+One tool change this forced, recorded because it looked like a different bug. Adding the seventh
+`WIDENS` line to `describe_learn()` pushed `electric_chat.py`'s startup banner past the 4096-byte
+Windows pipe buffer, and the three tests that scan stdout until `ready port=` and then stop touching
+the pipe left the child blocked in `print()` before the serve loop was ever reached -- a hang that
+presented as a `/shutdown` problem and was a buffer. The readiness line now prints **last**, after the
+banner, because the client's own scan is what drains it; nothing needs the port before the banner is
+worth reading.

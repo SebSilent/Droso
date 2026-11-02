@@ -186,7 +186,7 @@ def test_the_table_lists_it_as_a_widening_and_not_as_part_of_the_stack():
     assert "ELECTRIC_ASK_DO_SUPPORT" in tm.LEARN_ATTRS
     assert "ELECTRIC_ASK_DO_SUPPORT" not in tm.STACK_ATTRS, \
         "a widening is not in the mode that can only ever refuse"
-    assert len(tm.EXCLUDED) == 6 and len(tm.ALL_ATTRS) == 17
+    assert len(tm.EXCLUDED) == 7 and len(tm.ALL_ATTRS) == 18
     assert any(l.startswith("WIDENS") and "ELECTRIC_ASK_DO_SUPPORT" in l
                for l in tm.describe_learn()), tm.describe_learn()
     # and the narrow mode must not have it

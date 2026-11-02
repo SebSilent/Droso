@@ -235,7 +235,7 @@ def test_the_table_lists_it_as_a_widening_and_declares_its_parent():
     assert "ELECTRIC_QA_ANSWER_MEMORY" in tm.EXCLUDED_ATTRS
     assert "ELECTRIC_QA_ANSWER_MEMORY" in tm.LEARN_ATTRS
     assert "ELECTRIC_QA_ANSWER_MEMORY" not in tm.STACK_ATTRS
-    assert len(tm.EXCLUDED) == 6 and len(tm.ALL_ATTRS) == 17
+    assert len(tm.EXCLUDED) == 7 and len(tm.ALL_ATTRS) == 18
     assert any(l.startswith("WIDENS") and "ELECTRIC_QA_ANSWER_MEMORY" in l
                for l in tm.describe_learn()), tm.describe_learn()
     assert tm.DEPENDS_ON["ELECTRIC_QA_ANSWER_MEMORY"][0] == "ELECTRIC_QA_STORE"

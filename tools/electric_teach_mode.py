@@ -27,11 +27,11 @@ a rule in two wiring sites is the failure this project keeps hitting; the store'
 is a function for exactly the same reason.
 
 What it is NOT.  It is not "everything ELECTRIC" -- that is ``--electric-learn``, the FULL
-teach/learn mode, this same stack plus the six widenings below, and it is a different flag
+teach/learn mode, this same stack plus the seven widenings below, and it is a different flag
 because it has a different blast radius.  ``enable_learn`` exists so the two modes cannot drift
 into two lists in two wiring sites, and so the mode that reaches more can still be named exactly.
 
-Six switches stay out of the NARROW mode because each one is a WIDENING -- it lets more asks
+Seven switches stay out of the NARROW mode because each one is a WIDENING -- it lets more asks
 reach more matchers, and each was measured separately precisely so a run could say which one
 cost something:
 
@@ -50,6 +50,10 @@ cost something:
     ELECTRIC_QA_ANSWER_MEMORY  reaches the STORE instead of the matchers: a pair the role
                             arithmetic refuses is kept as a memory, verbatim and with its
                             provenance, and casts no grammar vote.
+    ELECTRIC_ARBITER_TELL reaches the MOUTH instead of the matchers: where the shape arbiter
+                            verified a memory and named its answering word, that memory is said
+                            whole -- but only when it adds no word the ask did not name, so the
+                            modifier leak the head-only branch exists to stop stays stopped.
 
 ELECTRIC_ASK_NORMALIZE needs a word, because it looks like an omission: ELECTRIC_QA_PARAPHRASE calls
 ``normalize_ask_variants`` itself, so a folded ask DOES use the normalizer under teach mode with
@@ -97,13 +101,13 @@ STACK = (
     ("ELECTRIC_FRAGMENT_GUARD", "electric_fragment_guard",
      "when nothing answered the ask, do not let the house speak a fragment of the ask itself "
      "(measured: `to?`). In the stack because it can only ever refuse to speak: it narrows the "
-     "output, where the six switches left out widen what is reachable"),
+     "output, where the seven switches left out widen what is reachable"),
     ("ELECTRIC_ASK_SHAPE_STORE", "electric_ask_shape_store",
      "a tell whose SHAPE is an ask is not filed as a taught fact. `_taught_says` is read before "
      "every other store, so a question the house could not classify used to answer itself here; "
      "the row-side switches above cannot reach it, because they govern rows and this is a "
      "different store. In the stack for the same reason as the fragment guard -- it can only "
-     "ever refuse to write, and the six switches left out widen what is reachable"),
+     "ever refuse to write, and the seven switches left out widen what is reachable"),
 )
 
 # What `--electric` already means, and what the stack is pointless without: an untaught ask has
@@ -140,6 +144,17 @@ EXCLUDED = (
      "says something new was unteachable by construction. Bounds: a conversation pair the person "
      "marked with `?`, the shared admissibility test, an answer that adds at least one word, and "
      "one content word in common. Inert without --electric-qa-store"),
+    ("ELECTRIC_ARBITER_TELL", "electric_arbiter_tell",
+     "when the shape arbiter verified a memory and NAMED the word that answers the ask, say that "
+     "memory whole instead of the word it named. The head-only branch is deliberate -- reading a "
+     "row out loud speaks its modifiers too, which is how `what turns twice?` tripped its own "
+     "forbid on `copper` -- and that reason is kept: it fires only when the row adds no word the "
+     "ask did not already name except the answering word itself. Measured: of the 8 "
+     "`fallback_fragment` probes left in learn mode at depth 3, SEVEN are this branch, and in "
+     "seven of seven the row the arbiter chose IS the tell the person taught, word for word. "
+     "Bounds: the row was said to him (`who == you`), it is not itself an asking, the named word "
+     "is in it, and every content word of it is in the ask or is that word. No parent switch -- "
+     "it lives inside the branch the shape arbiter already gates"),
 )
 
 # A flag whose parent is off is INERT, not merely weaker: the user has to be told, because the
@@ -187,19 +202,26 @@ LEARN_ATTRS = STACK_ATTRS + EXCLUDED_ATTRS
 ALL_ATTRS = STACK_ATTRS + BASE_ATTRS + EXCLUDED_ATTRS
 
 
-# What the FULL teach/learn mode adds on top of the stack: the six widenings the narrow mode
+# What the FULL teach/learn mode adds on top of the stack: the seven widenings the narrow mode
 # leaves off, each measured alone (docs/STATE.md: ELECTRIC_ASK_SHAPE, ELECTRIC_REVERSE,
 # ELECTRIC_OBJECT_ROLE, ELECTRIC_ASK_NORMALIZE, ELECTRIC_ASK_DO_SUPPORT,
-# ELECTRIC_QA_ANSWER_MEMORY) and each of them a change
-# to WHICH ASK REACHES WHICH MATCHER, not to what the matcher says about an ask it already reaches.
+# ELECTRIC_QA_ANSWER_MEMORY, ELECTRIC_ARBITER_TELL).
+#
+# Six of the seven change WHICH ASK REACHES WHICH MATCHER, and none of those six changes what a
+# matcher says about an ask it already reaches. The seventh is a different kind of widening and
+# has to be described as one: ELECTRIC_ARBITER_TELL changes what the MOUTH says about a memory
+# the shape arbiter has already verified. It belongs here rather than in the stack because it is
+# a widening, not a narrowing -- it lets out a sentence that was previously not spoken -- and its
+# bound is exactly the modifier leak the short branch was written to stop.
 #
 # Read the two halves together and the mode's shape is honest: the stack can only ever refuse
-# (a row dropped, a fragment unspoken, a write declined), while these five can only ever
+# (a row dropped, a fragment unspoken, a write declined), while these seven can only ever
 # REACH MORE -- more rows counted as an asking, more asks matched against the inventory, more
-# phrasings folded onto one key. That is why they were never in `--electric-teach`, and why
-# this mode is a different flag rather than a wider default: a widening that is right on the
-# object arm's table is not thereby right on the corpus, and the only claim made here is that
-# the COMBINATION is the combination that was measured, one switch at a time.
+# phrasings folded onto one key, one more sentence spoken. That is why they were never in
+# `--electric-teach`, and why this mode is a different flag rather than a wider default: a
+# widening that is right on the object arm's table is not thereby right on the corpus, and the
+# only claim made here is that the COMBINATION is the combination that was measured, one switch
+# at a time.
 #
 # What the mode still does NOT do, and this is the safety property a single flag has to
 # preserve: every attribute is set on the INSTANCE, never on `NeuralLanguage`, so the graded
@@ -213,7 +235,7 @@ def _set(lang, attrs):
     """Set instance attributes, and refuse to pretend about a name the class does not have.
 
     `setattr` on an instance never raises for an unknown name -- it just creates one that no
-    path reads. A mode that turns on seventeen switches must not be able to report seventeen on
+    path reads. A mode that turns on eighteen switches must not be able to report eighteen on
     and behave like the eleven that are real, so the name is checked against the CLASS first and
     a missing one raises. This is the sentence `enable()`'s docstring used to claim was true.
     """
@@ -239,7 +261,7 @@ def enable(lang, base=True):
 
 
 def enable_learn(lang, base=True):
-    """Turn the FULL teach/learn mode on for THIS organ: the stack plus the six widenings.
+    """Turn the FULL teach/learn mode on for THIS organ: the stack plus the seven widenings.
 
     Returns the attributes it set. Same instance-only discipline as ``enable``; the difference
     is blast radius, and it is the user's, made by one explicit flag.
@@ -275,9 +297,9 @@ def describe():
 
 
 def describe_learn():
-    """The full mode, one line each: the stack, then the six widenings marked as such.
+    """The full mode, one line each: the stack, then the seven widenings marked as such.
 
-    A terminal that turns on seventeen switches should say which six of them reach more, in the
+    A terminal that turns on eighteen switches should say which seven of them reach more, in the
     same words, rather than leaving that in a docstring nobody opens at 2 a.m.
     """
     return ([f"{attr:<26} {why}" for attr, _cli, why in STACK]

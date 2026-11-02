@@ -1,16 +1,16 @@
 """ELECTRIC LEARN mode -- the FULL teach/learn stack in one switch, and what it must not cost.
 
 `--electric-teach` is the stack that can only ever REFUSE: a row dropped from the evidence, a
-fragment left unspoken, a write declined. `--electric-learn` is that stack plus the six switches
+fragment left unspoken, a write declined. `--electric-learn` is that stack plus the seven switches
 it was built to leave out -- ELECTRIC_ASK_SHAPE, ELECTRIC_REVERSE, ELECTRIC_OBJECT_ROLE,
-ELECTRIC_ASK_NORMALIZE, ELECTRIC_ASK_DO_SUPPORT, ELECTRIC_QA_ANSWER_MEMORY -- each of which can
-only ever REACH MORE: more
+ELECTRIC_ASK_NORMALIZE, ELECTRIC_ASK_DO_SUPPORT, ELECTRIC_QA_ANSWER_MEMORY,
+ELECTRIC_ARBITER_TELL -- each of which can only ever REACH MORE: more
 rows counted as an asking, more asks matched against the inventory, more phrasings folded onto one
-key.
+key, more of what the house already holds spoken as a whole sentence.
 
-Why a test file and not just a wider default. A mode that turns on seventeen switches at once is the
+Why a test file and not just a wider default. A mode that turns on eighteen switches at once is the
 configuration where an interaction is most likely and least attributable, and every one of these
-five was measured alone precisely so a run could say which one cost something (docs/STATE.md:
+widenings was measured alone precisely so a run could say which one cost something (docs/STATE.md:
 C4d for reverse vs object-role, the ELECTRIC_ASK_SHAPE entry for the shape tagger, the
 ELECTRIC_ASK_NORMALIZE entry for the fold). So this file asserts three things and only three:
 
@@ -160,7 +160,8 @@ def test_learn_is_the_stack_plus_exactly_the_six_widenings():
     assert set(tm.EXCLUDED_ATTRS) == {"ELECTRIC_ASK_SHAPE", "ELECTRIC_REVERSE",
                                       "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE",
                                       "ELECTRIC_ASK_DO_SUPPORT",
-                                      "ELECTRIC_QA_ANSWER_MEMORY"}
+                                      "ELECTRIC_QA_ANSWER_MEMORY",
+                                      "ELECTRIC_ARBITER_TELL"}
 
 
 def test_learn_mode_turns_on_everything_and_nothing_on_the_class():
@@ -188,8 +189,8 @@ def test_learn_mode_is_teach_mode_wider_by_exactly_the_widenings():
 
 
 def test_a_flag_the_organ_does_not_read_raises_instead_of_lying():
-    """`setattr` on an instance accepts ANY name. A mode that turns on seventeen switches must not
-    be able to report sixteen and behave like eleven, so an unknown name raises -- and it raises
+    """`setattr` on an instance accepts ANY name. A mode that turns on eighteen switches must not
+    be able to report seventeen and behave like the eleven that are real, so an unknown name raises
     before a single attribute is set, so a half-applied mode cannot exist."""
     o = _organ(learn=False)
     before = o.ELECTRIC_TEACH

@@ -20,10 +20,10 @@ tells and the same conversation and forms no pair at all.
 
 What has to hold, and is asserted:
 
-  * the mode turns on exactly the stack and the base, and NOTHING ELSE -- the six switches
-    that widen which asks reach which matchers (shape, reverse, object role,
-    ask-normalize, do-support, answer-memory) stay off, so a run that costs something can still say
-    which one cost it;
+  * the mode turns on exactly the stack and the base, and NOTHING ELSE -- the seven switches
+    that widen what a run can reach (shape, reverse, object role,
+    ask-normalize, do-support, answer-memory, arbiter-tell) stay off, so a run that costs something
+    can still say which one cost it;
   * teaching works: the ask is held, the next sentence from the same speaker pairs with it,
     and the pair is a CONVERSATION pair (the only kind the fold may reach);
   * the exact ask and the paraphrases of it answer from the store, with the line the person

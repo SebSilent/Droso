@@ -1,6 +1,6 @@
 """LIVE-HOUSE check of the FULL teach/learn mode: three arms, one script, in the real Droso.
 
-`--electric-learn` turns on seventeen switches at once. `tests/test_electric_learn_mode.py` proves
+`--electric-learn` turns on eighteen switches at once. `tests/test_electric_learn_mode.py` proves
 the SET is the set and that the answer path behaves on a bare organ; this file is the only place
 that says what the combination does in a house with a corpus behind it, because a bare organ
 cannot speak an inventory answer at all (`respond` returns `heard; no language learned yet` for an
@@ -11,7 +11,7 @@ Three arms run the SAME script, so every difference is attributable to a switch:
 
   control  ELECTRIC off entirely -- the house every number in this repo was measured in
   teach    the stack that can only ever refuse (tools/electric_teach_mode.py: STACK + BASE)
-  learn    teach plus the six widenings (LEARN + BASE)
+  learn    teach plus the seven widenings (LEARN + BASE)
 
 and each arm is asked twice: once in the life it was taught in, once after a real restart through
 the saved session files.
@@ -19,7 +19,7 @@ the saved session files.
 What is asserted, and why those four:
   * the three shapes the widenings exist for (object-role, stranded reverse, the stemmer's fold)
     come back VERBATIM in learn -- a sentence the person said, not a word lifted out of one;
-  * no arm ever says a sentence nobody told it. That is the invariant six widenings could break
+  * no arm ever says a sentence nobody told it. That is the invariant seven widenings could break
     and the reason the mode is allowed to exist;
   * the fragment (`to?`) never leaves any arm's mouth, taught life or restarted;
   * an untaught ask is refused in every arm, and the refusal is not an answer anywhere.
@@ -267,9 +267,15 @@ def main():
            "taught": sorted(SPOKEN), "probes": [p[1] for p in PROBES],
            "failures": fails,
            "note": ("control has no ELECTRIC at all; teach is the stack that can only refuse; "
-                    "learn is teach plus the six widenings. Every answer in every arm is a "
-                    "sentence from `taught` or silence -- the widenings change which asks REACH "
-                    "an answer, never what an answer may say.")}
+                    "learn is teach plus the seven widenings. Every answer in every arm is a "
+                    "sentence from `taught` or silence. Six of the seven change which asks REACH "
+                    "an answer; the seventh, ELECTRIC_ARBITER_TELL, changes what an answer may "
+                    "SAY -- the whole verified sentence instead of the one word the arbiter "
+                    "named -- and it is the seventh that this invariant has to be read against, "
+                    "because the sentence it speaks is a row the person said, never a new one. "
+                    "That is exactly why the bound is `adds no word the ask did not already "
+                    "name`: an unrestricted version of it is what would put words in his mouth "
+                    "that nobody put there.")}
     EVIDENCE.write_text(json.dumps(out, indent=1, sort_keys=True), encoding="utf-8")
     print(json.dumps(table, indent=1, sort_keys=True), flush=True)
     if fails:

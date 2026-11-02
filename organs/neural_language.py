@@ -3077,6 +3077,46 @@ class NeuralLanguage:
     # ELECTRIC_QA_STORE, which has nowhere to keep it. Off by default: with it off the refusal
     # returns the dict it returned before, byte for byte.
     ELECTRIC_QA_ANSWER_MEMORY = False
+    # ELECTRIC arbiter tell: when the shape arbiter verified a memory and NAMED the word that
+    # answers the ask, say the whole memory instead of the word it named. The branch that speaks
+    # the word (`source: arbiter head`) was written to do the opposite -- reading a sentence out
+    # loud "speaks the modifiers and the numeral along with it", which is how `what turns twice?`
+    # tripped its own forbid on `copper` -- and that reason is kept intact here: this fires only
+    # when the sentence adds NOTHING that the ask did not already name, except the answering word
+    # itself. Measured by `tools/electric_learn_bench.py`: of the 8 `fallback_fragment` probes
+    # left in learn mode at depth 3, SEVEN are this branch, and in seven of seven the row the
+    # arbiter chose is the tell the person taught, word for word -- he is holding the sentence and
+    # handing over a syllable of it.
+    #
+    # CAVEAT, measured on the whole run and not on this branch: probes are asked in order against one
+    # house that stores what it hears, so saying rows whole changes what a LATER ask finds. In the
+    # committed run all 36 `arbiter tell` rows were `arbiter head` rows at the same position before
+    # (the branch converting is exactly the branch: 36 of 36, every one `partial -> correct`), but 16
+    # further rows moved with it -- 3 ungrammatical asks that used to refuse with `nothing he
+    # remembers has that shape` now reach this branch and answer `says`, a word that is in none of the
+    # 27 told sentences, in neither the ask nor the row it is drawn from. The benchmark's INVENTED
+    # grader cannot see it, because it grades sentences and this is a word. That defect belongs to the
+    # ONE-WORD branch, not to the bound here -- the bound is precisely what stops those 3 asks being
+    # given a sentence -- but this flag is what routes them into it, and this project already holds
+    # that a word nobody said is worse than silence. docs/STATE.md, ELECTRIC_ARBITER_TELL.
+    #
+    # On: the row is spoken verbatim, under a source of its own (`arbiter tell`), so a reader can
+    # tell it apart from both `arbiter head` and `recalled proposition`. Bounds, each one a test:
+    # the row was SAID TO HIM (`who == "you"`, the same provenance bit the provenance vote reads --
+    # a corpus window is never upgraded, and windows are what the ask-admissibility entry names as
+    # the trap), the row is not itself an asking (`_hit_is_ask`), the named filler is a word of
+    # that row, and every content word of the row -- set aside by `SHAPE_FUNCTION_WORDS`, folded
+    # by the project's one stemmer, the two pieces ELECTRIC_QA_PARAPHRASE was built from -- is
+    # either a word of the ask or the filler. So `the copper bell turns twice` still answers
+    # `what turns twice?` with `bell`, because `copper` is in nobody's question.
+    #
+    # No parent switch: it sits inside the branch the shape arbiter already gates, and it is
+    # reached by nothing else. Off by default: with it off the branch SPEAKS what it spoke before
+    # this flag existed -- an off/on A/B inside one tree reproduces HEAD's replies -- the only
+    # difference on that path being one extra predicate call that returns None. Do not read that as
+    # the RUN being unchanged when it is ON: see the caveat above, the flag is not confined to this
+    # branch, and "byte for byte" was the claim this comment made before it was measured.
+    ELECTRIC_ARBITER_TELL = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3903,6 +3943,47 @@ class NeuralLanguage:
             if filler is not None:
                 return h, ("agree" if i == 0 else "override"), filler
         return None, "veto", None
+
+    def _arbiter_tell(self, best, filler, q):
+        """The whole memory behind a verified shape -- when it adds nothing but the answer.
+
+        ELECTRIC_ARBITER_TELL's bound, said as one predicate instead of four clauses in the
+        middle of an answer path. Returns the row's sentence, or None meaning SPEAK THE HEAD,
+        which is what was spoken before this method existed. Every rejection is a fact about the
+        row, not about the ask:
+
+          fewer than two words   there is no sentence here, only the word
+          who != "you"           nobody told him this; it is a corpus window, and a window of
+                                 someone else's prose is not a lesson he may re-issue as a fact
+          the row is an asking   `_hit_is_ask`, the recorded verdict -- not a guess from shape
+          the filler is not in it  the arbiter named a word this row does not contain, so the
+                                 row is not where the answer came from
+          a word the ask omitted  THE leak the head-only branch exists to stop. `what turns
+                                 twice?` verified against `the copper bell turns twice` and is
+                                 answered `bell` in gen 24 precisely because reading that row
+                                 out loud says `copper`, which nobody asked about and the
+                                 grader forbids.
+        """
+        toks = [str(t) for t in (best.get("tokens") or [])]
+        low = [t.lower() for t in toks]
+        if len(low) < 2:
+            return None
+        if str(best.get("who") or "") != "you":
+            return None
+        if self._hit_is_ask(best):
+            return None
+        f = str(filler or "").lower().strip("?")
+        if not f or f not in [w.strip("?") for w in low]:
+            return None
+        qw = [str(w).strip().lower().strip("?") for w in q]
+        asked = {stem(w) for w in qw
+                 if w and w not in self.SHAPE_FUNCTION_WORDS}
+        for w in low:
+            c = w.strip("?")
+            if not c or c in self.SHAPE_FUNCTION_WORDS or c == f or stem(c) in asked:
+                continue
+            return None
+        return " ".join(toks).strip()
 
     def second_brain_on(self) -> bool:
         """The ablation switch, read per call so one process can run both
@@ -5163,7 +5244,21 @@ class NeuralLanguage:
                                       "itself",
                             "cue": content,
                             "parser": {"shape": shape, "verdict": "fragment"}}
-                said, source, words = sf, "arbiter head", [sf]
+                # ELECTRIC_ARBITER_TELL. The arbiter has already done the hard part -- it
+                # verified this memory against the queried shape and named the word in it that
+                # answers the ask. Saying only that word is a deliberate choice, not a loss
+                # (see the branch above), so the sentence is taken only when it carries no word
+                # the ask did not already name. When it refuses, THIS branch is the line it was
+                # before -- one word, `arbiter head` -- but the RUN is not: the probes are asked
+                # in order of one house that stores what it hears, so seven whole answers re-route
+                # a later ask this bound refuses (`what the nora carry` speaks where it was
+                # silent). Measured; docs/STATE.md carries the numbers.
+                whole = (self._arbiter_tell(best, sf, q)
+                         if self.ELECTRIC_ARBITER_TELL else None)
+                if whole:
+                    said, source, words = whole, "arbiter tell", [str(t) for t in best["tokens"]]
+                else:
+                    said, source, words = sf, "arbiter head", [sf]
             else:
                 said, source, words = " ".join(tokens), "recalled proposition", tokens
         measured, margin = self.choose_addressee(self.san_act)

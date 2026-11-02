@@ -626,9 +626,11 @@ cannot drift) turns on the store, elicitation, the paraphrase fold, provenance, 
 admissibility, the fragment guard and the store-shape guard, on top of what `--electric` already means, and it implies
 `--electric` — which matters because `serve.py` only runs `load_state()` inside its `--electric`
 block, so a server started with the QA flags and not `--electric` saved every pair and came back
-remembering none. Four switches stay out of it, and stay out on purpose: `ELECTRIC_ASK_SHAPE`,
-`ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE` each widen which asks reach
-which matchers, and each was measured alone precisely so a run could say which one cost something.
+remembering none. Seven switches stay out of it, and stay out on purpose: `ELECTRIC_ASK_SHAPE`,
+`ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE`, `ELECTRIC_ASK_DO_SUPPORT`,
+`ELECTRIC_QA_ANSWER_MEMORY` and `ELECTRIC_ARBITER_TELL`. Six of them widen which asks reach which
+matchers; the seventh widens what the mouth says about a memory a matcher already reached. Each was
+measured alone precisely so a run could say which one cost something.
 Everything is set on the instance, never on `NeuralLanguage`.
 
 Measured by `tools/qa_teach_mode_live.py` in a real house, three arms — control (plain
@@ -690,13 +692,14 @@ of remembered questions, which is the condition that makes the narrow arms answe
 `--electric-learn` is the **full** teach/learn mode: the eight-flag stack, what `--electric` already
 means, *and* the widenings teach mode was built to refuse (`ELECTRIC_ASK_SHAPE`,
 `ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE`,
-`ELECTRIC_ASK_DO_SUPPORT`, `ELECTRIC_QA_ANSWER_MEMORY`) — seventeen switches, one list,
-`LEARN` in the same table, both doors. It is a separate flag rather than a wider default because the
-two halves have opposite polarity: the stack can only ever **refuse** (a row dropped from the
-evidence, a fragment unspoken, a write declined), while those six can only ever **reach more**.
-Both modes set their attributes through one `_set()` that checks every name against the *class*
-before writing any — `setattr` on an instance accepts any name at all, so a mode of seventeen switches
-could otherwise report seventeen and behave like eleven.
+`ELECTRIC_ASK_DO_SUPPORT`, `ELECTRIC_QA_ANSWER_MEMORY`, `ELECTRIC_ARBITER_TELL`) — eighteen switches,
+one list, `LEARN` in the same table, both doors. It is a separate flag rather than a wider default
+because the two halves have opposite polarity: the stack can only ever **refuse** (a row dropped from
+the evidence, a fragment unspoken, a write declined), while those seven can only ever **reach more** —
+six of them reaching more matchers, the seventh (`ELECTRIC_ARBITER_TELL`) letting out a sentence that
+was previously not spoken. Both modes set their attributes through one `_set()` that checks every name
+against the *class* before writing any — `setattr` on an instance accepts any name at all, so a mode
+of eighteen switches could otherwise report eighteen and behave like eleven.
 
 What the combination buys, measured in a real house across three arms, live and after a genuine
 restart (`tools/electric_learn_live.py` → `docs/evidence/electric_learn_live.json`; 14 rows in every
@@ -791,6 +794,31 @@ kept **28 → 33** of 40, pairs in store **10/16 → 15/16** and the three the s
 write side now. `tests/test_electric_qa_answer_memory.py` (17), including a loose pair surviving a real
 save and reload.
 
+**`ELECTRIC_ARBITER_TELL`** (default off; the **seventh** widening, so `--electric-teach` still refuses
+it): when the shape arbiter has verified a memory and named the word in it that answers the ask, say
+that memory whole. The one-word branch is deliberate — reading a row out loud speaks its modifiers too,
+which is how `what turns twice?` tripped its own forbid on `copper` — so the sentence is taken only
+when it adds **no word the ask did not already name**, except the answering word itself. Re-measured on
+this tree (`tools/electric_learn_bench.py`: 40 items, 136 probes, 3 arms, exit 0, no invention in any
+arm at any depth): learn **37/71/108 → 38/75/115** correct at depths 1/2/3, `arbiter tell` spoken
+**36** times and **only** in the learn arm, `fallback_fragment` at depth 3 live **8 → 3**, teach unmoved
+at **14/27/39**, control unmoved, guarded-absence rows **24 → 24**. Two things that run is the record
+of, rather than the flag's own claim. All 36 `arbiter tell` rows were `arbiter head` rows at the same
+position in the pre-flag run, asking the same thing, and all 36 moved `partial → correct`: the branch
+converting is exactly the branch. But the run moved **16 rows that are not this branch at all** — 3
+ungrammatical asks (`what the nora carry`, `what the dog guard`, `what the bridge cross`) that used to
+be refused (`nothing he remembers has that shape`) now reach the one-word branch and answer `says`,
+because the house, having said whole sentences earlier in the run, has a row of that shape by then.
+`says` is in none of the 27 told sentences, and in neither the ask nor the memory row it came from.
+This project already holds that a word nobody said is worse than silence (`docs/electric_generalisation.md`),
+so `refused → partial` here is a regression and not a rounding error, even though no row lost `correct`
+and the guarded-absence rows did not move. It is pre-existing behaviour of `arbiter head` — the branch
+can name a word the house was never told — surfaced by the new routing, and exactly why the bound
+requires the named word to be a word of the row: with the flag on, those 3 asks still never get a
+sentence, because the bound refuses them. `tests/test_electric_arbiter_tell.py` (18), including the
+graded leak (`what turns twice` still answers `bell`, with the flag on) and every bound as a rejection
+of the predicate.
+
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
 #   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,
@@ -800,7 +828,9 @@ python tools/electric_chat.py --electric-teach --state state/electric_chat/neura
 #   then ask it in other words:  what ring the bell   ->   the copper bell rings
 #   (--say is one life per call: a held ask does not survive it, and the tool says so)
 python tools/electric_chat.py --electric-learn --state state/electric_chat/neural_lang.json
-#   the same seventeen, plus the six widenings:  what bites the latch  ->  the dog bites the latch
+#   the same stack plus the seven widenings = eighteen switches:
+#     what bites the latch  ->  the dog bites the latch
+#   the seventh widening speaks a verified whole sentence where the arbiter used to name one word
 #   and a pair the role arithmetic refuses is still kept:  where does the bell hang?  ->  the bell
 #   hangs on the wall (stored with no grammar claim, so it teaches it nothing about `where`)
 #   (/health reports teach=true and learn=true; --no-electric overrides both)
@@ -820,7 +850,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 1108 passed, 3 skipped (at the `ELECTRIC_QA_ANSWER_MEMORY` commit; 1091 at `ELECTRIC_ASK_DO_SUPPORT`, 1062 at `ELECTRIC_LEARN`, 1045 before that -- the deltas are the 17 teach/learn tests, the 11 do-support and 18 benchmark tests, then the 17 answer-memory tests, checked against the files with `findstr /R "^def test_"` rather than assumed. The battery count grows with each entry) |
+| Test suite | 1126 passed, 3 skipped, 0 failed in 494.67s, exit 0 (re-measured on this tree at the `ELECTRIC_ARBITER_TELL` commit -- the delta over 1108 is the 18 tests in `tests/test_electric_arbiter_tell.py`, counted out of the file with `findstr /R "^def test_"`; 1091 at `ELECTRIC_ASK_DO_SUPPORT`, 1062 at `ELECTRIC_LEARN`, 1045 before that -- the deltas are the 17 teach/learn tests, the 11 do-support and 18 benchmark tests, then the 17 answer-memory tests, checked against the files with `findstr /R "^def test_"` rather than assumed. The battery count grows with each entry) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

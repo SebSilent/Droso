@@ -401,6 +401,27 @@ def main() -> int:
                          "answer that adds a word, and one content word in common. Inert without "
                          "--electric-qa-store. OFF by default: the refusal returns the same dict "
                          "it returned before this flag existed.")
+    ap.add_argument("--electric-arbiter-tell", action="store_true",
+                    help="When the shape arbiter has VERIFIED a memory and named the word in it "
+                         "that answers the ask, say that memory whole instead of the word. The "
+                         "one-word branch (`source: arbiter head`) is deliberate -- reading a row "
+                         "out loud speaks its modifiers too, which is how `what turns twice?` "
+                         "tripped its own forbid on `copper` -- and this keeps that reason: the "
+                         "sentence is taken only when it adds NO word the ask did not already "
+                         "name, except the answering word itself. Measured "
+                         "(tools/electric_learn_bench.py): of the 8 fallback_fragment probes left "
+                         "in learn mode at depth 3, seven are this branch, and in seven of seven "
+                         "the row the arbiter chose IS the tell the person taught, word for word "
+                         "-- he is holding the sentence and handing over a syllable. Bounds: the "
+                         "row was said to him (who == you, so a corpus window is never re-issued "
+                         "as a lesson), it is not itself an asking, the named word is in it, and "
+                         "every content word of it is in the ask or is that word. `what turns "
+                         "twice?` therefore still answers `bell`. No parent flag; OFF by default, and "
+                         "with it off the one-word branch SPEAKS what it spoke before. Not a claim "
+                         "about the whole run with it ON: probes are asked in order of one house that "
+                         "stores what it hears, and in the committed run 3 ungrammatical asks that used "
+                         "to refuse now reach this branch and answer `says` -- a word nobody said. See "
+                         "docs/STATE.md, ELECTRIC_ARBITER_TELL.")
     ap.add_argument("--electric-qa-provenance", action="store_true",
                     help="Make a pair's PROVENANCE govern the pair, not just its "
                          "storage. Two things the audit (tools/book_qa_store_audit.py) "
@@ -429,31 +450,34 @@ def main() -> int:
     ap.add_argument("--electric-teach", action="store_true",
                     help="One switch for the TEACHABLE-QA stack: what --electric means, "
                          "plus the store, elicitation, the paraphrase fold, provenance, "
-                         "the question marks, admissibility and the fragment guard, plus "
-                         "the restart half (load_state) that only --electric runs today. "
-                         "Those seven each exist for a measured reason and two of them are "
+                         "the question marks, admissibility, the fragment guard, the ask-shape "
+                         "write guard, and the restart half (load_state) that only --electric "
+                         "runs today. Each of these exists for a measured reason and some are "
                          "INERT without another, so a single flag has to name the set rather "
                          "than guess it: the list lives in tools/electric_teach_mode.py, the "
                          "same table tools/electric_chat.py reads, so the two doors cannot "
                          "grow different ideas of what teach mode means. It WIDENS NOTHING: "
                          "--electric-reverse, --electric-object-role, "
-                         "--electric-ask-normalize, --electric-ask-do-support, --electric-qa-answer-memory and "
+                         "--electric-ask-normalize, --electric-ask-do-support, "
+                         "--electric-qa-answer-memory, --electric-arbiter-tell and "
                          "--electric-ask-shape stay behind their "
-                         "own flags, because each lets more asks reach more matchers and a run "
+                         "own flags, because each lets more reach more places, and a run "
                          "that costs something has to be able to say which switch cost it. OFF "
                          "by default: with it off this server is the server that was measured.")
     ap.add_argument("--electric-learn", action="store_true",
-                    help="The FULL teach/learn mode: --electric-teach PLUS the six widenings "
+                    help="The FULL teach/learn mode: --electric-teach PLUS the seven widenings "
                          "it refuses -- --electric-ask-shape, --electric-reverse, "
                          "--electric-object-role, --electric-ask-normalize and "
-                         "--electric-ask-do-support and --electric-qa-answer-memory. Seventeen switches, "
+                         "--electric-ask-do-support and --electric-qa-answer-memory and "
+                         "--electric-arbiter-tell. Eighteen switches, "
                          "one list, from the same table (LEARN in tools/electric_teach_mode.py) "
                          "this flag reads, so the two modes cannot drift apart. It is a separate "
                          "flag and not a wider default because the two halves have different "
                          "blast radii: the stack can only ever REFUSE (a row dropped, a fragment "
-                         "unspoken, a write declined), while those six only ever REACH MORE -- "
+                         "unspoken, a write declined), while those seven only ever REACH MORE -- "
                          "more rows counted as an asking, more asks matched against the "
-                         "inventory, more phrasings folded onto one key, more pairs kept. Each of the six was "
+                         "inventory, more phrasings folded onto one key, more pairs kept, one more "
+                         "sentence spoken. Each of the seven was "
                          "measured alone and each is documented in docs/STATE.md; what this flag "
                          "claims is the COMBINATION, not that the widenings are free. It implies "
                          "--electric, and it still sets every attribute on the INSTANCE, so the "
@@ -516,6 +540,9 @@ def main() -> int:
     # enable_learn() would take the mode's own widening back off, which is the bug that quietly
     # turned `--electric-learn` into teach mode plus one. Set before, the mode can only ADD.
     agent.language.ELECTRIC_QA_ANSWER_MEMORY = bool(args.electric_qa_answer_memory)
+    # Same rule as above: wired before the mode tables so `--electric-learn` turns it on with the
+    # rest of its widenings and an individual `--electric-arbiter-tell` can only ever add it.
+    agent.language.ELECTRIC_ARBITER_TELL = bool(args.electric_arbiter_tell)
     # --electric-teach: the whole teachable stack, from the ONE table in
     # tools/electric_teach_mode.py that tools/electric_chat.py reads too. Applied AFTER the
     # individual switches above: each of those is store_true, so they can only ever add, and
@@ -527,7 +554,7 @@ def main() -> int:
     # because it is its superset, so no combination of the two mode flags can leave the organ
     # half-on or ordered. enable_learn goes through the same _set() as enable, which checks each
     # name against the CLASS first: setattr on an instance never raises for an unknown name, and
-    # a mode that turns on seventeen switches must not be able to report seventeen and behave like the
+    # a mode that turns on eighteen switches must not be able to report eighteen and behave like the
     # eleven that are real.
     learn = bool(args.electric_learn)
     if learn:
@@ -558,10 +585,11 @@ def main() -> int:
         print("[serve] ELECTRIC teach mode on: " + ", ".join(electric_teach_mode.STACK_ATTRS),
               flush=True)
         if learn:
-            # Named separately, and named as a widening, because a banner that lists sixteen
-            # attributes without saying which six change which asks reach which matchers is a
-            # banner that hides the only risk in the mode.
-            print("[serve] ELECTRIC LEARN mode on: teach mode plus the six widenings -- "
+            # Named separately, and named as a widening, because a banner that lists eighteen
+            # attributes without saying which seven change which asks reach which matchers -- or
+            # which sentence the mouth is allowed to speak -- is a banner that hides the only
+            # risk in the mode.
+            print("[serve] ELECTRIC LEARN mode on: teach mode plus the seven widenings -- "
                   + ", ".join(electric_teach_mode.EXCLUDED_ATTRS), flush=True)
     electric = bool(args.electric)
     if args.electric:

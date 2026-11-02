@@ -149,7 +149,8 @@ def test_the_widening_switches_stay_off():
     assert set(tm.EXCLUDED_ATTRS) == {"ELECTRIC_ASK_SHAPE", "ELECTRIC_REVERSE",
                                       "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE",
                                       "ELECTRIC_ASK_DO_SUPPORT",
-                                      "ELECTRIC_QA_ANSWER_MEMORY"}
+                                      "ELECTRIC_QA_ANSWER_MEMORY",
+                                      "ELECTRIC_ARBITER_TELL"}
 
 
 def test_enable_without_base_is_the_stack_alone():

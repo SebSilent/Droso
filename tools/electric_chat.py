@@ -104,7 +104,7 @@ def build_organ(state_path, electric=True, teach=False, guard=False, learn=False
     lang.ELECTRIC_ASK_SHAPE_STORE = bool(guard)
     if teach:
         electric_teach_mode.enable(lang)
-    # `learn` is the FULL teach/learn mode -- the stack above plus the six widenings the narrow
+    # `learn` is the FULL teach/learn mode -- the stack above plus the seven widenings the narrow
     # mode refuses to make -- and it is the only way this door reaches them, because there is no
     # individual --electric-reverse / --electric-object-role / --electric-ask-normalize switch
     # here. Applied last, because it is enable()'s superset: two mode switches cannot then come
@@ -339,14 +339,15 @@ def main() -> int:
                          "has no learned question words, so a pair he holds is answered by the "
                          "RECORD, not by punctuation.")
     ap.add_argument("--electric-learn", action="store_true",
-                    help="the FULL teach/learn mode: --electric-teach plus the six widenings "
-                         "it refuses (ask-shape, reverse, object-role, ask-normalize), from the "
-                         "same table tools/serve.py reads. This door has no individual switch for "
-                         "those four, so this flag is the only way to reach them here. The stack "
+                    help="the FULL teach/learn mode: --electric-teach plus the seven widenings "
+                         "it refuses -- ask-shape, reverse, object-role, ask-normalize, "
+                         "ask-do-support, qa-answer-memory and arbiter-tell -- from the same "
+                         "table tools/serve.py reads. This door has no individual switch for "
+                         "those, so this flag is the only way to reach them here. The stack "
                          "can only ever refuse -- a row dropped, a fragment unspoken, a write "
-                         "declined; those four only ever REACH MORE. Implies --electric. Each of "
-                         "the four was measured alone and is written up in docs/STATE.md; this "
-                         "flag claims the combination, not that the widenings are free. OFF by "
+                         "declined; those seven only ever REACH MORE. Implies --electric. Each "
+                         "was measured alone and is written up in docs/STATE.md; this flag "
+                         "claims the combination, not that the widenings are free. OFF by "
                          "default; with --electric-teach also given, this wins.")
     ap.add_argument("--reset", action="store_true",
                     help="delete the state file first (a new organism, not amnesia)")
@@ -386,7 +387,7 @@ def main() -> int:
               "measure the control.", file=sys.stderr, flush=True)
     if learn and args.no_electric:
         print("[chat] --no-electric with --electric-learn: the learn mode implies the ELECTRIC "
-              "flags underneath it AND the six widenings, so this is the widest arm, not the "
+              "flags underneath it AND the seven widenings, so this is the widest arm, not the "
               "control. Drop --electric-learn to measure the control.",
               file=sys.stderr, flush=True)
     lang = build_organ(state, electric, teach,
@@ -432,10 +433,9 @@ def main() -> int:
         ready += f" teach=on pairs={boot['qa_pairs_at_boot']}"
     if learn:
         # The mode a person asked for has to be visible in the line they read to decide the run
-        # worked: `teach=on` alone would describe the narrow mode, and the six widenings are the
+        # worked: `teach=on` alone would describe the narrow mode, and the seven widenings are the
         # difference between the two.
         ready += " learn=on (full teach/learn mode)"
-    print(ready, flush=True)
     if teach or learn:
         # Say what is on, and say the protocol, because the protocol is the part a person
         # cannot infer: an ask is not answered until the NEXT thing they say arrives.
@@ -446,6 +446,15 @@ def main() -> int:
               " -- ask it again in other words and it answers", flush=True)
     print(f"[chat] POST /chat {json.dumps({'text': 'the scarf is on the hook'})} "
           f"| POST /v1/chat/completions | POST /shutdown", flush=True)
+    # `ready` LAST, and that ordering is load-bearing, not cosmetic. A scripted client reads
+    # until it sees `ready port=` and then stops touching the pipe -- three tests do exactly
+    # that (test_electric_learn_mode, test_electric_live, test_electric_teach_mode). Whatever
+    # is printed after it sits undrained, and past the OS pipe buffer the writer blocks inside
+    # print() before the serve loop is ever reached: measured, learn mode left 3850 bytes after
+    # the ready line and passed, then 4746 with one more widening described and every request
+    # timed out while the process sat alive and deaf. Printing the diagnostics first means the
+    # client's own scan drains them, and only the shutdown summary (~40 bytes) follows.
+    print(ready, flush=True)
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
