@@ -1499,6 +1499,10 @@ flags -- `what turns twice?`, `which thing turns twice?`, `how often does the be
 of 8** combinations. Of the nine asks probed, only 2 answer with the read flags off, and both of
 those are the divergence below; `what bites the latch?` answers in 4 of 8, only when `object_role` is
 on. Reproducible as `docs/evidence/electric_subject_key_probe.py`.
+**SUPERSEDED by the E27 result at the end of this file.** The 0-of-8 figure describes
+`_electric_answer` in isolation and was read here as "the organism cannot answer", which is
+false: `what turns twice?` is answered `bell` through `arbiter head` and **passes** in gen 24.
+The paragraph stands only as a statement about the inventory, not about capability.
 
 **Why the published 20/20 did not show this.** `tools/electric_generalise.py` imports E1's generator,
 whose training frame is `the {a} {v} the {b}` -- a **one-word subject by construction**. Position 0 is
@@ -1531,13 +1535,170 @@ never sees. E27 must therefore run the identical inventory through the real `hea
 and report where it diverges from the pure function, exactly as E21a recorded its instrument
 limitation when `binder.recall` disagreed with the gate's own `nearest`. **Until that is done, neither
 disagreement above is claimed as a live defect, and the guarded contract is not claimed to be broken.**
+Resolved: the scarf disagreement was **an artifact of a tell the probe invented** (`the scarf is on the
+hook` -- the battery never teaches a place for the scarf), and the guarded contract is **not** breached.
+The other disagreement was confirmed and is live. See the result section.
 
 **What E27 deliberately is not.** Not `v_all` (a third coverage lever, deprioritised in the plan's section 7).
 Not a battery-score target: C3 fired, and the grader scores silence as correct on the scarf ask, so an
 organ that answers *or* truthfully admits ignorance can lose points without losing capability
 (`docs/scoring_contract_issue.md`, still open -- it is a decision for you, not for me to make by
-editing a grader). Not a subject-key fix: that is E28, and it should be a learned head-noun rule
-rather than position 0, proposed only once E27 has measured how wide the miss actually is.
+editing a grader). Not a subject-key fix: that was to be E28, and **E27 measured it away** -- the
+mis-keying is real in 20/20 modified-subject tells and costs nothing, so a head-noun rule would not
+be a repair. What E27 found instead is in the result section.
 
 **Cost bound:** one tool file widened, one run, zero organ edits, flags untouched, guarded contract
 untouched, no multi-brain work.
+
+## E27 RESULT -- run, and the prediction in it was wrong
+
+`tools/electric_shape_generalise.py`, both arms, 300 asks each; analysis
+`docs/evidence/e27_shapes_analysis.py`; write-up `docs/evidence/e27_shapes_result.md`.
+E1's generator for content words, the **battery's own sentence shapes** for templates, E1's
+role-word grader, E1's control arm, a separate organ per shape, live state with **no genome**.
+0 of 100 tells were already binder rows and every shape's inventory persisted across restart.
+(Finding of the build itself: `len(binder.meta)` cannot be a novelty signal -- the binder is a
+fixed-capacity ring, capacity 60000, so it never grows. A first version of the harness reported
+"20/20 tells already known" because of this; novelty is now tested against the key `remember()`
+builds, `organs/higher_cortex.py:412`.)
+
+| shape | treatment | control | gain | inventory answered | confab T / C |
+|---|---|---|---|---|---|
+| S0 plain agent (E1's frame) | **60/60** | 40/60 | **+20** | 40/60 | 0 / 20 |
+| S1 modified subject | 57/60 | 57/60 | 0 | 20/60 | 0 / 0 |
+| S2 quantified existence | 19/60 | 19/60 | 0 | **0/60** | 0 / 0 |
+| S3 multi-word property | 12/60 | 12/60 | 0 | 0 taught, 20 refusals | 0 / 0 |
+| S4 ordering pair | **0/60** | 0/60 | 0 | **0/60** | 0 / 0 |
+
+**The prediction that failed.** Modified subjects were expected to collapse because the tell is
+filed under the modifier. They were filed under the modifier in **20 of 20** tells and scored
+57/60, identical to control: the routes carrying that shape (`arbiter head`, `recalled
+proposition`) never consult the key. The subject-key defect is real and not load-bearing. E28 as
+framed -- a learned head-noun rule replacing position 0 -- would repair something that does not
+break anything.
+
+**What the 20/20 actually was.** Not a generalisation result. The taught inventory answers only
+the sentence shape it writes; on all four widened shapes ELECTRIC's marginal gain is exactly zero,
+and on S2 and S4 the inventory is consulted zero times. The certified frame was the mechanism's
+entire domain, and the protocol was built so that it could not show otherwise.
+
+**Where it does break, three different causes.** S2: the number never returns (0/20 on
+`what number of {a} is in the {b}?` in both arms), the tell is filed under the numeral with
+relation `agent`, so no quantity relation exists to read -- and this survives the write-time
+collision confound (9/20 groups lost their tell to repeated numeral keys; over the 11 survivors,
+0/11 in both arms). S3: `the {a} is very {v}` is stored as relation `agent`, so both property asks
+score 0/20 -- the key is correct here (0/20 mis-keyed), only the relation class is wrong. S4:
+ordering is outside the mechanism entirely, `source=None` on all 60 asks, no order field was ever
+added.
+
+**The guarded property held everywhere: zero confabulations in treatment on all five shapes.**
+Control produced 20 on S0. ELECTRIC's real contribution on its own frame is converting 20 confident
+wrong answers into right ones -- worth more than the accuracy delta.
+
+**S3 is where the absence detector shows up, and it costs nothing and gains nothing.** 20 refusals
+(`src=electric_absence`) where control gives 20 more silences: it knows the fact was told and says
+so out loud without producing it. Accuracy identical in both arms. On a battery that scores silence
+as correct for absence asks, that is the `docs/scoring_contract_issue.md` trade-off appearing in
+measurement rather than in argument.
+
+**The three read flags change no verdict.** `ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`,
+`ELECTRIC_ASK_NORMALIZE` were run off and on across the nine divergence asks: not one verdict moved.
+Gen 24 ran with all three off and lost nothing; no future run needs them on to recover these asks.
+
+**Divergence resolved** (`docs/evidence/e27_realpath_divergence.py`, `e27_divergence.json`). The
+first version of that file was itself wrong three times -- it read the journal with `passed` when the
+field is `pass` (every row printed FAIL), it invented its own seven-tell inventory, and it restarted
+between teach and ask when the battery does not. Corrected: each script's own tells, asked in one
+organ life, pure read / real path / journal side by side.
+* The scarf claim was an **artifact of the invented tell**. The battery's `conjunction-and-absence`
+  teaches `the coat is wet`, `the coat is on the hook`, `the scarf is wet` and expects refusal because
+  no place is ever told for the scarf. Real path: the admission, `src=electric_absence`, matching the
+  journal verbatim. **The guarded contract is not breached.**
+* `what is held by the thing the frost bites?` is **confirmed live in the shipped configuration**:
+  `the frost bites the latch` against `answer=[door] forbid=[frost]`, `src=electric_taught`, read
+  flags OFF, real path and journal identical. This is the one place the inventory is demonstrably
+  wrong rather than merely unused -- it answers a two-hop composition ask with one stored tell.
+* The real path reproduces the journal's pass/fail on **6 of 9** asks. The three mismatches are all
+  journal-PASS vs reconstruction-FAIL, and gen 24 ran genome `abffa2b7f101` against this harness's
+  unmodified live state. Not resolved, not claimed either way.
+
+## ELECTRIC QA provenance -- the vote cast before the refusal, and the answer that could not be reached
+
+`tools/book_qa_store_audit.py` (four arms, corpus scan, restart, vote-leak probe, hard verdict;
+`ELECTRIC_QA_PROVENANCE`, off by default, `--electric-qa-provenance`). 200 beats, evidence in
+`docs/evidence/book_qa_store_audit.json`, **9/9 verdict claims hold**.
+
+The task was to measure whether the marks channel makes the book `learn_qa` path acquire pairs.
+**It does not, and the path is inert on prose for a reason that should stay.** What the audit found
+instead were two ordering defects in the path that was already there.
+
+**Corpus, measured before any organ was built** (24 book files, the pairing rule replayed over
+every line pair):
+
+| count | value |
+|---|---|
+| question lines in the corpus | 2,687 |
+| pairs passing the arithmetic on the NEXT line | 165 |
+| ... with a 6-line window | 203 |
+| ... **real novels only**, next line | **1** |
+| ... real novels only, window 6 | **2** |
+
+Jane Eyre 0/382, War and Peace 0/334, Moby Dick 0/251. Every corpus pair comes from the project's
+own primer files. The single real pair is *false*: `you don t know the gentlemen here` /
+`i don t know the gentlemen here`, where the "answer" **precedes** the question.
+
+**Relaxing adjacency was measured and rejected.** Pairing a question with any line he already holds
+as a statement yields **175** pairs corpus-wide (6.5% of questions), and **73 of them have the
+"answer" preceding the question** -- both in the evidence file, per book, as `stmt_pass` and
+`false_order`. A throwaway probe (`_tmp/qa_coincidence.py`, not committed) showed *how* the extra
+pairs are wrong rather than merely sparse: `who carries droso` paired with `droso carries wind`
+votes that `who` asks for **role 2** instead of role 0 -- the words are all present, the semantic
+roles are inverted. Adjacency is load-bearing. The inertness is correct design, not a bug to fix.
+
+**What the channel contributes to acquisition: zero.** `DELTA stored_pairs = 0` in all three books.
+The mechanism: `_qa_keep` already reads the mark positions, and those are built for every book
+whether or not `ELECTRIC_ASK_MARKS` is on -- the store's safety never depended on the display flag.
+Acquisition is gated on `_book_is_q` (trailing), so the 5 quoted asks the channel alone sees
+(`"who shut the door?"`) never attempt a pair at all.
+
+**Defect 1, the vote before the refusal.** `learn_qa` wrote `question_roles`, `interrogatives` and
+`answer_types` and incremented `qa_pairs_seen` *before* `_qa_keep` decided the pair was not an
+answer. In Dickens the pair `might a mere warmint ask what property?` / `... ask whose property?`
+returns `learned: True`, the store keeps **0**, `qa_pairs_seen` says **1**, and the organ is taught
+that `what` asks role **5** and is answered by `whose`. `is_interrogative`'s own comment records the
+historical damage -- `"sees"` and `"learns"` were "picked up by a mis-paired line".
+
+**Defect 2, the unreachable answer.** Asked `who carries droso` with no typed mark, over the 100
+pairs he holds with provenance: **0/100 reached the store**. The sources were `recalled proposition`
+38, **silence 38**, `arbiter head` 24 -- and the 38 that came from recall did say the exact printed
+line, which is worth stating because it is the honest form of the claim: the words are reachable,
+the *provenance* is not, and 38 asks got nothing at all.
+
+**The flag changes one idea in two places** -- a pair the organ itself declares is not an answer
+teaches nothing, and a pair with provenance is answerable on that provenance:
+
+- `_qa_admissible(provenance)` factored out of `_qa_keep`; `learn_qa` consults it **before** casting
+  the vote. Refusal now returns `learned: False, refused_by_provenance: True`.
+- `_qa_store_answer` may answer an unmarked ask only on evidence: the tokens must be **exactly** a
+  marked book question already in the store, **and** the word that pair teaches as the interrogative
+  must satisfy `is_interrogative` -- learned votes, no table, no similarity, no partial key.
+
+Measured with the flag on: **the same pairs are kept** (100, identical set -- provenance costs no
+memory), the refused pair teaches nothing (`pairs_seen 0`, `roles {}`), the unmarked ask is answered
+**100/100, from the store, saying the exact printed line**, marked asks are unchanged at 100/100
+from the store, and pairs survive a restart answerable 100/100.
+
+- **Tests:** `tests/test_electric_qa_provenance.py`, 18. **Suite: 952 passed, 3 skipped, 0 failed**
+  (305s) -- including the 17 `test_electric_qa_store.py` tests, whose store return-dict gained the
+  `ask_evidence` key and still passes.
+- **Guarded contract untouched.** `_absence_licence` still binds with `_electric_bind(question,
+  inventory)` and receives no flags, pinned at the call site, with the store's consult ordered
+  **after** the taught path and **before** the licence. No token altered, no brain built.
+- **Gaps left open, on purpose.** The two halves interact: the vote gate removes votes, the lookup
+  gate needs `INTERROGATIVE_MIN_VOTES = 2`, so a word whose second vote came from a refused pair
+  loses its unmarked answer along with its corruption -- real in the stimulus for `what`, pinned by
+  `test_the_two_halves_of_the_flag_do_not_fight` rather than papered over; how often it bites at
+  corpus scale is unmeasured. Real novels still feed the store nothing, which is correct. The 5
+  quoted asks are still not paired. No eviction. And the Dickens house still answers
+  `might a mere warmint ask what property?` with `the scarf is on the hook` from
+  `recalled proposition` -- pre-existing, printed by the tool, not asserted away.

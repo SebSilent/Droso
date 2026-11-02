@@ -300,6 +300,25 @@ def main() -> int:
                          "refused (the only pair the 16 real novels yield is exactly "
                          "that: two Dickens rhetorical questions side by side). OFF by "
                          "default: the store stays empty and cannot answer anything.")
+    ap.add_argument("--electric-qa-provenance", action="store_true",
+                    help="Make a pair's PROVENANCE govern the pair, not just its "
+                         "storage. Two things the audit (tools/book_qa_store_audit.py) "
+                         "measured are wrong with the order they happen in. (1) A pair "
+                         "the store REFUSES -- no provenance, or a question answering a "
+                         "question -- has already voted into question_roles, "
+                         "interrogatives and answer_types and already counted in "
+                         "qa_pairs_seen, because the vote runs before the refusal. The "
+                         "corpus contains exactly one such pair and it taught an organ "
+                         "that `what` asks role 5 and is answered by `whose`. Refused "
+                         "means refused: it teaches nothing. (2) A stored pair is "
+                         "reachable only by a typed `?`; asked without the mark, of 100 "
+                         "pairs he holds with provenance, 0 reached the store, 38 produced "
+                         "silence and 38 got the line from recall instead. "
+                         "Under this flag an unmarked ask may hit the store, but only if "
+                         "its tokens are exactly a marked book question AND the word that "
+                         "pair teaches as the interrogative is one he learned from an "
+                         "admissible pair. OFF by default: the path is byte-identical to "
+                         "the audit.")
     ap.add_argument("--electric", action="store_true",
                     help="ELECTRIC demo mode: statements heard in chat are taught into "
                          "the keyed inventory and questions may be answered from it, "
@@ -345,6 +364,10 @@ def main() -> int:
     # needs no taught inventory and no admissibility -- it never retrieves, so it cannot
     # recite a row, and with the flag off the store is empty and the branch cannot fire.
     agent.language.ELECTRIC_QA_STORE = bool(args.electric_qa_store)
+    # Governs the SAME pair the store governs, in the two places the audit found the
+    # order wrong: the vote that runs before the admission test, and the lookup that
+    # demands a typed `?`. Off, the path is byte-identical to what was measured.
+    agent.language.ELECTRIC_QA_PROVENANCE = bool(args.electric_qa_provenance)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into

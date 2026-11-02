@@ -1,0 +1,707 @@
+{
+ "beats": 200,
+ "corpus": {
+  "books": {
+   "01_caregiver.txt": {
+    "q_lines": 0,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "02_daily.txt": {
+    "q_lines": 0,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "03_things.txt": {
+    "q_lines": 0,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "04_code.txt": {
+    "q_lines": 0,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "05_questions.txt": {
+    "q_lines": 193,
+    "next_pass": 140,
+    "win6_pass": 177,
+    "stmt_pass": 150,
+    "stmt_answer_is_question": 0,
+    "false_order": 63
+   },
+   "06_stories.txt": {
+    "q_lines": 0,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "07_prose.txt": {
+    "q_lines": 11,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "grounded_primer.txt": {
+    "q_lines": 24,
+    "next_pass": 24,
+    "win6_pass": 24,
+    "stmt_pass": 24,
+    "stmt_answer_is_question": 0,
+    "false_order": 9
+   },
+   "gutenberg_1_alice_in_wonderland.txt": {
+    "q_lines": 53,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_1_grimms_fairy_tales.txt": {
+    "q_lines": 89,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_2_a_study_in_scarlet.txt": {
+    "q_lines": 83,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_2_tom_sawyer.txt": {
+    "q_lines": 87,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_2_treasure_island.txt": {
+    "q_lines": 41,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_3_emma.txt": {
+    "q_lines": 185,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_3_frankenstein.txt": {
+    "q_lines": 94,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_3_sherlock_holmes.txt": {
+    "q_lines": 231,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_3_war_of_the_worlds.txt": {
+    "q_lines": 35,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_4_a_tale_of_two_cities.txt": {
+    "q_lines": 178,
+    "next_pass": 0,
+    "win6_pass": 1,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_4_great_expectations.txt": {
+    "q_lines": 228,
+    "next_pass": 1,
+    "win6_pass": 1,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_4_jane_eyre.txt": {
+    "q_lines": 382,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 1,
+    "stmt_answer_is_question": 0,
+    "false_order": 1
+   },
+   "gutenberg_4_metamorphosis.txt": {
+    "q_lines": 17,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_4_pride_and_prejudice.txt": {
+    "q_lines": 171,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_5_moby_dick.txt": {
+    "q_lines": 251,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   },
+   "gutenberg_5_war_and_peace.txt": {
+    "q_lines": 334,
+    "next_pass": 0,
+    "win6_pass": 0,
+    "stmt_pass": 0,
+    "stmt_answer_is_question": 0,
+    "false_order": 0
+   }
+  },
+  "totals": {
+   "q_lines": 2687,
+   "next_pass": 165,
+   "win6_pass": 203,
+   "stmt_pass": 175,
+   "stmt_false_order": 73,
+   "real_book_pairs_next_line": 1,
+   "real_book_pairs_win6": 2,
+   "real_book_pairs_any_statement": 1
+  }
+ },
+ "arms": {
+  "05_questions (synthetic, marks+pairs)": {
+   "S0 store=off marks=off prov=off": {
+    "lines_read": 200,
+    "marked_lines": 100,
+    "trailing_lines": 100,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 100,
+    "pairs_learned": 100,
+    "arithmetic_refused": 0,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 100,
+    "interrogatives": 3,
+    "role_votes": 100,
+    "reasons": {}
+   },
+   "S1 store=on  marks=off prov=off": {
+    "lines_read": 200,
+    "marked_lines": 100,
+    "trailing_lines": 100,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 100,
+    "pairs_learned": 100,
+    "arithmetic_refused": 0,
+    "stored_pairs": 100,
+    "questions_with_a_memory": 100,
+    "qa_pairs_seen": 100,
+    "interrogatives": 3,
+    "role_votes": 100,
+    "reasons": {}
+   },
+   "S2 store=on  marks=on  prov=off": {
+    "lines_read": 200,
+    "marked_lines": 100,
+    "trailing_lines": 100,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 100,
+    "pairs_learned": 100,
+    "arithmetic_refused": 0,
+    "stored_pairs": 100,
+    "questions_with_a_memory": 100,
+    "qa_pairs_seen": 100,
+    "interrogatives": 3,
+    "role_votes": 100,
+    "reasons": {}
+   },
+   "S3 store=on  marks=on  prov=on ": {
+    "lines_read": 200,
+    "marked_lines": 100,
+    "trailing_lines": 100,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 100,
+    "pairs_learned": 100,
+    "arithmetic_refused": 0,
+    "stored_pairs": 100,
+    "questions_with_a_memory": 100,
+    "qa_pairs_seen": 100,
+    "interrogatives": 3,
+    "role_votes": 100,
+    "reasons": {}
+   },
+   "DELTA marks on - off": {
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0
+   },
+   "DELTA provenance on - off": {
+    "stored_pairs": 0,
+    "qa_pairs_seen": 0,
+    "role_votes": 0,
+    "interrogatives": 0
+   }
+  },
+  "jane_eyre (real novel, 382 marks)": {
+   "S0 store=off marks=off prov=off": {
+    "lines_read": 200,
+    "marked_lines": 34,
+    "trailing_lines": 34,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 34,
+    "pairs_learned": 0,
+    "arithmetic_refused": 34,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {
+     "7 roles missing, 10 new words": 1,
+     "19 roles missing, 3 new words": 1,
+     "20 roles missing, 6 new words": 1,
+     "8 roles missing, 6 new words": 1,
+     "9 roles missing, 11 new words": 1,
+     "11 roles missing, 22 new words": 1,
+     "8 roles missing, 12 new words": 1,
+     "15 roles missing, 16 new words": 1,
+     "5 roles missing, 13 new words": 2,
+     "7 roles missing, 8 new words": 3,
+     "6 roles missing, 7 new words": 1,
+     "10 roles missing, 7 new words": 1,
+     "11 roles missing, 7 new words": 1,
+     "8 roles missing, 8 new words": 1,
+     "21 roles missing, 8 new words": 1,
+     "7 roles missing, 7 new words": 1,
+     "10 roles missing, 2 new words": 1,
+     "10 roles missing, 9 new words": 1,
+     "18 roles missing, 7 new words": 1,
+     "15 roles missing, 8 new words": 1,
+     "6 roles missing, 6 new words": 1,
+     "23 roles missing, 5 new words": 1,
+     "24 roles missing, 8 new words": 2,
+     "23 roles missing, 19 new words": 1,
+     "18 roles missing, 9 new words": 1,
+     "9 roles missing, 7 new words": 1,
+     "26 roles missing, 9 new words": 1,
+     "20 roles missing, 4 new words": 1,
+     "27 roles missing, 8 new words": 1,
+     "7 roles missing, 14 new words": 1
+    }
+   },
+   "S1 store=on  marks=off prov=off": {
+    "lines_read": 200,
+    "marked_lines": 34,
+    "trailing_lines": 34,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 34,
+    "pairs_learned": 0,
+    "arithmetic_refused": 34,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {
+     "7 roles missing, 10 new words": 1,
+     "19 roles missing, 3 new words": 1,
+     "20 roles missing, 6 new words": 1,
+     "8 roles missing, 6 new words": 1,
+     "9 roles missing, 11 new words": 1,
+     "11 roles missing, 22 new words": 1,
+     "8 roles missing, 12 new words": 1,
+     "15 roles missing, 16 new words": 1,
+     "5 roles missing, 13 new words": 2,
+     "7 roles missing, 8 new words": 3,
+     "6 roles missing, 7 new words": 1,
+     "10 roles missing, 7 new words": 1,
+     "11 roles missing, 7 new words": 1,
+     "8 roles missing, 8 new words": 1,
+     "21 roles missing, 8 new words": 1,
+     "7 roles missing, 7 new words": 1,
+     "10 roles missing, 2 new words": 1,
+     "10 roles missing, 9 new words": 1,
+     "18 roles missing, 7 new words": 1,
+     "15 roles missing, 8 new words": 1,
+     "6 roles missing, 6 new words": 1,
+     "23 roles missing, 5 new words": 1,
+     "24 roles missing, 8 new words": 2,
+     "23 roles missing, 19 new words": 1,
+     "18 roles missing, 9 new words": 1,
+     "9 roles missing, 7 new words": 1,
+     "26 roles missing, 9 new words": 1,
+     "20 roles missing, 4 new words": 1,
+     "27 roles missing, 8 new words": 1,
+     "7 roles missing, 14 new words": 1
+    }
+   },
+   "S2 store=on  marks=on  prov=off": {
+    "lines_read": 200,
+    "marked_lines": 34,
+    "trailing_lines": 34,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 34,
+    "pairs_learned": 0,
+    "arithmetic_refused": 34,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {
+     "7 roles missing, 10 new words": 1,
+     "19 roles missing, 3 new words": 1,
+     "20 roles missing, 6 new words": 1,
+     "8 roles missing, 6 new words": 1,
+     "9 roles missing, 11 new words": 1,
+     "11 roles missing, 22 new words": 1,
+     "8 roles missing, 12 new words": 1,
+     "15 roles missing, 16 new words": 1,
+     "5 roles missing, 13 new words": 2,
+     "7 roles missing, 8 new words": 3,
+     "6 roles missing, 7 new words": 1,
+     "10 roles missing, 7 new words": 1,
+     "11 roles missing, 7 new words": 1,
+     "8 roles missing, 8 new words": 1,
+     "21 roles missing, 8 new words": 1,
+     "7 roles missing, 7 new words": 1,
+     "10 roles missing, 2 new words": 1,
+     "10 roles missing, 9 new words": 1,
+     "18 roles missing, 7 new words": 1,
+     "15 roles missing, 8 new words": 1,
+     "6 roles missing, 6 new words": 1,
+     "23 roles missing, 5 new words": 1,
+     "24 roles missing, 8 new words": 2,
+     "23 roles missing, 19 new words": 1,
+     "18 roles missing, 9 new words": 1,
+     "9 roles missing, 7 new words": 1,
+     "26 roles missing, 9 new words": 1,
+     "20 roles missing, 4 new words": 1,
+     "27 roles missing, 8 new words": 1,
+     "7 roles missing, 14 new words": 1
+    }
+   },
+   "S3 store=on  marks=on  prov=on ": {
+    "lines_read": 200,
+    "marked_lines": 34,
+    "trailing_lines": 34,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 34,
+    "pairs_learned": 0,
+    "arithmetic_refused": 34,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {
+     "7 roles missing, 10 new words": 1,
+     "19 roles missing, 3 new words": 1,
+     "20 roles missing, 6 new words": 1,
+     "8 roles missing, 6 new words": 1,
+     "9 roles missing, 11 new words": 1,
+     "11 roles missing, 22 new words": 1,
+     "8 roles missing, 12 new words": 1,
+     "15 roles missing, 16 new words": 1,
+     "5 roles missing, 13 new words": 2,
+     "7 roles missing, 8 new words": 3,
+     "6 roles missing, 7 new words": 1,
+     "10 roles missing, 7 new words": 1,
+     "11 roles missing, 7 new words": 1,
+     "8 roles missing, 8 new words": 1,
+     "21 roles missing, 8 new words": 1,
+     "7 roles missing, 7 new words": 1,
+     "10 roles missing, 2 new words": 1,
+     "10 roles missing, 9 new words": 1,
+     "18 roles missing, 7 new words": 1,
+     "15 roles missing, 8 new words": 1,
+     "6 roles missing, 6 new words": 1,
+     "23 roles missing, 5 new words": 1,
+     "24 roles missing, 8 new words": 2,
+     "23 roles missing, 19 new words": 1,
+     "18 roles missing, 9 new words": 1,
+     "9 roles missing, 7 new words": 1,
+     "26 roles missing, 9 new words": 1,
+     "20 roles missing, 4 new words": 1,
+     "27 roles missing, 8 new words": 1,
+     "7 roles missing, 14 new words": 1
+    }
+   },
+   "DELTA marks on - off": {
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0
+   },
+   "DELTA provenance on - off": {
+    "stored_pairs": 0,
+    "qa_pairs_seen": 0,
+    "role_votes": 0,
+    "interrogatives": 0
+   }
+  },
+  "01_caregiver (no marks at all)": {
+   "S0 store=off marks=off prov=off": {
+    "lines_read": 200,
+    "marked_lines": 0,
+    "trailing_lines": 0,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 0,
+    "pairs_learned": 0,
+    "arithmetic_refused": 0,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {}
+   },
+   "S1 store=on  marks=off prov=off": {
+    "lines_read": 200,
+    "marked_lines": 0,
+    "trailing_lines": 0,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 0,
+    "pairs_learned": 0,
+    "arithmetic_refused": 0,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {}
+   },
+   "S2 store=on  marks=on  prov=off": {
+    "lines_read": 200,
+    "marked_lines": 0,
+    "trailing_lines": 0,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 0,
+    "pairs_learned": 0,
+    "arithmetic_refused": 0,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {}
+   },
+   "S3 store=on  marks=on  prov=on ": {
+    "lines_read": 200,
+    "marked_lines": 0,
+    "trailing_lines": 0,
+    "interior_only_lines": 0,
+    "learn_qa_calls": 0,
+    "pairs_learned": 0,
+    "arithmetic_refused": 0,
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0,
+    "qa_pairs_seen": 0,
+    "interrogatives": 0,
+    "role_votes": 0,
+    "reasons": {}
+   },
+   "DELTA marks on - off": {
+    "stored_pairs": 0,
+    "questions_with_a_memory": 0
+   },
+   "DELTA provenance on - off": {
+    "stored_pairs": 0,
+    "qa_pairs_seen": 0,
+    "role_votes": 0,
+    "interrogatives": 0
+   }
+  }
+ },
+ "restart": {
+  "stored": 100,
+  "saved": true,
+  "state_bytes": 59027,
+  "loaded": true,
+  "store_after_load": 100,
+  "answerable_before_restart": 100,
+  "answerable_after_restart": 100,
+  "answered_by_qa_store_after_restart": 100,
+  "exact_answer_line_after_restart": 100,
+  "answerable_without_the_mark": 62,
+  "sources_after": {
+   "electric_qa_store": 100
+  },
+  "sources_no_mark": {
+   "recalled proposition": 38,
+   "(silent)": 38,
+   "arbiter head": 24
+  },
+  "sample": [
+   {
+    "q": "how is the animal",
+    "a": "the animal is calm",
+    "after": "the animal is calm",
+    "src": "electric_qa_store",
+    "noinfo": true
+   },
+   {
+    "q": "how is the arm",
+    "a": "the arm is calm",
+    "after": "the arm is calm",
+    "src": "electric_qa_store",
+    "noinfo": true
+   },
+   {
+    "q": "how is the bed",
+    "a": "the bed is calm",
+    "after": "the bed is calm",
+    "src": "electric_qa_store",
+    "noinfo": true
+   },
+   {
+    "q": "how is the bird",
+    "a": "the bird is calm",
+    "after": "the bird is calm",
+    "src": "electric_qa_store",
+    "noinfo": true
+   },
+   {
+    "q": "how is the book",
+    "a": "the book is calm",
+    "after": "the book is calm",
+    "src": "electric_qa_store",
+    "noinfo": true
+   },
+   {
+    "q": "how is the brother",
+    "a": "the brother is calm",
+    "after": "the brother is calm",
+    "src": "electric_qa_store",
+    "noinfo": true
+   }
+  ]
+ },
+ "gate_and_vote": {
+  "stored": 100,
+  "prov_on_stored": 100,
+  "same_pairs_kept": true,
+  "unmarked_ask_answered_prov_on": 100,
+  "unmarked_ask_from_store_prov_on": 100,
+  "unmarked_ask_exact_line_prov_on": 100,
+  "marked_ask_from_store_prov_on": 100,
+  "prov_on_vote_leak": {
+   "learn_qa_said": {
+    "learned": false,
+    "refused_by_provenance": true,
+    "reason": "not an answer: the answer line was itself printed as a question"
+   },
+   "qa_pairs_seen": 0,
+   "roles_for_what": {},
+   "answer_types_for_what": {},
+   "interrogatives": []
+  },
+  "answerable_through_respond": 100,
+  "by_qa_store_through_respond": 100,
+  "unmarked_ask_answered": 62,
+  "unmarked_ask_answered_from_store": 0,
+  "unmarked_ask_says_the_exact_line_anyway": 38,
+  "unmarked_sources": {
+   "recalled proposition": 38,
+   "(silent)": 38,
+   "arbiter head": 24
+  },
+  "vote_leak": {
+   "pair": "might a mere warmint ask what property / ...whose property",
+   "learn_qa_said": {
+    "learned": true,
+    "interrogative": "what",
+    "role": 5,
+    "filler": "whose"
+   },
+   "store_kept": 0,
+   "qa_pairs_seen": 1,
+   "roles_for_what_before": {},
+   "roles_for_what_after": {
+    "5": 1
+   },
+   "answer_types_for_what": {
+    "whose": 1
+   },
+   "interrogatives_gained": [
+    "what"
+   ]
+  }
+ },
+ "verdict": {
+  "checks": [
+   {
+    "claim": "real novels feed the pairing rule nothing",
+    "pass": true
+   },
+   {
+    "claim": "the marks channel adds no pair (acquisition is not the channel's gap)",
+    "pass": true
+   },
+   {
+    "claim": "provenance costs no memory: the same pairs are kept",
+    "pass": true
+   },
+   {
+    "claim": "a refused pair teaches nothing under the flag",
+    "pass": true
+   },
+   {
+    "claim": "a refused pair DOES teach today (the defect is real, not rhetorical)",
+    "pass": true
+   },
+   {
+    "claim": "the store answers an unmarked ask only under the flag",
+    "pass": true
+   },
+   {
+    "claim": "the exact printed line is what comes back",
+    "pass": true
+   },
+   {
+    "claim": "a marked ask is unaffected -- no regression on the path that worked",
+    "pass": true
+   },
+   {
+    "claim": "pairs survive a restart and stay answerable",
+    "pass": true
+   }
+  ],
+  "failed": 0
+ }
+}

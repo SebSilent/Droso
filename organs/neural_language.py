@@ -2861,6 +2861,30 @@ class NeuralLanguage:
     # at the door, which deletes the only spurious pair in the corpus.
     # Off: nothing is stored and nothing is read -- the votes are all the path does.
     ELECTRIC_QA_STORE = False
+    # ELECTRIC: make the pair's PROVENANCE govern the pair, not just its storage.
+    #
+    # The audit (`tools/book_qa_store_audit.py`) found the two places where this path's
+    # own safety rule runs after the thing it is supposed to protect:
+    #
+    #  (1) THE VOTE. `learn_qa` teaches `question_roles`, `interrogatives` and
+    #      `answer_types` and increments `qa_pairs_seen` BEFORE `_qa_keep` decides the
+    #      pair is not an answer. Measured on the one real pair the corpus contains --
+    #      Dickens's `...ask what property?` over `...ask whose property?` -- the store
+    #      keeps 0 pairs, `qa_pairs_seen` says 1, `what` joins the words that ask, and
+    #      `what` is taught it asks role 5 and is answered by `whose`. A question cannot
+    #      answer a question, and yet it was still taught.
+    #  (2) THE LOOKUP. A stored pair is reachable only by a typed `?`. Measured: an ask
+    #      with the mark missing is answered 10/10 -- and 0/10 from the store, 0/10 with
+    #      the line the book actually printed, every one of them from `arbiter head`,
+    #      which is the recall path the question-mark channel exists to keep out of the
+    #      asking business. He has a provenance-tagged answer and says a recalled guess.
+    #
+    # On: a pair that would be refused admission casts no vote, and the store may answer
+    #      an ask whose questionhood is EVIDENCED rather than typed -- exact key match on
+    #      a question the book printed with a mark, plus a word he has LEARNED (from a
+    #      real pair) to ask with. Nothing else: no similarity, no partial key, no table.
+    # Off: byte-identical to the path as audited. Default off.
+    ELECTRIC_QA_PROVENANCE = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -2991,6 +3015,15 @@ class NeuralLanguage:
                     "reason": f"{len(missing)} roles missing, {len(novel)} new words"}
         role = int(missing[0])
         w = novel[0]
+        if self.ELECTRIC_QA_PROVENANCE:
+            # A pair that cannot be an ANSWER cannot teach what asks either. This is the
+            # whole of this flag's first half, and the audit is the whole of its reason:
+            # the corpus's one refused pair was voted, counted in `qa_pairs_seen`, and
+            # taught this organ that `what` asks role 5 and is answered by `whose`.
+            ok, why = self._qa_admissible(provenance)
+            if not ok:
+                return {"learned": False, "refused_by_provenance": True,
+                        "reason": f"not an answer: {why}"}
         votes = self.question_roles.setdefault(w, {})
         votes[str(role)] = int(votes.get(str(role), 0)) + 1
         self.interrogatives.add(w)
@@ -3010,21 +3043,34 @@ class NeuralLanguage:
         return {"learned": True, "interrogative": w, "role": role,
                 "filler": filler}
 
+    def _qa_admissible(self, provenance):
+        """THE admission test for a pair, shared by the vote and by the store so the two
+        can never disagree about what counts as an answer. Returns (ok, why).
+
+        Two rules, both from the audit. (1) NO PROVENANCE, NO MEMORY: an unattributed
+        pair is a sentence that happened to be shaped like an answer. (2) A QUESTION
+        CANNOT ANSWER A QUESTION. Until this was factored out, rule (2) was applied to
+        the store and to the store only, AFTER the vote had already been cast -- so the
+        rule protected his memories and corrupted his grammar at the same time.
+        """
+        if not provenance:
+            return False, "no provenance"
+        if provenance.get("answer_is_question"):
+            return False, "the answer line was itself printed as a question"
+        return True, ""
+
     def _qa_keep(self, q, a, w, role, filler, provenance):
         """Admit one validated pair to the store, or refuse it. Returns the key kept,
         or "" for a refusal -- a refusal is never silent overwriting.
 
-        Two rules, both from the audit. (1) NO PROVENANCE, NO MEMORY: an unattributed
-        pair is a sentence that happened to be shaped like an answer. (2) A QUESTION
-        CANNOT ANSWER A QUESTION: the only pair the real novels yield is Dickens's
-        `Might a mere warmint ask what property?` followed by `Might a mere warmint
-        ask whose property?`, which passes the arithmetic and is not an answer.
-        First tell wins, as in `_taught_says`: a pair re-read must not become a
-        different pair.
+        The WHAT-COUNTS test is `_qa_admissible`, shared with the vote. What is left here
+        is the storage rule: the key must exist, and FIRST TELL WINS, as in
+        `_taught_says` -- a pair re-read must not become a different pair. Dickens's
+        `Might a mere warmint ask what property?` over `Might a mere warmint ask whose
+        property?` is the one pair in the corpus that passes the arithmetic and fails
+        admissibility.
         """
-        if not provenance:
-            return ""
-        if provenance.get("answer_is_question"):
+        if not self._qa_admissible(provenance)[0]:
             return ""
         key = self.qa_key(q)
         if not key or key in self.qa_store:
@@ -3040,19 +3086,36 @@ class NeuralLanguage:
         Same shape as `_electric_answer`'s contract and for the same reason: this is a
         keyed lookup, not a retrieval, so it cannot answer a question it was never
         paired with, and an ask that is not in the store falls through to every path
-        that already exists. The ask must be an asking in the book's own sense -- it
-        ends in `?` -- because a sentence typed without one is not evidence anyone
-        wants an answer.
+        that already exists. The ask must be an asking in the book's own sense: by
+        default that means it ends in `?`, because a sentence typed without one is not
+        evidence anyone wants an answer. Under ELECTRIC_QA_PROVENANCE a second, narrower
+        route opens -- an unmarked ask whose tokens ARE a marked book question, and whose
+        interrogative he learned from an admissible pair. See below.
 
         What comes back is the answer line, word for word as it was printed. No
         reconstruction and no template: the only thing this path knows is that this
         line sat under that question in that book.
         """
-        if not str(text or "").strip().endswith("?"):
-            return None
-        rec = self.qa_store.get(self.qa_key(text))
+        raw = str(text or "").strip()
+        rec = self.qa_store.get(self.qa_key(raw))
         if not rec:
             return None
+        typed = raw.endswith("?")
+        if not typed:
+            # Questionhood WITHOUT punctuation, and only under the flag. Two things have
+            # to hold, and neither is a table or a guess: the ask must be token-for-token
+            # a question a book printed with a mark on it -- that is what the key is -- and
+            # the word THIS pair teaches as the interrogative must be a word he has
+            # LEARNED asks. `is_interrogative` needs role votes, and under this flag every
+            # role vote came from a pair that was admissible, so the evidence is circular
+            # in the good way: only a real answer can teach the word that unlocks it.
+            # Everything else stays exactly where it was. A sentence with no mark and no
+            # learned question word is not evidence anyone wants an answer.
+            if not self.ELECTRIC_QA_PROVENANCE:
+                return None
+            w = str(rec.get("word") or "").strip().lower()
+            if not w or not self.is_interrogative(w):
+                return None
         said = " ".join(rec.get("a") or [])
         if not said.strip():
             return None
@@ -3061,6 +3124,7 @@ class NeuralLanguage:
                 "source": "electric_qa_store", "direct": True,
                 "asked": " ".join(rec.get("q") or []),
                 "filler": rec.get("filler"), "role": rec.get("role"),
+                "ask_evidence": "typed" if typed else "learned",
                 "provenance": dict(rec.get("prov") or {})}
 
     def role_votes_report(self) -> dict:
