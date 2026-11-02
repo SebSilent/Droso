@@ -51,6 +51,11 @@ The harness turns teach mode off before consolidating, and under the old gate th
 > left ON through all 600 replays ⇒ `_taught_says` 20/20, `_absence_inv` 20→20, **pollution
 > zero**. The off-switch is defence in depth, not a measured necessity.
 >
+> (Later, and still one write site: `ELECTRIC_ASK_SHAPE_STORE` guards the `_taught_says` write
+> INSIDE `_absence_note`, after the `_absence_inv` line, so an ask-shaped tell keeps its frame in
+> the inventory and loses only the sentence. Nothing here became a second writer. See the
+> `ELECTRIC_ASK_SHAPE_STORE` entry in `docs/STATE.md` and `tools/qa_teach_hole_live.py`.)
+>
 > **The fix still stands, and stands on the 0/20 alone** — that part was observed. What was
 > wrong was the *story about why*, and I wrote it into a code comment and a doc without
 > testing it, because it sounded like the obvious shape of the hazard.

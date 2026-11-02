@@ -50,6 +50,14 @@ whose user kills the window mid-conversation must not lose what it was told.
 ELECTRIC stays behind flags.  The three switches are set on the INSTANCE, never on
 ``NeuralLanguage`` itself, so importing or running this file cannot flip the defaults
 that every battery run reads.  ``--no-electric`` is the control arm.
+
+One of those switches is a no-op on purpose.  ``--electric`` was never an option of this
+file: argparse resolved it as a PREFIX of ``--electric-teach``, so a person typing the
+ELECTRIC switch got the whole teach stack and had no say in it, and once a second
+``--electric-*`` option existed the prefix became ambiguous and the same typing was a hard
+error.  Declaring the exact name fixes both: it affirms the default, changes nothing, and
+loses to ``--no-electric`` in a conflict, because an affirmation of what is already on
+carries no information and the control arm is the one request that does.
 """
 import argparse
 import json
@@ -73,7 +81,7 @@ from tools import electric_teach_mode  # noqa: E402
 DEFAULT_STATE = ROOT / "state" / "electric_chat" / "neural_lang.json"
 
 
-def build_organ(state_path, electric=True, teach=False):
+def build_organ(state_path, electric=True, teach=False, guard=False):
     """A bare language organ on its own state file -- no house, no corpus.
 
     Flags on the instance.  ``ELECTRIC_TEACH`` is a write permission,
@@ -83,12 +91,17 @@ def build_organ(state_path, electric=True, teach=False):
 
     ``teach`` turns on the whole teachable-QA stack through the SAME table
     ``tools/serve.py`` reads, so "teach mode" is one definition and not two that can drift.
+
+    ``guard`` is the store-shape guard alone, so the hole it closes can be measured with the
+    mode OFF. It is set BEFORE ``enable`` because the mode's table includes it: an individual
+    switch can only ever add to the mode, never take it back off.
     """
     lang = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()),
                              TokenizerOrgan(), state_path=str(state_path))
     lang.ELECTRIC_TEACH = bool(electric)
     lang.ELECTRIC_ANSWER = bool(electric)
     lang.ABSENCE_INVENTORY = bool(electric)
+    lang.ELECTRIC_ASK_SHAPE_STORE = bool(guard)
     if teach:
         electric_teach_mode.enable(lang)
     lang.persist = True
@@ -279,13 +292,33 @@ def main() -> int:
                     help="one-shot: boot, load, answer this, save, exit (JSON on stdout)")
     ap.add_argument("--host", default="127.0.0.1")
     ap.add_argument("--port", type=int, default=8123)
+    ap.add_argument("--electric", action="store_true",
+                    help="affirm the ELECTRIC flags explicitly. This tool has always started "
+                         "with them ON, so it changes nothing -- it exists because typing "
+                         "`--electric` used to resolve as an ABBREVIATION of --electric-teach, "
+                         "which meant the person who typed the ELECTRIC switch got the whole "
+                         "teach stack and had no say in it. Naming it exactly makes that "
+                         "abbreviation impossible. With --no-electric the control wins, because "
+                         "an affirmation of the default carries no information.")
     ap.add_argument("--no-electric", action="store_true",
                     help="control arm: flags off, so nothing is taught and nothing is "
                          "recalled from the keyed inventory")
+    ap.add_argument("--electric-ask-shape-store", action="store_true",
+                    help="do not file a tell whose SHAPE is an ask as a taught fact. "
+                         "`_taught_says` is read before every other store, so a question the "
+                         "house has not learned to classify used to answer itself: teach one "
+                         "pair, ask `what rings the bell twice`, then ask `what rings the bell` "
+                         "and get the first question back. This closes that without widening "
+                         "anything -- the frame still lands in the inventory the absence licence "
+                         "reads, and a line longer than the binder's cap is left alone, because "
+                         "a relative clause that opens a line is a fact. Needs --electric, "
+                         "which is what files taught facts at all. Included in "
+                         "--electric-teach.")
     ap.add_argument("--electric-teach", action="store_true",
                     help="the teachable-QA stack in one switch -- the store, elicitation, the "
-                         "paraphrase fold, provenance, the question marks, admissibility and "
-                         "the fragment guard, from the same table tools/serve.py reads. Teach "
+                         "paraphrase fold, provenance, the question marks, admissibility, "
+                         "the fragment guard and the store-shape guard, from the same table "
+                         "tools/serve.py reads. Teach "
                          "a pair by asking a question and saying the answer next; ask it again "
                          "in other words later. Implies --electric. It WIDENS NOTHING beyond "
                          "that: --electric-reverse, --electric-object-role and "
@@ -308,7 +341,14 @@ def main() -> int:
                 pass
 
     teach = bool(args.electric_teach)
+    # `--electric` is deliberately absent from this expression. It affirms the default, so it
+    # carries no information, and letting it flip `electric` would mean a person who typed both
+    # switches could lose the control arm by accident. The conflict is announced instead.
     electric = not args.no_electric or teach
+    if args.electric and args.no_electric:
+        print("[chat] --electric with --no-electric: ELECTRIC is what this tool does on its own, "
+              "so the affirmation adds nothing and the CONTROL arm stands. Say one of them.",
+              file=sys.stderr, flush=True)
     if teach and args.no_electric:
         # A contradictory pair of switches has to be announced, not resolved quietly: --no-electric
         # is the CONTROL arm, and teach mode sits on top of the flags it turns off, so this run is
@@ -316,7 +356,8 @@ def main() -> int:
         print("[chat] --no-electric with --electric-teach: teach mode implies the ELECTRIC "
               "flags underneath it, so this is not the control arm. Drop --electric-teach to "
               "measure the control.", file=sys.stderr, flush=True)
-    lang = build_organ(state, electric, teach)
+    lang = build_organ(state, electric, teach,
+                       guard=bool(args.electric_ask_shape_store))
     for line in electric_teach_mode.warnings(lang):
         print("[chat] " + line, flush=True)
     loaded = lang.load_state()
@@ -324,7 +365,8 @@ def main() -> int:
     boot = {"loaded": bool((loaded or {}).get("loaded")),
             "inventory_at_boot": _count(lang),
             "electric": electric, "state": str(state),
-            "teach": teach, "qa_pairs_at_boot": pairs, "taught_pairs_at_boot": conv}
+            "teach": teach, "qa_pairs_at_boot": pairs, "taught_pairs_at_boot": conv,
+            "ask_shape_store": bool(lang.ELECTRIC_ASK_SHAPE_STORE)}
 
     if args.say is not None:
         out = turn(lang, args.say)

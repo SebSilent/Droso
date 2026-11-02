@@ -291,6 +291,24 @@ def main() -> int:
                          "anything. Read only under --electric-ask-admissibility, so "
                          "with it off which rows exist does not change. OFF by default: "
                          "the detector never runs.")
+    ap.add_argument("--electric-ask-shape-store", action="store_true",
+                    help="Shape authority at the OTHER store. --electric-ask-shape decides "
+                         "what a ROW is called; `_taught_says` -- the taught-fact store that "
+                         "is consulted before every other answer path -- is not a row, and "
+                         "nothing there reaches it. Measured in the live house: teach ONE "
+                         "pair, so the question word has one vote and is not yet learned, ask "
+                         "`what rings the bell twice`, and that question is filed as a tell "
+                         "under ('agent','rings'); ask `what rings the bell` and the house "
+                         "answers with the other person's unanswered question. ON: a tell "
+                         "whose shape is an ask is not filed. It is a NARROWING, not the "
+                         "widening above: it never makes a new ask reachable, and it cannot "
+                         "answer anything it did not answer before. It does NOT touch "
+                         "`_absence_inv` -- the frame is still extracted and recorded, so the "
+                         "E24 licence refuses exactly what it refuses today -- and it stands "
+                         "off past the binder's max_roles, because a long line opening on "
+                         "`who` is prose with a relative clause in it and declining a WRITE "
+                         "loses a fact silently. Needs --electric, which is what files taught "
+                         "facts at all. OFF by default, and included in --electric-teach.")
     ap.add_argument("--electric-ask-marks", action="store_true",
                     help="Carry the question marks a book actually printed. The "
                          "exposure path has always known which lines ended in `?` "
@@ -495,6 +513,14 @@ def main() -> int:
         # other two: it changes which asks reach which matchers, and a run that shows it
         # costing something has to be able to say which switch did it.
         lang.ELECTRIC_ASK_NORMALIZE = bool(args.electric_ask_normalize)
+        # The store-shape guard, wired HERE and not beside the other ELECTRIC_QA_* switches,
+        # for two reasons that are both about order. It is inert without ELECTRIC_TEACH -- the
+        # write it declines only happens under that flag -- and its parent is set four lines
+        # above, so wiring it outside would make the inert-flag warning above fire on a run that
+        # has its parent on. And `or teach` rather than a bare bool(): the mode's own table
+        # already turned this on, several lines earlier, and a plain assignment would switch the
+        # mode's fix back off for anyone who asked for the mode and not for this switch.
+        lang.ELECTRIC_ASK_SHAPE_STORE = bool(args.electric_ask_shape_store) or teach
         # THE RESTART HALF. converse.build() repoints writes into the session dir and
         # never reads them back, so a second serve.py over the same --session-dir would
         # come up amnesiac even though the state is on disk.  load_state() is a no-op
@@ -506,7 +532,8 @@ def main() -> int:
         print(f"[serve] ELECTRIC on: loaded={bool((lres or {}).get('loaded'))} "
               f"taught facts={sum(len(v) for v in lang._taught_says.values())} "
               f"subjects={len(lang._taught_says)} "
-              f"reverse={args.electric_reverse} object_role={args.electric_object_role}",
+              f"reverse={args.electric_reverse} object_role={args.electric_object_role} "
+              f"shape_store={lang.ELECTRIC_ASK_SHAPE_STORE}",
               flush=True)
     session = converse.Session(agent, beats=args.beats)
     print(f"[serve] loaded in {time.time() - t0:.1f}s: "

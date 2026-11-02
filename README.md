@@ -619,10 +619,11 @@ droso tomorrow`, `who carried droso`, `who own the lantern`, `what rings the bel
 refusals are half the design — the fold keeps word order, because a bag of stems would answer a
 role-inverted ask, and it under-folds tense the shared stemmer has not been told to bridge.
 
-Those seven flags are now one switch. `--electric-teach` (in `tools/serve.py` and
-`tools/electric_chat.py`, defined once in `tools/electric_teach_mode.py` so the two wiring sites
+Those seven flags, plus the store-shape guard described below, are now one switch of eight.
+`--electric-teach` (in `tools/serve.py` and `tools/electric_chat.py`, defined once in
+`tools/electric_teach_mode.py` so the two wiring sites
 cannot drift) turns on the store, elicitation, the paraphrase fold, provenance, the mark channel,
-admissibility and the fragment guard, on top of what `--electric` already means, and it implies
+admissibility, the fragment guard and the store-shape guard, on top of what `--electric` already means, and it implies
 `--electric` — which matters because `serve.py` only runs `load_state()` inside its `--electric`
 block, so a server started with the QA flags and not `--electric` saved every pair and came back
 remembering none. Four switches stay out of it, and stay out on purpose: `ELECTRIC_ASK_SHAPE`,
@@ -631,7 +632,7 @@ which matchers, and each was measured alone precisely so a run could say which o
 Everything is set on the instance, never on `NeuralLanguage`.
 
 Measured by `tools/qa_teach_mode_live.py` in a real house, three arms — control (plain
-`--electric`), the mode through the shipped `enable()`, and the seven flags spelled out by hand:
+`--electric`), the mode through the shipped `enable()`, and the eight flags spelled out by hand:
 **the mode is byte-identical to the list** on rows, store keys and every probe reply, before and
 after a real restart. Two elicited pairs answer six phrasings from the store (`what rings the
 bell`, `what ring the bell`, `what is ringing the bell`, the marked ask, and the door pair's two),
@@ -640,8 +641,9 @@ them from a store it never filled; rows are identical across arms (9/9); the gua
 still refuses from `electric_absence`, in the same words, in every arm, after a restart; asking in
 one phrasing and answering in another teaches nothing (pair count unchanged by 13 probes).
 
-And the check found a hole, which is **pinned rather than fixed** because repairing it means
-narrowing a write site the graded absence work owns: `_absence_note` (`neural_language.py:5365`)
+And the check found a hole, which was **pinned rather than fixed** at the time because repairing it
+means narrowing a write site the graded absence work owns: `_absence_note` in
+`organs/neural_language.py` (the E24 write side -- cited by function, because the file moves)
 files a frame from anything it is told, and a question's words yield a frame. So a question the
 house cannot classify is heard as a statement and enters `_taught_says` — the one store that
 answers *before* the QA store does. The QA store refuses exactly this pair (`answer_is_question`,
@@ -651,10 +653,32 @@ house that has since learned the word can be caught by it — which is the mode,
 state, where it repeats the person's own question back at them (`what rings the bell` →
 `what rings the bell twice`). The control arm is silent there for the same reason it can answer
 nothing: it never classified the ask. The mode's second elicited pair earns the word (two role
-votes), the ask stops being heard as a tell, and the store answers it. Evidence:
-`docs/evidence/qa_teach_mode_live.json`; unit pins: `tests/test_electric_teach_mode.py` (18
-tests, including teaching a pair over HTTP, shutting down, and answering a paraphrase in a second
-process that shared nothing but the file).
+votes), the ask stops being heard as a tell, and the store answers it.
+
+`ELECTRIC_ASK_SHAPE_STORE` — the eighth member of that stack, off by default on the class — closes
+it at the write site: the tell's own shape is asked of the same detector the row tagger uses, and an
+ask-shaped tell is not filed as a fact. Everything above that line is untouched: the frame still
+lands in `_absence_inv`, which is what the graded licence reads, and the licence's reply comes out
+identical with the guard on and off. What it costs is measured, not argued
+(`tools/qa_teach_hole_live.py` → `docs/evidence/qa_teach_hole_live.json`). A *short* free-relative
+statement — `who rings the bell keeps the gate` — is shape-identical to the ask `who rings the bell`,
+and this guard declines it; the longer relative clauses are safe because the detector's cap is the
+binder's own `max_roles` (8 in a real house, asserted rather than assumed). The declined line loses
+its PAIR and nothing else: the cortex row and the inventory entry survive, and the frame it would
+have filed was `('agent','rings','bell keeps gate')` — a subject slot holding the verb, the same
+misparse the hole is made of. And one effect nobody predicted, which is why the check exists:
+deleting a wrong entry can make a right one reachable. With the residual filed under `rings`,
+`what rings the bell` has two candidate subjects, the keyed binder rejects the ambiguity and the QA
+store answers; with it declined the bind resolves to `bell` and a tell the person actually said
+answers instead. This guard is not pure subtraction, and the evidence file says so in
+`unmasking_note`.
+
+Evidence: `docs/evidence/qa_teach_mode_live.json`, `docs/evidence/qa_teach_hole_live.json`; unit
+pins: `tests/test_electric_teach_mode.py` (20 tests, including teaching a pair over HTTP, shutting
+down, and answering a paraphrase in a second process that shared nothing but the file) and
+`tests/test_electric_ask_shape_store.py` (22 — the hole reproduced with the guard off and closed
+with it on, the statements and relative clauses still filed, the cap proved to be the binder's,
+fail-open on every failure mode, and rows/pairs/inventory/licence identical in both arms).
 
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
@@ -678,7 +702,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 1021 passed, 3 skipped (at the `--electric-teach` commit; the battery count grows with each entry) |
+| Test suite | 1045 passed, 3 skipped (at the `ELECTRIC_ASK_SHAPE_STORE` commit; 1021 before it, plus the 24 tests that guard added -- the arithmetic is checked, not assumed. The battery count grows with each entry) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

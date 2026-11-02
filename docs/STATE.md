@@ -1880,22 +1880,25 @@ taught path (:4595) and the store's consult (:4604), pinned as text by
 
 `tools/electric_teach_mode.py` (the table, and the only place the list is written down),
 `tools/serve.py --electric-teach`, `tools/electric_chat.py --electric-teach`,
-`tests/test_electric_teach_mode.py` (18), `tools/qa_teach_mode_live.py` →
+`tests/test_electric_teach_mode.py` (20), `tools/qa_teach_mode_live.py` →
 `docs/evidence/qa_teach_mode_live.json`.
 
 Seven flags stood between "he remembers the pair a person gave him" and "he can be talked into
-remembering one", each added on its own with its own live measurement. The cost of that honesty is
+remembering one", each added on its own with its own live measurement; an eighth,
+`ELECTRIC_ASK_SHAPE_STORE`, joined later and is documented in its own entry below. The cost of that
+honesty is
 that anyone who just wants to teach him something has to get the DEPENDENCIES right, because two of
 them are inert without another and the symptom of an inert flag is that nothing happens and nothing
-is said. `--electric-teach` is those seven plus the three that `--electric` already means, defined
+is said. `--electric-teach` is those eight plus the three that `--electric` already means, defined
 once and read by both wiring sites, with the inertness rules in the same table so `serve.py` and
 `electric_chat.py` warn in identical words.
 
-The reason a bundle was safe to add at all is a fact about the stack, not a preference: six of the
-seven can only ever REFUSE to speak or refuse to store -- the store holds pairs the audit already
+The reason a bundle was safe to add at all is a fact about the stack, not a preference: seven of
+the eight can only ever REFUSE to speak or refuse to store -- the store holds pairs the audit already
 refused, elicitation routes an ask that was already being typed, the fold answers only from a pair
 that exists, provenance narrows admission, marks and admissibility drop remembered questions out of
-the hits, the fragment guard replaces a spoken `to?` with silence. That is why the guard is IN and
+the hits, the fragment guard replaces a spoken `to?` with silence, the store-shape guard declines an
+ask-shaped tell. That is why both guards are IN and
 the four WIDENINGS are out: `ELECTRIC_ASK_SHAPE`, `ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`,
 `ELECTRIC_ASK_NORMALIZE` each let more asks reach more matchers, and each was measured alone
 precisely so a run could name which one cost something. `ELECTRIC_ASK_NORMALIZE` looks like an
@@ -1911,7 +1914,7 @@ started with the QA flags and not `--electric` wrote every pair to disk and came
 none.
 
 **Measured in a real house, three arms x restart** (`tools/qa_teach_mode_live.py`; T0 = plain
-`--electric`, T1 = the mode through the shipped `enable()`, T2 = the seven flags spelled out by
+`--electric`, T1 = the mode through the shipped `enable()`, T2 = the eight flags spelled out by
 hand, literally, without reading the table it is checking): T1 and T2 are **byte-identical** on rows,
 store keys and every probe reply, before and after a real restart -- the bundle IS the list, not a
 new configuration nobody measured. Two elicited pairs answer **6** phrasings from the store with the
@@ -1925,12 +1928,13 @@ ask is gone -- by design, and now said out loud: two `--say` calls are two lives
 warns on stderr when it exits holding a question, because that silence previously read as a broken
 feature.
 
-**What the live check found rather than confirmed -- and did not fix.** `_absence_note`
-(`neural_language.py:5365`) files a frame from ANYTHING it is told, and a question's words yield a
-frame. A question the house cannot classify is therefore HEARD as a statement and enters
+**What the live check found rather than confirmed -- and what closed it.** `_absence_note`
+(`organs/neural_language.py`, cited by function because the line numbers move every time a flag is
+documented here) files a frame from ANYTHING it is told, and a question's words yield a frame. A question the house cannot classify is therefore HEARD as a statement and enters
 `_taught_says` -- the one store that answers *before* the QA store does. The QA store refuses exactly
-this pair (`answer_is_question`, the Dickens warmint case); the taught inventory has no counterpart.
-Measured across four states:
+this pair (`answer_is_question`, the Dickens warmint case); the taught inventory had no counterpart.
+Measured across four states, as the check first recorded them -- the same table now runs six rows,
+and the four below are the guard-off half of it:
 
 | arm | elicited pairs | `what` votes | filed as a tell | what the house said to `what rings the bell` |
 |---|---|---|---|---|
@@ -1941,23 +1945,32 @@ Measured across four states:
 
 So the filing is universal and pre-existing, but only a house that has since learned the word can be
 CAUGHT by it -- and the control arm's safety there is not safety, it is the same inability to answer
-anything. The mode's own second pair is what closes it: the word earns its two role votes, the ask
+anything. The mode's own second pair closes it on its own: the word earns its two role votes, the ask
 routes to `answer()` instead of being heard, and there is no frame left to file.
 
-Two candidate repairs were measured and rejected rather than assumed. `ELECTRIC_ASK_SHAPE` does not
+Two candidate repairs were measured before either was built. `ELECTRIC_ASK_SHAPE` does not
 close it: with the flag on, both rows are tagged `row_is_ask=True` and the reply still comes from
 `electric_taught`, because admissibility and shape are cortex-row concepts while `_taught_says` is a
-different store. A guard at the write site would close it, and is the right fix, but it is a
-narrowing of a write path the graded E24 work owns, and `question_shape` mis-fires on relative
-clauses -- the row tagger already had to learn that, which is why it declines past the binder's
-`max_roles` cap. Declining a WRITE there loses a fact silently, which is worse than losing one
-lookup. `_absence_inv` -- the grader's input -- is untouched by the mode and by this document.
-Pinned instead: `test_pinned_an_unclassified_ask_is_filed_as_tell`,
-`test_pinned_the_store_refuses_what_the_inventory_files`,
-`test_pinned_the_learned_word_closes_the_filing`, and the four-state table in the live check, so
-that whoever fixes it is making a deliberate choice against a failing test.
+different store. A guard at the write site does close it, and that is what shipped, as
+`ELECTRIC_ASK_SHAPE_STORE` -- its own entry below, because it narrows a write path the graded E24
+work owns and that deserves a measurement of its own rather than a paragraph here. The reason it was
+NOT built at the time is recorded and still true: `question_shape` mis-fires on relative clauses --
+the row tagger already had to learn that, which is why it declines past the binder's `max_roles` cap
+-- and declining a WRITE loses a fact silently, which is worse than losing one lookup. That cost is
+now measured instead of assumed (see the entry below). `_absence_inv` -- the grader's input -- is
+untouched by the mode, by the guard, and by this document.
 
-- **Tests:** `tests/test_electric_teach_mode.py`, 18 -- the table (exactly the stack and the base,
+The pins moved with the fix and were not deleted. `test_pinned_an_unclassified_ask_is_filed_as_tell`
+and `test_pinned_the_store_refuses_what_the_inventory_files` now run in the configuration they were
+measured in, with the guard forced off, and each has a sibling asserting the closure
+(`test_the_mode_as_it_ships_refuses_the_filing_that_used_to_answer_itself`,
+`test_the_guard_removes_the_disagreement_it_was_pinned_for`);
+`test_pinned_the_learned_word_closes_the_filing` asserts in both arms, because the mode's own
+self-repair and the write-site guard are now two mechanisms that have to agree. The live table is six
+rows -- control x2, mode x2 with the guard off, mode x2 with it on -- so the closure is attributed to
+the switch and not to the bundle around it.
+
+- **Tests:** `tests/test_electric_teach_mode.py`, 20 -- the table (exactly the stack and the base,
   the four widenings off, nothing written to the class), what it buys (a pair the control cannot
   teach, a paraphrase with its evidence named, the second pair earning the word), what it must not
   cost (the guarded admission identical in both arms, the same four utterances writing the same
@@ -1969,8 +1982,125 @@ that whoever fixes it is making a deliberate choice against a failing test.
 (`_tmp/suite_full2.log`), run after the teach-mode tests and the serve.py guard fix landed; the
 last recorded figure was 1003 passed, 3 skipped at the end of the E27 entry. One edit came after
 the run started -- the live tool's opening docstring line, which no test reads.
-- **Still open.** The write-site guard (above), priced on its own. A house that has not earned a
-  question word stays exposed for that word. The `teach` member of `serve.py`'s payload appears only
+- **Still open.** The write-site guard shipped, but the frame a question yields still lands in
+  `_absence_inv`, which is the graded licence's input: the guard declines the SENTENCE as an answer,
+  not the inventory entry, and whether a question-shaped frame should ever license a refusal is E24's
+  question rather than this flag's, so it is deliberately untested here. A house that has not earned
+  a question word also stays exposed for that word in every store that reads rows rather than the
+  taught inventory. The `teach` member of `serve.py`'s payload appears only
   under the mode, so the `--electric` wire format is unchanged for every run that did not ask for
   teach mode -- and nothing in the mode has been run on the battery.
+
+## ELECTRIC_ASK_SHAPE_STORE -- shape authority at the `_taught_says` write
+
+`organs/neural_language.py` (the flag, and `_shape_files_as_ask`), `tools/serve.py
+--electric-ask-shape-store`, `tools/electric_chat.py --electric-ask-shape-store`,
+`tests/test_electric_ask_shape_store.py` (22), `tools/qa_teach_hole_live.py` →
+`docs/evidence/qa_teach_hole_live.json`. Eighth member of `--electric-teach`.
+
+The hole itself, and why it was pinned a session before it was repaired, are in the entry above.
+What shipped is one line at the write site, placed AFTER the graded one: `_absence_note` extracts
+the frame and records it in `_absence_inv` -- that is E24's write and nothing here touches it -- and
+only then asks the tell's own SHAPE whether the sentence should be kept as an answer. The detector is
+the one the row tagger already uses (`question_shape`, the arbiter's closed set, the binder's own
+`max_roles` cap), so the guard invents no vocabulary of its own, and it is wrapped to fail OPEN in
+every direction: no tokens, no binder, a throwing tokenizer, a throwing detector -- all four answer
+"not an ask" and leave the write exactly where it was before this method existed. A guard that can
+delete a fact by crashing is worse than the hole it closes, and that is a test, not a preference.
+
+**What it buys**, measured in a real house (`tools/qa_teach_mode_live.py` section 6, six rows now):
+the mode at one elicited pair used to answer `what rings the bell` with `what rings the bell twice`;
+with the flag on the same house declines the filing and answers `the copper bell rings` from the
+store. The control arm is unchanged, the mode at two pairs is unchanged, and the two arms' flag sets
+differ by exactly one name -- which is why the closure is credited to the switch and not to the
+bundle around it.
+
+**What it costs**, measured rather than argued (`tools/qa_teach_hole_live.py`, one house per arm,
+the same battery told twice):
+
+| line told to the house | shape verdict | filed, guard off | filed, guard on |
+|---|---|---|---|
+| `the copper bell rings` | False | yes | yes |
+| `droso keeps the lantern in the pantry` | False | yes | yes |
+| `where the river bends the reed grows tall` | False | yes | yes |
+| `who sacrificed everything for him chimed in the ledger` | past the cap | yes | yes |
+| `what the loop does at midnight surprises the clerk` | past the cap | yes | yes |
+| `the bell that rings at midnight keeps the gate` | past the cap | yes | yes |
+| `who rings the bell keeps the gate` | **True** | yes | **no** |
+
+Rows written 8 == 8, `_absence_inv` identical (15 subjects), the licensed refusal identical in
+wording and source. The declined line is the residual `question_shape` cannot separate -- a SHORT
+free relative is shape-identical to the ask `who rings the bell` -- and what it loses is the PAIR
+only: the cortex row and the inventory entry survive, and the frame the other arm filed was
+`('agent','rings','bell keeps gate')`, a subject slot holding the verb, which is the same misparse
+the hole is made of. The cap is the binder's: `max_roles` is 8 in a real house, and the three lines
+past it are left alone because the row tagger leaves them alone. Lower the cap in a unit test and the
+guard's cap moves with it -- asserted, so nobody can later harden this by inventing a length.
+
+**And one effect nobody predicted, which is the reason the check exists at all.** The guard is not
+pure subtraction; it can change WHICH STORE answers. With the residual filed under `subj='rings'` the
+ask `what rings the bell` has two candidate subjects, `_electric_bind` rejects the ambiguity and
+returns None, and the QA store answers `the copper bell rings`. With the residual declined the bind
+resolves cleanly to `bell`, and the house speaks `the bell that rings at midnight keeps the gate` -- a
+tell the person actually said, verbatim, keyed. Deleting a wrong entry made a right one reachable, so
+the assertion that survives is the one the contract needs: the reply is a sentence the house was told,
+and it is not itself a question. Recorded in the evidence file as `unmasking_note`, printed in the
+run's own output.
+
+Two wiring findings, both small and both real:
+
+* `--electric` was never an option of `electric_chat.py`: argparse resolved it as a PREFIX of
+  `--electric-teach`, so typing the ELECTRIC switch got you the whole teach stack and left you no say
+  in it. Adding a second `--electric-*` option would have turned that same typing into an ambiguity
+  error, which is its own regression, so the exact name is now declared: it affirms the default,
+  changes nothing, and loses to `--no-electric` in a conflict -- an affirmation of what is already on
+  carries no information, and the control arm is the one request that does. Pinned, together with the
+  fact that `serve.py` always had the exact name and did not move.
+* In `serve.py` the flag must be wired INSIDE the `if args.electric:` block and AFTER
+  `ELECTRIC_TEACH = True`, as `bool(args.electric_ask_shape_store) or teach`. Outside that block the
+  inert-flag warning would claim a flag was live in an organ with no teach path at all; before that
+  line a bare `bool()` would switch the mode's own fix back off. Both orderings are asserted against
+  the file's text, because both failures are silent.
+
+- **Tests:** `tests/test_electric_ask_shape_store.py`, 22 -- the hole reproduced with the guard off
+  and closed with it on, the closing attributed to the one switch; statements and relative clauses
+  still filed; the cap proved to be the binder's; fail-open on all four failure modes; the residual
+  declined with its row and inventory entry surviving; rows, pairs, inventory and the licence's reason
+  words identical between arms; the CLI in three arms plus the `--electric` prefix.
+  `tests/test_electric_teach_mode.py` 18 → 20 (the three pinned hole tests kept in the configuration
+  they were measured in, guard forced off, each with a sibling asserting the closure).
+  **Suite: 1045 passed, 3 skipped, 0 failed in 417.09s, exit 0.** The arithmetic is the check: the
+  figure one entry above (the `--electric-teach` run itself) was **1021 passed, 3 skipped**, and this
+  work adds exactly 24 tests: 22 in the new `tests/test_electric_ask_shape_store.py`, and 2 in
+  `tests/test_electric_teach_mode.py` (18 → 20, counted against `git show HEAD` rather than
+  remembered -- the two closure siblings that stand beside the three `test_pinned_*` tests they
+  reverse; `test_electric_fragment_guard.py` is 8 at HEAD and 8 now, so nothing moved out of it).
+  1021 + 24 = 1045. A number that does not reconcile with what was added is a number someone counted
+  off a different tree. The committed tree was then run again and returned the same figure
+  (**1045 passed, 3 skipped, 0 failed in 415.91s**), so the flake below has now failed to appear in
+  two consecutive clean full runs and one clean neighbourhood run -- three processes, not one.
+
+  **A green run is a claim about a tree, not about code.** Two full runs of this work failed, and
+  neither failure was a behaviour change. The first (5 failures, all `inspect.getsource` call-site
+  pins -- `answer`, `_qa_keep`, `qa_paraphrase_key`) happened because I edited
+  `organs/neural_language.py` *while the suite was running*: `getsource` maps a code object's line
+  numbers onto the file on disk, so the imported module carried offsets into a copy of the file that
+  no longer existed and each slice landed on its neighbour -- the `_qa_keep` pin failed on text that
+  lives in `_qa_admissible`, sixteen lines above it, and the paraphrase pin returned `qa_key`'s body.
+  All five passed in 1.33s on the settled tree with no code change; the pin that guards the graded
+  contract is one of the five, which is the reassurance the constraint needed.
+  The second was `test_the_guard_returns_the_licensed_absence_instead_of_the_fragment` in
+  `test_electric_fragment_guard.py`, which has not reproduced: green in the 87-test electric neighbourhood,
+  green 15/15 as a single test across 15 fresh hash seeds, green in the full suite. Its own guard is
+  off by default, and its ONE call site is inside `_absence_note` (grep finds two hits in the organ:
+  the method and that line), which that test reaches only with the flag False; no test file in
+  `tests/` writes a class-level `ELECTRIC_*` default (grepped), and `tools/electric_reverse_ab.py`
+  sets only TEACH/ANSWER/REVERSE on the instance. So there is no path from this work to that row.
+  **Recorded as unexplained,
+  not as not-a-problem**: the file's own header says this row is process-nondeterministic, and the
+  evidence is only that it has not been seen twice.
+- **Still open.** Whether a question-shaped frame should license a refusal at all -- that is E24's
+  input and this flag deliberately leaves it. The residual class above, and the unmasking effect, are
+  costs of the shape detector, not of this write site: any guard built from `question_shape` inherits
+  both. Nothing here has been run on the battery; generation 25 is still the free one.
 

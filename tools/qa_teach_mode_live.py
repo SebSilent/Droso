@@ -10,7 +10,7 @@ Three arms, because the claim a bundle flag has to answer is not one but three:
       `--electric` means today. The control for "does the mode do anything at all".
   T1  `--electric-teach`, applied through tools/electric_teach_mode.enable() -- the shipped
       code path, not a copy of it.
-  T2  the seven flags spelled out one by one, as the CLI documents them, WITHOUT reading the
+  T2  the eight flags spelled out one by one, as the CLI documents them, WITHOUT reading the
       module's table.
 
 T1 vs T2 is the bundle's own claim: a single switch must be the LIST, not a new configuration
@@ -39,14 +39,15 @@ What has to hold, and is asserted:
     ask is GONE -- a question from a previous life must not pair with an unrelated sentence
     in this one.
 
-And one thing that does NOT hold, asserted as broken on purpose so it stays visible (section 6):
-a question the house cannot classify is HEARD as a statement, and `_absence_note` files its
-frame in `_taught_says`, the one store that answers before the QA store does. The filing happens
-in every arm. Being CAUGHT by it happens only in a house that has since learned the word -- which
-is the mode, in its one-pair state, where it repeats the person's own question back at them. The
-second elicited pair earns the word and closes it. Not fixed here: the repair is a narrowing at a
-write site the graded E24 work owns, and `question_shape` mis-fires on relative clauses, where
-declining the write would silently lose a fact.
+And the thing section 6 used to assert as broken on purpose, now asserted closed with its
+opposite beside it: a question the house cannot classify is HEARD as a statement, and
+`_absence_note` filed its frame in `_taught_says`, the one store that answers before the QA store
+does. The filing happened in every arm. Being CAUGHT by it happened only in a house that has since
+learned the word -- which is the mode, in its one-pair state, repeating the person's own question
+back at them. `ELECTRIC_ASK_SHAPE_STORE` (the eighth stack member) declines that filing, and
+section 6 runs the hole in three arms -- control, mode-without-the-guard, mode-as-it-ships -- so
+the closure is attributed to the switch and not to the mode around it. What the guard costs, in a
+real house, is a separate check: tools/qa_teach_hole_live.py.
 
 Writes docs/evidence/qa_teach_mode_live.json.
 """
@@ -65,16 +66,17 @@ import tools.qa_elicit_live as q                        # noqa: E402
 
 q.TMP = Path("_tmp/qa_teach_mode_live")   # not the committed tools' scratch dir
 
-# The seven, spelled out the way the CLI documents them. Deliberately NOT read from the
+# The eight, spelled out the way the CLI documents them. Deliberately NOT read from the
 # module: T2 exists to compare against it, and a comparison that reads the same table proves
 # nothing.
 HAND_LIST = ("ELECTRIC_QA_STORE", "ELECTRIC_QA_ELICIT", "ELECTRIC_QA_PARAPHRASE",
              "ELECTRIC_QA_PROVENANCE", "ELECTRIC_ASK_MARKS",
-             "ELECTRIC_ASK_ADMISSIBILITY", "ELECTRIC_FRAGMENT_GUARD")
+             "ELECTRIC_ASK_ADMISSIBILITY", "ELECTRIC_FRAGMENT_GUARD",
+             "ELECTRIC_ASK_SHAPE_STORE")
 
 ARMS = (("T0", "base only -- what plain --electric means today", "base"),
         ("T1", "--electric-teach", "mode"),
-        ("T2", "the seven flags set one by one", "hand"))
+        ("T2", "the eight flags set one by one", "hand"))
 
 # Two taught pairs, both starting with `what`, and the second one is not decoration: an ask
 # reaches answer() by ROUTE (3) (the record) or by `is_interrogative` (the learned word), and
@@ -121,13 +123,21 @@ def apply_arm(lang, arm):
             setattr(lang, attr, True)
 
 
-def boot(arm, tag, root):
-    """One real house, wired the way tools/serve.py wires it, in the same order."""
+def boot(arm, tag, root, off=()):
+    """One real house, wired the way tools/serve.py wires it, in the same order.
+
+    `off` clears a switch AFTER the arm has been applied. It is not the same thing as choosing
+    an arm that never sets it: the hole check below needs a house that is the MODE in every
+    respect except one flag, and an arm built by subtracting a flag by hand is a second
+    definition of the bundle -- exactly the drift this file exists to prevent.
+    """
     agent = converse.build(q.TMP / "sess" / tag, project_root=str(root))
     lang = agent.language
     for attr in tm.BASE_ATTRS:          # --electric is implied by every arm, T0 included
         setattr(lang, attr, True)
     apply_arm(lang, arm)
+    for attr in off:
+        setattr(lang, attr, False)
     # Timing knobs BEFORE the tells: a row that depends on wall-clock makes the arms differ
     # for a reason that has nothing to do with the flag (measured, the hard way, in the
     # committed elicitation tool).
@@ -141,7 +151,7 @@ def boot(arm, tag, root):
     return lang
 
 
-def fresh(arm, tag, conv=None):
+def fresh(arm, tag, conv=None, off=()):
     root = q.TMP / "root" / tag
     if root.exists():
         shutil.rmtree(root, ignore_errors=True)
@@ -149,7 +159,7 @@ def fresh(arm, tag, conv=None):
     sess = q.TMP / "sess" / tag
     if sess.exists():
         shutil.rmtree(sess, ignore_errors=True)
-    lang = boot(arm, tag, root)
+    lang = boot(arm, tag, root, off=off)
     for u in (CONV if conv is None else conv):
         lang.respond(u, speaker="you")
     lang._house_root = root
@@ -157,7 +167,7 @@ def fresh(arm, tag, conv=None):
     return lang
 
 
-def restart(arm, tag):
+def restart(arm, tag, off=()):
     sdir, root = q.TMP / "sess" / tag, q.TMP / "root" / tag
     sv = (sdir / "language_state.json").exists()
     for f in sdir.iterdir():
@@ -212,32 +222,40 @@ def flag_state(lang):
     return {attr: bool(getattr(lang, attr, False)) for attr in tm.ALL_ATTRS}
 
 
-# The hole this check found, and which this check does NOT fix. `ask` is a phrasing no pair
-# covers; it is asked, gets no answer, and then the REAL pair is asked again.
+# The hole this check found. `ask` is a phrasing no pair covers; it is asked, gets no answer,
+# and then the REAL pair is asked again -- and used to be answered with the first question.
 HOLE_ASK = "what rings the bell twice"
+GUARD_ATTR = "ELECTRIC_ASK_SHAPE_STORE"
 
 
-def hole(arm, pairs, tag):
+def hole(arm, pairs, tag, guard=True):
     """How many elicited pairs does a house need before an unanswerable question stops being
-    filed as a tell? Measured in BOTH arms, because the claim that the mode caused it is false
-    and the claim that the mode fixes it is also false."""
-    lang = fresh(arm, tag, CONV[:2 * pairs])
-    rec = {"arm": arm, "pairs": pairs,
+    filed as a tell, and does the store guard change that? Measured across three configurations,
+    because the claim that the mode caused it is false and the claim that the mode alone fixes
+    it is also false: what fixes it is one switch inside the mode, and the arm below that turns
+    that one switch off is otherwise the mode, flag for flag."""
+    lang = fresh(arm, tag, CONV[:2 * pairs], off=() if guard else (GUARD_ATTR,))
+    rec = {"arm": arm, "pairs": pairs, "guard": bool(lang.ELECTRIC_ASK_SHAPE_STORE),
            "votes_for_what": dict(lang.question_roles.get("what") or {}),
            "min_votes": lang.INTERROGATIVE_MIN_VOTES,
-           "what_is_a_question_word": lang.is_interrogative("what")}
+           "what_is_a_question_word": lang.is_interrogative("what"),
+           "flags_on": sorted(a for a in tm.ALL_ATTRS if getattr(lang, a, False))}
     lang.respond(HOLE_ASK, speaker="you")
     lang._qa_pending = None
-    # The write site is `_absence_note` (neural_language.py:5365): a tell whose words yield a
-    # frame is filed under that frame's subject, and a question's words do yield a frame.
+    # The write site is `_absence_note` in neural_language.py: a tell whose words yield a
+    # frame is filed under that frame's subject, and a question's words do yield a frame --
+    # unless the store guard sees the shape and declines the sentence. The FRAME is recorded
+    # either way, which is what `inv` counts here and what the assertions below hold equal.
     rec["question_filed_as_tell"] = "rings" in lang._taught_says
+    rec["inv"] = {s: sorted(d) for s, d in sorted(lang._absence_inv.items())}
     r = lang.respond(PAIR_KEY, speaker="you") or {}
     lang._qa_pending = None
     said = str(r.get("utterance") or r.get("response") or "").strip()
     rec.update({"said": said[:60], "src": str(r.get("source") or ""),
                 "polluted": said == HOLE_ASK,
                 "answered_from_store": str(r.get("source")) == "electric_qa_store"})
-    print(f"      [{arm}, {pairs} pair{'s' if pairs != 1 else ''}] "
+    print(f"      [{arm}, {pairs} pair{'s' if pairs != 1 else ''}, "
+          f"guard={'on' if rec['guard'] else 'off'}] "
           f"votes={rec['votes_for_what']}/{rec['min_votes']} "
           f"question_word={rec['what_is_a_question_word']} "
           f"filed_as_tell={rec['question_filed_as_tell']} -> asked {PAIR_KEY!r} and it said "
@@ -301,7 +319,7 @@ def main():
     # ---- 2. the bundle IS the list, measured, not just in flags ----------------------
     for key in ("rows", "store_keys", "conv", "probes", "probes_after"):
         assert A["T1"][key] == A["T2"][key], f"mode and hand-list differ in {key}"
-    print("\n    T1 (mode) == T2 (the seven flags set one by one): rows, store, every probe "
+    print("\n    T1 (mode) == T2 (the eight flags set one by one): rows, store, every probe "
           "reply, before and after restart", flush=True)
 
     # ---- 3. teaching works, and only in the arms that hold a store ------------------
@@ -370,41 +388,66 @@ def main():
           f"(delta {res['rows_delta_control_minus_mode']}); asking in one phrasing and answering "
           "in another taught nothing in any arm", flush=True)
 
-    # ---- 6. the hole, measured and NOT fixed ----------------------------------------
-    # `_absence_note` (neural_language.py:5365) files a frame from ANYTHING it is told, and a
-    # question's words yield a frame. So a question the house cannot classify as a question goes
-    # into `_taught_says` as a tell -- the one store that answers BEFORE the QA store does.
-    # Pinned here so that a future "fix" at the write site is a deliberate, measured choice.
-    print("\n--- the question-pollution boundary (measured, unfixed) ---", flush=True)
+    # ---- 6. the hole, and the one switch that closes it ------------------------------
+    # `_absence_note` in neural_language.py files a frame from ANYTHING it is told, and a
+    # question's words yield a frame. So a question the house cannot classify as a question used
+    # to go into `_taught_says` as a tell -- the one store that answers BEFORE the QA store does.
+    # Three configurations, not two: the mode with the guard off is the mode as it shipped when
+    # this hole was pinned, and without that row the closure could be credited to the bundle.
+    print("\n--- the question-pollution boundary (closed by ELECTRIC_ASK_SHAPE_STORE) ---",
+          flush=True)
     H = [hole("base", 1, "H_base1"), hole("base", 2, "H_base2"),
+         hole("mode", 1, "H_mode1_noguard", guard=False),
+         hole("mode", 2, "H_mode2_noguard", guard=False),
          hole("mode", 1, "H_mode1"), hole("mode", 2, "H_mode2")]
     res["hole"] = H
-    by = {(h["arm"], h["pairs"]): h for h in H}
-    # (a) The write site pollutes in EVERY arm, control included: an unclassified question is
-    # filed as a tell no matter which flags are on. That part is not the mode's doing.
-    for key in (("base", 1), ("base", 2), ("mode", 1)):
+    by = {(h["arm"], h["pairs"], h["guard"]): h for h in H}
+    # (a) Wherever the guard is off the filing happens, control arm included: an unclassified
+    # question is filed as a tell no matter which other flags are on. That part was never the
+    # mode's doing, and the guard does not claim it is -- the frame still lands in `_absence_inv`.
+    for key in (("base", 1, False), ("base", 2, False), ("mode", 1, False)):
         assert by[key]["question_filed_as_tell"], \
-            f"{key} no longer files the question as a tell -- the diagnosis is stale: {by[key]}"
-    # (b) But only the MODE's house can be CAUGHT by it, and only in the one-pair state. With
+            f"{key} no longer files the question as a tell -- re-measure: {by[key]}"
+    # (b) Only the MODE's house could be CAUGHT by it, and only in the one-pair state: with
     # elicitation off the follow-up ask is itself unclassifiable, never reaches any answer path,
     # and the house says nothing -- silence by accident, not by design.
-    assert by[("mode", 1)]["polluted"], \
-        f"the mode no longer pollutes at one pair -- re-measure this: {by[('mode', 1)]}"
-    assert by[("base", 1)]["said"] == "" and by[("base", 2)]["said"] == "", \
-        f"the control arm now answers something it could not classify: {by[('base', 1)]}"
-    assert not by[("base", 2)]["what_is_a_question_word"], \
-        f"the control arm learned a question word with elicitation off: {by[('base', 2)]}"
-    # (c) The mode's own next pair is what closes it: the word earns its votes, the question
-    # stops being heard as a tell, and the store answers from the pair.
-    m2 = by[("mode", 2)]
-    assert m2["what_is_a_question_word"] and m2["answered_from_store"] \
-        and not m2["polluted"] and not m2["question_filed_as_tell"], \
-        f"two elicited pairs no longer close the hole for the mode: {m2}"
-    print("    pinned: the write site files an unclassified question as a tell in every arm; "
-          "only a house that has learned the word can be caught by it, and only in the one-pair "
-          "state -- where it repeats the person's own question back at them. The control arm is "
-          "silent there for the same reason it cannot answer anything: it never classified the "
-          "ask. The mode's second elicited pair earns the word and closes it.", flush=True)
+    unguarded = by[("mode", 1, False)]
+    assert unguarded["polluted"], \
+        f"the hole no longer reproduces with the guard off -- it moved: {unguarded}"
+    assert by[("base", 1, False)]["said"] == "" and by[("base", 2, False)]["said"] == "", \
+        f"the control arm now answers something it could not classify: {by[('base', 1, False)]}"
+    assert not by[("base", 2, False)]["what_is_a_question_word"], \
+        f"the control arm learned a question word with elicitation off: {by[('base', 2, False)]}"
+    # (c) THE CLOSURE, attributed to the switch: same mode, same two pairs, one flag apart.
+    guarded = by[("mode", 1, True)]
+    assert not guarded["question_filed_as_tell"], \
+        f"the guard did not reach the write site: {guarded}"
+    assert not guarded["polluted"] and guarded["answered_from_store"] \
+        and guarded["said"] == PAIR_ANSWER, \
+        f"the guard closed the filing but the pair did not get the turn back: {guarded}"
+    assert set(guarded["flags_on"]) ^ set(unguarded["flags_on"]) == {GUARD_ATTR}, \
+        f"the two arms differ by more than the switch: {guarded['flags_on']} vs " \
+        f"{unguarded['flags_on']}"
+    # (d) What it must not cost: the grader's own input. `_absence_inv` is what E24's licence
+    # reads, and the guard sits after it -- same subjects, same relations, both arms.
+    assert guarded["inv"] == unguarded["inv"], \
+        f"the guard moved the inventory: on={guarded['inv']} off={unguarded['inv']}"
+    # (e) The mode's own second pair still closes it on its own, guard or no guard: the word
+    # earns its votes, the ask stops being heard as a tell, and the store answers. Two
+    # mechanisms, one outcome -- and neither is trusted to be the only one.
+    for guard in (False, True):
+        m2 = by[("mode", 2, guard)]
+        assert m2["what_is_a_question_word"] and m2["answered_from_store"] \
+            and not m2["polluted"] and not m2["question_filed_as_tell"], \
+            f"two elicited pairs no longer close the hole for the mode (guard={guard}): {m2}"
+    res["hole_closed_by_guard"] = (unguarded["polluted"] and not guarded["polluted"]
+                                   and guarded["inv"] == unguarded["inv"])
+    print("    the write site still files an unclassified question as a tell wherever the guard "
+          "is off -- control arm included -- and the mode at one pair was caught by it "
+          f"({unguarded['said']!r}); with ELECTRIC_ASK_SHAPE_STORE on the same house declines "
+          f"the filing and answers {PAIR_KEY!r} with {guarded['said']!r} from the store. "
+          "_absence_inv identical both arms; the mode's own second pair closes it either way.",
+          flush=True)
 
     # ---- 7. the restart, and the held ask that must NOT survive it -------------------
     for name in ("T1", "T2"):

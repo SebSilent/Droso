@@ -1063,6 +1063,7 @@
       "ELECTRIC_ASK_MARKS": false,
       "ELECTRIC_ASK_ADMISSIBILITY": false,
       "ELECTRIC_FRAGMENT_GUARD": false,
+      "ELECTRIC_ASK_SHAPE_STORE": false,
       "ELECTRIC_TEACH": true,
       "ELECTRIC_ANSWER": true,
       "ABSENCE_INVENTORY": true,
@@ -1079,6 +1080,7 @@
       "ELECTRIC_ASK_MARKS": true,
       "ELECTRIC_ASK_ADMISSIBILITY": true,
       "ELECTRIC_FRAGMENT_GUARD": true,
+      "ELECTRIC_ASK_SHAPE_STORE": true,
       "ELECTRIC_TEACH": true,
       "ELECTRIC_ANSWER": true,
       "ABSENCE_INVENTORY": true,
@@ -1095,6 +1097,7 @@
       "ELECTRIC_ASK_MARKS": true,
       "ELECTRIC_ASK_ADMISSIBILITY": true,
       "ELECTRIC_FRAGMENT_GUARD": true,
+      "ELECTRIC_ASK_SHAPE_STORE": true,
       "ELECTRIC_TEACH": true,
       "ELECTRIC_ANSWER": true,
       "ABSENCE_INVENTORY": true,
@@ -1109,10 +1112,42 @@
     {
       "arm": "base",
       "pairs": 1,
+      "guard": false,
       "votes_for_what": {},
       "min_votes": 2,
       "what_is_a_question_word": false,
+      "flags_on": [
+        "ABSENCE_INVENTORY",
+        "ELECTRIC_ANSWER",
+        "ELECTRIC_TEACH"
+      ],
       "question_filed_as_tell": true,
+      "inv": {
+        "copper": [
+          "agent"
+        ],
+        "frost": [
+          "agent"
+        ],
+        "lantern": [
+          "agent"
+        ],
+        "latch": [
+          "agent"
+        ],
+        "ledger": [
+          "place"
+        ],
+        "mouse": [
+          "agent"
+        ],
+        "rings": [
+          "agent"
+        ],
+        "scarf": [
+          "place"
+        ]
+      },
       "said": "",
       "src": "",
       "polluted": false,
@@ -1121,10 +1156,45 @@
     {
       "arm": "base",
       "pairs": 2,
+      "guard": false,
       "votes_for_what": {},
       "min_votes": 2,
       "what_is_a_question_word": false,
+      "flags_on": [
+        "ABSENCE_INVENTORY",
+        "ELECTRIC_ANSWER",
+        "ELECTRIC_TEACH"
+      ],
       "question_filed_as_tell": true,
+      "inv": {
+        "copper": [
+          "agent"
+        ],
+        "frost": [
+          "agent"
+        ],
+        "holds": [
+          "agent"
+        ],
+        "lantern": [
+          "agent"
+        ],
+        "latch": [
+          "agent"
+        ],
+        "ledger": [
+          "place"
+        ],
+        "mouse": [
+          "agent"
+        ],
+        "rings": [
+          "agent"
+        ],
+        "scarf": [
+          "place"
+        ]
+      },
       "said": "",
       "src": "",
       "polluted": false,
@@ -1133,12 +1203,51 @@
     {
       "arm": "mode",
       "pairs": 1,
+      "guard": false,
       "votes_for_what": {
         "1": 1
       },
       "min_votes": 2,
       "what_is_a_question_word": false,
+      "flags_on": [
+        "ABSENCE_INVENTORY",
+        "ELECTRIC_ANSWER",
+        "ELECTRIC_ASK_ADMISSIBILITY",
+        "ELECTRIC_ASK_MARKS",
+        "ELECTRIC_FRAGMENT_GUARD",
+        "ELECTRIC_QA_ELICIT",
+        "ELECTRIC_QA_PARAPHRASE",
+        "ELECTRIC_QA_PROVENANCE",
+        "ELECTRIC_QA_STORE",
+        "ELECTRIC_TEACH"
+      ],
       "question_filed_as_tell": true,
+      "inv": {
+        "copper": [
+          "agent"
+        ],
+        "frost": [
+          "agent"
+        ],
+        "lantern": [
+          "agent"
+        ],
+        "latch": [
+          "agent"
+        ],
+        "ledger": [
+          "place"
+        ],
+        "mouse": [
+          "agent"
+        ],
+        "rings": [
+          "agent"
+        ],
+        "scarf": [
+          "place"
+        ]
+      },
       "said": "what rings the bell twice",
       "src": "electric_taught",
       "polluted": true,
@@ -1147,16 +1256,158 @@
     {
       "arm": "mode",
       "pairs": 2,
+      "guard": false,
       "votes_for_what": {
         "1": 2
       },
       "min_votes": 2,
       "what_is_a_question_word": true,
+      "flags_on": [
+        "ABSENCE_INVENTORY",
+        "ELECTRIC_ANSWER",
+        "ELECTRIC_ASK_ADMISSIBILITY",
+        "ELECTRIC_ASK_MARKS",
+        "ELECTRIC_FRAGMENT_GUARD",
+        "ELECTRIC_QA_ELICIT",
+        "ELECTRIC_QA_PARAPHRASE",
+        "ELECTRIC_QA_PROVENANCE",
+        "ELECTRIC_QA_STORE",
+        "ELECTRIC_TEACH"
+      ],
       "question_filed_as_tell": false,
+      "inv": {
+        "copper": [
+          "agent"
+        ],
+        "frost": [
+          "agent"
+        ],
+        "lantern": [
+          "agent"
+        ],
+        "latch": [
+          "agent"
+        ],
+        "ledger": [
+          "place"
+        ],
+        "mouse": [
+          "agent"
+        ],
+        "scarf": [
+          "place"
+        ]
+      },
+      "said": "the copper bell rings",
+      "src": "electric_qa_store",
+      "polluted": false,
+      "answered_from_store": true
+    },
+    {
+      "arm": "mode",
+      "pairs": 1,
+      "guard": true,
+      "votes_for_what": {
+        "1": 1
+      },
+      "min_votes": 2,
+      "what_is_a_question_word": false,
+      "flags_on": [
+        "ABSENCE_INVENTORY",
+        "ELECTRIC_ANSWER",
+        "ELECTRIC_ASK_ADMISSIBILITY",
+        "ELECTRIC_ASK_MARKS",
+        "ELECTRIC_ASK_SHAPE_STORE",
+        "ELECTRIC_FRAGMENT_GUARD",
+        "ELECTRIC_QA_ELICIT",
+        "ELECTRIC_QA_PARAPHRASE",
+        "ELECTRIC_QA_PROVENANCE",
+        "ELECTRIC_QA_STORE",
+        "ELECTRIC_TEACH"
+      ],
+      "question_filed_as_tell": false,
+      "inv": {
+        "copper": [
+          "agent"
+        ],
+        "frost": [
+          "agent"
+        ],
+        "lantern": [
+          "agent"
+        ],
+        "latch": [
+          "agent"
+        ],
+        "ledger": [
+          "place"
+        ],
+        "mouse": [
+          "agent"
+        ],
+        "rings": [
+          "agent"
+        ],
+        "scarf": [
+          "place"
+        ]
+      },
+      "said": "the copper bell rings",
+      "src": "electric_qa_store",
+      "polluted": false,
+      "answered_from_store": true
+    },
+    {
+      "arm": "mode",
+      "pairs": 2,
+      "guard": true,
+      "votes_for_what": {
+        "1": 2
+      },
+      "min_votes": 2,
+      "what_is_a_question_word": true,
+      "flags_on": [
+        "ABSENCE_INVENTORY",
+        "ELECTRIC_ANSWER",
+        "ELECTRIC_ASK_ADMISSIBILITY",
+        "ELECTRIC_ASK_MARKS",
+        "ELECTRIC_ASK_SHAPE_STORE",
+        "ELECTRIC_FRAGMENT_GUARD",
+        "ELECTRIC_QA_ELICIT",
+        "ELECTRIC_QA_PARAPHRASE",
+        "ELECTRIC_QA_PROVENANCE",
+        "ELECTRIC_QA_STORE",
+        "ELECTRIC_TEACH"
+      ],
+      "question_filed_as_tell": false,
+      "inv": {
+        "copper": [
+          "agent"
+        ],
+        "frost": [
+          "agent"
+        ],
+        "lantern": [
+          "agent"
+        ],
+        "latch": [
+          "agent"
+        ],
+        "ledger": [
+          "place"
+        ],
+        "mouse": [
+          "agent"
+        ],
+        "scarf": [
+          "place"
+        ]
+      },
       "said": "the copper bell rings",
       "src": "electric_qa_store",
       "polluted": false,
       "answered_from_store": true
     }
-  ]
+  ],
+  "hole_closed_by_guard": true
 }

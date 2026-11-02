@@ -1,17 +1,25 @@
 """--electric-teach: one switch for the stack that makes a QA pair teachable.
 
 The claim a bundle flag has to answer is not "does it set flags" -- it is "is the bundle the
-list, and is the list still what each flag was measured to do". Seven flags went into this
-stack one at a time, each with its own live measurement, and a bundle that quietly changed
-any of their behaviour would invalidate the evidence for all seven. So most of what is asserted
+list, and is the list still what each flag was measured to do". Eight flags went into this
+stack one at a time, each with its own measurement, and a bundle that quietly changed any of
+their behaviour would invalidate the evidence for all of them. So most of what is asserted
 here is that the mode BUYS something (a pair, a paraphrase, a restart) while costing nothing
 (the guarded admission, the class defaults, the four widening switches).
 
+The eighth is the store-shape guard, and it arrived last for a reason worth keeping straight:
+the hole it closes was found BY this mode's live check and pinned here as unfixed, because the
+repair is a narrowing at a write site the graded E24 work owns. It is now closed, behind its
+own switch, and the pinned tests below were not deleted -- they run in the configuration they
+were measured in (guard off) and each has a sibling that measures the closure. A pin that
+vanishes when a defect is fixed teaches nobody what the defect was.
+
 Two things this file cannot say and does not try to. That the mode is equivalent to the
 hand-spelled list is measured in a real house by tools/qa_teach_mode_live.py, which spells the
-seven flags out literally rather than reading them from the table it is checking; and that the
+eight flags out literally rather than reading them from the table it is checking; and that the
 pair survives a restart is measured in a separate PROCESS below, because in-process a restart is
-a function call.
+a function call. What the guard costs in a real house -- statements, relative clauses, the
+grader's own input -- is tools/qa_teach_hole_live.py.
 
 What a bare organ CAN do turned out to be most of it: it holds a marked ask, pairs it with the
 next thing the same speaker says, stores the pair, and answers a phrasing nobody taught it. The
@@ -49,8 +57,13 @@ GUARD_ASK = "where did i say the lantern is?"
 HOLE_ASK = "what rings the bell twice"
 
 
-def _organ(mode=True, base=True):
-    """A bare organ with `--electric` (always, in every arm) plus, optionally, the mode."""
+def _organ(mode=True, base=True, guard=None):
+    """A bare organ with `--electric` (always, in every arm) plus, optionally, the mode.
+
+    `guard` forces the store-shape guard off after the mode has run. It exists for one reason:
+    the pinned hole tests below have to be able to reproduce the configuration the hole was
+    measured in, and that configuration is now the one the mode does NOT ship.
+    """
     o = nl.NeuralLanguage(HybridEngine(graph=build_core_graph()), TokenizerOrgan())
     o.persist = False
     o.cortex.MIN_HEAR_INTERVAL_S = 0.0     # a unit test is not an afternoon
@@ -60,6 +73,8 @@ def _organ(mode=True, base=True):
             setattr(o, attr, True)         # what --electric means, in every arm but one
     if mode:
         tm.enable(o, base=base)
+    if guard is not None:
+        o.ELECTRIC_ASK_SHAPE_STORE = bool(guard)
     for t in GUARD_TELLS:
         o.hear(t, speaker="you")
     return o
@@ -102,9 +117,11 @@ def test_the_mode_is_exactly_the_stack_and_the_base():
     on = {a for a, v in tm.state(o).items() if v}
     assert on == set(tm.STACK_ATTRS) | set(tm.BASE_ATTRS), \
         f"the mode is not the stack it claims: {sorted(on)}"
-    assert len(tm.STACK_ATTRS) == 7 and len(tm.BASE_ATTRS) == 3, \
+    assert len(tm.STACK_ATTRS) == 8 and len(tm.BASE_ATTRS) == 3, \
         "the shape of the mode changed; the help text in serve.py and electric_chat.py describes " \
-        "seven stack flags on top of what --electric already means"
+        "eight stack flags on top of what --electric already means"
+    assert "ELECTRIC_ASK_SHAPE_STORE" in tm.STACK_ATTRS, \
+        "the mode shipped without the fix for the hole its own live check found"
 
 
 def test_the_mode_sets_nothing_on_the_class():
@@ -243,16 +260,20 @@ def test_the_mode_itself_reports_no_warning():
 # ---------------------------------------------- pinned: the question-pollution hole ----
 
 def test_pinned_an_unclassified_ask_is_filed_as_a_tell():
-    """PINNED LIMITATION, not a bug in the harness, and NOT fixed by the mode.
+    """THE HOLE, REPRODUCED IN THE CONFIGURATION IT WAS MEASURED IN -- store guard OFF.
 
-    `_absence_note` (neural_language.py:5365) files a frame from ANYTHING it is told, and a
+    `_absence_note` in neural_language.py files a frame from ANYTHING it is told, and a
     question's words yield a frame. While the question word is unlearned (one pair = one vote,
     min 2) the ask is HEARD, so `what rings the bell twice` enters `_taught_says` as if it were
     a fact. The store refuses exactly this pair -- `answer_is_question` is checked in learn_qa --
-    and the taught inventory has no such check. That asymmetry is the defect. See
-    tools/qa_teach_mode_live.py section 6 for the reply it produces in a real house.
+    and the taught inventory has no such check. That asymmetry was the defect.
+
+    It stays as a test with the guard forced off, for two reasons: the fix is a switch, so the
+    configuration it replaces has to stay reproducible on demand, and if this ever stops failing
+    without anyone touching the guard then something else moved the hole. The mode as it now
+    ships does not file it -- the next test is that.
     """
-    o = _teach(_organ(), PAIRS[:1])            # one pair: `what` has one vote, is not learned
+    o = _teach(_organ(guard=False), PAIRS[:1])   # one pair: `what` has one vote, is not learned
     assert not o.is_interrogative("what")
     before = {v for sub in o._taught_says.values() for v in sub.values()}
     _say(o, HOLE_ASK)
@@ -262,12 +283,28 @@ def test_pinned_an_unclassified_ask_is_filed_as_a_tell():
         "the store started holding the question too; then the defect moved, it did not fix"
 
 
+def test_the_mode_as_it_ships_refuses_the_filing_that_used_to_answer_itself():
+    """Same script, guard on -- which is what `--electric-teach` now means. The question is not
+    filed, and the pair that was being drowned by it is what answers the follow-up ask. This is
+    the closure, asserted where the hole was pinned, so the two sit side by side."""
+    o = _teach(_organ(), PAIRS[:1])
+    assert o.ELECTRIC_ASK_SHAPE_STORE is True, "the mode does not carry the guard"
+    before = {v for sub in o._taught_says.values() for v in sub.values()}
+    _say(o, HOLE_ASK)
+    filed = {v for sub in o._taught_says.values() for v in sub.values()} - before
+    assert not filed, f"the mode still files an unanswered question as a tell: {filed}"
+    r = _say(o, KEY)
+    assert r["said"] == ANSWER and r["src"] == "electric_qa_store", \
+        f"the guard closed the filing but the pair did not get the turn back: {r}"
+
+
 def test_pinned_the_store_refuses_what_the_inventory_files():
-    """The same sentence, two doors, opposite answers. `learn_qa` refuses a pair whose answer is
-    a question -- the Dickens warmint case -- while `hear` of that very text teaches it into the
-    inventory that answers BEFORE the store. Kept as two assertions in one test because the
-    point is the disagreement, not either half."""
-    o = _organ()
+    """The same sentence, two doors, opposite answers -- with the guard OFF, which is the
+    disagreement that was measured. `learn_qa` refuses a pair whose answer is a question -- the
+    Dickens warmint case -- while `hear` of that very text teaches it into the inventory that
+    answers BEFORE the store. Kept as two assertions in one test because the point is the
+    disagreement, not either half."""
+    o = _organ(guard=False)
     r = o.learn_qa(["who", "carries", "droso"], ["who", "carries", "droso", "tomorrow"],
                    provenance={"book": "t.txt", "line": 0, "mark": 2, "tokens": 3,
                                "answer_is_question": True, "answer_line": 1})
@@ -278,18 +315,40 @@ def test_pinned_the_store_refuses_what_the_inventory_files():
         f"the inventory stopped filing it -- the asymmetry moved or closed: {filed}"
 
 
+def test_the_guard_removes_the_disagreement_it_was_pinned_for():
+    """The other half of the pair above, and the reason the two are the same sentence: the store
+    refused it then and still does, and the inventory no longer files it. The asymmetry was the
+    defect; there is now one answer between the two doors, and it is the store's."""
+    o = _organ()
+    r = o.learn_qa(["who", "carries", "droso"], ["who", "carries", "droso", "tomorrow"],
+                   provenance={"book": "t.txt", "line": 0, "mark": 2, "tokens": 3,
+                               "answer_is_question": True, "answer_line": 1})
+    assert not r.get("stored"), f"the store started taking a question as an answer: {r}"
+    o.hear("who carries droso tomorrow", speaker="you")
+    filed = [v for sub in o._taught_says.values() for v in sub.values()]
+    assert "who carries droso tomorrow" not in filed, \
+        f"both doors now agree in the wrong direction: {filed}"
+    assert "carries" in o._absence_inv, \
+        "the guard took the inventory entry with it -- that is the graded store, not this flag"
+
+
 def test_pinned_the_learned_word_closes_the_filing():
     """Once the word is earned the ask routes to answer() and is never heard, so there is no
-    frame to file. This is the mode's own second pair doing the repair -- not a guard at the
-    write site, which is the cheaper fix and belongs to E24, not here."""
-    o = _teach(_organ(), PAIRS)
-    assert o.is_interrogative("what")
-    before = {v for sub in o._taught_says.values() for v in sub.values()}
-    r = _say(o, HOLE_ASK)
-    filed = {v for sub in o._taught_says.values() for v in sub.values()} - before
-    assert not filed, f"an unanswerable ask was still filed as a tell: {filed}"
-    assert r["src"] != "electric_qa_store", "the store answered a question it holds no pair for"
-    assert r["said"] != HOLE_ASK, f"the house repeated the person's question at them: {r}"
+    frame to file. This is the mode's own second pair doing the repair, and it holds in BOTH
+    arms -- with the guard off it is the only thing that closed the hole, and with the guard on
+    the two mechanisms agree. The write-site guard is the cheaper fix and now ships in the mode;
+    this is the one the mode always had."""
+    for guard in (False, True):
+        o = _teach(_organ(guard=guard), PAIRS)
+        assert o.is_interrogative("what")
+        before = {v for sub in o._taught_says.values() for v in sub.values()}
+        r = _say(o, HOLE_ASK)
+        filed = {v for sub in o._taught_says.values() for v in sub.values()} - before
+        assert not filed, f"an unanswerable ask was still filed (guard={guard}): {filed}"
+        assert r["src"] != "electric_qa_store", \
+            f"the store answered a question it holds no pair for (guard={guard})"
+        assert r["said"] != HOLE_ASK, \
+            f"the house repeated the person's question at them (guard={guard}): {r}"
 
 
 # ------------------------------------------------------------------ the CLI ----

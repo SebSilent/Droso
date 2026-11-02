@@ -2849,6 +2849,43 @@ class NeuralLanguage:
     # relative clause cut mid-phrase, a fact eaten. 324 rows in, including real questions
     # the mark path never caught (the corpus drops every `?`: 0 marked rows in 60,000).
     ELECTRIC_ASK_SHAPE = False
+    # SHAPE AUTHORITY AT THE STORE WRITE, not at the row tag. The switch above decides what a
+    # ROW is called, and `_taught_says` is a different store -- nothing above reaches it. That
+    # gap was measured, not assumed (docs/STATE.md, ELECTRIC_TEACH entry, and
+    # tools/qa_teach_hole_live.py): a question the house has not earned a question word for is
+    # HEARD as a tell, `_absence_note` extracts a frame from its words because its extractor
+    # reads by position, and the question is filed as the fact that answers itself. In the live
+    # house: one elicited pair, then `what rings the bell twice` filed under ('agent','rings'),
+    # then `what rings the bell` answered with that other question.
+    # On: a tell whose SHAPE is an ask -- `question_shape`, the same detector the row tagger
+    # uses, on the arbiter's own closed set, with the same cap discipline -- is not filed as a
+    # taught fact. Three things this does NOT do:
+    #  * it does not touch `_absence_inv`. The frame is still extracted and still recorded; only
+    #    the sentence is not kept as an answer. So the E24 licence refuses exactly what it
+    #    refuses today, with the same reason string -- asserted both arms, and the graded
+    #    contract is untouched.
+    #  * it does not touch a row, a tag, or the QA store. Those are the other places a question
+    #    can be remembered, and each has its own switch above.
+    #  * it does not run past the binder's cap, and not because of truncation this time: a line
+    #    longer than `max_roles` that opens with `who` is prose carrying a relative clause
+    #    (`who sacrificed everything for him chimed in the ledger`), and declining a WRITE loses
+    #    a fact silently, which costs more than declining a lookup.
+    # Residual, measured rather than hoped away: a SHORT free-relative statement --
+    # `who rings the bell keeps the gate`, 7 tokens -- is interrogative-initial with no subject
+    # and no copula right after, and nothing in `question_shape` separates it from the ask
+    # `who rings the bell`. It is not filed. What that costs is the pair, not the row and not
+    # the inventory entry, and the answer the filing would have given was itself wrong: the
+    # frame it would file is ('agent','rings','bell keeps gate') -- a subject slot holding the
+    # verb, which is the misparse this hole is made of. Pinned as a test, not as a comment.
+    # And this flag is NOT pure subtraction, which is the finding of tools/qa_teach_hole_live.py:
+    # removing an entry can change which store answers. With the residual above filed under
+    # subj='rings', `_electric_bind` sees two candidate subjects for `what rings the bell`,
+    # rejects the ambiguity and returns None, and the QA store gets the turn; with it declined the
+    # bind resolves to 'bell' and a different tell -- one the person actually said -- answers. The
+    # invariant that survives is the one that matters here: this path can only ever stop keeping a
+    # sentence it was told, never invent one, and what it never does is reach `_absence_inv`.
+    # Off by default, and off is the configuration every number in this repo was measured in.
+    ELECTRIC_ASK_SHAPE_STORE = False
     # The mark CHANNEL: the exposure path already knows which lines of a book ended in
     # `?` (`_book_is_q`, read off the raw text before the tokenizer drops it) and has
     # always known -- it uses that knowledge for learn_qa and for nothing else. On: the
@@ -5345,6 +5382,32 @@ class NeuralLanguage:
         return {"act": exp["act"], "thought": thought, "pool": pool,
                 "known_words_fired": exp["known_words_fired"]}
 
+    def _shape_files_as_ask(self, text) -> bool:
+        """Would SHAPE authority call this tell an ask? The `_taught_says` write's own
+        question, asked of the same detector the row tagger uses.
+
+        It is not a copy of the row tagger's test, and the difference is the cost. There, a
+        false positive costs a LOOKUP -- the row stays, it is just not admissible as evidence;
+        here it costs a FACT. So the rule is the same rule (`question_shape`, the arbiter's
+        closed set, the same `max_roles` cap) wrapped in a guard that fails open in every
+        direction: no tokens, no binder, a throwing tokenizer or a throwing detector all
+        answer False, which leaves the write exactly where it was before this method existed.
+        A guard that can delete a fact by crashing is worse than the hole it closes.
+        """
+        try:
+            toks = [t for t in self.tokenizer.tokenize(str(text or "")) if t]
+        except Exception:                 # noqa: BLE001 - the write survives its own guard
+            return False
+        if not toks:
+            return False
+        mr = int(getattr(getattr(self.cortex, "binder", None), "max_roles", 0) or 0)
+        if mr and len(toks) > mr:
+            return False
+        try:
+            return bool(self.question_shape(toks))
+        except Exception:                 # noqa: BLE001
+            return False
+
     def _absence_note(self, text):
         """E24 write side: record one frame from a tell into the session inventory.
 
@@ -5358,6 +5421,15 @@ class NeuralLanguage:
         rel, subj, obj = frame
         self._absence_inv.setdefault(subj, {}).setdefault(rel, obj)
         if self.ELECTRIC_TEACH:
+            # THE HOLE, CLOSED BEHIND A FLAG. Everything above this line is the graded E24
+            # write and is untouched by it: the frame was extracted and `_absence_inv` holds
+            # it, so the licence still refuses what it refused. What is skipped is only the
+            # SENTENCE kept as an answer -- and a question-shaped tell filed here answers the
+            # question it is, because `_taught_says` is consulted before every other store.
+            # `hear` already refuses marked asks (`?` + elicitation); this is the same rule
+            # for the unmarked ones, which nothing else on this path can see.
+            if self.ELECTRIC_ASK_SHAPE_STORE and self._shape_files_as_ask(text):
+                return
             # First tell wins, and a re-tell does not overwrite. Overwriting on
             # contradiction would make the organ's answer depend on teaching
             # ORDER, and a fact that changes because a later sentence arrived is

@@ -1,19 +1,20 @@
 """ELECTRIC teach mode -- ONE switch for the stack that makes a QA pair teachable.
 
-Why this exists.  Seven flags stand between "he remembers the pair a person gave him" and
+Why this exists.  Eight flags stand between "he remembers the pair a person gave him" and
 "he can be talked into remembering one": the store, the elicitation that fills it from chat,
 the fold that lets a second phrasing reach it, the provenance rule that decides which records
 may be reached at all, the mark channel that records that a `?` was actually typed, the
-admissibility rule that keeps a remembered question out of the recall hits, and the fragment
-guard that stops the house speaking a piece of the ask when nothing answered it.  Each was
-added on its own, with its own live measurement, and each help text says what it does and
-what it does not do.  The cost of that honesty is that someone who only wants to teach him
-something has to read seven help texts and get the DEPENDENCIES right, because two of them are
-inert without another:
+admissibility rule that keeps a remembered question out of the recall hits, the fragment
+guard that stops the house speaking a piece of the ask when nothing answered it, and the
+shape guard at the store write that stops a question being filed as the fact that answers it.
+Each was added on its own, with its own live measurement, and each help text says what it does
+and what it does not do.  The cost of that honesty is that someone who only wants to teach him
+something has to read eight help texts and get the DEPENDENCIES right, because three of them
+are inert without another:
 
     --electric-qa-store --electric-qa-elicit --electric-qa-paraphrase
     --electric-qa-provenance --electric-ask-marks --electric-ask-admissibility
-    --electric-fragment-guard
+    --electric-fragment-guard --electric-ask-shape-store
 
 plus the three that ``--electric`` already means (ELECTRIC_TEACH, ELECTRIC_ANSWER,
 ABSENCE_INVENTORY), plus the restart half -- ``load_state()`` -- which serve.py runs only
@@ -46,6 +47,15 @@ wrong variant returns a wrong fact; the fold uses a variant only as a LOOKUP KEY
 where a wrong key returns nothing. The normalizer brings its own warrant in both cases -- it
 emits a variant only when the stem it needs is a verb a taught tell actually carries.
 
+And one flag in the stack now shares its detector with one flag left out, which needs saying
+before it reads as a smuggling: ``ELECTRIC_ASK_SHAPE`` (out) and ``ELECTRIC_ASK_SHAPE_STORE``
+(in) both call ``question_shape``. They are not one experiment. The first is a WIDENING on the
+read side -- more rows count as an asking, so more rows get dropped from the evidence a vote
+can see, which is why it stayed behind its own switch. The second is a NARROWING on the write
+side of a store no row switch reaches: it declines to file one sentence as a taught fact, and
+can only ever lose a lookup, never gain one. The stack has always held the narrowings (the
+fragment guard is in it for exactly that reason) and none of the widenings.
+
 Everything here is set on the INSTANCE, never on ``NeuralLanguage``.  A demo that flipped the
 class defaults would leak into whatever battery run came after it in the same interpreter, and
 "battery runs are ELECTRIC-free" would be a sentence about intent.
@@ -76,6 +86,12 @@ STACK = (
      "when nothing answered the ask, do not let the house speak a fragment of the ask itself "
      "(measured: `to?`). In the stack because it can only ever refuse to speak: it narrows the "
      "output, where the four switches left out widen what is reachable"),
+    ("ELECTRIC_ASK_SHAPE_STORE", "electric_ask_shape_store",
+     "a tell whose SHAPE is an ask is not filed as a taught fact. `_taught_says` is read before "
+     "every other store, so a question the house could not classify used to answer itself here; "
+     "the row-side switches above cannot reach it, because they govern rows and this is a "
+     "different store. In the stack for the same reason as the fragment guard -- it can only "
+     "ever refuse to write, and the four switches left out widen what is reachable"),
 )
 
 # What `--electric` already means, and what the stack is pointless without: an untaught ask has
@@ -118,6 +134,10 @@ DEPENDS_ON = {
                            "--electric-ask-shape without --electric-ask-admissibility: it can "
                            "tag rows, but nothing reads the tag, so which rows exist does not "
                            "change."),
+    "ELECTRIC_ASK_SHAPE_STORE": ("ELECTRIC_TEACH",
+                                 "--electric-ask-shape-store without --electric: nothing is "
+                                 "filed as a taught fact in the first place, so there is no "
+                                 "write here for the guard to refuse."),
 }
 
 STACK_ATTRS = tuple(attr for attr, _cli, _why in STACK)

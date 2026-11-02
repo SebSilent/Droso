@@ -1,0 +1,642 @@
+{
+ "battery": {
+  "off": {
+   "asks": {
+    "what rings the bell twice": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 5
+     }
+    },
+    "what rings the bell?": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 4
+     }
+    },
+    "where is the moon": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 4
+     }
+    },
+    "who holds the door?": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 4
+     }
+    }
+   },
+   "filed": [
+    "droso keeps the lantern in the pantry",
+    "mira carried the scarf home",
+    "the bell that rings at midnight keeps the gate",
+    "the copper bell rings",
+    "the frost bites the latch",
+    "the kettle warms the room",
+    "the lantern belongs to Mira",
+    "the latch holds the door",
+    "the ledger is under the desk",
+    "the mouse chases the cat",
+    "the scarf is on the hook",
+    "what the loop does at midnight surprises the clerk",
+    "where the river bends the reed grows tall",
+    "who rings the bell keeps the gate",
+    "who sacrificed everything for him chimed in the ledger"
+   ],
+   "guard": false,
+   "guard_reply": {
+    "reason": "lantern was told but no place was ever told for lantern",
+    "refused": true,
+    "said": "i don't know, lantern was told but no place was ever told for lantern",
+    "spoken": true
+   },
+   "inv": {
+    "bell": [
+     "agent"
+    ],
+    "copper": [
+     "agent"
+    ],
+    "droso": [
+     "agent"
+    ],
+    "frost": [
+     "agent"
+    ],
+    "kettle": [
+     "agent"
+    ],
+    "lantern": [
+     "agent"
+    ],
+    "latch": [
+     "agent"
+    ],
+    "ledger": [
+     "place"
+    ],
+    "loop": [
+     "agent"
+    ],
+    "mira": [
+     "agent"
+    ],
+    "mouse": [
+     "agent"
+    ],
+    "rings": [
+     "agent"
+    ],
+    "river": [
+     "agent"
+    ],
+    "sacrificed": [
+     "agent"
+    ],
+    "scarf": [
+     "place"
+    ]
+   },
+   "lines": {
+    "droso keeps the lantern in the pantry": {
+     "filed": true,
+     "frame": [
+      "droso",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 7
+     }
+    },
+    "mira carried the scarf home": {
+     "filed": true,
+     "frame": [
+      "mira",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 5
+     }
+    },
+    "the bell that rings at midnight keeps the gate": {
+     "filed": true,
+     "frame": [
+      "bell",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": null,
+      "tokens": 9
+     }
+    },
+    "the copper bell rings": {
+     "filed": true,
+     "frame": [
+      "copper",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": false,
+     "shape": {
+      "question_shape": false,
+      "tokens": 4
+     }
+    },
+    "the kettle warms the room": {
+     "filed": true,
+     "frame": [
+      "kettle",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 5
+     }
+    },
+    "the latch holds the door": {
+     "filed": true,
+     "frame": [
+      "latch",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": false,
+     "shape": {
+      "question_shape": false,
+      "tokens": 5
+     }
+    },
+    "what the loop does at midnight surprises the clerk": {
+     "filed": true,
+     "frame": [
+      "loop",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": null,
+      "tokens": 9
+     }
+    },
+    "where the river bends the reed grows tall": {
+     "filed": true,
+     "frame": [
+      "river",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 8
+     }
+    },
+    "who rings the bell keeps the gate": {
+     "filed": true,
+     "frame": [
+      "rings",
+      "agent"
+     ],
+     "group": "residual",
+     "newly": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 7
+     }
+    },
+    "who sacrificed everything for him chimed in the ledger": {
+     "filed": true,
+     "frame": [
+      "sacrificed",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": null,
+      "tokens": 9
+     }
+    }
+   },
+   "max_roles": 8,
+   "pair_reply": {
+    "said": "the copper bell rings",
+    "shape": false,
+    "src": "electric_qa_store"
+   },
+   "rows": 8
+  },
+  "on": {
+   "asks": {
+    "what rings the bell twice": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 5
+     }
+    },
+    "what rings the bell?": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 4
+     }
+    },
+    "where is the moon": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 4
+     }
+    },
+    "who holds the door?": {
+     "guard_sees_an_ask": true,
+     "shape": {
+      "question_shape": true,
+      "tokens": 4
+     }
+    }
+   },
+   "filed": [
+    "droso keeps the lantern in the pantry",
+    "mira carried the scarf home",
+    "the bell that rings at midnight keeps the gate",
+    "the copper bell rings",
+    "the frost bites the latch",
+    "the kettle warms the room",
+    "the lantern belongs to Mira",
+    "the latch holds the door",
+    "the ledger is under the desk",
+    "the mouse chases the cat",
+    "the scarf is on the hook",
+    "what the loop does at midnight surprises the clerk",
+    "where the river bends the reed grows tall",
+    "who sacrificed everything for him chimed in the ledger"
+   ],
+   "guard": true,
+   "guard_reply": {
+    "reason": "lantern was told but no place was ever told for lantern",
+    "refused": true,
+    "said": "i don't know, lantern was told but no place was ever told for lantern",
+    "spoken": true
+   },
+   "inv": {
+    "bell": [
+     "agent"
+    ],
+    "copper": [
+     "agent"
+    ],
+    "droso": [
+     "agent"
+    ],
+    "frost": [
+     "agent"
+    ],
+    "kettle": [
+     "agent"
+    ],
+    "lantern": [
+     "agent"
+    ],
+    "latch": [
+     "agent"
+    ],
+    "ledger": [
+     "place"
+    ],
+    "loop": [
+     "agent"
+    ],
+    "mira": [
+     "agent"
+    ],
+    "mouse": [
+     "agent"
+    ],
+    "rings": [
+     "agent"
+    ],
+    "river": [
+     "agent"
+    ],
+    "sacrificed": [
+     "agent"
+    ],
+    "scarf": [
+     "place"
+    ]
+   },
+   "lines": {
+    "droso keeps the lantern in the pantry": {
+     "filed": true,
+     "frame": [
+      "droso",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 7
+     }
+    },
+    "mira carried the scarf home": {
+     "filed": true,
+     "frame": [
+      "mira",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 5
+     }
+    },
+    "the bell that rings at midnight keeps the gate": {
+     "filed": true,
+     "frame": [
+      "bell",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": null,
+      "tokens": 9
+     }
+    },
+    "the copper bell rings": {
+     "filed": true,
+     "frame": [
+      "copper",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": false,
+     "shape": {
+      "question_shape": false,
+      "tokens": 4
+     }
+    },
+    "the kettle warms the room": {
+     "filed": true,
+     "frame": [
+      "kettle",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 5
+     }
+    },
+    "the latch holds the door": {
+     "filed": true,
+     "frame": [
+      "latch",
+      "agent"
+     ],
+     "group": "statement",
+     "newly": false,
+     "shape": {
+      "question_shape": false,
+      "tokens": 5
+     }
+    },
+    "what the loop does at midnight surprises the clerk": {
+     "filed": true,
+     "frame": [
+      "loop",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": null,
+      "tokens": 9
+     }
+    },
+    "where the river bends the reed grows tall": {
+     "filed": true,
+     "frame": [
+      "river",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": false,
+      "tokens": 8
+     }
+    },
+    "who rings the bell keeps the gate": {
+     "filed": false,
+     "frame": null,
+     "group": "residual",
+     "newly": false,
+     "shape": {
+      "question_shape": true,
+      "tokens": 7
+     }
+    },
+    "who sacrificed everything for him chimed in the ledger": {
+     "filed": true,
+     "frame": [
+      "sacrificed",
+      "agent"
+     ],
+     "group": "relative",
+     "newly": true,
+     "shape": {
+      "question_shape": null,
+      "tokens": 9
+     }
+    }
+   },
+   "max_roles": 8,
+   "pair_reply": {
+    "said": "the bell that rings at midnight keeps the gate",
+    "shape": null,
+    "src": "electric_taught"
+   },
+   "rows": 8
+  }
+ },
+ "declined_with_guard_on": [
+  "who rings the bell keeps the gate"
+ ],
+ "elapsed_s": 3.6,
+ "filed_with_guard_on": [
+  "droso keeps the lantern in the pantry",
+  "mira carried the scarf home",
+  "the bell that rings at midnight keeps the gate",
+  "the copper bell rings",
+  "the frost bites the latch",
+  "the kettle warms the room",
+  "the lantern belongs to Mira",
+  "the latch holds the door",
+  "the ledger is under the desk",
+  "the mouse chases the cat",
+  "the scarf is on the hook",
+  "what the loop does at midnight surprises the clerk",
+  "where the river bends the reed grows tall",
+  "who sacrificed everything for him chimed in the ledger"
+ ],
+ "hole_off": {
+  "answered_from_store": false,
+  "arm": "mode",
+  "flags_on": [
+   "ABSENCE_INVENTORY",
+   "ELECTRIC_ANSWER",
+   "ELECTRIC_ASK_ADMISSIBILITY",
+   "ELECTRIC_ASK_MARKS",
+   "ELECTRIC_FRAGMENT_GUARD",
+   "ELECTRIC_QA_ELICIT",
+   "ELECTRIC_QA_PARAPHRASE",
+   "ELECTRIC_QA_PROVENANCE",
+   "ELECTRIC_QA_STORE",
+   "ELECTRIC_TEACH"
+  ],
+  "guard": false,
+  "inv": {
+   "copper": [
+    "agent"
+   ],
+   "frost": [
+    "agent"
+   ],
+   "lantern": [
+    "agent"
+   ],
+   "latch": [
+    "agent"
+   ],
+   "ledger": [
+    "place"
+   ],
+   "mouse": [
+    "agent"
+   ],
+   "rings": [
+    "agent"
+   ],
+   "scarf": [
+    "place"
+   ]
+  },
+  "min_votes": 2,
+  "pairs": 1,
+  "polluted": true,
+  "question_filed_as_tell": true,
+  "said": "what rings the bell twice",
+  "src": "electric_taught",
+  "votes_for_what": {
+   "1": 1
+  },
+  "what_is_a_question_word": false
+ },
+ "hole_on": {
+  "answered_from_store": true,
+  "arm": "mode",
+  "flags_on": [
+   "ABSENCE_INVENTORY",
+   "ELECTRIC_ANSWER",
+   "ELECTRIC_ASK_ADMISSIBILITY",
+   "ELECTRIC_ASK_MARKS",
+   "ELECTRIC_ASK_SHAPE_STORE",
+   "ELECTRIC_FRAGMENT_GUARD",
+   "ELECTRIC_QA_ELICIT",
+   "ELECTRIC_QA_PARAPHRASE",
+   "ELECTRIC_QA_PROVENANCE",
+   "ELECTRIC_QA_STORE",
+   "ELECTRIC_TEACH"
+  ],
+  "guard": true,
+  "inv": {
+   "copper": [
+    "agent"
+   ],
+   "frost": [
+    "agent"
+   ],
+   "lantern": [
+    "agent"
+   ],
+   "latch": [
+    "agent"
+   ],
+   "ledger": [
+    "place"
+   ],
+   "mouse": [
+    "agent"
+   ],
+   "rings": [
+    "agent"
+   ],
+   "scarf": [
+    "place"
+   ]
+  },
+  "min_votes": 2,
+  "pairs": 1,
+  "polluted": false,
+  "question_filed_as_tell": false,
+  "said": "the copper bell rings",
+  "src": "electric_qa_store",
+  "votes_for_what": {
+   "1": 1
+  },
+  "what_is_a_question_word": false
+ },
+ "max_roles": 8,
+ "pair_reply_changed": true,
+ "residual": {
+  "line": "who rings the bell keeps the gate",
+  "off": {
+   "filed": true,
+   "frame": [
+    "rings",
+    "agent"
+   ],
+   "group": "residual",
+   "newly": true,
+   "shape": {
+    "question_shape": true,
+    "tokens": 7
+   }
+  },
+  "on": {
+   "filed": false,
+   "frame": null,
+   "group": "residual",
+   "newly": false,
+   "shape": {
+    "question_shape": true,
+    "tokens": 7
+   }
+  }
+ },
+ "started": 1793605751.7704313,
+ "tool": "qa_teach_hole_live",
+ "unmasking_note": "guard OFF: subj='rings' holds the declined residual, the ask binds ambiguously, _electric_bind returns None, the QA store answers. guard ON: that entry is absent, the bind resolves to 'bell', and a tell the person actually said answers instead. Removing a wrong entry changed which right entry was reachable -- this flag is not pure subtraction, and the silence it replaced was accidental."
+}
