@@ -1784,3 +1784,95 @@ it does not widen the book route, and it does not touch the grader. The grader c
   eviction, no cap on `qa_store`, and the pending ask lives in memory only. Nothing here ran on the
   battery: generation 25 is still the free one.
 
+## ELECTRIC_QA_PARAPHRASE -- a pair taught in one phrasing answers in another
+
+`organs/neural_language.py:2952` (`ELECTRIC_QA_PARAPHRASE`, default **False**),
+`tools/serve.py --electric-qa-paraphrase`, `tests/test_electric_qa_paraphrase.py` (26),
+`tools/qa_paraphrase_live.py` → `docs/evidence/qa_paraphrase_live.json`.
+
+`ELECTRIC_QA_ELICIT` keys a taught pair by the exact characters that were typed, so the pair is
+reachable in the one phrasing the person happened to use. Measured live before writing anything:
+taught `who carries droso?` / `parent carries droso`, then asked `who carries the droso` -- an
+article short, the store holding the pair, and the house saying nothing.
+
+The lookup now folds the ask first, using the two pieces of machinery the ELECTRIC read path
+already runs for this exact problem rather than a third invention: `organs/stemming.py` -- the
+project's ONE stemmer, which exists because three lookups each grew their own -- and
+`normalize_ask_variants`, the ask normalizer that turns a passive into the active key the
+matchers accept. `ASK_PARAPHRASE_DROP` (:388) is `ASK_NORMALIZE_AUX` plus the three articles: the
+words that normalizer already strips, and nothing else. `qa_paraphrase_key` (:3055) is
+`qa_key` → drop those → `stem()` each survivor. `_qa_paraphrase_hit` (:3233) is consulted only
+after the exact key has missed -- and it re-checks the exact key itself, so a caller that forgets
+the ordering cannot let a fold take a pair away from the words it was stored under.
+
+Three bounds, each a test rather than an intention:
+
+- **Provenance, not similarity.** Only records whose provenance says a PERSON typed them with a
+  `?` (`source=conversation`, `marked`) are candidates. A pair he was READ is never reached by a
+  fold, at any setting of `ELECTRIC_QA_PROVENANCE` -- the book route stays the exact-key route the
+  audit measured. House B measures this without being staged for it (below).
+- **It may only ever refuse.** The fold keeps WORD ORDER, so `who droso carries` does not meet
+  `who carries droso`. A bag of stems would have, and would have answered that ask with the
+  first pair's fact -- the audit priced exactly this and called it inverted roles. It also
+  under-folds on purpose: `stem()`'s policy is that under-folding refuses a question while
+  over-folding gets believed, and everything on this path gets believed.
+- **Ambiguity answers nothing.** Two pairs that fold onto one key produce no answer. Choosing
+  between them is guessing which lesson the person meant.
+
+**Measured in the real house, two arms x restart, two houses** (control = elicit on, paraphrase
+off -- the configuration already committed). House A, conversation only: rows **15/15** and store
+keys identical across arms, **9/9** claimed paraphrases recovered with the line the person gave
+and `person_paraphrase`/`typed_paraphrase` named in the payload, **0** of them answered from the
+store by the control, the 7 refused phrasings refused, and every ask the flag did not answer
+byte-identical in both arms before *and* after a real restart; guard still refusing
+(`lantern was told but no place was ever told`), leaks **0 → 0**, no ask echoed, probing storing no
+pair. House B, after reading `05_questions` at 200 beats: rows **213/213**, keys identical,
+**5/9** folded probes eligible -- the four ineligible are the `who carries droso` phrasings, whose
+standing record is the book's -- and all 5 recovered, 15/23 asks identical across arms.
+
+**What the live house found rather than confirmed.**
+
+- **The provenance bound is real, not a flag.** The same probe -- `who carries the droso` --
+  recovers in house A and gets nothing in house B, decided by the record's `source`, with both
+  arms of B agreeing byte for byte. That is the widest form of the claim this feature could have
+  quietly broken, and it holds.
+- **The control arm was not silent, and that changes what this feature is worth.** Of the 9
+  paraphrases, the control produced `recalled proposition` on 3 (the right words, no provenance
+  behind them), an `arbiter head` **fragment** on 3 (`parent`, `latch`, `parent` -- a noun, not an
+  answer) and nothing at all on 3. So this is not "he could not answer before": it is 9 answers
+  with the line he was given and a named source, against 3 fragments, 3 unattributed recalls and
+  3 silences.
+- **The passive worked on the primer's warrant, not the conversation's.**
+  `what was the door held by` reached `what holds the door` because `the latch holds the door` was
+  already a taught tell, so `normalize_ask_variants` had the verb it requires and produced the
+  variant `what hold the door`. Remove the tell and the variant is never emitted -- pinned in
+  `test_the_normalizer_adds_no_variant_without_a_taught_verb`.
+- **The under-folds are live too.** `who carried droso` folds to `who carri droso` and does not
+  meet `who carry droso`; `who own the lantern` does not meet `who owns the lantern` because the
+  shared stemmer's `len(w) <= 4` guard protects `owns`, exactly as it protects `does` from becoming
+  `doe`. Both are pinned as refusals. Fixing them means growing `IRREGULAR` in `organs/stemming.py`,
+  which is shared with binder postings and with **295 stored procedure signatures** folded by the
+  function as it stood when they were written -- its own docstring says grow that map from a
+  failure that has actually been seen, not from a list of irregular verbs. That is a separate,
+  priced change, not something to slip in under a QA flag.
+
+**Boundaries kept.** No new memory: the fold is derived per lookup and nothing about it is
+persisted -- `test_the_fold_adds_no_field_to_the_saved_state` asserts the state doc has no new key
+and the store is still under `questions.qa_store`. Probing writes no pair and no extra row:
+`test_a_paraphrase_stores_nothing_and_writes_no_more_than_answering_always_did` measures the row
+delta against the exact ask that already worked, not against zero, because answering has always
+written memory. The guarded grader is untouched -- `_absence_licence` still binds with
+`_electric_bind(question, inventory)`, receives no flags, and does not read the store or this
+flag; the call site `abs_lic = self._absence_licence(text)` (:4607) is still ordered after the
+taught path (:4595) and the store's consult (:4604), pinned as text by
+`test_the_grader_contract_is_untouched`.
+
+- **Tests:** `tests/test_electric_qa_paraphrase.py`, 26. Written before the implementation and run
+  against it: 18 failed / 8 passed on the first pass, and the 8 that passed were the negative
+  tests, which is what passing early means. **Suite: 1003 passed, 3 skipped, 0 failed.**
+- **Still open.** A paraphrase of a BOOK pair reaches nothing at any flag setting -- that is the
+  bound, but it is also the ceiling: `ELECTRIC_QA_PROVENANCE` + a folded book ask is not
+  implemented on purpose. Tense pairs the shared stemmer will not bridge stay refused (above). The
+  fold is O(store) per missed lookup, fine at 214 rows and unmeasured at corpus scale. Nothing here
+  ran on the battery: generation 25 is still the free one.
+

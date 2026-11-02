@@ -379,6 +379,14 @@ ASK_NORMALIZE_AUX = ASK_NORMALIZE_COPULAS | frozenset(
 ASK_STRANDED_PREP = frozenset(
     {"to", "with", "from", "by", "of", "about", "for", "on", "at", "in"})
 
+# ELECTRIC_QA_PARAPHRASE: the words a stored question and a later phrasing of the SAME
+# question are allowed to disagree by. This is `ASK_NORMALIZE_AUX` -- the copulas and
+# do-support `normalize_ask_variants` already strips out of an ask -- plus the three
+# articles, which `_ABSENCE_STOP` already treats as carrying no role. Nothing else is
+# droppable: `twice`, `often`, `never`, `many` are content in a question, and an ask that
+# says `twice` is asking about a frequency this file has no business discarding.
+ASK_PARAPHRASE_DROP = ASK_NORMALIZE_AUX | frozenset({"the", "a", "an"})
+
 # The one semantic claim this file makes, stated where it is used: a copula ask that
 # strands `with` asks for the same participant a tell strands `to` ("who is the lantern
 # with?" <- "the lantern belongs to Mira"). Every other entry is IDENTITY -- an ask that
@@ -2917,6 +2925,31 @@ class NeuralLanguage:
     # Needs ELECTRIC_QA_STORE to store anything and ELECTRIC_TEACH for the answer to also
     # become a taught fact. Off by default: nothing is paired, nothing is routed.
     ELECTRIC_QA_ELICIT = False
+    # ELECTRIC_QA_PARAPHRASE: a pair a PERSON taught answers when he is asked for it in
+    # other words. `ELECTRIC_QA_ELICIT` keys the pair by the exact characters that were
+    # typed, which makes it reachable once -- in the phrasing the person happened to use.
+    # Measured: taught `who carries droso?` / `parent carries droso`, then asked
+    # `who carries the droso`, an article short. The store held the pair and said nothing.
+    #
+    # This is a LOOKUP change only, built from two pieces of machinery the ELECTRIC read
+    # path already runs for the same problem -- `organs/stemming.py`, the project's one
+    # stemmer, and `normalize_ask_variants`, the ask normalizer -- and it is bounded three
+    # ways, each of which is a test rather than an intention:
+    #  (1) NO WIDENING BEYOND PROVENANCE. Only records whose provenance says a person typed
+    #      them with a `?` (source=conversation, marked) are candidates. A pair he was READ
+    #      is never reached by a fold, at any setting of ELECTRIC_QA_PROVENANCE: the book
+    #      route stays the exact-key route the audit measured, byte for byte.
+    #  (2) IT MAY ONLY EVER REFUSE. The fold keeps WORD ORDER, so `who droso carries` does
+    #      not meet `who carries droso` -- a bag of stems would answer a role-inverted ask,
+    #      and the audit priced exactly that. It under-folds on purpose: `who carried droso`
+    #      folds to `who carri droso` and gets nothing, because the shared stemmer will not
+    #      bridge a vowel change it has not been told to. Those refusals are pinned.
+    #  (3) AMBIGUITY ANSWERS NOTHING. Two pairs that fold onto one key produce no answer;
+    #      picking the first would be guessing which lesson the person meant.
+    # A child of ELECTRIC_QA_ELICIT: the routing that lets a folded ask reach `answer` is
+    # the parent's route, widened to follow the fold. Off by default, and with it off the
+    # exact-key path is the code that ran before this flag existed.
+    ELECTRIC_QA_PARAPHRASE = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3017,6 +3050,31 @@ class NeuralLanguage:
         else:
             src = [str(t).strip().lower() for t in (tokens or []) if str(t).strip()]
         return " ".join(src)
+
+    @staticmethod
+    def qa_paraphrase_key(text) -> str:
+        """ELECTRIC_QA_PARAPHRASE: the key a stored question and a phrasing of it share.
+
+        Three steps, every one of them machinery this project already runs:
+          1. `qa_key` -- the SAME normalizer the store keys by, so this is a fold of a key
+             that already exists rather than a fourth way of splitting a sentence;
+          2. drop `ASK_PARAPHRASE_DROP` -- the copulas and do-support
+             `normalize_ask_variants` already removes from an ask, plus the articles;
+          3. `stem()` from organs/stemming.py -- the one stemmer, shared with question
+             answering, binder postings and procedure retrieval. This is a fourth lookup,
+             and that file exists precisely because the three before it each grew their own.
+
+        Word ORDER is kept, which is the difference between a paraphrase and a different
+        question: `who droso carries` folds to a different key from `who carries droso`, and
+        a bag of stems would have answered the second with the first's fact. The refusals
+        are as much the design as the matches -- `stem()`'s own policy is that under-folding
+        refuses a question while over-folding gets believed, and this path gets believed.
+
+        Returns "" when nothing survives the drop. An empty key matches nothing on purpose:
+        a sentence made only of droppable words carries no question to answer.
+        """
+        toks = NeuralLanguage.qa_key(text).split()
+        return " ".join(stem(t) for t in toks if t not in ASK_PARAPHRASE_DROP)
 
     def learn_qa(self, q_tokens, a_tokens, provenance=None) -> dict:
         """Learn which role a question word asks about, from a Q and its A.
@@ -3172,6 +3230,50 @@ class NeuralLanguage:
             "tokens": len(p["tokens"]),
             "answer_tokens": len(toks)})
 
+    def _qa_paraphrase_hit(self, text):
+        """ELECTRIC_QA_PARAPHRASE: the ONE conversation pair this phrasing folds onto, or None.
+
+        Called only when the exact key already missed, so it can never take a pair that was
+        found before this flag away from it. Three bounds, and each is a test:
+
+          * CANDIDATES ARE PROVENANCE, NOT SIMILARITY. A record qualifies only when its
+            provenance says a PERSON typed those words with a `?` at him
+            (source=conversation, marked). A pair he was READ is not a candidate at any
+            setting of any other flag -- folding is not a way into the book route.
+          * THE PHRASES TRIED ARE THE ASK'S OWN FOLD plus the fold of every variant
+            `normalize_ask_variants` produces for it. That normalizer brings its own
+            warrant, which this does not widen: it emits a variant only when the stem it
+            would use is a verb a TAUGHT tell actually carries, so a passive about an action
+            this house was never told produces no variant and therefore no hit.
+          * EXACTLY ONE candidate must match. Two pairs that fold alike answer nothing:
+            deciding between them is guessing which lesson the person meant, and a guess
+            here gets believed, because what comes back is a verbatim line.
+        """
+        if not self.ELECTRIC_QA_PARAPHRASE or not self.qa_store:
+            return None
+        if self.qa_key(text) in self.qa_store:
+            # The exact key is tried first, and here is the second time that is enforced:
+            # a caller that forgot the ordering cannot let a fold take a pair away from the
+            # words it was actually stored under.
+            return None
+        want = {self.qa_paraphrase_key(text)}
+        for variant in normalize_ask_variants(str(text or ""), self._taught_says):
+            want.add(self.qa_paraphrase_key(variant))
+        want.discard("")
+        if not want:
+            return None
+        hits = []
+        for rec in self.qa_store.values():
+            prov = rec.get("prov") or {}
+            if str(prov.get("source") or "") != "conversation" or not prov.get("marked"):
+                continue
+            q = " ".join(str(t) for t in (rec.get("q") or []))
+            if self.qa_paraphrase_key(q) in want:
+                hits.append(rec)
+                if len(hits) > 1:
+                    return None
+        return hits[0] if len(hits) == 1 else None
+
     def _qa_store_answer(self, text):
         """Answer an ask from a pair he was READ, by exact key or not at all.
 
@@ -3190,11 +3292,22 @@ class NeuralLanguage:
         """
         raw = str(text or "").strip()
         rec = self.qa_store.get(self.qa_key(raw))
+        folded = rec is None
+        if folded:
+            # ELECTRIC_QA_PARAPHRASE: the exact characters are not in the store, so try the
+            # one conversation pair they fold onto. With the flag off this returns None and
+            # the ask falls through exactly where it fell through before.
+            rec = self._qa_paraphrase_hit(raw)
         if not rec:
             return None
         typed = raw.endswith("?")
         evidence = "typed"
-        if not typed:
+        if folded:
+            # Not the words anybody typed with a `?` at him -- the words that FOLD onto them.
+            # Marked or not, that is a weaker claim than `typed` and a different claim from
+            # `person_marked`, so it gets its own word instead of borrowing either.
+            evidence = "typed_paraphrase" if typed else "person_paraphrase"
+        elif not typed:
             # Questionhood WITHOUT punctuation, and only under the flag. Two things have
             # to hold, and neither is a table or a guess: the ask must be token-for-token
             # a question a book printed with a mark on it -- that is what the key is -- and
@@ -5352,8 +5465,15 @@ class NeuralLanguage:
         # -- the one where a person taught him `who` once. Keyed on the RECORD, not on the
         # punctuation: an ask with no pair under it keeps the path it always took, so this
         # hands the recall path nothing new to say.
+        # ELECTRIC_QA_PARAPHRASE follows it rather than replacing it: a pair taught in one
+        # phrasing is unreachable in another unless the ROUTE knows the fold too, since
+        # `respond` routes on `is_interrogative` and a person who taught him one pair gave
+        # that word one vote. Same record test afterwards, so an ask the store holds no pair
+        # for -- folded or not -- keeps the path it always took.
         if self.ELECTRIC_QA_ELICIT and self.qa_store:
             rec = self.qa_store.get(self.qa_key(user_text))
+            if rec is None:
+                rec = self._qa_paraphrase_hit(user_text)
             if rec and str((rec.get("prov") or {}).get("source")
                            or "") == "conversation":
                 return self.answer(user_text, speaker=speaker)

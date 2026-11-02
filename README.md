@@ -602,6 +602,23 @@ path then answered that ask with the ask's own text — closed here, under this 
 is what routes the ask there; and a person cannot overwrite a pair the book printed first, so teaching
 him `who carries droso?` after the primer stores nothing and the book's line stands.
 
+`--electric-qa-paraphrase` lets a pair taught in one phrasing answer in another. Taught
+`who carries droso?` / `parent carries droso`, then asked `who carries the droso`: the store
+held the pair and said nothing, because the key is the exact characters that were typed. The
+lookup now folds the ask through machinery the read path already runs for this exact problem —
+`organs/stemming.py`, the project's one stemmer, and `normalize_ask_variants` — and only after
+the exact key has missed. The bound is provenance, not similarity: only records a person typed
+with a `?` are candidates, so in a house that read `05_questions` first, `who carries the droso`
+gets nothing, because the standing record is the book's. Measured in the real house
+(`tools/qa_paraphrase_live.py`): **9/9** paraphrases recovered in a conversation-only house —
+articles, copulas, do-support, `-s` and `-ing`, and the passive `what was the door held by`
+reaching `what holds the door` through the normalizer — and **5/5** in the house where the book
+got there first, the other four being book records the fold may not touch. The seven phrasings
+it claims to refuse were refused, identically in both arms: `who droso carries`, `who carries
+droso tomorrow`, `who carried droso`, `who own the lantern`, `what rings the bell twice`. Those
+refusals are half the design — the fold keeps word order, because a bag of stems would answer a
+role-inverted ask, and it under-folds tense the shared stemmer has not been told to bridge.
+
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
 #   "+the scarf is on the hook"   teaches   (the organ has no learned interrogatives,

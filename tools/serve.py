@@ -315,6 +315,28 @@ def main() -> int:
                          "for a key the store holds a conversation pair under, so an ask he "
                          "has no pair for keeps the path it always took. OFF by default: "
                          "nothing is paired and nothing is routed.")
+    ap.add_argument("--electric-qa-paraphrase", action="store_true",
+                    help="Let a pair a PERSON taught answer when he is asked for it in "
+                         "other words. Taught `who carries droso?` / `parent carries "
+                         "droso` and asked `who carries the droso`, the store held the "
+                         "pair and said nothing: the key is the exact characters that were "
+                         "typed. This folds the ask through the two pieces of machinery the "
+                         "ELECTRIC read path already runs for exactly this problem -- "
+                         "organs/stemming.py, the project's one stemmer, and "
+                         "normalize_ask_variants, the ask normalizer -- and consults the "
+                         "store only when the exact key already missed. Bounded three ways: "
+                         "candidates are only records whose provenance says a person typed "
+                         "them with a `?` (a pair he was READ is never reached, at any "
+                         "setting of --electric-qa-provenance); the fold keeps word order, "
+                         "so `who droso carries` does not meet `who carries droso` and a "
+                         "role-inverted ask is refused rather than answered; and two pairs "
+                         "that fold onto one key answer NOTHING. It under-folds on purpose "
+                         "-- `who carried droso` gets nothing, because the shared stemmer "
+                         "will not bridge a vowel change it has not been told to -- and "
+                         "those refusals are pinned by tests. A child of "
+                         "--electric-qa-elicit, which is what routes such an ask to "
+                         "answer() at all. OFF by default: the exact-key lookup is the code "
+                         "that ran before this flag existed.")
     ap.add_argument("--electric-qa-provenance", action="store_true",
                     help="Make a pair's PROVENANCE govern the pair, not just its "
                          "storage. Two things the audit (tools/book_qa_store_audit.py) "
@@ -387,10 +409,17 @@ def main() -> int:
     # it lives in `respond`, the door every chat turn goes through, and it is inert while
     # the store is empty, so it cannot fire on a path the graded batteries touch.
     agent.language.ELECTRIC_QA_ELICIT = bool(args.electric_qa_elicit)
+    # The paraphrase lookup is inert without the route its parent opens, so it is wired
+    # beside it and not inside --electric: a folded ask still has to reach `answer`.
+    agent.language.ELECTRIC_QA_PARAPHRASE = bool(args.electric_qa_paraphrase)
     if args.electric_qa_elicit and not args.electric_qa_store:
         print("[serve] --electric-qa-elicit without --electric-qa-store: a paired "
               "question is voted and forgotten. Nothing said in chat will be answerable "
               "from it.", flush=True)
+    if args.electric_qa_paraphrase and not args.electric_qa_elicit:
+        print("[serve] --electric-qa-paraphrase without --electric-qa-elicit: nothing "
+              "routes a rephrased ask to answer(), so a pair taught in one phrasing stays "
+              "reachable only in that phrasing.", flush=True)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped
         # NeuralLanguage.ELECTRIC_*, a demo run in a shared interpreter would leak into
