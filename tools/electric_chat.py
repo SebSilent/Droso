@@ -81,7 +81,7 @@ from tools import electric_teach_mode  # noqa: E402
 DEFAULT_STATE = ROOT / "state" / "electric_chat" / "neural_lang.json"
 
 
-def build_organ(state_path, electric=True, teach=False, guard=False):
+def build_organ(state_path, electric=True, teach=False, guard=False, learn=False):
     """A bare language organ on its own state file -- no house, no corpus.
 
     Flags on the instance.  ``ELECTRIC_TEACH`` is a write permission,
@@ -104,6 +104,14 @@ def build_organ(state_path, electric=True, teach=False, guard=False):
     lang.ELECTRIC_ASK_SHAPE_STORE = bool(guard)
     if teach:
         electric_teach_mode.enable(lang)
+    # `learn` is the FULL teach/learn mode -- the stack above plus the four widenings the narrow
+    # mode refuses to make -- and it is the only way this door reaches them, because there is no
+    # individual --electric-reverse / --electric-object-role / --electric-ask-normalize switch
+    # here. Applied last, because it is enable()'s superset: two mode switches cannot then come
+    # up in an order that matters. Both go through the table's _set(), which checks each name
+    # against the class, so a renamed flag raises instead of being silently set and never read.
+    if learn:
+        electric_teach_mode.enable_learn(lang)
     lang.persist = True
     return lang
 
@@ -239,12 +247,17 @@ class Handler(BaseHTTPRequestHandler):
             health = {"status": "ok", "turns": self.server.turns,
                       "inventory": _count(self.server.lang),
                       "electric": self.server.opts["electric"]}
-            if self.server.opts.get("teach"):
+            if self.server.opts.get("teach") or self.server.opts.get("learn"):
                 # A script driving the demo has to be able to ask "is the mode on, and did the
                 # pair land?" without reading a turn for it. Gated on the mode, so /health is
                 # the response it always was for every run that did not ask for teach mode.
+                # LEARN reports the same fields because it is teach mode's superset: a run that
+                # asked for the full mode and got `teach: false` back would be told the store it
+                # is using is not running.
                 pairs, conv = _pairs(self.server.lang)
                 health.update({"teach": True, "qa_pairs": pairs, "taught_pairs": conv})
+                if self.server.opts.get("learn"):
+                    health["learn"] = True
             return self._send(200, health)
         return self._send(404, {"error": "unknown path"})
 
@@ -325,6 +338,16 @@ def main() -> int:
                          "--electric-ask-normalize have no switch here at all, and a bare organ "
                          "has no learned question words, so a pair he holds is answered by the "
                          "RECORD, not by punctuation.")
+    ap.add_argument("--electric-learn", action="store_true",
+                    help="the FULL teach/learn mode: --electric-teach plus the four widenings "
+                         "it refuses (ask-shape, reverse, object-role, ask-normalize), from the "
+                         "same table tools/serve.py reads. This door has no individual switch for "
+                         "those four, so this flag is the only way to reach them here. The stack "
+                         "can only ever refuse -- a row dropped, a fragment unspoken, a write "
+                         "declined; those four only ever REACH MORE. Implies --electric. Each of "
+                         "the four was measured alone and is written up in docs/STATE.md; this "
+                         "flag claims the combination, not that the widenings are free. OFF by "
+                         "default; with --electric-teach also given, this wins.")
     ap.add_argument("--reset", action="store_true",
                     help="delete the state file first (a new organism, not amnesia)")
     ap.add_argument("--no-autosave", action="store_true",
@@ -344,7 +367,12 @@ def main() -> int:
     # `--electric` is deliberately absent from this expression. It affirms the default, so it
     # carries no information, and letting it flip `electric` would mean a person who typed both
     # switches could lose the control arm by accident. The conflict is announced instead.
-    electric = not args.no_electric or teach
+    # `learn` is on the same footing as `teach` in every expression below, because it is the same
+    # kind of thing: a mode, not a switch. It implies the ELECTRIC base, it wins over --no-electric
+    # for the same reason teach mode does, and it is reported in the boot record so a restart can be
+    # told from a fresh organ by the record and not by the transcript.
+    learn = bool(args.electric_learn)
+    electric = not args.no_electric or teach or learn
     if args.electric and args.no_electric:
         print("[chat] --electric with --no-electric: ELECTRIC is what this tool does on its own, "
               "so the affirmation adds nothing and the CONTROL arm stands. Say one of them.",
@@ -356,8 +384,13 @@ def main() -> int:
         print("[chat] --no-electric with --electric-teach: teach mode implies the ELECTRIC "
               "flags underneath it, so this is not the control arm. Drop --electric-teach to "
               "measure the control.", file=sys.stderr, flush=True)
+    if learn and args.no_electric:
+        print("[chat] --no-electric with --electric-learn: the learn mode implies the ELECTRIC "
+              "flags underneath it AND the four widenings, so this is the widest arm, not the "
+              "control. Drop --electric-learn to measure the control.",
+              file=sys.stderr, flush=True)
     lang = build_organ(state, electric, teach,
-                       guard=bool(args.electric_ask_shape_store))
+                       guard=bool(args.electric_ask_shape_store), learn=learn)
     for line in electric_teach_mode.warnings(lang):
         print("[chat] " + line, flush=True)
     loaded = lang.load_state()
@@ -366,7 +399,8 @@ def main() -> int:
             "inventory_at_boot": _count(lang),
             "electric": electric, "state": str(state),
             "teach": teach, "qa_pairs_at_boot": pairs, "taught_pairs_at_boot": conv,
-            "ask_shape_store": bool(lang.ELECTRIC_ASK_SHAPE_STORE)}
+            "ask_shape_store": bool(lang.ELECTRIC_ASK_SHAPE_STORE),
+            "learn": learn, "flags_on": electric_teach_mode.state(lang)}
 
     if args.say is not None:
         out = turn(lang, args.say)
@@ -389,18 +423,24 @@ def main() -> int:
     state.parent.mkdir(parents=True, exist_ok=True)
     httpd = ChatHTTPServer((args.host, args.port), Handler, lang,
                            {"electric": electric, "autosave": not args.no_autosave,
-                            "teach": teach})
+                            "teach": teach, "learn": learn})
     # The bound port goes on stdout because port 0 means "whatever is free", and a
     # scripted client has to be able to find out what that was.
     ready = (f"[chat] ready port={httpd.server_address[1]} electric={electric} "
              f"inventory={boot['inventory_at_boot']}")
     if teach:
         ready += f" teach=on pairs={boot['qa_pairs_at_boot']}"
+    if learn:
+        # The mode a person asked for has to be visible in the line they read to decide the run
+        # worked: `teach=on` alone would describe the narrow mode, and the four widenings are the
+        # difference between the two.
+        ready += " learn=on (full teach/learn mode)"
     print(ready, flush=True)
-    if teach:
+    if teach or learn:
         # Say what is on, and say the protocol, because the protocol is the part a person
         # cannot infer: an ask is not answered until the NEXT thing they say arrives.
-        for line in electric_teach_mode.describe():
+        for line in (electric_teach_mode.describe_learn() if learn
+                     else electric_teach_mode.describe()):
             print(f"[chat]   {line}", flush=True)
         print("[chat]   teach a pair: `what rings the bell?` then `the copper bell rings`"
               " -- ask it again in other words and it answers", flush=True)

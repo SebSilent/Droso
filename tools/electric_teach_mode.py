@@ -26,9 +26,14 @@ tools/electric_chat.py cannot grow two different ideas of what "teach mode" mean
 a rule in two wiring sites is the failure this project keeps hitting; the store's admission test
 is a function for exactly the same reason.
 
-What it is NOT.  It is not "everything ELECTRIC".  Four switches stay out because each one is a
-WIDENING -- it lets more asks reach more matchers, and each was measured separately precisely so
-a run could say which one cost something:
+What it is NOT.  It is not "everything ELECTRIC" -- that is ``--electric-learn``, the FULL
+teach/learn mode, this same stack plus the four widenings below, and it is a different flag
+because it has a different blast radius.  ``enable_learn`` exists so the two modes cannot drift
+into two lists in two wiring sites, and so the mode that reaches more can still be named exactly.
+
+Four switches stay out of the NARROW mode because each one is a WIDENING -- it lets more asks
+reach more matchers, and each was measured separately precisely so a run could say which one
+cost something:
 
     ELECTRIC_ASK_SHAPE      tags unmarked interrogatives and book questions whose mark did not
                             survive, so it drops rows that marks alone would have left in place.
@@ -143,7 +148,48 @@ DEPENDS_ON = {
 STACK_ATTRS = tuple(attr for attr, _cli, _why in STACK)
 BASE_ATTRS = tuple(attr for attr, _cli, _why in BASE)
 EXCLUDED_ATTRS = tuple(attr for attr, _cli, _why in EXCLUDED)
+LEARN_ATTRS = STACK_ATTRS + EXCLUDED_ATTRS
 ALL_ATTRS = STACK_ATTRS + BASE_ATTRS + EXCLUDED_ATTRS
+
+
+# What the FULL teach/learn mode adds on top of the stack: the four widenings the narrow mode
+# leaves off, each measured alone (docs/STATE.md: ELECTRIC_ASK_SHAPE, ELECTRIC_REVERSE,
+# ELECTRIC_OBJECT_ROLE, ELECTRIC_ASK_NORMALIZE) and each of them a change to WHICH ASK REACHES
+# WHICH MATCHER, not to what the matcher says about an ask it already reaches.
+#
+# Read the two halves together and the mode's shape is honest: the stack can only ever refuse
+# (a row dropped, a fragment unspoken, a write declined), while these four can only ever
+# REACH MORE -- more rows counted as an asking, more asks matched against the inventory, more
+# phrasings folded onto one key. That is why they were never in `--electric-teach`, and why
+# this mode is a different flag rather than a wider default: a widening that is right on the
+# object arm's table is not thereby right on the corpus, and the only claim made here is that
+# the COMBINATION is the combination that was measured, one switch at a time.
+#
+# What the mode still does NOT do, and this is the safety property a single flag has to
+# preserve: every attribute is set on the INSTANCE, never on `NeuralLanguage`, so the graded
+# contract -- `_absence_licence` bound on the class defaults, `ABSENCE_INVENTORY` defaulting on,
+# `_electric_answer` reached only under ELECTRIC_TEACH -- is untouched by construction. The
+# battery path never sees a learn-mode organ.
+LEARN = STACK + EXCLUDED
+
+
+def _set(lang, attrs):
+    """Set instance attributes, and refuse to pretend about a name the class does not have.
+
+    `setattr` on an instance never raises for an unknown name -- it just creates one that no
+    path reads. A mode that turns on fifteen switches must not be able to report fifteen on
+    and behave like the four that are real, so the name is checked against the CLASS first and
+    a missing one raises. This is the sentence `enable()`'s docstring used to claim was true.
+    """
+    missing = [attr for attr in attrs if not hasattr(type(lang), attr)]
+    if missing:
+        raise AttributeError(
+            f"{type(lang).__name__} has no attribute {missing[0]!r}"
+            + (f" (and {len(missing) - 1} more)" if len(missing) > 1 else "")
+            + ": a flag the organ does not read is not a flag, it is a rumour")
+    for attr in attrs:
+        setattr(lang, attr, True)
+    return list(attrs)
 
 
 def enable(lang, base=True):
@@ -153,10 +199,16 @@ def enable(lang, base=True):
     pair into the store, and the store is only consulted on a path that is answering. Pass
     False only to measure the difference.
     """
-    set_attrs = list(STACK_ATTRS) + (list(BASE_ATTRS) if base else [])
-    for attr in set_attrs:
-        setattr(lang, attr, True)
-    return set_attrs
+    return _set(lang, STACK_ATTRS + (BASE_ATTRS if base else ()))
+
+
+def enable_learn(lang, base=True):
+    """Turn the FULL teach/learn mode on for THIS organ: the stack plus the four widenings.
+
+    Returns the attributes it set. Same instance-only discipline as ``enable``; the difference
+    is blast radius, and it is the user's, made by one explicit flag.
+    """
+    return _set(lang, LEARN_ATTRS + (BASE_ATTRS if base else ()))
 
 
 def state(lang):
@@ -184,3 +236,13 @@ def warnings(lang):
 def describe():
     """The stack, one line each, for whoever is staring at a terminal."""
     return [f"{attr:<26} {why}" for attr, _cli, why in STACK]
+
+
+def describe_learn():
+    """The full mode, one line each: the stack, then the four widenings marked as such.
+
+    A terminal that turns on fifteen switches should say which four of them reach more, in the
+    same words, rather than leaving that in a docstring nobody opens at 2 a.m.
+    """
+    return ([f"{attr:<26} {why}" for attr, _cli, why in STACK]
+            + [f"WIDENS {attr:<20} {why}" for attr, _cli, why in EXCLUDED])

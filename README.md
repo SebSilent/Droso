@@ -673,12 +673,56 @@ store answers; with it declined the bind resolves to `bell` and a tell the perso
 answers instead. This guard is not pure subtraction, and the evidence file says so in
 `unmasking_note`.
 
-Evidence: `docs/evidence/qa_teach_mode_live.json`, `docs/evidence/qa_teach_hole_live.json`; unit
+Evidence: `docs/evidence/qa_teach_mode_live.json`, `docs/evidence/qa_teach_hole_live.json`,
+`docs/evidence/electric_learn_live.json`; unit
 pins: `tests/test_electric_teach_mode.py` (20 tests, including teaching a pair over HTTP, shutting
 down, and answering a paraphrase in a second process that shared nothing but the file) and
 `tests/test_electric_ask_shape_store.py` (22 — the hole reproduced with the guard off and closed
 with it on, the statements and relative clauses still filed, the cap proved to be the binder's,
-fail-open on every failure mode, and rows/pairs/inventory/licence identical in both arms).
+fail-open on every failure mode, and rows/pairs/inventory/licence identical in both arms), plus
+`tests/test_electric_learn_mode.py` (17 — the set is the set, the two modes differ by *exactly* the
+four widenings when two organs are diffed rather than when two tables are read, an invented flag
+raises before anything is written, no switch is inert or off-by-default, both doors read the one
+table, and a real server teaches facts and a pair, shuts down, and answers a reverse ask and a
+paraphrase from the file -- plus the verbatim reverse answer re-asked in a house whose pool is full
+of remembered questions, which is the condition that makes the narrow arms answer one word).
+
+`--electric-learn` is the **full** teach/learn mode: the eight-flag stack, what `--electric` already
+means, *and* the four widenings teach mode was built to refuse (`ELECTRIC_ASK_SHAPE`,
+`ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE`) — fifteen switches, one list,
+`LEARN` in the same table, both doors. It is a separate flag rather than a wider default because the
+two halves have opposite polarity: the stack can only ever **refuse** (a row dropped from the
+evidence, a fragment unspoken, a write declined), while those four can only ever **reach more**.
+Both modes set their attributes through one `_set()` that checks every name against the *class*
+before writing any — `setattr` on an instance accepts any name at all, so a mode of fifteen switches
+could otherwise report fifteen and behave like eleven.
+
+What the combination buys, measured in a real house across three arms, live and after a genuine
+restart (`tools/electric_learn_live.py` → `docs/evidence/electric_learn_live.json`; 14 rows in every
+arm, so the mode wrote no extra row): `what bites the latch` is answered `dog` by the shape arbiter
+in the control and teach arms and **`the dog bites the latch`** — the tell, verbatim, from the keyed
+inventory — in learn; `who does the lantern belong to` is unanswered live in the narrow arms and
+answered `mira` after a restart, while learn answers **`the lantern belongs to Mira`** on both sides
+of it. Untaught asks are refused in all three arms and the `to?` fragment never left any arm's
+mouth. One correction to that reading, recorded because the first draft of this paragraph made it:
+the narrow arms do not get worse *because of* the restart. `tools/electric_restart_qrow.py` ran the
+factors apart — the unrelated remembered question row, the restart, and the three earlier asks, in
+every combination, 24 cells — and `mira` appeared in **none of them**; every cell refused at
+0/50/53% coverage. What does reproduce it is the learn-live tool's whole sequence: the house's own
+six probes plus the `who does the mouse chase to` line it ends on, carried across the save. So the
+trigger is an accumulation of remembered questions lifting a different question over the coverage
+gate, not a restart and not a mode — it reproduces in the control arm with no ELECTRIC flag on at
+all, on an organ this work never edited — and in the teach replica `ask_hits_dropped` is 0, so
+admissibility was on and still did not intercept it, because the row that opens the gate is not the
+row that answers. The word lifted is the right word (Mira is who the lantern belongs to), which is
+why it is recorded as a reachability defect and not an invention; learn mode's claim is only that it
+never takes that path, answering from the keyed inventory first in all 24 cells and in the replica.
+The live check also caught its own harness three times — a house booted from a session with
+`persist` off and no `load_state()` proves nothing about restarts, and the control arm's
+"restart" skipped `load_state()` altogether on the reasoning that a flagless house has nothing to
+load, which is exactly where a wrong boot can hide: an arm nobody checks is an arm that cannot
+fail. All three arms now load, and an arm that loads no state fails the run instead of printing
+empty cells.
 
 ```bash
 python tools/electric_chat.py --state state/electric_chat/neural_lang.json
@@ -688,6 +732,9 @@ python tools/electric_chat.py --electric-teach --state state/electric_chat/neura
 #   type:  what rings the bell?        then:  the copper bell rings     <- one session, a pair
 #   then ask it in other words:  what ring the bell   ->   the copper bell rings
 #   (--say is one life per call: a held ask does not survive it, and the tool says so)
+python tools/electric_chat.py --electric-learn --state state/electric_chat/neural_lang.json
+#   the same fifteen, plus the four widenings:  what bites the latch  ->  the dog bites the latch
+#   (/health reports teach=true and learn=true; --no-electric overrides both)
 ```
 
 ## Snapshot figures
@@ -702,7 +749,7 @@ assume them current.
 | Verified procedures | approximately 680 |
 | Coding tasks solved locally, first-contact set | 0 of 10 (`state/fitness/heldout_firstcontact.json`) |
 | Composite fitness score | 0.6834 at `SAN_ROW_CAP=1024` (`state/fitness/baseline_cap1024.json`) |
-| Test suite | 1045 passed, 3 skipped (at the `ELECTRIC_ASK_SHAPE_STORE` commit; 1021 before it, plus the 24 tests that guard added -- the arithmetic is checked, not assumed. The battery count grows with each entry) |
+| Test suite | 1062 passed, 3 skipped (at the `ELECTRIC_LEARN` commit; 1045 before it, plus the 17 tests the full teach/learn mode added -- the arithmetic is checked, not assumed. The battery count grows with each entry) |
 | Held-out 24 asks, organ only | 19/24 (at `f2e1748`) |
 | Guard scripts | 8/8, 1.00 warm and 1.00 cold, delta +0.00 (at `f2e1748`) |
 

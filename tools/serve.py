@@ -412,6 +412,24 @@ def main() -> int:
                          "own flags, because each lets more asks reach more matchers and a run "
                          "that costs something has to be able to say which switch cost it. OFF "
                          "by default: with it off this server is the server that was measured.")
+    ap.add_argument("--electric-learn", action="store_true",
+                    help="The FULL teach/learn mode: --electric-teach PLUS the four widenings "
+                         "it refuses -- --electric-ask-shape, --electric-reverse, "
+                         "--electric-object-role and --electric-ask-normalize. Fifteen switches, "
+                         "one list, from the same table (LEARN in tools/electric_teach_mode.py) "
+                         "this flag reads, so the two modes cannot drift apart. It is a separate "
+                         "flag and not a wider default because the two halves have different "
+                         "blast radii: the stack can only ever REFUSE (a row dropped, a fragment "
+                         "unspoken, a write declined), while those four only ever REACH MORE -- "
+                         "more rows counted as an asking, more asks matched against the "
+                         "inventory, more phrasings folded onto one key. Each of the four was "
+                         "measured alone and each is documented in docs/STATE.md; what this flag "
+                         "claims is the COMBINATION, not that the widenings are free. It implies "
+                         "--electric, and it still sets every attribute on the INSTANCE, so the "
+                         "graded contract -- _absence_licence bound on the class defaults, "
+                         "ABSENCE_INVENTORY defaulting on -- is untouched by construction and no "
+                         "battery run sees a learn-mode organ. OFF by default. With "
+                         "--electric-teach also given, this wins: it is the superset.")
     args = ap.parse_args()
 
     try:
@@ -469,6 +487,15 @@ def main() -> int:
     teach = bool(args.electric_teach)
     if teach:
         electric_teach_mode.enable(agent.language)
+    # --electric-learn: the FULL teach/learn mode, from the same table. Applied AFTER enable()
+    # because it is its superset, so no combination of the two mode flags can leave the organ
+    # half-on or ordered. enable_learn goes through the same _set() as enable, which checks each
+    # name against the CLASS first: setattr on an instance never raises for an unknown name, and
+    # a mode that turns on fifteen switches must not be able to report fifteen and behave like the
+    # eleven that are real.
+    learn = bool(args.electric_learn)
+    if learn:
+        electric_teach_mode.enable_learn(agent.language)
     # An INERT flag is worse than an off one: the symptom is that nothing happens and nothing
     # says so. The dependency rule lives with the flags, not in either caller.
     for line in electric_teach_mode.warnings(agent.language):
@@ -489,6 +516,12 @@ def main() -> int:
         args.electric = True
         print("[serve] ELECTRIC teach mode on: " + ", ".join(electric_teach_mode.STACK_ATTRS),
               flush=True)
+        if learn:
+            # Named separately, and named as a widening, because a banner that lists fifteen
+            # attributes without saying which four change which asks reach which matchers is a
+            # banner that hides the only risk in the mode.
+            print("[serve] ELECTRIC LEARN mode on: teach mode plus the four widenings -- "
+                  + ", ".join(electric_teach_mode.EXCLUDED_ATTRS), flush=True)
     electric = bool(args.electric)
     if args.electric:
         # Flags on the INSTANCE, never on the class: if this flipped

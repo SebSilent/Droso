@@ -1,0 +1,544 @@
+{
+ "arms": {
+  "control": {
+   "flags_on": [],
+   "inventory_at_restart": 0,
+   "inventory_before_restart": 0,
+   "live": {
+    "exact": {
+     "answered": false,
+     "ask": "what rings the bell",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "fold": {
+     "answered": false,
+     "ask": "what ring the bell",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "fragment": {
+     "answered": false,
+     "ask": "who does the mouse chase",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "object-role": {
+     "answered": true,
+     "ask": "what bites the latch",
+     "reason": "",
+     "said": "dog",
+     "src": "arbiter head"
+    },
+    "reverse": {
+     "answered": false,
+     "ask": "who does the lantern belong to",
+     "reason": "the closest memory of his covers 53% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught": {
+     "answered": false,
+     "ask": "where is the moon",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught2": {
+     "answered": false,
+     "ask": "who does the bell report to",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    }
+   },
+   "mode": "control",
+   "qa_pairs": 0,
+   "restart_loaded": true,
+   "restart_state_keys": [
+    "loaded",
+    "words"
+   ],
+   "restarted": {
+    "exact": {
+     "answered": false,
+     "ask": "what rings the bell",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "fold": {
+     "answered": false,
+     "ask": "what ring the bell",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "fragment": {
+     "answered": false,
+     "ask": "who does the mouse chase",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "object-role": {
+     "answered": true,
+     "ask": "what bites the latch",
+     "reason": "",
+     "said": "dog",
+     "src": "arbiter head"
+    },
+    "reverse": {
+     "answered": true,
+     "ask": "who does the lantern belong to",
+     "reason": "",
+     "said": "mira",
+     "src": "arbiter head"
+    },
+    "untaught": {
+     "answered": false,
+     "ask": "where is the moon",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught2": {
+     "answered": false,
+     "ask": "who does the bell report to",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    }
+   },
+   "rows": 14,
+   "save_result_keys": [
+    "mode",
+    "path",
+    "saved"
+   ],
+   "saved_files_seen": true,
+   "seconds": 5.3,
+   "session_files": [
+    "language_state.json",
+    "language_state.json.cortex.facts.json",
+    "language_state.json.cortex.meta.json",
+    "language_state.json.cortex.npz",
+    "language_state.json.cortex.npz.err.npy",
+    "language_state.json.seq.npz",
+    "language_state.json.seq.slots.json",
+    "language_state.san.npz"
+   ],
+   "taught_pairs_before_restart": 0,
+   "taught_says": {}
+  },
+  "learn": {
+   "flags_on": [
+    "ABSENCE_INVENTORY",
+    "ELECTRIC_ANSWER",
+    "ELECTRIC_ASK_ADMISSIBILITY",
+    "ELECTRIC_ASK_MARKS",
+    "ELECTRIC_ASK_NORMALIZE",
+    "ELECTRIC_ASK_SHAPE",
+    "ELECTRIC_ASK_SHAPE_STORE",
+    "ELECTRIC_FRAGMENT_GUARD",
+    "ELECTRIC_OBJECT_ROLE",
+    "ELECTRIC_QA_ELICIT",
+    "ELECTRIC_QA_PARAPHRASE",
+    "ELECTRIC_QA_PROVENANCE",
+    "ELECTRIC_QA_STORE",
+    "ELECTRIC_REVERSE",
+    "ELECTRIC_TEACH"
+   ],
+   "inventory_at_restart": 4,
+   "inventory_before_restart": 4,
+   "live": {
+    "exact": {
+     "answered": true,
+     "ask": "what rings the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fold": {
+     "answered": true,
+     "ask": "what ring the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fragment": {
+     "answered": false,
+     "ask": "who does the mouse chase",
+     "reason": "what he remembers there is only the asking itself",
+     "said": "",
+     "src": ""
+    },
+    "object-role": {
+     "answered": true,
+     "ask": "what bites the latch",
+     "reason": "",
+     "said": "the dog bites the latch",
+     "src": "electric_taught"
+    },
+    "reverse": {
+     "answered": true,
+     "ask": "who does the lantern belong to",
+     "reason": "",
+     "said": "the lantern belongs to Mira",
+     "src": "electric_taught"
+    },
+    "untaught": {
+     "answered": false,
+     "ask": "where is the moon",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught2": {
+     "answered": false,
+     "ask": "who does the bell report to",
+     "reason": "what he remembers there is only the asking itself",
+     "said": "",
+     "src": ""
+    }
+   },
+   "mode": "learn",
+   "qa_pairs": 2,
+   "restart_loaded": true,
+   "restart_state_keys": [
+    "loaded",
+    "words"
+   ],
+   "restarted": {
+    "exact": {
+     "answered": true,
+     "ask": "what rings the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fold": {
+     "answered": true,
+     "ask": "what ring the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fragment": {
+     "answered": false,
+     "ask": "who does the mouse chase",
+     "reason": "what he remembers there is only the asking itself",
+     "said": "",
+     "src": ""
+    },
+    "object-role": {
+     "answered": true,
+     "ask": "what bites the latch",
+     "reason": "",
+     "said": "the dog bites the latch",
+     "src": "electric_taught"
+    },
+    "reverse": {
+     "answered": true,
+     "ask": "who does the lantern belong to",
+     "reason": "",
+     "said": "the lantern belongs to Mira",
+     "src": "electric_taught"
+    },
+    "untaught": {
+     "answered": false,
+     "ask": "where is the moon",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught2": {
+     "answered": false,
+     "ask": "who does the bell report to",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    }
+   },
+   "rows": 14,
+   "save_result_keys": [
+    "mode",
+    "path",
+    "saved"
+   ],
+   "saved_files_seen": true,
+   "seconds": 4.2,
+   "session_files": [
+    "language_state.json",
+    "language_state.json.cortex.facts.json",
+    "language_state.json.cortex.meta.json",
+    "language_state.json.cortex.npz",
+    "language_state.json.cortex.npz.err.npy",
+    "language_state.json.seq.npz",
+    "language_state.json.seq.slots.json",
+    "language_state.san.npz"
+   ],
+   "taught_pairs_before_restart": 2,
+   "taught_says": {
+    "copper": {
+     "agent": "the copper bell rings"
+    },
+    "dog": {
+     "agent": "the dog bites the latch"
+    },
+    "lantern": {
+     "agent": "the lantern belongs to Mira"
+    },
+    "latch": {
+     "agent": "the latch holds the door"
+    }
+   }
+  },
+  "teach": {
+   "flags_on": [
+    "ABSENCE_INVENTORY",
+    "ELECTRIC_ANSWER",
+    "ELECTRIC_ASK_ADMISSIBILITY",
+    "ELECTRIC_ASK_MARKS",
+    "ELECTRIC_ASK_SHAPE_STORE",
+    "ELECTRIC_FRAGMENT_GUARD",
+    "ELECTRIC_QA_ELICIT",
+    "ELECTRIC_QA_PARAPHRASE",
+    "ELECTRIC_QA_PROVENANCE",
+    "ELECTRIC_QA_STORE",
+    "ELECTRIC_TEACH"
+   ],
+   "inventory_at_restart": 4,
+   "inventory_before_restart": 4,
+   "live": {
+    "exact": {
+     "answered": true,
+     "ask": "what rings the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fold": {
+     "answered": true,
+     "ask": "what ring the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fragment": {
+     "answered": false,
+     "ask": "who does the mouse chase",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "object-role": {
+     "answered": true,
+     "ask": "what bites the latch",
+     "reason": "",
+     "said": "dog",
+     "src": "arbiter head"
+    },
+    "reverse": {
+     "answered": false,
+     "ask": "who does the lantern belong to",
+     "reason": "the closest memory of his covers 53% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught": {
+     "answered": false,
+     "ask": "where is the moon",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught2": {
+     "answered": false,
+     "ask": "who does the bell report to",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    }
+   },
+   "mode": "teach",
+   "qa_pairs": 2,
+   "restart_loaded": true,
+   "restart_state_keys": [
+    "loaded",
+    "words"
+   ],
+   "restarted": {
+    "exact": {
+     "answered": true,
+     "ask": "what rings the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fold": {
+     "answered": true,
+     "ask": "what ring the bell",
+     "reason": "",
+     "said": "the copper bell rings",
+     "src": "electric_qa_store"
+    },
+    "fragment": {
+     "answered": false,
+     "ask": "who does the mouse chase",
+     "reason": "nothing he remembers has that shape",
+     "said": "",
+     "src": ""
+    },
+    "object-role": {
+     "answered": true,
+     "ask": "what bites the latch",
+     "reason": "",
+     "said": "dog",
+     "src": "arbiter head"
+    },
+    "reverse": {
+     "answered": true,
+     "ask": "who does the lantern belong to",
+     "reason": "",
+     "said": "mira",
+     "src": "arbiter head"
+    },
+    "untaught": {
+     "answered": false,
+     "ask": "where is the moon",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    },
+    "untaught2": {
+     "answered": false,
+     "ask": "who does the bell report to",
+     "reason": "the closest memory of his covers 0% of the question",
+     "said": "",
+     "src": ""
+    }
+   },
+   "rows": 14,
+   "save_result_keys": [
+    "mode",
+    "path",
+    "saved"
+   ],
+   "saved_files_seen": true,
+   "seconds": 4.1,
+   "session_files": [
+    "language_state.json",
+    "language_state.json.cortex.facts.json",
+    "language_state.json.cortex.meta.json",
+    "language_state.json.cortex.npz",
+    "language_state.json.cortex.npz.err.npy",
+    "language_state.json.seq.npz",
+    "language_state.json.seq.slots.json",
+    "language_state.san.npz"
+   ],
+   "taught_pairs_before_restart": 2,
+   "taught_says": {
+    "copper": {
+     "agent": "the copper bell rings"
+    },
+    "dog": {
+     "agent": "the dog bites the latch"
+    },
+    "lantern": {
+     "agent": "the lantern belongs to Mira"
+    },
+    "latch": {
+     "agent": "the latch holds the door"
+    }
+   }
+  }
+ },
+ "failures": [],
+ "note": "control has no ELECTRIC at all; teach is the stack that can only refuse; learn is teach plus the four widenings. Every answer in every arm is a sentence from `taught` or silence -- the widenings change which asks REACH an answer, never what an answer may say.",
+ "probes": [
+  "what ring the bell",
+  "what rings the bell",
+  "what bites the latch",
+  "who does the lantern belong to",
+  "where is the moon",
+  "who does the bell report to"
+ ],
+ "say_what_each_answered": {
+  "control": {
+   "fold": [
+    "",
+    "",
+    ""
+   ],
+   "object-role": [
+    "dog",
+    "arbiter head",
+    "dog"
+   ],
+   "reverse": [
+    "",
+    "",
+    "mira"
+   ],
+   "untaught": [
+    "",
+    "",
+    ""
+   ]
+  },
+  "learn": {
+   "fold": [
+    "the copper bell rings",
+    "electric_qa_store",
+    "the copper bell rings"
+   ],
+   "object-role": [
+    "the dog bites the latch",
+    "electric_taught",
+    "the dog bites the latch"
+   ],
+   "reverse": [
+    "the lantern belongs to Mira",
+    "electric_taught",
+    "the lantern belongs to Mira"
+   ],
+   "untaught": [
+    "",
+    "",
+    ""
+   ]
+  },
+  "teach": {
+   "fold": [
+    "the copper bell rings",
+    "electric_qa_store",
+    "the copper bell rings"
+   ],
+   "object-role": [
+    "dog",
+    "arbiter head",
+    "dog"
+   ],
+   "reverse": [
+    "",
+    "",
+    "mira"
+   ],
+   "untaught": [
+    "",
+    "",
+    ""
+   ]
+  }
+ },
+ "taught": [
+  "the copper bell rings",
+  "the dog bites the latch",
+  "the lantern belongs to Mira",
+  "the latch holds the door"
+ ]
+}

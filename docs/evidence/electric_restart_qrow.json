@@ -1,0 +1,477 @@
+{
+ "generated": "2026-11-02 06:52:28",
+ "seconds": 62.9,
+ "ask": "who does the lantern belong to",
+ "row_heard": "who does the mouse chase to",
+ "cells": [
+  {
+   "mode": "control",
+   "row_heard": false,
+   "restarted": false,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 0% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "control",
+   "row_heard": false,
+   "restarted": false,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 53% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "control",
+   "row_heard": false,
+   "restarted": true,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 0% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "control",
+   "row_heard": false,
+   "restarted": true,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 53% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "control",
+   "row_heard": true,
+   "restarted": false,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "control",
+   "row_heard": true,
+   "restarted": false,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "control",
+   "row_heard": true,
+   "restarted": true,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "control",
+   "row_heard": true,
+   "restarted": true,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": []
+  },
+  {
+   "mode": "teach",
+   "row_heard": false,
+   "restarted": false,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 0% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "teach",
+   "row_heard": false,
+   "restarted": false,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 53% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "teach",
+   "row_heard": false,
+   "restarted": true,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 0% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "teach",
+   "row_heard": false,
+   "restarted": true,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 53% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "teach",
+   "row_heard": true,
+   "restarted": false,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "teach",
+   "row_heard": true,
+   "restarted": false,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "teach",
+   "row_heard": true,
+   "restarted": true,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "teach",
+   "row_heard": true,
+   "restarted": true,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": false,
+   "said": "",
+   "source": "",
+   "reason": "the closest memory of his covers 50% of the question",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": false,
+   "restarted": false,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": false,
+   "restarted": false,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": false,
+   "restarted": true,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": false,
+   "restarted": true,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": true,
+   "restarted": false,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": true,
+   "restarted": false,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": true,
+   "restarted": true,
+   "asked_first": false,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  },
+  {
+   "mode": "learn",
+   "row_heard": true,
+   "restarted": true,
+   "asked_first": true,
+   "ask": "who does the lantern belong to",
+   "answered": true,
+   "said": "the lantern belongs to Mira",
+   "source": "electric_taught",
+   "reason": "",
+   "shape": null,
+   "ask_hits_dropped": null,
+   "interrog_who": false,
+   "question_roles": [
+    "what"
+   ]
+  }
+ ],
+ "replica": [
+  {
+   "mode": "control",
+   "sequence": "ask_all x2 with a save between (the learn-live tool's own)",
+   "live_reverse": {
+    "ask": "who does the lantern belong to",
+    "answered": false,
+    "said": "",
+    "src": "",
+    "reason": "the closest memory of his covers 53% of the question"
+   },
+   "restarted_reverse": {
+    "ask": "who does the lantern belong to",
+    "answered": true,
+    "said": "mira",
+    "src": "arbiter head",
+    "reason": ""
+   },
+   "restarted_rows": [],
+   "restarted_row_count": 0
+  },
+  {
+   "mode": "teach",
+   "sequence": "ask_all x2 with a save between (the learn-live tool's own)",
+   "live_reverse": {
+    "ask": "who does the lantern belong to",
+    "answered": false,
+    "said": "",
+    "src": "",
+    "reason": "the closest memory of his covers 53% of the question"
+   },
+   "restarted_reverse": {
+    "ask": "who does the lantern belong to",
+    "answered": true,
+    "said": "mira",
+    "src": "arbiter head",
+    "reason": ""
+   },
+   "restarted_rows": [
+    "dog",
+    "lantern",
+    "copper",
+    "latch"
+   ],
+   "restarted_row_count": 4
+  },
+  {
+   "mode": "learn",
+   "sequence": "ask_all x2 with a save between (the learn-live tool's own)",
+   "live_reverse": {
+    "ask": "who does the lantern belong to",
+    "answered": true,
+    "said": "the lantern belongs to Mira",
+    "src": "electric_taught",
+    "reason": ""
+   },
+   "restarted_reverse": {
+    "ask": "who does the lantern belong to",
+    "answered": true,
+    "said": "the lantern belongs to Mira",
+    "src": "electric_taught",
+    "reason": ""
+   },
+   "restarted_rows": [
+    "dog",
+    "lantern",
+    "copper",
+    "latch"
+   ],
+   "restarted_row_count": 4
+  }
+ ],
+ "learn_answers_every_cell": true,
+ "mira_cells_row_restart_askedfirst": [],
+ "mira_arms": [],
+ "interrogative_who_anywhere": false,
+ "failures": []
+}

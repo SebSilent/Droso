@@ -2104,3 +2104,107 @@ Two wiring findings, both small and both real:
   costs of the shape detector, not of this write site: any guard built from `question_shape` inherits
   both. Nothing here has been run on the battery; generation 25 is still the free one.
 
+## ELECTRIC_LEARN -- one flag for the FULL teach/learn mode, and the restart that proved nothing
+
+**What landed.** `--electric-learn`, in `tools/serve.py` and `tools/electric_chat.py`, is
+`LEARN = STACK + EXCLUDED` in `tools/electric_teach_mode.py`: the eight-flag teachable stack, the
+three flags `--electric` already means, **and** the four widenings teach mode was built to refuse
+(`ELECTRIC_ASK_SHAPE`, `ELECTRIC_REVERSE`, `ELECTRIC_OBJECT_ROLE`, `ELECTRIC_ASK_NORMALIZE`).
+Fifteen switches, one list, one table, both doors. `enable_learn()` goes through a new `_set()`
+with `enable()`, and `_set()` checks every name against the **class** before setting any of them.
+That check is not tidiness: `setattr` on an instance accepts *any* name, so the sentence `enable()`
+used to claim -- "a typo'd attribute would raise here rather than silently do nothing" -- was false.
+A mode that turns on fifteen switches must not be able to report fifteen and behave like eleven.
+
+**Why a second mode flag and not a wider default.** The two halves have opposite polarity. The
+stack can only ever **refuse**: a row dropped from the evidence, a fragment left unspoken, a write
+declined. The four widenings can only ever **reach more**: more rows counted as an asking, more asks
+matched against the keyed inventory, more phrasings folded onto one key. Combining them is the
+configuration where an interaction is most likely and least attributable, and each of the four was
+measured alone precisely so a run could say which one cost something. So the combination is
+nameable, off by default, and announced in its own banner line rather than folded into `teach=on`.
+
+**The live house, three arms, one script** (`tools/electric_learn_live.py` ->
+`docs/evidence/electric_learn_live.json`; 4s per arm, 14 rows in every arm -- the mode wrote no
+extra row). `[live / source / after a real restart]`:
+
+| ask | control | teach | **learn** |
+|---|---|---|---|
+| `what ring the bell` (the stemmer's fold) | — / — / — | the copper bell rings / qa_store / **yes** | the copper bell rings / qa_store / **yes** |
+| `what bites the latch` (object-role) | `dog` / arbiter head / `dog` | `dog` / arbiter head / `dog` | **the dog bites the latch** / electric_taught / **yes** |
+| `who does the lantern belong to` (reverse) | — / — / `mira` | — / — / `mira` | **the lantern belongs to Mira** / electric_taught / **yes** |
+| `where is the moon` (untaught) | — | — | — |
+| the stranded-ask fragment | never spoke | never spoke | never spoke |
+
+Two things that table says and the unit tests could not. First, the buy is **a sentence rather than
+a word**: without the widenings the house answers an object-role ask with `dog`, lifted out of a
+tell it was given by the shape arbiter, and the full mode answers it with the tell, verbatim, from
+the keyed inventory. Nothing was invented in any arm -- every reply is a sentence from the taught
+set or a word inside one, and that is the invariant four widenings are allowed to share.
+
+Second, and it needed correcting in this file the same day it was written: **the narrow arms answer
+`mira` after a restart and nothing before it** -- live, `control` and `teach` say nothing to the
+reverse ask; restarted, both lift `mira` out of the tell. The first draft of this note explained
+that as the reload handing the arbiter a filler. **That explanation is wrong, and the way it was
+found out is the reason it is recorded.** `tools/electric_restart_qrow.py` (evidence:
+`docs/evidence/electric_restart_qrow.json`) runs the factors apart: the unrelated remembered
+question row, the restart, and the three earlier asks, in every combination -- 24 cells, control
+and teach. **`mira` appeared in none of them.** Every cell refused, at 0%, 50% or 53% coverage.
+What does reproduce it is the learn-live tool's own sequence, run as a replica in the same file:
+`ask_all` in the taught life (six probes, then the `who does the mouse chase to` line, then the
+answer to the bare form), save, restart, `ask_all` again -- control and teach refuse live and
+answer `mira` restarted, learn answers the verbatim tell in both phases.
+
+So the trigger is an **accumulation of remembered questions**, not a restart and not a row:
+enough question-shaped rows in one pool let a *different* question clear the coverage gate, and
+once the gate is open the shape arbiter parses the preposition as the verb
+(`{"kind": "object_unknown", "subject": ["lantern"], "verb": "to", "tail": []}`, verdict `agree`)
+and lifts the object out of the tell. Three consequences worth keeping:
+
+* **Pre-existing, not learn mode.** The replica reproduces it in the CONTROL arm, where no ELECTRIC
+  flag is on at all, and this task edited zero lines of `organs/neural_language.py`
+  (`git diff --stat HEAD -- organs/` is empty). Learn mode does not cause it and is not bitten by
+  it: in all 24 grid cells and both replica phases the full mode answers that ask with the whole
+  tell from the keyed inventory, so the one-word path is never reached.
+* **Not an admissibility hole either.** In the teach replica `ask_hits_dropped` is 0 -- the flag was
+  on and did not intercept this, because the row that opens the gate is not the row that answers:
+  the gate is upstream of admissibility and the arbiter is downstream of both. Whether the gate
+  should count a remembered question toward covering a question is E27's neighbourhood, not this
+  mode's.
+* **Not an invention.** `Mira` is who the lantern belongs to. The defect is reachability and
+  terseness -- a correct answer that takes 25 configurations to become reachable, and arrives as
+  one word instead of the sentence the person said.
+
+Two more things this file says that the earlier draft did not: `is_interrogative("who")` is **False
+in every arm, every phase** (`interrogative_who_anywhere: false`; `question_roles` is `[]` in
+control and `['what']` in teach/learn), so the filter at `answer()`'s retrieval stage that is
+supposed to keep remembered questions out of the pool never fires for `who` in a house like this
+one -- role votes are earned only from a `?`-marked line paired with an answer, and every probe
+here is unmarked. And the control arm's restart was itself a bug in the harness: `load_state()` was
+skipped for control on the reasoning that a flagless house has nothing to load, which is exactly
+where a wrong boot hides, so all three arms now load and an arm that loads nothing fails the run.
+
+**The harness bug this found, and why it matters more than the result.** The first two runs reported
+that learn mode lost every taught fact across a restart. It did not: `converse.build` comes up with
+`persist` off and never calls `load_state()`, so the "restarted" house was booting from an empty
+state dir and answering from nothing. The fix is in the tool (`lang.persist = True`, an explicit
+`save_state(force=True)`, then `load_state()` on the second boot) **and an invariant**: an arm that
+loaded no state now *fails the run* instead of printing empty cells. A restart arm that proves
+nothing is worse than no restart arm, because it reads like evidence.
+
+**What is still true and unchanged.** Every attribute is set on the instance, never on
+`NeuralLanguage`; `_absence_licence` binds on the class defaults and the graded contract is
+untouched (`tests/test_electric_learn_mode.py` compares the class against a snapshot taken at
+import, before any organ exists), and `git diff --stat HEAD -- organs/` for this work is **empty**
+-- the claim is a file list, not a recollection. `--electric-teach` still refuses the four widenings, and the two
+modes differ by exactly those four -- asserted, not by reading the tables but by diffing the state
+of two organs built through them. Nothing here has been run on the battery.
+
+**Numbers at this commit.** `1062 passed, 3 skipped, 0 failed in 458.97s` -- 1045 at the
+`ELECTRIC_ASK_SHAPE_STORE` commit plus the 17 tests in `tests/test_electric_learn_mode.py`, the
+arithmetic checked rather than assumed, and the suite run on a settled tree with no file edited
+while it ran (that is the mistake that produced the five phantom `inspect.getsource` failures two
+tasks back). The electric neighbourhood by itself is 267 passed in 5:08, which is the number to
+re-run when only a flag table moved. `tools/electric_learn_live.py` costs 4.1-4.5s per arm and
+`tools/electric_restart_qrow.py` 62.9s for 24 cells plus 3 replicas; both exit non-zero on a
+failure rather than printing an empty cell, and both wrote the evidence files cited above.
