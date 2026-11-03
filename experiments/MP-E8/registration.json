@@ -2566,6 +2566,79 @@
       "scope": "arms.C registration. No hypothesis, threshold, abort condition, tolerance or measured artifact was changed.",
       "what_is_true": "the plan requires C to be the same architecture as B (plan extract 660-663), which is what was built; R12's summary string in the G0-prime registration misplaces 'tiny transformer' onto arm C and should be read as describing arm B's menu of acceptable architectures.",
       "what_was_mistaken": "(a) the pre-run arms.C definition/abstention/status were overwritten rather than preserved; (b) an open decision D-MPE8-08 was opened claiming arm C's architecture diverged from the plan."
+    },
+    {
+      "also_fixed_in_the_same_tree": {
+        "tools/mp_e8_arm_b.py": "the battery fix, AMD-MPE8-05: apply_curriculum() in main(), the battery block in the artifact, and a merge guard that refuses chunks from a different battery.",
+        "tools/mp_e8_curriculum.py": "--check-tier refuses an unregistered tier and a missing committed file by name and by cost, and checks the code tier against arm A's source instead of reporting a false MISMATCH. Both behaviours were measured before being fixed (traceback for 200, false MISMATCH for 40) and both are now asserted by tests.",
+        "tools/suite_manifest.py": "the summary line raised ValueError on a relative --out AFTER the manifest was written and the verdict printed, so a clean run exited 1. The measurement was intact and the exit code was a lie. Display path only now; no change to what is collected, executed or counted."
+      },
+      "arm_c_first_execution": {
+        "defects_the_first_run_found": "three, all in arm C's own path: build_vocab returns (vocab, index) and run_depth unpacked it backwards, which died inside arm B's session_sequences with 'list indices must be integers'; the youden test asserted a threshold of 0.5 that was my arithmetic error about midpoints of observed values (measured 0.54); and the retrieval test asserted sim > 0, a claim about a random initialisation rather than about retrieval (measured -0.0041). The first is a real bug in the tool and the other two were real bugs in the tests. All three are fixed and the fixes are the reason the tests now mean something.",
+        "smoke_artifact_status": "_tmp/armC_smoke.json is a 3-epoch test run and is NOT in the seal manifest: sealing it would present a non-measurement as evidence. It reports 0 correct at every depth and phase, which is what a 3-epoch LSTM+retrieval arm does.",
+        "tests": "6 passed in 28.59s (tests/test_mp_e8_arm_c.py), machine alone"
+      },
+      "class": "baseline re-run and supersession by reference",
+      "collected_delta_explained": {
+        "arithmetic": "-2 stale curriculum tests, +4 rewritten curriculum tests, +6 arm C tests = +8. The count moved because the coverage moved, and the number is reported as measured rather than adjusted to look continuous.",
+        "delta": 8,
+        "new": 1246,
+        "old": 1238
+      },
+      "id": "AMD-MPE8-06",
+      "new_artifact": {
+        "collected": 1246,
+        "collected_not_executed": 0,
+        "executed": 1246,
+        "generated_at_utc": "2026-11-03T15:13:26Z",
+        "interpreter": "3.12.10",
+        "junit_counters": {
+          "errors": "0",
+          "failures": "1",
+          "skipped": "5",
+          "tests": "1246",
+          "time": "681.063"
+        },
+        "path": "experiments/MP-E8/results/suite_manifest_post_batteryfix.json",
+        "pytest_returncode": 1,
+        "wall_seconds": 683.62
+      },
+      "previous_artifact": {
+        "collected": 1238,
+        "collected_not_executed": 0,
+        "executed": 1238,
+        "generated_at_utc": "2026-11-03T13:01:11Z",
+        "interpreter": "3.12.10",
+        "junit_counters": {
+          "errors": "0",
+          "failures": "2",
+          "skipped": "5",
+          "tests": "1238",
+          "time": "594.151"
+        },
+        "path": "experiments/MP-E8/results/suite_manifest_torch.json",
+        "pytest_returncode": 1,
+        "wall_seconds": 596.46
+      },
+      "recorded_at": "2026-11-03T16:50:00Z",
+      "recorded_by": "agent",
+      "scope": "the suite baseline this gate reports against. Nothing in the organism or the harness changed to produce the new numbers; the TESTS changed, and the instrument that runs them got an exit-code fix.",
+      "supersession": "the new manifest supersedes the old for any gate claim made from today's tree. The old file stays committed and sealed: R5 forbids deleting a published figure, and 1,238/2-failures was a true measurement of the tree it ran on. Overwriting it would have destroyed the only record of what the two failures were.",
+      "the_one_failure": {
+        "cause": "the agent's own late edit. tools/registration_seal.py is a sealed file, and its comment naming this new manifest path was changed AFTER the stamp at b9ea96b, so the suite correctly reported blob drift (02d3b9ce1e -> 6c7c8095cb, 104/105 matching). Nothing about the organism or the harness moved.",
+        "counters": {
+          "errors": "0",
+          "failures": "1",
+          "skipped": "5",
+          "tests": "1246",
+          "time": "681.063"
+        },
+        "how_the_run_says_so_itself": "this run is the first to carry the manifest's own git_head and git_dirty fields, and git_dirty lists exactly that file. The fields were added because a sealed suite baseline that does not name its commit cannot be interpreted at all; here they turned a cryptic single failure into a self-explaining one within one command.",
+        "resolution": "re-stamp so the edited file is inside the seal. The manifest above is NOT regenerated after the re-stamp, because a sealed artifact that the suite itself rewrites can never stay sealed -- the run that produces it always measures the tree before its own stamp. That is why this file is the record and any later full-suite pass is reported as a dated observation, not as a new sealed baseline.",
+        "test": "tests/test_g0_prime_instruments.py::test_registration_seal_verifies_against_the_registration"
+      },
+      "what_the_old_run_measured": "a tree whose tests/test_mp_e8_curriculum.py asserted that tiers 120 and 300 'do not exist as code'. That premise died when D-MPE8-03 emitted those tiers and the files were committed, so the 2 failures were staleness, not regression: the tests were right that something had changed and wrong about what. They were replaced, not edited to match -- see the four new tests, which assert the acceptance rule itself (a tier is accepted only if it is authored as code OR a committed file re-derives from the rule), including that --check-tier on an unregistered tier returns a refusal rather than a traceback.",
+      "what_this_does_not_change": "H1's statement, its 5.0 pp margin, its tiers, R13's tolerance cells, and every tier-40 artifact."
     }
   ],
   "schema": "droso.registration.v1",
