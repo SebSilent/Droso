@@ -1,0 +1,56 @@
+{
+  "schema": "droso.bench_taxonomy.v1",
+  "gate": "G0-prime",
+  "checklist_step": "B.1 step 4 -- the failure-taxonomy field definitions",
+  "instrument": "tools/electric_learn_bench.py",
+  "purpose": "The bench prints classes and the gate reads them. Until now the meaning of a class lived in a docstring and in prose in docs/STATE.md, which is how two runs can both report 'partial' and mean different things. This file is the normative definition, versioned, so a result JSON can be checked against the taxonomy that produced it.",
+
+  "row_fields": {
+    "ask": "the question handed to the house, normalised of its trailing mark",
+    "said": "exactly what the house spoke, verbatim, including any narration frame. Empty string means silence.",
+    "src": "the reply source the organ named: electric_taught, electric_qa_store, electric_absence, arbiter tell, arbiter head, recalled proposition, or empty for silence",
+    "cls": "the graded class, defined below",
+    "mech": "the mechanism string the organ attached to the reply: answered, fallback_fragment, refusal_silence, pair_never_admitted, ask_not_recognized, no_shape",
+    "reason": "the organ's own explanation, e.g. a coverage percentage. NOT graded and NOT trusted as a fact; it is the organism speaking about itself. Sub-percentage-point movement here is the instrument's measured noise, see noise_tolerance in experiments/MP-E9/registration.json",
+    "item": "the curriculum item the probe is about, e.g. tell0.3 or pair1.2",
+    "shape": "one of the ten probe shapes: subject, subject_fold, object, object_fold, pair_exact, pair_fold, reverse, reverse_fold, role_swap, qword",
+    "taught": "the sentence the house was taught for this item, or null for a distractor",
+    "own": "true when the item's own tell carries the answer, false when the answer exists only in a QA pair",
+    "answered": "whether the organ classified its own reply as an answer",
+    "depth": "how many curriculum sessions had been taught before this probe: 1, 2 or 3",
+    "phase": "live (asked before any restart), restarted (asked after a real process boundary), reasked (the same probe round again, which is how the probing artifact is measured rather than assumed)"
+  },
+
+  "classes": {
+    "correct": "the reply matches the taught answer on the normalised ground. The only class that counts as reach.",
+    "partial": "the reply carries some of the taught content but not the answer. This is where the says gap sat: `says` graded partial because a sentence-level grader cannot see a single unsupported word.",
+    "refused": "the house said nothing. Under this program's own ranking this is honest, not failed.",
+    "absence": "a licensed refusal spoken from the guarded-absence contract: a subject with a taught property and an untaught relation. 24 rows on tier 40, and they must stay 24.",
+    "entailed": "derived rather than recited -- the reply is supported by taught material without being a taught sentence.",
+    "echo": "the house handed back the question it was asked. Not a failure of truthfulness; the ask chose the sentence.",
+    "cross_echo": "a DIFFERENT question out of the remembered pool. The pool chose the sentence, not the ask. Still not an invention at sentence level, which is precisely why the word-level grader exists.",
+    "misattrib": "a true sentence attached to the wrong subject.",
+    "invented": "a whole sentence that appears in no told row. This is the class the bench already fails a run on, and it is sentence-level: it cannot see a word."
+  },
+
+  "exit_code_rule": {
+    "0": "no invented sentence in any arm at any depth",
+    "1": "at least one invented sentence was spoken -- the run fails",
+    "warning": "Exit 1 is ALSO what an uncaught exception produces. The first clone run of this gate died inside seals() after 471 seconds and was reported only as exit=1, indistinguishable from a legitimate invention finding, because the runner trusted the code. A clone is now judged by whether it produced an output file, not by its return code. tools/bench_noise_floor.py records this in its own comments."
+  },
+
+  "relationship_to_the_word_level_grader": {
+    "grader": "tools/word_provenance.py",
+    "why_both": "the bench grades sentences, the grader grades words. A reply can be cls=partial or cls=cross_echo at sentence level and still speak a content word nobody taught. The says gap is that case: 16 rows, cls=partial, failures=[], exit 0.",
+    "severities": {
+      "UNTRACEABLE_ASSERTED": "a content word with no taught row, no ask, no admitted source. Fails R9.",
+      "UNTRACEABLE_HEARD": "a content word that reached the house only inside some OTHER question. Reported, not run-fatal, pending the PI's ruling on R9's scope."
+    },
+    "admitted_source_forms": [
+      "the narration frame, stripped positionally via REPORT_FRAMES at tools/electric_learn_bench.py:317",
+      "the licensed absence form `i don't know, {subj} was told but no {rel} was ever told for {subj}`, matched as a FORM with the relation slot restricted to place|property|agent and the subject slot required to be taught"
+    ]
+  },
+
+  "plan_discrepancy_recorded": "Master Plan v1.1 B.1 step 2 says the grader must 'flag all three known says-gap rows'. There are not three rows, there are three ASKS, and they produce 16 rows across 3 arms x 3 depths x 3 phases. The grader flags all 16, which satisfies the intent; the count is recorded here because a checklist item whose number does not match the instrument is how a validation gets misread as partial."
+}

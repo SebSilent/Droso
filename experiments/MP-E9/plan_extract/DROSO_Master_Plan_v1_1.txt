@@ -1,0 +1,1366 @@
+
+===== PAGE 1 =====
+L  I  V  E    B  R  A  I  N    P  R  O  G  R  A  M
+DROSO Master Plan
+The Live Brain Protocol: Execution Roadmap MP-E8 to MP-E13 - Amended v1.1
+Program: Droso Connectome Intelligence
+Owner: Principal Investigator
+Workforce: Human lead plus AI engineering agents and an orchestrator
+Discipline: Pre-registered, gate-driven, two-instrument execution
+Version: v1.1 (Amended) - November 2026
+DROSO Program          Working Document - November 2026
+===== PAGE 2 =====
+I
+Table of Contents
+1. Executive Summary........................................................................................................... 1
+2. The v1.1 Amendment Record................................................................................................ 2
+2.1 What the Repository Already Absorbed........................................................................ 2
+2.2 The Amendments........................................................................................................... 2
+2.3 Experiment Number Mapping........................................................................................2
+2.4 What v1.1 Does Not Change..........................................................................................3
+3. The Live Brain Thesis............................................................................................................ 3
+3.1 Why Frozen Weights Lose in the End............................................................................3
+3.2 What Surpass Means, Precisely......................................................................................4
+3.3 The Native-Versus-Transplant Rule...............................................................................4
+4. Program Baseline v1.1 and Working Vocabulary..................................................................4
+4.1 Where the Codebase Stands (Measured, 2026-11-02)................................................... 5
+4.2 Working Vocabulary...................................................................................................... 5
+5. Program Doctrine: Standing Rules R1-R10........................................................................... 5
+6. The Experiment Program (MP-E8 to MP-E13)..................................................................... 7
+6.1 MP-E9 - Recognition, Morphology, and the Direct Answer Path................................. 7
+6.2 MP-E8 - The Three-Arm Duel on the Live Bench.........................................................8
+6.3 MP-E10 - The Mouth and the Second Timescale.......................................................... 9
+6.4 MP-E11 - Connectome Scaling: Does the Wiring Matter?..........................................10
+6.5 MP-E12 - Frozen Weights as a Library (Flagship)...................................................... 11
+6.6 MP-E13 - The Living System Demo............................................................................12
+7. Milestone Gates and Execution Order..................................................................................13
+8. Evaluation Harness and Pre-Registration Discipline........................................................... 13
+8.1 The Two-Instrument Doctrine......................................................................................13
+8.2 The Nine Axes..............................................................................................................14
+8.3 Registration Protocol and Artifact Standard................................................................ 14
+===== PAGE 3 =====
+II
+9. Risk Register........................................................................................................................ 14
+10. Publication and Strategy Framing...................................................................................... 15
+11. Appendix A: MP-E12 Technical Primer - Reading Weights Without Running Them......15
+A.1 What a Frozen Model Knows Statically......................................................................15
+A.2 The Read Budget and the Benchmark......................................................................... 16
+A.3 Compilation into the Connectome...............................................................................16
+A.4 Failure Modes and Honesty Guarantees......................................................................16
+12. Appendix B: Agent Execution Checklists..........................................................................17
+B.0 Closing a Gate (Applies to Every Gate)...................................................................... 17
+B.1 G0-prime Checklist - Freezing the Capability Instrument.......................................... 18
+B.2 MP-E9 Checklist - Honesty and Morphology............................................................. 19
+B.3 MP-E8 Checklist - The Three-Arm Duel.................................................................... 19
+B.4 MP-E10 Checklist - The Mouth and the Second Timescale........................................21
+B.5 MP-E11 Checklist - Connectome Scaling................................................................... 21
+B.6 MP-E12 Checklist - Frozen Weights as a Library.......................................................22
+B.7 MP-E13 Checklist - The Living System Demo...........................................................23
+Note: This Table of Contents is generated via field codes. To ensure page number accuracy after editing, please right-
+click the TOC and select "Update Field."
+===== PAGE 4 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+1
+1. Executive Summary
+This document is the amended master execution plan (v1.1) for the Droso program. The 
+goal is unchanged from v1.0: build the first cognitive system that learns during deployment 
+without gradient descent, retains what it learns across restarts without catastrophic 
+forgetting, and refuses to answer when it does not know - and then beat frozen-weight 
+language models on the axes where being alive matters. The plan is written to be handed 
+directly to AI engineering agents and an orchestrator: every experiment carries an 
+objective, falsifiable hypotheses, a design, registered abort conditions, metrics, a decision 
+gate, and a pasteable checklist. Calendar dates are replaced by milestone gates; an 
+experiment opens only after the previous gate closes, and a gate closes only when its 
+artifacts are complete, committed, and sealed.
+The situation changed materially since v1.0 was issued. On the repository, between 2026-
+10-31 and 2026-11-02, three things happened that this amendment absorbs. First, the 
+frozen-battery scoreboard was diagnosed structurally: a taught fact must pass four 
+independent learned gates in series (coverage, shape arbiter, resonance, mood), so the 
+answer rate is roughly the fourth power of the single-gate pass rate, and no single-gate 
+repair can move the score - which is why the score held at 19/24 across twenty-six 
+generations and roughly twenty-five experiments. Second, the program pivoted from 
+closure-style diagnostics to a capability-first doctrine. Third, that pivot produced 
+ELECTRIC, the first live-learning prototype: facts taught in natural language are retained 
+across a real process restart, answered in phrasings the teacher never used, and unknowns 
+are admitted instead of confabulated. Generalisation of taught facts to held-out frames 
+went from 2/20 before the pivot to 20/20 with ELECTRIC, with zero confabulations, and 
+the taught set survived 600 consolidation replay calls and three teach-consolidate-restart 
+cycles with zero loss and zero interference.
+The flagship novelty is unchanged: MP-E12, frozen weights as a read-only library. The 
+connectome learns to read a trained network's weights statically - no autoregressive loop, 
+no inference latency - compiles the associations it finds into its own pools and plastic 
+synapses, and discards the donor. Nothing published demonstrates knowledge transfer 
+from network weights into a non-backprop substrate without running the network; MP-E12 
+is designed to be the first controlled test, bounded in advance by a text-distillation control.
+What changed in this amendment, in one paragraph: program experiments are renamed to 
+the MP- namespace to end a numbering collision with repository diagnostics (repo-E5 
+through repo-E27); gate G0 is recorded as closed because the repository exceeded it, and a 
+new gate G0-prime freezes the second instrument, the electric_learn_bench, to the same 
+===== PAGE 5 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+2
+standard; the honesty and morphology residuals are promoted ahead of the three-arm duel 
+so the program's headline measurement runs on a repaired organism; the duel itself is re-
+based on the electric bench with curriculum tiers 40/120/300 taught items and registered 
+abort conditions; three new standing rules (R8, R9, R10) codify lessons the repository paid 
+for in October and November. First action: close G0-prime, then open MP-E9 and the MP-
+E12a probe track in parallel, then run MP-E8, the three-arm duel that produces the 
+program's core figure.
+2. The v1.1 Amendment Record
+2.1 What the Repository Already Absorbed
+Version 1.0 was written before the capability-first pivot. Several of its opening moves have 
+since been executed by the repository, in some cases exceeded. The table below records 
+what is already done, because agents must not re-do closed work. Every row cites the 
+measured evidence as it stands in the repository on 2026-11-02.
+Table 1. v1.0 plan items already absorbed by the repository (status as of 2026-11-02)
+v1.0 plan item Status Evidence in the repository
+G0 harness freeze Closed - 
+exceeded
+Frozen 24-task battery plus guard scripts plus the 
+selection harness; generation 0 measured the noise 
+floor with three clones of one genome, all scoring 
+19/24 and 4/18 with identical failure stages; every 
+journal row carries git, interpreter and live-state seals; 
+the cause field splits recall failures into recall_gate, 
+comprehension and unclassified, with historical rows 
+left unbackfilled
+R6 invariants 
+(retention, refusal)
+Mechanically 
+enforced
+Guarded invariants held 4/4 in every measured arm; the 
+repo-E23 repair that worked but broke a guarded 
+refusal was refuted at its own pre-test and not merged; 
+on generation 24 with ELECTRIC the C3 abort 
+condition fired and the LOST verdict was accepted - 
+ELECTRIC stays off for battery runs
+E10 consolidation leg 
+(replay, restart 
+survival)
+Covered at 40-
+item scale
+ELECTRIC C2: taught facts 20/20 after 600 replay 
+calls, with a save-gate defect found and fixed on the 
+way; C3: three teach-consolidate-restart cycles, zero 
+loss, zero interference; the claimed pollution path was 
+measured and does not exist, so no fix was written
+===== PAGE 6 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+3
+v1.0 plan item Status Evidence in the repository
+Live-learning thesis 
+(learn, do not guess 
+and repeat)
+Implemented as 
+ELECTRIC
+Teach facts in chat, survive a real restart, answer a 
+paraphrase, admit ignorance; generalisation on 20 
+novel facts in held-out frames 20/20 with zero 
+confabulations, against 2/20 measured before the pivot
+Battery scoreboard Unchanged by 
+design
+19/24 frozen stable across 26 generations and roughly 
+25 experiments; the probe journal holds 18 rows (14 
+unseen paraphrases plus 4 guarded invariants); the 
+frozen battery is now a regression guard, not the 
+capability instrument
+2.2 The Amendments
+Six amendments carry v1.0 to v1.1. Each exists because the repository moved; none 
+changes the destination, the thesis, or the discipline.
+Table 2. Amendments A-F, their content, and their trigger
+ID Amendment Triggered by
+A Namespace: program experiments are renamed MP-
+E8 to MP-E13. Repository experiment numbers (repo-
+E5 through repo-E27) are recognized as repository-
+local diagnostics and are never cited as program 
+milestones. A mapping table is provided (Table 3).
+The repository generated its own E-
+numbering (now at E27); plan and 
+repo numbers collided in every 
+handover.
+B G0 recorded CLOSED as absorbed and exceeded. A 
+new gate G0-prime freezes the second instrument: 
+word-level provenance grading, bench noise floor, 
+committed journals and sealed rows.
+The says gap proved the sentence-
+level grader cannot see word-level 
+confabulation; the capability duel 
+will be fought on the electric bench, 
+which must meet the battery's 
+standard.
+C Gate order amended: honesty and morphology (MP-
+E9) run before the three-arm duel (MP-E8). The duel 
+is re-based on the electric bench with curriculum tiers 
+of 40, 120 and 300 taught items, arms A/B/C plus the 
+teach arm as internal repeat-baseline plus noise-floor 
+clones, and registered abort conditions C1-C5.
+The four-gates-in-series diagnosis; 
+the program's core figure must not 
+be measured on an organism with a 
+known open confabulation 
+regression.
+===== PAGE 7 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+4
+ID Amendment Triggered by
+D MP-E9 re-scoped from band-walk promotion to 
+recognition, morphology and the direct answer path. 
+Band-walk stays diagnostic.
+Six retrieval levers were closed by 
+read-only probes (eviction, cue 
+omission, cue dilution, score ceiling 
+0.5488, reinforcement, 
+denominator); resonance scoping 
+was falsified twice; the direct path 
+supersedes for taught rows.
+E MP-E10 narrowed: the consolidation leg is considered 
+covered at 40-item scale; remaining work is the 
+seconds-scale working memory, contextual candidate 
+selection, and consolidation at scale under 
+interference.
+ELECTRIC C2 and C3 already 
+measured replay survival and cycle 
+stability at the current scale.
+F Doctrine extended with rules R8, R9, R10; four new 
+risks registered; baselines refreshed (over 20,000 
+plastic synapse weights per instance; two-instrument 
+doctrine).
+Repository lessons of 2026-10-31 to 
+2026-11-02: the E23 lesson, the says 
+gap, the stemmer boundary, the 
+local-only handover.
+2.3 Experiment Number Mapping
+The mapping below is normative. When a repository journal, handover or commit message 
+cites an E-number without the MP- prefix, it refers to a repository-local diagnostic and not 
+to a program experiment. Program registration files must use MP- identifiers exclusively.
+Table 3. Program experiments, their v1.0 names, and their relation to repository work
+Program 
+ID
+v1.0 name Disposition in v1.1 Related repository 
+work
+MP-E8 E8 three-arm 
+showdown
+Re-based on the electric bench; 
+arms and abort conditions re-
+registered; gate moves to second 
+position
+electric_learn_bench (40 
+items, 136 probes, 3 
+arms, depths 1/2/3); no 
+LM arms exist yet
+MP-E9 E9 band-walk as 
+attention
+Re-scoped to recognition, 
+morphology and the direct 
+answer path; runs first
+Repo-E19 to E23 lever 
+closures; E25 v_synt 
+accepted; the says gap; 
+the toll/tolls stemmer 
+boundary
+MP-E10 E10 three-timescale 
+mouth
+Narrowed to working memory, 
+candidate selection, and 
+consolidation at scale
+ELECTRIC C2/C3 cover 
+the consolidation leg at 
+40 items; central-
+complex loop untouched
+===== PAGE 8 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+5
+Program 
+ID
+v1.0 name Disposition in v1.1 Related repository 
+work
+MP-E11 E11 connectome 
+scaling
+Unchanged; baseline updated to 
+over 20,000 plastic weights per 
+instance
+README substrate 
+counts; 
+build_core_graph(contro
+l=True) real-versus-
+random control
+MP-E12 E12 frozen weights as a 
+library
+Unchanged; flagship; the MP-
+E12a probe track opens as soon 
+as G0-prime closes
+Provenance and seal 
+discipline to be reused 
+for transplant tags
+MP-E13 E13 living system demo Unchanged; ELECTRIC is the 
+teaching interface
+C4 live demonstration 
+over HTTP with a real 
+restart
+2.4 What v1.1 Does Not Change
+The thesis (frozen versus live, not big versus small) stands, now with proof-of-concept 
+numbers behind it. The native-versus-transplant rule R1 stands without exception, and 
+ELECTRIC was built inside it: flags, keyed stores, bounded widenings, local rules, no 
+gradients. The pre-registration discipline stands, and the repository has hardened it further 
+with registered abort conditions and seals. The nine evaluation axes stand; their baselines 
+are refreshed in Chapter 8. The publication strategy stands; paper 1 gains the ELECTRIC 
+result. Nothing in this amendment re-opens a closed negative: the six retrieval levers, the 
+repo-E8 abort, and the battery-side LOST verdict remain recorded facts that any future 
+proposal must cite.
+3. The Live Brain Thesis
+3.1 Why Frozen Weights Lose in the End
+The dominant paradigm froze learning into a batch process. A language model is trained 
+for weeks, its weights are frozen, and deployment consists of prompting a static artifact; 
+anything it must know afterwards is injected as context. Retrieval-augmented generation is 
+the honest name for this arrangement: the model does not learn, it is told. It cannot 
+consolidate an experience into structure, cannot distinguish what it knows from what it was 
+just handed, and - as measured repeatedly at every scale - it will fabricate confidently when 
+asked about anything outside its context.
+Droso is the opposite arrangement, and the repository now demonstrates the arrangement 
+works end to end. Taught facts in natural language, it holds them across a real process 
+===== PAGE 9 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+6
+restart, answers them in words the teacher never used, admits ignorance on what it was 
+never taught, and takes none of this from a gradient step - learning is carried by plastic 
+synapses under local rules. The measured stack: generalisation to held-out frames at 20/20 
+with zero confabulations; survival of 600 consolidation replay calls at 20/20; three teach-
+consolidate-restart cycles with zero loss and zero interference. These are exactly the 
+properties the frozen paradigm structurally cannot deliver, and no amount of scale gives 
+them back.
+The gap is fluency and breadth, and the gap is real: Droso will not out-compose a 124M-
+parameter GPT-2 at open-ended generation while its sequence organ is a slot-indexed 
+transition model with unigram context, and its taught store currently holds tens of items 
+where a deployment system needs hundreds. The strategic error would be to accept either 
+as identity. The sequence organ is an implementation choice on an expressive substrate, 
+and the store scale is a curriculum choice, both specified in Chapters 6 and 7. The fight is 
+not big versus small; it is frozen versus live, and live wins wherever the axes keep moving 
+after deployment.
+3.2 What Surpass Means, Precisely
+A claim of surpassing AI is meaningless until it is phrased as axes and thresholds. The 
+program evaluates nine. The five classical axes are acquisition (accuracy on newly taught 
+material), retention (accuracy on earlier material after later training), paraphrase 
+(recognition of rephrased probes), refusal (abstention on unanswerable questions, with 
+valid reasons), and fluency (the staged mouth evaluations). The four live-learning axes are 
+adaptation speed (accuracy as a function of exposures during deployment), backward 
+transfer (interference between lessons), refusal calibration (measured quality of the 
+abstention boundary), and cost per learned fact (synapse updates, wall-clock, and energy to 
+acquire a fact, compared against a fine-tuning run).
+Surpass is then defined: beat both reference baselines on all four live axes while 
+holding the classical five competitive. The two reference baselines are a sequentially 
+fine-tuned small language model and a frozen language model with retrieval bolted on; the 
+teach arm of the electric bench serves as the internal repeat-and-lookup control. Surpass 
+explicitly does not mean beating GPT-2-class fluency at the duel stage; the fluency gap 
+closes on the MP-E10 and MP-E11 path, and this plan says so in advance. The repository 
+has already supplied the honest negative that disciplines this claim: with ELECTRIC 
+switched on, the frozen battery scored 17/24 against 19/24 with the flag off, the registered 
+abort condition fired, and the verdict LOST was recorded. Capability claims live on the 
+capability instrument; the battery guards regressions. That separation is the program's 
+definition of a fair fight.
+===== PAGE 10 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+7
+3.3 The Native-Versus-Transplant Rule
+One rule keeps the upgrade aggressive and the identity intact: any mechanism that can be 
+built from pools, plastic synapses, spreading activation, and local learning rules is 
+native and may be built freely; any mechanism that requires global gradients or a 
+training run inside the deployment loop is a transplant and is forbidden. The 
+ELECTRIC stack is native end to end: keyed provenance stores, bounded widening flags, a 
+shape arbiter, a mood gate, and local admission rules. Multi-hop band-walk retrieval is 
+native - a Hopfield-style settling computation. A recurrent decayed state carried by the 
+central-complex loop is native - a fast-weight memory computed by spread. 
+Backpropagating error into the connectome is a transplant, and so is any differentiable 
+pipeline wrapped around it.
+The rule has two justifications. Scientific: the publishable claim is that a connectome 
+substrate achieves these properties natively; one transplant and the claim dissolves. 
+Engineering: native mechanisms keep the system small enough to understand, instrument, 
+and pre-register - the discipline that produced the repository's cleanest results, including 
+the refutations of its own claims.
+4. Program Baseline v1.1 and Working Vocabulary
+4.1 Where the Codebase Stands (Measured, 2026-11-02)
+The following facts are measured on the repository at HEAD 0b5f191 and constitute the 
+baseline from which every experiment starts. They are restated in each registration file, and 
+they are the reference points against which every claim of improvement is checked. Two 
+instruments now exist and both are named wherever a number depends on them: the frozen 
+battery (regression guard) and the electric_learn_bench (capability instrument, pending 
+G0-prime freeze).
+Table 4. Measured baseline of the Droso codebase at plan v1.1
+Component / 
+capability
+Measured state Program response
+Substrate BANC v888 carve: 12,867 neurons, 173,294 
+signed synapses, 4,419 Kenyon cells, 85 
+mushroom-body output neurons pooled into 12 
+groups, 83 dopaminergic neurons, 382 
+projection neurons, central complex 961-in / 
+709-out
+MP-E11 scaling tiers; 
+control graph available via 
+build_core_graph(control=T
+rue)
+===== PAGE 11 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+8
+Component / 
+capability
+Measured state Program response
+Plastic substrate Over 20,000 plastic synapse weights per 
+running instance, held per instance and loaded 
+once per process; at small scale real wiring 
+performs like random wiring
+MP-E11: 20k to 50k to 
+200k tiers with the real-
+versus-random curve; pools 
+12 to 24
+Retention 20/20 across sequential lessons; ELECTRIC: 
+zero gained, zero lost across real restarts at 
+every depth; 20/20 after 600 consolidation 
+replays; zero loss and zero interference over 
+three cycles
+Invariant R6, never regress; 
+interference-at-scale 
+measured in MP-E8 tiers
+Refusal Guarded invariants 4/4 on the battery; 24 
+guarded-absence rows on the bench; refusals 
+carry reasons; the mood gate refuses before an 
+answer forms (journal shows coverage null); 
+cause field classifies failures
+R6 plus R9; the says gap (3 
+rows) is the open defect and 
+closes at gate G1
+Paraphrase Battery: 0-1 of 14 unseen paraphrases with 
+ELECTRIC off. Bench: taught pairs answer in 
+other phrasings 
+(ELECTRIC_QA_PARAPHRASE); 
+generalisation 20/20 on held-out frames; 
+reverse-role recovery 4/14 then 4/20 with zero 
+regressions
+MP-E8 measures 
+paraphrase at curriculum 
+tiers on both instruments
+Retrieval Six levers closed by read-only probes: eviction 
+(0 of 19 failures), cue omission (gate ranks the 
+row first on 4 of 9 and still refuses at coverage 
+0.340-0.538), cue dilution (0 of 4 recovered), 
+score ceiling 0.5488, reinforcement (falsified), 
+denominator (works but breaks the guarded 
+scarf refusal - a diagnosis, not a fix)
+MP-E9 formalizes the direct 
+answer path with word-level 
+honesty; band-walk stays 
+diagnostic
+Live learning 
+(ELECTRIC)
+Learn-arm live correct at depth 3: 79, then 98, 
+then 108, then 115 of 124 across three 
+widening flags; at depths 1/2/3: 38/75/115; 
+teach arm unmoved at 14/27/39; failure 
+taxonomy decomposed (ask_not_recognized, 
+pair_never_admitted, fallback_fragment, 
+refusal_silence, key_shadowed)
+MP-E8 arm T is the repeat-
+baseline control; curriculum 
+scales to 120 and 300 items
+Sequence organ Slot-indexed transition model with unigram 
+context; the target organ injects into 
+speak_sentence but is not used for candidate 
+selection
+MP-E10 rebuild: decayed 
+working-memory trace plus 
+registered routing variants
+===== PAGE 12 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+9
+Component / 
+capability
+Measured state Program response
+Reference opponent 
+and donor
+GPT-2 124M public weights MP-E8 arms B and C; MP-
+E12a reads it statically
+Battery scoreboard Frozen 19/24; probe journal 18 rows (14 
+unseen paraphrases plus 4 guarded); stable 
+across 26 generations and roughly 25 
+experiments; generation 0 noise floor 
+measured with three identical clones
+Regression guard only; no 
+capability claim is argued 
+from it
+Test discipline Suite grew 780 to 1126 passing (3 skipped) 
+between 2026-10-31 and 2026-11-02; full suite 
+exit 0 in 490.98 seconds at the last widening
+Every experiment adds its 
+tests before its flags ship
+4.2 Working Vocabulary
+The terms below carry fixed meanings throughout the program. Registration files and 
+agent briefs inherit these definitions without restating them. Terms defined in v1.0 (SAN, 
+pool, plastic synapses, coverage gate, mouth stages, band-walk, carve and allowed_pools, 
+central-complex loop, Lesson k, frozen 24, probe sets) keep their meanings; the additions 
+below were earned since.
+Table 5. Program vocabulary - additions since v1.0
+Term Definition in this program
+ELECTRIC The live-learning stack: teach, answer and learn modes behind default-off 
+flags, each widening carrying bounds and each refusal carrying a reason. 
+ELECTRIC_LEARN is the one-flag learn mode; the teach mode refuses 
+every widening by design.
+electric_learn_bench The capability instrument: tools/electric_learn_bench.py teaches 40 items in 
+3 sessions with a real restart between sessions, then asks them back 136 
+ways in 3 arms at depths 1/2/3. Pending G0-prime freeze.
+Direct answer path When a taught row is retrieved with high confidence and the question asks 
+for a value the row explicitly carries, emit that value directly, bypassing the 
+shape arbiter and the resonance competition - under the registered bounds 
+(who is you, the row is not itself an asking, the named word is in the row, 
+the row adds no word the ask did not name except the answer).
+Four gates in series Coverage, shape arbiter, resonance and mood: the structural diagnosis that a 
+taught fact must pass four independent learned gates, so the answer rate is 
+roughly the fourth power of one gate's pass rate. This is why single-gate 
+repairs stopped moving the battery.
+===== PAGE 13 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+10
+Term Definition in this program
+Says gap The open word-level confabulation regression: three ungrammatical asks 
+moved from refused to partial while speaking a word (says) that appears in 
+no taught sentence. Registered as OPEN; closes at gate G1 under R9.
+Guarded invariants / 
+guarded-absence 
+rows
+Battery: 4 asks that must refuse (including the scarf ask) and 4/4 is a hard 
+condition. Bench: 24 guarded-absence rows that must stay refused. Either 
+set dropping is an abort condition.
+C-conditions Registered abort conditions attached to every experiment (pattern C1-C5), 
+each with a measured trigger, evaluated row by row in the decision record. 
+Inherited from the repository's pre-registration practice.
+Seals Per-row provenance on every measurement: git commit, interpreter version 
+and live-state hash recorded beside the numbers, so any row can be re-
+derived or discarded.
+cause field Derived field beside stage splitting recall failures into recall_gate, 
+comprehension and unclassified; historical rows are not backfilled, so every 
+prior measurement still verifies against its own record.
+Noise floor Measured, not assumed: three clones of one genome scored on the same 
+asks must produce identical outcomes; the bench receives the same 
+treatment at G0-prime.
+MP- namespace Program experiments MP-E8 to MP-E13 and their gates. Repo-E numbers 
+are repository-local diagnostics; the collision is resolved by Table 3.
+Shape arbiter / mood 
+gate
+The organ stages that verify a recalled memory against the queried shape 
+and decide whether the organism feels like speaking; the direct path 
+bypasses the arbiter and resonance for taught rows only.
+5. Program Doctrine: Standing Rules R1-R10
+Ten rules govern every design decision and every experiment. R1 through R7 carry over 
+from v1.0 in substance; R8, R9 and R10 are added by this amendment and are retroactive: 
+they describe standards the repository already enforced once at a cost, and this plan makes 
+them standing law so the cost is paid once.
+R1 - Native versus transplant. Any mechanism buildable from pools, plastic synapses, 
+spreading activation, and local rules is native and may be built; anything requiring global 
+gradients or a training run inside the deployment loop is forbidden. Checked at every 
+design decision.
+R2 - Pre-registration before execution. No experiment runs before its registration file 
+exists: hypotheses with directional predictions, arms and seeds, metric definitions, 
+===== PAGE 14 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+11
+thresholds, C-conditions, stopping rules, analysis plan, and harness version hashes. 
+Nothing in the file changes after results exist.
+R3 - Suites are frozen after first use. The frozen 24, the probe journals, the guarded 
+invariants, the guarded-absence rows, the four mouth stages, and the registered probe 
+matrices are never edited after results have been seen against them. New questions go to 
+new suites; historical rows are never backfilled.
+R4 - One experiment in flight. A gate must close before the next experiment opens. The 
+single sanctioned parallelism is the MP-E12a probe track, which touches only the frozen 
+donor model and no Droso organ; it opens when G0-prime closes.
+R5 - Every result ships artifacts. Results JSON with a versioned schema, figures, and a 
+decision record - including null results, losses, and retracted claims. A loss recorded 
+honestly is a program asset; the repository's retracted-claim ledger (E20 against E19, the 
+C2 hazard arm, the arbiter-tell corrections) is the model.
+R6 - Invariants: retention and refusal. Any change that improves fluency but degrades 
+retention or refusal accuracy is rejected regardless of the size of the gain. The system must 
+never learn to lie in order to speak better. Concretely: 20/20 retention and restart survival 
+on every registered instrument, 4/4 guarded invariants, 24/24 guarded-absence rows.
+R7 - Baselines cannot be ducked. Any claim of the form beats-frozen-weights must 
+include both the sequentially fine-tuned language model and the frozen model with 
+retrieval in the same registration, on the same suites, under the same restart protocol. The 
+teach arm is reported beside them as the internal repeat-baseline.
+R8 - A repair that works but breaks a guard is a diagnosis, not a fix. Repo-E23 found 
+the one lever that moved failures and showed it inseparable from breaking a correct 
+refusal; generation 24 showed ELECTRIC winning its own bench and losing the battery. 
+Both verdicts were recorded instead of merged. Standing law: when a gain and a guard 
+collide, the collision is measured, named, and shipped as knowledge; the flag stays off 
+until a mechanism separates them.
+R9 - Honesty is graded at word level. Every content word in every answer must be 
+traceable to a taught row, the ask itself, or an admitted source; a sentence-level grader is 
+necessary but not sufficient. The says gap was invisible to the sentence-level INVENTED 
+grader precisely because it was a single word. The word-level provenance grader ships at 
+G0-prime and audits every registered measurement thereafter; one untraceable word is an 
+abort condition, and confabulation ranks below silence.
+R10 - Registered instruments live in the repository. Harnesses, journals, registration 
+files and schemas that measurements depend on are committed, or re-derivable from 
+===== PAGE 15 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+12
+committed scripts; nothing a registered number depends on stays local-only. The E27 files 
+and the handover note went local-only on 2026-11-02; the practice is hereby forbidden for 
+anything a gate closes on.
+6. The Experiment Program (MP-E8 to MP-E13)
+Six experiments, specified in execution order. Each specification ends with an agent brief: 
+the instruction set handed to the implementing coding agent. Step-by-step checklists 
+corresponding to these briefs are collected in Chapter 12. Each experiment opens with a 
+registration file containing its hypotheses, thresholds, arms, seeds, C-conditions and 
+harness hashes; the C-condition pattern below is normative for all of them.
+6.1 MP-E9 - Recognition, Morphology, and the Direct Answer Path
+Objective. Close the honesty and morphology residuals so the organism the duel measures 
+does not confabulate and does not refuse over a suffix. Three defects, one experiment: the 
+says-gap routing regression, the stemmer boundary on the QA store keys, and the direct 
+answer path's formal bounds.
+Design. First, restore the arbiter-tell bound where it leaks: the three ungrammatical asks (of 
+the form what the nora carry) that moved from refused to partial while speaking a word 
+absent from every taught sentence return to honest refusal; the +7 conversion at depth 3 is 
+re-measured against the repaired routing with the word-level grader auditing every row. 
+Second, normalize morphology on both sides of the QA store (read side and write side) so 
+that toll and tolls key to the same entry; the currently pinned refusal test is replaced by a 
+registered recovery prediction. Third, formalize the direct answer path under its registered 
+bounds - who is you, the row is not itself an asking, the named word is in the row, the row 
+adds no word the ask did not name except the answering word - so the capability the pivot 
+discovered becomes a specified, flag-gated, audited mechanism rather than a family of 
+widenings.
+Hypotheses. H1: under the word-level grader, zero untraceable content words across the 
+full bench at every depth. H2: the three routing-regression rows return to refused without 
+losing any correct row (36 arbiter-tell conversions intact). H3: the morphology class 
+(toll/tolls and its registered kin) is answered, with no new confabulations admitted by the 
+widened keys. H4: invariants hold - retention and restart survival unchanged, 4/4 guarded 
+invariants, 24/24 guarded-absence rows.
+C-conditions. C1: any untraceable word survives the grader - abort, the path stays off. C2: 
+any guarded row answers - abort. C3: learn-arm correct drops below its pre-flag value at 
+any depth - abort. C4: morphology normalization admits a pair whose answer exists 
+===== PAGE 16 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+13
+nowhere else without provenance - abort. C5: gains confined to a single phrasing family - 
+treat as overfit and re-scope.
+Gate G1. Go when H1-H4 hold with the grader live and the bench journals committed. On 
+failure: one registered fallback per defect (tighter arbiter bound; per-entry morphological 
+aliases instead of a global stemmer); a second failure documents the defect as an open 
+problem and the duel runs with the residual measured and named.
+Agent brief. Implement the word-level provenance grader first and validate it: it must flag 
+the three known says-gap rows and none of the 24 guarded-absence rows. Then repair 
+routing, add morphology aliases behind a flag, and re-run the full bench at depths 1/2/3 
+with a real restart. Emit the row matrix (27 cells by the registered probe count, positional 
+against the pre-flag snapshot), the grader audit log, and decision.md. Do not touch the 
+coverage gate or the battery.
+6.2 MP-E8 - The Three-Arm Duel on the Live Bench
+Objective. Measure the true gap between the live connectome agent and parameter-
+matched frozen and sequential neural language models on all nine axes, under the 
+deployment conditions that define the program: teaching in natural language, real restarts, 
+and probes in words the teacher never used. Produce the program's core figures: forgetting 
+curves and interference curves under identical curricula.
+Design. Curriculum tiers of 40, 120 and 300 taught items; three sessions per tier with a real 
+restart between sessions; the probe matrix scales proportionally from the registered 136-
+probe matrix at tier 40, and every tier keeps its guarded-absence rows and distractor rows. 
+Arms: A is Droso in ELECTRIC-learn mode. B is a 2-10M parameter LSTM or tiny 
+Transformer, fine-tuned sequentially at each session on that session's material. C is the 
+same architecture as B, frozen after pre-training, with a vector-store retrieval bolt-on over 
+the taught items; its weights never change during deployment. T is the electric bench's 
+teach arm, carried as the internal repeat-and-lookup control. N is the noise floor: three 
+clones of arm A's configuration, required to produce identical outcomes before any 
+treatment arm is scored.
+Refusal fairness. Arms B and C implement their own abstention mechanism - a 
+confidence threshold calibrated on held-out data - so refusal is a fair contest rather than a 
+structural gift to arm A. Arm C's abstention must also cover the retrieval-empty case, 
+which is where frozen-plus-retrieval systems historically confabulate.
+Hypotheses. H1: at tiers 120 and 300, arm B drops below its own session-1 score by a pre-
+registered margin while arm A holds its taught set across restarts. H2: arm A refusal 
+accuracy exceeds both baselines on the guarded-absence rows, and arm C abstention is 
+===== PAGE 17 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+14
+poorly calibrated exactly when retrieval returns a near-miss. H3: arms B and C win fluency 
+and open-ended composition by a wide margin at every tier; the loss is recorded, not 
+hidden. H4: arm A cost per learned fact is lower than arm B's optimizer cost at every tier, 
+measured in updates and wall-clock on identical hardware.
+C-conditions. C1: any guarded row answered by arm A - abort. C2: any untraceable word 
+in any arm-A answer - abort. C3: arm A loses any taught item across a restart - abort. C4: 
+arm B or C artifacts incomplete at a tier - re-run that arm only. C5: arm A gains confined to 
+one phrasing family - treat as overfit, re-register.
+Metrics. Forgetting and interference curves per tier; accuracy-versus-exposures (the bench 
+already yields the first measured curve: live correct 37/71/108 rising to 38/75/115 across 
+depths); paraphrase recognition; refusal accuracy and false-refusal rate; the four mouth 
+stages; cost per learned fact for arm A (synapse updates, wall-clock) against arm B 
+(optimizer steps, wall-clock).
+Gate G2. Go when all arms produce complete, valid, sealed artifacts at all three tiers. The 
+experiment succeeds regardless of which arm wins, because both outcomes define paper 1.
+Agent brief. Do not modify Droso internals; run arms B and C in separate processes with 
+the same curriculum files arm A reads; hash every harness into the registration; emit per-
+arm per-tier results JSON, the four curve figures, and decision.md. The frozen battery runs 
+once per arm as the regression guard, ELECTRIC off.
+6.3 MP-E10 - The Mouth and the Second Timescale
+Objective. Replace unigram context with a native, contextual sequence organ, and extend 
+consolidation from the proven 40-item scale to the MP-E8 tiers. The episodic-write and 
+replay-consolidation legs of the original three-timescale design are considered covered at 
+40 items by ELECTRIC C2 and C3 and are not re-proven at toy scale; this experiment 
+carries them to scale and builds the missing seconds-scale timescale.
+Architecture. Seconds - working memory: plasticize the central-complex loop into a 
+decayed activation trace over the last k tokens; a fast-weight state computed by spread, 
+replacing unigram context; parameterize k and register its sweep. Selection - two native 
+routing variants, both flag-gated: variant (i) scores candidates by spread of the decayed 
+state plus target-organ injection (the target organ already injects into speak_sentence and is 
+hereby actually used for selection); variant (ii) routes candidates through carve as an 
+allowed_pools mask, the version closest to existing machinery. One variant is registered 
+primary, the other the ablation. Consolidation at scale - replay through the same local rule 
+that wrote the engrams (Hebbian co-activation with Oja-style normalization) at tiers 120 
+and 300, with interference measured against the MP-E8 curriculum.
+===== PAGE 18 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+15
+Hypotheses. H1: the four mouth-stage evaluations improve on at least two stages with 
+none regressing. H2: fluency improves over the MP-E8 arm-A baseline at the same tier. 
+H3: replay at tier 300 holds retention at the invariant with interference bounded by the pre-
+registered margin. H4: the invariants hold; regression on either is a hard reject under R6.
+C-conditions. C1: any untraceable word in generated output - abort (R9). C2: guarded 
+rows answered - abort. C3: retention or restart survival regresses - abort. C4: working-
+memory state leaks across a restart - abort by definition (it is seconds-scale). C5: one 
+routing variant wins only with the other disabled - record as ablation result, not a win.
+Gate G3. Go only if H1-H4 hold. On failure: the bigram-era organ stays as the fallback 
+arm, and the routing ablation data decides the next attempt.
+Agent brief. Implement both routing variants behind flags; ablate state-only, spread-only, 
+and state-plus-spread; keep the legacy path runnable for comparison; replay at the 
+registered tiers with the interference protocol; emit per-stage results, the k-sweep grid, and 
+decision.md.
+6.4 MP-E11 - Connectome Scaling: Does the Wiring Matter?
+Objective. Ask the real alien-brain question. All learning flows through the plastic subset 
+of a measured connectome, and at small scale the existing control shows real wiring 
+performing like random wiring: the wiring is not load-bearing there. The instance now 
+carries over 20,000 plastic synapse weights; scale further and ask whether the fly-inspired 
+topology starts to matter.
+Design. Plasticity budget tiers at 20k (current), 50k, 100k and 200k synapses, with the 
+archived 3k and 10k measurements carried as historical points on the same curve; pools 
+grown from 12 to 24; optional plasticization of the central-complex loop shared with MP-
+E10. At every tier, re-run the real-versus-random control with multiple seeds and 
+confidence intervals, the training stream identical across arms. The output is the wiring-
+matters curve: real fly topology against random graphs as plasticity scales.
+Hypotheses. H1 (functional): real wiring beats random by a pre-registered margin at one 
+or more tiers. H2 (null): parity at every tier - an equally publishable conservation law, and 
+a caution about decorative connectomes everywhere.
+C-conditions. C1: harness drift between tiers (any unsealed row) - abort the tier. C2: a tier 
+cannot complete within its registered compute budget - defer that tier with cause; the 50k 
+tier stands alone. C3: real-versus-random arms differ in anything but topology source - 
+abort, the run is void.
+===== PAGE 19 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+16
+Gate G4. Go when the curve exists at three or more tiers with seed confidence intervals 
+and the branch decision (functional or null) is recorded.
+Agent brief. Use staged budgets with checkpointed harnesses; keep the training stream 
+identical across tiers; share the wire-draw code between real and random arms so only the 
+topology source differs; emit the curve with confidence intervals and decision.md.
+6.5 MP-E12 - Frozen Weights as a Library (Flagship)
+Objective. Establish a knowledge-transfer channel that no published system has: teach the 
+connectome to read a trained network's weights statically, without running it, and re-
+express what it reads in its own currency. Unchanged from v1.0; this is the flag-plant.
+Concept. A trained network's weights are a compressed association library, paid for at 
+training time. The only interface the industry uses for that library is inference: run the 
+model token by token, and pay latency and energy on every query. MP-E12 replaces the 
+interface. The connectome reads the weight matrices directly - a bounded number of matrix 
+operations per probed association, no autoregressive loop, no sampling - compiles the 
+associations into pools and plastic synapses, and then discards the donor. The library is 
+read once and owned; nothing of the foreign network remains resident. This is why the 
+delays disappear: reading is not running.
+Stage MP-E12a - weight-reading probes. Read-only; touches only the donor, and is 
+therefore parallelizable from the moment G0-prime closes under rule R4. Donor: GPT-2 
+124M public weights - deliberately the same model family already used as the program's 
+reference opponent. Three extractions, each a static pass. First, embedding geometry: 
+nearest-neighbour structure of the token-embedding matrix, clustered into candidate 
+feature pools. Second, association edges: for probed tokens, top-k associative successors 
+read from the unembedding and head structure in single matrix operations, not generation. 
+Third, circuit motifs: attention heads read as directed association maps, and MLP neurons 
+read as key-value feature detectors - the top-responding neurons for a probe are the 
+features the donor associates with it. Deliverable: a typed association graph (nodes, edges, 
+confidences) produced under a hard per-item read budget, logged, sealed, and 
+benchmarked.
+Stage MP-E12b - the weight-to-connectome compiler. Compile the association graph 
+through the existing primitives: grow_pool for discovered feature clusters; grow_plastic 
+and wire_pool for association edges, gated by confidence. Every transplanted edge carries 
+a provenance tag - source model, extraction method, confidence - compiled in the same 
+discipline the repository already applies to measurement rows (git, interpreter, live-state). 
+===== PAGE 20 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+17
+The coverage gate gains a source dimension: curriculum-learned and library-read 
+knowledge become distinct classes, which is what protects refusal.
+Stage MP-E12c - verification, three falsifiable hypotheses. H1 (transfer): Droso 
+bootstrapped from the library beats Droso trained on text alone - at equal corpus exposure - 
+on paraphrase probes and on acquisition of new material. The binding control is the text-
+distillation arm: run the frozen donor once, offline, to emit text, and feed that text to Droso 
+through its normal curriculum. Weight-reading must beat or match text-distillation at lower 
+latency and energy; if it does not, the weights carried nothing beyond their own outputs, 
+and that null result is itself the first controlled measurement of its kind. H2 (latency): per-
+association read cost is at least ten times lower than autoregressive inference for equivalent 
+association queries, on identical hardware (matrix-operation count, wall-clock, energy). H3 
+(honesty preserved): retention stays at the invariant, the refusal suites are unchanged after 
+transplantation, and the agent can refuse to ground library-sourced claims - the source 
+dimension works. All three are graded under R9 at word level.
+C-conditions and gate G5. C1: any guarded row answered post-transplant - abort. C2: 
+library-sourced knowledge silently promoted to curriculum class - abort. C3: read budget 
+exceeded on any logged item - abort the extraction. Full go only if H1, H2 and H3 all hold: 
+paper 3 headline. Partial go: the compiler ships as diagnostic tooling and the transfer result 
+is reported exactly as measured. Null: a negative-results paper - the flag is still planted, 
+because a controlled null on weight-reading into a non-backprop substrate does not exist 
+yet.
+What MP-E12 is not. It never runs the donor for answers, never fine-tunes the donor, 
+never wraps a transformer around Droso, and never leaves donor weights resident at 
+deployment. Rule R1 holds: the library is read through native compilation, and the 
+connectome remains the only thing that thinks.
+Known risk. Representational superposition: donor features share dimensions, so 
+extracted edges can be noisy. Mitigations: breadth of the probe battery, confidence gating 
+at compile time, and the text-distillation control that bounds expectations in advance.
+6.6 MP-E13 - The Living System Demo
+Objective. An end-to-end, public, reproducible demonstration that live beats frozen where 
+it matters: one continuous deployment window in which the system learns while it works. 
+ELECTRIC is the teaching interface; the C4 live demonstration (teach in chat, real restart, 
+paraphrase answer, admitted ignorance over HTTP) is the seed the window scales.
+Protocol. A 24-hour live window. The stream interleaves new material (vocabulary, facts, 
+short procedures) taught live through the ELECTRIC interface; interference probes on 
+===== PAGE 21 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+18
+earlier material; unanswerable questions; and paraphrase probes of everything taught, 
+including in words the teacher never used. Both baselines run the same stream: the frozen 
+language model with its store updated by retrieval, and the sequential model fine-tuned at 
+fixed intervals on the stream. Word-level grading is live for every arm.
+Metrics. All nine axes computed from the stream. The headline figure is accuracy-versus-
+exposures: climbing for arm A, flat for the frozen arm, sawtooth-with-collapse for the 
+sequential arm.
+C-conditions and gate G6. C1: any untraceable word from arm A - pause the window, 
+repair or re-scope. C2: any guarded row answered - pause. C3: a restart loses taught 
+material - pause. Go when pre-registered thresholds on all four live axes are beaten against 
+both baselines and the demo artifacts are public: stream logs, plastic-synapse snapshots 
+before and after, and replay tapes. On failure: the window is extended once with a re-
+registered protocol; a second failure re-scopes the claims and the paper.
+Agent brief. Instrument the stream harness; snapshot state at fixed intervals; automate the 
+headline figure; freeze the protocol before the window opens.
+7. Milestone Gates and Execution Order
+The program runs on gates, not dates. A gate opens when its experiment opens and closes 
+when its go-criteria are met and its decision record is written; the next experiment opens 
+only then. Two changes from v1.0: G0 is recorded closed (the repository exceeded it), and 
+the gate order is amended so honesty closes before the duel opens - the program's core 
+figure must not carry a known confabulation asterisk. The single sanctioned parallelism is 
+the MP-E12a probe track, disjoint from Droso organs, opening when G0-prime closes (rule 
+R4).
+Table 6. Gates G0 (closed), G0-prime through G6: go criteria and fallbacks
+Gate Closes Go criteria (all required) On fail
+G0 Harness freeze 
+- battery era
+RECORDED CLOSED. The frozen 24, 
+guard scripts and selection harness ran 
+green; the generation-0 noise floor was 
+measured with three identical clones; 
+journals carry seals; the cause field 
+exists with historical rows unbackfilled. 
+Recorded here so no agent re-opens or 
+re-does it.
+None - closed by record
+===== PAGE 22 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+19
+Gate Closes Go criteria (all required) On fail
+G0-
+prime
+Bench freeze 
+(open now)
+Word-level provenance grader shipped 
+and validated (flags the three known 
+says-gap rows, passes all 24 guarded-
+absence rows clean); bench noise floor 
+measured: three clones at depths 1/2/3 
+produce identical outcomes; bench 
+harness, registration schema and 
+journals committed to the repository 
+with harness version hashes (R10); 
+failure taxonomy fields versioned
+Repair the grader or 
+instrument; no experiment 
+opens until the bench meets 
+the battery's standard
+G1 MP-E9 H1-H4 hold: zero untraceable words 
+under the live grader; the three routing-
+regression rows back to refused with all 
+36 conversions intact; morphology class 
+answered without new confabulations; 
+invariants and guarded rows hold
+One registered fallback per 
+defect (tighter bound; per-
+entry aliases); a second failure 
+documents the residual and 
+the duel proceeds with it 
+measured and named
+G2 MP-E8 Complete, sealed artifacts for arms A, B, 
+C at tiers 40/120/300 plus the teach-arm 
+control and noise floor; forgetting, 
+interference, exposure and cost figures 
+valid; battery regression guard run once 
+per arm
+Re-run the flawed arm only; 
+no specification edits mid-run
+G3 MP-E10 Mouth stages improve-or-hold (at least 
+two improved, none regressed); working 
+memory live and seconds-scale; replay 
+at tier 300 within the registered 
+interference margin; invariants hold
+Legacy organ stays; routing 
+ablation decides the next 
+attempt
+G4 MP-E11 Wiring-matters curve at three or more 
+tiers with seed confidence intervals; 
+branch decision (functional or null) 
+recorded
+The 50k tier stands alone; the 
+200k tier is deferred with 
+cause
+G5 MP-E12 H1 and H2 and H3 hold; or a pre-
+registered partial with the text-
+distillation control completed; guarded 
+rows and source dimension verified 
+post-transplant
+Compiler becomes tooling; 
+negative-results paper
+G6 MP-E13 All four live axes beaten against both 
+baselines over the 24-hour window; 
+artifacts public: stream logs, synapse 
+snapshots, replay tapes
+One re-registered extension; 
+then claims are re-scoped
+===== PAGE 23 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+20
+Dependency chain: G0-prime, then G1 (MP-E9), then G2 (MP-E8), then G3 (MP-E10), 
+then G4 (MP-E11), then G5 (MP-E12), then G6 (MP-E13), with the MP-E12a track 
+running in parallel from G0-prime. Ordering logic: honesty precedes the duel because R6 
+and R9 demand the headline measurement run on a repaired organism and a sealed 
+instrument; the duel precedes the mouth because its tiers define the scale the mouth must 
+consolidate; MP-E11 follows the mouth because its tiers should carry the upgraded organ; 
+MP-E12b and MP-E12c require the MP-E11 capacity figures to plan transplant budgets; 
+MP-E13 requires everything. Why MP-E9 moved ahead of the duel, in one sentence: it is 
+small (three routing rows, one morphology class, one grader), it is blocking (the grader is a 
+G0-prime dependency anyway), and a known open confabulation regression would 
+contaminate every paper-1 number.
+8. Evaluation Harness and Pre-Registration Discipline
+8.1 The Two-Instrument Doctrine
+The program measures on two instruments and argues from neither alone. The frozen 
+battery (24 asks, an 18-row probe journal, 4 guarded invariants) is the regression guard: it 
+is cheap, sealed, and its 19/24 stability across 26 generations is the reason single-gate 
+tinkering stopped. The electric bench (taught curriculum, real restarts, phrasing matrices, 
+three arms, depths) is the capability instrument: it measures what deployment actually 
+demands. Every capability claim cites the bench; every regression claim cites the battery; 
+ELECTRIC runs with the battery only as a guard, off by default, because the gen-24 
+verdict LOST is part of the record. A gate closes only when both instruments agree on 
+what they are measuring, and the word-level grader audits both.
+8.2 The Nine Axes
+Every experiment is scored on the same nine axes. Registration files may add axes but 
+never remove or redefine these. Baselines marked measured are values from the repository 
+as of 2026-11-02; baselines marked computed at G2 are fixed by the MP-E8 duel.
+===== PAGE 24 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+21
+Table 7. The nine evaluation axes and their v1.1 baselines
+Axis Definition Instrument Current baseline
+Acquisition Accuracy on newly taught 
+material after first exposure
+Bench probe matrices 
+per tier; frozen 24 per-
+lesson blocks
+Measured: learn-arm 
+115/124 live correct at 
+depth 3, 38/75/115 at 
+depths 1/2/3, on the 40-
+item tier; tier scaling 
+computed at G2
+Retention Accuracy on earlier material 
+after later training and across 
+restarts
+Forgetting curves; restart 
+deltas; replay audits
+Measured: 20/20 
+lessons; zero gained, 
+zero lost across restarts; 
+20/20 after 600 replays; 
+zero interference over 
+three cycles at 40 items
+Paraphrase Recognition of rephrased 
+probes of taught material
+Battery 14-probe journal 
+(guard); bench phrasing 
+matrices
+Measured: battery 0-1 
+of 14 with ELECTRIC 
+off; bench 
+generalisation 20/20 on 
+held-out frames; 
+reverse-role 4/20 
+recovered
+Refusal Correct abstention on 
+unanswerable questions, with 
+valid reasons
+Guarded invariants and 
+guarded-absence rows; 
+refusal probe set
+Measured: 4/4 battery, 
+24 bench rows; cause 
+field classifies 
+residuals; the says gap 
+(3 rows) closes at G1
+Fluency Generation quality under 
+staged failure evaluation
+Four mouth-stage 
+evaluations
+Baseline set at G2; 
+expected to trail arms B 
+and C by a recorded 
+margin
+Adaptation 
+speed
+Accuracy as a function of 
+exposures during deployment
+Accuracy-versus-
+exposures curves from 
+bench depths and tiers
+Measured first curve at 
+tier 40; tiers 120 and 
+300 computed at G2; 
+frozen baselines flat by 
+construction
+Backward 
+transfer
+Interference of new material 
+on old
+Per-session deltas in 
+sequence; replay audits
+Measured: zero 
+interference over three 
+cycles at 40 items; tier-
+scale interference 
+computed at G2 and G3
+===== PAGE 25 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+22
+Axis Definition Instrument Current baseline
+Refusal 
+calibration
+Quality of the abstention 
+boundary, including for 
+baselines
+Calibration curves, 
+answerable versus 
+unanswerable; arm C 
+retrieval-empty case
+Qualitative with 
+reasons; calibrated 
+formally at G2
+Cost per 
+learned fact
+Synapse updates, wall-clock, 
+energy per acquired fact
+Instrumented harness on 
+identical hardware
+Measured: arm A 
+updates logged per 
+session; comparison 
+against arm B optimizer 
+cost computed at G2
+8.3 Registration Protocol and Artifact Standard
+Before the first run of any experiment, a registration file is committed and hashed: the 
+hypothesis list with directional predictions and thresholds; the arms with seeds; the metric 
+definitions referencing Table 7; the C-conditions with measured triggers; the stopping 
+rules; the analysis plan; and the harness version hashes. Nothing in the file changes after 
+results exist. Discovered problems go into the decision record, which states what was 
+found, what was decided, and which artifacts back the decision - and any retracted claim is 
+logged beside the claim it corrects, as the repository already does.
+The artifact standard is uniform across the program: results JSON with a versioned 
+schema; figures as PNG; a decision record; the registration hash; and the seals (git commit, 
+interpreter, live-state) on every journal row. The layout per experiment is experiments/MP-
+E8/ containing registration.json, results/, figures/, and decision.md. Under R10, all four are 
+committed to the repository or re-derivable from committed scripts - agents must emit 
+them, or the gate does not close.
+9. Risk Register
+The register lists the program-level risks with their standing mitigations. The four risks 
+added by this amendment (flag jungle, grader blind spots, morphological brittleness, 
+instrument residency drift) are first in the table because they are live as of this writing; the 
+rest carry over from v1.0 with updated dispositions. Experiment-specific risks live in their 
+registration files. Likelihood and impact are planning judgments, revisited at every gate.
+===== PAGE 26 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+23
+Table 8. Program risk register (v1.1)
+Risk Likelihood Impact Mitigation
+Flag jungle: widenings 
+and refusals multiply until 
+no one can state the 
+mode's behavior
+Medium Medium Fold flags into registered modes 
+(ELECTRIC_LEARN is the precedent: one 
+flag, the full mode); every new flag ships with 
+its C-conditions and its tests; the selection 
+harness already exists for scalar search if 
+mode genomes are ever swept
+Word-level grader blind 
+spots: a confabulation 
+class the grader cannot 
+see
+Medium High R9 makes word-level traceability an abort 
+condition everywhere; the grader is validated 
+against the three known says-gap rows and 24 
+guarded rows before G0-prime closes; novel 
+classes found later are added as regression 
+pins, never patched silently
+Morphological brittleness 
+of keyed stores: exact-
+token keys refuse 
+toll/tolls-class pairs
+High Medium MP-E9 registers the normalization with 
+pinned tests on both the read and write sides; 
+per-entry aliases are the fallback if a global 
+stemmer over-admits
+Instrument residency 
+drift: measurements 
+depending on local-only 
+files
+Medium Medium R10: registered instruments, journals and 
+schemas are committed or re-derivable from 
+committed scripts; seals on every row make 
+any unsealed number self-identifying
+The duel shows Droso 
+behind on more axes than 
+expected
+Medium Medium Both outcomes define paper 1; claims re-
+scope to retention, refusal and honesty; R5 
+records the loss as an asset; fluency deficits 
+are pre-acknowledged in Chapter 3
+The new mouth composes 
+fluent falsehoods
+Medium High The coverage gate remains the sole authority 
+on answering; R9 word-level grading audits 
+generation; the refusal suite re-runs at G3 as a 
+hard condition
+Scaling shows wiring 
+never matters (null at all 
+tiers)
+Medium Medium Pre-registered as publishable; the result frees 
+the substrate-budget narrative for MP-E12
+Donor superposition blurs 
+weight extraction
+High Medium Probe-battery breadth; confidence gating; the 
+text-distillation control bounds the claim in 
+advance
+===== PAGE 27 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+24
+Risk Likelihood Impact Mitigation
+Transplanted knowledge 
+corrupts abstention
+Medium High Provenance and the source dimension in the 
+coverage gate; the refusal suite re-run post-
+transplant is a hard condition of G5; library-
+sourced knowledge is quotable or refusable, 
+never silently curriculum
+Compute overrun at the 
+200k tier
+Medium Low Staged tiers; the 50k tier stands alone; 
+checkpointed harnesses; deferral with cause is 
+registered
+Scope drift; experiments 
+multiply
+Medium Medium R4: one experiment in flight; a gate closes 
+before the next opens; the MP-E12a track is 
+the only sanctioned parallelism
+10. Publication and Strategy Framing
+Paper 1 (after G2 and G3 close). A connectome agent that learns during deployment: 
+gradient-free retention, honest abstention, and what a living system still cannot do. The 
+paper's spine is the ELECTRIC result - teach in natural language, survive a real restart, 
+answer in the teacher's other words, admit ignorance, consolidate across sessions with zero 
+interference - measured against sequentially fine-tuned and frozen-plus-retrieval baselines 
+of matched size at three curriculum tiers. The repairs (recognition, morphology, the direct 
+path) supply the method; the losses on fluency are reported in the same breath as the wins, 
+which is what makes the paper believable.
+Paper 2 (after G4). Does the wiring matter? Plasticity scaling and the functional role of 
+connectome topology. The wiring-matters curve answers, for the first time at controlled 
+scale, whether fly-inspired wiring earns its keep as plasticity grows from twenty thousand 
+to two hundred thousand synapses - functional or null, the question has not been asked 
+before, and the real-versus-random control is shared-code by construction.
+Paper 3 (after G5 and G6). Reading frozen weights: connectome-native knowledge 
+transfer from neural-network libraries without inference. This is the flag-plant: the first 
+system that treats trained networks as read-only knowledge libraries, reads them statically 
+under a hard per-item budget, and re-expresses them in a living substrate - with the text-
+distillation control and the latency benchmark setting the standard any follow-up must 
+meet.
+The program brand is the discipline: pre-registered, gate-driven, word-level honest, 
+nulls published. The one-line thesis for talks and read-me files: it learns during deployment 
+without gradients, forgets nothing across restarts, refuses what it was never taught - and 
+===== PAGE 28 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+25
+reads other networks' weights without running them. Every clause of that sentence is 
+backed by a registered instrument or a scheduled experiment, and the honest negatives (six 
+closed retrieval levers, one aborted experiment, one measured LOST verdict) are part of 
+the brand, not exceptions to it.
+11. Appendix A: MP-E12 Technical Primer - Reading Weights 
+Without Running Them
+A.1 What a Frozen Model Knows Statically
+A transformer checkpoint contains at least three readable structures. The token-embedding 
+matrix is a geometric map: tokens used in similar contexts sit near each other, so nearest-
+neighbour searches over the raw matrix expose lexical and semantic neighbourhoods 
+without a single forward pass. The unembedding directions and the attention heads encode 
+association: for a probed token, the strongest successors can be read from these structures 
+with one small matrix operation each. The MLP layers act as key-value memories: 
+presented with a probe vector, the top-responding neurons are the features the model 
+associates with the probe, and their output directions are the values those features write.
+None of these reads involves generation. Each is a bounded set of matrix-vector products 
+or similarity searches against frozen matrices - a dictionary lookup in a very large, very 
+strange dictionary. That is the sense in which the weights are a library, and it is the only 
+sense MP-E12 requires.
+A.2 The Read Budget and the Benchmark
+Every extraction in MP-E12a carries a per-item read budget: a maximum number of matrix 
+operations per probed association, fixed in the registration file, with every item's operation 
+count logged and sealed. The benchmark compares, on identical hardware and an identical 
+association query set: static reading (the budgeted extraction) against autoregressive 
+inference (the donor generating the association token by token). Reported quantities: wall-
+clock, operation count, and energy estimate. The pre-registered threshold for H2 is that 
+reading is at least ten times cheaper per association than inference.
+A.3 Compilation into the Connectome
+The association graph compiles through the existing primitives. Cluster centroids from the 
+embedding geometry become grow_pool calls; association edges become grow_plastic and 
+wire_pool calls with weights scaled by extraction confidence. Two planning inputs come 
+from MP-E11: how many edges fit at each plasticity tier, and whether real wiring carries 
+===== PAGE 29 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+26
+spread better than random wiring at the relevant tier. Provenance is compiled in, not 
+appended later: every library-sourced edge is tagged with source model, extraction method 
+and confidence - the same seal discipline the repository applies to measurement rows - and 
+the coverage gate treats the tag as a distinct source class with its own refusal policy.
+A.4 Failure Modes and Honesty Guarantees
+Three failure modes are pre-registered. Superposition: donor features share dimensions, so 
+extracted edges may be noisy - detected by probe-battery agreement checks, mitigated by 
+confidence gating. Semantic drift: compiled edges may shift meaning as they settle into the 
+SAN - detected by re-testing the paraphrase probes after compilation. Abstention 
+corruption: the agent may begin to behave as if it knows things it cannot ground - detected 
+by the refusal suite re-run, which is a hard condition at gate G5, graded at word level under 
+R9. The mitigation is the source dimension: library-sourced knowledge can be quoted or 
+refused, but it is never silently promoted to curriculum knowledge.
+12. Appendix B: Agent Execution Checklists
+Each checklist below is directly pasteable to a coding agent. A checklist is complete only 
+when every step has a checked artifact behind it; the gate-closing checklist B.0 applies to 
+every gate, and B.1 applies before any experiment opens.
+B.0 Closing a Gate (Applies to Every Gate)
+1. Verify all artifacts exist: registration.json (hash recorded before the first run), 
+results/, figures/, decision.md - all committed to the repository or re-derivable from 
+committed scripts (R10).
+2. Verify results JSON against the versioned schema; verify seals (git commit, 
+interpreter, live-state) on every journal row; reject hand-edited numbers and 
+unsealed rows.
+3. Evaluate every registered C-condition row by row and record the verdict of each in 
+the decision record.
+4. Check invariants explicitly: R6 (retention and refusal unchanged or improved; 
+guarded 4/4; guarded-absence rows intact) and R9 (word-level traceability audit 
+passed).
+5. Log any retracted claim beside the claim it corrects.
+6. Close the gate in the program log; only then open the next experiment.
+===== PAGE 30 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+27
+B.1 G0-prime Checklist - Freezing the Capability Instrument
+1. Implement the word-level provenance grader: every content word in an answer must 
+trace to a taught row, the ask, or an admitted source; log the audit trail per row.
+2. Validate the grader: it must flag all three known says-gap rows and none of the 24 
+guarded-absence rows; commit the validation as a regression pin.
+3. Measure the bench noise floor: three clones of one configuration at depths 1/2/3 
+must produce identical outcomes row for row; publish the clone rows.
+4. Commit the bench harness, its registration schema, the failure-taxonomy field 
+definitions, and current journals to the repository with harness version hashes.
+5. Register the tier protocol: curricula at 40, 120 and 300 items; probe matrices scaling 
+from the registered 136; guarded-absence and distractor rows per tier.
+6. Write decision.md; G0-prime does not close until every artifact is committed and 
+sealed.
+B.2 MP-E9 Checklist - Honesty and Morphology
+1. Restore the arbiter-tell bound at the leak: the three ungrammatical asks return to 
+honest refusal; the 36 arbiter-tell conversions must survive row for row.
+2. Implement morphology normalization on both sides of the QA store behind a flag; 
+replace the pinned refusal test with a registered recovery prediction (toll/tolls class); 
+pin new tests for both admission and refusal.
+3. Formalize the direct answer path under its registered bounds; write the bounds as 
+executable checks, not comments.
+4. Run the full bench at depths 1/2/3 with a real restart, the word-level grader live on 
+every row.
+5. Emit the positional row matrix against the pre-flag snapshot, the grader audit log, 
+and the retraction ledger entry if any earlier number changes meaning.
+6. Verify H1-H4 and every C-condition; write decision.md.
+B.3 MP-E8 Checklist - The Three-Arm Duel
+1. Freeze harness versions and hash them into the registration file; register H1-H4 and 
+C1-C5 with numeric thresholds before any run.
+2. Build arm B (2-10M LSTM or tiny Transformer): sequential fine-tuning per session 
+on that session's material; log optimizer steps and wall-clock per session.
+===== PAGE 31 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+28
+3. Prepare arm C: same architecture frozen after pre-training; vector-store retrieval 
+over the taught items; calibrated abstention on held-out data, including the retrieval-
+empty case.
+4. Run arm A (Droso, ELECTRIC-learn) through the identical curricula and restart 
+protocol; log synapse updates and wall-clock per session.
+5. Run the teach arm (T) and the three noise-floor clones (N); clones must match row 
+for row before treatment rows count.
+6. Execute tiers 40, 120 and 300; three sessions per tier; real restarts between sessions.
+7. Score all nine axes for all arms on both instruments; run the frozen battery once per 
+arm as the regression guard, ELECTRIC off.
+8. Emit forgetting curves, interference curves, accuracy-versus-exposures, and cost-
+per-learned-fact figures; write decision.md; do not modify Droso internals during 
+the run.
+B.4 MP-E10 Checklist - The Mouth and the Second Timescale
+1. Plasticize the central-complex loop into the decayed working-memory trace; 
+parameterize the window k; unit-test decay bounds and restart clearing.
+2. Implement episodic replay at tiers 120 and 300 with the registered interference 
+protocol; do not re-prove consolidation at 40 items.
+3. Implement both candidate-routing variants behind flags: spread-scored selection, 
+and carve allowed_pools masking; register the primary and the ablation.
+4. Run the four mouth-stage evaluations and the full nine-axis suite; ablate state-only, 
+spread-only, and state-plus-spread.
+5. Verify invariants R6 and R9; emit per-stage results and the k-sweep grid; write 
+decision.md.
+B.5 MP-E11 Checklist - Connectome Scaling
+1. Implement tiered budgets (20k current, 50k, 100k, 200k plastic synapses) with 
+checkpointing; carry the archived 3k and 10k points onto the same curve; grow 
+pools from 12 to 24.
+2. Share the wire-draw code between real and random arms; only the topology source 
+differs; verify C3 by diffing the configs.
+3. Register seeds, tiers, and the functional-margin threshold in advance.
+===== PAGE 32 =====
+DROSO Master Plan v1.1 | Live Brain Protocol
+29
+4. Run real-versus-random at each tier with multiple seeds; compute confidence 
+intervals.
+5. Emit the wiring-matters curve; record the functional-or-null branch; write 
+decision.md.
+B.6 MP-E12 Checklist - Frozen Weights as a Library
+1. MP-E12a (opens when G0-prime closes; parallel to G1-G2): implement the three 
+read-only extractions against the GPT-2 124M weights with per-item read budgets; 
+log and seal operation counts.
+2. Emit the typed association graph (nodes, edges, confidences) to a versioned schema.
+3. Benchmark reads against autoregressive inference on the same hardware and query 
+set; the 10x threshold is pre-registered.
+4. MP-E12b: implement the compiler - grow_pool from clusters, grow_plastic and 
+wire_pool from edges, confidence-gated; add the provenance tag and the coverage-
+gate source dimension, sealed per edge.
+5. Run the text-distillation control: the donor emits text once, offline; Droso trains on it 
+through the normal curriculum.
+6. MP-E12c: run H1-H3 - transfer versus text-distillation at equal exposure; the latency 
+comparison; retention and refusal suites post-transplant, word-level graded.
+7. Emit before-and-after paraphrase and acquisition figures; write decision.md.
+B.7 MP-E13 Checklist - The Living System Demo
+1. Build the 24-hour stream harness: live teaching blocks through the ELECTRIC 
+interface, interference probes, unanswerables, and paraphrase probes in unseen 
+words.
+2. Wire both baselines to the same stream: frozen with retrieval (store updated) and 
+sequential (fine-tuned at fixed intervals); word-level grading live for every arm.
+3. Snapshot Droso plastic synapses at fixed intervals; keep replay tapes.
+4. Freeze the protocol, thresholds and C-conditions before the window opens; run the 
+window.
+5. Emit accuracy-versus-exposures as the headline figure; verify all four live axes 
+against both baselines; write decision.md; publish the artifacts.

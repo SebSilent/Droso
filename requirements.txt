@@ -4,3 +4,9 @@ scipy
 psutil
 pytest
 pyarrow
+# G0-prime: required by a TRACKED file, not only by an ad-hoc script --
+# experiments/MP-E9/plan_extract/extract_pdf.py:3 imports it, and that script is what makes the
+# promoted plan text re-derivable on a clean clone. Omitting it would break the PROVENANCE.json
+# re-derivability claim. Added this session (pypdf 6.21.4); imported by no organ and no harness.
+# The exact measured environment is sealed in experiments/G0-prime/results/requirements.lock.txt.
+pypdf

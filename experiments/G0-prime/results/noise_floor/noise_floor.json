@@ -1,0 +1,776 @@
+{
+ "baseline_reverify": {
+  "committed_rows": 3672,
+  "committed_sha256": "bb33873ee8ef7eacc957cb078b387f8591368f2b86d867dcbc88a0814e9a1544",
+  "differences_vs_clone1": 0,
+  "first": [],
+  "verdict": "reproduces"
+ },
+ "configuration": {
+  "arms": "control,teach,learn",
+  "clones": 3,
+  "depth": "1,2,3 (bench default)",
+  "excluded_fields": [
+   "seconds",
+   "started_utc"
+  ],
+  "graded_fields": [
+   "ask",
+   "said",
+   "cls",
+   "src",
+   "item",
+   "shape",
+   "mech",
+   "taught",
+   "own",
+   "reason",
+   "answered"
+  ]
+ },
+ "harness_sha256": "f4432e63b70fb5fef904d9156d85694208ff114395d3b76381f9bb0c5c578fc2",
+ "headline_identical": true,
+ "headline_per_clone": {
+  "clone1": {
+   "control": {
+    "1": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 28,
+      "partial": 28,
+      "refused": 78
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 29,
+      "refused": 74
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 28,
+      "partial": 28,
+      "refused": 78
+     }
+    },
+    "2": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 29,
+      "partial": 59,
+      "refused": 46
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 59,
+      "refused": 44
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 29,
+      "partial": 59,
+      "refused": 46
+     }
+    },
+    "3": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 30,
+      "partial": 83,
+      "refused": 21
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 83,
+      "refused": 20
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 30,
+      "partial": 83,
+      "refused": 21
+     }
+    }
+   },
+   "learn": {
+    "1": {
+     "live": {
+      "correct": 38,
+      "echo": 3,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 89
+     },
+     "reasked": {
+      "correct": 38,
+      "cross_echo": 1,
+      "echo": 6,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 85
+     },
+     "restarted": {
+      "correct": 38,
+      "echo": 3,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 89
+     }
+    },
+    "2": {
+     "live": {
+      "correct": 75,
+      "echo": 1,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 1,
+      "refused": 51
+     },
+     "reasked": {
+      "correct": 75,
+      "echo": 2,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 49
+     },
+     "restarted": {
+      "correct": 75,
+      "echo": 1,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 50
+     }
+    },
+    "3": {
+     "live": {
+      "correct": 115,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 14
+     },
+     "reasked": {
+      "correct": 115,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 3,
+      "refused": 12
+     },
+     "restarted": {
+      "correct": 115,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 3,
+      "refused": 13
+     }
+    }
+   },
+   "teach": {
+    "1": {
+     "live": {
+      "correct": 14,
+      "echo": 4,
+      "misattrib": 1,
+      "partial": 16,
+      "refused": 101
+     },
+     "reasked": {
+      "correct": 14,
+      "cross_echo": 1,
+      "echo": 6,
+      "misattrib": 1,
+      "partial": 17,
+      "refused": 97
+     },
+     "restarted": {
+      "correct": 14,
+      "echo": 4,
+      "misattrib": 1,
+      "partial": 16,
+      "refused": 101
+     }
+    },
+    "2": {
+     "live": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 69
+     },
+     "reasked": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 68
+     },
+     "restarted": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 69
+     }
+    },
+    "3": {
+     "live": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 45
+     },
+     "reasked": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 44
+     },
+     "restarted": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 45
+     }
+    }
+   }
+  },
+  "clone2": {
+   "control": {
+    "1": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 28,
+      "partial": 28,
+      "refused": 78
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 29,
+      "refused": 74
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 28,
+      "partial": 28,
+      "refused": 78
+     }
+    },
+    "2": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 29,
+      "partial": 59,
+      "refused": 46
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 59,
+      "refused": 44
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 29,
+      "partial": 59,
+      "refused": 46
+     }
+    },
+    "3": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 30,
+      "partial": 83,
+      "refused": 21
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 83,
+      "refused": 20
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 30,
+      "partial": 83,
+      "refused": 21
+     }
+    }
+   },
+   "learn": {
+    "1": {
+     "live": {
+      "correct": 38,
+      "echo": 3,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 89
+     },
+     "reasked": {
+      "correct": 38,
+      "cross_echo": 1,
+      "echo": 6,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 85
+     },
+     "restarted": {
+      "correct": 38,
+      "echo": 3,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 89
+     }
+    },
+    "2": {
+     "live": {
+      "correct": 75,
+      "echo": 1,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 1,
+      "refused": 51
+     },
+     "reasked": {
+      "correct": 75,
+      "echo": 2,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 49
+     },
+     "restarted": {
+      "correct": 75,
+      "echo": 1,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 50
+     }
+    },
+    "3": {
+     "live": {
+      "correct": 115,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 14
+     },
+     "reasked": {
+      "correct": 115,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 3,
+      "refused": 12
+     },
+     "restarted": {
+      "correct": 115,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 3,
+      "refused": 13
+     }
+    }
+   },
+   "teach": {
+    "1": {
+     "live": {
+      "correct": 14,
+      "echo": 4,
+      "misattrib": 1,
+      "partial": 16,
+      "refused": 101
+     },
+     "reasked": {
+      "correct": 14,
+      "cross_echo": 1,
+      "echo": 6,
+      "misattrib": 1,
+      "partial": 17,
+      "refused": 97
+     },
+     "restarted": {
+      "correct": 14,
+      "echo": 4,
+      "misattrib": 1,
+      "partial": 16,
+      "refused": 101
+     }
+    },
+    "2": {
+     "live": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 69
+     },
+     "reasked": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 68
+     },
+     "restarted": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 69
+     }
+    },
+    "3": {
+     "live": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 45
+     },
+     "reasked": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 44
+     },
+     "restarted": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 45
+     }
+    }
+   }
+  },
+  "clone3": {
+   "control": {
+    "1": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 28,
+      "partial": 28,
+      "refused": 78
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 29,
+      "refused": 74
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 28,
+      "partial": 28,
+      "refused": 78
+     }
+    },
+    "2": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 29,
+      "partial": 59,
+      "refused": 46
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 59,
+      "refused": 44
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 29,
+      "partial": 59,
+      "refused": 46
+     }
+    },
+    "3": {
+     "live": {
+      "cross_echo": 2,
+      "echo": 30,
+      "partial": 83,
+      "refused": 21
+     },
+     "reasked": {
+      "cross_echo": 2,
+      "echo": 31,
+      "partial": 83,
+      "refused": 20
+     },
+     "restarted": {
+      "cross_echo": 2,
+      "echo": 30,
+      "partial": 83,
+      "refused": 21
+     }
+    }
+   },
+   "learn": {
+    "1": {
+     "live": {
+      "correct": 38,
+      "echo": 3,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 89
+     },
+     "reasked": {
+      "correct": 38,
+      "cross_echo": 1,
+      "echo": 6,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 85
+     },
+     "restarted": {
+      "correct": 38,
+      "echo": 3,
+      "entailed": 4,
+      "misattrib": 1,
+      "partial": 1,
+      "refused": 89
+     }
+    },
+    "2": {
+     "live": {
+      "correct": 75,
+      "echo": 1,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 1,
+      "refused": 51
+     },
+     "reasked": {
+      "correct": 75,
+      "echo": 2,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 49
+     },
+     "restarted": {
+      "correct": 75,
+      "echo": 1,
+      "entailed": 4,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 50
+     }
+    },
+    "3": {
+     "live": {
+      "correct": 115,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 2,
+      "refused": 14
+     },
+     "reasked": {
+      "correct": 115,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 3,
+      "refused": 12
+     },
+     "restarted": {
+      "correct": 115,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 3,
+      "refused": 13
+     }
+    }
+   },
+   "teach": {
+    "1": {
+     "live": {
+      "correct": 14,
+      "echo": 4,
+      "misattrib": 1,
+      "partial": 16,
+      "refused": 101
+     },
+     "reasked": {
+      "correct": 14,
+      "cross_echo": 1,
+      "echo": 6,
+      "misattrib": 1,
+      "partial": 17,
+      "refused": 97
+     },
+     "restarted": {
+      "correct": 14,
+      "echo": 4,
+      "misattrib": 1,
+      "partial": 16,
+      "refused": 101
+     }
+    },
+    "2": {
+     "live": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 69
+     },
+     "reasked": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 68
+     },
+     "restarted": {
+      "absence": 4,
+      "correct": 27,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 31,
+      "refused": 69
+     }
+    },
+    "3": {
+     "live": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 45
+     },
+     "reasked": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 2,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 44
+     },
+     "restarted": {
+      "absence": 4,
+      "correct": 39,
+      "echo": 1,
+      "misattrib": 4,
+      "partial": 43,
+      "refused": 45
+     }
+    }
+   }
+  }
+ },
+ "measured_at_utc": "2026-11-03T04:47:05Z",
+ "noise_floor_verdict": "NOT REPRODUCIBLE",
+ "pairs": {
+  "clone1vs2": {
+   "differences": 11,
+   "first": [
+    "learn/d1/reasked[74].reason: 'the closest memory of his covers 41% of the question' vs 'the closest memory of his covers 40% of the question'",
+    "learn/d1/reasked[82].reason: 'the closest memory of his covers 19% of the question' vs 'the closest memory of his covers 20% of the question'",
+    "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
+    "learn/d1/reasked[125].reason: 'what he remembers there is only the asking itself' vs 'the closest memory of his covers 57% of the question'",
+    "learn/d1/reasked[126].reason: 'the closest memory of his covers 52% of the question' vs 'the closest memory of his covers 50% of the question'",
+    "learn/d1/reasked[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+    "learn/d1/reasked[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'",
+    "learn/d1/reasked[134].reason: 'what he remembers there is only the asking itself' vs 'the only thing that matched was the asking itself'",
+    "learn/d1/restarted[126].reason: 'the closest memory of his covers 51% of the question' vs 'the closest memory of his covers 50% of the question'",
+    "learn/d1/restarted[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'"
+   ],
+   "rows_compared": 3672
+  },
+  "clone1vs3": {
+   "differences": 0,
+   "first": [],
+   "rows_compared": 3672
+  },
+  "clone2vs3": {
+   "differences": 11,
+   "first": [
+    "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
+    "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
+    "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
+    "learn/d1/reasked[125].reason: 'the closest memory of his covers 57% of the question' vs 'what he remembers there is only the asking itself'",
+    "learn/d1/reasked[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 52% of the question'",
+    "learn/d1/reasked[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+    "learn/d1/reasked[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'",
+    "learn/d1/reasked[134].reason: 'the only thing that matched was the asking itself' vs 'what he remembers there is only the asking itself'",
+    "learn/d1/restarted[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 51% of the question'",
+    "learn/d1/restarted[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'"
+   ],
+   "rows_compared": 3672
+  }
+ },
+ "runs": [
+  {
+   "clone": 1,
+   "crashed": false,
+   "out": "experiments/G0-prime/results/noise_floor/clone_1.json",
+   "produced_output": true,
+   "reused_existing": true
+  },
+  {
+   "clone": 2,
+   "crashed": false,
+   "exit_code": 0,
+   "out": "experiments/G0-prime/results/noise_floor/clone_2.json",
+   "produced_output": true,
+   "seconds": 451.3,
+   "stderr_tail": [],
+   "stdout_tail": [
+    " }",
+    "}",
+    "[bench] evidence -> C:\\Projects\\HybridLLM\\experiments\\G0-prime\\results\\noise_floor\\clone_2.json",
+    "[bench] no invention in any arm at any depth"
+   ]
+  },
+  {
+   "clone": 3,
+   "crashed": false,
+   "exit_code": 0,
+   "out": "experiments/G0-prime/results/noise_floor/clone_3.json",
+   "produced_output": true,
+   "seconds": 475.9,
+   "stderr_tail": [],
+   "stdout_tail": [
+    " }",
+    "}",
+    "[bench] evidence -> C:\\Projects\\HybridLLM\\experiments\\G0-prime\\results\\noise_floor\\clone_3.json",
+    "[bench] no invention in any arm at any depth"
+   ]
+  }
+ ],
+ "schema": "droso.bench_noise_floor.v1"
+}

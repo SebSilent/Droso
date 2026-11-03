@@ -1,0 +1,864 @@
+{
+  "baseline_discrepancies_recorded_at_opening": {
+    "actual_head": "5d03621",
+    "commits_between": 4,
+    "plan_says_head": "0b5f191",
+    "plan_says_suite": "1126 passed, 3 skipped",
+    "suite_reverified": "PENDING -- see re_verification",
+    "what_they_are": "all four are handover-note commits; the last is titled 'Handover note kept local only'. No organ or harness code differs, so the plan's measured baseline still applies.",
+    "why_recorded": "The plan's own R10 forbids the practice the last commit is named for. Recording the drift rather than quietly renumbering is the cheapest place in the program to notice that a baseline citation and a tree can disagree."
+  },
+  "bench_changes": {
+    "behaviour_preservation_proof": "test_refactored_norm_reclassifies_the_current_evidence_identically re-derives classify() for all 3,672 stored rows and asserts every stored cls is reproduced. It passes. A second test applies the same proof to the pre-flag snapshot, i.e. data classified by the pre-revision code re-classified by the post-revision code.",
+    "changes": {
+      "--no-write": "print-only for smoke tests.",
+      "--out PATH": "a clone run must not clobber the committed baseline. Before this, main() wrote docs/evidence/electric_learn_bench.json unconditionally -- the same hazard class as the incident where a measurement tool with unrestricted write access overwrote the accumulated memory file.",
+      "--workdir PATH": "two runs sharing one scratch tree would rmtree each other's taught state, and a clone that lost its own state would still print a clean number.",
+      "REPORT_FRAMES + strip_report_frame": "the narration frame lifted out of norm() into one shared constant so the grader and the classifier cannot drift",
+      "provenance block": "git head, dirty flag, interpreter, prefix, platform, package versions, harness sha256, argv, timestamp -- the seals G0-prime requires the bench to carry.",
+      "taught_questions field": "see the trace-set bug."
+    },
+    "principle": "Additive only. No probe, no threshold, no class and no exit-code rule changed, so R3's freeze is respected: what the suite ASKS is untouched."
+  },
+  "environment": {
+    "dependencies_added_this_session": [
+      {
+        "added_by": "this session, to read DROSO_Master_Plan_v1_1.pdf",
+        "correction": "This entry first read 'imported by any harness: false' and used that to argue pypdf was outside the dependency set. That was wrong in a way that matters: the file that imports it is one THIS gate promoted into the tracked tree, so pypdf is a real dependency of a tracked artifact and requirements.txt was incomplete. The PROVENANCE.json re-derivability claim therefore failed on a clean clone. Fixed by adding pypdf to requirements.txt and sealing the whole measured set.",
+        "imported_by_any_organ_or_harness": false,
+        "imported_by_tracked_file": "experiments/MP-E9/plan_extract/extract_pdf.py:3",
+        "is_the_only_new_dependency": true,
+        "package": "pypdf",
+        "requirements_txt_updated": true,
+        "version": "6.21.4"
+      }
+    ],
+    "environment_lock": {
+      "artifact": "experiments/G0-prime/results/requirements.lock.txt",
+      "generated_by": "tools/freeze_env.py",
+      "packages": 29,
+      "sha256_of_package_list": "5b8cbe45445ab5a512e7d2b935a3e75eff9414314539fdf98cd2d5753a2a174f",
+      "torch_or_transformers_present": false,
+      "why": "interpreter is a seal component and requirements.txt carries no versions, so the exact set the numbers were measured in is recorded as a tracked, regenerable artifact rather than left in pip's memory."
+    },
+    "exact_measured_package_set": {
+      "Pygments": "2.21.0",
+      "annotated-doc": "0.0.5",
+      "annotated-types": "0.8.0",
+      "anyio": "4.15.1",
+      "click": "8.5.0",
+      "colorama": "0.4.6",
+      "fastapi": "0.143.2",
+      "h11": "0.16.0",
+      "idna": "3.20",
+      "iniconfig": "2.3.1",
+      "numpy": "2.5.4",
+      "opentelemetry-api": "1.45.1",
+      "packaging": "26.3",
+      "pandas": "3.0.6",
+      "pluggy": "1.7.0",
+      "psutil": "7.2.2",
+      "pyarrow": "26.0.0",
+      "pydantic": "2.14.1",
+      "pydantic_core": "2.50.1",
+      "pypdf": "6.21.4",
+      "pytest": "9.1.1",
+      "python-dateutil": "2.9.0.post0",
+      "scipy": "1.18.1",
+      "six": "1.17.0",
+      "starlette": "1.8.0",
+      "typing-inspection": "0.4.4",
+      "typing_extensions": "4.16.0",
+      "tzdata": "2026.5",
+      "uvicorn": "0.54.0"
+    },
+    "implementation": "CPython",
+    "interpreter": "3.12.10",
+    "pre_existing_venv_drift": "fastapi, starlette, uvicorn, pydantic and anyio are installed but imported by nothing in the repository (grep for their import statements returns nothing). They predate this session. They are recorded because 'the environment I measured in' and 'the environment requirements.txt describes' are not the same set, and a seal cannot be built on the difference.",
+    "requirements_names": [
+      "numpy",
+      "pandas",
+      "scipy",
+      "psutil",
+      "pytest",
+      "pyarrow",
+      "pypdf"
+    ],
+    "requirements_txt": "EXISTS and is UNPINNED: it named six packages (numpy, pandas, scipy, psutil, pytest, pyarrow) with no version bounds. G0-prime adds pypdf to it, because a tracked file imports it -- see dependencies_added_this_session -- and a clean clone that cannot import it cannot re-derive the promoted plan text. Version bounds are still absent; pinning is an open PI decision.",
+    "seal_consequence": "Interpreter is a component of every journal seal in this program, and the recorded measurements in README.md and docs/STATE.md were taken on Python 3.10 while this work runs on 3.12.10. Any number re-measured here is therefore sealed at a different interpreter than the number it is compared against. That is stated rather than resolved: re-sealing the entire recorded history is not this gate's job, and silently comparing across a seal component is worse.",
+    "torch_or_transformers": "absent. No donor-model library is installed, which is consistent with the instruction that MP-E8 and MP-E12a assets do not gate this work.",
+    "venv_pinned": false
+  },
+  "gate": "G0-prime",
+  "gate_status": {
+    "carried_forward": [
+      "B.1 step 3: three clones are NOT identical row for row (11 of 3,672 rows move, 1 in a graded field). The R13 (a)/(b)/(c) choice is the PI's and is deliberately not taken here.",
+      "Open decision: heard-not-told scope -- 6 rows, decides whether C1 fires at 16 or 22.",
+      "Open decision: requirements.txt pinning for the six named packages and the installed-but-unused ones."
+    ],
+    "closed_steps": [
+      "B.1 step 1",
+      "B.1 step 2",
+      "B.1 step 4",
+      "B.1 step 5",
+      "B.1 step 6"
+    ],
+    "closing_blockers": [],
+    "status": "CLOSED conditional on B.1 step 3, carried forward to the PI. Suite blocker closed: 1164 collected / 1164 reached / 0 collected-but-not-executed. Both registrations stamped and --check clean."
+  },
+  "harness_hashes": {
+    "files": {
+      "docs/evidence/electric_learn_bench.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1421862,
+        "bytes_worktree": 1473837,
+        "git_blob_sha1": "38b74ededd269d7f458457742f747aff39f5096b",
+        "line_endings": "CRLF",
+        "sha256_lf": "318eb8c2d4fa5125945305ae862cf507dc8de30ed244bde04f8ed43cbb181ea6",
+        "sha256_of_git_blob": "318eb8c2d4fa5125945305ae862cf507dc8de30ed244bde04f8ed43cbb181ea6"
+      },
+      "experiments/G0-prime/decision.md": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 24491,
+        "git_blob_sha1": "a06c265cd9b42df701c7b4b7c3c1beadaadf4898",
+        "line_endings": "CRLF",
+        "sha256_lf": "539c548ad3ceec06d91b51e1b4a767758e2ded88a907d24a43a81e728f4041e6",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/failure_taxonomy.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 5593,
+        "git_blob_sha1": "719393e510368edb26cebfce5129796b81f624e2",
+        "line_endings": "CRLF",
+        "sha256_lf": "e3e9dedc9ecd53450c05e67c15b93659f96979d108c02164b555ac9d8d32ce2f",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/noise_floor/clone_1.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 1475304,
+        "git_blob_sha1": "8a93c8a036afc0f9cd3c9575b64479e3ebe7818b",
+        "line_endings": "CRLF",
+        "sha256_lf": "f11cc84ca5b526cc94d1673b2459e04409fefd64588bfd15dfa7d673a2f9ebca",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/noise_floor/clone_2.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 1475291,
+        "git_blob_sha1": "3695bf51606040620ce97b61bbe6b52d5cf19948",
+        "line_endings": "CRLF",
+        "sha256_lf": "77a30ebbb2d0f79bd9e1f1387b8745708560d4257e87e95210b7f432bf58c213",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/noise_floor/clone_3.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 1475304,
+        "git_blob_sha1": "24e24fcb1d0c38cb25a81dbc110ad4b96f6d6012",
+        "line_endings": "CRLF",
+        "sha256_lf": "8d98288159f3f764772d3052f00cad57b31c307719f092fcd2c16b024891ab2c",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/noise_floor/noise_floor.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 16257,
+        "git_blob_sha1": "c3261aa8833e648907424521a48d281b373a6cc7",
+        "line_endings": "LF",
+        "sha256_lf": "e548dcf70f4074fdc6816d8585ff15da78a17d73c06f593772581da997be7c94",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/noise_floor/per_arm_breakdown.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 7685,
+        "git_blob_sha1": "19201eaa841a343f6660f3750cca33929e990470",
+        "line_endings": "LF",
+        "sha256_lf": "8df35f97890380626417a1884084627a6ad4ad12531fc58b3ea3737179c55b58",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/requirements.lock.txt": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 1544,
+        "git_blob_sha1": "0b0da09ddcf1cdde65a0a6395f4086052bf10ab7",
+        "line_endings": "LF",
+        "sha256_lf": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/suite_manifest.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 1087,
+        "git_blob_sha1": "8b3acacf671cad9aa6e0904424d8ac96f3d1ff62",
+        "line_endings": "LF",
+        "sha256_lf": "bd48a20142bc1f961bd91914fac8f89128cff0cef1b9a7973db99bdb62bd66fd",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/results/word_provenance_audit.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 6391,
+        "git_blob_sha1": "320f797db9e94bf00ae90ca68f55c0053dd959d1",
+        "line_endings": "LF",
+        "sha256_lf": "880ee1b6e80a48adef3d0f5dee2dd0141bbab63d766b8a68453c4be9be4ec9f5",
+        "sha256_of_git_blob": null
+      },
+      "experiments/G0-prime/tier_protocol.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 5604,
+        "git_blob_sha1": "b9abd4d3a1d3b3fb4f4084e1dca81e6132c9044b",
+        "line_endings": "CRLF",
+        "sha256_lf": "9882c184922739a7d9cec01c40ed27c5a17d636730d96936d3ac6eb2a19fad0f",
+        "sha256_of_git_blob": null
+      },
+      "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 1473689,
+        "git_blob_sha1": "ea1a6e26ba9751ad8a7494bd8db7a68da4202353",
+        "line_endings": "CRLF",
+        "sha256_lf": "bb30ebb0482859e4ff5586f8769402779b6e5faaa49adfb673689ecd93fbd352",
+        "sha256_of_git_blob": null
+      },
+      "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.manifest.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 3492,
+        "git_blob_sha1": "7b461b5660ef7945ce1754756805a87cfb6105b5",
+        "line_endings": "LF",
+        "sha256_lf": "89ab286700667f648a9a8157f65ef1d22d75029d8fc3e23fc58d2b50c5b92a97",
+        "sha256_of_git_blob": null
+      },
+      "experiments/MP-E9/plan_extract/PROVENANCE.json": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 1626,
+        "git_blob_sha1": "523265087b567842c6cc35f6d6ea70ad4e997329",
+        "line_endings": "LF",
+        "sha256_lf": "80a32a7ec8c6e3e30a80f65204ba795af13474097d50fcf6aaa48e588542dbe1",
+        "sha256_of_git_blob": null
+      },
+      "experiments/MP-E9/plan_extract/extract_pdf.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 540,
+        "git_blob_sha1": "b8c29c2aacc02a8c51ebf97f8e8d7f2122e0f6ad",
+        "line_endings": "LF",
+        "sha256_lf": "24c1b72aff10b0e2dd9408a801de2607404343b9ca5f2bbde4db4c4cdbaf05a4",
+        "sha256_of_git_blob": null
+      },
+      "organs/neural_language.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 368761,
+        "bytes_worktree": 375462,
+        "git_blob_sha1": "5dcc964d44e81bfd69dad429c3a41418bc518f77",
+        "line_endings": "CRLF",
+        "sha256_lf": "b35e6a7ac72ee31004bde2b30de2fc7480b15940c4b5009b1dc6d87f70a95687",
+        "sha256_of_git_blob": "b35e6a7ac72ee31004bde2b30de2fc7480b15940c4b5009b1dc6d87f70a95687"
+      },
+      "requirements.txt": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 518,
+        "git_blob_sha1": "e7657fa80797ef7d49e65da00a569b8850a028e3",
+        "line_endings": "CRLF",
+        "sha256_lf": "4db5bcad441c1d8fc9dbce131998ed49c98354ed8aa5e9fa88c246ed4eda7ea7",
+        "sha256_of_git_blob": null
+      },
+      "tests/test_g0_prime_instruments.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 13913,
+        "git_blob_sha1": "00e5e59ed14ebe29762fb2c16428b8efb1e726a0",
+        "line_endings": "CRLF",
+        "sha256_lf": "59ec1df64778ab48896705984c8d38e6d98cc65389024a356483e6be11e08222",
+        "sha256_of_git_blob": null
+      },
+      "tests/test_word_provenance.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 10599,
+        "git_blob_sha1": "a88d588b9a4a45b81eeadb66cd17d48ddd4cfb5d",
+        "line_endings": "CRLF",
+        "sha256_lf": "d587906036f366a001aaafb414eb82b9cf8ac70c23c13bd0eaaaf6d040a252e8",
+        "sha256_of_git_blob": null
+      },
+      "tools/bench_noise_floor.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 10344,
+        "git_blob_sha1": "ddfb24b1069964b194bfa5ae12e0b6dc031e16bd",
+        "line_endings": "CRLF",
+        "sha256_lf": "85bfb78f26b2d5550967df43f6c1b59aff5770175a298a476da47fab7fab578b",
+        "sha256_of_git_blob": null
+      },
+      "tools/derive_pre_flag_snapshot.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 11686,
+        "git_blob_sha1": "a5a0f683e91ac2f337a1fec2f92e71ec409620fb",
+        "line_endings": "CRLF",
+        "sha256_lf": "d3da5053bddeae24e3a3336c2613375d5e7716d57997304e27dae70c134a0a80",
+        "sha256_of_git_blob": null
+      },
+      "tools/electric_learn_bench.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 46356,
+        "git_blob_sha1": "197d0c59ff2ae2f17881cbfe93f024f12c55100d",
+        "line_endings": "CRLF",
+        "sha256_lf": "6949c74fe9f2d1fe8c4854e66feb59c6e8c38756170a34fb737b4c530cc67991",
+        "sha256_of_git_blob": null
+      },
+      "tools/freeze_env.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 3532,
+        "git_blob_sha1": "42945012b4d5344816c0ff39cd7d2b1b19db81d2",
+        "line_endings": "CRLF",
+        "sha256_lf": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548",
+        "sha256_of_git_blob": null
+      },
+      "tools/noise_floor_report.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 8497,
+        "git_blob_sha1": "681851ea48695db3b84d3da917493f79def4fc32",
+        "line_endings": "CRLF",
+        "sha256_lf": "36723a970f5f745801c775653a7ed3d30ba91a2dc5a392829c7b20737477d5c5",
+        "sha256_of_git_blob": null
+      },
+      "tools/promote_plan_extract.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 5017,
+        "git_blob_sha1": "c539712becd286577083999c6cc084fcbb4adb59",
+        "line_endings": "CRLF",
+        "sha256_lf": "72f3e00305d9ad6d8bc64b77523fee0ed9ba6ddd77015eb95cb0597a33b16c64",
+        "sha256_of_git_blob": null
+      },
+      "tools/registration_seal.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 15063,
+        "git_blob_sha1": "cc1c9112eb4a7c9823d4e2cec8335815c12b643c",
+        "line_endings": "CRLF",
+        "sha256_lf": "683287a757c4b81a40f200d459997baf0b3617118524271f36ec2b9afd35bd7e",
+        "sha256_of_git_blob": null
+      },
+      "tools/suite_manifest.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 8404,
+        "git_blob_sha1": "fc4453815ea98a12675a5e32bb667117a7275e78",
+        "line_endings": "CRLF",
+        "sha256_lf": "577054f46c780afc7636de365c9757cfd25997230bb8e05c5ef7d772a38604ec",
+        "sha256_of_git_blob": null
+      },
+      "tools/word_provenance.py": {
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 17834,
+        "git_blob_sha1": "fd3e31ced7311f86563e3bb2f83421bde67054bf",
+        "line_endings": "CRLF",
+        "sha256_lf": "9f971d155b77f9fdf2dba14b31f62710e72fa7ec63c6b93d3a47b41daac24163",
+        "sha256_of_git_blob": null
+      }
+    },
+    "git_dirty": true,
+    "git_head": "5d036210254341325ea2286ce54686681a2612df",
+    "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
+    "registrations_excluded": {
+      "paths": [
+        "experiments/MP-E9/registration.json"
+      ],
+      "why": "registrations are ledgers, not evidence. Two registrations that seal each other form a cycle no stamp sequence can satisfy, so cross-registration entries are dropped and the fact is recorded here rather than left as a DRIFT that never clears."
+    },
+    "seal_basis": {
+      "also_recorded": [
+        "sha256_lf (equal to sha256_of_git_blob, proven per file)",
+        "bytes_worktree",
+        "line_endings"
+      ],
+      "canonical": [
+        "git_blob_sha1 (git hash-object, autocrlf clean applied)",
+        "sha256_of_git_blob"
+      ],
+      "chosen": "(a) seal the git blob, not the worktree bytes",
+      "rejected": "(b) a .gitattributes pinning eol -- it changes line-ending behaviour repository-wide, which is a policy decision, not a gate artifact",
+      "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
+      "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
+    },
+    "sealed_at_utc": "2026-11-03T05:41:30Z",
+    "self_excluded": {
+      "path": "experiments/G0-prime/registration.json",
+      "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
+    }
+  },
+  "noise_floor": {
+    "arm_A_identical_in_graded_fields": false,
+    "baseline_reverify": {
+      "committed_rows": 3672,
+      "committed_sha256": "bb33873ee8ef7eacc957cb078b387f8591368f2b86d867dcbc88a0814e9a1544",
+      "differences_vs_clone1": 0,
+      "first": [],
+      "verdict": "reproduces"
+    },
+    "clone_rows_published": [
+      "experiments/G0-prime/results/noise_floor/clone_1.json",
+      "experiments/G0-prime/results/noise_floor/clone_2.json",
+      "experiments/G0-prime/results/noise_floor/clone_3.json"
+    ],
+    "configuration": {
+      "arms": "control,teach,learn",
+      "clones": 3,
+      "depth": "1,2,3 (bench default)",
+      "excluded_fields": [
+        "seconds",
+        "started_utc"
+      ],
+      "graded_fields": [
+        "ask",
+        "said",
+        "cls",
+        "src",
+        "item",
+        "shape",
+        "mech",
+        "taught",
+        "own",
+        "reason",
+        "answered"
+      ]
+    },
+    "criterion": "three clones of one configuration identical row for row (B.1 step 3); N is defined as clones of arm A's configuration (section 6.2)",
+    "criterion_met_as_written": false,
+    "difference_profile": {
+      "by_arm": {
+        "learn": 22
+      },
+      "by_depth": {
+        "d1": 22
+      },
+      "by_field": {
+        "reason": 20,
+        "said": 2
+      },
+      "by_phase": {
+        "reasked": 16,
+        "restarted": 6
+      },
+      "coordinates": [
+        "learn/d1/reasked[120]",
+        "learn/d1/reasked[125]",
+        "learn/d1/reasked[126]",
+        "learn/d1/reasked[131]",
+        "learn/d1/reasked[132]",
+        "learn/d1/reasked[134]",
+        "learn/d1/reasked[74]",
+        "learn/d1/reasked[82]",
+        "learn/d1/restarted[126]",
+        "learn/d1/restarted[131]",
+        "learn/d1/restarted[132]"
+      ],
+      "distinct_rows_touched": 11,
+      "distinct_rows_with_graded_field_difference": 1,
+      "graded_coordinates": [
+        "learn/d1/reasked[120]"
+      ]
+    },
+    "distinct_rows_touched": 11,
+    "harness_sha256": "f4432e63b70fb5fef904d9156d85694208ff114395d3b76381f9bb0c5c578fc2",
+    "instrument": "tools/bench_noise_floor.py + tools/noise_floor_report.py",
+    "instrument_correction": {
+      "true_values": {
+        "distinct_rows_touched": 11,
+        "graded": 1,
+        "graded_coordinates": [
+          "learn/d1/reasked[120]"
+        ],
+        "reason_only": 10
+      },
+      "what": "noise_floor_report.py built `coordinates` from the 8-row capped preview, yielding '8 distinct rows touched' and '7 reason-only rows'",
+      "why_recorded": "an artefact of a display limit was printed as a measurement; the fix and the wrong number both stay on the record (R5)"
+    },
+    "key_facts": {
+      "all_differences_in_learn_arm_at_depth_1": true,
+      "clones_1_and_3_identical": true,
+      "committed_baseline_reproduced_by_clone_1": true,
+      "control_and_teach_arms_byte_identical": true,
+      "graded_field_differing_coordinates": [
+        "learn/d1/reasked[120]"
+      ],
+      "no_cls_changed_on_any_row": true,
+      "no_differences_in_live_phase": true
+    },
+    "per_clone_report": {
+      "arm_A_graded_field_differences": 2,
+      "arm_A_identical_row_for_row": false,
+      "arm_a_is": "learn",
+      "clones": [
+        "clone_1.json",
+        "clone_2.json",
+        "clone_3.json"
+      ],
+      "concentration": {
+        "by_arm": {
+          "learn": 22
+        },
+        "by_depth": {
+          "d1": 22
+        },
+        "by_field": {
+          "reason": 20,
+          "said": 2
+        },
+        "by_phase": {
+          "reasked": 16,
+          "restarted": 6
+        },
+        "coordinates": [
+          "learn/d1/reasked[120",
+          "learn/d1/reasked[125",
+          "learn/d1/reasked[126",
+          "learn/d1/reasked[131",
+          "learn/d1/reasked[132",
+          "learn/d1/reasked[134",
+          "learn/d1/reasked[74",
+          "learn/d1/reasked[82"
+        ]
+      },
+      "criterion_as_written": "three clones of one configuration identical row for row (B.1 step 3); N is defined as clones of ARM A's configuration (section 6.2)",
+      "differences_by_arm_and_field": {
+        "learn": {
+          "reason": 20,
+          "said": 2
+        }
+      },
+      "graded_field_differences_by_arm": {
+        "learn": 2
+      },
+      "interpretation": "A difference in cls/said/src/item/shape/mech/taught/own/answered can change a result and must be treated as a treatment effect or as a real reproducibility failure. A difference confined to `reason` is the organ's own coverage commentary moving by a percentage point; it cannot change a class, but it does mean the runs are not byte-identical, which is what B.1 step 3 literally asks for.",
+      "pairs": {
+        "clone1vs2": {
+          "differences": 11,
+          "first": [
+            "learn/d1/reasked[74].reason: 'the closest memory of his covers 41% of the question' vs 'the closest memory of his covers 40% of the question'",
+            "learn/d1/reasked[82].reason: 'the closest memory of his covers 19% of the question' vs 'the closest memory of his covers 20% of the question'",
+            "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
+            "learn/d1/reasked[125].reason: 'what he remembers there is only the asking itself' vs 'the closest memory of his covers 57% of the question'",
+            "learn/d1/reasked[126].reason: 'the closest memory of his covers 52% of the question' vs 'the closest memory of his covers 50% of the question'",
+            "learn/d1/reasked[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+            "learn/d1/reasked[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'",
+            "learn/d1/reasked[134].reason: 'what he remembers there is only the asking itself' vs 'the only thing that matched was the asking itself'",
+            "learn/d1/restarted[126].reason: 'the closest memory of his covers 51% of the question' vs 'the closest memory of his covers 50% of the question'",
+            "learn/d1/restarted[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'"
+          ],
+          "rows_compared": 3672
+        },
+        "clone1vs3": {
+          "differences": 0,
+          "first": [],
+          "rows_compared": 3672
+        },
+        "clone2vs3": {
+          "differences": 11,
+          "first": [
+            "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
+            "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
+            "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
+            "learn/d1/reasked[125].reason: 'the closest memory of his covers 57% of the question' vs 'what he remembers there is only the asking itself'",
+            "learn/d1/reasked[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 52% of the question'",
+            "learn/d1/reasked[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+            "learn/d1/reasked[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'",
+            "learn/d1/reasked[134].reason: 'the only thing that matched was the asking itself' vs 'what he remembers there is only the asking itself'",
+            "learn/d1/restarted[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 51% of the question'",
+            "learn/d1/restarted[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'"
+          ],
+          "rows_compared": 3672
+        }
+      },
+      "reason_string_differences_by_arm": {
+        "learn": 20
+      },
+      "rows_per_clone": 3672,
+      "samples": {
+        "clone1vs2": [
+          "learn/d1/reasked[74].reason: 'the closest memory of his covers 41% of the question' vs 'the closest memory of his covers 40% of the question'",
+          "learn/d1/reasked[82].reason: 'the closest memory of his covers 19% of the question' vs 'the closest memory of his covers 20% of the question'",
+          "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
+          "learn/d1/reasked[125].reason: 'what he remembers there is only the asking itself' vs 'the closest memory of his covers 57% of the question'",
+          "learn/d1/reasked[126].reason: 'the closest memory of his covers 52% of the question' vs 'the closest memory of his covers 50% of the question'",
+          "learn/d1/reasked[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+          "learn/d1/reasked[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'",
+          "learn/d1/reasked[134].reason: 'what he remembers there is only the asking itself' vs 'the only thing that matched was the asking itself'"
+        ],
+        "clone1vs3": [],
+        "clone2vs3": [
+          "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
+          "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
+          "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
+          "learn/d1/reasked[125].reason: 'the closest memory of his covers 57% of the question' vs 'what he remembers there is only the asking itself'",
+          "learn/d1/reasked[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 52% of the question'",
+          "learn/d1/reasked[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+          "learn/d1/reasked[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'",
+          "learn/d1/reasked[134].reason: 'the only thing that matched was the asking itself' vs 'what he remembers there is only the asking itself'"
+        ]
+      },
+      "schema": "droso.noise_floor_report.v1",
+      "total_graded_field_differences": 2,
+      "total_reason_string_differences": 20,
+      "verdict": {
+        "arm_A_graded_identity": false,
+        "graded_identity_all_arms": false,
+        "strict_identity_all_arms": false
+      }
+    },
+    "runs": [
+      {
+        "clone": 1,
+        "crashed": false,
+        "out": "experiments/G0-prime/results/noise_floor/clone_1.json",
+        "produced_output": true,
+        "reused_existing": true
+      },
+      {
+        "clone": 2,
+        "crashed": false,
+        "exit_code": 0,
+        "out": "experiments/G0-prime/results/noise_floor/clone_2.json",
+        "produced_output": true,
+        "seconds": 451.3,
+        "stderr_tail": [],
+        "stdout_tail": [
+          " }",
+          "}",
+          "[bench] evidence -> C:\\Projects\\HybridLLM\\experiments\\G0-prime\\results\\noise_floor\\clone_2.json",
+          "[bench] no invention in any arm at any depth"
+        ]
+      },
+      {
+        "clone": 3,
+        "crashed": false,
+        "exit_code": 0,
+        "out": "experiments/G0-prime/results/noise_floor/clone_3.json",
+        "produced_output": true,
+        "seconds": 475.9,
+        "stderr_tail": [],
+        "stdout_tail": [
+          " }",
+          "}",
+          "[bench] evidence -> C:\\Projects\\HybridLLM\\experiments\\G0-prime\\results\\noise_floor\\clone_3.json",
+          "[bench] no invention in any arm at any depth"
+        ]
+      }
+    ],
+    "status": "MEASURED",
+    "verdict": {
+      "arm_A_graded_identity": false,
+      "graded_identity_all_arms": false,
+      "strict_identity_all_arms": false
+    }
+  },
+  "open_decisions_for_pi": {
+    "clone_criterion": "Choose among R13's (a), (b) or (c). The gate cannot close on 'identical row for row' if the instrument is not identical row for row, and editing the criterion after seeing the result is exactly what R2 exists to prevent.",
+    "heard_not_told_scope": "Does R9 cover words that reached the organism only inside another question? If yes, C1 fires today at 22 rows rather than 16 and MP-E9's H1 threshold must be re-scoped before it opens.",
+    "requirements_txt": "Whether to pin the six named packages, and what to do with the five installed-but-unused ones."
+  },
+  "plan_source": "DROSO Master Plan v1.1 sections 4.1, 8.1, 8.3 and Appendix B.1",
+  "pre_flag_snapshot_re_derivation": {
+    "cross_check_against_the_surviving_copy": {
+      "differences": 12,
+      "rows_compared": 3672,
+      "shape_of_the_differences": "ten are coverage percentages inside a `reason` string moving by one percentage point (54% vs 53%, 25% vs 26%); one is a `said` that differs by the narration frame ('when the bell toll' vs 'droso says when does the bell toll'); one is a `reason` flipping between a coverage figure and 'there is only the asking itself'.",
+      "significance": "docs/HANDOVER.md asserts the benchmark is byte-reproducible, on the evidence of one single-cell re-run. A full three-arm re-derivation at the same commit, with no code change, does not reproduce. This is the finding that decides whether G0-prime's clone criterion is achievable as written.",
+      "survivor_still_matches_handover_hash": true,
+      "verdict": "DIVERGES"
+    },
+    "derived_from_commit": "af32c0f2f9ea5e324dc585941267993b2e186240 (ELECTRIC_QA_ANSWER_MEMORY, the commit before ELECTRIC_ARBITER_TELL)",
+    "method": "git worktree at that commit, full bench run with this tree's interpreter, result promoted to experiments/MP-E9/baselines/",
+    "pre_flag_signature": {
+      "arbiter_head": 1034,
+      "arbiter_tell": 0,
+      "guarded_absence_rows": 24,
+      "matches_published_handover": true,
+      "says_rows": 0,
+      "silence": 1535
+    }
+  },
+  "r10_decision": {
+    "artifacts_placed": {
+      "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.json": "the pre-flag snapshot, RE-DERIVED from commit af32c0f in a git worktree",
+      "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.manifest.json": "its seals and the cross-check against the surviving _tmp copy",
+      "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt": "the plan text, promoted out of _tmp with its PDF sha256 and the extractor script",
+      "experiments/MP-E9/plan_extract/PROVENANCE.json": "source hashes, page/word counts, and the extraction limitation stated",
+      "experiments/MP-E9/plan_extract/extract_pdf.py": "the extractor itself, because a hash of an artifact nobody can regenerate is a claim",
+      "tools/derive_pre_flag_snapshot.py": "the re-derivation: worktree at af32c0f, run the bench, promote, cross-check",
+      "tools/promote_plan_extract.py": "the plan promotion, idempotent"
+    },
+    "option_rejected": "Loosening _tmp/ by re-including it. organs/tempstore.py:3 states 'Nothing that must be consulted may live here' and organs/sandbox.py relies on _tmp being swept. Un-ignoring it makes a scratch directory normative, which is the exact confusion the policy exists to prevent, and it would also sweep in hundreds of transient files.",
+    "option_taken": "RELOCATION, not loosening. _tmp/ stays ignored exactly as it is. The normative inputs move to experiments/MP-E9/, the tree section 8.3 designates for program artifacts, and each is re-derivable rather than merely copied.",
+    "policy_left_intact": [
+      ".gitignore:27 _tmp/ -- unchanged",
+      ".gitignore:42 docs/HANDOVER.md -- unchanged, still deliberately local-only"
+    ],
+    "precedent": "docs/evidence/electric_learn_bench.json is already tracked at 1.42 MB and docs/evidence/ holds 47 tracked JSONs, so a 1.4 MB sealed bench artifact in a tracked location is the existing convention, not an exception to it. The .gitignore header comment states the rule the same way: audit records are tracked, regenerable checkpoints are not.",
+    "re_derivation_is_possible_because": "run_arm() builds a fresh house under _tmp/electric_learn_bench/root/<mode> and rmtree's it per depth (tools/electric_learn_bench.py:490-498). The bench does not read the live brain, so its only external inputs are connectome/data and config/, both tracked.",
+    "the_conflict": "R10 says nothing a registered number depends on may stay local-only. The pre-flag snapshot MP-E9's row matrix depends on lived in _tmp/, which .gitignore sweeps; the handover that cites it is itself gitignored at .gitignore:42; and the E27 files STATE.md cites by path are not on main."
+  },
+  "re_verification": {
+    "baseline_reproduced": "PENDING -- tools/bench_noise_floor.py compares clone 1 against docs/evidence/electric_learn_bench.json row for row and records the verdict",
+    "full_suite": {
+      "artifact": "experiments/G0-prime/results/suite_manifest.json",
+      "collected": 1164,
+      "collected_but_not_executed": 0,
+      "generated_by": "tools/suite_manifest.py",
+      "junit_counters": {
+        "errors": 0,
+        "failures": 1,
+        "skipped": 3,
+        "tests": 1164,
+        "time_seconds": 519.32
+      },
+      "note_on_the_single_failure": "test_registration_seal_verifies_against_the_registration read REG = experiments/MP-E9/registration.json while every seal this session stamped went into experiments/G0-prime/registration.json. MP-E9's manifest still listed its own path, which is permanent self-DRIFT: writing a seal into a file changes the file, so a registration that seals itself can never verify clean. The failure was a stale seal on a file the test was not stamping, not a defect in the bench or the organism. Repaired: the test now checks BOTH registrations, both are stamped with the self-entry dropped, and test_no_registration_seals_its_own_bytes pins the exclusion so the bug cannot return silently.",
+      "pytest_returncode": 1,
+      "repair_verified_by": "targeted re-run of tests/test_g0_prime_instruments.py + tests/test_word_provenance.py = 37 passed, returncode 0, 7.69s. The full suite was NOT run a second time: the only failing node was the seal test, and re-running an 8-minute suite to chase a cleaner total is the behaviour this blocker exists to forbid.",
+      "sequencing_note": "run after the clone run finished, never concurrently with it: the organ reads time.time() in its answer path, so CPU contention from a second heavy process would perturb the organism being measured and contaminate the noise estimate",
+      "skips_are_preexisting_legacy_archive": [
+        "tests/test_multilang.py::test_agent_full_loop_in_lua",
+        "tests/test_reasoning.py::test_reasoning_loop_solves_and_thinks_multistep",
+        "tests/test_reasoning.py::test_backtrack_switches_approach_and_can_recover"
+      ],
+      "status": "done",
+      "suite_exit_code_if_rerun_now": "0 by inference from the above -- 1164 reached, 0 missing, and the single failure is repaired and re-verified. Recorded as an inference, not as a measured run.",
+      "superseded_number": "917 passed, 3 skipped in 268.71s -- a TRUNCATED invocation whose wrapper reported exit 1 while its captured file ended on a pass summary. Kept on the record per R5 rather than deleted; it is the origin of the 1164-vs-920 mystery, which measurement shows never existed: every collected test is reached.",
+      "wall_seconds": 521.18
+    },
+    "one_bench_cell": {
+      "configuration": "control, depth 1, --no-write",
+      "result": "runs clean on the modified harness; control correct 0 at every depth, matching the committed evidence",
+      "status": "done"
+    },
+    "policy": "Re-verification is part of step 3, not a detour: the gate closes on freshly measured numbers."
+  },
+  "registered_at": {
+    "git_head": "5d036210254341325ea2286ce54686681a2612df",
+    "utc": "2026-11-03T04:30:00Z"
+  },
+  "risk_register_additions": [
+    {
+      "class": "asset",
+      "detail": "Section 6.2 requires arm B as a 2-10M-parameter LSTM and arm C as a tiny transformer, BOTH trained on the same curriculum, each with the same 24-ask battery and the same ELECTRIC generalisation suite, and -- under 'Refusal fairness' -- each implementing its OWN abstention mechanism with a confidence threshold calibrated on held-out data, with arm C's covering the retrieval-empty case where frozen-plus-retrieval systems historically confabulate. No such code is in the repository: there is no training harness, no model definition, no held-out calibration set, and torch/transformers are not installed.",
+      "gate_affected": "G2 primarily; G3 inherits it because MP-E10's replay tiers are defined by MP-E8's curriculum tiers.",
+      "id": "R12",
+      "mitigation": "Register arms B/C as a build with an owner and a budget before G2 is scheduled. Treat 'G3 cannot open on an asset download alone' as a standing constraint: an asset gate that assumes a download where a 2-10M-parameter training run and a calibrated abstention mechanism are required will be discovered at the gate, not at registration.",
+      "risk": "MP-E8 arms B and C do not exist and are not a download."
+    },
+    {
+      "candidate_resolutions_registered_not_chosen": [
+        "(a) Register a tolerance: differences confined to a coverage percentage inside a `reason` string are noise; differences in cls, said, src or item are treatment effects. Cheapest, and it is what MP-E9's analysis plan assumes.",
+        "(b) Give the organ an injectable clock so clones share a deterministic time base. Principled and it makes the criterion literally achievable, but connectome/clock.py is a lived-time LEDGER, not a time source, so this is new machinery touching the organism, and it changes what the instrument measures.",
+        "(c) Accept that a live, time-coupled organism is not bit-reproducible and restate the criterion as 'identical in every graded field except sub-threshold coverage percentages'."
+      ],
+      "class": "methodological",
+      "detail": "Re-deriving the pre-flag snapshot at its own commit diverged on 12 of 3,672 rows with zero code change. The mechanism is in the organism, not the harness: the organ reads time.time() throughout its answer path, including the 2.0s refractory at organs/neural_language.py:946-948 that gates experience('droso','says',...) -- the very row whose absence the says gap depends on -- and _refractory() at :956-971, a time-since-dependent multiplier in word selection. A clone under different machine load is therefore a different measurement.",
+      "id": "R13",
+      "philosophical_note": "The tension is real rather than accidental. Section 3.1 wants a live brain whose memory is a process that continues into the next query; section 8.1 wants three clones identical row for row. Time-dependence is what makes the first true and what makes the second unachievable.",
+      "risk": "The bench may not meet the clone criterion the gate is written around.",
+      "why_not_decided_here": "(b) changes the instrument and (c) changes the standard. Both are the PI's call. G0-prime's job is to measure the floor and name the options before a treatment arm is scored on it, not to pick one quietly."
+    },
+    {
+      "class": "scope",
+      "detail": "The tier protocol is registered with measured cost projections (tier 120 ~24 min, tier 300 ~60 min for all three arms), but SESSIONS and PAIRS are literal lists in the bench. MP-E8's three-arm duel and MP-E10's replay-at-scale both depend on tiers that have not been built.",
+      "id": "R14",
+      "mitigation": "Build tiers as a generator over the live vocabulary, register the generated curriculum before running it, and let the protocol's deferral rule handle a tier that cannot finish in budget.",
+      "risk": "Tier 120 and tier 300 curricula exist only as a protocol."
+    },
+    {
+      "class": "measurement",
+      "detail": "README.md and docs/STATE.md record 3.10 measurements; this work runs on 3.12.10, and interpreter is a seal component. Comparisons across that boundary are stated, not smoothed.",
+      "id": "R15",
+      "mitigation": "Every new artifact carries its interpreter seal. Any number that must be compared against a 3.10 record is re-measured on 3.12 before the comparison is published.",
+      "risk": "Recorded numbers and this session's numbers are sealed at different interpreters."
+    }
+  ],
+  "schema": "droso.registration.v1",
+  "seal_basis_decision": {
+    "chosen": "(a) seal the git blob hash, not the worktree bytes",
+    "measurement_that_justified_it": {
+      "blob_bytes_lf": 1421862,
+      "conclusion": "git hash-object DOES apply the autocrlf clean filter, and folding CRLF to LF reproduces the blob byte for byte. So the git blob is the canonical, checkout-stable identity, and the sha256 over LF-normalised content is the same content seen the other way.",
+      "file": "docs/evidence/electric_learn_bench.json",
+      "git_hash_object": "38b74ededd269d7f458457742f747aff39f5096b",
+      "git_hash_object_no_filters": "2f850ad465c974129c25c60a84fb3b9a43f38084",
+      "index_blob": "38b74ededd269d7f458457742f747aff39f5096b",
+      "sha256_of_blob": "318eb8c2d4fa51259453...",
+      "sha256_of_lf_normalised_worktree": "318eb8c2d4fa51259453...",
+      "worktree_bytes_crlf": 1473837
+    },
+    "recorded_per_file": [
+      "git_blob_sha1",
+      "sha256_lf",
+      "sha256_of_git_blob",
+      "bytes_worktree",
+      "bytes_blob",
+      "line_endings",
+      "blob_equals_lf_normalised"
+    ],
+    "rejected": "(b) add .gitattributes pinning eol -- it changes line-ending behaviour for the whole repository, which is a policy decision for the PI, not an artifact of this gate",
+    "the_problem": "core.autocrlf=true with no .gitattributes means a file's worktree bytes and the git blob it came from differ, so a seal over worktree bytes cannot verify after commit+clone. B.1 step 6's 'committed and sealed' would be unfalsifiable.",
+    "untracked_files_note": "For files not yet committed, git hash-object predicts the blob correctly but the object is not in the database, so the independent blob-content confirmation is recorded as PENDING and fills in after commit. That is a limitation stated, not a mismatch asserted.",
+    "verified_by": "tools/registration_seal.py --check recomputes the blob hash, asserts sha256_lf == sha256_of_git_blob, and once a file is committed also compares the seal against its index blob"
+  },
+  "seal_discipline_finding": {
+    "instance": "docs/HANDOVER.md publishes 83a774515c5adc67... for the pre-flag snapshot. That is the CRLF worktree hash and it verifies here. The same bytes normalised to LF hash d7d227e83663af06..., and after `git add` the stored blob is the LF form.",
+    "mechanism": "core.autocrlf=true with no .gitattributes (docs/HANDOVER.md lists both as standing machine conditions). A CRLF worktree file and the LF blob it came from are different byte strings with different sha256.",
+    "not_done": "No .gitattributes was added. That would change line-ending behaviour for the whole repository and is a policy decision, not a gate artifact.",
+    "resolution_adopted": "Every hash written by G0-prime is computed over CRLF-folded-to-LF content, with the worktree hash recorded alongside where the two differ. tools/registration_seal.py implements the rule so it is a computed field, not a convention.",
+    "summary": "Published hashes in this repository are worktree-dependent, so at least one of them changes when you check the code out."
+  },
+  "title": "Benchmark freeze to battery standards",
+  "word_level_grader": {
+    "admitted_refusal_form": {
+      "how": "matches the organ's own template (organs/neural_language.py:177 builds the reason, :4893 prefixes it): `i don't know, {subj} was told but no {rel} was ever told for {subj}`. The relation slot must be one of the three classes _absence_frame can emit (place, property, agent) and the subject slot must be a taught word.",
+      "why_a_form_and_not_a_word_list": "the residue of the licensed refusal is know, told, ever, place, don, t. Whitelisting those would whitelist whatever the tool happened to say, which is circular, and `place` is a content noun. Admitting the FORM means a refusal that says anything outside it is graded as speech. tests pin this: a row labelled electric_absence that adds 'and the tower rings' is NOT admitted, and a refusal about an untaught subject is NOT admitted."
+    },
+    "bug_found_and_fixed_during_validation": {
+      "fix": "questions are folded into the trace set as their own class `taught_question`, because a taught question is material the house may hear but must not answer with. The bench now also emits a `taught_questions` field so the artifact is self-describing instead of requiring a reader to import PAIRS.",
+      "kept_as_a_test": "test_tower_is_traceable_to_a_taught_question, so a future trace-set edit cannot re-lose a taught question.",
+      "reported_because": "publishing the corrected number without the intermediate claim would leave the reader unable to tell that 39 was ever printed.",
+      "what": "the first version built its trace set from the evidence's `told` field alone and fired 15 rows on `tower`.",
+      "why_it_was_wrong": "`told` is TOLD = tells | pair ANSWERS (tools/electric_learn_bench.py:247). It never contained a taught pair's QUESTION. `tower` comes from the taught pair 'what rings in the tower?' / 'the copper bell rings' -- the teacher said it out loud, so it is taught material."
+    },
+    "content_word_class": "NeuralLanguage.SHAPE_FUNCTION_WORDS, the organ's own explicit 86-word set. Not the organ's distributional df*4 <= n_mem rule: E10 tried that as a function-word proxy, it keeps 'is' and 'on', and docs/evidence/e10_result.md records that 'document frequency here measures corpus style, not lexical class'.",
+    "instrument": "tools/word_provenance.py",
+    "measurement_on_the_committed_evidence": {
+      "UNTRACEABLE_ASSERTED": 16,
+      "UNTRACEABLE_HEARD": 6,
+      "admitted_refusal": 24,
+      "artifact": "experiments/G0-prime/results/word_provenance_audit.json",
+      "clean": 2107,
+      "headline": "The sentence-level grader reported failures: [] and exited 0 on this same file. The word-level grader finds 16 asserted-untraceable rows, exactly the says gap R9 was written for, plus 6 of a class the sentence-level grader cannot see either.",
+      "rows_audited": 3672,
+      "silent": 1519,
+      "total_r9_violations": 22
+    },
+    "report_frame_exclusion": {
+      "how": "imports REPORT_FRAMES and strip_report_frame from tools/electric_learn_bench.py rather than restating them (the tuple lives at tools/electric_learn_bench.py:317). tests/test_word_provenance.py asserts object identity, so the two cannot drift.",
+      "the_distinction": "the strip is POSITIONAL, and position is the whole defect. In `droso says where the bell hang` the word `says` frames a report about speaking. In `says`, spoken as the entire answer to `what the dog guard`, there is no frame and no residue and the word is the assertion.",
+      "why_it_matters": "23 rows of the committed evidence are the house's own narration frame, `droso says where the bell hang`. A word-level grader that does not strip it fires on all 23. Under a one-word-aborts rule that is 23 false aborts reading as a capability collapse."
+    },
+    "rule_implemented": "R9 -- every content word in every answer must trace to a taught row, the ask itself, or an admitted source; one untraceable word is an abort condition.",
+    "two_severities": {
+      "UNTRACEABLE_ASSERTED": "a content word with no source at all. `says` -- not taught, not in the ask, not heard anywhere. This is what R9 was written for and what fails a run.",
+      "UNTRACEABLE_HEARD": "a word that reached the house only inside some OTHER question. `which`, `why`. In his experience, not something he was told. Reported separately and NOT run-fatal, because whether R9 covers heard-not-told material is a ruling about the standard, not an engineering choice; see the open decision.",
+      "why_not_collapsed": "collapsing them would let the tool's own severity judgement hide inside its exit code."
+    },
+    "validation_against_the_three_pinned_sets": {
+      "guarded_absence": {
+        "admitted_by_form": 24,
+        "flagged": 0,
+        "rows_found": 24
+      },
+      "narration_frame": {
+        "false_aborts": 0,
+        "rows_found": 23
+      },
+      "pinned_as": "tests/test_word_provenance.py -- 20 passed, 1 skipped, 0.31s, pure functions over committed JSON, no house built",
+      "says_gap": {
+        "asks": [
+          "what the bridge cross",
+          "what the dog guard",
+          "what the nora carry"
+        ],
+        "rows_flagged": 16,
+        "rows_found": 16,
+        "src": [
+          "arbiter head"
+        ],
+        "word": [
+          "says"
+        ]
+      },
+      "verdict": "PASS"
+    }
+  }
+}

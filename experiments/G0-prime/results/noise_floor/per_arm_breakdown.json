@@ -1,0 +1,129 @@
+{
+  "arm_A_graded_field_differences": 2,
+  "arm_A_identical_row_for_row": false,
+  "arm_a_is": "learn",
+  "clones": [
+    "clone_1.json",
+    "clone_2.json",
+    "clone_3.json"
+  ],
+  "concentration": {
+    "by_arm": {
+      "learn": 22
+    },
+    "by_depth": {
+      "d1": 22
+    },
+    "by_field": {
+      "reason": 20,
+      "said": 2
+    },
+    "by_phase": {
+      "reasked": 16,
+      "restarted": 6
+    },
+    "coordinates": [
+      "learn/d1/reasked[120]",
+      "learn/d1/reasked[125]",
+      "learn/d1/reasked[126]",
+      "learn/d1/reasked[131]",
+      "learn/d1/reasked[132]",
+      "learn/d1/reasked[134]",
+      "learn/d1/reasked[74]",
+      "learn/d1/reasked[82]",
+      "learn/d1/restarted[126]",
+      "learn/d1/restarted[131]",
+      "learn/d1/restarted[132]"
+    ],
+    "distinct_rows_touched": 11,
+    "distinct_rows_with_graded_field_difference": 1,
+    "graded_coordinates": [
+      "learn/d1/reasked[120]"
+    ]
+  },
+  "criterion_as_written": "three clones of one configuration identical row for row (B.1 step 3); N is defined as clones of ARM A's configuration (section 6.2)",
+  "differences_by_arm_and_field": {
+    "learn": {
+      "reason": 20,
+      "said": 2
+    }
+  },
+  "graded_field_differences_by_arm": {
+    "learn": 2
+  },
+  "interpretation": "A difference in cls/said/src/item/shape/mech/taught/own/answered can change a result and must be treated as a treatment effect or as a real reproducibility failure. A difference confined to `reason` is the organ's own coverage commentary moving by a percentage point; it cannot change a class, but it does mean the runs are not byte-identical, which is what B.1 step 3 literally asks for.",
+  "pairs": {
+    "clone1vs2": {
+      "differences": 11,
+      "first": [
+        "learn/d1/reasked[74].reason: 'the closest memory of his covers 41% of the question' vs 'the closest memory of his covers 40% of the question'",
+        "learn/d1/reasked[82].reason: 'the closest memory of his covers 19% of the question' vs 'the closest memory of his covers 20% of the question'",
+        "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
+        "learn/d1/reasked[125].reason: 'what he remembers there is only the asking itself' vs 'the closest memory of his covers 57% of the question'",
+        "learn/d1/reasked[126].reason: 'the closest memory of his covers 52% of the question' vs 'the closest memory of his covers 50% of the question'",
+        "learn/d1/reasked[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+        "learn/d1/reasked[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'",
+        "learn/d1/reasked[134].reason: 'what he remembers there is only the asking itself' vs 'the only thing that matched was the asking itself'",
+        "learn/d1/restarted[126].reason: 'the closest memory of his covers 51% of the question' vs 'the closest memory of his covers 50% of the question'",
+        "learn/d1/restarted[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'"
+      ],
+      "rows_compared": 3672
+    },
+    "clone1vs3": {
+      "differences": 0,
+      "first": [],
+      "rows_compared": 3672
+    },
+    "clone2vs3": {
+      "differences": 11,
+      "first": [
+        "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
+        "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
+        "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
+        "learn/d1/reasked[125].reason: 'the closest memory of his covers 57% of the question' vs 'what he remembers there is only the asking itself'",
+        "learn/d1/reasked[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 52% of the question'",
+        "learn/d1/reasked[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+        "learn/d1/reasked[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'",
+        "learn/d1/reasked[134].reason: 'the only thing that matched was the asking itself' vs 'what he remembers there is only the asking itself'",
+        "learn/d1/restarted[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 51% of the question'",
+        "learn/d1/restarted[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'"
+      ],
+      "rows_compared": 3672
+    }
+  },
+  "reason_string_differences_by_arm": {
+    "learn": 20
+  },
+  "rows_per_clone": 3672,
+  "samples": {
+    "clone1vs2": [
+      "learn/d1/reasked[74].reason: 'the closest memory of his covers 41% of the question' vs 'the closest memory of his covers 40% of the question'",
+      "learn/d1/reasked[82].reason: 'the closest memory of his covers 19% of the question' vs 'the closest memory of his covers 20% of the question'",
+      "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
+      "learn/d1/reasked[125].reason: 'what he remembers there is only the asking itself' vs 'the closest memory of his covers 57% of the question'",
+      "learn/d1/reasked[126].reason: 'the closest memory of his covers 52% of the question' vs 'the closest memory of his covers 50% of the question'",
+      "learn/d1/reasked[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+      "learn/d1/reasked[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'",
+      "learn/d1/reasked[134].reason: 'what he remembers there is only the asking itself' vs 'the only thing that matched was the asking itself'"
+    ],
+    "clone1vs3": [],
+    "clone2vs3": [
+      "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
+      "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
+      "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
+      "learn/d1/reasked[125].reason: 'the closest memory of his covers 57% of the question' vs 'what he remembers there is only the asking itself'",
+      "learn/d1/reasked[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 52% of the question'",
+      "learn/d1/reasked[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+      "learn/d1/reasked[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'",
+      "learn/d1/reasked[134].reason: 'the only thing that matched was the asking itself' vs 'what he remembers there is only the asking itself'"
+    ]
+  },
+  "schema": "droso.noise_floor_report.v1",
+  "total_graded_field_differences": 2,
+  "total_reason_string_differences": 20,
+  "verdict": {
+    "arm_A_graded_identity": false,
+    "graded_identity_all_arms": false,
+    "strict_identity_all_arms": false
+  }
+}

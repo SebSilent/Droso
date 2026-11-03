@@ -1,0 +1,23 @@
+{
+  "document": "DROSO Master Plan v1.1 - The Live Brain Protocol (Amended)",
+  "extracted_text_bytes": 76418,
+  "extracted_text_sha256_lf": "051e916b77a6c39a74d73130fde510a1ecb28c3a9f7922c4eb02507c73b66203",
+  "extractor": "pypdf PdfReader, per-page extract_text(), joined with a page banner",
+  "extractor_script": "experiments/MP-E9/plan_extract/extract_pdf.py",
+  "extractor_script_sha256_lf": "24c1b72aff10b0e2dd9408a801de2607404343b9ca5f2bbde4db4c4cdbaf05a4",
+  "extractor_version": "pypdf 6.21.4",
+  "known_extraction_limit": "Table cell boundaries are partly garbled by text extraction -- headers and wrapped cells interleave, most visibly in Tables 4, 6, 7 and 8. Prose extracted cleanly. Where a table's row assignment is load-bearing it was verified against the repository, not against this text.",
+  "pages": 32,
+  "re_derivability_dependency": {
+    "correction": "The extractor script is tracked, and it imports pypdf. Until pypdf was declared, this re-derivability claim failed on a clean clone: the script would not import. Fixed as part of G0-prime's dependency correction.",
+    "now_declared_in": "requirements.txt",
+    "package": "pypdf",
+    "version": "6.21.4"
+  },
+  "source_pdf_bytes": 369107,
+  "source_pdf_path": "C:/Shared/DROSO_Master_Plan_v1_1.pdf",
+  "source_pdf_present": true,
+  "source_pdf_sha256": "0e6aa58bef7a114951bf159539529847c55b226d83fc0bed73070ab70a81c0ff",
+  "why_tracked_here": "R10: a normative input to the gate. _tmp/ stays ignored and swept; the policy was not loosened, the artifact was relocated to the tree section 8.3 designates for program artifacts.",
+  "words": 11088
+}

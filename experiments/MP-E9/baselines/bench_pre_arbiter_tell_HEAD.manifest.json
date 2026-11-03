@@ -1,0 +1,68 @@
+{
+  "arms": [
+    "control",
+    "learn",
+    "teach"
+  ],
+  "artifact": "pre-ELECTRIC_ARBITER_TELL benchmark snapshot",
+  "bench_exit_code": "adopted from a completed run",
+  "bench_harness_sha256": "0969566c763829522ab14b578f1c762204a13bf9e642a8426b78ce7a58f711af",
+  "bench_seconds": "not re-run (--finish)",
+  "cross_check": {
+    "first_differences": [
+      "control/d3/live[126].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 53% of the question'",
+      "control/d3/live[132].reason: 'the closest memory of his covers 53% of the question' vs 'the closest memory of his covers 54% of the question'",
+      "control/d3/live[133].reason: 'the closest memory of his covers 25% of the question' vs 'the closest memory of his covers 26% of the question'",
+      "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
+      "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
+      "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
+      "learn/d1/reasked[125].reason: 'the closest memory of his covers 58% of the question' vs 'what he remembers there is only the asking itself'",
+      "learn/d1/reasked[126].reason: 'the closest memory of his covers 52% of the question' vs 'the closest memory of his covers 53% of the question'",
+      "learn/d1/reasked[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+      "learn/d1/restarted[126].reason: 'the closest memory of his covers 51% of the question' vs 'the closest memory of his covers 52% of the question'",
+      "learn/d1/restarted[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+      "learn/d1/restarted[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 53% of the question'"
+    ],
+    "row_differences": 12,
+    "rows_compared": 3672,
+    "survivor_matches_handover": true,
+    "survivor_path": "_tmp/bench_pre_arbiter_tell_HEAD.json",
+    "survivor_sha256": "83a774515c5adc676283f30f48625d363db5c941116fbb55a499a73949d6cb26",
+    "verdict": "DIVERGES"
+  },
+  "derived_at_head": "5d036210254341325ea2286ce54686681a2612df",
+  "derived_at_utc": "2026-11-03T04:06:03Z",
+  "derived_from_commit": "af32c0f2f9ea5e324dc585941267993b2e186240",
+  "derived_from_commit_subject": "ELECTRIC_QA_ANSWER_MEMORY: a pair that says something new is kept, and it teaches the grammar nothing",
+  "failures": 0,
+  "interpreter": "3.12.10",
+  "items": 40,
+  "pre_flag_signature": {
+    "MATCHES": true,
+    "arbiter_head": 1034,
+    "arbiter_tell": 0,
+    "expected_from_handover": {
+      "arbiter_head": 1034,
+      "arbiter_tell": 0,
+      "guarded_absence_rows": 24,
+      "says_rows": 0,
+      "silence": 1535
+    },
+    "guarded_absence_rows": 24,
+    "says_rows": 0,
+    "silence": 1535
+  },
+  "probes": 136,
+  "rederived_from_scratch": true,
+  "snapshot_bytes": 1473689,
+  "snapshot_sha256": "30cd62ee96f0c1cb4743829f1db142c1584cf4f9fec3b8e7d4ec46b9a563433b",
+  "src_tally": {
+    "": 1535,
+    "arbiter head": 1034,
+    "electric_absence": 24,
+    "electric_qa_store": 288,
+    "electric_taught": 642,
+    "recalled proposition": 149
+  },
+  "told": 27
+}

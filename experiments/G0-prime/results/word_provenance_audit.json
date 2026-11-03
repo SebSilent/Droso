@@ -1,0 +1,331 @@
+{
+ "audit_trail": null,
+ "content_word_class": "NeuralLanguage.SHAPE_FUNCTION_WORDS (explicit set, not the E10 distributional rule)",
+ "flagged_rows": [
+  {
+   "ask": "what the dog bite",
+   "cls": "echo",
+   "heard_only": [
+    "why"
+   ],
+   "row": "control/d1/reasked[3]",
+   "said": "why",
+   "src": "arbiter head",
+   "untraceable": [],
+   "verdict": "UNTRACEABLE_HEARD"
+  },
+  {
+   "ask": "what rings",
+   "cls": "cross_echo",
+   "heard_only": [
+    "which"
+   ],
+   "row": "control/d1/reasked[12]",
+   "said": "which bell rings",
+   "src": "recalled proposition",
+   "untraceable": [],
+   "verdict": "UNTRACEABLE_HEARD"
+  },
+  {
+   "ask": "what the dog bite",
+   "cls": "echo",
+   "heard_only": [
+    "why"
+   ],
+   "row": "control/d2/reasked[3]",
+   "said": "why",
+   "src": "arbiter head",
+   "untraceable": [],
+   "verdict": "UNTRACEABLE_HEARD"
+  },
+  {
+   "ask": "what rings",
+   "cls": "cross_echo",
+   "heard_only": [
+    "which"
+   ],
+   "row": "control/d2/reasked[12]",
+   "said": "which bell rings",
+   "src": "recalled proposition",
+   "untraceable": [],
+   "verdict": "UNTRACEABLE_HEARD"
+  },
+  {
+   "ask": "what the dog bite",
+   "cls": "echo",
+   "heard_only": [
+    "why"
+   ],
+   "row": "control/d3/reasked[3]",
+   "said": "why",
+   "src": "arbiter head",
+   "untraceable": [],
+   "verdict": "UNTRACEABLE_HEARD"
+  },
+  {
+   "ask": "what rings",
+   "cls": "cross_echo",
+   "heard_only": [
+    "which"
+   ],
+   "row": "control/d3/reasked[12]",
+   "said": "which bell rings",
+   "src": "recalled proposition",
+   "untraceable": [],
+   "verdict": "UNTRACEABLE_HEARD"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d1/live[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d1/reasked[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d1/restarted[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d2/live[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d2/reasked[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the dog guard",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d2/reasked[32]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d2/restarted[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the dog guard",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d2/restarted[32]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/live[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the bridge cross",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/live[67]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/reasked[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the dog guard",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/reasked[32]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the bridge cross",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/reasked[67]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the nora carry",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/restarted[11]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the dog guard",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/restarted[32]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  },
+  {
+   "ask": "what the bridge cross",
+   "cls": "partial",
+   "heard_only": [],
+   "row": "learn/d3/restarted[67]",
+   "said": "says",
+   "src": "arbiter head",
+   "untraceable": [
+    "says"
+   ],
+   "verdict": "UNTRACEABLE_ASSERTED"
+  }
+ ],
+ "frame_words": [
+  "answers",
+  "droso",
+  "said",
+  "says"
+ ],
+ "question_derived_rows": 17,
+ "rows_audited": 3672,
+ "schema": "droso.word_provenance.v1",
+ "trace_sets": {
+  "n_answer_words": 61,
+  "n_question_words": 37,
+  "taught_questions_source": "tools.electric_learn_bench.PAIRS (fallback: file predates taught_questions)"
+ },
+ "untraceable_words": {
+  "says": {
+   "asks": [
+    "what the bridge cross",
+    "what the dog guard",
+    "what the nora carry"
+   ],
+   "rows": 16,
+   "severity": [
+    "asserted"
+   ],
+   "srcs": [
+    "arbiter head"
+   ]
+  },
+  "which": {
+   "asks": [
+    "what rings"
+   ],
+   "rows": 3,
+   "severity": [
+    "heard"
+   ],
+   "srcs": [
+    "recalled proposition"
+   ]
+  },
+  "why": {
+   "asks": [
+    "what the dog bite"
+   ],
+   "rows": 3,
+   "severity": [
+    "heard"
+   ],
+   "srcs": [
+    "arbiter head"
+   ]
+  }
+ },
+ "verdict_counts": {
+  "UNTRACEABLE_ASSERTED": 16,
+  "UNTRACEABLE_HEARD": 6,
+  "admitted_refusal": 24,
+  "clean": 2107,
+  "silent": 1519
+ }
+}

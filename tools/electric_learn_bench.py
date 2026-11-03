@@ -303,6 +303,31 @@ def probe(lang, taught_depth):
 
 NORM_DROP = ("does", "did", "is", "are", "was", "the", "a", "an")
 
+# The house's own narration frame, in ONE place. `tools/word_provenance.py` imports this list rather
+# than restating it, because a word-level grader that does not strip the frame first fires on all
+# 23 `droso says ...` rows of the committed evidence -- 23 false aborts under R9, which makes
+# "one untraceable word aborts" unusable and would read as a capability collapse.
+#
+# The strip is POSITIONAL (prefix only), and that is the whole distinction the says gap turns on:
+# in `droso says where the bell hang` the word `says` is the frame of a report about speaking; in
+# `says`, spoken as the entire answer to `what the dog guard`, there is no frame and no residue, and
+# the word is the assertion. `says` is in no told sentence (measured: 61 taught content words,
+# `says`/`say`/`told`/`droso` absent) and in no ask, so the positional rule flags exactly the 16
+# rows and none of the 23.
+REPORT_FRAMES = ("droso says ", "droso said ", "droso answers ")
+
+
+def strip_report_frame(s):
+    """Drop the house's narration frame when it is in frame position. Nothing else is dropped.
+
+    `says` alone is NOT a frame -- it does not start with `droso says `, so it survives to be graded.
+    """
+    s = (s or "").lower().strip()
+    for p in REPORT_FRAMES:
+        if s.startswith(p):
+            return s[len(p):]
+    return s
+
 
 def norm(s):
     """An ask and an answer compared on the same ground: lower, no punctuation, no report frame,
@@ -314,11 +339,17 @@ def norm(s):
     CROSS_ECHO, the class reserved for a sentence the POOL chose rather than the ask. That would
     overstate the pool leak in exactly the column this benchmark is read for, so the two forms are
     one string here.
+
+    G0-prime note: the frame list moved to REPORT_FRAMES so the word-level grader and this function
+    cannot drift apart. The refactor is behaviour-preserving and is pinned as such -- `norm()` output
+    is asserted byte-identical over all 3,675 rows of the committed evidence
+    (tests/test_word_provenance.py). R3 freezes what a suite ASKS; this changes no question, no
+    class and no threshold.
     """
-    s = (s or "").lower().strip().rstrip("?")
-    for p in ("droso says ", "droso said ", "droso answers "):
-        if s.startswith(p):
-            s = s[len(p):]
+    # Order preserved exactly from the pre-G0-prime implementation: lower, strip, drop a trailing
+    # '?', THEN drop the frame. Reversing the last two would change the result on a string ending
+    # "? " (space after the mark), because the '?' would survive into the token list.
+    s = strip_report_frame((s or "").lower().strip().rstrip("?"))
     return " ".join(w for w in s.split() if w not in NORM_DROP)
 
 
@@ -656,6 +687,57 @@ def report(res):
           ", ".join(f"{c} {a.get(c, 0)}->{b.get(c, 0)}" for c in CLS))
 
 
+def seals(argv):
+    """Per-run provenance, in the shape the battery's journals already use: git, interpreter,
+    harness. G0-prime cannot close on unsealed bench rows -- the plan's own standard is that every
+    journal row can be re-derived or discarded on the strength of its seals.
+
+    Additive only. No existing key of the evidence schema is renamed or removed, so every row
+    published before this change still verifies against its own record -- the same rule the repo
+    applied when it put `cause` beside `stage` instead of rewriting `stage`.
+    """
+    import hashlib
+    import os
+    import platform
+    import subprocess
+
+    def git(*a):
+        try:
+            return subprocess.run(["git", *a], capture_output=True, text=True,
+                                  timeout=20).stdout.strip()
+        except Exception:
+            return ""
+
+    def pkg(name):
+        try:
+            return __import__(name).__version__
+        except Exception:
+            return None
+
+    here = os.path.abspath(__file__)
+    return {
+        "git_head": git("rev-parse", "HEAD"),
+        "git_dirty": bool(git("status", "--porcelain")),
+        "interpreter": sys.version.split()[0],
+        "implementation": platform.python_implementation(),
+        # sysconfig.get_paths()["environment"] was the first attempt and it raised KeyError on this
+        # venv -- get_paths() here exposes data/include/platinclude/platlib/platstdlib/purelib/
+        # scripts/stdlib and no 'environment'. A seal field that can kill an eight-minute measurement
+        # is worse than a seal field that is one level coarser, so the prefix is recorded directly:
+        # prefix != base_prefix is exactly the fact "this ran in a virtualenv".
+        "prefix": sys.prefix,
+        "base_prefix": sys.base_prefix,
+        "in_venv": sys.prefix != sys.base_prefix,
+        "platform": platform.platform(),
+        "packages": {p: pkg(p) for p in ("numpy", "pandas", "scipy", "psutil", "pytest", "pyarrow")},
+        "requirements_pinned": False,
+        "harness": os.path.relpath(here, os.getcwd()).replace("\\", "/"),
+        "harness_sha256": hashlib.sha256(open(here, "rb").read()).hexdigest(),
+        "argv": list(argv),
+        "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+    }
+
+
 def main():
     args = sys.argv[1:]
     modes = ["control", "teach", "learn"]
@@ -664,6 +746,19 @@ def main():
     depths = [1, 2, 3]
     if "--depth" in args:
         depths = [int(args[args.index("--depth") + 1])]
+    # --out: a clone run must not clobber the committed baseline. The default is unchanged, so the
+    # shipped command in docs/HANDOVER.md still writes docs/evidence/electric_learn_bench.json.
+    out_path = EVIDENCE
+    if "--out" in args:
+        out_path = Path(args[args.index("--out") + 1])
+    write = "--no-write" not in args
+    # --workdir: the scratch tree this run teaches into. It defaults to the shipped path, but two
+    # runs sharing it would rmtree each other's session state -- which is exactly the failure mode a
+    # noise-floor clone run must not have, because a clone that lost its own taught state would still
+    # print a clean number. The runner gives every clone its own.
+    global TMP
+    if "--workdir" in args:
+        TMP = Path(args[args.index("--workdir") + 1])
     if TMP.exists():
         shutil.rmtree(TMP, ignore_errors=True)
     TMP.mkdir(parents=True, exist_ok=True)
@@ -715,11 +810,23 @@ def main():
                                      for d, ph in r["depths"].items()})
                           for m, r in arms.items()},
                items=ALL_ITEMS, probes=len(PROBES), told=sorted(TOLD),
+               # `told` is the set of sentences the house was TOLD. A taught QA pair's QUESTION side
+               # is also taught material -- the teacher said it out loud -- but it is not a sentence
+               # the house may answer with, so it never entered TOLD. G0-prime found that a word-level
+               # provenance grader reading only `told` fires on `tower`, a word from the taught pair
+               # `what rings in the tower? / the copper bell rings`. Additive field, so the artifact is
+               # self-describing instead of depending on a reader importing PAIRS.
+               taught_questions=sorted({q.lower() for s in PAIRS for q, _a in s}),
                distractors=[d[1] for d in DISTRACTORS],
                summary={m: {str(d): s for d, s in sum_.items()} for m, sum_ in summary.items()},
-               failures=fails)
-    EVIDENCE.write_text(json.dumps(out, indent=1, sort_keys=True), encoding="utf-8")
-    print(f"[bench] evidence -> {EVIDENCE}", flush=True)
+               failures=fails,
+               provenance=seals(args))
+    if not write:
+        print("[bench] --no-write: nothing written", flush=True)
+        return 1 if fails else 0
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, indent=1, sort_keys=True), encoding="utf-8")
+    print(f"[bench] evidence -> {out_path}", flush=True)
     if fails:
         print(f"[bench] {len(fails)} INVENTIONS (a sentence nobody said):", flush=True)
         for f in fails[:30]:
