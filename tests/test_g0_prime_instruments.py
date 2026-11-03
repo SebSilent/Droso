@@ -9,6 +9,7 @@ blobs of the same size. A suite that cannot tell them apart cannot tell whether 
 """
 import json
 import pathlib
+import re
 import subprocess
 import sys
 
@@ -200,6 +201,26 @@ def test_no_registration_seals_another_registration():
         assert not cross, f"{reg.relative_to(ROOT)} seals another registration: {cross}"
         rec = d.get("harness_hashes", {}).get("registrations_excluded")
         assert rec, f"{reg.relative_to(ROOT)} drops registrations silently; the exclusion must be recorded"
+
+
+def test_index_cross_check_is_not_vacuous():
+    """The seal's strongest claim is that it matches what GIT HOLDS, not what the worktree would hash to.
+    The first implementation of that cross-check keyed its dict on the FILE MODE from `git ls-files -s`,
+    so all 100644 files collapsed into a single entry: it printed "1 of 29 are in the git index", the
+    membership test was never true, and the drift loop compared nothing. It passed by construction.
+
+    This asserts the numbers the check prints are the real ones. It is the only kind of assertion that
+    catches a check that cannot fail -- not that it reports clean, but that it accounts for every file."""
+    for reg in REGS:
+        r = subprocess.run([sys.executable, str(ROOT / "tools" / "registration_seal.py"),
+                            str(reg), "--check"], capture_output=True, text=True)
+        m = re.search(r"\[seal\] (\d+) of (\d+) are in the git index", r.stdout)
+        assert m, f"check printed no index accounting:\n{r.stdout}{r.stderr}"
+        in_index, total = int(m.group(1)), int(m.group(2))
+        assert total > 1, f"{reg.relative_to(ROOT)} seals {total} file(s)"
+        assert in_index == total, (f"{reg.relative_to(ROOT)}: only {in_index}/{total} sealed files are "
+                                   f"in the index -- an untracked artifact is sealed as a prediction")
+        assert "INDEX-DRIFT" not in r.stdout, f"{reg.relative_to(ROOT)}:\n{r.stdout}"
 
 
 def test_report_coordinate_count_is_not_a_display_artefact():

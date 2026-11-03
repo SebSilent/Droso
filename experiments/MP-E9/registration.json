@@ -63,123 +63,137 @@
       },
       "experiments/G0-prime/decision.md": {
         "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
-        "bytes_worktree": 24491,
-        "git_blob_sha1": "a06c265cd9b42df701c7b4b7c3c1beadaadf4898",
+        "bytes_worktree": 25721,
+        "git_blob_sha1": "042d5ce7f939d1cbef2df303f662078965f696d0",
         "line_endings": "CRLF",
-        "sha256_lf": "539c548ad3ceec06d91b51e1b4a767758e2ded88a907d24a43a81e728f4041e6",
+        "sha256_lf": "5c7b494a306d3b5fd0129f4fc590542ba51c7b6d2ab451d8f7b9160b45f5914f",
         "sha256_of_git_blob": null
       },
       "experiments/G0-prime/failure_taxonomy.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 5537,
         "bytes_worktree": 5593,
         "git_blob_sha1": "719393e510368edb26cebfce5129796b81f624e2",
         "line_endings": "CRLF",
         "sha256_lf": "e3e9dedc9ecd53450c05e67c15b93659f96979d108c02164b555ac9d8d32ce2f",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "e3e9dedc9ecd53450c05e67c15b93659f96979d108c02164b555ac9d8d32ce2f"
       },
       "experiments/G0-prime/results/noise_floor/clone_1.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1423281,
         "bytes_worktree": 1475304,
         "git_blob_sha1": "8a93c8a036afc0f9cd3c9575b64479e3ebe7818b",
         "line_endings": "CRLF",
         "sha256_lf": "f11cc84ca5b526cc94d1673b2459e04409fefd64588bfd15dfa7d673a2f9ebca",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "f11cc84ca5b526cc94d1673b2459e04409fefd64588bfd15dfa7d673a2f9ebca"
       },
       "experiments/G0-prime/results/noise_floor/clone_2.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1423268,
         "bytes_worktree": 1475291,
         "git_blob_sha1": "3695bf51606040620ce97b61bbe6b52d5cf19948",
         "line_endings": "CRLF",
         "sha256_lf": "77a30ebbb2d0f79bd9e1f1387b8745708560d4257e87e95210b7f432bf58c213",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "77a30ebbb2d0f79bd9e1f1387b8745708560d4257e87e95210b7f432bf58c213"
       },
       "experiments/G0-prime/results/noise_floor/clone_3.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1423281,
         "bytes_worktree": 1475304,
         "git_blob_sha1": "24e24fcb1d0c38cb25a81dbc110ad4b96f6d6012",
         "line_endings": "CRLF",
         "sha256_lf": "8d98288159f3f764772d3052f00cad57b31c307719f092fcd2c16b024891ab2c",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "8d98288159f3f764772d3052f00cad57b31c307719f092fcd2c16b024891ab2c"
       },
       "experiments/G0-prime/results/noise_floor/noise_floor.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 16257,
         "bytes_worktree": 16257,
         "git_blob_sha1": "c3261aa8833e648907424521a48d281b373a6cc7",
         "line_endings": "LF",
         "sha256_lf": "e548dcf70f4074fdc6816d8585ff15da78a17d73c06f593772581da997be7c94",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "e548dcf70f4074fdc6816d8585ff15da78a17d73c06f593772581da997be7c94"
       },
       "experiments/G0-prime/results/noise_floor/per_arm_breakdown.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 7685,
         "bytes_worktree": 7685,
         "git_blob_sha1": "19201eaa841a343f6660f3750cca33929e990470",
         "line_endings": "LF",
         "sha256_lf": "8df35f97890380626417a1884084627a6ad4ad12531fc58b3ea3737179c55b58",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "8df35f97890380626417a1884084627a6ad4ad12531fc58b3ea3737179c55b58"
       },
       "experiments/G0-prime/results/requirements.lock.txt": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1544,
         "bytes_worktree": 1544,
         "git_blob_sha1": "0b0da09ddcf1cdde65a0a6395f4086052bf10ab7",
         "line_endings": "LF",
         "sha256_lf": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d"
       },
       "experiments/G0-prime/results/suite_manifest.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1087,
         "bytes_worktree": 1087,
         "git_blob_sha1": "8b3acacf671cad9aa6e0904424d8ac96f3d1ff62",
         "line_endings": "LF",
         "sha256_lf": "bd48a20142bc1f961bd91914fac8f89128cff0cef1b9a7973db99bdb62bd66fd",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "bd48a20142bc1f961bd91914fac8f89128cff0cef1b9a7973db99bdb62bd66fd"
       },
       "experiments/G0-prime/results/word_provenance_audit.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 6391,
         "bytes_worktree": 6391,
         "git_blob_sha1": "320f797db9e94bf00ae90ca68f55c0053dd959d1",
         "line_endings": "LF",
         "sha256_lf": "880ee1b6e80a48adef3d0f5dee2dd0141bbab63d766b8a68453c4be9be4ec9f5",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "880ee1b6e80a48adef3d0f5dee2dd0141bbab63d766b8a68453c4be9be4ec9f5"
       },
       "experiments/G0-prime/tier_protocol.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 5535,
         "bytes_worktree": 5604,
         "git_blob_sha1": "b9abd4d3a1d3b3fb4f4084e1dca81e6132c9044b",
         "line_endings": "CRLF",
         "sha256_lf": "9882c184922739a7d9cec01c40ed27c5a17d636730d96936d3ac6eb2a19fad0f",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "9882c184922739a7d9cec01c40ed27c5a17d636730d96936d3ac6eb2a19fad0f"
       },
       "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1421717,
         "bytes_worktree": 1473689,
         "git_blob_sha1": "ea1a6e26ba9751ad8a7494bd8db7a68da4202353",
         "line_endings": "CRLF",
         "sha256_lf": "bb30ebb0482859e4ff5586f8769402779b6e5faaa49adfb673689ecd93fbd352",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "bb30ebb0482859e4ff5586f8769402779b6e5faaa49adfb673689ecd93fbd352"
       },
       "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.manifest.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 3492,
         "bytes_worktree": 3492,
         "git_blob_sha1": "7b461b5660ef7945ce1754756805a87cfb6105b5",
         "line_endings": "LF",
         "sha256_lf": "89ab286700667f648a9a8157f65ef1d22d75029d8fc3e23fc58d2b50c5b92a97",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "89ab286700667f648a9a8157f65ef1d22d75029d8fc3e23fc58d2b50c5b92a97"
       },
       "experiments/MP-E9/plan_extract/PROVENANCE.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1626,
         "bytes_worktree": 1626,
         "git_blob_sha1": "523265087b567842c6cc35f6d6ea70ad4e997329",
         "line_endings": "LF",
         "sha256_lf": "80a32a7ec8c6e3e30a80f65204ba795af13474097d50fcf6aaa48e588542dbe1",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "80a32a7ec8c6e3e30a80f65204ba795af13474097d50fcf6aaa48e588542dbe1"
       },
       "experiments/MP-E9/plan_extract/extract_pdf.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 540,
         "bytes_worktree": 540,
         "git_blob_sha1": "b8c29c2aacc02a8c51ebf97f8e8d7f2122e0f6ad",
         "line_endings": "LF",
         "sha256_lf": "24c1b72aff10b0e2dd9408a801de2607404343b9ca5f2bbde4db4c4cdbaf05a4",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "24c1b72aff10b0e2dd9408a801de2607404343b9ca5f2bbde4db4c4cdbaf05a4"
       },
       "organs/neural_language.py": {
         "blob_equals_lf_normalised": true,
@@ -191,104 +205,114 @@
         "sha256_of_git_blob": "b35e6a7ac72ee31004bde2b30de2fc7480b15940c4b5009b1dc6d87f70a95687"
       },
       "requirements.txt": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 506,
         "bytes_worktree": 518,
         "git_blob_sha1": "e7657fa80797ef7d49e65da00a569b8850a028e3",
         "line_endings": "CRLF",
         "sha256_lf": "4db5bcad441c1d8fc9dbce131998ed49c98354ed8aa5e9fa88c246ed4eda7ea7",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "4db5bcad441c1d8fc9dbce131998ed49c98354ed8aa5e9fa88c246ed4eda7ea7"
       },
       "tests/test_g0_prime_instruments.py": {
         "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
-        "bytes_worktree": 13913,
-        "git_blob_sha1": "00e5e59ed14ebe29762fb2c16428b8efb1e726a0",
+        "bytes_worktree": 15395,
+        "git_blob_sha1": "9b2db666e2ecf54c95d7cf2fb83607c8684df0da",
         "line_endings": "CRLF",
-        "sha256_lf": "59ec1df64778ab48896705984c8d38e6d98cc65389024a356483e6be11e08222",
+        "sha256_lf": "ab2c69bfae421c3920a6da11040152a250821552e641eea358729d482b823f78",
         "sha256_of_git_blob": null
       },
       "tests/test_word_provenance.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 10386,
         "bytes_worktree": 10599,
         "git_blob_sha1": "a88d588b9a4a45b81eeadb66cd17d48ddd4cfb5d",
         "line_endings": "CRLF",
         "sha256_lf": "d587906036f366a001aaafb414eb82b9cf8ac70c23c13bd0eaaaf6d040a252e8",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "d587906036f366a001aaafb414eb82b9cf8ac70c23c13bd0eaaaf6d040a252e8"
       },
       "tools/bench_noise_floor.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 10119,
         "bytes_worktree": 10344,
         "git_blob_sha1": "ddfb24b1069964b194bfa5ae12e0b6dc031e16bd",
         "line_endings": "CRLF",
         "sha256_lf": "85bfb78f26b2d5550967df43f6c1b59aff5770175a298a476da47fab7fab578b",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "85bfb78f26b2d5550967df43f6c1b59aff5770175a298a476da47fab7fab578b"
       },
       "tools/derive_pre_flag_snapshot.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 11436,
         "bytes_worktree": 11686,
         "git_blob_sha1": "a5a0f683e91ac2f337a1fec2f92e71ec409620fb",
         "line_endings": "CRLF",
         "sha256_lf": "d3da5053bddeae24e3a3336c2613375d5e7716d57997304e27dae70c134a0a80",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "d3da5053bddeae24e3a3336c2613375d5e7716d57997304e27dae70c134a0a80"
       },
       "tools/electric_learn_bench.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 45516,
         "bytes_worktree": 46356,
         "git_blob_sha1": "197d0c59ff2ae2f17881cbfe93f024f12c55100d",
         "line_endings": "CRLF",
         "sha256_lf": "6949c74fe9f2d1fe8c4854e66feb59c6e8c38756170a34fb737b4c530cc67991",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "6949c74fe9f2d1fe8c4854e66feb59c6e8c38756170a34fb737b4c530cc67991"
       },
       "tools/freeze_env.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 3455,
         "bytes_worktree": 3532,
         "git_blob_sha1": "42945012b4d5344816c0ff39cd7d2b1b19db81d2",
         "line_endings": "CRLF",
         "sha256_lf": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548"
       },
       "tools/noise_floor_report.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 8323,
         "bytes_worktree": 8497,
         "git_blob_sha1": "681851ea48695db3b84d3da917493f79def4fc32",
         "line_endings": "CRLF",
         "sha256_lf": "36723a970f5f745801c775653a7ed3d30ba91a2dc5a392829c7b20737477d5c5",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "36723a970f5f745801c775653a7ed3d30ba91a2dc5a392829c7b20737477d5c5"
       },
       "tools/promote_plan_extract.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 4909,
         "bytes_worktree": 5017,
         "git_blob_sha1": "c539712becd286577083999c6cc084fcbb4adb59",
         "line_endings": "CRLF",
         "sha256_lf": "72f3e00305d9ad6d8bc64b77523fee0ed9ba6ddd77015eb95cb0597a33b16c64",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "72f3e00305d9ad6d8bc64b77523fee0ed9ba6ddd77015eb95cb0597a33b16c64"
       },
       "tools/registration_seal.py": {
         "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
-        "bytes_worktree": 15063,
-        "git_blob_sha1": "cc1c9112eb4a7c9823d4e2cec8335815c12b643c",
+        "bytes_worktree": 17005,
+        "git_blob_sha1": "9df5db06872e059146461117d2a1c0efa88414bb",
         "line_endings": "CRLF",
-        "sha256_lf": "683287a757c4b81a40f200d459997baf0b3617118524271f36ec2b9afd35bd7e",
+        "sha256_lf": "a6e2493bcd099846a75e44b376886a7a421a046e257bc264dde5cb9b1d8b1c28",
         "sha256_of_git_blob": null
       },
       "tools/suite_manifest.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 8233,
         "bytes_worktree": 8404,
         "git_blob_sha1": "fc4453815ea98a12675a5e32bb667117a7275e78",
         "line_endings": "CRLF",
         "sha256_lf": "577054f46c780afc7636de365c9757cfd25997230bb8e05c5ef7d772a38604ec",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "577054f46c780afc7636de365c9757cfd25997230bb8e05c5ef7d772a38604ec"
       },
       "tools/word_provenance.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 17460,
         "bytes_worktree": 17834,
         "git_blob_sha1": "fd3e31ced7311f86563e3bb2f83421bde67054bf",
         "line_endings": "CRLF",
         "sha256_lf": "9f971d155b77f9fdf2dba14b31f62710e72fa7ec63c6b93d3a47b41daac24163",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "9f971d155b77f9fdf2dba14b31f62710e72fa7ec63c6b93d3a47b41daac24163"
       }
     },
     "git_dirty": true,
-    "git_head": "5d036210254341325ea2286ce54686681a2612df",
+    "git_head": "73d5ee6fbb51f590da993d06beb21442aed83c66",
     "hash_basis": "sha256 over CRLF-folded-to-LF bytes",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -329,7 +353,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-03T05:41:34Z",
+    "sealed_at_utc": "2026-11-03T05:46:26Z",
     "self_excluded": {
       "path": "experiments/MP-E9/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."

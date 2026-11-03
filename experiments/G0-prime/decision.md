@@ -212,6 +212,19 @@ the bug. The noise-floor evidence files were unsealed too. All added. And `regis
 changes the sealed bytes; the self-entry is now dropped and the reason recorded, rather than left as a
 warning line that trains readers to ignore the checker.
 
+**A third bug, and the most uncomfortable one: a check that could not fail.** The seal's strongest claim
+is that it matches what git *actually holds*, not what the worktree would hash to. That cross-check
+parsed `git ls-files -s` with `l.split()` and keyed its dict on `r[0]` — **the file mode**. Every
+`100644` file collapsed into one entry, so it printed "1 of 29 are in the git index" regardless of
+reality, the membership test was never true, and the drift loop **compared nothing at all**. It reported
+clean because it was structurally incapable of reporting anything else, and it survived every `--check`
+run during this gate. It surfaced only when a real mismatch appeared after committing: sha1 agreed, and
+the line still said "1 of 29". `test_index_cross_check_is_not_vacuous` now asserts the *counts* the
+checker prints, not merely its verdict — the only assertion that catches an unfailable check. The same
+run exposed a second reporting defect: a pending `sha256_of_git_blob: None` that resolves once the file
+is committed was being called "hash collision or a mis-recorded seal", a false alarm on the transition
+from prediction to confirmation. It now prints `RESOLVED` and does not count as drift.
+
 ---
 
 ## 7. Open blockers, and what the PI must decide

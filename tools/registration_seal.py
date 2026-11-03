@@ -223,6 +223,7 @@ def check(reg_path: pathlib.Path) -> int:
     reg = json.loads(reg_path.read_text(encoding="utf-8"))
     files = reg.get("harness_hashes", {}).get("files", {})
     bad = []
+    resolved = []
     for f, was in files.items():
         now = entry(f)
         if now.get("status") == "MISSING":
@@ -231,6 +232,14 @@ def check(reg_path: pathlib.Path) -> int:
         if now.get("git_blob_sha1") != was.get("git_blob_sha1"):
             bad.append((f, f"blob {str(was.get('git_blob_sha1'))[:10]} -> "
                            f"{str(now.get('git_blob_sha1'))[:10]}"))
+        elif was.get("sha256_of_git_blob") is None and now.get("sha256_of_git_blob") is not None:
+            # NOT DRIFT. The seal recorded PENDING because the file was untracked when it was written
+            # (git hash-object predicts a blob id but does not write the object, so the independent
+            # sha256 confirmation was unavailable). Now that it is committed the value has RESOLVED.
+            # sha1 agreeing while sha256 "disagrees" against a recorded None is this transition, and
+            # calling it a hash collision is a false alarm that would make every post-commit check fail
+            # -- which is exactly what happened on the first run of this gate's seal after committing.
+            resolved.append(f)
         elif now.get("sha256_of_git_blob") != was.get("sha256_of_git_blob"):
             bad.append((f, "sha256 of blob disagrees while sha1 agrees -- hash collision or a "
                            "mis-recorded seal"))
@@ -239,14 +248,35 @@ def check(reg_path: pathlib.Path) -> int:
                            "conversion rules changed under the seal"))
     for f, why in bad:
         print(f"  DRIFT {f}: {why}")
+    if resolved:
+        print(f"  {len(resolved)} file(s) sealed while UNTRACKED had their pending sha256 RESOLVED "
+              f"after commit -- sha1 agrees, so the seal holds; re-stamp to record the confirmation:")
+        for f in resolved[:6]:
+            print(f"    RESOLVED {f}")
+        if len(resolved) > 6:
+            print(f"    ... {len(resolved) - 6} more")
     ok = len(files) - len(bad)
     print(f"[seal] {ok}/{len(files)} files match the registration on the git blob")
     if not bad and files:
         # Cross-check against the index for whatever is committed: the strongest available statement,
         # because it compares the seal to what git actually holds rather than what it would hold.
         idx = git("ls-files", "-s", "--", *files)
-        rows = [l.split() for l in idx.splitlines() if l.strip()]
-        committed = {r[0]: r[1] for r in rows}
+        # `git ls-files -s` prints "<mode> <sha> <stage>\t<path>". The old parse did l.split() and keyed
+        # the dict on r[0] -- THE MODE -- so all 100644 files collapsed into one key: the line always
+        # printed "1 of N are in the git index", `f in committed` was never true, and the drift loop
+        # compared NOTHING. A check that cannot fail is worse than no check, because it reads like
+        # coverage. Path is taken from after the tab, sha from the second field, stage 0 only.
+        committed = {}
+        for line in idx.splitlines():
+            if not line.strip():
+                continue
+            meta, sep, path = line.partition("\t")
+            if not sep:
+                continue
+            parts = meta.split()
+            if len(parts) < 2 or parts[2:3] != ["0"]:
+                continue
+            committed[path.replace("\\", "/")] = parts[1]
         drift = [(f, files[f].get("git_blob_sha1"), committed[f])
                  for f in files if f in committed
                  and files[f].get("git_blob_sha1") != committed[f]]
