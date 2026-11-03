@@ -1,0 +1,39 @@
+{
+  "battery": {
+    "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
+    "file_sha256_lf": "022686ab4c8a096ea49c4ef59284ebfd668710fa697b0c07c0c83437129aca35",
+    "mode": "manifest",
+    "n_distractors": 12,
+    "n_items": 40,
+    "n_probes_built_by_this_bench": 136,
+    "n_probes_registered_in_manifest": null,
+    "note": "frames rebuilt by this file's own svo/obl/intr from the recorded construction calls",
+    "path": "experiments/MP-E8/curriculum_tier40.json",
+    "seed": null,
+    "tier": 40
+  },
+  "compared": {
+    "new": "experiments/MP-E8/results/armB_tier40_batteryfix.json",
+    "reference": "experiments/MP-E8/results/armB_tier40_calib_a.json"
+  },
+  "identity_differences": [],
+  "identity_fields": [
+    "cls",
+    "said",
+    "src",
+    "item",
+    "shape",
+    "mech",
+    "taught",
+    "own",
+    "answered"
+  ],
+  "keys_only_new": [],
+  "keys_only_reference": [],
+  "n_rows_new": 1224,
+  "n_rows_reference": 1224,
+  "n_shared_keys": 1224,
+  "probes_new": 136,
+  "probes_reference": 136,
+  "verdict": "INERT at tier 40: rebuilding the battery from the manifest changed no row"
+}

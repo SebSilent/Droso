@@ -1478,6 +1478,17 @@
       "id": "R15",
       "mitigation": "Every new artifact carries its interpreter seal. Any number that must be compared against a 3.10 record is re-measured on 3.12 before the comparison is published.",
       "risk": "Recorded numbers and this session's numbers are sealed at different interpreters."
+    },
+    {
+      "class": "methodological",
+      "decided_by": "PI, ruling D-MPE8-05 (2026-11-03)",
+      "detail": "R13(a) registered exactly two tolerated cells: learn/1/reasked and learn/1/restarted. MP-E8 measured a third gated row outside that list: control|3|live|pair1.0|pair_exact flips `said` in 1 of 6 runs, across two git heads, three bench versions and both the pre-torch and torch environments (experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json). The mechanism is R13's own -- organs/neural_language.py:946-948 reads time.time() on the answer path -- and which cells it reaches depends on machine load. The gated-cell set is therefore a property of the environment, not of the source, and no list written before the runs can be complete.",
+      "graded_outcome_at_issue": "None. On the row that moved, cls and src are identical in every run, so no graded field and no C-condition turns on it.",
+      "id": "R16",
+      "mitigation": "Each experiment keeps its own dated observed_wall_clock_gated_cells block, every entry naming the artifact that revealed it; a new cell is added by amendment and R13's registered list is never edited. Comparisons are made only between runs whose environment records agree.",
+      "risk": "A fixed tolerance-cell list is always incomplete, so an inertness verdict computed against it can be a verdict about a cell nobody measured.",
+      "rule_as_ruled": "The set of wall-clock-gated cells is an OBSERVED property of an environment, re-derived per environment by measurement. A newly discovered cell is added by dated amendment naming the artifact that revealed it -- never by editing the original list.",
+      "why_not_decided_here": "Widening R13's list after artifacts exist is an R2 event and belongs to the PI, not to the agent who found the row. The PI ruled against widening and for the mechanism."
     }
   ],
   "schema": "droso.registration.v1",

@@ -65,6 +65,7 @@
       "reporting": "the per-seed vectors first, then min/median/max of each per-seed margin",
       "why_not_pooled": "Pooling lets a favourable initialisation pay for an unfavourable one: the drop H1 asserts would then be a property of the pool, and no single run in the pool would exhibit it. The statement is about an arm dropping below its own baseline, so the baseline has to belong to the run that drops."
     },
+    "margin_rule_as_ruled": "the registered margin is not adjusted to fit the observed spread; spreading past the margin costs the claim its decidability, not the margin its value",
     "measured_basis": {
       "arm_A_noise_floor_not_transferable": {
         "floor": [
@@ -150,6 +151,8 @@
       "cells_widened_by_this_note": "none"
     },
     "registered_at": "2026-11-03T12:19:52Z",
+    "ruled_at": "2026-11-03T14:20:00Z",
+    "ruled_by": "PI, D-MPE8-06",
     "seeds": {
       "count": 3,
       "declared_before_any_H1_run": true,
@@ -169,7 +172,8 @@
         20261105
       ]
     },
-    "status": "REGISTERED as a requirement on any H1 number for arm B. The seed COUNT and the choice of statistic are put to the PI as D-MPE8-06; until that is ruled, H1 stays unquotable for arm B.",
+    "status": "RULED by the PI as D-MPE8-06. Three seeds, each a complete three-depth run; the margin is measured against each seed's own session-1 score; H1 is carried by the least favourable seed. A single-seed run cannot support H1.",
+    "undecidable_rule": "If the observed seed spread at a tier exceeds the registered margin (5.0 pp, unchanged), H1 is reported NOT DECIDABLE at that tier rather than passed. The instrument's instability is then the finding. Same discipline as H3/C4: an unmeasurable claim is named, not renumbered.",
     "what_this_does_not_change": "No sealed number is re-measured or moved. H1's registered margin of 5.0 pp is untouched and is put to the PI in D-MPE8-06 rather than silently revised, because the measured across-initialisation spread is what calls it into question.",
     "within_seed_determinism": {
       "agreement_within_each_order_and_thread_count": {
@@ -187,6 +191,58 @@
       "seed_set_before_construction_agrees_bit_for_bit_at_fixed_threads": true,
       "thread_count_is_part_of_the_configuration": "torch.set_num_threads(6) is pinned in the tool for this reason: the same seed at a different thread count moves the confidence in the eighth decimal, and the abstention threshold sits in a dense confidence region.",
       "thresholds_agreed_across_that_repeat": true
+    }
+  },
+  "armB_tier120_interpretation": {
+    "changes_no_number": true,
+    "decision_left_to_the_pi": "whether the margin needs a dated amendment -- a relative-drop form, or a minimum session-1 level below which the drop statistic is not evaluated -- is the PI's call and is not taken here. The measurement above is the reason to take that call soon rather than never: the margin's severity depends on a baseline that is not where the instruction supposed it was. Nothing in this block is quotable as a pass, and H1's FAIL at tier 120 stands exactly as the verdict artifact states it.",
+    "measured_session1_levels": {
+      "arm_A_for_comparison": {
+        "correct": 38,
+        "pct": 27.94,
+        "rows": 136,
+        "source": "experiments/MP-E8/results/armA_tier40_inertness.json",
+        "why_measured": "the instruction quoted a session-1 level 'in the 20s'. The only arm whose tier-40 session-1 rate is in the 20s is arm A. Naming which arm a level belongs to is not pedantry here: H1's two clauses are about different arms."
+      },
+      "tier_120_three_seeds": {
+        "pcts": [
+          6.25,
+          6.9712,
+          7.4519
+        ],
+        "source": "experiments/MP-E8/results/armB_tier120_seeds_verdict.json"
+      },
+      "tier_40": {
+        "correct": 12,
+        "live_correct": 12,
+        "pct": 8.82,
+        "rows": 136,
+        "source": "experiments/MP-E8/results/armB_tier40_batteryfix.json, same statistic as the verdict (sum(correct)/sum(n) over summary.B.<depth>.live.by_shape)"
+      }
+    },
+    "premise_checked_and_corrected": {
+      "as_asked": "register that arm B scored in the 20s at tier 40 against 6.97/7.45/6.25 percent at tier 120, i.e. a baseline roughly four times higher when the 5 pp margin was set",
+      "as_measured": "arm B tier-40 session-1 = 12/136 = 8.82%; tier-120 session-1 = 6.25-7.4519%. Ratio 1.18x, not ~4x. The 20s figure belongs to arm A at tier 40 (38/136 = 27.94%).",
+      "registered_anyway": false,
+      "registered_at": "2026-11-03T18:20:00Z",
+      "why_this_matters": "a margin-severity argument built on a four-times baseline would have been false in the registration, and it would have weakened the true argument: arm B is near the floor at BOTH tiers, so the pp margin has never been measuring a large model's loss of knowledge at any tier this experiment has run. Registering the wrong baseline would have made the floor reading look like a forgetting reading."
+    },
+    "ratio_measured": {
+      "arm_B_tier40_over_tier120_best": 1.18,
+      "arm_B_tier40_over_tier120_worst": 1.41
+    },
+    "registered_at": "2026-11-03T18:05:00Z",
+    "registered_by": "agent on PI instruction",
+    "the_different_finding_it_points_at": "'it forgot' and 'it never knew' produce the same small absolute drop and are different results. At 6.25-7.4519% session-1 accuracy there is little stored to lose, and arm B has never been measured above 8.82% at session 1 at any tier. The artifacts already carry the evidence for the floor reading: per-depth retention shows items counted lost at depth 2 and 3 that were not held at session 1 (see retention_per_seed_per_depth in the verdict artifact). This block records that the tier-120 drop statistic cannot distinguish the two readings; it does not decide between them.",
+    "the_property_being_stated": "arm B's session-1 live correct rate is 8.82% at tier 40 and 6.25-7.4519% at tier 120: low at both, and the tier-40 figure is only 1.18x the best tier-120 one. The registered margin is 5.0 percentage points, chosen against a 0.30% clone noise floor. Against a baseline of 6.25%, a 5.0 pp drop is 80.0% of everything the least favourable seed ever got right at session 1 -- and against arm B's own tier-40 baseline it is 56.7% of it. The margin is a percentage-point figure applied to a percentage-point-scale phenomenon sitting near the floor of the battery, at every tier measured. That is a property of the comparison, not of any one run.",
+    "what_remains_exactly_as_registered": {
+      "h1_verdict_at_tier_120": "FAIL at this tier",
+      "least_favourable_seed_drop_pp": 1.6827,
+      "margin_pp": 5.0,
+      "tiers_required_for_H1": [
+        120,
+        300
+      ]
     }
   },
   "arms": {
@@ -215,12 +271,58 @@
         "architecture and seed",
         "the held-out set its abstention threshold was calibrated on"
       ],
-      "status": "NOT BUILT. See D-MPE8-02: no ML framework is installed."
+      "status": "BUILT AND MEASURED. Corrected instrument (see AMD-MPE8-05 for the battery defect this arm had). Tier 40: calibration only, two identical runs, 0 of 1224 rows differ, and the fix is proven inert there. Tier 120: three seeds on the 416-ask battery, per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin -- the arm B clause of H1 is NOT met at tier 120. Tier 300: never run, so H1 is not closable yet."
     },
     "C": {
       "abstention": "must ALSO cover the retrieval-empty case, which is where frozen-plus-retrieval systems historically confabulate",
+      "abstention_as_built": {
+        "estimator_note": "arm B inlines its Youden search inside calibrate(), so there was no function to import and arm C holds its own copy. That is the drift risk this arm exists to avoid, so test_youden_takes_the_more_refusing_side_of_a_tie pins the estimator against a hand-checkable case (cut 0.54, J 1.0) and a genuine tie (both cuts J 0.5, the higher, more refusing cut wins).",
+        "gates": "two, both fitted on held-out data before any graded comparison: a cosine similarity floor over the retrieval store, then a confidence threshold on the generated answer among rows that cleared the floor. Each is the Youden's J cut between taught asks and the manifest's never-taught distractor asks, ties going to the more refusing side.",
+        "retrieval_empty_case": "the calibration record enumerates it explicitly: retrieval_empty_among_never_told (asks that should not be answered and whose retrieval fell below the floor) and retrieval_empty_among_taught (asks that should be answered and fell below it, i.e. the false-refusal cost). A row that falls below the floor is not answered at all -- mech is retrieval_empty and said is empty -- because frozen-plus-retrieval systems historically confabulate exactly there."
+      },
+      "architecture_reuse": "imports b.Net, b.train_session, b.generate and b.pad from tools/mp_e8_arm_b.py rather than copying them, so 'same architecture as arm B' is satisfied by object identity -- the test test_architecture_is_arm_b_by_identity_not_by_copy asserts c.b.Net is b.Net and the EMBED/HIDDEN/LAYERS/LR/BATCH constants are equal. A second Net() in this file would have been a second contract that can drift, which is the reason mp_e8_curriculum.py parses arm A's lists instead of copying them.",
+      "as_registered_pre_run": {
+        "abstention": "must ALSO cover the retrieval-empty case, which is where frozen-plus-retrieval systems historically confabulate",
+        "definition": "The same architecture as B, frozen after pre-training, with a vector-store retrieval bolt-on over the taught items. Its weights never change during deployment.",
+        "status": "NOT BUILT. Depends on B's architecture."
+      },
+      "battery": "calls eb.apply_curriculum() exactly as arm A does and as arm B has since AMD-MPE8-05, so the probe matrix is the tier's. Arm C was written after that defect and could not have inherited it.",
       "definition": "The same architecture as B, frozen after pre-training, with a vector-store retrieval bolt-on over the taught items. Its weights never change during deployment.",
-      "status": "NOT BUILT. Depends on B's architecture."
+      "definition_as_built": "arm B's architecture, frozen after pre-training at each depth, answering by vector-store retrieval over the items taught up to that depth, with its own abstention threshold calibrated on held-out data including the retrieval-empty case (plan: Refusal fairness; H2's second clause).",
+      "freeze_discipline": "after the last gradient step at a depth, requires_grad is cleared, the module is set to eval() and a sha256 of the saved state dict is taken. That hash is recomputed after EVERY probe round (live, reasked, restarted) and the run aborts if it moved: 'frozen after pre-training' is a measured property of the artifact, not a comment in a tool. The hash is carried in the artifact per depth (frozen.<depth>.state_dict_sha256) and in provenance.",
+      "name_collision_note": "definition and abstention are the pre-run contract strings, restored verbatim from HEAD after a first pass overwrote them with as-built prose. The as-built description lives in definition_as_built and abstention_as_built. Only `status` is legitimately allowed to move, and status_change records what it moved from.",
+      "near_miss_slice": "computable from the artifact, not from a reader's inference: every row carries retr_sim, retr_item and retr_exact, where exact is the comparison between the top-1 item and the ask's own expected sentence. retrieval_slices reports n_retrieval_empty / n_near_miss / n_exact_retrieval per depth and phase against the registered definition (D-MPE8-04: top-1 within the abstain threshold but not an exact match).",
+      "plan_wording_divergence": {
+        "escalated_as": "D-MPE8-08",
+        "the_plan_says": "R12 in experiments/G0-prime/registration.json records section 6.2 as requiring 'arm B as a 2-10M-parameter LSTM and arm C as a tiny transformer'",
+        "what_was_built": "arm C is arm B's LSTM, not a transformer -- built to the instruction that arm C share arm B's architecture so the duel isolates memory mechanism rather than model family",
+        "why_it_is_recorded": "the two are different requirements and the difference is visible in the artifact's architecture block. If the transformer wording is the one that governs, arm C is not yet built; that is a ruling, not something to settle in a code comment."
+      },
+      "plan_wording_verified": {
+        "consequence": "arm C as built -- arm B's LSTM by import -- is what the plan asks for. 'Tiny Transformer' is an option offered for arm B, not a requirement for arm C.",
+        "plan_text": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:660-663 -- 'B is a 2-10M parameter LSTM or tiny Transformer, fine-tuned sequentially at each session on that session's material. C is the same architecture as B, frozen after pre-training, with a vector-store retrieval bolt-on over the taught items; its weights never change during deployment.'",
+        "r12_handling": "R12's text is NOT edited: it is a sealed risk record, and the fault it contains is a paraphrase, not a number. The correction lives here, dated, and is quoted in AMD-MPE8-08.",
+        "where_the_confusion_came_from": "R12's detail string in experiments/G0-prime/registration.json summarises section 6.2 as 'arm B as a 2-10M-parameter LSTM and arm C as a tiny transformer'. That summary is wrong, and I registered a decision against my own summary of it rather than against the plan text. The plan text is the authority and it is in this repository."
+      },
+      "required_logging": [
+        "optimizer steps per session",
+        "wall clock per session",
+        "parameter count",
+        "architecture and seed",
+        "the held-out set the threshold was calibrated on",
+        "the frozen state-dict hash",
+        "retrieval store size and per-row top-1"
+      ],
+      "status": "BUILT, TESTED, AND MEASURED AT TIER 40 ONLY, at a test epoch count. 6 tests pass (28.04 s, machine alone), including the CLI smoke run at 3 epochs. The smoke artifact is in _tmp and is deliberately NOT sealed: it reports 0 correct at every depth and phase, which is what a 3-epoch arm does, and sealing a non-measurement would present it as evidence. No H2 figure exists for arm C at any tier, and H2's second clause is about calibration at the tiers the claim names.",
+      "status_change": {
+        "at": "2026-11-03T18:40:00Z",
+        "from": "NOT BUILT. Depends on B's architecture.",
+        "to": "BUILT, TESTED, AND MEASURED AT TIER 40 ONLY, at a test epoch count. 6 tests pass (28.04 s, machine alone), including the CLI smoke run at 3 epochs. The smoke artifact is in _tmp and is deliberately NOT sealed: it reports 0 correct at every depth and phase, which is what a 3-epoch arm does, and sealing a non-measurement would present it as evidence. No H2 figure exists for arm C at any tier, and H2's second clause is about calibration at the tiers the claim names.",
+        "why_this_field_and_only_this_one": "a pre-run registration is allowed to update a status as the work lands; it is not allowed to rewrite its own definitions. definition and abstention are reproduced verbatim above."
+      },
+      "status_note_on_the_withdrawn_decision": "D-MPE8-08 was opened earlier in this working set and withdrawn in the same working set, before commit. It asked the PI to rule on a plan/build divergence that does not exist. Recording that it was raised and retracted is the point: an open decision invented from a summary, and then quietly deleted, would leave no trace of the mistake that produced it.",
+      "tests": "tests/test_mp_e8_arm_c.py",
+      "tool": "tools/mp_e8_arm_c.py"
     },
     "N": {
       "definition": "The noise floor: three clones of arm A's configuration, required to produce identical outcomes before any treatment arm is scored.",
@@ -1241,6 +1343,34 @@
       "statement": "Arm A cost per learned fact is lower than arm B's optimizer cost at every tier, measured in updates and wall-clock on identical hardware."
     }
   },
+  "instrument_defects_found_and_closed": {
+    "defects": [
+      {
+        "amendment": "AMD-MPE8-01",
+        "evidence": "experiments/MP-E8/results/armB_offbyone_effect.json",
+        "how_found": "0 correct answers on 1,224 rows while the loss fell to ~0.0055",
+        "id": "AMD-MPE8-01-pad",
+        "what": "training target copied the input instead of predicting the next token"
+      },
+      {
+        "amendment": "AMD-MPE8-02",
+        "evidence": "experiments/MP-E8/results/armB_seed_determinism.json",
+        "how_found": "two runs of one configuration moved 672 of 1,224 rows",
+        "id": "AMD-MPE8-02-seed-order",
+        "what": "torch.manual_seed() ran after Net(), so initial weights came from a seed nobody set"
+      },
+      {
+        "amendment": "AMD-MPE8-05",
+        "evidence": "experiments/MP-E8/results/armB_tier40_batteryfix_inertness.json and the armB_tier120_seed*_superseded_battery.json artifacts",
+        "how_found": "the merged artifact said probes=136 at tier 120 and the shape mix was identical to tier 40's, row for row",
+        "id": "AMD-MPE8-05-battery",
+        "what": "the probe battery never scaled with the tier: arm B trained on tier 120 and was asked tier 40's 136 questions while arm A built 416"
+      }
+    ],
+    "pattern_worth_naming": "all three were invisible to aggregates. Loss fell, tests passed, counts looked plausible. What caught each one was a per-row comparison against something that should not have moved -- a clone, a re-run, another arm's battery. That is the argument for row-for-row evidence as the default rather than as extra rigour.",
+    "purpose": "the ledger of ways the instrument was wrong that a passing test suite did not catch. Code comments are not a record: a reader auditing H1 will read this registration, not the diff.",
+    "registered_at": "2026-11-03T16:05:00Z"
+  },
   "metrics": {
     "H3_descriptive_only": {
       "decided_by": "PI ruling D-MPE8-04",
@@ -1276,6 +1406,33 @@
   },
   "name": "The three-arm duel on the live bench",
   "objective": "Measure the true gap between the live connectome agent and parameter-matched frozen and sequential neural language models on all nine axes, under the deployment conditions that define the program: teaching in natural language, real restarts, and probes in words the teacher never used. Produce the program's core figures: forgetting curves and interference curves under identical curricula.",
+  "observed_wall_clock_gated_cells": {
+    "added_by_mechanism": "R16 / D-MPE8-05: a newly discovered gated cell is added here, dated, with the artifact that revealed it. This block is NOT R13's registered list and editing it does not change any tolerance.",
+    "cells": [
+      {
+        "added_at": "2026-11-03T14:20:00Z",
+        "added_by": "AMD-MPE8-04",
+        "cell": "control/3/live/pair1.0/pair_exact",
+        "environment": "post-MP-E8 torch environment: python 3.12.10, torch 2.15.0+cpu, bench at or after the --curriculum change; also observed pre-torch",
+        "field_that_moves": "said",
+        "graded_outcome_affected": false,
+        "observed_rate": "1 of 6 runs across two heads and three bench versions",
+        "revealed_by": "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json",
+        "why_it_is_gated": "organs/neural_language.py:946-948 reads time.time() on the answer path (2.0 s refractory), so whether the speech act fires depends on machine load, which is a property of the environment, not of the code"
+      },
+      {
+        "cell": "learn/1/reasked",
+        "provenance": "registered in R13(a) BEFORE any artifact existed; listed here for completeness of the environment picture, not re-derived and not newly added. R13's authority over this cell is unchanged."
+      },
+      {
+        "cell": "learn/1/restarted",
+        "provenance": "registered in R13(a) BEFORE any artifact existed; listed here for completeness of the environment picture, not re-derived and not newly added. R13's authority over this cell is unchanged."
+      }
+    ],
+    "re_derivation": "by measurement, per environment. The tool that measures it is tools/bench_noise_floor.py; a cell enters this block only with an artifact and a date attached.",
+    "registered_at": "2026-11-03T14:20:00Z",
+    "rule_id": "R16"
+  },
   "open_decisions_for_pi": {
     "D-MPE8-01_arm_A_flag_configuration": {
       "RESOLVED": {
@@ -1345,7 +1502,7 @@
       "asked_by": "agent",
       "measured": "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json -- six artifacts, the disputed row's full text in each, and the tally 5:1",
       "question": "The registered noise tolerance names two cells (learn/1/reasked, learn/1/restarted) as wall-clock-gated. Measurement found a third gated row outside that list: control/3/live/pair1.0/pair_exact flips its surface string in 1 of 6 runs across two heads and three bench versions. Should the tolerance cell list be widened to cover any row whose outcome depends on the 2.0 s speech-act gate, or should the gate be made deterministic (a fixed budget instead of wall clock) so the question does not arise?",
-      "status": "OPEN. Nothing was widened. The affected row is a control-arm surface string; cls and src are identical in every run, so no graded outcome and no C-condition moves on it.",
+      "status": "RULED by the PI at 2026-11-03T14:20:00Z: not widened. See pi_decisions.rulings['D-MPE8-05'] and R16. The discovery is carried by dated amendment AMD-MPE8-04 into observed_wall_clock_gated_cells.",
       "why_it_cannot_be_decided_by_the_agent": "Widening a tolerance after artifacts exist is an R2 event. The list was registered before the runs that are now being compared against it."
     },
     "D-MPE8-06": {
@@ -1366,9 +1523,40 @@
       },
       "opened_at": "2026-11-03T12:19:52Z",
       "question": "Is 3 the right number of arm B seeds, and is 'drop against each seed's own session-1, carried by the least favourable seed' the right statistic -- and does the registered 5 pp margin survive being measured against an across-initialisation spread of the size now on file?",
-      "status": "OPEN",
+      "status": "RULED by the PI at 2026-11-03T14:20:00Z: 3 seeds, per-seed own session-1 baseline, least favourable seed carries H1, margin unchanged at 5.0 pp, and spread > margin means NOT DECIDABLE rather than a pass. See pi_decisions.rulings['D-MPE8-06'].",
       "what_was_not_done": "The margin was not changed, no tolerance cell was widened, and no existing sealed number was re-measured.",
       "why_it_is_a_ruling_not_a_discovery": "Choosing how many runs a claim needs, and which statistic carries it, changes what would count as evidence for H1. That is the PI's call, not something to settle by measuring harder."
+    },
+    "D-MPE8-07_guarded_absence_arm_attribution": {
+      "agent_recommendation": "Keep the number where it is and re-express the measurement, not the threshold: define the guarded-absence rows by FORM (the registered distractor/never-taught-ask set, which the manifest carries per tier) and score refusals over that set per arm. That makes C1 computable for arm A, makes H2's 'exceeds both baselines' a comparison between like quantities, and does not move any registered value. It also exposes something the current wording hides: at tier 120 arm A's distractor rows include 3 invented answers, which no src-based criterion sees.",
+      "asked_at": "2026-11-03T17:10:00Z",
+      "asked_by": "agent",
+      "electric_absence_rows_by_arm": {
+        "current_tree_tier40": {
+          "teach": 24
+        },
+        "sealed_3.10_tier40": {
+          "teach": 24
+        },
+        "tier120": {
+          "teach": 24
+        }
+      },
+      "learn_arm_refusals_on_those_rows": {
+        "current_tree_tier40": 0,
+        "sealed_3.10_tier40": 0,
+        "tier120": 0
+      },
+      "measured": "experiments/MP-E8/results/guarded_absence_arm_attribution.json",
+      "question": "H2's registered threshold arm_A_guarded_absence_refusal_min = 24, and C1's 'NOT FIRING -- 24/24 refuse' state, are both written as arm A claims. Measured on four trees including the sealed 3.10 baseline: all 24 src==electric_absence rows are TEACH-arm rows, the learn arm has none, and on those same rows arm A answers 'the bell hangs on the wall' from electric_qa_store and is graded correct. Which arm does the threshold refer to -- and is C1's measurement basis to be re-expressed in an observable that exists for arm A (e.g. rows whose ask has no taught answer, regardless of src), or is the guarded-absence claim moved to the teach arm where the evidence lives?",
+      "second_defect_in_the_same_sentence": "C1's measured_by reads 'bench rows with src == electric_absence that carry an answer'. In the arm that has such rows, EVERY one of them carries an answer, because a licensed absence admission ('i don't know, bell was told but no place was ever told for bell') is a spoken answer. Read literally the criterion fires 24/24 on the very rows the registration records as the passing case. The intent is plainly 'answered with something other than the licensed admission', but that is not what is registered.",
+      "status": "OPEN. Nothing registered was edited; the evidence is in the artifact named above.",
+      "trees_measured": [
+        "current_tree_tier40",
+        "sealed_3.10_tier40",
+        "tier120"
+      ],
+      "why_it_cannot_be_decided_by_the_agent": "Both options change a pre-registered quantity. Re-attributing the threshold changes what H2 claims; re-expressing C1's measured_by changes what the abort condition watches. Either is an R2 event, and doing it quietly would be the same fault D-MPE8-05 ruled against for R13's tolerance cells."
     }
   },
   "pi_decisions": {
@@ -1469,6 +1657,47 @@
         },
         "reasoning": "Stated the way MP-E9 stated C4. The plan's own gate wording must be checked before treating H3 as a gate.",
         "status": "RESOLVED, implemented"
+      },
+      "D-MPE8-05": {
+        "decided_at": "2026-11-03T14:20:00Z",
+        "decided_by": "PI",
+        "decision": "DO NOT widen R13's cell list. The set of wall-clock-gated cells is an OBSERVED property of an environment, re-derived per environment by measurement, and a newly discovered cell is added by dated amendment naming the artifact that revealed it -- never by editing the original list.",
+        "implemented": {
+          "AMD-MPE8-04": "the dated amendment this ruling requires for a newly discovered cell, and the first use of the mechanism",
+          "observed_wall_clock_gated_cells": "new block in this registration: the per-environment observation, kept separate from R13's registered list so neither can be mistaken for the other"
+        },
+        "mechanism_registered_as": "R16 in experiments/G0-prime/registration.json risk_register_additions (the register R13 itself lives in)",
+        "reasoning": "R13 was registered before the artifacts existed. Moving a tolerance after artifacts exist is an R2 event: the list would then be chosen by the runs it is supposed to judge, and every inertness verdict already recorded against it would be a verdict against a standard that moved underneath it. The alternative the agent offered -- widen to 'any row gated on the 2.0 s speech-act gate' -- is the tempting one because it is general, and it is rejected for the same reason: it is still an edit to the registered list, made after the fact.",
+        "status": "RESOLVED by ruling. Nothing widened; the mechanism is registered instead.",
+        "the_discovery_this_covers": {
+          "artifact_that_revealed_it": "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json",
+          "cell": "control/3/live/pair1.0/pair_exact",
+          "field_that_moves": "said",
+          "fields_identical_in_every_run": [
+            "cls",
+            "src"
+          ],
+          "graded_outcome_moves": false,
+          "observed": "flips its surface string in 1 of 6 runs, across two git heads, three bench versions and both the pre-torch and torch environments",
+          "superseded_artifact_status": "experiments/MP-E8/results/armA_tier40_newenv.json stays SUPERSEDED. The ruling does not rehabilitate it: the row is gated, and a gated row is not evidence about an instrument."
+        },
+        "what_was_NOT_changed": {
+          "R13_registered_cells": "tools/bench_noise_floor.py R13A_EXCLUDED_CELLS still exactly learn/1/reasked and learn/1/restarted. Asserted by the script that wrote this ruling, and asserted again by the seal check.",
+          "registered_list_edited": false
+        }
+      },
+      "D-MPE8-06": {
+        "consequence_for_the_tier_40_calibration": "tier 40 stays calibration and carries no H1 claim (unchanged, tiers_required_for_H1 = [120, 300]). Its 29.4 pp spread is now a standing prediction about tiers 120/300: if it recurs there, H1 is NOT DECIDABLE at those tiers and the arm B instrument is the result.",
+        "decided_at": "2026-11-03T14:20:00Z",
+        "decided_by": "PI",
+        "decision": "Three seeds, each a complete three-depth run. The margin is taken against each seed's own session-1 score. H1 is carried by the least favourable seed.",
+        "implemented": {
+          "armB_seed_protocol": "status moved from REGISTERED-pending-ruling to RULED; seeds, per-seed baseline and least-favourable carriage unchanged from the registration; undecidable_rule added to the block so the rule travels with the protocol instead of living only in this ruling"
+        },
+        "margin_untouched": "The registered 5 pp is NOT adjusted to fit the 29.4 pp tier-40 seed spread. Renumbering a threshold to match the noise is moving the goalposts, which is the same fault R2 names in a tolerance.",
+        "same_discipline_as": "H3/C4, where a claim the instrument could not measure was named as unmeasurable rather than renumbered into measurability.",
+        "status": "RESOLVED by ruling.",
+        "undecidable_rule": "If the observed seed spread at a tier exceeds the registered margin, H1 is reported as NOT DECIDABLE at that tier -- not passed, not re-thresholded, not quietly averaged away. The instrument's own instability is then the finding, and it is published as the finding."
       }
     }
   },
@@ -2088,6 +2317,120 @@
       "what_changed": "Tier 120 is no longer 'registered, not yet built': it was built (curriculum_tier120.json, already sealed) and arm A has now been run on it through --curriculum. This amendment records the result and its limits. It also updates experiments/G0-prime/tier_protocol.json's tier_120 status field and adds a projection_status note to tier_300; no projected number in that file was edited.",
       "what_it_does_not_support": "Any forgetting claim. Tier 40 and tier 120 are different instruments under constraint (b) -- 8 of tier 40's 136 asks use content words no taught sentence contains, and tier 120 has none -- so the refusal-rate change between them is partly definitional. The registration's own consequence_for_analysis says this in terms, and it is quoted in the finding artifact rather than paraphrased.",
       "what_it_does_support": "A within-tier observation: at tier 120 arm A asserted an untaught relation on 3 live-phase guarded-absence rows (items dist20, dist29, dist33), where the tier-40 run had 0. That is the class the exit code fails on and it is the first time it has been seen outside prose. It needs its own look before H2 is quoted."
+    },
+    {
+      "amd": "AMD-MPE8-04",
+      "dated_amendment_required_by": "R16 (D-MPE8-05)",
+      "id": "AMD-MPE8-04",
+      "motive": "This is the mechanism working as designed instead of an edit: the newly discovered wall-clock-gated cell is added to the observed set by a dated amendment naming the artifact, and R13's registered list is left exactly as registered.",
+      "recorded_at": "2026-11-03T14:20:00Z",
+      "recorded_by": "agent on PI ruling D-MPE8-05",
+      "revealed_by_artifact": "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json",
+      "scope": "observed_wall_clock_gated_cells gains control/3/live/pair1.0/pair_exact",
+      "what_moves": "Nothing graded. cls and src are identical in every run of that row; only `said` flips."
+    },
+    {
+      "class": "instrument defect, found by reading the artifact instead of trusting the aggregate",
+      "corrected_tier_120_three_seed_result_read_from_the_verdict_artifact": {
+        "artifact": "experiments/MP-E8/results/armB_tier120_seeds_verdict.json",
+        "battery_probes": 416,
+        "least_favourable_seed_drop_pp": 1.6827,
+        "margin_pp": 5.0,
+        "per_seed_drop_pp": {
+          "20261103": 3.8462,
+          "20261104": 2.1634,
+          "20261105": 1.6827
+        },
+        "plain_statement": "all three seeds lose more at session 3 than at session 1, so the direction the plan predicted is real; but H1 is carried by the least favourable seed and that seed drops 1.6827 pp against a 5.0 pp margin, so the arm B clause of H1 is NOT met at tier 120. The margin was not adjusted and the NOT-DECIDABLE rule did not fire -- the spread is below the margin, so this is a plain failure of the claim at this tier, not an instrument excuse.",
+        "seed_spread_drop_pp": 2.1635,
+        "undecidable_rule_fired": false,
+        "verdict": "FAIL at this tier"
+      },
+      "id": "AMD-MPE8-05",
+      "inertness_at_tier_40_measured": {
+        "artifact": "experiments/MP-E8/results/armB_tier40_batteryfix_inertness.json",
+        "identity_field_differences": 0,
+        "keys_only_new": [],
+        "keys_only_reference": [],
+        "rows_compared": 1224,
+        "verdict": "INERT at tier 40: rebuilding the battery from the manifest changed no row",
+        "why_this_matters": "this is what limits the damage: the fix changed no row at tier 40, so the sealed calibration artifacts, the determinism evidence and the tier-40 noise-floor numbers all still mean what they say. The defect was a tier-scaling defect, not a measurement error at the calibration tier."
+      },
+      "reach_this_is_void": "every cross-arm tier-120 comparison made before the fix compared 136 asks (arm B) to 416 asks (arm A) and is void as a comparison. The arm A tier-120 artifacts themselves are not void -- arm A scaled correctly -- and no arm B number from the superseded artifacts is quotable at any tier.",
+      "recorded_at": "2026-11-03T16:05:00Z",
+      "recorded_by": "agent",
+      "scope": "tools/mp_e8_arm_b.py. Arms A and C are not affected: A rebuilds its battery through apply_curriculum() itself, and C was written after this defect and applies the same function by construction.",
+      "shape_mix_before_and_after": {
+        "note": "the pre-fix mix is tier 40's, row for row. The post-fix mix is the tier's own, built by arm A's probes_for()/probes_for_pair() from the same committed manifest.",
+        "tier120_post_fix_per_depth_live": {
+          "object": 69,
+          "object_fold": 69,
+          "pair_exact": 48,
+          "pair_fold": 48,
+          "qword": 23,
+          "reverse": 2,
+          "reverse_fold": 2,
+          "role_swap": 13,
+          "subject": 72,
+          "subject_fold": 70
+        },
+        "tier120_pre_fix_per_depth_live": {
+          "object": 21,
+          "object_fold": 21,
+          "pair_exact": 16,
+          "pair_fold": 16,
+          "qword": 6,
+          "reverse": 2,
+          "reverse_fold": 2,
+          "role_swap": 6,
+          "subject": 24,
+          "subject_fold": 22
+        }
+      },
+      "superseded_artifacts": {
+        "seed_20261103": "experiments/MP-E8/results/armB_tier120_seed1_superseded_battery.json",
+        "seed_20261104": "experiments/MP-E8/results/armB_tier120_seed2_superseded_battery.json",
+        "seed_20261105": "experiments/MP-E8/results/armB_tier120_seed3_superseded_battery.json"
+      },
+      "superseded_by_rename_not_deletion": "renamed, not deleted: the pre-fix artifacts are the evidence this amendment cites, and R5 forbids removing a published figure. The state directories were renamed for the same reason and because arm B's new merge guard is what proves they can never silently re-enter an artifact.",
+      "superseded_state": [
+        "experiments/MP-E8/results/armB_state_t120_s1_superseded_battery",
+        "experiments/MP-E8/results/armB_state_t120_s2_superseded_battery",
+        "experiments/MP-E8/results/armB_state_t120_s3_superseded_battery"
+      ],
+      "superseded_verdict": "experiments/MP-E8/results/armB_tier120_seeds_verdict_superseded_battery.json",
+      "tests_after_the_fix": "13 passed in 66.66s (tests/test_mp_e8_arm_b.py), machine alone",
+      "the_defect": "arm B trained on the tier's material and was graded on tier 40's questions. probe_arm_b() and calibrate() both iterate eb.PROBES, which is built once from the bench's module-literal SESSIONS/PAIRS/DISTRACTORS -- 136 rows. At tier 120 the model was fine-tuned on 300 optimizer steps a session against tier 40's 120, so training scaled; the battery did not. Arm A, reading the same committed file (bfa225ad905a574b), built 416 probes. The two arms did not run the same experiment at that tier.",
+      "the_fix": {
+        "apply_curriculum": "tools/mp_e8_arm_b.py main() now calls eb.apply_curriculum(man_path) -- the same function arm A's --curriculum calls -- so the battery is rebuilt from the manifest through arm A's own probe builders, and the registered probe count is enforced on the way through (electric_learn_bench.py:353-359). No second probe builder was written: a second implementation is how 'identical curricula' drifts.",
+        "battery_recorded": "the artifact now carries a battery block (tier, path, n_probes_built_by_this_bench, n_distractors, curriculum_sha256) and battery_matches_manifest_tier. The probe COUNT alone could not catch this defect -- 136 looks legitimate until you notice it is tier 40's number at tier 120.",
+        "merge_guard": "merge() refuses any chunk whose row count differs from the battery the merge process rebuilt, naming the depth, the phase and both counts. FIRED FOR REAL: merging the pre-fix 136-row tier-120 chunks against the 416-ask battery aborted and wrote no artifact."
+      },
+      "what_this_does_not_change": "H1's registered statement, its 5.0 pp margin, its tiers_required_for_H1, R13's tolerance cells and every tier-40 artifact. Nothing pre-registered was edited by this amendment.",
+      "why_it_survived_every_tier_40_run": "at tier 40 the module literal IS the tier, so probes=136 was the correct number at every tier-40 measurement ever taken: two calibration artifacts, a seed-determinism artifact, an off-by-one effect artifact and a 13-test file all passed while the battery was silently frozen. The aggregate that should have flagged it -- probes -- was recorded faithfully; it just never changed when the curriculum did. Nothing checked the battery against the tier."
+    },
+    {
+      "class": "measurement-basis defect found while classifying bench failures against C1",
+      "escalated_as": "D-MPE8-07",
+      "evidence": "experiments/MP-E8/results/guarded_absence_arm_attribution.json",
+      "how_it_was_found": "A first pass at classifying the tier-120 failures printed 'C1 NOT FIRING'. It was wrong, and wrong in the worst shape: it searched the LEARN arm for src==electric_absence, found none, and reported a clean verdict. The census that followed found the rows in the TEACH arm, and found that arm A answers all of them. An all-clear computed against the wrong arm is not evidence of safety, and the only reason it was caught is that the script's own output looked too tidy.",
+      "id": "AMD-MPE8-07",
+      "recorded_at": "2026-11-03T17:10:00Z",
+      "recorded_by": "agent",
+      "scope": "documentation of an attribution error. No registered threshold, tolerance, abort condition or hypothesis was edited.",
+      "what_this_does_not_change": "H1, H2, C1, C3, the 5.0 pp margin, R13's cells, and every artifact. The tier-120 and tier-300 findings keep their UNCLASSIFIED label on C1 until D-MPE8-07 is ruled, because there is no registered measurement that would classify them.",
+      "what_was_found": "In every tree measured, including the sealed 3.10 baseline, all 24 src==electric_absence rows belong to the TEACH arm and none to arm A (learn). On those same 24 rows arm A answers 'the bell hangs on the wall' from electric_qa_store and is graded correct, at tier 40, tier 120 and in the sealed baseline alike. So the registered figure arm_A_guarded_absence_refusal_min = 24 is not an arm A measurement: it is a teach-arm measurement carrying arm A's name. H2's first clause ('arm A refusal accuracy exceeds both baselines on the guarded-absence rows') therefore has no arm A numerator on this instrument, and C1's registered measurement basis ('bench rows with src == electric_absence that carry an answer') is doubly unusable as written: the learn arm has no such rows, and in the teach arm every one of them carries an answer, because a licensed absence admission IS a spoken answer."
+    },
+    {
+      "class": "correction of the agent's own reading, plus a paraphrase error in a sealed risk record",
+      "decision_withdrawn": "D-MPE8-08 (opened and withdrawn within one uncommitted working set)",
+      "evidence": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:660-663; experiments/G0-prime/registration.json R12 detail",
+      "id": "AMD-MPE8-08",
+      "recorded_at": "2026-11-03T18:40:00Z",
+      "recorded_by": "agent",
+      "scope": "arms.C registration. No hypothesis, threshold, abort condition, tolerance or measured artifact was changed.",
+      "what_is_true": "the plan requires C to be the same architecture as B (plan extract 660-663), which is what was built; R12's summary string in the G0-prime registration misplaces 'tiny transformer' onto arm C and should be read as describing arm B's menu of acceptable architectures.",
+      "what_was_mistaken": "(a) the pre-run arms.C definition/abstention/status were overwritten rather than preserved; (b) an open decision D-MPE8-08 was opened claiming arm C's architecture diverged from the plan."
     }
   ],
   "schema": "droso.registration.v1",

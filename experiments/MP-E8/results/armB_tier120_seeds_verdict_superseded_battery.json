@@ -1,0 +1,157 @@
+{
+  "computed_at_utc": "2026-11-03T15:00:00Z",
+  "h1_tier_120": {
+    "least_favourable_seed_drop_pp": -1.4705,
+    "margin_pp": 5.0,
+    "per_seed_drop_pp": {
+      "20261103": 4.4118,
+      "20261104": 4.4118,
+      "20261105": -1.4705
+    },
+    "rule_applied": "D-MPE8-06: H1 is carried by the least favourable seed, and if the observed seed spread exceeds the registered margin the claim is NOT DECIDABLE at this tier rather than passed. The margin itself is not adjusted.",
+    "seed_spread_drop_pp": 5.8823,
+    "seed_spread_session1_score_pp": 5.8823,
+    "seed_spread_session3_score_pp": 0.0,
+    "verdict": "NOT DECIDABLE -- seed spread exceeds the registered margin"
+  },
+  "note_on_h1_as_registered": "H1 names tiers [120, 300]. A tier-120 result, whatever it says, does not close H1: tier 300 is still required, and this experiment does not get to drop a tier because the first one was awkward.",
+  "rows_per_seed_per_depth": {
+    "20261103": {
+      "1": [
+        15,
+        136
+      ],
+      "2": [
+        14,
+        136
+      ],
+      "3": [
+        9,
+        136
+      ]
+    },
+    "20261104": {
+      "1": [
+        15,
+        136
+      ],
+      "2": [
+        11,
+        136
+      ],
+      "3": [
+        9,
+        136
+      ]
+    },
+    "20261105": {
+      "1": [
+        7,
+        136
+      ],
+      "2": [
+        8,
+        136
+      ],
+      "3": [
+        9,
+        136
+      ]
+    }
+  },
+  "score_definition": "live-phase correct rate = sum(correct)/sum(n) over the by_shape table of summary.B.<depth>.live. This is the quantity the registered accuracy-versus-exposures figure reports, so the drop is measured in the same units the registration named.",
+  "seeds": {
+    "20261103": {
+      "artifact": "experiments/MP-E8/results/armB_tier120_seed1.json",
+      "calibration_thresholds": {
+        "1": -0.5455,
+        "2": -0.4233,
+        "3": -0.4865
+      },
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "drop_session1_to_session3_pp": 4.4118,
+      "git_head": "d801874f0513d843a34f9492214580c2e101ae17",
+      "parameters": 3599797,
+      "per_depth": {
+        "1": {
+          "live_correct": 15,
+          "live_rows": 136,
+          "score_pct": 11.0294
+        },
+        "2": {
+          "live_correct": 14,
+          "live_rows": 136,
+          "score_pct": 10.2941
+        },
+        "3": {
+          "live_correct": 9,
+          "live_rows": 136,
+          "score_pct": 6.6176
+        }
+      },
+      "seed": 20261103
+    },
+    "20261104": {
+      "artifact": "experiments/MP-E8/results/armB_tier120_seed2.json",
+      "calibration_thresholds": {
+        "1": -0.3532,
+        "2": -0.206,
+        "3": -0.1661
+      },
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "drop_session1_to_session3_pp": 4.4118,
+      "git_head": "d801874f0513d843a34f9492214580c2e101ae17",
+      "parameters": 3599797,
+      "per_depth": {
+        "1": {
+          "live_correct": 15,
+          "live_rows": 136,
+          "score_pct": 11.0294
+        },
+        "2": {
+          "live_correct": 11,
+          "live_rows": 136,
+          "score_pct": 8.0882
+        },
+        "3": {
+          "live_correct": 9,
+          "live_rows": 136,
+          "score_pct": 6.6176
+        }
+      },
+      "seed": 20261104
+    },
+    "20261105": {
+      "artifact": "experiments/MP-E8/results/armB_tier120_seed3.json",
+      "calibration_thresholds": {
+        "1": -0.2326,
+        "2": -0.4657,
+        "3": -0.4901
+      },
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "drop_session1_to_session3_pp": -1.4705,
+      "git_head": "d801874f0513d843a34f9492214580c2e101ae17",
+      "parameters": 3599797,
+      "per_depth": {
+        "1": {
+          "live_correct": 7,
+          "live_rows": 136,
+          "score_pct": 5.1471
+        },
+        "2": {
+          "live_correct": 8,
+          "live_rows": 136,
+          "score_pct": 5.8824
+        },
+        "3": {
+          "live_correct": 9,
+          "live_rows": 136,
+          "score_pct": 6.6176
+        }
+      },
+      "seed": 20261105
+    }
+  },
+  "spread_definition": "max minus min across the three seeds of the same quantity. Reported for the session-1 score, the session-3 score and the drop statistic, because the rule is about the instrument's instability and one number cannot hide which quantity is unstable.",
+  "tier": 120
+}

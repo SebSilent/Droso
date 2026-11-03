@@ -219,6 +219,56 @@ DEFAULT_MANIFEST = [
     # against the registered projection.
     "experiments/MP-E8/results/armA_tier120_curriculum.json",
     "experiments/MP-E8/results/armA_tier120_finding.json",
+    # The corrected arm B battery: the tier-40 re-run that proves the fix is inert at the calibration
+    # tier, and its row-for-row comparison. Without these two the AMD-MPE8-05 claim "0 of 1,224 rows
+    # moved" is a sentence in a registration with nothing to check it against.
+    "experiments/MP-E8/results/armB_tier40_batteryfix.json",
+    "experiments/MP-E8/results/armB_tier40_batteryfix_inertness.json",
+    # H1's arm B evidence at tier 120: three seeds on the 416-ask battery, and the verdict that applies
+    # D-MPE8-06 to them. This is exactly the set the user warned about -- if the seal omits these, it
+    # passes while leaving the claim it exists to protect unverifiable.
+    "experiments/MP-E8/results/armB_tier120_seed1.json",
+    "experiments/MP-E8/results/armB_tier120_seed2.json",
+    "experiments/MP-E8/results/armB_tier120_seed3.json",
+    "experiments/MP-E8/results/armB_tier120_seeds_verdict.json",
+    # The VOID pre-fix artifacts, sealed rather than deleted. R5 forbids removing a published figure,
+    # and AMD-MPE8-05 cites them as the evidence for its own claim: an amendment that names artifacts
+    # the seal does not cover is an amendment a reader cannot audit.
+    "experiments/MP-E8/results/armB_tier120_seed1_superseded_battery.json",
+    "experiments/MP-E8/results/armB_tier120_seed2_superseded_battery.json",
+    "experiments/MP-E8/results/armB_tier120_seed3_superseded_battery.json",
+    "experiments/MP-E8/results/armB_tier120_seeds_verdict_superseded_battery.json",
+    # Arm C: the tool, its tests, and the curriculum tool's rewritten tests. Arm C's artifact is NOT
+    # here yet -- the only run so far is a 3-epoch smoke test in _tmp, and sealing a test artifact as
+    # if it were a measurement is the confusion this manifest exists to prevent.
+    "tools/mp_e8_arm_c.py",
+    "tests/test_mp_e8_arm_c.py",
+    "tests/test_mp_e8_curriculum.py",
+    # The suite re-run after the curriculum tests were rewritten and arm C's tests were added goes to a
+    # NEW path -- experiments/MP-E8/results/suite_manifest_torch_after_batteryfix_armc.json -- and is
+    # NOT listed here yet. Two reasons, both ordering rather than preference: (1) check() reads a
+    # never-written artifact as MISSING -> DRIFT, so the entry has to arrive after the file does; (2)
+    # the run that produces it has to happen after the seal is re-stamped, or the suite's own seal test
+    # fails on the unstamped tree and the artifact records a failure that is really a stamp that has
+    # not happened yet. The previous file, suite_manifest_torch.json (1,238 collected / 2 failures),
+    # stays committed and sealed as the published record of the tree it measured -- superseded by
+    # reference in the registration, never overwritten (R5).
+    # ...and the superseded one, sealed rather than quietly dropped. It records 1,238 collected and 2
+    # failures for a tree whose curriculum tests were then replaced. That number was true of the tree
+    # it measured, and a later run does not retroactively make it wrong.
+    "experiments/MP-E8/results/suite_manifest_torch.json",
+    # The last tier G2 needs from arm A, and the finding that reports the projection's second contact.
+    # NOT LISTED YET, and the reason is the ordering rule this file already follows elsewhere: check()
+    # reads a never-written artifact as MISSING -> DRIFT, so a seal over these names would fail for a
+    # reason that has nothing to do with the files it is meant to attest. The tier-300 run was started,
+    # cut off by a step budget at 39.5 of ~60 minutes, and is being re-run; the entries go in the
+    # commit that contains the artifacts.
+    #   "experiments/MP-E8/results/armA_tier300_curriculum.json",
+    #   "experiments/MP-E8/results/armA_tier300_finding.json",
+    # D-MPE8-07's evidence: which arm the 24 guarded-absence rows actually belong to. Sealed because
+    # the decision it puts to the PI is unanswerable without it, and an open decision that cites an
+    # unsealed artifact is an open decision nobody can close.
+    "experiments/MP-E8/results/guarded_absence_arm_attribution.json",
 ]
 
 

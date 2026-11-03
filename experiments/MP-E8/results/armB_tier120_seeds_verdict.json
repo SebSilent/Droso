@@ -1,0 +1,244 @@
+{
+  "computed_at_utc": "2026-11-03T15:00:00Z",
+  "h1_tier_120": {
+    "least_favourable_seed_drop_pp": 1.6827,
+    "margin_pp": 5.0,
+    "per_seed_drop_pp": {
+      "20261103": 3.8462,
+      "20261104": 2.1634,
+      "20261105": 1.6827
+    },
+    "rule_applied": "D-MPE8-06: H1 is carried by the least favourable seed, and if the observed seed spread exceeds the registered margin the claim is NOT DECIDABLE at this tier rather than passed. The margin itself is not adjusted.",
+    "seed_spread_drop_pp": 2.1635,
+    "seed_spread_session1_score_pp": 1.2019,
+    "seed_spread_session3_score_pp": 2.1635,
+    "verdict": "FAIL at this tier"
+  },
+  "note_on_h1_as_registered": "H1 names tiers [120, 300]. A tier-120 result, whatever it says, does not close H1: tier 300 is still required, and this experiment does not get to drop a tier because the first one was awkward.",
+  "retention_per_seed_per_depth": {
+    "20261103": {
+      "1": {
+        "items": 40,
+        "kept": 12,
+        "lost": 24,
+        "part": 4,
+        "probes": 125,
+        "probes_correct": 29
+      },
+      "2": {
+        "items": 80,
+        "kept": 10,
+        "lost": 64,
+        "part": 6,
+        "probes": 252,
+        "probes_correct": 26
+      },
+      "3": {
+        "items": 120,
+        "kept": 5,
+        "lost": 112,
+        "part": 3,
+        "probes": 380,
+        "probes_correct": 13
+      }
+    },
+    "20261104": {
+      "1": {
+        "items": 40,
+        "kept": 13,
+        "lost": 23,
+        "part": 4,
+        "probes": 125,
+        "probes_correct": 31
+      },
+      "2": {
+        "items": 80,
+        "kept": 10,
+        "lost": 66,
+        "part": 4,
+        "probes": 252,
+        "probes_correct": 25
+      },
+      "3": {
+        "items": 120,
+        "kept": 9,
+        "lost": 107,
+        "part": 4,
+        "probes": 380,
+        "probes_correct": 22
+      }
+    },
+    "20261105": {
+      "1": {
+        "items": 40,
+        "kept": 11,
+        "lost": 25,
+        "part": 4,
+        "probes": 125,
+        "probes_correct": 26
+      },
+      "2": {
+        "items": 80,
+        "kept": 4,
+        "lost": 72,
+        "part": 4,
+        "probes": 252,
+        "probes_correct": 12
+      },
+      "3": {
+        "items": 120,
+        "kept": 8,
+        "lost": 109,
+        "part": 3,
+        "probes": 380,
+        "probes_correct": 19
+      }
+    }
+  },
+  "rows_per_seed_per_depth": {
+    "20261103": {
+      "1": [
+        29,
+        416
+      ],
+      "2": [
+        26,
+        416
+      ],
+      "3": [
+        13,
+        416
+      ]
+    },
+    "20261104": {
+      "1": [
+        31,
+        416
+      ],
+      "2": [
+        25,
+        416
+      ],
+      "3": [
+        22,
+        416
+      ]
+    },
+    "20261105": {
+      "1": [
+        26,
+        416
+      ],
+      "2": [
+        12,
+        416
+      ],
+      "3": [
+        19,
+        416
+      ]
+    }
+  },
+  "score_definition": "live-phase correct rate = sum(correct)/sum(n) over the by_shape table of summary.B.<depth>.live. This is the quantity the registered accuracy-versus-exposures figure reports, so the drop is measured in the same units the registration named.",
+  "seeds": {
+    "20261103": {
+      "artifact": "experiments/MP-E8/results/armB_tier120_seed1.json",
+      "calibration_thresholds": {
+        "1": -0.5484,
+        "2": -0.4054,
+        "3": -0.3855
+      },
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "drop_session1_to_session3_pp": 3.8462,
+      "git_head": "d801874f0513d843a34f9492214580c2e101ae17",
+      "parameters": 3599797,
+      "per_depth": {
+        "1": {
+          "live_correct": 29,
+          "live_rows": 416,
+          "score_pct": 6.9712
+        },
+        "2": {
+          "live_correct": 26,
+          "live_rows": 416,
+          "score_pct": 6.25
+        },
+        "3": {
+          "live_correct": 13,
+          "live_rows": 416,
+          "score_pct": 3.125
+        }
+      },
+      "seed": 20261103
+    },
+    "20261104": {
+      "artifact": "experiments/MP-E8/results/armB_tier120_seed2.json",
+      "calibration_thresholds": {
+        "1": -0.3496,
+        "2": -0.4242,
+        "3": -0.8636
+      },
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "drop_session1_to_session3_pp": 2.1634,
+      "git_head": "d801874f0513d843a34f9492214580c2e101ae17",
+      "parameters": 3599797,
+      "per_depth": {
+        "1": {
+          "live_correct": 31,
+          "live_rows": 416,
+          "score_pct": 7.4519
+        },
+        "2": {
+          "live_correct": 25,
+          "live_rows": 416,
+          "score_pct": 6.0096
+        },
+        "3": {
+          "live_correct": 22,
+          "live_rows": 416,
+          "score_pct": 5.2885
+        }
+      },
+      "seed": 20261104
+    },
+    "20261105": {
+      "artifact": "experiments/MP-E8/results/armB_tier120_seed3.json",
+      "calibration_thresholds": {
+        "1": -0.3389,
+        "2": -0.1668,
+        "3": -0.4946
+      },
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "drop_session1_to_session3_pp": 1.6827,
+      "git_head": "d801874f0513d843a34f9492214580c2e101ae17",
+      "parameters": 3599797,
+      "per_depth": {
+        "1": {
+          "live_correct": 26,
+          "live_rows": 416,
+          "score_pct": 6.25
+        },
+        "2": {
+          "live_correct": 12,
+          "live_rows": 416,
+          "score_pct": 2.8846
+        },
+        "3": {
+          "live_correct": 19,
+          "live_rows": 416,
+          "score_pct": 4.5673
+        }
+      },
+      "seed": 20261105
+    }
+  },
+  "spread_definition": "max minus min across the three seeds of the same quantity. Reported for the session-1 score, the session-3 score and the drop statistic, because the rule is about the instrument's instability and one number cannot hide which quantity is unstable.",
+  "tier": 120,
+  "what_this_result_does_not_say": {
+    "arm_B_barely_learns_at_tier_120": "session-1 live correct is 26-31 of 416 (6.25-7.45%). A 5 pp drop from a 7% baseline is most of everything the model ever knew, so the registered margin is a severe test at this absolute level. The margin is a percentage-point figure chosen against the 0.30% clone noise floor, not against arm B's ceiling, and it is NOT adjusted here: renumbering a threshold to fit the observed range is the R2 fault D-MPE8-05 refused to commit against a tolerance.",
+    "h1_is_not_closed_by_this_artifact": "H1 names tiers [120, 300] and has an arm A clause too (taught-set retention across restarts, minimum 1.0). Tier 300 arm B has never run, and arm A's tier-120 run carries 13 failures that are still unclassified against C1/C3.",
+    "the_curve_is_not_monotone_for_every_seed": "seed 20261105 reads 6.25% -> 2.88% -> 4.57% across depths. The plan asks for a forgetting curve, and this is that curve as measured, including the part where it goes back up. It is not smoothed here.",
+    "the_tier_40_prediction_is_not_comparable_to_this_number": "D-MPE8-06's measured evidence quoted 29.4 pp, but that was the spread of the DEPTH-1 INVENTION RATE between two initialisations on the 136-ask battery at tier 40. This is the spread of the session-1-to-session-3 DROP across three seeds on the 416-ask battery at tier 120. Different quantity, different battery, different tier. The honest statement is that the rule's trigger was not reached at this tier, not that the tier-40 instability was disproved.",
+    "the_undecidable_rule_did_not_fire": "observed seed spread on the drop statistic is 2.1635 pp and on the session-3 score 2.1635 pp, both below the registered 5.0 pp margin. The margin was not the thing that failed here; the drop was."
+  }
+}

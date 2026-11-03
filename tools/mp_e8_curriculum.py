@@ -29,6 +29,13 @@ and each one is CHECKED at emit time rather than asserted in a docstring:
 
 A tier that fails any check does not get emitted. `--check-tier` re-derives a tier from the rule and
 compares hashes, so a committed tier file can be proved to be what the rule says and not hand-edited.
+
+THE ACCEPTANCE RULE, stated once because it moved when 120 and 300 were emitted: a tier is accepted
+only if it is authored as code (tier 40, parsed from arm A's own lists) OR a committed tier file
+re-derives from the rule. A tier with neither is refused by every path, and the refusal names the cost
+of adding one rather than just saying no. `--check-tier` on the code tier checks the source match, not
+re-derivation -- the code tier is not emitted, and comparing it against the rule produced a false
+MISMATCH alarm (measured) that would have read as "someone hand-edited tier 40".
 """
 from __future__ import annotations
 
@@ -98,6 +105,16 @@ def _frame(node: ast.AST):
     return ast.unparse(node)
 
 
+def _unregistered_tier_message(tier: int) -> str:
+    """The refusal, and the price of not refusing. Shared by every path so one tier cannot get three
+    different answers depending on which flag asked about it."""
+    return (f"tier {tier} is not a registered tier at all. The authored tiers are {TIERS_AUTHORED}. "
+            "This tool will not interpolate a fourth one to make a gate look finished. The cost of "
+            "adding a tier is D-MPE8-03's four constraints, with the rule, the seed, the item counts "
+            "and the distinct (subject, verb) pair count registered BEFORE any run, and the emitted "
+            "file committed with its curriculum_sha256 -- not a number chosen to fill a gap.")
+
+
 def validate_tier(tier: int, cur: dict) -> None:
     """Guard the arm-A-source parse path. Tiers 120/300 are not in arm A's source and never will be:
     they are emitted by build_tier() and read back from the emitted file."""
@@ -109,9 +126,7 @@ def validate_tier(tier: int, cur: dict) -> None:
             f"{cur['n_items']} items and will not grow. Tier {tier} is EMITTED by the D-MPE8-03 "
             "construction rule: run --emit-tier to write it, or --check-tier to prove a committed "
             "tier file still re-derives from the rule and was not hand-edited.")
-    raise SystemExit(
-        f"tier {tier} is not a registered tier at all. The authored tiers are {TIERS_AUTHORED}. "
-        "This tool will not interpolate a fourth one to make a gate look finished.")
+    raise SystemExit(_unregistered_tier_message(tier))
 
 
 def sessions_for(tier: int, cur: dict) -> list:
@@ -679,8 +694,35 @@ def main() -> int:
         return 0
 
     if a.check_tier:
-        committed = json.loads(tier_path(a.check_tier).read_text(encoding="utf-8"))
-        fresh = build_tier(a.check_tier, a.seed)
+        tier = a.check_tier
+        path = tier_path(tier)
+        if tier not in TIERS_AUTHORED:
+            raise SystemExit(_unregistered_tier_message(tier))
+        if not path.exists():
+            raise SystemExit(
+                f"tier {tier} is authored but {path.relative_to(ROOT).as_posix()} is not committed, so "
+                "there is nothing here to re-derive. A tier is accepted only if it is authored as code "
+                "OR a committed tier file re-derives from the rule -- an authored tier with no file is "
+                "neither, and it will not be treated as if it were the file. Run --emit-tier to write "
+                "it, then commit the file with its curriculum_sha256.")
+        if tier in TIERS_WITH_CODE:
+            # The code tier is not re-derived from the rule; it is parsed from arm A's source. Checking
+            # it against build_tier() would report a false MISMATCH (measured: tier 40 did exactly that),
+            # and a false alarm about hand-editing is not a cheap thing to leave in a sealed tool.
+            committed = json.loads(path.read_text(encoding="utf-8"))
+            base = load()
+            if committed["curriculum_sha256"] != base["curriculum_sha256"]:
+                print(f"[check] tier {tier}: committed {committed['curriculum_sha256'][:16]} vs arm A "
+                      f"source {base['curriculum_sha256'][:16]}")
+                print("[check] MISMATCH -- arm A's curriculum moved since this manifest was written.")
+                return 1
+            print(f"[check] tier {tier} is authored as code in {base['source']}: committed sha "
+                  f"{committed['curriculum_sha256'][:16]} matches the source as it now stands.")
+            print("[check] PASS (source match). This tier is parsed from code, not emitted by the "
+                  "D-MPE8-03 rule, so re-derivation does not apply to it.")
+            return 0
+        committed = json.loads(path.read_text(encoding="utf-8"))
+        fresh = build_tier(tier, a.seed)
         same = (committed["curriculum_sha256"] == fresh["curriculum_sha256"]
                 and committed["sessions"] == fresh["sessions"]
                 and committed["distractors"] == fresh["distractors"])

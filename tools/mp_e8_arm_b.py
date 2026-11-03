@@ -72,6 +72,11 @@ BATCH = 8
 EPOCHS = 60
 MAX_GEN = 14
 SEED = 20261103
+# The battery this process actually asked about, set by main() from eb.apply_curriculum(). Empty means
+# the module was used without going through main(), and an artifact would then be recording the bench's
+# module-literal tier-40 battery -- which is exactly the mistake that made the first tier-120 arm B run
+# meaningless. It is recorded rather than assumed, so the artifact cannot hide it.
+BATTERY: dict = {}
 
 BOS, EOS, SEP, UNK = "<bos>", "<eos>", "<sep>", "<unk>"
 SPECIALS = [BOS, EOS, SEP, UNK]
@@ -488,6 +493,22 @@ def merge(sd: Path, man_path: Path, man: dict, seed: int, depths: list[int]) -> 
     if arch["seed"] != seed:
         raise SystemExit(f"--seed {seed} does not match the seed the chunks ran with "
                          f"({arch['seed']}); the artifact would record a run that did not happen.")
+    if not BATTERY and man.get("tier") != 40:
+        raise SystemExit(
+            f"tier {man.get('tier')} is being merged without a battery: eb.PROBES would be the "
+            "module-literal tier-40 matrix while the model trained on this manifest. main() calls "
+            "eb.apply_curriculum(); this path did not.")
+    want = len(eb.PROBES)
+    for d, blk in sorted(per.items()):
+        for ph, rows in blk["phases"].items():
+            if len(rows) != want:
+                raise SystemExit(
+                    f"depth {d} phase {ph} holds {len(rows)} rows, but the battery this process "
+                    f"rebuilt from {BATTERY.get('path')} has {want} asks. The chunks were made by a "
+                    "different battery than the merge is reading, so they are different runs. Re-run "
+                    "every chunk. This is the check that keeps the pre-fix tier-120 rows -- built when "
+                    "arm B still probed tier 40's 136 asks at every tier -- out of any artifact that "
+                    "claims the tier-120 battery.")
     prov = provenance(man_path, man, seed, arch)
     prov["parameters"] = params
     prov["chunk_configs"] = cfgs
@@ -525,6 +546,15 @@ def merge(sd: Path, man_path: Path, man: dict, seed: int, depths: list[int]) -> 
         "tier": man["tier"],
         "items": man["n_items"],
         "probes": len(eb.PROBES),
+        # Which battery the rows were made with, in the run's own words. The count alone would not
+        # catch this defect -- 136 looks legitimate until you notice it is tier 40's number at tier
+        # 120. The tier the battery was built for is the thing that has to match.
+        "battery": dict(BATTERY) if BATTERY else {
+            "mode": "NOT_APPLIED",
+            "note": ("this merge did not go through main()'s apply_curriculum path, so eb.PROBES is "
+                     "the module-literal tier-40 battery. Valid only for tier 40; anything reading "
+                     "this artifact at another tier is reading a mismatch.")},
+        "battery_matches_manifest_tier": bool(BATTERY) and BATTERY.get("tier") == man["tier"],
         "depths": depths,
         "arms": {"B": {"seconds": round(total_train_s, 3), "runs": [], "probes": arms_b,
                        "arm_provenance": prov["flag_state"]}},
@@ -598,6 +628,25 @@ def main() -> int:
             raise SystemExit(f"curriculum sha mismatch: file says {man['curriculum_sha256'][:16]}, "
                              f"recomputed {recomputed[:16]}. Arm B refuses to run on a manifest that "
                              f"is not the one registered.")
+
+    # (3) THE BATTERY IS THE TIER'S. This is the defect the first tier-120 arm B run exposed, and it
+    # was invisible in every tier-40 number because at tier 40 the module literal IS the tier:
+    # eb.PROBES is built once from the module-literal SESSIONS/PAIRS/DISTRACTORS -- 136 rows -- and
+    # both probe_arm_b() and calibrate() iterate it. Training scaled to the manifest (300 optimizer
+    # steps a session at tier 120 against 120 at tier 40) while the battery stayed put: measured in
+    # the three tier-120 seed artifacts, probes=136 with the tier-40 shape mix
+    # (21/21/16/16/6/2/2/6/24/22), while arm A built 416 probes from the same committed file. So arm B
+    # would have trained on 120 items and been graded on 40 of them.
+    # The fix is NOT a second probe builder -- that is how the two arms' "identical curricula" claim
+    # drifts. It is to call the same function arm A's --curriculum calls, which rebuilds
+    # SESSIONS/PAIRS/DISTRACTORS/PROBES/TOLD/ALL_ITEMS from the manifest and enforces the registered
+    # probe count on the way through (electric_learn_bench.py:353-359).
+    global BATTERY
+    BATTERY = eb.apply_curriculum(str(man_path))
+    if BATTERY.get("tier") != man.get("tier"):
+        raise SystemExit(f"battery tier {BATTERY.get('tier')} != manifest tier {man.get('tier')}. "
+                         "The curriculum that was trained on is not the curriculum that will be asked "
+                         "about, and an artifact like that is worse than no artifact.")
 
     sd = Path(a.state_dir)
     if a.merge:
