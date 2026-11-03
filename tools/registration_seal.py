@@ -118,6 +118,14 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E9/results/treatment_per_entry_aliases_effect.json",
     "experiments/MP-E9/results/gate_treatment_per_entry_aliases.json",
     "tests/test_electric_qa_morph_aliases.py",
+    # MP-E8 opens on the Table 6 G1 fallback. Its registration is the pre-run contract; the
+    # curriculum manifest is what makes "identical curricula" checkable across arms rather than
+    # intended; the reverification is the evidence that arm A's configuration on the current tree
+    # is still the one N was measured on.
+    "experiments/MP-E8/registration.json",
+    "experiments/MP-E8/curriculum_tier40.json",
+    "experiments/MP-E8/results/noise_floor_reverification.json",
+    "tools/mp_e8_curriculum.py",
     "tests/test_word_provenance.py",
     "tests/test_g0_prime_instruments.py",
     "experiments/G0-prime/tier_protocol.json",

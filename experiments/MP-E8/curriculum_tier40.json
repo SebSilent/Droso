@@ -1,0 +1,125 @@
+{
+  "consumers_must_record": "curriculum_sha256. Two arms that disagree on it did not run the same experiment, whatever their configs say.",
+  "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
+  "n_items": 40,
+  "n_qa_pairs": 16,
+  "n_tell_frames": 24,
+  "schema": "droso.curriculum.v1",
+  "sessions": [
+    {
+      "n_items": 13,
+      "qa_pairs": [
+        [
+          "what bites the latch?",
+          "the dog bites the latch"
+        ],
+        [
+          "who carries the lantern?",
+          "Nora carries the lantern"
+        ],
+        [
+          "what rings in the tower?",
+          "the copper bell rings"
+        ],
+        [
+          "who does the lantern belong to?",
+          "the lantern belongs to Mira"
+        ],
+        [
+          "what opens the door?",
+          "the key opens the door"
+        ]
+      ],
+      "session": 1,
+      "tell_frames": [
+        "svo('the dog bites the latch', 'what', 'dog', 'bites', 'bite', 'latch')",
+        "svo('the mouse chases the dog', 'what', 'mouse', 'chases', 'chase', 'dog')",
+        "svo('Nora carries the lantern', 'who', 'nora', 'carries', 'carry', 'lantern')",
+        "intr('the copper bell rings', 'copper bell', 'rings', 'ring')",
+        "obl('the lantern belongs to Mira', 'lantern', 'belongs', 'belong', 'to Mira', 'who', 'to')",
+        "svo('the key opens the door', 'what', 'key', 'opens', 'open', 'door')",
+        "svo('the rope holds the shelf', 'what', 'rope', 'holds', 'hold', 'shelf')",
+        "svo('the kettle warms the water', 'what', 'kettle', 'warms', 'warm', 'water')"
+      ]
+    },
+    {
+      "n_items": 13,
+      "qa_pairs": [
+        [
+          "where does the bell hang?",
+          "the bell hangs on the wall"
+        ],
+        [
+          "what holds the shelf?",
+          "the rope holds the shelf"
+        ],
+        [
+          "what warms the water?",
+          "the kettle warms the water"
+        ],
+        [
+          "who feeds the mouse?",
+          "Mira feeds the mouse"
+        ],
+        [
+          "what fills the bucket?",
+          "the rain fills the bucket"
+        ]
+      ],
+      "session": 2,
+      "tell_frames": [
+        "svo('the dog guards the gate', 'what', 'dog', 'guards', 'guard', 'gate')",
+        "svo('Mira feeds the mouse', 'who', 'mira', 'feeds', 'feed', 'mouse')",
+        "obl('the bell hangs on the wall', 'bell', 'hangs', 'hang', 'on the wall', 'where', 'on')",
+        "svo('the rain fills the bucket', 'what', 'rain', 'fills', 'fill', 'bucket')",
+        "svo('the socket powers the lamp', 'what', 'socket', 'powers', 'power', 'lamp')",
+        "svo('the thread binds the button', 'what', 'thread', 'binds', 'bind', 'button')",
+        "svo('the gate blocks the road', 'what', 'gate', 'blocks', 'block', 'road')",
+        "svo('the shelf holds the lamp', 'what', 'shelf', 'holds', 'hold', 'lamp')"
+      ]
+    },
+    {
+      "n_items": 14,
+      "qa_pairs": [
+        [
+          "what powers the lamp?",
+          "the socket powers the lamp"
+        ],
+        [
+          "what binds the button?",
+          "the thread binds the button"
+        ],
+        [
+          "what crosses the river?",
+          "the bridge crosses the river"
+        ],
+        [
+          "what does Mira love most?",
+          "she loves the lantern most"
+        ],
+        [
+          "when does the bell toll?",
+          "it tolls at dusk"
+        ],
+        [
+          "how many dogs sleep?",
+          "two dogs sleep"
+        ]
+      ],
+      "session": 3,
+      "tell_frames": [
+        "svo('the collar fits the dog', 'what', 'collar', 'fits', 'fit', 'dog')",
+        "svo('the bridge crosses the river', 'what', 'bridge', 'crosses', 'cross', 'river')",
+        "svo('the lamp lights the door', 'what', 'lamp', 'lights', 'light', 'door')",
+        "svo('the net catches the mouse', 'what', 'net', 'catches', 'catch', 'mouse')",
+        "svo('the moon pulls the tide', 'what', 'moon', 'pulls', 'pull', 'tide')",
+        "svo('the tide floods the road', 'what', 'tide', 'floods', 'flood', 'road')",
+        "svo('the wind wakes the dog', 'what', 'wind', 'wakes', 'wake', 'dog')",
+        "svo('the boy mends the net', 'who', 'boy', 'mends', 'mend', 'net')"
+      ]
+    }
+  ],
+  "source": "tools/electric_learn_bench.py",
+  "source_sha256_lf": "01d8194a6f2ea9e29306b0c61be1f0fd11aeb75bc2909bec150c114f35618bfb",
+  "tier": 40
+}

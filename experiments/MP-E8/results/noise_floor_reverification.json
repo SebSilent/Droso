@@ -1,0 +1,67 @@
+{
+  "candidate": "experiments/MP-E9/results/ab_flag_off.json (full 3-arm run, flags as shipped, current tree)",
+  "instrument": "tools/ab_reproduction.py -- keyed by (arm, depth, phase, item, shape), compared on identity (ask, said, src, cls), NOT on cost",
+  "measured_at": "2026-11-03T09:25:13Z",
+  "per_clone": [
+    {
+      "clone": "experiments/G0-prime/results/noise_floor/clone_1.json",
+      "differences": {},
+      "inside_r13_cells": 0,
+      "outside_r13_cells": 0,
+      "row_for_row_identical": true,
+      "rows_keyed_both": 3672,
+      "total_differences": 0
+    },
+    {
+      "clone": "experiments/G0-prime/results/noise_floor/clone_2.json",
+      "differences": {
+        "moved": {
+          "learn|1|reasked|pair2.4|pair_exact": {
+            "after": [
+              "when does the bell toll",
+              "droso says when does the bell toll",
+              "recalled proposition",
+              "echo"
+            ],
+            "before": [
+              "when does the bell toll",
+              "when the bell toll",
+              "recalled proposition",
+              "echo"
+            ]
+          }
+        }
+      },
+      "inside_r13_cells": 1,
+      "outside_r13_cells": 0,
+      "row_for_row_identical": false,
+      "rows_keyed_both": 3672,
+      "total_differences": 1
+    },
+    {
+      "clone": "experiments/G0-prime/results/noise_floor/clone_3.json",
+      "differences": {},
+      "inside_r13_cells": 0,
+      "outside_r13_cells": 0,
+      "row_for_row_identical": true,
+      "rows_keyed_both": 3672,
+      "total_differences": 0
+    }
+  ],
+  "question": "Is arm A's configuration on the current tree still the configuration the G0-prime noise floor was measured on?",
+  "r13_cells_reserved_for_tolerance": [
+    "learn/1/reasked",
+    "learn/1/restarted"
+  ],
+  "schema": "droso.noise_floor_reverification.v1",
+  "verdict": {
+    "differences_outside_the_r13_cells": 0,
+    "differences_vs_clones_1_2_3": [
+      0,
+      1,
+      0
+    ],
+    "reproduced_within_registered_noise": true
+  },
+  "what_this_is_not": "It is not a re-measurement of N. N is three clones run at G0-prime and remains as registered; this shows the current tree lands inside that floor, which is the precondition MP-E8 needs before any treatment arm is scored."
+}

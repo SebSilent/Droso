@@ -170,6 +170,91 @@ were on the plan have each been measured and eliminated with zero rows moved. Th
 the prior on the correct lever is cited, and the next experiment starts from that instead of from the
 plan's original guess.
 
+### 7.1 The bound is proven, and it is NOT enabled
+
+P1 works. It is also switched off in every shipped path. All three MP-E9 flags live in
+`tools/electric_teach_mode.py` `CANDIDATE` (lines 169-199), not `BASE`, and `CANDIDATE` is in no
+`enable*()` function — so nothing turns them on by accident, and nothing turns them on at all.
+
+**G1's "zero untraceable words" is a flag-conditional result, not a property of the default
+organism.** The 16 rows go to zero when `ELECTRIC_ARBITER_HEAD_BOUND` is set on the organ and stay at
+16 when it is not. What MP-E9 established is that a specific predicate at a specific line closes a
+specific leak, measured against a registered prediction with a controlled no-treatment arm. What it
+did not establish, and did not claim, is that the organism anyone runs today stops saying `says`.
+
+The conditionality cuts twice, and the second cut is a measurement, not an inference. Per-arm counts
+from `docs/evidence/electric_learn_bench.json`, graded by `tools/word_provenance.py`:
+
+| arm | rows | UNTRACEABLE_ASSERTED | rows where `said == "says"` |
+|---|---|---|---|
+| control | 1,224 | **0** | 0 |
+| learn | 1,224 | **16** | 16 |
+| teach | 1,224 | **0** | 0 |
+
+So the leak is a property of the **ELECTRIC-learn configuration** — `--electric-learn`, and the bench's
+`learn` arm — not of the organism with ELECTRIC off. `tools/serve.py` defaults to no `--electric`, so
+the shipped default does not produce these rows today. H1's threshold is therefore about the mode
+where a person opts into learning, and any statement that "MP-E9 eliminated 16 untraceable words"
+must carry that scope with it, because the population those 16 rows live in is itself conditional on
+a flag.
+
+### 7.2 Would promoting the bound into BASE change H4's ELECTRIC-off clause?
+
+H4's registered clause reads "battery frozen 19/24 **with ELECTRIC off** AND guarded 4/4", so the
+question has to be answered before anyone promotes. It was answered by booting both harnesses and
+reading the flags back off the organ (`_tmp/probe_flags.py`), not by reasoning about the wiring:
+
+* **`BASE_ATTRS` is three attributes**: `ELECTRIC_TEACH`, `ELECTRIC_ANSWER`, `ABSENCE_INVENTORY`.
+* **Battery path** (`tools/run_generation.py`): it never imports `electric_teach_mode`. It sets
+  `ELECTRIC_TEACH`/`ELECTRIC_ANSWER` directly on the class at `:1413-1416`. Measured on a real boot
+  with ELECTRIC off: `{'ELECTRIC_TEACH': False, 'ELECTRIC_ANSWER': False, 'ABSENCE_INVENTORY': False}`
+  — **0 of 3 BASE attributes reach the organ, because the battery never applies them.**
+* **Bench path** (`tools/electric_learn_bench.py boot()`): control gets **0 of 3**, teach and learn get
+  **3 of 3**. In the bench, the ELECTRIC-off arm *is* control, and control is excluded from BASE.
+
+**Answer: no — BASE_ATTRS are not applied when ELECTRIC is off, in either harness.** Promoting the
+bound into `BASE` cannot change what "battery frozen 19/24 with ELECTRIC off" means, because that
+clause is measured on a path that does not read `BASE_ATTRS` at all.
+
+But promotion is still not free, and the reason is worth stating because it is the easy one to miss:
+`BASE` reaches the bench's **learn and teach arms**, and those two arms are where three of H4's four
+components come from — the 38/75/115 learn floor and the 24 guarded-absence rows, which live in the
+teach arm. Promote, and every future bench run measures a learn/teach configuration that no longer
+matches `baselines/bench_pre_arbiter_tell_HEAD.json` or `docs/evidence/electric_learn_bench.json`.
+The pre-treatment baseline stops being pre-treatment for the arms it is compared against.
+
+There is also a second and much more dangerous meaning of "promote", and conflating the two is how
+this would go wrong:
+
+| | change | battery affected? | bench learn/teach? | bench control? |
+|---|---|---|---|---|
+| **P-1** | add to `CANDIDATE` → `BASE_ATTRS` | **no** (never reads BASE) | yes | no |
+| **P-2** | flip the class default to `True` | **yes** | yes | **yes** |
+
+P-2 would put a treatment arm inside the ELECTRIC-off condition that H4 is registered against, and
+inside control, which is the reference every A/B is measured from. That is not a promotion, it is a
+redefinition of the baseline.
+
+### 7.3 Promotion is registered as its own decision, and is NOT done here
+
+**MP-E9 does not promote the bound.** Promotion is `open_decisions_for_pi` item `D-MPE9-05`, with its
+own precondition, because it changes what a shipped configuration does and that is not a closeout
+task:
+
+1. Re-run the battery with the bound ON and show **frozen 19/24 and guarded 4/4 unchanged**. Under P-1
+   this is expected to be a no-op by the measurement above — which is exactly why it must be run
+   rather than argued: the claim "promotion cannot change the battery" is a claim about one harness's
+   wiring, and wiring changes.
+2. Re-run the bench and show what happens to the learn floor and the 24 guarded-absence rows, since
+   those are the components that *would* move.
+3. Decide whether `tools/selection_baseline.json` (frozen **2026-10-29**) still applies. It was frozen
+   from clone outcomes on the battery path, which P-1 does not touch — so on present evidence it
+   stands. **If a re-freeze turns out to be needed, that is an R2 event and needs the PI's ruling
+   first**: the baseline's split defines which asks are guarded, and re-freezing it after MP-E9 has
+   produced results would move the criterion that H4's battery clause is measured against.
+4. State which promotion is meant, P-1 or P-2. If P-2, H4's "with ELECTRIC off" clause must be
+   re-registered, because the condition would no longer mean what it says.
+
 ## 8. Artifacts
 
 | file | what it is |
