@@ -156,7 +156,16 @@ def test_learn_is_the_stack_plus_exactly_the_six_widenings():
     assert tm.LEARN == tm.STACK + tm.EXCLUDED, \
         "the full mode is defined as the stack plus the widenings, not as a third list"
     assert tm.LEARN_ATTRS == tm.STACK_ATTRS + tm.EXCLUDED_ATTRS
-    assert set(tm.LEARN_ATTRS) | set(tm.BASE_ATTRS) == set(tm.ALL_ATTRS)
+    # Every attribute must be ACCOUNTED FOR -- but MP-E9 proved that accounted-for is not the same as
+    # reachable. Its three flags live in CANDIDATE, which no enable*() function reads, so they are in
+    # ALL_ATTRS and in no mode. That is the mechanical form of "proven, NOT enabled"
+    # (experiments/MP-E9/decision.md 7.1, D-MPE9-05), so the invariant is stated with CANDIDATE named
+    # as the unreachable set rather than by pretending LEARN and BASE cover everything.
+    assert set(tm.LEARN_ATTRS) | set(tm.BASE_ATTRS) | set(tm.CANDIDATE_ATTRS) == set(tm.ALL_ATTRS)
+    unreachable = [a for a in tm.ALL_ATTRS
+                   if a not in tm.STACK_ATTRS + tm.EXCLUDED_ATTRS + tm.BASE_ATTRS]
+    assert set(unreachable) == set(tm.CANDIDATE_ATTRS), \
+        f"attributes reachable by no mode: {unreachable}"
     assert set(tm.EXCLUDED_ATTRS) == {"ELECTRIC_ASK_SHAPE", "ELECTRIC_REVERSE",
                                       "ELECTRIC_OBJECT_ROLE", "ELECTRIC_ASK_NORMALIZE",
                                       "ELECTRIC_ASK_DO_SUPPORT",
