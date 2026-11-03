@@ -1,0 +1,45 @@
+{
+  "by_cell": {},
+  "candidate": {
+    "electric_flags": {
+      "ELECTRIC_ARBITER_HEAD_BOUND": true,
+      "ELECTRIC_QA_MORPH_ALIASES": false,
+      "ELECTRIC_QA_MORPH_NORMALIZE": false
+    },
+    "path": "experiments/MP-E8/results/nf_newenv/clone2.json",
+    "rows": 3672,
+    "sha256_lf": "6eb8b3e1fd276b3b53d492244d2596c1c7245ba69d6797ed3dd10c92bd79dfaa"
+  },
+  "counts": {
+    "gained": 0,
+    "inside_r13_cells": 0,
+    "lost": 0,
+    "moved": 0,
+    "outside_r13_cells": 0,
+    "rows_keyed_both": 3672,
+    "total_differences": 0
+  },
+  "differences": {},
+  "label": "new-env clone2 vs clone1",
+  "provenance_note": "An artifact identifies its own arm through provenance.electric_flags; this instrument reads that field rather than trusting the filename, because a flag-OFF reproduction of a run that secretly had a treatment on would prove nothing.",
+  "reference": {
+    "path": "experiments/MP-E8/results/nf_newenv/clone1.json",
+    "rows": 3672,
+    "sha256_lf": "e228ef3fcc543c8383da6c7436af41ccba45bf66d9fedc10787ae252f110be96"
+  },
+  "schema": "droso.ab_reproduction.v1",
+  "tolerance": {
+    "basis": "G0-prime noise floor: 11 rows of 3,672 moved across three identical clones, all in these two cells, because the speech-act row is gated on 2.0 s of wall clock. R13 excluded these cells from the noise-floor claim; this instrument excludes them from the inertness FAILURE and still counts them.",
+    "cells": [
+      "learn/1/reasked",
+      "learn/1/restarted"
+    ],
+    "registered_rows": 11
+  },
+  "verdict": {
+    "inert_outside_registered_tolerance": true,
+    "movement_within_registered_rows": true,
+    "row_for_row_identical": true
+  },
+  "written_at": "2026-11-03T10:58:40Z"
+}

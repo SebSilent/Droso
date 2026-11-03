@@ -108,6 +108,36 @@
       }
     }
   },
+  "confounds": {
+    "cross_tier_comparability_regime_break": {
+      "consequence_for_analysis": "FORGETTING CURVES MAY BE COMPARED ACROSS TIERS ONLY WITHIN THE SAME CONSTRAINT-(b) REGIME. Tier 120 and tier 300 are mutually comparable (both strict). Tier 40 is not comparable to them as a curve. The tier-40-to-tier-120 refusal-rate change is reported as CONFOUNDED, not as a result, and no hypothesis about forgetting may rest on it.",
+      "discovered": "2026-11-03T10:59:38Z",
+      "measured": {
+        "instrument": "tools/mp_e8_curriculum.py check_tier(), run over the SEALED tier-40 manifest as well as over the new tiers, so the count is produced by the same code path in both cases",
+        "tier_120_asks_using_untaught_content_words": 0,
+        "tier_300_asks_using_untaught_content_words": 0,
+        "tier_40_asks_using_untaught_content_words": 8,
+        "tier_40_words_involved": [
+          "tower",
+          "many",
+          "toll",
+          "love",
+          "dusk"
+        ]
+      },
+      "name": "tiers 120/300 satisfy constraint (b) strictly; the sealed tier-40 baseline does not",
+      "statement": "Constraint (b) requires every content word a probe ask uses to be in that tier's taught set. Tiers 120 and 300 are built to satisfy it and the checker refuses an emit that does not. Tier 40 does NOT satisfy it: 8 of its 136 sealed probe asks use a content word that appears in no taught sentence -- 'what rings in the tower', 'how many dogs sleep', 'when does the bell toll', 'what does Mira love most'. So the baseline tier and the scaled tiers are not the same instrument: they differ in a DEFINITIONAL way that has nothing to do with memory, and any cross-tier difference in refusal rate is partly that difference and not forgetting.",
+      "tier_40_is_NOT_repaired": "Deliberate. Tier 40 is the sealed baseline arm A is pinned against: its 136-row probe matrix and its curriculum_sha256 are what the noise floor and every reproduction claim were measured on. Deleting the 8 asks changes the matrix; teaching 'tower' and 'many' changes tier 40's item set. Both would move the baseline to meet the new rule, which is the R2 failure mode wearing a cleanup as a costume.",
+      "what_still_holds_across_the_regime_break": "Within-tier claims are unaffected: each tier's own curve over its own delays, and every arm-to-arm comparison inside one tier, uses one taught set and one regime."
+    },
+    "refusal_rate_vs_tier_size": {
+      "name": "coverage floor and arbiter were tuned at 40 items",
+      "registered_at": "2026-11-03T10:59:38Z",
+      "reporting_rule": "Refusal-rate change across tiers is reported SEPARATELY from the forgetting curve.",
+      "statement": "At 120 and 300 items the same floor may move refusal rates for reasons that have nothing to do with memory: more distractor rows, more vocabulary to cover, a larger taught set for the word-level grader to trace.",
+      "status": "registered BEFORE any tier 120/300 artifact exists"
+    }
+  },
   "constraints_from_the_plan": {
     "agent_brief": [
       "Do not modify Droso internals.",
@@ -760,6 +790,24 @@
     }
   },
   "metrics": {
+    "H3_descriptive_only": {
+      "decided_by": "PI ruling D-MPE8-04",
+      "how_the_plan_clause_is_satisfied": "'the loss is recorded, not hidden' is met by this record plus the absence of a pass criterion. Choosing a threshold after seeing the numbers would be an R2 event dressed as a metric.",
+      "instrument_status": "still none for pass/fail; D-MPE8-04 closed the question of whether to invent one (answer: no) rather than solving it",
+      "labeling_rule": "Every value under this key is printed with the word DESCRIPTION attached in the artifact. It may not be used to score an arm, and a reader who uses it that way is using a number the experiment did not register.",
+      "measures_recorded": {
+        "mean_content_words_per_utterance": {
+          "definition": "mean over an arm's produced utterances of the count of content words (nouns, main verbs, adjectives; determiners, auxiliaries and prepositions excluded) in the utterance",
+          "threshold": null
+        },
+        "type_token_ratio": {
+          "definition": "distinct tokens divided by total tokens over an arm's produced utterances, reported with the token count because TTR is length-dependent and a bare TTR invites a comparison it cannot support",
+          "threshold": null
+        }
+      },
+      "status": "DESCRIPTIVE, NON-GATING. No threshold, no pass/fail, not a go criterion.",
+      "why": "H3 (fluency / open-ended composition) has no instrument. The plan's gate wording was checked before treating it as one: Gate G2 requires complete, valid, sealed artifacts at all three tiers plus the forgetting/interference/exposure/cost figures, and H3 is not in it (experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:690). So the honest state is NOT YET MEASURABLE for pass/fail, stated the way MP-E9 stated C4."
+    },
     "already_measured_at_tier_40": {
       "accuracy_vs_exposures": "live correct 38/75/115 across depths (the plan's 37/71/108 -> 38/75/115 curve, re-measured on the current tree)"
     },
@@ -778,6 +826,11 @@
   "objective": "Measure the true gap between the live connectome agent and parameter-matched frozen and sequential neural language models on all nine axes, under the deployment conditions that define the program: teaching in natural language, real restarts, and probes in words the teacher never used. Produce the program's core figures: forgetting curves and interference curves under identical curricula.",
   "open_decisions_for_pi": {
     "D-MPE8-01_arm_A_flag_configuration": {
+      "RESOLVED": {
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "see": "pi_decisions.rulings.D-MPE8-01"
+      },
       "agent_recommendation": "run arm A with the bound ON, because the two numbers MP-E8 depends on -- the learn floor and the guarded-absence count -- are IDENTICAL either way, so the choice costs the duel nothing in comparability and buys a non-aborting arm A. But this is a ruling, not a discovery: it changes what 'arm A' names, and arm A is defined by the plan as the ELECTRIC-learn mode that shipped.",
       "consequence_if_off": "MP-E8 aborts at C2 on its first arm-A run.",
       "measured_evidence": {
@@ -805,16 +858,144 @@
       "question": "Does arm A run ELECTRIC-learn with ELECTRIC_ARBITER_HEAD_BOUND on or off?"
     },
     "D-MPE8-02_arm_B_dependency": {
+      "RESOLVED": {
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "see": "pi_decisions.rulings.D-MPE8-02"
+      },
       "cost_of_adding": "the venv is unpinned (requirements.txt names 6 packages with no versions); adding torch changes the environment every published number was measured under and must be logged, not absorbed",
       "cost_of_scratch": "a correct BPTT LSTM at 2-10M parameters in numpy is the larger build, and a subtly wrong one produces a baseline that loses for the wrong reason -- which is the failure the duel exists to avoid",
       "question": "Add a pinned ML framework to the sealed environment, or build arm B as a from-scratch numpy trainer?"
     },
     "D-MPE8-03_tier_authoring": {
+      "RESOLVED": {
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "see": "pi_decisions.rulings.D-MPE8-03"
+      },
       "measured_projection": "see tiers.120 / tiers.300",
       "question": "Who authors 80 and 260 additional items, and against what acceptance rule?"
     },
+    "D-MPE8-03b_tier_material_authorship": {
+      "status": "RESOLVED 2026-11-03 by the second D-MPE8-03 ruling: the agent may extend the pool, under constraints (a)-(d). See pi_decisions.D-MPE8-03.",
+      "was": "who authors the additional items, and against what acceptance rule"
+    },
     "D-MPE8-04_H3_instrument": {
+      "RESOLVED": {
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "see": "pi_decisions.rulings.D-MPE8-04"
+      },
       "question": "What measures fluency and open-ended composition? H3 has no numeric form until this is answered, and the plan requires H3's loss be published."
+    },
+    "D-MPE8-05_r13_tolerance_cells_incomplete": {
+      "asked_at": "2026-11-03T11:33:50Z",
+      "asked_by": "agent",
+      "measured": "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json -- six artifacts, the disputed row's full text in each, and the tally 5:1",
+      "question": "The registered noise tolerance names two cells (learn/1/reasked, learn/1/restarted) as wall-clock-gated. Measurement found a third gated row outside that list: control/3/live/pair1.0/pair_exact flips its surface string in 1 of 6 runs across two heads and three bench versions. Should the tolerance cell list be widened to cover any row whose outcome depends on the 2.0 s speech-act gate, or should the gate be made deterministic (a fixed budget instead of wall clock) so the question does not arise?",
+      "status": "OPEN. Nothing was widened. The affected row is a control-arm surface string; cls and src are identical in every run, so no graded outcome and no C-condition moves on it.",
+      "why_it_cannot_be_decided_by_the_agent": "Widening a tolerance after artifacts exist is an R2 event. The list was registered before the runs that are now being compared against it."
+    }
+  },
+  "pi_decisions": {
+    "note": "Four rulings issued together. Each is recorded with the PI's reasoning, the conditions attached to it, and what was actually done in response. Conditions that were not implemented are said so rather than omitted.",
+    "recorded_at": "2026-11-03T10:06:47Z",
+    "recorded_by": "agent on PI instruction",
+    "rulings": {
+      "D-MPE8-01": {
+        "conditions": {
+          "1_flag_state_per_arm_in_provenance": "Every arm artifact records the flag state PER ARM in provenance, so no reader can mistake a flag-conditional 0 for a property of the organism. MP-E9 decision.md 7.1 is exactly the confusion this prevents.",
+          "2_this_is_not_promotion": "Running arm A with an explicitly passed flag is NOT promotion. D-MPE9-05 stays open and unexecuted."
+        },
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "decision": "Arm A runs WITH ELECTRIC_ARBITER_HEAD_BOUND ON.",
+        "implemented": {
+          "condition_1": "tools/electric_learn_bench.py now writes arms.<arm>.arm_provenance with the flag census for that arm, flags_reach_this_arm, zero_is_flag_conditional, and a read_this_before_quoting_any_number_from_this_arm sentence. The run-level block already said which flags were passed, but it does not survive being read alone: someone quoting arms.learn.learn_correct_live out of a file has no flag information next to the number.",
+          "condition_2_not_promotion_stated": "Arm A's bound is ON because a command line said --flag-on ELECTRIC_ARBITER_HEAD_BOUND for the duration of this experiment. The shipped organism still runs it OFF: the attribute is in CANDIDATE_ATTRS, which no enable*() function reads, so no mode reaches it (measured: unreachable_by_any_mode = the three MP-E9 flags; asserted by tests/test_electric_learn_mode.py). Promotion would mean moving it into BASE or LEARN and is D-MPE9-05's decision, with its own precondition, not executed here.",
+          "the_apparent_contradiction_and_why_it_is_not_one": "Arm A comes out clean while the shipped house does not. That is not a contradiction and must not be read as one: arm A is a FLAGGED configuration, the house is an unflagged one, and the 16 UNTRACEABLE_ASSERTED rows MP-E9 counted are rows of the unflagged house. The duel therefore compares arm A against arms B and C on a configuration the product does not currently run. If arm A wins, that result transfers to the product only through D-MPE9-05."
+        },
+        "reasoning": "Adopt the agent's recommendation. The two numbers the duel depends on, the learn floor and the guarded-absence count, are identical with the flag on or off, so the choice costs comparability nothing and buys a non-aborting arm A.",
+        "scope_note_for_the_agent_brief": "The brief says do not modify Droso internals. The per-arm provenance change is to tools/electric_learn_bench.py, the measuring instrument, not to organs/neural_language.py, the organism, and it was ordered by this ruling.",
+        "status": "RESOLVED, implemented"
+      },
+      "D-MPE8-02": {
+        "action_taken": {
+          "installed": "torch 2.15.0+cpu, CPU-only wheel index https://download.pytorch.org/whl/cpu",
+          "measured": {
+            "cuda": null,
+            "cuda_available": false,
+            "python": "3.12.10",
+            "threads": 6,
+            "torch": "2.15.0+cpu"
+          },
+          "pinned_in": "requirements.txt as torch==2.15.0+cpu, with the install command recorded because the +cpu build is not resolvable from PyPI"
+        },
+        "consequences_handled": {
+          "(a)_lock_is_an_amendment_not_an_edit": "The G0-prime lock is a sealed, measured artifact and it is the environment G0-prime's and MP-E9's numbers were produced in. It is therefore left byte-identical (verified: git status UNMODIFIED; git_blob intact) and the new environment is written to its own path, experiments/MP-E8/results/requirements.lock.txt, by the same generator with a --note carrying the reason and date. Overwriting the old file would have been the edit this condition forbids, and would have broken G0-prime's seal.",
+          "(a)_measured_package_delta": "29 packages before, 38 after. Added: torch 2.15.0+cpu, setuptools 78.1.0, sympy 1.14.0, networkx 3.7, Jinja2 3.1.6, MarkupSafe 3.0.3, filelock 4.2.4, fsspec 2026.9.0, mpmath 1.3.0. Removed: none. numpy 2.5.4 and scipy 1.18.1 unchanged, so the delta is purely additive -- which is evidence, not an assumption, for condition (b).",
+          "(b)_arm_A_rerun_and_noise_floor_first": "H4 compares arm A cost to arm B cost on identical hardware, and that has to mean identical software too, or the duel's central cost claim is cross-environment. Arm A is therefore re-run at tier 40 in the new environment and the noise floor re-verified BEFORE any arm B number exists. See results.armA_new_environment.",
+          "(c)_torch_build_in_every_arm_BC_artifact": "provenance.packages now includes torch and provenance.torch_build records version, cuda_version, cuda_available and thread count. The +cpu wheel and a cu12x wheel of the same version are different machines, so the version string alone would let a GPU run and a CPU run claim the same environment. torch is imported lazily: arm A ran for all of MP-E9 without it and must not start depending on a package only arm B needs."
+        },
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "decision": "Add the pinned ML dependency. Do not hand-roll the trainer.",
+        "reasoning": "R7 says baselines cannot be ducked, and a from-scratch BPTT whose gradients are subtly wrong loses the duel for the wrong reason -- a failure mode no finite-difference test fully clears.",
+        "status": "RESOLVED, implemented; condition (b) measured in results.armA_new_environment"
+      },
+      "D-MPE8-03": {
+        "consequence_for_the_plan": "The plan's three tiers assume a pool 3x and 7.5x larger than the one arm A ships with. Tier 40 is authorable and sealed; tiers 120 and 300 need new material, which is a specification input the plan has not supplied. G2's go criteria require complete sealed artifacts AT ALL THREE TIERS, so on the current pool G2 cannot be met by any amount of running. Recorded as D-MPE8-03b: who authors the additional items, and against what acceptance rule.",
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "decision": "Author tiers 120 and 300 as registered DATA, not as new code paths -- and STOP if the pool cannot supply them without repeating a subject-verb pair.",
+        "measured": {
+          "breakdown": "24 tell frames (all distinct) + 16 QA answers (all distinct by the stated heuristic) = 40, exactly one pair per item, no pair reused",
+          "cross_product_subjects_x_verbs": 851,
+          "distinct_subject_verb_pairs_in_pool": 40,
+          "distinct_subjects": 23,
+          "distinct_verbs": 37,
+          "shortfall_tier_120": 80,
+          "shortfall_tier_300": 260,
+          "why_the_cross_product_does_not_count": "Multiplying subjects by verbs is not the same pool. 'the rain bites the latch' is a new sentence with new semantics; generating 851 grammatical fakes from a 40-item pool is inventing items, which is what the ruling forbids. The number that answers the ruling's question is the union of pairs the pool actually contains."
+        },
+        "reasoning": "Extending the curriculum is data work. Inventing items to fill a tier changes what forgetting means, and that is a specification edit.",
+        "ruling_second": {
+          "constraints": {
+            "a": "new items use the SAME registered frame grammar (who/what <verb>s the <object>, and QA pairs of the same shape classes) so the shape arbiter and probe construction apply unchanged",
+            "b": "every content word a new item introduces is itself in the taught set for that tier, so the word-level grader's trace set stays well-defined and C2 keeps its meaning",
+            "c": "the probe matrix scales proportionally from the registered 136 at tier 40 and each tier keeps its guarded-absence and distractor rows, defined as not in that tier's taught set",
+            "d": "register the construction rule, the seed, the item counts and the distinct-subject-verb-pair count BEFORE any run, and commit the emitted tier files with their curriculum_sha256"
+          },
+          "decided_at": "2026-11-03T10:59:38Z",
+          "decided_by": "PI",
+          "decision": "Authoring tiers 120 and 300 REQUIRES extending the item pool, and that is permitted -- the plan demands 120 and 300 taught items, which the current 40 cannot be. The forbidden thing is changing what forgetting means, so bind the extension to constraints (a)-(d) that keep the definition fixed. Stop again only if the vocabulary cannot be extended without inventing words no arm could ever be taught.",
+          "finding_constraint_c_is_false_as_written": "The ruling says guarded-absence rows 'scale naturally'. Measured: the registered 24 guarded-absence rows come from TWO item ids (tell1.2 'the bell hangs on the wall' and pair1.0 'where does the bell hang?' -- the same fact, taught twice), in the teach arm only, at depths 2 and 3, across live/reasked/restarted: 2 x 2 x 3 x 1 arm = 24 (measured from armA_tier40_newenv.json, not inferred). It is not a per-item quantity, so it does not scale with tier size by any mechanism I can point at. The distractor rows DO scale (12 -> 36 -> 90 by construction). Reported rather than quietly reinterpreted: at tiers 120/300 the guarded-absence count is an outcome to be measured, not a number the construction guarantees.",
+          "implemented": "tools/mp_e8_curriculum.py --emit-tier / --check-tier; the emitted tiers are at experiments/MP-E8/curriculum_tier120.json and ..._tier300.json",
+          "outcome": "TIERS AUTHORED. Stop condition not fired."
+        },
+        "status": "RESOLVED by ruling 2026-11-03 (second): extending the item pool is permitted. Tiers 120 and 300 are authored and registered; the earlier stop-condition record is kept in superseded_record, labelled, per R5.",
+        "superseded_record": {
+          "outcome": "STOP CONDITION FIRED. No generator built, no tier authored.",
+          "status_superseded": "RESOLVED by its own stop condition; tier authoring escalated as D-MPE8-03b",
+          "why_kept": "R5: bad numbers stay on record. The measurement that fired the stop condition (40 distinct pairs, shortfall 80/260, cross-product rejected) is still true of the tier-40 pool; what changed is the ruling about whether extending the pool is allowed."
+        }
+      },
+      "D-MPE8-04": {
+        "decided_at": "2026-11-03T10:06:47Z",
+        "decided_by": "PI",
+        "decision": "Do not invent a fluency metric. H3 stays NOT YET MEASURABLE for pass/fail.",
+        "gate_wording_checked": {
+          "finding": "H3 is not in G2's go criteria. What G2 requires is complete, valid, sealed artifacts for A/B/C at three tiers plus T and N, and the forgetting/interference/exposure/cost figures to be valid. Fluency is not a gating quantity for this gate.",
+          "source": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:690",
+          "text": "Gate G2. Go when all arms produce complete, valid, sealed artifacts at all three tiers. The experiment succeeds regardless of which arm wins, because both outcomes define paper 1."
+        },
+        "implemented": {
+          "descriptive_non_gating_observations": "mean content words per utterance and type-token ratio, recorded per arm per tier and labelled description with NO threshold. See metrics.H3_descriptive_only.",
+          "how_the_plan_clause_is_satisfied": "The plan's H3 clause 'the loss is recorded, not hidden' is satisfied by the record plus the absence of a pass criterion, not by a number chosen now. A threshold invented after the observation exists would be an R2 event wearing the costume of a metric."
+        },
+        "reasoning": "Stated the way MP-E9 stated C4. The plan's own gate wording must be checked before treating H3 as a gate.",
+        "status": "RESOLVED, implemented"
+      }
     }
   },
   "plan_source": "DROSO Master Plan v1.1, section 6.2 (objective, design, arms, refusal fairness, hypotheses, C-conditions, metrics, gate G2, agent brief) and Table 6 row G1/G2",
@@ -834,9 +1015,459 @@
     }
   },
   "registered_at": "2026-11-03T09:22:43Z",
-  "registration_amendments": [],
+  "registration_amendments": [
+    {
+      "amended_at": "2026-11-03T11:33:50Z",
+      "cross_environment_scope_of_the_control_arm_identity_claim": {
+        "G0_prime_decision_md_section_4": "'The control and teach arms were byte-identical across all three clones' -- measured over three clones of ONE tree (head 5d036210) in ONE environment (pre-torch, sealed at experiments/G0-prime/results/requirements.lock.txt). Its scope is within-tree and within-environment, and it was never a claim that nothing moves: the same section records 11 of 3,672 rows moving in the learn arm, 1 of them graded.",
+        "MP_E8_new_environment": "control|3|live|pair1.0|pair_exact field 'said' differs BETWEEN environments: 1 of 6 runs (armA_tier40_newenv.json) says 'droso says where does the bell hang', the other 5 say 'where the bell hang'. WITHIN the new environment the control arm is identical -- clone2 vs clone1 and clone3 vs clone1 are both 0 differences of 3,672.",
+        "amended_in": [
+          "experiments/G0-prime/registration.json -> cross_environment_scope_note (dated, references decision.md section 4 without editing it)",
+          "this amendment entry"
+        ],
+        "sealed_number_untouched": "G0-prime's 11/0/11 and its 1 graded difference are NOT edited. This is an amendment by reference with a dated note, the same treatment as the retraction above.",
+        "the_rule": "Control-arm identity holds within one tree and one environment. It is NOT guaranteed across environments, because the row is gated on wall clock (the 2.0 s refractory at organs/neural_language.py:946-948) and wall clock is a property of machine load, not of code. Any future claim of the form 'control is byte-identical' must name the tree and the environment it was measured in.",
+        "why_this_block_exists": "Two records in this repository say the control arm is identical, and read side by side they look contradictory. They are not contradictory; they have different scopes, and neither one said so at the time."
+      },
+      "direction": {
+        "claim": "This change can only REMOVE a pass, never ADD one.",
+        "what_would_have_made_it_illegitimate": "Re-measuring only the quantity that improved, or restating N from the old clones instead of re-running them in the new environment.",
+        "why": [
+          "No grader, threshold, probe, classification rule or gate criterion was touched. classify(), the coverage floor, the shape arbiter and every C-condition are byte-identical in behaviour: the bench edits are additive provenance FIELDS plus a code path that is not entered unless --curriculum is passed.",
+          "Every re-measurement below either reproduced the sealed number exactly or reported a difference. Nothing that was failing now passes, and nothing that was passing was made to pass by editing the instrument.",
+          "The tier authoring adds DATA at tiers 120/300 where no data existed; it cannot rescue a tier-40 number, and tier 40's manifest and its curriculum_sha256 are unchanged.",
+          "If the environment had made arm A look better, the re-measured floor and guarded-absence counts would have moved. They did not (see re_measured)."
+        ]
+      },
+      "id": "AMD-MPE8-01",
+      "instrument_change_inertness_proof": {
+        "additionally": "The flag-absent path is not merely equivalent code, it is never entered: apply_curriculum() runs at import only if --curriculum appears in argv, and an import with a benign argv reproduces 40 items / 136 probes from the literals.",
+        "against_same_head_pre_change_run": {
+          "counts": {
+            "gained": 0,
+            "inside_r13_cells": 0,
+            "lost": 0,
+            "moved": 0,
+            "outside_r13_cells": 0,
+            "rows_keyed_both": 3672,
+            "total_differences": 0
+          },
+          "verdict": {
+            "inert_outside_registered_tolerance": true,
+            "movement_within_registered_rows": true,
+            "row_for_row_identical": true
+          }
+        },
+        "against_sealed_same_flag_artifact": {
+          "counts": {
+            "gained": 0,
+            "inside_r13_cells": 0,
+            "lost": 0,
+            "moved": 0,
+            "outside_r13_cells": 0,
+            "rows_keyed_both": 3672,
+            "total_differences": 0
+          },
+          "verdict": {
+            "inert_outside_registered_tolerance": true,
+            "movement_within_registered_rows": true,
+            "row_for_row_identical": true
+          }
+        },
+        "against_the_previous_designated_reference": {
+          "counts": {
+            "gained": 0,
+            "inside_r13_cells": 0,
+            "lost": 0,
+            "moved": 1,
+            "outside_r13_cells": 1,
+            "rows_keyed_both": 3672,
+            "total_differences": 1
+          },
+          "verdict": {
+            "inert_outside_registered_tolerance": false,
+            "movement_within_registered_rows": true,
+            "row_for_row_identical": false
+          }
+        },
+        "question": "does adding --curriculum to the bench change tier-40 behaviour when the flag is not passed?",
+        "verdict": "PASS. Zero rows differ against both the same-head pre-change run and the sealed same-flag artifact. The single row that differs from armA_tier40_newenv.json is that artifact's own outlier (5 runs to 1), see retraction_and_correction."
+      },
+      "not_re_measured": {
+        "list": [
+          "MP-E9's sealed artifacts and their gate verdicts (ab_flag_off, the three treatments, F1)",
+          "G0-prime's T=14 and its original noise-floor clones (head 5d036210, pre-torch)",
+          "the word-provenance audit and the R9 vocabulary numbers",
+          "the battery/H4 state used by MP-E9's cost figure"
+        ],
+        "the_one_exception": "The 1218-test suite IS being re-run under the new environment (item 5), because a suite baseline that does not hold in the environment the arms run in is not a baseline. Its result is recorded separately, not merged into G0-prime's.",
+        "why_not": "They are records of what was measured on the tree and environment of their own date, and each carries its own provenance block saying so. Re-running them under torch would overwrite a sealed result with a new one and destroy the comparison."
+      },
+      "r2_status": "Recorded as an amendment because results existed before the change (R2). No criterion moved: this is an instrument and environment change, not a threshold change, and the tier-40 baseline is reproduced rather than reinterpreted.",
+      "re_measured": {
+        "arm_A_tier40_in_new_environment": {
+          "reference_now": {
+            "asserted_src_rows": 0,
+            "curriculum_field": {
+              "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
+              "mode": "module_literals",
+              "n_distractors": 12,
+              "n_items": 40,
+              "n_probes_built_by_this_bench": 136,
+              "note": "the sealed baseline curriculum; no --curriculum was passed",
+              "path": "tools/electric_learn_bench.py (SESSIONS/PAIRS/DISTRACTORS literals)",
+              "tier": 40
+            },
+            "failures": 0,
+            "floor_live_correct": [
+              38,
+              75,
+              115
+            ],
+            "git_head": "a4d43f30",
+            "learn_seconds": 153.4,
+            "path": "experiments/MP-E8/results/armA_tier40_inertness.json",
+            "rows": 3672,
+            "status": "arm-A tier-40 reference: current tree, torch environment, and row-for-row identical to the sealed same-flag artifact.",
+            "torch": "2.15.0+cpu"
+          },
+          "superseded_first_run": {
+            "asserted_src_rows": 0,
+            "curriculum_field": null,
+            "failures": 0,
+            "floor_live_correct": [
+              38,
+              75,
+              115
+            ],
+            "git_head": "a4d43f30",
+            "learn_seconds": 154.1,
+            "path": "experiments/MP-E8/results/armA_tier40_newenv.json",
+            "rows": 3672,
+            "status": "SUPERSEDED per R5. Its graded outcome matches every other run, but its control|3|live|pair1.0|pair_exact surface string matches no other run -- see retraction_and_correction.the_real_finding.",
+            "torch": "2.15.0+cpu"
+          }
+        },
+        "curriculum_flag_inertness": {
+          "consequence_for_the_registered_tolerance": "The R13 tolerance cells are learn/1/reasked and learn/1/restarted, on the grounds that the speech-act row is gated on 2.0 s of wall clock. This row -- control/3/live -- is gated the same way and is NOT in that list. The registered cell list is therefore incomplete. NOT widened here: changing a tolerance after artifacts exist is an R2 event and needs a ruling, not a convenience.",
+          "consequence_for_the_reproduction_claim": "armA_tier40_newenv.json may not be cited as 'arm A reproduced exactly'. Its graded outcome is identical (cls, src, floor, guarded-absence, C2 all match) but one surface string in the control arm does not match any other run.",
+          "inertness_verdict": {
+            "against_a_stable_reference_same_head": {
+              "gained": 0,
+              "inside_r13_cells": 0,
+              "lost": 0,
+              "moved": 0,
+              "outside_r13_cells": 0,
+              "rows_keyed_both": 3672,
+              "total_differences": 0
+            },
+            "against_the_designated_reference": {
+              "gained": 0,
+              "inside_r13_cells": 0,
+              "lost": 0,
+              "moved": 1,
+              "outside_r13_cells": 1,
+              "rows_keyed_both": 3672,
+              "total_differences": 1
+            },
+            "against_the_sealed_same_flag_artifact": {
+              "gained": 0,
+              "inside_r13_cells": 0,
+              "lost": 0,
+              "moved": 0,
+              "outside_r13_cells": 0,
+              "rows_keyed_both": 3672,
+              "total_differences": 0
+            },
+            "claim": "PASS: adding --curriculum moves ZERO rows against both a same-head pre-change run and the sealed same-flag artifact. The single row that differs from armA_tier40_newenv.json is that artifact's own outlier, evidenced by five independent runs agreeing on the other value."
+          },
+          "per_artifact": {
+            "armA_tier40_inertness": {
+              "cls": "echo",
+              "git_head": "a4d43f30",
+              "mech": "fallback_fragment",
+              "reason": "",
+              "said": "where the bell hang",
+              "src": "recalled proposition"
+            },
+            "armA_tier40_newenv": {
+              "cls": "echo",
+              "git_head": "a4d43f30",
+              "mech": "fallback_fragment",
+              "reason": "",
+              "said": "droso says where does the bell hang",
+              "src": "recalled proposition"
+            },
+            "nf clone1": {
+              "cls": "echo",
+              "git_head": "a4d43f30",
+              "mech": "fallback_fragment",
+              "reason": "",
+              "said": "where the bell hang",
+              "src": "recalled proposition"
+            },
+            "nf clone2": {
+              "cls": "echo",
+              "git_head": "a4d43f30",
+              "mech": "fallback_fragment",
+              "reason": "",
+              "said": "where the bell hang",
+              "src": "recalled proposition"
+            },
+            "nf clone3": {
+              "cls": "echo",
+              "git_head": "a4d43f30",
+              "mech": "fallback_fragment",
+              "reason": "",
+              "said": "where the bell hang",
+              "src": "recalled proposition"
+            },
+            "sealed 64f5a794": {
+              "cls": "echo",
+              "git_head": "64f5a794",
+              "mech": "fallback_fragment",
+              "reason": "",
+              "said": "where the bell hang",
+              "src": "recalled proposition"
+            }
+          },
+          "reading": "armA_tier40_newenv.json is the only artifact of six that emits the raw echo instead of the folded paraphrase, and it is the only one produced before the per-arm-provenance and --curriculum edits. The five that agree span two git heads and three versions of the bench, so the disagreement tracks the RUN, not the tree. That makes this row run-level unstable, not a code or environment effect.",
+          "row": "control|3|live|pair1.0|pair_exact",
+          "tally": {
+            "droso says where does the bell hang": 1,
+            "where the bell hang": 5
+          }
+        },
+        "noise_floor_clones_in_new_environment": {
+          "clone1": {
+            "asserted_src_rows": 0,
+            "failures": 0,
+            "floor_live_correct": [
+              38,
+              75,
+              115
+            ],
+            "git_head": "a4d43f30",
+            "learn_seconds": 152.6,
+            "rows": 3672,
+            "torch": "2.15.0+cpu"
+          },
+          "clone2": {
+            "asserted_src_rows": 0,
+            "failures": 0,
+            "floor_live_correct": [
+              38,
+              75,
+              115
+            ],
+            "git_head": "a4d43f30",
+            "learn_seconds": 156.2,
+            "rows": 3672,
+            "torch": "2.15.0+cpu"
+          },
+          "clone3": {
+            "asserted_src_rows": 0,
+            "failures": 0,
+            "floor_live_correct": [
+              38,
+              75,
+              115
+            ],
+            "git_head": "a4d43f30",
+            "learn_seconds": 158.3,
+            "rows": 3672,
+            "torch": "2.15.0+cpu"
+          }
+        },
+        "noise_floor_verdict": {
+          "pairwise": {
+            "c2_vs_c1": {
+              "counts": {
+                "gained": 0,
+                "inside_r13_cells": 0,
+                "lost": 0,
+                "moved": 0,
+                "outside_r13_cells": 0,
+                "rows_keyed_both": 3672,
+                "total_differences": 0
+              },
+              "verdict": {
+                "inert_outside_registered_tolerance": true,
+                "movement_within_registered_rows": true,
+                "row_for_row_identical": true
+              }
+            },
+            "c3_vs_c1": {
+              "counts": {
+                "gained": 0,
+                "inside_r13_cells": 0,
+                "lost": 0,
+                "moved": 0,
+                "outside_r13_cells": 0,
+                "rows_keyed_both": 3672,
+                "total_differences": 0
+              },
+              "verdict": {
+                "inert_outside_registered_tolerance": true,
+                "movement_within_registered_rows": true,
+                "row_for_row_identical": true
+              }
+            },
+            "c3_vs_c2": {
+              "counts": {
+                "gained": 0,
+                "inside_r13_cells": 0,
+                "lost": 0,
+                "moved": 0,
+                "outside_r13_cells": 0,
+                "rows_keyed_both": 3672,
+                "total_differences": 0
+              },
+              "verdict": {
+                "inert_outside_registered_tolerance": true,
+                "movement_within_registered_rows": true,
+                "row_for_row_identical": true
+              }
+            }
+          },
+          "reading": "three full three-arm clones in the torch environment are row-for-row identical on the identity fields, so the new N is at least as tight as the sealed one. N is re-set here rather than inherited."
+        },
+        "vs_sealed_same_flag_artifact": {
+          "counts": {
+            "gained": 0,
+            "inside_r13_cells": 0,
+            "lost": 0,
+            "moved": 1,
+            "outside_r13_cells": 1,
+            "rows_keyed_both": 3672,
+            "total_differences": 1
+          },
+          "verdict": {
+            "inert_outside_registered_tolerance": false,
+            "movement_within_registered_rows": true,
+            "row_for_row_identical": false
+          }
+        }
+      },
+      "results_existed": true,
+      "results_that_existed": [
+        "G0-prime: suite baseline (1218 tests), noise floor N, T=14, word-provenance audit",
+        "MP-E9: ab_flag_off + three treatment artifacts, their gate verdicts, the F1 fallback run, decision.md closing H3 as an open problem"
+      ],
+      "retraction_and_correction": {
+        "corrected_measurement": {
+          "inertness_run_vs_same_head_pre_change_run": {
+            "counts": {
+              "gained": 0,
+              "inside_r13_cells": 0,
+              "lost": 0,
+              "moved": 0,
+              "outside_r13_cells": 0,
+              "rows_keyed_both": 3672,
+              "total_differences": 0
+            },
+            "verdict": {
+              "inert_outside_registered_tolerance": true,
+              "movement_within_registered_rows": true,
+              "row_for_row_identical": true
+            }
+          },
+          "inertness_run_vs_sealed_same_flag": {
+            "counts": {
+              "gained": 0,
+              "inside_r13_cells": 0,
+              "lost": 0,
+              "moved": 0,
+              "outside_r13_cells": 0,
+              "rows_keyed_both": 3672,
+              "total_differences": 0
+            },
+            "verdict": {
+              "inert_outside_registered_tolerance": true,
+              "movement_within_registered_rows": true,
+              "row_for_row_identical": true
+            }
+          },
+          "reading": "arm A on the current tree in the torch environment is ROW-FOR-ROW IDENTICAL to the sealed same-flag artifact (0 of 3672 differ). The torch environment changed no graded row and no surface string.",
+          "the_outlier_artifact_vs_sealed": {
+            "counts": {
+              "gained": 0,
+              "inside_r13_cells": 0,
+              "lost": 0,
+              "moved": 1,
+              "outside_r13_cells": 1,
+              "rows_keyed_both": 3672,
+              "total_differences": 1
+            },
+            "verdict": {
+              "inert_outside_registered_tolerance": false,
+              "movement_within_registered_rows": true,
+              "row_for_row_identical": false
+            }
+          }
+        },
+        "reference_redesignation": {
+          "armA_tier40_newenv.json": "kept on record, labelled superseded, per R5",
+          "arm_A_tier40_reference_is_now": "experiments/MP-E8/results/armA_tier40_inertness.json",
+          "why": "it is the current tree, the torch environment, and row-for-row identical to the sealed same-flag artifact -- the three properties a reference needs at once"
+        },
+        "retracted": "An earlier report this session claimed arm A in the torch environment differed from the sealed same-flag artifact by 1 row of 3672 (control/3/live/pair1.0/pair_exact) and attributed it to code drift across MP-E9's arbiter commits. That comparison was run against armA_tier40_newenv.json as the torch-side artifact. It is wrong.",
+        "the_real_finding": {
+          "artifact_disagreeing": [
+            "armA_tier40_newenv.json"
+          ],
+          "artifacts_agreeing": [
+            "nf clone1",
+            "nf clone2",
+            "nf clone3",
+            "armA_tier40_inertness (post --curriculum)",
+            "MP-E9 sealed treatment_arbiter_head_bound (head 64f5a794)"
+          ],
+          "consequence_for_the_registered_noise_tolerance": "The R13 tolerance cells are learn/1/reasked and learn/1/restarted, on the grounds that the speech-act row is gated on 2.0 s of wall clock. control/3/live is gated the same way and is NOT in that list, so the registered cell list is incomplete. NOT widened here: moving a tolerance after artifacts exist is an R2 event and needs a ruling, not a convenience. Escalated as an open decision.",
+          "evidence_file": "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json",
+          "reading": "The five agreeing artifacts span two git heads and three versions of the bench, so the disagreement tracks the RUN rather than the tree: this row is run-level unstable. armA_tier40_newenv.json may not be cited as 'arm A reproduced exactly' -- its graded outcome (cls, src, floor, guarded-absence, C2) still matches, but one control-arm surface string does not match any other run.",
+          "row": "control|3|live|pair1.0|pair_exact",
+          "tally_across_six_artifacts": {
+            "droso says where does the bell hang": 1,
+            "where the bell hang": 5
+          }
+        }
+      },
+      "what_changed": {
+        "environment": "torch==2.15.0+cpu and 8 transitive packages added (D-MPE8-02, arm B is a real trainer). New lock at experiments/MP-E8/results/requirements.lock.txt; the sealed G0-prime lock is UNTOUCHED.",
+        "instruments": {
+          "new files": [
+            "tools/mp_e8_arm_b.py",
+            "tools/mp_e8_describe.py",
+            "tests/test_mp_e8_arm_b.py",
+            "experiments/MP-E8/curriculum_tier120.json",
+            "experiments/MP-E8/curriculum_tier300.json"
+          ],
+          "tools/electric_learn_bench.py": "per-arm flag provenance (arm_provenance, electric_flags_apply_to, torch_build/torch_threads) and a --curriculum manifest loader with a whitelisted frame rebuilt by the bench's own svo/obl/intr",
+          "tools/freeze_env.py": "--label/--note arguments; relative_to crash on --out fixed",
+          "tools/mp_e8_curriculum.py": "tier authoring, constraint checker, --emit-tier/--check-tier"
+        },
+        "lock_diff": {
+          "added": [
+            "Jinja2==3.1.6",
+            "MarkupSafe==3.0.3",
+            "filelock==4.2.4",
+            "fsspec==2026.9.0",
+            "mpmath==1.3.0",
+            "networkx==3.7",
+            "setuptools==78.1.0",
+            "sympy==1.14.0",
+            "torch==2.15.0+cpu"
+          ],
+          "g0_prime_lock_packages": 29,
+          "new_lock_packages": 38,
+          "removed": []
+        }
+      }
+    }
+  ],
   "schema": "droso.registration.v1",
-  "status": "OPEN. Registered before any run (R2). No arm has been scored. Arm A and the T control are reproducible at tier 40 on the current tree and the N noise floor was re-verified against the committed clones; arms B and C are not built, and tiers 120 and 300 do not exist as code. C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01.",
+  "status": "OPEN. Registered before any run (R2). No arm has been scored. Arm A and the T control are reproducible at tier 40 on the current tree and the N noise floor was re-verified against the committed clones; arms B and C are not built, tiers 120 and 300 are AUTHORED as registered data under D-MPE8-03 and are not yet runnable by arm A, which still reads its curriculum from module literals. C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01.",
   "stopping_rules": {
     "bad_numbers_stay_on_record": "R5, labelled superseded with what replaced them.",
     "experiment_succeeds_regardless_of_winner": "Gate G2: 'the experiment succeeds regardless of which arm wins, because both outcomes define paper 1.' A null or an arm-A loss is a result, not a reason to re-scope.",
@@ -844,24 +1475,124 @@
   },
   "tiers": {
     "120": {
+      "authored": {
+        "authored": "2026-11-03T10:59:38Z",
+        "authored_under": "D-MPE8-03 as ruled 2026-11-03: extending the item pool is permitted; changing what forgetting means is not, so the extension is bound to constraints (a)-(d) and each is checked at emit time by tools/mp_e8_curriculum.py check_tier().",
+        "confound_registered": {
+          "name": "tier-size confound on refusal, NOT on the forgetting curve",
+          "registered_at": "2026-11-03T10:59:38Z",
+          "reporting_rule": "Refusal-rate change across tiers is reported SEPARATELY from the forgetting curve. A tier-120 or tier-300 result must not be read as forgetting unless the refusal-rate movement is accounted for on its own line. This is a pre-registered confound, not a post-hoc excuse: it is written before any tier 120/300 artifact exists.",
+          "statement": "The coverage floor and the arbiter were tuned at 40 items. At 120 and 300 items the same floor may move refusal rates for reasons that have nothing to do with memory: more distractor rows, more vocabulary to cover, a larger taught set for the word-level grader to trace."
+        },
+        "constraints_checked": {
+          "a_frame_grammar": "every new tell is an svo call whose surface == stem + 's' and whose ask word is what/who; a lemma that does not take a plain +s third person is rejected before anything is drawn (this fired: brush, catch, sketch, stitch, touch, mix, polish, dry were removed from the lexicon because the rule would have emitted 'brushs'/'mixs'/'drys')",
+          "b_content_word_closure": "every content word a NEW item introduces is taught by that item, and every probe ask built by arm A's own probes_for()/probes_for_pair over new items uses only taught words, taught stems, question words or function words. The stem is taught explicitly, not derived: organs.stemming does not reduce 'cuts' to 'cut' (measured), so the frame's declared stem is the trace.",
+          "c_probe_matrix_and_distractors": "distractor rows scale at 0.3 per item and each is proved unanswerable: a role_swap '<q> <verb>s the <X>' is rejected if any taught item has that verb with X as its OBJECT",
+          "d_registered_before_run": "this block is written before any tier 120/300 artifact exists"
+        },
+        "construction_rule": "Keep the registered tier-40 items verbatim and in their original sessions (moving an item across a session boundary changes the interference curve, which is one of the two figures MP-E8 exists to produce). Add new items to reach the tier: tells and QA pairs in the registered 3:2 ratio, per session tier/3 split the same way. New items are drawn by random.Random(20261103).shuffle over every (subject, verb, object) combination of the registered lexicon (NAMES 15, NOUNS 67, VERBS 79 in tools/mp_e8_curriculum.py) with subject != object, taken in shuffled order, skipping any (subject, verb) pair already used by the tier. Frame: svo('<subj> <verb>s the <obj>', 'what'|'who', subj, verb, stem, obj) -- arm A's own builder, so probes_for() and the shape arbiter apply unchanged. QA pairs use the two registered ask classes 'what <verb>s the <obj>?' / 'who <verb>s the <obj>?'. Distractors at 0.3 per item (12 -> 36 -> 90), split role_swap / qword as tier 40 splits them, each one proved unanswerable against THIS tier's taught set before emit.",
+        "counts_measured": {
+          "n_distinct_subject_verb_pairs": 104,
+          "n_distractors": 36,
+          "n_items": 120,
+          "n_probes": 416,
+          "n_qa_answers_outside_svo_grammar": 6,
+          "n_qa_pairs": 48,
+          "n_re_ask_overlap_pair_answers_on_tell_sentences": 13,
+          "n_taught_content_words": 225,
+          "n_tell_frames": 72
+        },
+        "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+        "deviation_from_projection": {
+          "actual_probes": 416,
+          "projected_probes": 408,
+          "reason": "the projection said 136 x tier/40. Constraint (a) allows only svo frames, which yield 4 shapes per tell, while 3 of the registered 24 tells are obl/intransitive and yield 3 and 2. The registered irregulars are kept and their shapes cannot be reproduced under (a), so the matrix is proportional per item CLASS, not per total. Tier 40 re-measured through the same function returns exactly 136, which is the evidence the instrument is right and the deviation is the grammar's."
+        },
+        "file": "experiments/MP-E8/curriculum_tier120.json",
+        "file_sha256_lf": "866b13d0b3b22ed0270b2ec4929c2988d7f8db94eecd89047d2d8d96c269752a",
+        "inherited_constraint_debt": {
+          "examples": [
+            "'what rings in the tower' -- 'tower' is in no taught sentence",
+            "'how many dogs sleep' -- 'many' is in no taught sentence",
+            "'when does the bell toll' -- the ask uses the stem 'toll', the answer teaches 'tolls', and a QA pair declares no stem to trace"
+          ],
+          "handling": "reported, not repaired. Constraint (b) binds the extension, not the baseline it extends; deleting a registered probe would change the 136-row matrix arm A is sealed against, and fixing it by teaching 'tower' would change tier 40's item set. Recorded here so a reader of tier 120/300 knows the baseline is not perfect.",
+          "n_probe_asks_with_untaught_content_words_in_tier_40": 8
+        },
+        "seed": 20261103,
+        "stop_condition_status": "NOT fired. The vocabulary extends without inventing words no arm could be taught: every new item teaches its own content words, and the only untaught words introduced are the registered NEVER_TAUGHT distractor nouns (harbor, orchard, cellar, attic, meadow, chapel, granary, foothill), which exist precisely to be unanswerable and scale the tier-40 'harbor was never taught' device."
+      },
       "exists_as_code": false,
+      "exists_as_data": true,
+      "note": "authored as registered DATA under D-MPE8-03 (see authored). Not yet run: arm A still reads its curriculum from module literals, so running these tiers needs the bench to take a manifest path -- that is an instrument change, recorded as a separate step, and no tier 120/300 number exists yet.",
       "projection": {
         "N_three_clones_min": 72.2,
         "artifact_MB": 4.4,
         "min_per_full_3arm_run": 24.1,
         "probes": 408,
         "rows": 11016
-      }
+      },
+      "runs_ready": false
     },
     "300": {
+      "authored": {
+        "authored": "2026-11-03T10:59:38Z",
+        "authored_under": "D-MPE8-03 as ruled 2026-11-03: extending the item pool is permitted; changing what forgetting means is not, so the extension is bound to constraints (a)-(d) and each is checked at emit time by tools/mp_e8_curriculum.py check_tier().",
+        "confound_registered": {
+          "name": "tier-size confound on refusal, NOT on the forgetting curve",
+          "registered_at": "2026-11-03T10:59:38Z",
+          "reporting_rule": "Refusal-rate change across tiers is reported SEPARATELY from the forgetting curve. A tier-120 or tier-300 result must not be read as forgetting unless the refusal-rate movement is accounted for on its own line. This is a pre-registered confound, not a post-hoc excuse: it is written before any tier 120/300 artifact exists.",
+          "statement": "The coverage floor and the arbiter were tuned at 40 items. At 120 and 300 items the same floor may move refusal rates for reasons that have nothing to do with memory: more distractor rows, more vocabulary to cover, a larger taught set for the word-level grader to trace."
+        },
+        "constraints_checked": {
+          "a_frame_grammar": "every new tell is an svo call whose surface == stem + 's' and whose ask word is what/who; a lemma that does not take a plain +s third person is rejected before anything is drawn (this fired: brush, catch, sketch, stitch, touch, mix, polish, dry were removed from the lexicon because the rule would have emitted 'brushs'/'mixs'/'drys')",
+          "b_content_word_closure": "every content word a NEW item introduces is taught by that item, and every probe ask built by arm A's own probes_for()/probes_for_pair over new items uses only taught words, taught stems, question words or function words. The stem is taught explicitly, not derived: organs.stemming does not reduce 'cuts' to 'cut' (measured), so the frame's declared stem is the trace.",
+          "c_probe_matrix_and_distractors": "distractor rows scale at 0.3 per item and each is proved unanswerable: a role_swap '<q> <verb>s the <X>' is rejected if any taught item has that verb with X as its OBJECT",
+          "d_registered_before_run": "this block is written before any tier 120/300 artifact exists"
+        },
+        "construction_rule": "Keep the registered tier-40 items verbatim and in their original sessions (moving an item across a session boundary changes the interference curve, which is one of the two figures MP-E8 exists to produce). Add new items to reach the tier: tells and QA pairs in the registered 3:2 ratio, per session tier/3 split the same way. New items are drawn by random.Random(20261103).shuffle over every (subject, verb, object) combination of the registered lexicon (NAMES 15, NOUNS 67, VERBS 79 in tools/mp_e8_curriculum.py) with subject != object, taken in shuffled order, skipping any (subject, verb) pair already used by the tier. Frame: svo('<subj> <verb>s the <obj>', 'what'|'who', subj, verb, stem, obj) -- arm A's own builder, so probes_for() and the shape arbiter apply unchanged. QA pairs use the two registered ask classes 'what <verb>s the <obj>?' / 'who <verb>s the <obj>?'. Distractors at 0.3 per item (12 -> 36 -> 90), split role_swap / qword as tier 40 splits them, each one proved unanswerable against THIS tier's taught set before emit.",
+        "counts_measured": {
+          "n_distinct_subject_verb_pairs": 284,
+          "n_distractors": 90,
+          "n_items": 300,
+          "n_probes": 1046,
+          "n_qa_answers_outside_svo_grammar": 6,
+          "n_qa_pairs": 120,
+          "n_re_ask_overlap_pair_answers_on_tell_sentences": 13,
+          "n_taught_content_words": 278,
+          "n_tell_frames": 180
+        },
+        "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+        "deviation_from_projection": {
+          "actual_probes": 1046,
+          "projected_probes": 1020,
+          "reason": "the projection said 136 x tier/40. Constraint (a) allows only svo frames, which yield 4 shapes per tell, while 3 of the registered 24 tells are obl/intransitive and yield 3 and 2. The registered irregulars are kept and their shapes cannot be reproduced under (a), so the matrix is proportional per item CLASS, not per total. Tier 40 re-measured through the same function returns exactly 136, which is the evidence the instrument is right and the deviation is the grammar's."
+        },
+        "file": "experiments/MP-E8/curriculum_tier300.json",
+        "file_sha256_lf": "b048f7c71e65a1fdb2a43535dbb79db77b65a16d4ddb2c2190bd6001046a40a3",
+        "inherited_constraint_debt": {
+          "examples": [
+            "'what rings in the tower' -- 'tower' is in no taught sentence",
+            "'how many dogs sleep' -- 'many' is in no taught sentence",
+            "'when does the bell toll' -- the ask uses the stem 'toll', the answer teaches 'tolls', and a QA pair declares no stem to trace"
+          ],
+          "handling": "reported, not repaired. Constraint (b) binds the extension, not the baseline it extends; deleting a registered probe would change the 136-row matrix arm A is sealed against, and fixing it by teaching 'tower' would change tier 40's item set. Recorded here so a reader of tier 120/300 knows the baseline is not perfect.",
+          "n_probe_asks_with_untaught_content_words_in_tier_40": 8
+        },
+        "seed": 20261103,
+        "stop_condition_status": "NOT fired. The vocabulary extends without inventing words no arm could be taught: every new item teaches its own content words, and the only untaught words introduced are the registered NEVER_TAUGHT distractor nouns (harbor, orchard, cellar, attic, meadow, chapel, granary, foothill), which exist precisely to be unanswerable and scale the tier-40 'harbor was never taught' device."
+      },
       "exists_as_code": false,
+      "exists_as_data": true,
+      "note": "authored as registered DATA under D-MPE8-03 (see authored). Not yet run: arm A still reads its curriculum from module literals, so running these tiers needs the bench to take a manifest path -- that is an instrument change, recorded as a separate step, and no tier 120/300 number exists yet.",
       "projection": {
         "N_three_clones_min": 180.5,
         "artifact_MB": 11.1,
         "min_per_full_3arm_run": 60.2,
         "probes": 1020,
         "rows": 27540
-      }
+      },
+      "runs_ready": false
     },
     "40": {
       "composition_measured": {

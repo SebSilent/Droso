@@ -20,6 +20,11 @@
     },
     "principle": "Additive only. No probe, no threshold, no class and no exit-code rule changed, so R3's freeze is respected: what the suite ASKS is untouched."
   },
+  "cross_environment_scope_note": {
+    "at": "2026-11-03T11:36:35Z",
+    "one_line": "decision.md section 4's control/teach identity is WITHIN one tree and one environment; it is not guaranteed across environments, and MP-E8 measured one control-arm row that does move across environments.",
+    "see": "registration_amendments -> AMD-G0P-01"
+  },
   "environment": {
     "dependencies_added_this_session": [
       {
@@ -1101,6 +1106,37 @@
     "git_head": "5d036210254341325ea2286ce54686681a2612df",
     "utc": "2026-11-03T04:30:00Z"
   },
+  "registration_amendments": [
+    {
+      "amended_at": "2026-11-03T11:36:35Z",
+      "at": "2026-11-03T11:36:35Z",
+      "consequence_for_future_claims": "Any claim of the form 'the control arm is byte-identical' must name the tree and the environment it was measured in. A cross-environment identity claim needs a cross-environment measurement, which is exactly what MP-E8 item 3 produced.",
+      "escalated_separately": "The registered R13 tolerance cells (learn/1/reasked, learn/1/restarted) do not cover control/3/live, which is gated the same way. Not widened here -- moving a tolerance after artifacts exist is an R2 event. Open as D-MPE8-05 in experiments/MP-E8/registration.json.",
+      "evidence": [
+        "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json (the 6-run tally)",
+        "experiments/MP-E8/results/nf_newenv/pair_newenv_vs_sameflag_sealed.json (1 row, outside the registered cells)",
+        "experiments/MP-E8/results/nf_newenv/pair_inertness_vs_sealed_sameflag.json (0 rows, the current reference against the sealed same-flag artifact)",
+        "experiments/MP-E8/results/noise_floor_reverification_newenv.json (N in the torch environment: 0/0/0 pairwise, control arm identical within it)",
+        "experiments/MP-E8/registration.json -> registration_amendments AMD-MPE8-01 -> cross_environment_scope_of_the_control_arm_identity_claim"
+      ],
+      "id": "AMD-G0P-01",
+      "kind": "scope_clarification_by_reference",
+      "results_existed": true,
+      "scope_of_the_claim": {
+        "measured_over": "three clones of ONE tree (git head 5d036210) in ONE environment: pre-torch, the package set pinned at experiments/G0-prime/results/requirements.lock.txt. No torch was installed in that environment at all.",
+        "what_it_does_not_say": "It does not claim control-arm identity across trees, and it does not claim it across environments. The same section records 11 rows moving in the learn arm, so it was never a claim that the instrument is frozen -- only that the movement is confined to one arm, one depth, and the two time-gated phases.",
+        "what_it_says": "The control and teach arms were byte-identical across all three clones."
+      },
+      "sealed_numbers_untouched": {
+        "decision.md": "NOT edited. Its clone-pair table (11 / 0 / 11 differences of 3,672; 1 graded) and its concentration profile stand exactly as written.",
+        "decision_md_sha256_lf_at_time_of_this_note": "e921ca905dfaed5a8c2f7897564f0452245330743a281550c5a79552397f9199",
+        "why_recorded": "so a reader can prove this note did not quietly edit the sealed claim it describes. The file is also in every seal manifest."
+      },
+      "target": "experiments/G0-prime/decision.md section 4 (the noise floor), the sentence: The **control and teach arms were byte-identical across all three clones.**",
+      "why_the_scope_needed_writing": "MP-E8 measured a control-arm row that moves BETWEEN environments: control|3|live|pair1.0|pair_exact field 'said' reads 'droso says where does the bell hang' in 1 of 6 runs (experiments/MP-E8/results/armA_tier40_newenv.json) and 'where the bell hang' in the other 5, which span two git heads, the pre-torch and torch environments, and three versions of the bench. Read next to section 4 without a scope, the two records look like a contradiction. With the scope they are two consistent measurements of a wall-clock-gated row: identical within one tree and one environment, not guaranteed across environments. The mechanism is section 4's own -- the 2.0 s refractory at organs/neural_language.py:946-948 reads time.time() on the answer path, and wall clock is a property of machine load, not of code.",
+      "written_by": "agent"
+    }
+  ],
   "risk_register_additions": [
     {
       "class": "asset",

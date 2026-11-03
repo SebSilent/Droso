@@ -154,6 +154,48 @@ DEFAULT_MANIFEST = [
     "docs/evidence/electric_learn_bench.json",
     "requirements.txt",
     "organs/neural_language.py",
+    # D-MPE8-03's authored tiers and the instruments that made them. Sealed because the ruling's whole
+    # point is that tiers 120/300 are REGISTERED DATA with a reproducible construction: an unsealed
+    # tier file is a spreadsheet, and --check-tier only proves something if the file it re-derives
+    # against is itself pinned.
+    "experiments/MP-E8/curriculum_tier120.json",
+    "experiments/MP-E8/curriculum_tier300.json",
+    "tools/mp_e8_arm_b.py",
+    "tools/mp_e8_describe.py",
+    "tests/test_mp_e8_arm_b.py",
+    # The torch environment (D-MPE8-02) and its evidence: the new lock, arm A reproduced in it, the
+    # inertness proof for the --curriculum instrument change, and the noise-floor clones that re-set
+    # N there. H4 is a COST comparison, so an artifact whose environment is not pinned cannot be
+    # compared at all -- which is why the lock and the per-arm provenance are sealed, not just written.
+    "experiments/MP-E8/results/requirements.lock.txt",
+    "experiments/MP-E8/results/armA_tier40_newenv.json",
+    "experiments/MP-E8/results/armA_tier40_inertness.json",
+    "experiments/MP-E8/results/nf_newenv/clone1.json",
+    "experiments/MP-E8/results/nf_newenv/clone2.json",
+    "experiments/MP-E8/results/nf_newenv/clone3.json",
+    "experiments/MP-E8/results/nf_newenv/pair_c2_vs_c1.json",
+    "experiments/MP-E8/results/nf_newenv/pair_c3_vs_c1.json",
+    "experiments/MP-E8/results/nf_newenv/pair_c3_vs_c2.json",
+    "experiments/MP-E8/results/nf_newenv/pair_newenv_vs_sameflag_sealed.json",
+    # The --curriculum inertness proof and the one row it exposed. Sealed because the finding is a
+    # claim about a SPECIFIC pair of artifacts ("armA_tier40_newenv.json is the outlier, 5 runs to 1")
+    # and a reader who cannot re-open both sides cannot check it.
+    "experiments/MP-E8/results/nf_newenv/pair_curriculum_flag_inertness.json",
+    "experiments/MP-E8/results/nf_newenv/pair_inertness_vs_clone1.json",
+    "experiments/MP-E8/results/nf_newenv/pair_inertness_vs_sealed_sameflag.json",
+    "experiments/MP-E8/results/nf_newenv/curriculum_flag_inertness_finding.json",
+    # The comparison this verdict is a caveat about: the superseded run against the flag-OFF sealed
+    # artifact, 17 rows, 15 outside the registered cells. Sealed because the file explains why that
+    # number is NOT a treatment effect -- the two sides have different ELECTRIC_ARBITER_HEAD_BOUND --
+    # and a reader who cannot see both sides' flags would repeat the mistake.
+    "experiments/MP-E8/results/nf_newenv/pair_newenv_vs_sealed.json",
+    # N in the torch environment, as an artifact. Condition (b) of MP-E8's pre-run conditions depends
+    # on this number, and R10 says a number a gate depends on cannot live in _tmp or in prose.
+    "experiments/MP-E8/results/noise_floor_reverification_newenv.json",
+    # The instrument change itself: the bench gained --curriculum, so the file that produced a
+    # tier-120 number and the file that produced the sealed tier-40 baseline are the SAME bytes only
+    # if this entry says so.
+    "tools/electric_learn_bench.py",
 ]
 
 

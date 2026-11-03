@@ -1,0 +1,1197 @@
+{
+  "construction": {
+    "n_new_distractors": 78,
+    "n_new_qa_pairs": 104,
+    "n_new_tell_frames": 156,
+    "probe_matrix": {
+      "deviation_explained": "+26 probes vs 136x300/40 because constraint (a) allows only svo frames, while 3 of the registered 24 tells are obl/intransitive and yield 3 and 2 shapes instead of 4; the registered irregulars are kept, and their shapes are not reproducible under (a), so the matrix is proportional per class, not per total",
+      "n_probes": 1046,
+      "naive_proportional_target": 1020,
+      "per_item": 3.4867
+    },
+    "python_random": "random.Random(seed).shuffle -- Mersenne Twister, stable across CPython versions; the seed and the interpreter version are both recorded so the draw can be re-derived",
+    "rule": "registered tier-40 items kept verbatim and in their original sessions; new items are svo frames drawn from the registered lexicon (NAMES/NOUNS/VERBS in tools/mp_e8_curriculum.py) by random.Random(seed).shuffle over every (subject, verb, object) combination with subject != object, taken in shuffled order, skipping any (subject, verb) pair already used; tells and pairs split 3:2 per session; distractors at 0.3 per item, each proved unanswerable against this tier's taught set",
+    "ruling": "D-MPE8-03",
+    "seed": 20261103
+  },
+  "consumers_must_record": "curriculum_sha256. Two arms that disagree on it did not run the same experiment, whatever their configs say.",
+  "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+  "distractors": [
+    [
+      "role_swap",
+      "what chases the mouse",
+      "the mouse chases the dog is the other direction"
+    ],
+    [
+      "role_swap",
+      "who does the dog carry",
+      "Nora carries the lantern, not the reverse"
+    ],
+    [
+      "role_swap",
+      "what bites the bell",
+      "no such tell"
+    ],
+    [
+      "role_swap",
+      "who does the kettle belong to",
+      "no such tell"
+    ],
+    [
+      "role_swap",
+      "what floods the bridge",
+      "the tide floods the road"
+    ],
+    [
+      "role_swap",
+      "what crosses the dog",
+      "no such tell"
+    ],
+    [
+      "qword",
+      "why does the dog bite the latch",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the rope hold the shelf",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "which bell rings",
+      "no which path claimed"
+    ],
+    [
+      "qword",
+      "where is the harbor",
+      "harbor was never taught"
+    ],
+    [
+      "qword",
+      "who mends the latch",
+      "no such tell"
+    ],
+    [
+      "qword",
+      "what sleeps at dusk",
+      "answerable only by the pair-only item, and not this way"
+    ],
+    [
+      "role_swap",
+      "what feeds the weaver",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the spool hook the strap",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the vase file the rail",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what cranks the spool",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the farmer stack the mast",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the post clean the bolt",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "where is the orchard",
+      "was never taught in any tier"
+    ],
+    [
+      "role_swap",
+      "what pipes the drum",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the loom bridge the ring",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the raft pack the oar",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "where is the cellar",
+      "was never taught in any tier"
+    ],
+    [
+      "role_swap",
+      "what locks the sail",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the wagon stamp the fence",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the magnet bend the post",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "where is the attic",
+      "was never taught in any tier"
+    ],
+    [
+      "role_swap",
+      "what clamps the wire",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the sailor screw the cradle",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the tile bolt the keg",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "where is the meadow",
+      "was never taught in any tier"
+    ],
+    [
+      "role_swap",
+      "what fits the crate",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the flare spin the lock",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the strap roll the drum",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "where is the chapel",
+      "was never taught in any tier"
+    ],
+    [
+      "role_swap",
+      "what shines the valve",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the mast drop the raft",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the bucket mark the magnet",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "where is the granary",
+      "was never taught in any tier"
+    ],
+    [
+      "role_swap",
+      "what lowers the cooper",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the drum pour the stove",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the wagon bring the rail",
+      "no how path claimed"
+    ],
+    [
+      "qword",
+      "where is the foothill",
+      "was never taught in any tier"
+    ],
+    [
+      "role_swap",
+      "what packs the cooper",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the Nora seal the peg",
+      "no why path claimed"
+    ],
+    [
+      "role_swap",
+      "what clips the magnet",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the drum trail the cradle",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the veil unroll the jar",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what tiles the stud",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the cradle weave the tube",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the shackle clamp the urn",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what bends the peg",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the cradle stack the flare",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the faucet fold the ring",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what binds the jar",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the sign roll the axle",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the scale mark the shackle",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what marks the gardener",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the clerk tape the stake",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the vault smooth the vase",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what unlocks the wick",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the pilot mark the candle",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the shackle drop the pan",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what posts the sail",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the vault cool the wagon",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the faucet tape the rod",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what tiles the girdle",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the pilot open the hinge",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the magnet wind the crate",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what lights the sailor",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the vase tile the scale",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the valve pin the magnet",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what shifts the drum",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the turner bridge the tread",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the cage block the gauge",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what sets the torch",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the pan unveil the tile",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the Ivo saw the axle",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what unveils the stove",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the post bridge the flare",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the welder tile the faucet",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what ties the lock",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the raft block the pan",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the screw mark the stair",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what cuts the wick",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the tube shine the stove",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the tap sort the lock",
+      "no how path claimed"
+    ],
+    [
+      "role_swap",
+      "what clips the raft",
+      "the other direction is not taught"
+    ],
+    [
+      "qword",
+      "why does the strap crank the pan",
+      "no why path claimed"
+    ],
+    [
+      "qword",
+      "how does the Nora clear the lantern",
+      "no how path claimed"
+    ]
+  ],
+  "inherited_constraint_debt": {
+    "examples": [
+      "pair shape pair_exact asks with untaught words ['tower']: 'what rings in the tower'",
+      "pair shape pair_fold asks with untaught words ['tower']: 'what rings in the tower'",
+      "pair shape pair_exact asks with untaught words ['love']: 'what does Mira love most'",
+      "pair shape pair_fold asks with untaught words ['love']: 'what Mira love most'",
+      "pair shape pair_exact asks with untaught words ['toll']: 'when does the bell toll'",
+      "pair shape pair_fold asks with untaught words ['toll']: 'when the bell toll'",
+      "pair shape pair_exact asks with untaught words ['many']: 'how many dogs sleep'",
+      "pair shape pair_fold asks with untaught words ['many']: 'how many dogs sleep'"
+    ],
+    "n": 8,
+    "note": "these come from the sealed tier-40 items and are kept as they are: constraint (b) binds the extension, not the baseline it extends"
+  },
+  "measured": {
+    "method_distinct_pairs": "tells read from their frame fields; QA answers matched against 'the? <subj> <verb>s the <obj>'; registered idiomatic answers that do not match are listed, not dropped",
+    "n_distinct_subject_verb_pairs": 284,
+    "n_distractors": 90,
+    "n_items": 300,
+    "n_probes": 1046,
+    "n_qa_answers_not_parsed_as_svo": 6,
+    "n_taught_content_words": 278,
+    "qa_answers_not_parsed_as_svo": [
+      "it tolls at dusk",
+      "she loves the lantern most",
+      "the bell hangs on the wall",
+      "the copper bell rings",
+      "the lantern belongs to Mira",
+      "two dogs sleep"
+    ]
+  },
+  "measured_reask": 13,
+  "n_distractors": 90,
+  "n_items": 300,
+  "n_qa_pairs": 120,
+  "n_tell_frames": 180,
+  "schema": "droso.curriculum.v1",
+  "sessions": [
+    {
+      "n_items": 100,
+      "qa_pairs": [
+        [
+          "what bites the latch?",
+          "the dog bites the latch"
+        ],
+        [
+          "who carries the lantern?",
+          "Nora carries the lantern"
+        ],
+        [
+          "what rings in the tower?",
+          "the copper bell rings"
+        ],
+        [
+          "who does the lantern belong to?",
+          "the lantern belongs to Mira"
+        ],
+        [
+          "what opens the door?",
+          "the key opens the door"
+        ],
+        [
+          "what holds the lock?",
+          "the smith holds the lock"
+        ],
+        [
+          "what fills the faucet?",
+          "the keg fills the faucet"
+        ],
+        [
+          "what saws the wire?",
+          "the wick saws the wire"
+        ],
+        [
+          "what wraps the raft?",
+          "the clerk wraps the raft"
+        ],
+        [
+          "what posts the bolt?",
+          "the mason posts the bolt"
+        ],
+        [
+          "what pours the buckle?",
+          "the belt pours the buckle"
+        ],
+        [
+          "what brings the rail?",
+          "the welder brings the rail"
+        ],
+        [
+          "what heats the tile?",
+          "the stove heats the tile"
+        ],
+        [
+          "what files the stove?",
+          "the farmer files the stove"
+        ],
+        [
+          "what heats the stake?",
+          "the weaver heats the stake"
+        ],
+        [
+          "what stamps the post?",
+          "the stud stamps the post"
+        ],
+        [
+          "what sets the rail?",
+          "the tube sets the rail"
+        ],
+        [
+          "what supports the oar?",
+          "the gear supports the oar"
+        ],
+        [
+          "what bolts the gear?",
+          "the peg bolts the gear"
+        ],
+        [
+          "what mends the vase?",
+          "the hinge mends the vase"
+        ],
+        [
+          "what packs the scale?",
+          "the screw packs the scale"
+        ],
+        [
+          "what bolts the jar?",
+          "the urn bolts the jar"
+        ],
+        [
+          "what hangs the lock?",
+          "the tap hangs the lock"
+        ],
+        [
+          "what closes the fence?",
+          "the vault closes the fence"
+        ],
+        [
+          "what cools the sail?",
+          "the farmer cools the sail"
+        ],
+        [
+          "what shines the gauge?",
+          "the pulley shines the gauge"
+        ],
+        [
+          "what cuts the post?",
+          "the mason cuts the post"
+        ],
+        [
+          "what raises the flare?",
+          "the turner raises the flare"
+        ],
+        [
+          "what rolls the stud?",
+          "the cradle rolls the stud"
+        ],
+        [
+          "what clamps the bucket?",
+          "the lock clamps the bucket"
+        ],
+        [
+          "what ties the hinge?",
+          "the sailor ties the hinge"
+        ],
+        [
+          "what braces the gear?",
+          "the urn braces the gear"
+        ],
+        [
+          "what covers the mast?",
+          "the flare covers the mast"
+        ],
+        [
+          "what locks the veil?",
+          "the reel locks the veil"
+        ],
+        [
+          "what cools the mast?",
+          "the spool cools the mast"
+        ],
+        [
+          "what clears the faucet?",
+          "the spool clears the faucet"
+        ],
+        [
+          "what hooks the loom?",
+          "the sign hooks the loom"
+        ],
+        [
+          "what spins the cradle?",
+          "the pan spins the cradle"
+        ],
+        [
+          "what drills the pulley?",
+          "the gear drills the pulley"
+        ],
+        [
+          "what screws the drum?",
+          "the welder screws the drum"
+        ]
+      ],
+      "session": 1,
+      "tell_frames": [
+        "svo('the dog bites the latch', 'what', 'dog', 'bites', 'bite', 'latch')",
+        "svo('the mouse chases the dog', 'what', 'mouse', 'chases', 'chase', 'dog')",
+        "svo('Nora carries the lantern', 'who', 'nora', 'carries', 'carry', 'lantern')",
+        "intr('the copper bell rings', 'copper bell', 'rings', 'ring')",
+        "obl('the lantern belongs to Mira', 'lantern', 'belongs', 'belong', 'to Mira', 'who', 'to')",
+        "svo('the key opens the door', 'what', 'key', 'opens', 'open', 'door')",
+        "svo('the rope holds the shelf', 'what', 'rope', 'holds', 'hold', 'shelf')",
+        "svo('the kettle warms the water', 'what', 'kettle', 'warms', 'warm', 'water')",
+        "svo('the weaver feeds the cage', 'what', 'weaver', 'feeds', 'feed', 'cage')",
+        "svo('the spool hooks the strap', 'what', 'spool', 'hooks', 'hook', 'strap')",
+        "svo('the vase files the rail', 'what', 'vase', 'files', 'file', 'rail')",
+        "svo('the gardener weaves the peg', 'what', 'gardener', 'weaves', 'weave', 'peg')",
+        "svo('the spool cranks the lantern', 'what', 'spool', 'cranks', 'crank', 'lantern')",
+        "svo('the farmer stacks the mast', 'what', 'farmer', 'stacks', 'stack', 'mast')",
+        "svo('the post cleans the bolt', 'what', 'post', 'cleans', 'clean', 'bolt')",
+        "svo('the belt bends the scale', 'what', 'belt', 'bends', 'bend', 'scale')",
+        "svo('the drum pipes the pulley', 'what', 'drum', 'pipes', 'pipe', 'pulley')",
+        "svo('the loom bridges the ring', 'what', 'loom', 'bridges', 'bridge', 'ring')",
+        "svo('the raft packs the oar', 'what', 'raft', 'packs', 'pack', 'oar')",
+        "svo('the tile ties the mast', 'what', 'tile', 'ties', 'tie', 'mast')",
+        "svo('the sail locks the wick', 'what', 'sail', 'locks', 'lock', 'wick')",
+        "svo('the wagon stamps the fence', 'what', 'wagon', 'stamps', 'stamp', 'fence')",
+        "svo('the magnet bends the post', 'what', 'magnet', 'bends', 'bend', 'post')",
+        "svo('the weaver pulls the step', 'what', 'weaver', 'pulls', 'pull', 'step')",
+        "svo('the wire clamps the veil', 'what', 'wire', 'clamps', 'clamp', 'veil')",
+        "svo('the sailor screws the cradle', 'what', 'sailor', 'screws', 'screw', 'cradle')",
+        "svo('the tile bolts the keg', 'what', 'tile', 'bolts', 'bolt', 'keg')",
+        "svo('the scale weighs the wire', 'what', 'scale', 'weighs', 'weigh', 'wire')",
+        "svo('the crate fits the fence', 'what', 'crate', 'fits', 'fit', 'fence')",
+        "svo('the flare spins the lock', 'what', 'flare', 'spins', 'spin', 'lock')",
+        "svo('the strap rolls the drum', 'what', 'strap', 'rolls', 'roll', 'drum')",
+        "svo('the keeper hangs the nail', 'what', 'keeper', 'hangs', 'hang', 'nail')",
+        "svo('the valve shines the tread', 'what', 'valve', 'shines', 'shine', 'tread')",
+        "svo('the mast drops the raft', 'what', 'mast', 'drops', 'drop', 'raft')",
+        "svo('the bucket marks the magnet', 'what', 'bucket', 'marks', 'mark', 'magnet')",
+        "svo('Nora sends the strap', 'who', 'Nora', 'sends', 'send', 'strap')",
+        "svo('the cooper lowers the veil', 'what', 'cooper', 'lowers', 'lower', 'veil')",
+        "svo('the drum pours the stove', 'what', 'drum', 'pours', 'pour', 'stove')",
+        "svo('the wagon brings the rail', 'what', 'wagon', 'brings', 'bring', 'rail')",
+        "svo('the mason locks the valve', 'what', 'mason', 'locks', 'lock', 'valve')",
+        "svo('the cooper packs the wagon', 'what', 'cooper', 'packs', 'pack', 'wagon')",
+        "svo('Nora seals the peg', 'who', 'Nora', 'seals', 'seal', 'peg')",
+        "svo('the keg bolts the bucket', 'what', 'keg', 'bolts', 'bolt', 'bucket')",
+        "svo('the step bends the stove', 'what', 'step', 'bends', 'bend', 'stove')",
+        "svo('the magnet clips the drum', 'what', 'magnet', 'clips', 'clip', 'drum')",
+        "svo('the drum trails the cradle', 'what', 'drum', 'trails', 'trail', 'cradle')",
+        "svo('the veil unrolls the jar', 'what', 'veil', 'unrolls', 'unroll', 'jar')",
+        "svo('the mast smooths the cradle', 'what', 'mast', 'smooths', 'smooth', 'cradle')",
+        "svo('the stud tiles the stake', 'what', 'stud', 'tiles', 'tile', 'stake')",
+        "svo('the cradle weaves the tube', 'what', 'cradle', 'weaves', 'weave', 'tube')",
+        "svo('the shackle clamps the urn', 'what', 'shackle', 'clamps', 'clamp', 'urn')",
+        "svo('the wire oils the pan', 'what', 'wire', 'oils', 'oil', 'pan')",
+        "svo('the peg bends the pulley', 'what', 'peg', 'bends', 'bend', 'pulley')",
+        "svo('the cradle stacks the flare', 'what', 'cradle', 'stacks', 'stack', 'flare')",
+        "svo('the faucet folds the ring', 'what', 'faucet', 'folds', 'fold', 'ring')",
+        "svo('the bottle packs the girdle', 'what', 'bottle', 'packs', 'pack', 'girdle')",
+        "svo('the jar binds the keg', 'what', 'jar', 'binds', 'bind', 'keg')",
+        "svo('the sign rolls the axle', 'what', 'sign', 'rolls', 'roll', 'axle')",
+        "svo('the scale marks the shackle', 'what', 'scale', 'marks', 'mark', 'shackle')",
+        "svo('the strap cools the rod', 'what', 'strap', 'cools', 'cool', 'rod')"
+      ]
+    },
+    {
+      "n_items": 100,
+      "qa_pairs": [
+        [
+          "where does the bell hang?",
+          "the bell hangs on the wall"
+        ],
+        [
+          "what holds the shelf?",
+          "the rope holds the shelf"
+        ],
+        [
+          "what warms the water?",
+          "the kettle warms the water"
+        ],
+        [
+          "who feeds the mouse?",
+          "Mira feeds the mouse"
+        ],
+        [
+          "what fills the bucket?",
+          "the rain fills the bucket"
+        ],
+        [
+          "what pulls the vase?",
+          "the mast pulls the vase"
+        ],
+        [
+          "what packs the buckle?",
+          "the valve packs the buckle"
+        ],
+        [
+          "what stores the latch?",
+          "the pilot stores the latch"
+        ],
+        [
+          "who pins the pan?",
+          "Mira pins the pan"
+        ],
+        [
+          "what warms the gauge?",
+          "the loom warms the gauge"
+        ],
+        [
+          "who unrolls the bolt?",
+          "Mira unrolls the bolt"
+        ],
+        [
+          "what folds the lock?",
+          "the step folds the lock"
+        ],
+        [
+          "what tapes the rail?",
+          "the peg tapes the rail"
+        ],
+        [
+          "what closes the spool?",
+          "the oar closes the spool"
+        ],
+        [
+          "what cuts the cradle?",
+          "the wagon cuts the cradle"
+        ],
+        [
+          "what screws the keg?",
+          "the stud screws the keg"
+        ],
+        [
+          "what locks the cage?",
+          "the wick locks the cage"
+        ],
+        [
+          "what pins the tap?",
+          "the mason pins the tap"
+        ],
+        [
+          "what slides the magnet?",
+          "the loom slides the magnet"
+        ],
+        [
+          "what slides the wagon?",
+          "the stud slides the wagon"
+        ],
+        [
+          "what sends the crate?",
+          "the stair sends the crate"
+        ],
+        [
+          "what fills the gauge?",
+          "the buckle fills the gauge"
+        ],
+        [
+          "what packs the gauge?",
+          "the wagon packs the gauge"
+        ],
+        [
+          "what heats the fence?",
+          "the pulley heats the fence"
+        ],
+        [
+          "what heats the post?",
+          "the buckle heats the post"
+        ],
+        [
+          "what ties the loom?",
+          "the buckle ties the loom"
+        ],
+        [
+          "what tests the stake?",
+          "the raft tests the stake"
+        ],
+        [
+          "what bolts the girdle?",
+          "the flare bolts the girdle"
+        ],
+        [
+          "what seals the jar?",
+          "the cooper seals the jar"
+        ],
+        [
+          "what hangs the screw?",
+          "the sailor hangs the screw"
+        ],
+        [
+          "what binds the rod?",
+          "the tap binds the rod"
+        ],
+        [
+          "what cranks the stud?",
+          "the tube cranks the stud"
+        ],
+        [
+          "what rolls the bolt?",
+          "the wire rolls the bolt"
+        ],
+        [
+          "what mends the mast?",
+          "the step mends the mast"
+        ],
+        [
+          "what mends the tube?",
+          "the stake mends the tube"
+        ],
+        [
+          "what feeds the tray?",
+          "the lock feeds the tray"
+        ],
+        [
+          "what drills the step?",
+          "the rod drills the step"
+        ],
+        [
+          "who folds the stake?",
+          "Nora folds the stake"
+        ],
+        [
+          "what braces the tap?",
+          "the valve braces the tap"
+        ],
+        [
+          "what weighs the post?",
+          "the tile weighs the post"
+        ]
+      ],
+      "session": 2,
+      "tell_frames": [
+        "svo('the dog guards the gate', 'what', 'dog', 'guards', 'guard', 'gate')",
+        "svo('Mira feeds the mouse', 'who', 'mira', 'feeds', 'feed', 'mouse')",
+        "obl('the bell hangs on the wall', 'bell', 'hangs', 'hang', 'on the wall', 'where', 'on')",
+        "svo('the rain fills the bucket', 'what', 'rain', 'fills', 'fill', 'bucket')",
+        "svo('the socket powers the lamp', 'what', 'socket', 'powers', 'power', 'lamp')",
+        "svo('the thread binds the button', 'what', 'thread', 'binds', 'bind', 'button')",
+        "svo('the gate blocks the road', 'what', 'gate', 'blocks', 'block', 'road')",
+        "svo('the shelf holds the lamp', 'what', 'shelf', 'holds', 'hold', 'lamp')",
+        "svo('the gardener marks the pan', 'what', 'gardener', 'marks', 'mark', 'pan')",
+        "svo('the clerk tapes the stake', 'what', 'clerk', 'tapes', 'tape', 'stake')",
+        "svo('the vault smooths the vase', 'what', 'vault', 'smooths', 'smooth', 'vase')",
+        "svo('the drum cranks the loom', 'what', 'drum', 'cranks', 'crank', 'loom')",
+        "svo('the wick unlocks the bolt', 'what', 'wick', 'unlocks', 'unlock', 'bolt')",
+        "svo('the pilot marks the candle', 'what', 'pilot', 'marks', 'mark', 'candle')",
+        "svo('the shackle drops the pan', 'what', 'shackle', 'drops', 'drop', 'pan')",
+        "svo('the faucet files the rod', 'what', 'faucet', 'files', 'file', 'rod')",
+        "svo('the sail posts the cradle', 'what', 'sail', 'posts', 'post', 'cradle')",
+        "svo('the vault cools the wagon', 'what', 'vault', 'cools', 'cool', 'wagon')",
+        "svo('the faucet tapes the rod', 'what', 'faucet', 'tapes', 'tape', 'rod')",
+        "svo('the wick spins the hinge', 'what', 'wick', 'spins', 'spin', 'hinge')",
+        "svo('the girdle tiles the pulley', 'what', 'girdle', 'tiles', 'tile', 'pulley')",
+        "svo('the pilot opens the hinge', 'what', 'pilot', 'opens', 'open', 'hinge')",
+        "svo('the magnet winds the crate', 'what', 'magnet', 'winds', 'wind', 'crate')",
+        "svo('the cage weighs the spool', 'what', 'cage', 'weighs', 'weigh', 'spool')",
+        "svo('the sailor lights the rod', 'what', 'sailor', 'lights', 'light', 'rod')",
+        "svo('the vase tiles the scale', 'what', 'vase', 'tiles', 'tile', 'scale')",
+        "svo('the valve pins the magnet', 'what', 'valve', 'pins', 'pin', 'magnet')",
+        "svo('Mira tests the nail', 'who', 'Mira', 'tests', 'test', 'nail')",
+        "svo('the drum shifts the candle', 'what', 'drum', 'shifts', 'shift', 'candle')",
+        "svo('the turner bridges the tread', 'what', 'turner', 'bridges', 'bridge', 'tread')",
+        "svo('the cage blocks the gauge', 'what', 'cage', 'blocks', 'block', 'gauge')",
+        "svo('the stair turns the hinge', 'what', 'stair', 'turns', 'turn', 'hinge')",
+        "svo('the torch sets the pulley', 'what', 'torch', 'sets', 'set', 'pulley')",
+        "svo('the pan unveils the tile', 'what', 'pan', 'unveils', 'unveil', 'tile')",
+        "svo('Ivo saws the axle', 'who', 'Ivo', 'saws', 'saw', 'axle')",
+        "svo('the bucket stores the urn', 'what', 'bucket', 'stores', 'store', 'urn')",
+        "svo('the stove unveils the wagon', 'what', 'stove', 'unveils', 'unveil', 'wagon')",
+        "svo('the post bridges the flare', 'what', 'post', 'bridges', 'bridge', 'flare')",
+        "svo('the welder tiles the faucet', 'what', 'welder', 'tiles', 'tile', 'faucet')",
+        "svo('the loom screws the stair', 'what', 'loom', 'screws', 'screw', 'stair')",
+        "svo('the lock ties the tread', 'what', 'lock', 'ties', 'tie', 'tread')",
+        "svo('the raft blocks the pan', 'what', 'raft', 'blocks', 'block', 'pan')",
+        "svo('the screw marks the stair', 'what', 'screw', 'marks', 'mark', 'stair')",
+        "svo('the gardener wraps the post', 'what', 'gardener', 'wraps', 'wrap', 'post')",
+        "svo('the wick cuts the scale', 'what', 'wick', 'cuts', 'cut', 'scale')",
+        "svo('the tube shines the stove', 'what', 'tube', 'shines', 'shine', 'stove')",
+        "svo('the tap sorts the lock', 'what', 'tap', 'sorts', 'sort', 'lock')",
+        "svo('the reel drills the girdle', 'what', 'reel', 'drills', 'drill', 'girdle')",
+        "svo('the raft clips the veil', 'what', 'raft', 'clips', 'clip', 'veil')",
+        "svo('the strap cranks the pan', 'what', 'strap', 'cranks', 'crank', 'pan')",
+        "svo('Nora clears the lantern', 'who', 'Nora', 'clears', 'clear', 'lantern')",
+        "svo('the bottle roves the pulley', 'what', 'bottle', 'roves', 'rove', 'pulley')",
+        "svo('the cage unrolls the horn', 'what', 'cage', 'unrolls', 'unroll', 'horn')",
+        "svo('the pan shifts the cage', 'what', 'pan', 'shifts', 'shift', 'cage')",
+        "svo('the horn packs the fence', 'what', 'horn', 'packs', 'pack', 'fence')",
+        "svo('Nora unrolls the vault', 'who', 'Nora', 'unrolls', 'unroll', 'vault')",
+        "svo('the peg marks the rail', 'what', 'peg', 'marks', 'mark', 'rail')",
+        "svo('the bolt warms the post', 'what', 'bolt', 'warms', 'warm', 'post')",
+        "svo('the bolt fills the stake', 'what', 'bolt', 'fills', 'fill', 'stake')",
+        "svo('the wick pins the oar', 'what', 'wick', 'pins', 'pin', 'oar')"
+      ]
+    },
+    {
+      "n_items": 100,
+      "qa_pairs": [
+        [
+          "what powers the lamp?",
+          "the socket powers the lamp"
+        ],
+        [
+          "what binds the button?",
+          "the thread binds the button"
+        ],
+        [
+          "what crosses the river?",
+          "the bridge crosses the river"
+        ],
+        [
+          "what does Mira love most?",
+          "she loves the lantern most"
+        ],
+        [
+          "when does the bell toll?",
+          "it tolls at dusk"
+        ],
+        [
+          "how many dogs sleep?",
+          "two dogs sleep"
+        ],
+        [
+          "what links the mast?",
+          "the reel links the mast"
+        ],
+        [
+          "what winds the keg?",
+          "the mast winds the keg"
+        ],
+        [
+          "what wakes the loom?",
+          "the shackle wakes the loom"
+        ],
+        [
+          "what marks the peg?",
+          "the mason marks the peg"
+        ],
+        [
+          "what pipes the oar?",
+          "the cooper pipes the oar"
+        ],
+        [
+          "what clips the sling?",
+          "the veil clips the sling"
+        ],
+        [
+          "what saws the tray?",
+          "the bucket saws the tray"
+        ],
+        [
+          "what holds the scale?",
+          "the spool holds the scale"
+        ],
+        [
+          "what wraps the screw?",
+          "the keeper wraps the screw"
+        ],
+        [
+          "what stores the sling?",
+          "the jar stores the sling"
+        ],
+        [
+          "what pins the bucket?",
+          "the axle pins the bucket"
+        ],
+        [
+          "what unlocks the rod?",
+          "the lantern unlocks the rod"
+        ],
+        [
+          "what covers the lantern?",
+          "the tile covers the lantern"
+        ],
+        [
+          "what sets the tube?",
+          "the buckle sets the tube"
+        ],
+        [
+          "what covers the magnet?",
+          "the jar covers the magnet"
+        ],
+        [
+          "what spins the bucket?",
+          "the bolt spins the bucket"
+        ],
+        [
+          "what sorts the urn?",
+          "the weaver sorts the urn"
+        ],
+        [
+          "what bends the ring?",
+          "the scale bends the ring"
+        ],
+        [
+          "what oils the fence?",
+          "the flare oils the fence"
+        ],
+        [
+          "what tests the cage?",
+          "the strap tests the cage"
+        ],
+        [
+          "what winds the crate?",
+          "the gardener winds the crate"
+        ],
+        [
+          "what opens the horn?",
+          "the stake opens the horn"
+        ],
+        [
+          "what cuts the buckle?",
+          "the ring cuts the buckle"
+        ],
+        [
+          "what unrolls the tile?",
+          "the loom unrolls the tile"
+        ],
+        [
+          "what cools the post?",
+          "the nail cools the post"
+        ],
+        [
+          "who fills the step?",
+          "Ivo fills the step"
+        ],
+        [
+          "what roves the latch?",
+          "the spool roves the latch"
+        ],
+        [
+          "what rings the candle?",
+          "the rod rings the candle"
+        ],
+        [
+          "what bolts the veil?",
+          "the welder bolts the veil"
+        ],
+        [
+          "what supports the tap?",
+          "the stair supports the tap"
+        ],
+        [
+          "who spins the girdle?",
+          "Mira spins the girdle"
+        ],
+        [
+          "what braces the stake?",
+          "the drum braces the stake"
+        ],
+        [
+          "what builds the girdle?",
+          "the spool builds the girdle"
+        ],
+        [
+          "what weighs the crate?",
+          "the strap weighs the crate"
+        ]
+      ],
+      "session": 3,
+      "tell_frames": [
+        "svo('the collar fits the dog', 'what', 'collar', 'fits', 'fit', 'dog')",
+        "svo('the bridge crosses the river', 'what', 'bridge', 'crosses', 'cross', 'river')",
+        "svo('the lamp lights the door', 'what', 'lamp', 'lights', 'light', 'door')",
+        "svo('the net catches the mouse', 'what', 'net', 'catches', 'catch', 'mouse')",
+        "svo('the moon pulls the tide', 'what', 'moon', 'pulls', 'pull', 'tide')",
+        "svo('the tide floods the road', 'what', 'tide', 'floods', 'flood', 'road')",
+        "svo('the wind wakes the dog', 'what', 'wind', 'wakes', 'wake', 'dog')",
+        "svo('the boy mends the net', 'who', 'boy', 'mends', 'mend', 'net')",
+        "svo('the welder cranks the candle', 'what', 'welder', 'cranks', 'crank', 'candle')",
+        "svo('the lantern tiles the gear', 'what', 'lantern', 'tiles', 'tile', 'gear')",
+        "svo('the turner lifts the vault', 'what', 'turner', 'lifts', 'lift', 'vault')",
+        "svo('the faucet drills the shackle', 'what', 'faucet', 'drills', 'drill', 'shackle')",
+        "svo('the stair guides the stove', 'what', 'stair', 'guides', 'guide', 'stove')",
+        "svo('Ivo guides the wagon', 'who', 'Ivo', 'guides', 'guide', 'wagon')",
+        "svo('the valve sets the faucet', 'what', 'valve', 'sets', 'set', 'faucet')",
+        "svo('the gardener cools the urn', 'what', 'gardener', 'cools', 'cool', 'urn')",
+        "svo('the keeper sets the lock', 'what', 'keeper', 'sets', 'set', 'lock')",
+        "svo('the rail unlocks the wire', 'what', 'rail', 'unlocks', 'unlock', 'wire')",
+        "svo('the cradle roves the axle', 'what', 'cradle', 'roves', 'rove', 'axle')",
+        "svo('the scale clamps the lantern', 'what', 'scale', 'clamps', 'clamp', 'lantern')",
+        "svo('the crate links the pulley', 'what', 'crate', 'links', 'link', 'pulley')",
+        "svo('the peg wraps the sling', 'what', 'peg', 'wraps', 'wrap', 'sling')",
+        "svo('the tap stacks the axle', 'what', 'tap', 'stacks', 'stack', 'axle')",
+        "svo('the flare hooks the wire', 'what', 'flare', 'hooks', 'hook', 'wire')",
+        "svo('the ring pulls the vase', 'what', 'ring', 'pulls', 'pull', 'vase')",
+        "svo('the loom saws the jar', 'what', 'loom', 'saws', 'saw', 'jar')",
+        "svo('the weaver folds the tray', 'what', 'weaver', 'folds', 'fold', 'tray')",
+        "svo('the reel saws the wick', 'what', 'reel', 'saws', 'saw', 'wick')",
+        "svo('the anvil sorts the tray', 'what', 'anvil', 'sorts', 'sort', 'tray')",
+        "svo('the stud folds the drum', 'what', 'stud', 'folds', 'fold', 'drum')",
+        "svo('the oar lowers the screw', 'what', 'oar', 'lowers', 'lower', 'screw')",
+        "svo('the spool links the latch', 'what', 'spool', 'links', 'link', 'latch')",
+        "svo('the nail bolts the jar', 'what', 'nail', 'bolts', 'bolt', 'jar')",
+        "svo('Ivo braces the tread', 'who', 'Ivo', 'braces', 'brace', 'tread')",
+        "svo('the reel raises the girdle', 'what', 'reel', 'raises', 'raise', 'girdle')",
+        "svo('the cage clamps the stair', 'what', 'cage', 'clamps', 'clamp', 'stair')",
+        "svo('the belt holds the fence', 'what', 'belt', 'holds', 'hold', 'fence')",
+        "svo('the mast bridges the gear', 'what', 'mast', 'bridges', 'bridge', 'gear')",
+        "svo('the bottle hangs the reel', 'what', 'bottle', 'hangs', 'hang', 'reel')",
+        "svo('the shackle marks the wagon', 'what', 'shackle', 'marks', 'mark', 'wagon')",
+        "svo('the tray smooths the peg', 'what', 'tray', 'smooths', 'smooth', 'peg')",
+        "svo('the vault pins the raft', 'what', 'vault', 'pins', 'pin', 'raft')",
+        "svo('the strap shines the post', 'what', 'strap', 'shines', 'shine', 'post')",
+        "svo('the tap guides the stud', 'what', 'tap', 'guides', 'guide', 'stud')",
+        "svo('the cage cleans the magnet', 'what', 'cage', 'cleans', 'clean', 'magnet')",
+        "svo('the stair raises the lantern', 'what', 'stair', 'raises', 'raise', 'lantern')",
+        "svo('the girdle shifts the peg', 'what', 'girdle', 'shifts', 'shift', 'peg')",
+        "svo('the torch lifts the bolt', 'what', 'torch', 'lifts', 'lift', 'bolt')",
+        "svo('the lantern shines the magnet', 'what', 'lantern', 'shines', 'shine', 'magnet')",
+        "svo('the tile screws the tread', 'what', 'tile', 'screws', 'screw', 'tread')",
+        "svo('the sailor saws the hinge', 'what', 'sailor', 'saws', 'saw', 'hinge')",
+        "svo('the stake tilts the post', 'what', 'stake', 'tilts', 'tilt', 'post')",
+        "svo('the step holds the bucket', 'what', 'step', 'holds', 'hold', 'bucket')",
+        "svo('the sling seals the pan', 'what', 'sling', 'seals', 'seal', 'pan')",
+        "svo('the stove stamps the rod', 'what', 'stove', 'stamps', 'stamp', 'rod')",
+        "svo('the urn wipes the cradle', 'what', 'urn', 'wipes', 'wipe', 'cradle')",
+        "svo('the tube sends the horn', 'what', 'tube', 'sends', 'send', 'horn')",
+        "svo('the axle drills the pulley', 'what', 'axle', 'drills', 'drill', 'pulley')",
+        "svo('the turner shifts the stud', 'what', 'turner', 'shifts', 'shift', 'stud')",
+        "svo('the tray sends the lantern', 'what', 'tray', 'sends', 'send', 'lantern')"
+      ]
+    }
+  ],
+  "source": "tools/electric_learn_bench.py + D-MPE8-03 rule",
+  "source_sha256_lf": "9a2eeb240c06ddf8fb30d3b016b30147b31bad847cae2d177b777315920e6eb1",
+  "tier": 300
+}

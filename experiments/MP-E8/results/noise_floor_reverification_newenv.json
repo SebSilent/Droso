@@ -1,0 +1,312 @@
+{
+  "N_newenv": {
+    "all_three_pairs_row_for_row_identical": true,
+    "clones": {
+      "clone1": {
+        "arm_seconds": {
+          "control": 182.7,
+          "learn": 152.6,
+          "teach": 153.7
+        },
+        "asserted_src_rows": 0,
+        "failures": 0,
+        "flags": {
+          "ELECTRIC_ARBITER_HEAD_BOUND": true,
+          "ELECTRIC_QA_MORPH_ALIASES": false,
+          "ELECTRIC_QA_MORPH_NORMALIZE": false
+        },
+        "floor_live_correct": [
+          38,
+          75,
+          115
+        ],
+        "git_head": "a4d43f30",
+        "path": "experiments/MP-E8/results/nf_newenv/clone1.json",
+        "python": null,
+        "rows": 3672,
+        "sha256_lf": "e228ef3fcc543c8383da6c7436af41ccba45bf66d9fedc10787ae252f110be96",
+        "torch": "2.15.0+cpu"
+      },
+      "clone2": {
+        "arm_seconds": {
+          "control": 169.1,
+          "learn": 156.2,
+          "teach": 153.7
+        },
+        "asserted_src_rows": 0,
+        "failures": 0,
+        "flags": {
+          "ELECTRIC_ARBITER_HEAD_BOUND": true,
+          "ELECTRIC_QA_MORPH_ALIASES": false,
+          "ELECTRIC_QA_MORPH_NORMALIZE": false
+        },
+        "floor_live_correct": [
+          38,
+          75,
+          115
+        ],
+        "git_head": "a4d43f30",
+        "path": "experiments/MP-E8/results/nf_newenv/clone2.json",
+        "python": null,
+        "rows": 3672,
+        "sha256_lf": "6eb8b3e1fd276b3b53d492244d2596c1c7245ba69d6797ed3dd10c92bd79dfaa",
+        "torch": "2.15.0+cpu"
+      },
+      "clone3": {
+        "arm_seconds": {
+          "control": 168.9,
+          "learn": 158.3,
+          "teach": 154.4
+        },
+        "asserted_src_rows": 0,
+        "failures": 0,
+        "flags": {
+          "ELECTRIC_ARBITER_HEAD_BOUND": true,
+          "ELECTRIC_QA_MORPH_ALIASES": false,
+          "ELECTRIC_QA_MORPH_NORMALIZE": false
+        },
+        "floor_live_correct": [
+          38,
+          75,
+          115
+        ],
+        "git_head": "a4d43f30",
+        "path": "experiments/MP-E8/results/nf_newenv/clone3.json",
+        "python": null,
+        "rows": 3672,
+        "sha256_lf": "4af24e8e12ccdaea479276cb5085ad31911cb870d4b8d4fd4b8fcdc4527ff34b",
+        "torch": "2.15.0+cpu"
+      }
+    },
+    "differences_outside_registered_cells_within_new_env": 0,
+    "floor_live_correct": [
+      38,
+      75,
+      115
+    ],
+    "graded_rows_moved_within_new_env": 0,
+    "pairwise_differences": {
+      "clone2_vs_clone1": 0,
+      "clone3_vs_clone1": 0,
+      "clone3_vs_clone2": 0
+    },
+    "pairwise_full": {
+      "clone2_vs_clone1": {
+        "by_cell": {},
+        "candidate": "experiments/MP-E8/results/nf_newenv/clone2.json",
+        "counts": {
+          "gained": 0,
+          "inside_r13_cells": 0,
+          "lost": 0,
+          "moved": 0,
+          "outside_r13_cells": 0,
+          "rows_keyed_both": 3672,
+          "total_differences": 0
+        },
+        "label": "new-env clone2 vs clone1",
+        "reference": "experiments/MP-E8/results/nf_newenv/clone1.json",
+        "verdict": {
+          "inert_outside_registered_tolerance": true,
+          "movement_within_registered_rows": true,
+          "row_for_row_identical": true
+        }
+      },
+      "clone3_vs_clone1": {
+        "by_cell": {},
+        "candidate": "experiments/MP-E8/results/nf_newenv/clone3.json",
+        "counts": {
+          "gained": 0,
+          "inside_r13_cells": 0,
+          "lost": 0,
+          "moved": 0,
+          "outside_r13_cells": 0,
+          "rows_keyed_both": 3672,
+          "total_differences": 0
+        },
+        "label": "new-env clone3 vs clone1",
+        "reference": "experiments/MP-E8/results/nf_newenv/clone1.json",
+        "verdict": {
+          "inert_outside_registered_tolerance": true,
+          "movement_within_registered_rows": true,
+          "row_for_row_identical": true
+        }
+      },
+      "clone3_vs_clone2": {
+        "by_cell": {},
+        "candidate": "experiments/MP-E8/results/nf_newenv/clone3.json",
+        "counts": {
+          "gained": 0,
+          "inside_r13_cells": 0,
+          "lost": 0,
+          "moved": 0,
+          "outside_r13_cells": 0,
+          "rows_keyed_both": 3672,
+          "total_differences": 0
+        },
+        "label": "new-env clone3 vs clone2",
+        "reference": "experiments/MP-E8/results/nf_newenv/clone2.json",
+        "verdict": {
+          "inert_outside_registered_tolerance": true,
+          "movement_within_registered_rows": true,
+          "row_for_row_identical": true
+        }
+      }
+    }
+  },
+  "comparison_with_the_sealed_pre_torch_N": {
+    "N_is_re_set": true,
+    "g0_prime_decision_md_section_4": {
+      "clone1_vs_clone2": 11,
+      "clone1_vs_clone3": 0,
+      "clone2_vs_clone3": 11,
+      "graded_rows": 1
+    },
+    "g0_prime_pairwise_as_recorded": {
+      "clone1vsclone2": {
+        "all": [
+          "learn/d1/reasked[74].reason: 'the closest memory of his covers 41% of the question' vs 'the closest memory of his covers 40% of the question'",
+          "learn/d1/reasked[82].reason: 'the closest memory of his covers 19% of the question' vs 'the closest memory of his covers 20% of the question'",
+          "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
+          "learn/d1/reasked[125].reason: 'what he remembers there is only the asking itself' vs 'the closest memory of his covers 57% of the question'",
+          "learn/d1/reasked[126].reason: 'the closest memory of his covers 52% of the question' vs 'the closest memory of his covers 50% of the question'",
+          "learn/d1/reasked[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+          "learn/d1/reasked[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'",
+          "learn/d1/reasked[134].reason: 'what he remembers there is only the asking itself' vs 'the only thing that matched was the asking itself'",
+          "learn/d1/restarted[126].reason: 'the closest memory of his covers 51% of the question' vs 'the closest memory of his covers 50% of the question'",
+          "learn/d1/restarted[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+          "learn/d1/restarted[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'"
+        ],
+        "differences": 11,
+        "identity_differences": 1,
+        "rows_compared": 3672,
+        "tolerated_reason_only": 10
+      },
+      "clone1vsclone3": {
+        "all": [],
+        "differences": 0,
+        "identity_differences": 0,
+        "rows_compared": 3672,
+        "tolerated_reason_only": 0
+      },
+      "clone2vsclone3": {
+        "all": [
+          "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
+          "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
+          "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
+          "learn/d1/reasked[125].reason: 'the closest memory of his covers 57% of the question' vs 'what he remembers there is only the asking itself'",
+          "learn/d1/reasked[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 52% of the question'",
+          "learn/d1/reasked[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+          "learn/d1/reasked[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'",
+          "learn/d1/reasked[134].reason: 'the only thing that matched was the asking itself' vs 'what he remembers there is only the asking itself'",
+          "learn/d1/restarted[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 51% of the question'",
+          "learn/d1/restarted[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+          "learn/d1/restarted[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'"
+        ],
+        "differences": 11,
+        "identity_differences": 1,
+        "rows_compared": 3672,
+        "tolerated_reason_only": 10
+      }
+    },
+    "reading": "The new environment's floor is at least as tight as the sealed one: 0 differences in all three pairs, against 11/0/11 there. N is RE-SET here, not inherited from G0-prime, because the environment that produced the sealed N no longer exists on this machine."
+  },
+  "cross_environment_scope": "Control-arm byte-identity holds within one tree and one environment. It is not guaranteed across environments. See experiments/G0-prime/registration.json -> AMD-G0P-01 and experiments/MP-E8/registration.json -> AMD-MPE8-01.",
+  "environment": {
+    "electric_flags": {
+      "ELECTRIC_ARBITER_HEAD_BOUND": true,
+      "ELECTRIC_QA_MORPH_ALIASES": false,
+      "ELECTRIC_QA_MORPH_NORMALIZE": false
+    },
+    "g0_prime_lock_sha256_lf": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d",
+    "git_head_of_the_runs": "a4d43f30",
+    "lock_file": "experiments/MP-E8/results/requirements.lock.txt",
+    "lock_packages": 38,
+    "lock_sha256_lf": "277576e1a0df6424ba5303a5bff7861e62a16b58e377e2a236098a2af441e3d2",
+    "python": null,
+    "single_process_measurement": true,
+    "torch": "2.15.0+cpu",
+    "why_that_matters": "N is a wall-clock-sensitive quantity and the disputed row is gated on 2.0 s of real time, so the three clones ran one after another with nothing else on the machine. Concurrent load would move the very field being measured."
+  },
+  "measured_at_utc": "2026-11-03T11:35:56Z",
+  "question": "What is the noise floor N in the torch environment introduced by D-MPE8-02, and does arm A on the current tree land inside it? Condition (b) of the MP-E8 pre-run conditions depends on this number, which is why it is an artifact and not prose.",
+  "r13_field_level_verdict": {
+    "across_environments": {
+      "arm_A_current_reference_vs_same_head_pre_change_run": {
+        "gained": 0,
+        "inside_r13_cells": 0,
+        "lost": 0,
+        "moved": 0,
+        "outside_r13_cells": 0,
+        "rows_keyed_both": 3672,
+        "total_differences": 0
+      },
+      "arm_A_current_reference_vs_sealed_same_flag_artifact": {
+        "gained": 0,
+        "inside_r13_cells": 0,
+        "lost": 0,
+        "moved": 0,
+        "outside_r13_cells": 0,
+        "rows_keyed_both": 3672,
+        "total_differences": 0
+      },
+      "the_one_row": "control|3|live|pair1.0|pair_exact field 'said'",
+      "the_superseded_newenv_run_vs_sealed_same_flag": {
+        "gained": 0,
+        "inside_r13_cells": 0,
+        "lost": 0,
+        "moved": 1,
+        "outside_r13_cells": 1,
+        "rows_keyed_both": 3672,
+        "total_differences": 1
+      },
+      "verdict": "PASS for the designated reference artifact: 0 of 3,672 rows differ from the sealed same-flag artifact and 0 from the same-head pre-change run. The EARLIER run in the same environment (armA_tier40_newenv.json) differs by 1 row OUTSIDE the registered tolerance cells, and five other artifacts agree against it, so the row is run-level unstable rather than environment-driven. That artifact is superseded."
+    },
+    "cost_fields_excluded_on_purpose": "wall clock and token counts are not compared; identity is.",
+    "excluded_cells": {
+      "candidate_not_excluded": "control/3/live -- gated the same way, NOT in the registered list, and NOT excluded here. Excluding it would widen a tolerance after the artifacts it grades already exist, which is an R2 event. Escalated as D-MPE8-05.",
+      "cells_excluded_by_this_verdict": [],
+      "registered_r13_cells": [
+        "learn/1/reasked",
+        "learn/1/restarted"
+      ],
+      "why_registered_cells_are_excluded": "the speech-act row in those cells is gated on the 2.0 s refractory, so its surface string depends on wall clock; registered before this number existed"
+    },
+    "identity_fields_compared_on": [
+      "ask",
+      "said",
+      "src",
+      "cls"
+    ],
+    "within_new_environment": {
+      "gained": 0,
+      "lost": 0,
+      "moved": 0,
+      "outside_r13_cells": 0,
+      "verdict": "PASS. Three full three-arm clones in the torch environment are row-for-row identical on the identity fields, including the control arm."
+    }
+  },
+  "schema": "droso.noise_floor_reverification.v2.newenv",
+  "sources_with_hashes": {
+    "clone1.json": "e228ef3fcc543c8383da6c7436af41ccba45bf66d9fedc10787ae252f110be96",
+    "clone2.json": "6eb8b3e1fd276b3b53d492244d2596c1c7245ba69d6797ed3dd10c92bd79dfaa",
+    "clone3.json": "4af24e8e12ccdaea479276cb5085ad31911cb870d4b8d4fd4b8fcdc4527ff34b",
+    "curriculum_flag_inertness_finding.json": "10b2f7749c26eebb501a7688b30722b78b406eb5b7eb6544dc0a4a98a2631d9b",
+    "pair_c2_vs_c1.json": "a955d7530a1d9fbdcab7788cd42749ede22abbc881cbc401cfbbd40ee198272d",
+    "pair_c3_vs_c1.json": "81b419f07eaaf93b6591e1e121287604c0aa80f8c0ee44e773d57d322c2a498e",
+    "pair_c3_vs_c2.json": "f65f5642c003999414c0c7fd6c33234bd1f5bbbdb2b7961c9a1c1afc944d47c1",
+    "pair_curriculum_flag_inertness.json": "bcd54d7b7fafdacf535dc95563c91d0e85fb60ca55bfb9a871688a2ede625e6b",
+    "pair_inertness_vs_clone1.json": "297bf305977527e5d496cdaa6ee492e6539d749dca7d7121717ec3497fdc4639",
+    "pair_inertness_vs_sealed_sameflag.json": "f22fad1e5d3607023765c90da17b3d6de6fae50b4f1e62e76c491ea0de2c87bf",
+    "pair_newenv_vs_sameflag_sealed.json": "09b8ac04871af067ec7c5f443be464c84fb76bb8a625d78a7b73a1499063d69a",
+    "pair_newenv_vs_sealed.json": "b39470b9927b76e96a39ace6bcff86a5c6997fd38dbe1ce13186f4c6595188c2"
+  },
+  "supersedes_nothing": "experiments/MP-E8/results/noise_floor_reverification.json stays as the record of the PRE-TORCH environment. This file is the torch-environment verdict; the two answer different questions and are not merged.",
+  "verdict": {
+    "N_newenv_measured_in_three_clones": true,
+    "N_newenv_pairs_row_for_row_identical": true,
+    "arm_A_reproduces_the_sealed_same_flag_artifact": true,
+    "caveat": "Condition (b) is satisfied against armA_tier40_inertness.json as the arm-A tier-40 reference. It is NOT satisfied against armA_tier40_newenv.json, which is why that artifact is superseded and why D-MPE8-05 is open.",
+    "condition_b_satisfied": true,
+    "instrument_change_curriculum_is_inert": true
+  }
+}

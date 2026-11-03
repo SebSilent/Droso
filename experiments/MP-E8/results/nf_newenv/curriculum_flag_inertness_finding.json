@@ -1,0 +1,90 @@
+{
+ "consequence_for_the_registered_tolerance": "The R13 tolerance cells are learn/1/reasked and learn/1/restarted, on the grounds that the speech-act row is gated on 2.0 s of wall clock. This row -- control/3/live -- is gated the same way and is NOT in that list. The registered cell list is therefore incomplete. NOT widened here: changing a tolerance after artifacts exist is an R2 event and needs a ruling, not a convenience.",
+ "consequence_for_the_reproduction_claim": "armA_tier40_newenv.json may not be cited as 'arm A reproduced exactly'. Its graded outcome is identical (cls, src, floor, guarded-absence, C2 all match) but one surface string in the control arm does not match any other run.",
+ "inertness_verdict": {
+  "against_a_stable_reference_same_head": {
+   "gained": 0,
+   "inside_r13_cells": 0,
+   "lost": 0,
+   "moved": 0,
+   "outside_r13_cells": 0,
+   "rows_keyed_both": 3672,
+   "total_differences": 0
+  },
+  "against_the_designated_reference": {
+   "gained": 0,
+   "inside_r13_cells": 0,
+   "lost": 0,
+   "moved": 1,
+   "outside_r13_cells": 1,
+   "rows_keyed_both": 3672,
+   "total_differences": 1
+  },
+  "against_the_sealed_same_flag_artifact": {
+   "gained": 0,
+   "inside_r13_cells": 0,
+   "lost": 0,
+   "moved": 0,
+   "outside_r13_cells": 0,
+   "rows_keyed_both": 3672,
+   "total_differences": 0
+  },
+  "claim": "PASS: adding --curriculum moves ZERO rows against both a same-head pre-change run and the sealed same-flag artifact. The single row that differs from armA_tier40_newenv.json is that artifact's own outlier, evidenced by five independent runs agreeing on the other value."
+ },
+ "per_artifact": {
+  "armA_tier40_inertness": {
+   "cls": "echo",
+   "git_head": "a4d43f30",
+   "mech": "fallback_fragment",
+   "reason": "",
+   "said": "where the bell hang",
+   "src": "recalled proposition"
+  },
+  "armA_tier40_newenv": {
+   "cls": "echo",
+   "git_head": "a4d43f30",
+   "mech": "fallback_fragment",
+   "reason": "",
+   "said": "droso says where does the bell hang",
+   "src": "recalled proposition"
+  },
+  "nf clone1": {
+   "cls": "echo",
+   "git_head": "a4d43f30",
+   "mech": "fallback_fragment",
+   "reason": "",
+   "said": "where the bell hang",
+   "src": "recalled proposition"
+  },
+  "nf clone2": {
+   "cls": "echo",
+   "git_head": "a4d43f30",
+   "mech": "fallback_fragment",
+   "reason": "",
+   "said": "where the bell hang",
+   "src": "recalled proposition"
+  },
+  "nf clone3": {
+   "cls": "echo",
+   "git_head": "a4d43f30",
+   "mech": "fallback_fragment",
+   "reason": "",
+   "said": "where the bell hang",
+   "src": "recalled proposition"
+  },
+  "sealed 64f5a794": {
+   "cls": "echo",
+   "git_head": "64f5a794",
+   "mech": "fallback_fragment",
+   "reason": "",
+   "said": "where the bell hang",
+   "src": "recalled proposition"
+  }
+ },
+ "reading": "armA_tier40_newenv.json is the only artifact of six that emits the raw echo instead of the folded paraphrase, and it is the only one produced before the per-arm-provenance and --curriculum edits. The five that agree span two git heads and three versions of the bench, so the disagreement tracks the RUN, not the tree. That makes this row run-level unstable, not a code or environment effect.",
+ "row": "control|3|live|pair1.0|pair_exact",
+ "tally": {
+  "droso says where does the bell hang": 1,
+  "where the bell hang": 5
+ }
+}

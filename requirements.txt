@@ -10,3 +10,14 @@ pyarrow
 # re-derivability claim. Added this session (pypdf 6.21.4); imported by no organ and no harness.
 # The exact measured environment is sealed in experiments/G0-prime/results/requirements.lock.txt.
 pypdf
+# MP-E8, decision D-MPE8-02: arm B is a real sequential trainer, and a hand-rolled BPTT whose
+# gradients are subtly wrong would lose the duel for the wrong reason -- a failure mode no
+# finite-difference check fully clears. CPU-only torch, pinned to the version actually measured in.
+# The +cpu build is NOT on PyPI; install with
+#   .venv/Scripts/python.exe -m pip install --index-url https://download.pytorch.org/whl/cpu torch==2.15.0+cpu
+# Pulling torch also brought mpmath/sympy/networkx/jinja2/filelock/fsspec/MarkupSafe and set
+# setuptools 78.1.0. That is why the environment is re-frozen rather than assumed unchanged: see
+# experiments/MP-E8/results/requirements.lock.txt. The G0-prime lock is NOT overwritten -- it is the
+# sealed environment of G0-prime's and MP-E9's numbers, and replacing it would be editing a measured
+# artifact, not amending a registration.
+torch==2.15.0+cpu

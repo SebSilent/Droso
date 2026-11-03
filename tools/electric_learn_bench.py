@@ -86,6 +86,8 @@ Run:  .venv/Scripts/python.exe tools/electric_learn_bench.py [--arms learn] [--d
 """
 from __future__ import annotations
 
+import ast
+import hashlib
 import json
 import shutil
 import sys
@@ -104,6 +106,12 @@ TMP = Path("_tmp/electric_learn_bench")
 # because boot() reads it and boot() is reached from run_arm() deep inside the harness. Empty by
 # default, which is what makes a run without the flag the pre-treatment house.
 FLAG_ON: set = set()
+# Which arms a --flag-on treatment can actually reach. control is the untouched house and never
+# carries a treatment, so if a control row moves the cause is not the flag. Hoisted out of seals()
+# into a constant because D-MPE8-01 requires the same fact stated PER ARM inside each arm's own
+# record: a reader looking only at arms.learn must be able to see that its zero is flag-conditional,
+# which is precisely the confusion MP-E9 decision.md 7.1 registered.
+FLAG_BEARING_ARMS = ("learn", "teach")
 EVIDENCE = Path("docs/evidence/electric_learn_bench.json")
 
 
@@ -251,6 +259,167 @@ PROBES = build_probes()
 # What the house is allowed to say, in total. Anything else out of its mouth is an invention.
 TOLD = {f["tell"].lower() for s in SESSIONS for f in s} | {a.lower() for s in PAIRS for _q, a in s}
 ALL_ITEMS = sum(len(s) for s in SESSIONS) + sum(len(s) for s in PAIRS)
+
+# ---------------------------------------------------------------------------
+# --curriculum PATH: run the bench against a committed tier manifest
+# (experiments/MP-E8/curriculum_tier120.json / ..._tier300.json, authored under D-MPE8-03).
+#
+# This is an INSTRUMENT CHANGE, so it is built to be provably inert at tier 40 rather than assumed
+# so: with no --curriculum in sys.argv, nothing below executes. The literals above remain the
+# curriculum and the tier-40 proof is a row-for-row diff against armA_tier40_newenv.json.
+#
+# A manifest records each tell as the CONSTRUCTION CALL arm A's own builder emits --
+# "svo('the dog bites the latch', 'what', 'dog', 'bites', 'bite', 'latch')" -- not as a finished
+# dict. Deliberate: frames are rebuilt by the bench's own svo/obl/intr, so a tier cannot smuggle in
+# a frame shape the shape arbiter has never seen. Constraint (a) of the D-MPE8-03 ruling then holds
+# by construction instead of by review.
+CURRICULUM = None                              # None => the module literals above (sealed tier 40)
+_ALLOWED_FRAME_BUILDERS = ("svo", "obl", "intr")
+
+
+def _frame_from_recorded_call(call):
+    """Rebuild one tell frame from its recorded construction call.
+
+    The call text arrives from a file, so it is parsed and whitelisted BEFORE anything runs: only a
+    bare svo/obl/intr call over literals is admissible. An attribute, a subscript, a nested call, a
+    keyword argument or any name outside the builders raises instead of executing. A curriculum file
+    must not be an arbitrary code path wearing a data file's clothes.
+    """
+    node = ast.parse(call, mode="eval").body
+    if not (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+            and node.func.id in _ALLOWED_FRAME_BUILDERS):
+        raise SystemExit(f"--curriculum: tell is not a bare {'/'.join(_ALLOWED_FRAME_BUILDERS)} "
+                         f"call: {call!r}")
+    if node.keywords or any(isinstance(a, ast.Starred) for a in node.args):
+        raise SystemExit(f"--curriculum: tell uses keyword or starred arguments: {call!r}")
+    for sub in ast.walk(node):
+        if sub is not node and isinstance(sub, ast.Call):
+            raise SystemExit(f"--curriculum: tell nests a call: {call!r}")
+        if isinstance(sub, (ast.Attribute, ast.Subscript)):
+            raise SystemExit(f"--curriculum: tell reaches into an object: {call!r}")
+        if isinstance(sub, ast.Name) and sub.id not in _ALLOWED_FRAME_BUILDERS:
+            raise SystemExit(f"--curriculum: tell names something outside the frame builders: "
+                             f"{call!r}")
+    return eval(compile(ast.Expression(body=node), "<curriculum tell>", "eval"),
+                {"svo": svo, "obl": obl, "intr": intr, "__builtins__": {}}, {})
+
+
+def apply_curriculum(path):
+    """Replace the module-literal curriculum with a committed manifest, then rebuild everything
+    derived from it (PAIR_KEYS, PROBES, TOLD, ALL_ITEMS) through the bench's own functions."""
+    global CURRICULUM, SESSIONS, PAIRS, DISTRACTORS, PAIR_KEYS, PROBES, TOLD, ALL_ITEMS
+    p = Path(path)
+    if not p.is_file():
+        raise SystemExit(f"--curriculum: no such manifest: {p}")
+    raw = p.read_bytes()
+    man = json.loads(raw.decode("utf-8"))
+    # Re-derive the curriculum hash the way tier 40's is derived -- sha256 over the canonical
+    # {sessions, pairs} form, distractors excluded -- and refuse the file if its own claim is false.
+    canon = json.dumps({"sessions": [s["tell_frames"] for s in man["sessions"]],
+                        "pairs": [s["qa_pairs"] for s in man["sessions"]]}, sort_keys=True)
+    derived = hashlib.sha256(canon.encode("utf-8")).hexdigest()
+    if man.get("curriculum_sha256") != derived:
+        raise SystemExit(f"--curriculum: {p.name} declares curriculum_sha256 "
+                         f"{man.get('curriculum_sha256')} but its content hashes to {derived}. The "
+                         f"manifest was edited after it was sealed.")
+    sessions = [[_frame_from_recorded_call(c) for c in s["tell_frames"]] for s in man["sessions"]]
+    pairs = [[tuple(q) for q in s["qa_pairs"]] for s in man["sessions"]]
+    # Distractors ride outside the curriculum hash by design, and the SEALED tier-40 manifest was
+    # emitted before they were recorded in it -- so tier 40 legitimately has no "distractors" key and
+    # the harness's own registered set is the right fallback. For any other tier the manifest must
+    # carry them: silently running tier 120 against tier 40's 12 distractors would understate the
+    # refusal denominators and nobody would see it. Measured, not assumed: KeyError was what this
+    # file actually did before, which is a crash where a refusal belongs.
+    if "distractors" in man:
+        distractors = [tuple(d) for d in man["distractors"]]
+    elif man.get("tier") == 40:
+        distractors = [tuple(d) for d in DISTRACTORS]
+    else:
+        raise SystemExit(f"--curriculum: tier {man.get('tier')} manifest carries no distractors. "
+                         f"Only the sealed tier-40 file may omit them, because tier 40's are the "
+                         f"harness's own registered set.")
+    n_items = sum(len(s) for s in sessions) + sum(len(p) for p in pairs)
+    if n_items != man["n_items"]:
+        raise SystemExit(f"--curriculum: manifest says {man['n_items']} items, its sessions hold "
+                         f"{n_items}.")
+    if len(sessions) != 3:
+        raise SystemExit(f"--curriculum: {len(sessions)} session groups, expected 3 -- the "
+                         f"interference curve is defined over exactly three sessions.")
+    SESSIONS, PAIRS, DISTRACTORS = sessions, pairs, distractors
+    PAIR_KEYS = {}
+    PROBES = build_probes()
+    TOLD = {f["tell"].lower() for s in SESSIONS for f in s} | {a.lower() for s in PAIRS for _q, a in s}
+    ALL_ITEMS = n_items
+    # The registered probe count is enforced here, not just at emit time: if the bench's own probe
+    # construction disagrees with the number registered in D-MPE8-03, the run stops.
+    reg_probes = (man.get("measured") or {}).get("n_probes")
+    if reg_probes is not None and reg_probes != len(PROBES):
+        raise SystemExit(f"--curriculum: {p.name} registers {reg_probes} probes, arm A's own "
+                         f"probes_for()/probes_for_pair() produce {len(PROBES)} from the same "
+                         f"frames. One of the two is wrong and no number should be made from it.")
+    CURRICULUM = {
+        "mode": "manifest",
+        "path": str(p).replace("\\", "/"),
+        "file_sha256_lf": hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest(),
+        "curriculum_sha256": derived,
+        "tier": man.get("tier"),
+        "seed": (man.get("construction") or {}).get("seed"),
+        "n_items": n_items,
+        "n_probes_built_by_this_bench": len(PROBES),
+        "n_probes_registered_in_manifest": reg_probes,
+        "n_distractors": len(DISTRACTORS),
+        "note": "frames rebuilt by this file's own svo/obl/intr from the recorded construction calls",
+    }
+    print(f"[bench] curriculum <- {p.name}: tier {man.get('tier')}, {n_items} items, "
+          f"{len(PROBES)} probes, sha {derived[:16]}", flush=True)
+    return CURRICULUM
+
+
+def _literal_curriculum_identity():
+    """Identity of the module-literal curriculum, hashed in the SAME canonical form a manifest uses.
+
+    tools/mp_e8_curriculum.py parses this file's SESSIONS/PAIRS literals to produce tier 40's
+    curriculum_sha256; calling it here keeps the sealed baseline comparable to the authored tiers
+    instead of leaving tier 40 as the one run whose curriculum has no hash. Lazy import inside a
+    try, because the tool moving must not take the sealed tier-40 path down with it -- but the
+    failure is written into the artifact rather than hidden behind a None.
+    """
+    try:
+        import mp_e8_curriculum as mc
+        base = mc.load()
+        return {"mode": "module_literals",
+                "path": "tools/electric_learn_bench.py (SESSIONS/PAIRS/DISTRACTORS literals)",
+                "curriculum_sha256": base["curriculum_sha256"], "tier": 40,
+                "n_items": base["n_items"], "n_probes_built_by_this_bench": len(PROBES),
+                "n_distractors": len(DISTRACTORS),
+                "note": "the sealed baseline curriculum; no --curriculum was passed"}
+    except Exception as exc:
+        return {"mode": "module_literals", "curriculum_sha256": None,
+                "hash_error": f"{type(exc).__name__}: {exc}"}
+
+
+def _curriculum_arg(argv):
+    for i, a in enumerate(argv):
+        if a == "--curriculum":
+            return argv[i + 1] if i + 1 < len(argv) else ""
+    return None
+
+
+# Runs at import because PROBES/TOLD/ALL_ITEMS are computed at import: a swap inside main() would
+# leave the probe matrix built from the literals. Absent the flag, this branch is never entered.
+#
+# __main__-only, and that is a bug fix rather than a nicety: tools/mp_e8_arm_b.py takes --curriculum
+# for its OWN curriculum file and imports this module to reuse classify()/probes_for(). Scanning
+# sys.argv unconditionally made the bench read the IMPORTER's command line, so arm B's --curriculum
+# was applied inside the bench, by the bench's rules, before arm B could validate it -- measured as
+# 2 failures and 8 errors in tests/test_mp_e8_arm_b.py. An importing process must call
+# apply_curriculum() itself, explicitly, and know it did.
+if __name__ == "__main__":
+    _cur_arg = _curriculum_arg(sys.argv[1:])
+    if _cur_arg is not None:
+        if not _cur_arg:
+            raise SystemExit("--curriculum needs a path to a committed tier manifest")
+        apply_curriculum(_cur_arg)
 
 
 def boot(tag, mode, root):
@@ -703,6 +872,68 @@ def report(res):
           ", ".join(f"{c} {a.get(c, 0)}->{b.get(c, 0)}" for c in CLS))
 
 
+def torch_version():
+    """torch imported lazily: this harness ran for the whole of MP-E9 without it, and a top-level
+    import would make every arm-A run depend on a package only arm B needs."""
+    try:
+        import torch
+        return torch
+    except Exception:
+        return None
+
+
+def torch_threads():
+    t = torch_version()
+    return None if t is None else t.get_num_threads()
+
+
+def torch_build_info():
+    """Version alone does not identify a build: the +cpu wheel and a cu12x wheel of the same version
+    are different machines, and H4's cost claim depends on telling them apart. Returns plain values
+    only -- getattr(torch, "cuda") is the cuda MODULE and is not JSON-serializable, which is the first
+    version of this function and it killed the run at the write step, eight minutes in."""
+    t = torch_version()
+    if t is None:
+        return None
+    return {"version": t.__version__,
+            "cuda_version": t.version.cuda,
+            "cuda_available": bool(t.cuda.is_available()),
+            "threads": t.get_num_threads()}
+
+
+def _requirements_pinned():
+    """True only if every named line in requirements.txt carries an exact version."""
+    try:
+        req = Path(__file__).resolve().parents[1] / "requirements.txt"
+        named = [x.strip() for x in req.read_text(encoding="utf-8").splitlines()
+                 if x.strip() and not x.strip().startswith("#")]
+        return bool(named) and all("==" in x for x in named)
+    except Exception:
+        return False
+
+
+def arm_flag_provenance(mode):
+    """The flag state of ONE arm, written inside that arm's own record (D-MPE8-01, condition 1).
+
+    The run-level block already says which flags were passed. It does not survive being read alone:
+    someone quoting arms.learn.learn_correct_live out of a file has no flag information next to the
+    number. MP-E9 decision.md 7.1 is the case study -- a proven flag-conditional zero, if it travels
+    without its condition, gets read as a property of the organism.
+    """
+    reaches = mode in FLAG_BEARING_ARMS
+    return {
+        "flags": {a: bool(a in FLAG_ON) for a in tm.CANDIDATE_ATTRS},
+        "flags_reach_this_arm": reaches,
+        "flag_state_meaning": (
+            "these flags were passed on this arm's configuration" if reaches else
+            "this arm carries no treatment: a change in its rows is not attributable to a flag"),
+        "zero_is_flag_conditional": bool(reaches and any(FLAG_ON)),
+        "read_this_before_quoting_any_number_from_this_arm": (
+            "a flag-conditional 0 is a property of THIS configuration, not of the shipped organism; "
+            "the shipped house runs none of these flags -- see experiments/MP-E9/decision.md 7.1"),
+    }
+
+
 def seals(argv):
     """Per-run provenance, in the shape the battery's journals already use: git, interpreter,
     harness. G0-prime cannot close on unsealed bench rows -- the plan's own standard is that every
@@ -745,8 +976,19 @@ def seals(argv):
         "base_prefix": sys.base_prefix,
         "in_venv": sys.prefix != sys.base_prefix,
         "platform": platform.platform(),
-        "packages": {p: pkg(p) for p in ("numpy", "pandas", "scipy", "psutil", "pytest", "pyarrow")},
-        "requirements_pinned": False,
+        # torch is in the list because D-MPE8-02 put it in the environment: H4 compares arm A's cost
+        # against arm B's "on identical hardware", and that has to mean identical software too, so a
+        # cost row that cannot say which torch (if any) was loaded is not comparable. pkg() returns
+        # None when the package is absent, so an arm-A-only environment records torch: null rather
+        # than omitting the key.
+        "packages": {p: pkg(p) for p in ("numpy", "pandas", "scipy", "psutil", "pytest", "pyarrow",
+                                         "torch")},
+        # The +cpu build and the cu12x build of the same version are different machines. Recording the
+        # version alone would let a GPU run and a CPU run claim the same environment.
+        "torch_build": torch_build_info(),
+        # Derived, not asserted. requirements.txt was unpinned for every number published before
+        # D-MPE8-02; a hardcoded False would now be a lie and a hardcoded True would be worse.
+        "requirements_pinned": _requirements_pinned(),
         "harness": os.path.relpath(here, os.getcwd()).replace("\\", "/"),
         "harness_sha256": hashlib.sha256(open(here, "rb").read()).hexdigest(),
         "argv": list(argv),
@@ -757,7 +999,7 @@ def seals(argv):
         "electric_flags": {a: bool(a in FLAG_ON) for a in tm.CANDIDATE_ATTRS},
         # Which arms the flags above actually reach. control never carries a treatment arm, so an
         # artifact whose control rows moved is describing something other than the flag.
-        "electric_flags_apply_to": ["learn", "teach"],
+        "electric_flags_apply_to": list(FLAG_BEARING_ARMS),
         "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
 
@@ -845,6 +1087,7 @@ def main():
 
     out = dict(shadow=sh,
                arms={m: dict(seconds=r["seconds"], runs=r["runs"],
+                             arm_provenance=arm_flag_provenance(m),
                              probes={str(d): {p: [dict(x, cls=classify(x)) for x in rows]
                                               for p, rows in ph.items()}
                                      for d, ph in r["depths"].items()})
@@ -856,6 +1099,12 @@ def main():
                # provenance grader reading only `told` fires on `tower`, a word from the taught pair
                # `what rings in the tower? / the copper bell rings`. Additive field, so the artifact is
                # self-describing instead of depending on a reader importing PAIRS.
+               # Which curriculum this artifact stands on, recorded rather than inferred. With a
+               # --curriculum manifest this is the manifest's own identity; without one it is the
+               # literal tier-40 baseline, hashed by the same canonical form tools/mp_e8_curriculum.py
+               # uses so a tier-40 artifact and a tier-120 artifact carry comparable curriculum hashes.
+               # A failed hash is recorded as a failure, not papered over with a None.
+               curriculum=CURRICULUM or _literal_curriculum_identity(),
                taught_questions=sorted({q.lower() for s in PAIRS for q, _a in s}),
                distractors=[d[1] for d in DISTRACTORS],
                summary={m: {str(d): s for d, s in sum_.items()} for m, sum_ in summary.items()},
