@@ -219,10 +219,23 @@ def evaluate(candidate, reference, reg, noise, tiers, battery=None):
                      and wl["absence_rows_admitted_by_form"] == nt["H4"]["absence_admitted_by_form_equal"]
                      and all(learn[d] >= floor[i] for i, d in enumerate(("1", "2", "3"))))
     bat = battery or {}
-    h4_battery = (bat.get("frozen_correct") == nt["H4"]["battery_frozen_correct"]
-                  and bat.get("frozen_total") == nt["H4"]["battery_frozen_total"]
-                  and bat.get("guarded_pass") == nt["H4"]["battery_guarded_pass"]
-                  and bat.get("guarded_total") == nt["H4"]["battery_guarded_total"]) if bat else None
+    # The instrument (tools/mp_e9_battery.py) nests the four numbers under "measured" beside its
+    # provenance block; a hand-written fixture carries them flat. Accept both, prefer the nested
+    # form. A missing key must not silently read as a pass.
+    bat_m = bat.get("measured") or bat
+    h4_battery = (bat_m.get("frozen_correct") == nt["H4"]["battery_frozen_correct"]
+                  and bat_m.get("frozen_total") == nt["H4"]["battery_frozen_total"]
+                  and bat_m.get("guarded_pass") == nt["H4"]["battery_guarded_pass"]
+                  and bat_m.get("guarded_total") == nt["H4"]["battery_guarded_total"]) if bat else None
+    # H4's clause says "WITH ELECTRIC OFF". Four numbers alone do not carry that condition: a
+    # battery run with the treatment wired in would satisfy all four and measure a different
+    # thing. The state is read from provenance.electric, which the instrument derives from
+    # provenance.code_flags -- stamped on EVERY path by run_generation.py:1410-1416, "per the E25
+    # invariant that a missing key must never be indistinguishable from a deliberate off". So an
+    # old journal with no keys reports `unrecorded`, and unrecorded is NOT off.
+    elec = (bat.get("provenance") or {}).get("electric") or {}
+    electric_off = bool(elec.get("verified")) and elec.get("state") == "off"
+    h4_battery_clause = (bool(h4_battery) and electric_off) if bat else None
 
     return {
         "preconditions": {
@@ -260,7 +273,14 @@ def evaluate(candidate, reference, reg, noise, tiers, battery=None):
                             "learn_correct_live": learn},
                "invariants_pass": h4_invariants,
                "battery": ("not supplied -- pass --battery PATH" if not bat else h4_battery),
-               "pass": (h4_invariants and h4_battery) if bat else None},
+               "battery_measured": (None if not bat else bat_m),
+               "battery_electric": ("not supplied" if not bat else
+                                    {"state": elec.get("state"),
+                                     "verified": elec.get("verified"),
+                                     "off_counts_as_verified": electric_off}),
+               "battery_clause": ("not supplied -- pass --battery PATH" if not bat
+                                  else h4_battery_clause),
+               "pass": (h4_invariants and h4_battery_clause) if bat else None},
         "abort_conditions": {
             "C1": {"fired": not h1_pass,
                    "measured_by": reg["abort_conditions"]["C1"]["measured_by"],
@@ -274,6 +294,24 @@ def evaluate(candidate, reference, reg, noise, tiers, battery=None):
             "C3": {"fired": any(learn[d] < floor[i] for i, d in enumerate(("1", "2", "3"))),
                    "measured_by": reg["abort_conditions"]["C3"]["measured_by"],
                    "registered_floor": floor, "observed": learn},
+            # C4 and C5 were ABSENT from the first version of this output. Absence and a deliberate
+            # false are different claims, and the house rule (run_generation.py:1410-1416, "a
+            # missing key must never be indistinguishable from a deliberate off") says a condition
+            # that cannot be measured yet must be reported as unable, not as unmeasured.
+            "C4": {"fired": None, "state": "NOT YET MEASURABLE",
+                   "measured_by": reg["abort_conditions"]["C4"]["measured_by"],
+                   "why": "C4 counts qa_store rows whose provenance is neither person_marked nor "
+                          "person_paraphrase. That population only exists once "
+                          "ELECTRIC_QA_MORPH_NORMALIZE widens the store keys, which is PRE-1 / B.2 "
+                          "step 2 and has not been implemented. A pre-treatment count over today's "
+                          "288 electric_qa_store rows would measure a key form the condition does "
+                          "not describe, so no number is reported rather than a misleading one."},
+            "C5": {"fired": None, "state": "VACUOUS PRE-TREATMENT",
+                   "measured_by": reg["abort_conditions"]["C5"]["measured_by"],
+                   "why": "C5 groups GAINED rows by probe shape. In the pre-treatment self-check "
+                          "rows_gaining_correct == 0, so there is nothing to group and the "
+                          "condition cannot fire. It becomes measurable only against a treatment "
+                          "candidate, where row_movement_vs_reference supplies the gains."},
         },
         "word_level": wl,
         "morphology_class": morph,

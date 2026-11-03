@@ -73,6 +73,23 @@ DEFAULT_MANIFEST = [
     "tools/mp_e9_gate.py",
     "tests/test_mp_e9_gate.py",
     "experiments/MP-E9/results/gate_validation.json",
+    # PRE-1: the organs/ design step, the test that enforces it, and the battery instrument that
+    # gives H4 a measured state. All three are committed in the same commit as this line. The
+    # document is sealed because it is a GATE, not a note: unsealed, it can be edited or deleted
+    # with no signal, and the constraint it states stops being falsifiable.
+    "experiments/MP-E9/organs_precondition.md",
+    "tests/test_mp_e9_precondition.py",
+    "tools/mp_e9_battery.py",
+    # H4's measured battery state, and the gate verdict that consumed it. Added only now that both
+    # files exist -- check() reads a never-written artifact as MISSING -> DRIFT. The battery journal
+    # itself is NOT here: generations 9001-9006 are synthetic scratch and were deleted after
+    # extraction, so the artifact carries the per-chunk journal hashes instead.
+    "experiments/MP-E9/results/battery_pre_flag.json",
+    "experiments/MP-E9/results/gate_validation_with_battery.json",
+    # The 42 rows behind battery_pre_flag.json. The scratch generation journals were deleted --
+    # state/selection/ is the tracked lineage and generations 9001-9006 never happened -- so this
+    # is what makes H4's battery numbers recomputable from rows instead of trusted.
+    "experiments/MP-E9/results/battery_pre_flag_rows.jsonl",
     "tests/test_word_provenance.py",
     "tests/test_g0_prime_instruments.py",
     "experiments/G0-prime/tier_protocol.json",

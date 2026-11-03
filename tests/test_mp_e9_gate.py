@@ -123,12 +123,41 @@ def test_h4_cannot_pass_by_omitting_the_battery(res):
     assert res["H4"]["pass"] is None
     assert res["H4"]["invariants_pass"] is True
     assert "battery" in str(res["H4"]["battery"]).lower()
-    good = {"frozen_correct": 19, "frozen_total": 24, "guarded_pass": 4, "guarded_total": 4}
+    good = {"frozen_correct": 19, "frozen_total": 24, "guarded_pass": 4, "guarded_total": 4,
+            "provenance": {"electric": {"verified": True, "state": "off"}}}
     with_good = mg.evaluate(DOC, REF, REG, NOISE, TIERS, battery=good)
     assert with_good["H4"]["pass"] is True
     bad = dict(good, frozen_correct=18)
     with_bad = mg.evaluate(DOC, REF, REG, NOISE, TIERS, battery=bad)
     assert with_bad["H4"]["pass"] is False
+
+
+def test_h4_battery_clause_carries_the_electric_condition_not_just_four_numbers():
+    """H4's registered text says "battery frozen 19/24 WITH ELECTRIC OFF".
+
+    The first version of the gate compared four numbers and nothing else, so a battery run with
+    the treatment wired in would have satisfied the clause while measuring a different system.
+    An unrecorded ELECTRIC state is not the same as a verified off one -- run_generation.py
+    stamps the keys on every path precisely so the two cannot be confused.
+    """
+    numbers = {"frozen_correct": 19, "frozen_total": 24, "guarded_pass": 4, "guarded_total": 4}
+    on = dict(numbers, provenance={"electric": {"verified": True, "state": "ON"}})
+    assert mg.evaluate(DOC, REF, REG, NOISE, TIERS, battery=on)["H4"]["pass"] is False
+    unrecorded = dict(numbers, provenance={"electric": {"verified": False, "state": "unrecorded"}})
+    assert mg.evaluate(DOC, REF, REG, NOISE, TIERS, battery=unrecorded)["H4"]["pass"] is False
+    no_provenance = dict(numbers)
+    assert mg.evaluate(DOC, REF, REG, NOISE, TIERS, battery=no_provenance)["H4"]["pass"] is False, \
+        "an artifact with no ELECTRIC provenance must not satisfy a clause that names ELECTRIC"
+
+
+def test_the_gate_reads_the_instruments_nested_measured_block():
+    """tools/mp_e9_battery.py writes provenance + measured; the gate must read the real shape."""
+    art = {"measured": {"frozen_correct": 19, "frozen_total": 24,
+                        "guarded_pass": 4, "guarded_total": 4},
+           "provenance": {"electric": {"verified": True, "state": "off", "chunks": 6}}}
+    r = mg.evaluate(DOC, REF, REG, NOISE, TIERS, battery=art)
+    assert r["H4"]["battery"] is True
+    assert r["H4"]["battery_clause"] is True
 
 
 def test_morphology_matching_is_whole_word():
@@ -180,6 +209,16 @@ def test_no_mp_e9_result_exists_yet_and_the_amendments_say_so():
     for a in REG["registration_amendments"]:
         assert a["results_existed"] is False, a
         assert a["what"] and a["why"]
+        # The flag's meaning is registered, not assumed. `results_existed` means a TREATMENT ARM
+        # produced a result; baseline measurements are a separate fact and must be stated as one.
+        assert a.get("treatment_results_existed") is False, \
+            f"{a['what'][:40]}: treatment_results_existed missing or true"
+        if a.get("baseline_measurements_existed"):
+            # An instrument change made after a measurement exists is admissible in ONE direction:
+            # it may remove a pass, never manufacture one. The direction has to be in the record,
+            # or the amendment is unverifiable and R2's guard is decorative.
+            assert a.get("direction"), \
+                f"{a['what'][:40]}: baseline measurements existed and no direction was stated"
     assert REG["status"].startswith("OPEN (B.2)")
     assert "NO treatment arm has been run" in REG["status"]
 
