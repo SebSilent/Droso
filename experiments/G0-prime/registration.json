@@ -92,19 +92,25 @@
   "gate": "G0-prime",
   "gate_status": {
     "carried_forward": [
-      "B.1 step 3: three clones are NOT identical row for row (11 of 3,672 rows move, 1 in a graded field). The R13 (a)/(b)/(c) choice is the PI's and is deliberately not taken here.",
-      "Open decision: heard-not-told scope -- 6 rows, decides whether C1 fires at 16 or 22.",
-      "Open decision: requirements.txt pinning for the six named packages and the installed-but-unused ones."
+      "Open decision: requirements.txt pinning -- whether to add version pins to the six named packages and what to do with the five installed-but-unused ones (fastapi, starlette, uvicorn, pydantic, anyio). The measured environment is sealed in results/requirements.lock.txt.",
+      "Scheduled, not improvised: R13 option (b), an injectable clock, is the correct long-term fix for the time-dependence in decision.md section 4. It changes organs/ and therefore needs its own registered design step.",
+      "Risk unchanged: MP-E8 arms B/C (2-10M LSTM / tiny transformer, trained on the same curriculum) and tier 120 / tier 300 do not exist as code."
     ],
     "closed_steps": [
       "B.1 step 1",
       "B.1 step 2",
+      "B.1 step 3 (met under the registered tolerance D-G0P-02, with a named excluded cell; the literal wording is retained and still unmet)",
       "B.1 step 4",
       "B.1 step 5",
       "B.1 step 6"
     ],
     "closing_blockers": [],
-    "status": "CLOSED conditional on B.1 step 3, carried forward to the PI. Suite blocker closed by measurement, not inference: 1167 collected / 1167 reached / 0 collected-but-not-executed / returncode 0. Both registrations stamped and --check clean (29/29 on the git blob, 29 of 29 in the index, 0 index drift, every sealed blob sha256 confirmed against the object database)."
+    "ruled_by_pi": [
+      "D-G0P-02 clone criterion (R13a, field-level)",
+      "D-G0P-03 heard-not-told scope (third class, non-aborting)",
+      "D-G0P-04 suite measurement (run once more, alone, to replace the inference)"
+    ],
+    "status": "CLOSED under R13(a) as ruled by the PI (D-G0P-02), with learn/1/reasked and learn/1/restarted EXCLUDED from the noise-floor claim. It is NOT closed as 'identical row for row': that wording remains falsified by measurement and both artifacts still record noise_floor_verdict = NOT REPRODUCIBLE beside the ruled verdict. Suite blocker closed by measurement, not inference: 1167 collected / 1167 reached / 0 collected-but-not-executed / returncode 0. Both registrations stamped and --check clean, every sealed blob sha256 confirmed against the object database."
   },
   "harness_hashes": {
     "files": {
@@ -119,10 +125,10 @@
       },
       "experiments/G0-prime/decision.md": {
         "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
-        "bytes_worktree": 27974,
-        "git_blob_sha1": "59ed46dc6e17e3189f578ca43974b9080c06c8f1",
+        "bytes_worktree": 36420,
+        "git_blob_sha1": "5d13d59bdf8dae18d28ade049caeae9b79e5ee2e",
         "line_endings": "CRLF",
-        "sha256_lf": "d410683b8ff11bb8515123f55309a9fe3c3ab03a49fa62a113b6a315f0909189",
+        "sha256_lf": "e921ca905dfaed5a8c2f7897564f0452245330743a281550c5a79552397f9199",
         "sha256_of_git_blob": null
       },
       "experiments/G0-prime/failure_taxonomy.json": {
@@ -162,22 +168,20 @@
         "sha256_of_git_blob": "8d98288159f3f764772d3052f00cad57b31c307719f092fcd2c16b024891ab2c"
       },
       "experiments/G0-prime/results/noise_floor/noise_floor.json": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 16257,
-        "bytes_worktree": 16257,
-        "git_blob_sha1": "c3261aa8833e648907424521a48d281b373a6cc7",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 18604,
+        "git_blob_sha1": "85f0af8be83e9eec830b50acdc502fda6929cbb6",
         "line_endings": "LF",
-        "sha256_lf": "e548dcf70f4074fdc6816d8585ff15da78a17d73c06f593772581da997be7c94",
-        "sha256_of_git_blob": "e548dcf70f4074fdc6816d8585ff15da78a17d73c06f593772581da997be7c94"
+        "sha256_lf": "b5df00ca503045ae0bf52e2969c7f97fe944e9d98df1d4afb8c6a744d0a3a27b",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/results/noise_floor/per_arm_breakdown.json": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 7685,
-        "bytes_worktree": 7685,
-        "git_blob_sha1": "19201eaa841a343f6660f3750cca33929e990470",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 8623,
+        "git_blob_sha1": "50bb4aacefdfd16ea2c90c134fd62ef3f1944af6",
         "line_endings": "LF",
-        "sha256_lf": "8df35f97890380626417a1884084627a6ad4ad12531fc58b3ea3737179c55b58",
-        "sha256_of_git_blob": "8df35f97890380626417a1884084627a6ad4ad12531fc58b3ea3737179c55b58"
+        "sha256_lf": "8072b745da6faa40d31f64dd8e89adaae2a500e1f1925a127abc76ed4971fecb",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/results/requirements.lock.txt": {
         "blob_equals_lf_normalised": true,
@@ -189,12 +193,13 @@
         "sha256_of_git_blob": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d"
       },
       "experiments/G0-prime/results/suite_manifest.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1087,
         "bytes_worktree": 1087,
         "git_blob_sha1": "11485c44237361a8f2049db1dfaf2b672b3de264",
         "line_endings": "LF",
         "sha256_lf": "365aaef11021d8da75d940d597ca0237145412a32d3932a8e004d3eadac5e362",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "365aaef11021d8da75d940d597ca0237145412a32d3932a8e004d3eadac5e362"
       },
       "experiments/G0-prime/results/word_provenance_audit.json": {
         "blob_equals_lf_normalised": true,
@@ -269,13 +274,12 @@
         "sha256_of_git_blob": "4db5bcad441c1d8fc9dbce131998ed49c98354ed8aa5e9fa88c246ed4eda7ea7"
       },
       "tests/test_g0_prime_instruments.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 15106,
-        "bytes_worktree": 15395,
-        "git_blob_sha1": "9b2db666e2ecf54c95d7cf2fb83607c8684df0da",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 21533,
+        "git_blob_sha1": "5fca7916162b27501406a66e8b7912a78b9abc57",
         "line_endings": "CRLF",
-        "sha256_lf": "ab2c69bfae421c3920a6da11040152a250821552e641eea358729d482b823f78",
-        "sha256_of_git_blob": "ab2c69bfae421c3920a6da11040152a250821552e641eea358729d482b823f78"
+        "sha256_lf": "865cd1f4dd859fe0eb976af6adb5851be17c7eba95f96f1fc0116dee45be281a",
+        "sha256_of_git_blob": null
       },
       "tests/test_word_provenance.py": {
         "blob_equals_lf_normalised": true,
@@ -287,13 +291,12 @@
         "sha256_of_git_blob": "d587906036f366a001aaafb414eb82b9cf8ac70c23c13bd0eaaaf6d040a252e8"
       },
       "tools/bench_noise_floor.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 10119,
-        "bytes_worktree": 10344,
-        "git_blob_sha1": "ddfb24b1069964b194bfa5ae12e0b6dc031e16bd",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 19710,
+        "git_blob_sha1": "2b7dd9ebf1a21e2d02df222f196ebc240b38babc",
         "line_endings": "CRLF",
-        "sha256_lf": "85bfb78f26b2d5550967df43f6c1b59aff5770175a298a476da47fab7fab578b",
-        "sha256_of_git_blob": "85bfb78f26b2d5550967df43f6c1b59aff5770175a298a476da47fab7fab578b"
+        "sha256_lf": "f7f5775098ee524bb7c5ee40006210411f06086a5e6a96a351e3bcaa912d1bc8",
+        "sha256_of_git_blob": null
       },
       "tools/derive_pre_flag_snapshot.py": {
         "blob_equals_lf_normalised": true,
@@ -323,13 +326,12 @@
         "sha256_of_git_blob": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548"
       },
       "tools/noise_floor_report.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 8323,
-        "bytes_worktree": 8497,
-        "git_blob_sha1": "681851ea48695db3b84d3da917493f79def4fc32",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 11105,
+        "git_blob_sha1": "fb67690a72d46a6499b9fd5b8873bb5b16ec9398",
         "line_endings": "CRLF",
-        "sha256_lf": "36723a970f5f745801c775653a7ed3d30ba91a2dc5a392829c7b20737477d5c5",
-        "sha256_of_git_blob": "36723a970f5f745801c775653a7ed3d30ba91a2dc5a392829c7b20737477d5c5"
+        "sha256_lf": "0c20f93ad1f7111177272c5bcaca71db534a4fdd533b4f3d265e3d863740b88a",
+        "sha256_of_git_blob": null
       },
       "tools/promote_plan_extract.py": {
         "blob_equals_lf_normalised": true,
@@ -341,13 +343,12 @@
         "sha256_of_git_blob": "72f3e00305d9ad6d8bc64b77523fee0ed9ba6ddd77015eb95cb0597a33b16c64"
       },
       "tools/registration_seal.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 16695,
-        "bytes_worktree": 17005,
-        "git_blob_sha1": "9df5db06872e059146461117d2a1c0efa88414bb",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 17515,
+        "git_blob_sha1": "1ec306be900a5c5109dbd6879b7fcc4a80be9c40",
         "line_endings": "CRLF",
-        "sha256_lf": "a6e2493bcd099846a75e44b376886a7a421a046e257bc264dde5cb9b1d8b1c28",
-        "sha256_of_git_blob": "a6e2493bcd099846a75e44b376886a7a421a046e257bc264dde5cb9b1d8b1c28"
+        "sha256_lf": "bc30a744f84eb3e63f9b5285f23009c64cd5b96a1bf744d18f74b89a13851710",
+        "sha256_of_git_blob": null
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -369,7 +370,7 @@
       }
     },
     "git_dirty": true,
-    "git_head": "bf0bc40e04232c915c0672b65bc49595ce62d7dd",
+    "git_head": "698a6d3d450b5a91c894c35a982e06c45bfe1185",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -392,7 +393,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-03T06:07:03Z",
+    "sealed_at_utc": "2026-11-03T06:31:57Z",
     "self_excluded": {
       "path": "experiments/G0-prime/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -436,6 +437,40 @@
     },
     "criterion": "three clones of one configuration identical row for row (B.1 step 3); N is defined as clones of arm A's configuration (section 6.2)",
     "criterion_met_as_written": false,
+    "criterion_r13a": {
+      "excluded_cells": [
+        "learn/1/reasked",
+        "learn/1/restarted"
+      ],
+      "identity_required_on": [
+        "cls",
+        "said",
+        "src",
+        "item",
+        "shape",
+        "mech",
+        "taught",
+        "own",
+        "answered"
+      ],
+      "literal_verdict_retained_beside_it": "NOT REPRODUCIBLE",
+      "measured": {
+        "differences_total": 22,
+        "distinct_rows_touched": 11,
+        "identity_in_excluded_cell": 2,
+        "identity_outside_excluded_cell": 0,
+        "tolerated_reason_only": 20
+      },
+      "ruled_by": "PI, D-G0P-02, 2026-11-03",
+      "the_excluded_difference_is": "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll' -- the says-gap instability itself",
+      "tolerated_as_noise": [
+        "reason"
+      ],
+      "unenumerated_held_to_identity": [
+        "ask"
+      ],
+      "verdict": "MET WITH REGISTERED EXCLUSION"
+    },
     "difference_profile": {
       "by_arm": {
         "learn": 22
@@ -664,9 +699,42 @@
     }
   },
   "open_decisions_for_pi": {
-    "clone_criterion": "Choose among R13's (a), (b) or (c). The gate cannot close on 'identical row for row' if the instrument is not identical row for row, and editing the criterion after seeing the result is exactly what R2 exists to prevent.",
-    "heard_not_told_scope": "Does R9 cover words that reached the organism only inside another question? If yes, C1 fires today at 22 rows rather than 16 and MP-E9's H1 threshold must be re-scoped before it opens.",
+    "_resolved": "clone_criterion and heard_not_told_scope were ruled by the PI on 2026-11-03 and moved to pi_decisions_resolved (D-G0P-02, D-G0P-03). The questions are kept there with their reasoning, not deleted.",
     "requirements_txt": "Whether to pin the six named packages, and what to do with the five installed-but-unused ones."
+  },
+  "pi_decisions_resolved": {
+    "D-G0P-02_clone_criterion": {
+      "consequence": "B.1 step 3 is met on 2 of 3 clones and on every phase except reasked/restarted of learn/d1; that cell is EXCLUDED from the noise-floor claim rather than averaged into it, and its rows remain printed with their values.",
+      "decided_by": "PI",
+      "decided_on": "2026-11-03",
+      "fail_closed_default": "`ask` is a graded field the ruling did not enumerate; it is held to the identity standard rather than treated as noise. Zero ask differences were observed, so the choice is immaterial today.",
+      "implemented_in": [
+        "tools/bench_noise_floor.py",
+        "tools/noise_floor_report.py",
+        "experiments/G0-prime/results/noise_floor/noise_floor.json",
+        "experiments/G0-prime/results/noise_floor/per_arm_breakdown.json"
+      ],
+      "r2_note": "A criterion changed after the result was seen. It is defensible only because (a) was pre-registered as one of three options before the run, the tolerance is narrower than the literal rule in the graded fields, and the offending cell is named rather than absorbed. Stated in decision.md section 10.",
+      "reasoning": "`said` is NOT tolerated because the single graded difference the clones produced IS the says-gap row (learn/d1/reasked[120], the narration frame appearing and vanishing), and `said` is the field MP-E9 grades. Tolerating it would buy a clean clone verdict at the cost of C1/C2/H2.",
+      "ruling": "R13 option (a): a registered tolerance, field-level and narrow. Identity required on cls, said, src, item, shape, mech, taught, own, answered; only `reason` tolerated."
+    },
+    "D-G0P-03_heard_not_told_scope": {
+      "consequence": "C1 fires at 16, not 22. The 6 heard rows stay visible in every audit rather than being silently admitted into the trace set: severity changed, visibility did not.",
+      "decided_by": "PI",
+      "decided_on": "2026-11-03",
+      "implemented_in": [
+        "tools/word_provenance.py",
+        "experiments/G0-prime/results/word_provenance_audit.json"
+      ],
+      "reasoning": "The word reached the organism through the harness's own probe -- a leakage channel in the instrument, not confabulation by the organism.",
+      "ruling": "R9 does NOT treat heard-not-told words as aborts. UNTRACEABLE_HEARD is a third class: reported and counted, non-aborting, distinct from UNTRACEABLE_ASSERTED."
+    },
+    "D-G0P-04_suite_measurement": {
+      "decided_by": "PI instruction, 2026-11-03",
+      "measured": "1,167 collected / 1,167 reached / 0 collected-but-not-executed / returncode 0 / 0 failures / 3 skipped / 528.27 s",
+      "not_a_chase": "The previous run already proved 0 missing; the tree had changed and the claim was an inference. The 1,164 -> 1,167 move is attributed by node id in decision.md section 7.",
+      "ruling": "Run the full suite once more, alone, to convert the gate's last inferred number into a measurement."
+    }
   },
   "plan_source": "DROSO Master Plan v1.1 sections 4.1, 8.1, 8.3 and Appendix B.1",
   "pre_flag_snapshot_re_derivation": {
@@ -875,7 +943,7 @@
     "rule_implemented": "R9 -- every content word in every answer must trace to a taught row, the ask itself, or an admitted source; one untraceable word is an abort condition.",
     "two_severities": {
       "UNTRACEABLE_ASSERTED": "a content word with no source at all. `says` -- not taught, not in the ask, not heard anywhere. This is what R9 was written for and what fails a run.",
-      "UNTRACEABLE_HEARD": "a word that reached the house only inside some OTHER question. `which`, `why`. In his experience, not something he was told. Reported separately and NOT run-fatal, because whether R9 covers heard-not-told material is a ruling about the standard, not an engineering choice; see the open decision.",
+      "UNTRACEABLE_HEARD": "a word that reached the house only inside some OTHER question. `which`, `why`. In his experience, not something he was told. Reported separately and NOT run-fatal, because whether R9 covers heard-not-told material is a ruling about the standard, not an engineering choice; see the open decision. RULED by the PI as D-G0P-03 on 2026-11-03: this class is NOT an abort. C1 fires at 16 asserted rows, not 22. The rows remain reported in every audit -- the ruling changed severity, not visibility.",
       "why_not_collapsed": "collapsing them would let the tool's own severity judgement hide inside its exit code."
     },
     "validation_against_the_three_pinned_sets": {

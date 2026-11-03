@@ -75,6 +75,13 @@ state/_learning_backup_*
 state/house_agent_*
 state/knowledge_ledger.jsonl
 state/h/
+# The bench's own scratch live state, written under state/electric_chat/ by
+# tools/electric_learn_bench.py. Same class as state/language_state.json above: a runtime dropping,
+# regenerable by re-running the bench, never evidence. Added because the `state/**/*.npz` family
+# covered six of its seven files and left `neural_lang.json` showing up as untracked noise.
+# Convention unchanged from R10: state/ stays ignored, artifacts that must be consulted live in
+# experiments/*/results/ and are re-included explicitly, never by un-ignoring this area.
+state/electric_chat/
 state/*.log
 state/*.pid
 state/battery_*.txt

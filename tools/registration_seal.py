@@ -67,6 +67,12 @@ DEFAULT_MANIFEST = [
     "tools/suite_manifest.py",
     # The sealed suite baseline itself. Added only now that the file exists -- see the note above.
     "experiments/G0-prime/results/suite_manifest.json",
+    # MP-E9's harness, its tests, and the wiring-validation artifact. Listed here because all three are
+    # committed in the same commit as this line: a manifest entry for an uncommitted file makes the
+    # index cross-check fail on `in_index != total`, which is the correct outcome but the wrong reason.
+    "tools/mp_e9_gate.py",
+    "tests/test_mp_e9_gate.py",
+    "experiments/MP-E9/results/gate_validation.json",
     "tests/test_word_provenance.py",
     "tests/test_g0_prime_instruments.py",
     "experiments/G0-prime/tier_protocol.json",
@@ -194,6 +200,26 @@ def seal(reg_path: pathlib.Path) -> dict:
     hh["sealed_at_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     hh["git_head"] = git("rev-parse", "HEAD")
     hh["git_dirty"] = bool(git("status", "--porcelain"))
+    # The ordering rule, written by the tool rather than by prose someone might not read. The seal
+    # records the CURRENT HEAD as the commit it is anchored to, so the only way that anchor can contain
+    # the bytes being hashed is for the bytes to be committed first. Stamping a dirty tree produces a
+    # seal that names a commit which does not contain its own artifacts -- unfalsifiable, and the same
+    # defect class as the plan's stale 0b5f191. `git_dirty` above is the tell; `anchor` below is the test.
+    hh["stamp_ordering"] = {
+        "rule": "COMMIT FIRST, THEN STAMP, THEN COMMIT THE STAMP. Never stamp a dirty tree.",
+        "why": ("git_head is the commit the seal claims to describe. If the sealed bytes are still "
+                "uncommitted when the stamp is taken, git_head names a commit that does not contain "
+                "them, and there is no checkout you can verify the seal against."),
+        "procedure": [
+            "1. commit the artifacts (tools/, tests/, results/)",
+            "2. run registration_seal.py <registration.json>   # git_head now contains those blobs",
+            "3. commit the registration (the stamp itself)",
+            "4. registration_seal.py <registration.json> --check   # must be clean at that HEAD",
+        ],
+        "this_stamp_was_taken_with_git_dirty": bool(git("status", "--porcelain")),
+        "checked_by": "registration_seal.py --check (anchor section) and "
+                      "tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files",
+    }
     hh["seal_basis"] = {
         "chosen": "(a) seal the git blob, not the worktree bytes",
         "canonical": ["git_blob_sha1 (git hash-object, autocrlf clean applied)",
@@ -257,9 +283,12 @@ def check(reg_path: pathlib.Path) -> int:
             print(f"    ... {len(resolved) - 6} more")
     ok = len(files) - len(bad)
     print(f"[seal] {ok}/{len(files)} files match the registration on the git blob")
-    if not bad and files:
+    if files:
         # Cross-check against the index for whatever is committed: the strongest available statement,
         # because it compares the seal to what git actually holds rather than what it would hold.
+        # This block used to be gated on `not bad`, so it was SKIPPED whenever the worktree had drifted
+        # -- i.e. exactly when its information was most wanted, and the new regression test then failed
+        # for lack of a line to parse. An accounting that runs only on sunny days is not accounting.
         idx = git("ls-files", "-s", "--", *files)
         # `git ls-files -s` prints "<mode> <sha> <stage>\t<path>". The old parse did l.split() and keyed
         # the dict on r[0] -- THE MODE -- so all 100644 files collapsed into one key: the line always
@@ -284,7 +313,43 @@ def check(reg_path: pathlib.Path) -> int:
               f"{len(drift)} disagree with their index blob")
         for f, a, b in drift:
             print(f"  INDEX-DRIFT {f}: sealed {a[:10]} vs index {b[:10]}")
-        return 1 if drift else 0
+
+        # THE ANCHOR. The two checks above compare the seal to the worktree and to the index -- both of
+        # which are LOCAL, mutable state. Neither can answer the only question that makes a seal
+        # falsifiable: does the commit this registration NAMES actually contain the bytes it HASHES?
+        # Stamping a dirty tree answers "no", and every check above still passes, because the worktree
+        # agrees with itself. That is how both registrations came to record 698a6d3 while hashing files
+        # that commit has never seen -- the same defect class as the plan's stale 0b5f191.
+        head = reg.get("harness_hashes", {}).get("git_head") or ""
+        anchor_bad = []
+        in_head = {}
+        if head:
+            for line in git("ls-tree", "-r", head, "--", *files).splitlines():
+                meta, sep, path = line.partition("\t")
+                if not sep:
+                    continue
+                parts = meta.split()
+                if len(parts) >= 3 and parts[1] == "blob":
+                    in_head[path.replace("\\", "/")] = parts[2]
+        else:
+            anchor_bad.append(("<git_head>", "no commit recorded -- seal is anchored to nothing"))
+        for f, was in files.items():
+            want = was.get("git_blob_sha1")
+            got = in_head.get(f)
+            if got is None:
+                anchor_bad.append((f, f"absent from {head[:9]}: stamped before it was committed"))
+            elif want and got != want:
+                anchor_bad.append((f, f"sealed {want[:10]} but {head[:9]} holds {got[:10]}"))
+        print(f"[seal] anchor: {len(files) - len(anchor_bad)}/{len(files)} sealed blobs are present, "
+              f"byte for byte, in git_head {head[:9] or '(none)'}")
+        for f, why in anchor_bad[:12]:
+            print(f"  HEAD-MISSING {f}: {why}")
+        if len(anchor_bad) > 12:
+            print(f"  ... {len(anchor_bad) - 12} more")
+        # Three kinds of disagreement, all fatal: worktree drift, index drift, and an anchor that does
+        # not hold. Worktree drift used to return 1 by never reaching this line; an unanchored seal used
+        # to return 0 because nothing looked.
+        return 1 if (bad or drift or anchor_bad) else 0
     return 1
 
 

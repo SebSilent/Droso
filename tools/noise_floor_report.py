@@ -33,7 +33,11 @@ import tools.bench_noise_floor as nf        # noqa: E402
 D = HERE / "experiments" / "G0-prime" / "results" / "noise_floor"
 # arm A of MP-E8 is the learn configuration; the bench's own arms are control/teach/learn.
 ARM_A = "learn"
-GRADED_FIELDS = tuple(f for f in nf.GRADED if f != "reason")
+# ONE source of truth for the field classes: the comparator owns them and this report does not restate
+# them. REQUIRED_FIELDS is R13(a)'s nine identity fields plus `ask`, which the ruling did not enumerate
+# and which is therefore held to the identity standard (fail-closed) instead of being treated as noise.
+GRADED_FIELDS = nf.REQUIRED_FIELDS
+TOLERATED_FIELDS = nf.TOLERATED_FIELDS
 
 
 def arm_of(coord: str) -> str:
@@ -96,6 +100,26 @@ def main() -> int:
         concentration["coordinates"].add(coord + "]")
     graded_coords = sorted({x.split("].", 1)[0] + "]" for x in all_diffs if "]." in x
                             and x.split("].", 1)[1].split(":")[0] in GRADED_FIELDS})
+    # R13(a), as ruled: identity on the graded fields, `reason` tolerated as noise, and the one cell the
+    # PI named EXCLUDED from the claim. The excluded rows are printed in full rather than dropped --
+    # exclusion from a noise-floor claim is not erasure of the difference.
+    graded_diffs = [x for x in all_diffs if "]." in x and field_of(x) in GRADED_FIELDS]
+    graded_excluded = [x for x in graded_diffs if nf.in_excluded_cell(x.split("].", 1)[0] + "]")]
+    graded_outside = [x for x in graded_diffs if x not in graded_excluded]
+    r13a = {
+        "identity_fields": list(nf.IDENTITY_FIELDS),
+        "tolerated_fields": list(nf.TOLERATED_FIELDS),
+        "unenumerated_held_to_identity": list(nf.UNENUMERATED_FIELDS),
+        "excluded_cells": ["/".join(c) for c in nf.R13A_EXCLUDED_CELLS],
+        "graded_differences_total": len(graded_diffs),
+        "graded_differences_in_excluded_cell": len(graded_excluded),
+        "graded_differences_outside_excluded_cell": len(graded_outside),
+        "excluded_rows": graded_excluded,
+        "outside_excluded_rows": graded_outside,
+        "reason_only_differences": sum(1 for x in all_diffs if field_of(x) in TOLERATED_FIELDS),
+        "verdict": ("MET WITH REGISTERED EXCLUSION" if not graded_outside
+                    else "NOT REPRODUCIBLE UNDER R13(a)"),
+    }
     concentration["coordinates"] = sorted(concentration["coordinates"])
     concentration["distinct_rows_touched"] = len(concentration["coordinates"])
     concentration["distinct_rows_with_graded_field_difference"] = len(graded_coords)
@@ -135,6 +159,11 @@ def main() -> int:
             "graded_identity_all_arms": all_graded == 0,
             "arm_A_graded_identity": arm_a_graded == 0,
         },
+        # Kept beside the literal verdict, not instead of it: the original B.1 wording failed, and a
+        # reader of this artifact must be able to see both the failure and the ruled criterion that
+        # supersedes it, with the excluded rows named.
+        "criterion_literal": "B.1 step 3 as written: identical outcomes row for row, every graded field",
+        "r13a": r13a,
         "samples": samples,
         "interpretation": (
             "A difference in cls/said/src/item/shape/mech/taught/own/answered can change a result and "
@@ -166,6 +195,14 @@ def main() -> int:
     print(f"[report] all arms identical, strict (incl. reason strings): "
           f"{v['strict_identity_all_arms']}")
     print(f"[report] all arms identical in GRADED fields only: {v['graded_identity_all_arms']}")
+    print(f"[report] R13(a) {r13a['verdict']}: {r13a['graded_differences_total']} graded-field "
+          f"difference(s), {r13a['graded_differences_in_excluded_cell']} inside the registered excluded "
+          f"cell, {r13a['graded_differences_outside_excluded_cell']} outside it "
+          f"(reason-only differences tolerated: {r13a['reason_only_differences']})")
+    for x in r13a["excluded_rows"]:
+        print(f"   EXCLUDED CELL {x}")
+    for x in r13a["outside_excluded_rows"]:
+        print(f"   OUTSIDE EXCLUSION {x}")
     print(f"[report] -> {dest.relative_to(HERE).as_posix()}")
     return 0
 

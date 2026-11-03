@@ -223,6 +223,54 @@ def test_index_cross_check_is_not_vacuous():
         assert "INDEX-DRIFT" not in r.stdout, f"{reg.relative_to(ROOT)}:\n{r.stdout}"
 
 
+def test_registration_head_contains_its_sealed_files():
+    """A seal must name a commit that ALREADY CONTAINS the bytes it hashes.
+
+    Both registrations recorded git_head 698a6d3 while hashing bench_noise_floor.py's R13a fields,
+    tools/mp_e9_gate.py, tests/test_mp_e9_gate.py, gate_validation.json and 22 new tests -- none of
+    which 698a6d3 has ever seen. Every other check passed, because the worktree agrees with itself and
+    the index agrees with the worktree. Only asking the COMMIT exposes it, and that is the same defect
+    class as the plan's stale 0b5f191: a hash pointed at bytes that do not exist where the record says
+    they do. Unfalsifiable, however internally consistent.
+
+    This is the check the ordering rule exists to satisfy: commit, THEN stamp.
+    """
+    for reg in REGS:
+        d = json.loads(reg.read_text(encoding="utf-8"))
+        hh = d.get("harness_hashes", {})
+        head = hh.get("git_head") or ""
+        files = hh.get("files") or {}
+        assert head, f"{reg.relative_to(ROOT)} has no git_head to anchor to"
+        assert len(files) > 1, f"{reg.relative_to(ROOT)} seals {len(files)} file(s)"
+
+        r = subprocess.run(["git", "ls-tree", "-r", head, "--", *files],
+                           cwd=str(ROOT), capture_output=True, text=True)
+        assert r.returncode == 0, f"git ls-tree {head[:9]} failed: {r.stderr}"
+        in_commit = {}
+        for line in r.stdout.splitlines():
+            meta, sep, path = line.partition("\t")
+            if not sep:
+                continue
+            parts = meta.split()
+            if len(parts) >= 3 and parts[1] == "blob":
+                in_commit[path.replace("\\", "/")] = parts[2]
+
+        absent = [f for f in files if f not in in_commit]
+        wrong = [(f, files[f].get("git_blob_sha1"), in_commit[f])
+                 for f in files if f in in_commit
+                 and files[f].get("git_blob_sha1") != in_commit[f]]
+        assert not absent, (
+            f"{reg.relative_to(ROOT)} seals {len(absent)} file(s) that are ABSENT from its own "
+            f"git_head {head[:9]} -- the stamp was taken before they were committed:\n  "
+            + "\n  ".join(sorted(absent)[:15]))
+        assert not wrong, (
+            f"{reg.relative_to(ROOT)} disagrees with git_head {head[:9]} on {len(wrong)} file(s):\n"
+            + "\n".join(f"  {f}: sealed {a[:10]} vs commit {b[:10]}" for f, a, b in wrong[:15]))
+        assert hh.get("git_dirty") is False, (
+            f"{reg.relative_to(ROOT)} was stamped on a DIRTY tree (git_dirty={hh.get('git_dirty')!r}); "
+            f"the seal then describes a commit that cannot contain those bytes")
+
+
 def test_report_coordinate_count_is_not_a_display_artefact():
     """The first version of tools/noise_floor_report.py built its coordinate set from the capped
     8-row preview, so it published "8 distinct rows touched" when 11 rows actually moved -- a display
@@ -287,3 +335,116 @@ def test_seals_cannot_kill_a_run_over_a_missing_sysconfig_key():
     r = subprocess.run([_sys.executable, "-c", src], capture_output=True, text=True, cwd=str(ROOT))
     assert r.returncode == 0, r.stderr[-800:]
     assert "prefix_ok True" in r.stdout
+
+
+# ------------------------------------------------------------------ R13(a), as ruled by the PI
+#
+# These pin a DECISION, not an invention of the agent's. The PI chose R13 option (a) -- a registered
+# tolerance, field-level and narrow -- after B.1 step 3 was falsified by measurement. The tests below
+# encode the ruling's shape: nine identity fields, one tolerated field, one excluded cell, and a
+# fail-closed default for anything the ruling did not enumerate.
+
+RULED_IDENTITY = {"cls", "said", "src", "item", "shape", "mech", "taught", "own", "answered"}
+
+
+def _row(**kw):
+    base = dict(ask="when does the bell toll", said="the bell tolls", cls="correct",
+                src="electric_taught", item="bell", shape="pair_exact", mech="m",
+                taught="the bell tolls", own="the bell tolls", reason="coverage 40%", answered=1)
+    base.update(kw)
+    return base
+
+
+def _flat(phase, *rows):
+    doc = {"arms": {"learn": {"probes": {"1": {phase: list(rows)}}}},
+           "told": ["the bell tolls"], "failures": [], "items": 40, "probes": 136, "summary": {}}
+    return nf.flat(doc)
+
+
+def test_r13a_identity_fields_are_exactly_the_ruled_nine():
+    assert set(nf.IDENTITY_FIELDS) == RULED_IDENTITY
+    assert nf.TOLERATED_FIELDS == ("reason",)
+    assert "reason" not in nf.IDENTITY_FIELDS
+    # The PI named `said` explicitly: the one graded difference the clones produced IS the says-gap
+    # row, and `said` is what MP-E9 grades. Tolerating it would buy reproducibility with the currency
+    # the next gate spends.
+    assert "said" in nf.IDENTITY_FIELDS
+    assert set(nf.GRADED) == RULED_IDENTITY | {"reason", "ask"}
+
+
+def test_r13a_tolerates_a_reason_difference_and_still_reports_it():
+    v = nf.r13a_assess({"p": nf.diff_records(_flat("live", _row()),
+                                             _flat("live", _row(reason="coverage 41%")))})
+    assert v["tolerated_reason_only"] == 1
+    assert v["identity_outside_excluded_cell"] == 0
+    assert v["verdict"] == "MET WITH REGISTERED EXCLUSION"
+    # Tolerated is not invisible: a noise floor that hides the noise it forgave is not a measurement.
+    assert v["differences_total"] == 1
+    assert v["rows_touched_list"] == ["learn/d1/live[0]"]
+
+
+def test_r13a_does_not_tolerate_a_said_difference():
+    v = nf.r13a_assess({"p": nf.diff_records(_flat("live", _row(said="the bell tolls")),
+                                             _flat("live", _row(said="the bell rings")))})
+    assert v["identity_outside_excluded_cell"] == 1
+    assert v["tolerated_reason_only"] == 0
+    assert v["verdict"] == "NOT REPRODUCIBLE UNDER R13(a)"
+
+
+def test_said_inside_the_excluded_cell_is_counted_as_a_difference_not_as_noise():
+    """The excluded cell is EXCLUDED from the claim, not reclassified as tolerance. The row still shows
+    up as an identity difference, so the artifact cannot read as if the instrument agreed with itself."""
+    v = nf.r13a_assess({"p": nf.diff_records(
+        _flat("reasked", _row(said="droso says when does the bell toll")),
+        _flat("reasked", _row(said="when the bell toll")))})
+    assert v["identity_in_excluded_cell"] == 1
+    assert v["tolerated_reason_only"] == 0
+    assert v["rows_touched_list"] == ["learn/d1/reasked[0]"]
+
+
+def test_unenumerated_ask_is_held_to_identity_fail_closed():
+    """The ruling enumerated nine identity fields and one tolerated field, and did not mention `ask`.
+    Silence from a ruling is not permission: an unenumerated field is not noise by default."""
+    assert "ask" in nf.UNENUMERATED_FIELDS and "ask" in nf.REQUIRED_FIELDS
+    v = nf.r13a_assess({"p": nf.diff_records(_flat("live", _row(ask="when does the bell toll")),
+                                             _flat("live", _row(ask="when does the bell ring")))})
+    assert v["identity_outside_excluded_cell"] == 1
+
+
+def test_sealed_clones_meet_r13a_only_with_the_registered_exclusion():
+    d = json.loads((ROOT / "experiments" / "G0-prime" / "results" / "noise_floor" /
+                    "noise_floor.json").read_text(encoding="utf-8"))
+    r = d["criterion_r13a"]
+    assert r["verdict"] == "MET WITH REGISTERED EXCLUSION"
+    assert r["identity_outside_excluded_cell"] == 0
+    assert r["identity_in_excluded_cell"] == 2      # the same row, seen from both diverging pairs
+    assert r["tolerated_reason_only"] == 20
+    assert r["rows_touched"] == 11
+    # The literal B.1 wording is NOT rewritten by the tolerance. A reader must see that the original
+    # rule failed, or the registered criterion silently becomes "whatever the tool now reports".
+    assert d["noise_floor_verdict"] == "NOT REPRODUCIBLE"
+    assert "row for row" in d["criterion_literal"]
+
+
+def test_the_excluded_cell_is_the_says_gap_row_itself():
+    p = json.loads((ROOT / "experiments" / "G0-prime" / "results" / "noise_floor" /
+                    "per_arm_breakdown.json").read_text(encoding="utf-8"))
+    ex = p["r13a"]["excluded_rows"]
+    assert ex, "the excluded cell must be named in the artifact, not merely counted"
+    assert all(e.startswith("learn/d1/reasked[120].said:") for e in ex)
+    for e in ex:
+        vals = e.split(": ", 1)[1]
+        assert "droso says when does the bell toll" in vals and "when the bell toll" in vals
+    assert p["r13a"]["graded_differences_outside_excluded_cell"] == 0
+
+
+def test_comparator_and_report_agree_because_they_share_one_field_definition():
+    n = json.loads((ROOT / "experiments" / "G0-prime" / "results" / "noise_floor" /
+                    "noise_floor.json").read_text(encoding="utf-8"))
+    p = json.loads((ROOT / "experiments" / "G0-prime" / "results" / "noise_floor" /
+                    "per_arm_breakdown.json").read_text(encoding="utf-8"))
+    assert n["criterion_r13a"]["verdict"] == p["r13a"]["verdict"]
+    assert n["configuration"]["identity_fields_r13a"] == p["r13a"]["identity_fields"]
+    assert (p["r13a"]["graded_differences_total"]
+            == n["criterion_r13a"]["identity_in_excluded_cell"]
+            + n["criterion_r13a"]["identity_outside_excluded_cell"])

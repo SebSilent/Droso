@@ -8,15 +8,18 @@ four commits — `b7f1da4`, `e09c0b9`, `0b5f191`→`5d03621` handover-note commi
 `git diff --stat 0b5f191 HEAD -- tests/ organs/` is empty. No organ or harness code differs, so the
 plan's measured baseline still applies. This discrepancy is recorded at opening rather than silently
 absorbed.
-**Status:** **CLOSED, conditional on B.1 step 3 — carried forward, not resolved here.** Five of six
-B.1 steps are met and sealed. Step 3 — "three clones … must produce identical outcomes row for row" —
-**is falsified by measurement** (11 of 3,672 rows move; §4), and the choice among the three
-pre-registered R13 resolutions is the PI's, not mine. The suite blocker that also gated this record is
+**Status:** **CLOSED under R13(a) as ruled by the PI (D-G0P-02) — with one named cell excluded. NOT
+closed as "identical row for row", which measurement falsified and still falsifies.** Six of six B.1
+steps are met or met-with-a-registered-exception. Step 3 — "three clones … must produce identical
+outcomes row for row" remains **falsified as written**; it was resolved by the PI selecting from the three
+R13 options **pre-registered before the run**, not by the agent, and the literal verdict is retained in
+both artifacts as `NOT REPRODUCIBLE`. See §10. The suite blocker that also gated this record is
 **closed, and now measured rather than inferred**: 1,167 collected, 1,167 reached,
 0 collected-but-not-executed, **returncode 0, 0 failures, 3 skipped, 528.27 s** (§7). The earlier
 exit-1 run stays on the record; the 1,164 → 1,167 move is attributed node-id by node-id and is not
-collection instability. Blocker 1 and the two open decisions travel with the gate into MP-E9 rather than
-being quietly answered.
+collection instability. Blocker 1 was ruled by the PI as D-G0P-02 and the heard-not-told scope as
+D-G0P-03 (§10); one question — `requirements.txt` pinning — is still open and travels with the gate into
+MP-E9 rather than being quietly answered by the agent.
 
 ---
 
@@ -43,7 +46,7 @@ Everything that passed, passed because of that. Everything that failed, failed b
 |---|---|---|---|
 | 1 | Word-level provenance grader, audit trail per row | **MET** | `tools/word_provenance.py`, `experiments/G0-prime/results/word_provenance_audit.json` |
 | 2 | Validate: flags the says-gap rows, none of the 24 guarded-absence rows, committed as a regression pin | **MET** | `tests/test_word_provenance.py` |
-| 3 | Noise floor: three clones at depths 1/2/3 **identical row for row**; publish clone rows | **NOT MET** | clones published; 11 rows move. §4 below |
+| 3 | Noise floor: three clones at depths 1/2/3 **identical row for row**; publish clone rows | **NOT MET as literally written** — **MET under D-G0P-02 with one named cell excluded** | clones published; 11 rows move, 20 differences reason-only, 1 graded row. The literal verdict is still recorded as `NOT REPRODUCIBLE` in both artifacts. §4, §10 |
 | 4 | Commit harness, registration schema, failure taxonomy, journals, with harness version hashes | **MET** | `experiments/G0-prime/{registration,failure_taxonomy}.json`, `harness_hashes` manifest |
 | 5 | Register tier protocol: 40/120/300 items, matrices scaling from the registered 136 | **MET** | `experiments/G0-prime/tier_protocol.json` |
 | 6 | Write decision.md; gate does not close until every artifact is committed and sealed | **MET** | this file, committed; both registrations stamped and `--check` clean; suite baseline sealed as `results/suite_manifest.json` |
@@ -232,8 +235,11 @@ from prediction to confirmation. It now prints `RESOLVED` and does not count as 
 
 ## 7. Open blockers, and what the PI must decide
 
-**Blocker 1 — B.1 step 3 (clone identity).** The criterion is falsified by measurement. Choose R13
-(a)/(b)/(c). §4's recommendation is (a) at field level. Nothing else in this gate is blocked on it.
+**Blocker 1 — B.1 step 3 (clone identity). RULED by the PI as D-G0P-02.** The criterion was falsified by
+measurement; the PI chose R13 (a), a registered tolerance written field-level and narrow, with
+`learn/1/reasked` and `learn/1/restarted` excluded from the noise-floor claim. The reasoning, the refusal
+to tolerate `said`, and the R2 problem this creates are in §10 — that section, not this one, is the
+decision record.
 
 **Blocker 2 — CLOSED on the substance; the residual exit code has a named cause.** The instrument for
 this is `tools/suite_manifest.py`: it collects once, runs the suite **once** with `--junit-xml`, and
@@ -316,10 +322,15 @@ The 3 skips are the pre-existing `legacy_archive` ones, named from the XML:
 `test_reasoning::test_backtrack_switches_approach_and_can_recover`. The 5 warnings are the pre-existing
 `PytestUnknownMarkWarning: Unknown pytest.mark.integration` set. Both match the handover.
 
-**Open decision — `heard-not-told` scope.** 6 rows. Determines whether C1 fires at 16 or 22.
+**Ruled — `heard-not-told` scope.** See §10, decision D-G0P-03. C1 fires at 16.
 
-**Open decision — `requirements.txt`.** Whether to pin the six named packages and what to do with the
-installed-but-unused ones.
+**Still open — `requirements.txt`.** `requirements.txt` names six packages with no version pins, plus
+`pypdf` added this session because a tracked file imports it. The exact measured environment — 29
+packages, versions pinned — is in `results/requirements.lock.txt`. `fastapi`, `starlette`, `uvicorn`,
+`pydantic` and `anyio` are installed and imported by nothing in the repository. Whether the requirements
+file grows version pins, and what to do with those five, is still the PI's call: the requirements file
+and the environment the numbers were measured in are not the same set, and a seal cannot be built on
+that difference.
 
 **Risk registered (not a to-do an agent discovers at the gate).** Per the plan, MP-E8 arms B and C
 require a **from-scratch 2–10M LSTM / tiny-transformer harness plus an abstention mechanism**. No such
@@ -385,3 +396,94 @@ on prose.
 Clones and the suite must **not** run concurrently: CPU contention perturbs the time-dependent organism
 and contaminates the noise measurement. That is not caution — it is §4's mechanism, and running them
 together would manufacture the very differences this record is trying to bound.
+
+---
+
+## 10. The PI's rulings, recorded as decisions
+
+Everything in §1–§9 above was done by the agent and is written as such. This section is different in
+kind: **three decisions were made by the PI on 2026-11-03 and handed down.** They are recorded here with
+their reasoning because a decision record that keeps only the outcome loses the part that constrains the
+next case — and because the difference between "the agent chose this" and "the PI ruled this" is exactly
+what R2 turns on. The agent's role was to implement them, to test them, and to say plainly where a
+ruling left the record weaker than one would like.
+
+### D-G0P-02 — the clone criterion: R13 option (a), field-level and narrow
+
+B.1 step 3 read *three clones … identical outcomes row for row*. §4 falsified that: 11 of 3,672 rows
+moved, 20 differences confined to `reason`, and exactly one row differing in a graded field.
+
+**Ruling.** Identity is required on `cls`, `said`, `src`, `item`, `shape`, `mech`, `taught`, `own`,
+`answered`. Only `reason` is tolerated as noise.
+
+**Why `said` is not tolerated, and why that mattered more than the reproducibility it costs.** The one
+graded difference the clones produced *is* the says-gap row — `learn/d1/reasked[120]`,
+`'droso says when does the bell toll'` against `'when the bell toll'`, the narration frame appearing and
+vanishing. `said` is the field MP-E9 grades: C1, C2 and H2 all read it. A tolerance that forgave `said`
+would have bought a clean clone verdict by weakening the instrument on the precise quantity the next gate
+spends. The tolerance therefore buys reproducibility on the organ's self-commentary and pays nothing that
+is scored.
+
+**Consequence, registered rather than smoothed.** B.1 step 3 is met **on 2 of 3 clones** and on every
+phase **except `reasked`/`restarted` of `learn/d1`**. That cell is **excluded from the noise-floor claim
+rather than averaged into it** — the rows stay in both artifacts with their values printed
+(`r13a.excluded_rows`), and they are counted as identity differences, not as noise. Exclusion is not
+forgiveness; the difference is still on the record, it just no longer contaminates the bound.
+
+**Fail-closed on the field the ruling did not name.** `ask` is a graded field that the ruling's
+enumeration omitted. Silence from a ruling is not permission: an unenumerated field is held to the
+identity standard (`UNENUMERATED_FIELDS` → `REQUIRED_FIELDS`), not quietly folded into the tolerance. It
+is immaterial today — zero `ask` differences were observed — but the default is the one that cannot hide
+a difference.
+
+**Long-term fix: scheduled, not improvised.** R13 option (b), an injectable clock, is the correct fix and
+is recorded as such. §4 supplies the mechanism: the organ reads `time.time()` in its answer path, so a
+coverage percentage in a `reason` string can move with machine load. Replacing that clock is a change to
+`organs/`, and **`organs/` is not touched without its own registered design step** — the same reason
+MP-E9's H1 must not be allowed to pass or fail on load.
+
+**The R2 problem, stated plainly.** This is a criterion changed after the result was seen. Three things
+separate it from the thing R2 forbids: (a) was one of three resolutions **written down before the run**;
+the ruling *selected* from a pre-registered menu rather than inventing an escape. The tolerance is
+**narrower than the literal rule in the graded fields** — it forgives one field and no classes. And the
+offending cell is **named and excluded**, not absorbed. What it is not, is innocent of timing: the PI saw
+the measurement before ruling, and the record says so.
+
+### D-G0P-03 — heard-not-told: a third class, non-aborting
+
+**Ruling.** R9 does **not** treat these as aborts. `UNTRACEABLE_HEARD` is a third class — reported and
+counted, non-aborting, distinct from `UNTRACEABLE_ASSERTED`.
+
+**Reasoning.** The word reached the organism through **the harness's own probe**. `which` and `why`
+appear in the house's vocabulary only because the measurement instrument asked a question containing
+them. That is a leakage channel in the instrument, not confabulation by the organism. Aborting a run
+because the measuring device fed the subject a word punishes the organism for the instrument's design.
+
+**Consequence.** **C1 fires at 16, not 22.** The 6 heard rows **stay visible in every audit** rather than
+being silently admitted into the trace set: the ruling changes their *severity*, not their *visibility*.
+Had the ruling gone the other way, MP-E9's H1 threshold would have had to be re-scoped before the
+experiment opened — which is why the question was asked before opening rather than during.
+
+The grader already implemented this split before the ruling arrived, including the exit-code asymmetry
+(fatal on `ASSERTED` only). The ruling therefore *confirms* an instrument behaviour rather than requiring
+a code change, and the honest description of this event is that a pending decision was retired, not that
+a defect was fixed.
+
+### D-G0P-04 — the suite measurement
+
+The gate's last inferred number was converted to a measurement: **1,167 collected, 1,167 reached, 0
+collected-but-not-executed, returncode 0**, run alone. This was not a re-run in search of a better total
+— the previous run had already proved 0 missing. The tree had changed and the claim was an inference. See
+§7 for the node-id attribution of the 1,164 → 1,167 move.
+
+### What was implemented, and how it is pinned
+
+| Ruling | Implementation | Pinned by |
+|---|---|---|
+| D-G0P-02 | `tools/bench_noise_floor.py`: `IDENTITY_FIELDS`, `TOLERATED_FIELDS`, `R13A_EXCLUDED_CELLS`, `diff_records`, `r13a_assess`; `tools/noise_floor_report.py`: `r13a` block, one shared field definition | `test_r13a_identity_fields_are_exactly_the_ruled_nine`, `test_r13a_tolerates_a_reason_difference_and_still_reports_it`, `test_r13a_does_not_tolerate_a_said_difference`, `test_said_inside_the_excluded_cell_is_counted_as_a_difference_not_as_noise`, `test_unenumerated_ask_is_held_to_identity_fail_closed`, `test_sealed_clones_meet_r13a_only_with_the_registered_exclusion`, `test_the_excluded_cell_is_the_says_gap_row_itself`, `test_comparator_and_report_agree_because_they_share_one_field_definition` |
+| D-G0P-03 | `tools/word_provenance.py` (already split the classes; exit code fatal on `ASSERTED` only) | `test_c1_counts_the_asserted_class_and_fires_at_sixteen`, `test_heard_rows_are_reported_not_erased` |
+| Both | `experiments/MP-E9/registration.json`: `pi_decisions_resolved`, `numeric_thresholds` transcribed from the prose thresholds, `registration_amendments` with `results_existed: false` | `test_the_ruling_and_the_code_agree_on_the_field_lists`, `test_no_mp_e9_result_exists_yet_and_the_amendments_say_so`, `test_verdicts_move_when_the_registration_moves` |
+
+The last of those tests is the one that matters most for the next gate: it *edits the registration* and
+requires the harness's verdict to move with it. A harness that hardcodes the thresholds would agree with
+the registration today by luck and drift silently later.

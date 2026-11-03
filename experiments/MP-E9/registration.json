@@ -27,7 +27,7 @@
     }
   },
   "analysis_plan": {
-    "noise_tolerance": "Registered before the run, from the G0-prime clone measurement rather than assumed. A difference confined to a coverage percentage inside a `reason` string, moving by at most 1 percentage point, is instrument noise. Any difference in cls, said, src, item or shape is a treatment effect and is counted. This rule exists because re-deriving the pre-flag snapshot at its own commit produced 12 differing rows out of 3,672 with zero code change.",
+    "noise_tolerance": "R13(a) as ruled by the PI (D-G0P-02). ONE source of truth for the field classes: tools/bench_noise_floor.py IDENTITY_FIELDS / TOLERATED_FIELDS / R13A_EXCLUDED_CELLS. Identity is required on cls, said, src, item, shape, mech, taught, own, answered (and on `ask`, which the ruling did not enumerate and which is therefore held to the identity standard, fail-closed); only `reason` is tolerated, and the learn/1/reasked + learn/1/restarted cell is excluded from the noise-floor claim. This replaces the earlier draft, which listed only cls/said/src/item/shape as treatment effects -- a narrower set than the ruling, and a second copy of a standard that belonged in one place.",
     "reported_separately": [
       "asserted-untraceable",
       "heard-not-told",
@@ -63,10 +63,10 @@
       },
       "experiments/G0-prime/decision.md": {
         "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
-        "bytes_worktree": 27974,
-        "git_blob_sha1": "59ed46dc6e17e3189f578ca43974b9080c06c8f1",
+        "bytes_worktree": 36420,
+        "git_blob_sha1": "5d13d59bdf8dae18d28ade049caeae9b79e5ee2e",
         "line_endings": "CRLF",
-        "sha256_lf": "d410683b8ff11bb8515123f55309a9fe3c3ab03a49fa62a113b6a315f0909189",
+        "sha256_lf": "e921ca905dfaed5a8c2f7897564f0452245330743a281550c5a79552397f9199",
         "sha256_of_git_blob": null
       },
       "experiments/G0-prime/failure_taxonomy.json": {
@@ -106,22 +106,20 @@
         "sha256_of_git_blob": "8d98288159f3f764772d3052f00cad57b31c307719f092fcd2c16b024891ab2c"
       },
       "experiments/G0-prime/results/noise_floor/noise_floor.json": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 16257,
-        "bytes_worktree": 16257,
-        "git_blob_sha1": "c3261aa8833e648907424521a48d281b373a6cc7",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 18604,
+        "git_blob_sha1": "85f0af8be83e9eec830b50acdc502fda6929cbb6",
         "line_endings": "LF",
-        "sha256_lf": "e548dcf70f4074fdc6816d8585ff15da78a17d73c06f593772581da997be7c94",
-        "sha256_of_git_blob": "e548dcf70f4074fdc6816d8585ff15da78a17d73c06f593772581da997be7c94"
+        "sha256_lf": "b5df00ca503045ae0bf52e2969c7f97fe944e9d98df1d4afb8c6a744d0a3a27b",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/results/noise_floor/per_arm_breakdown.json": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 7685,
-        "bytes_worktree": 7685,
-        "git_blob_sha1": "19201eaa841a343f6660f3750cca33929e990470",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 8623,
+        "git_blob_sha1": "50bb4aacefdfd16ea2c90c134fd62ef3f1944af6",
         "line_endings": "LF",
-        "sha256_lf": "8df35f97890380626417a1884084627a6ad4ad12531fc58b3ea3737179c55b58",
-        "sha256_of_git_blob": "8df35f97890380626417a1884084627a6ad4ad12531fc58b3ea3737179c55b58"
+        "sha256_lf": "8072b745da6faa40d31f64dd8e89adaae2a500e1f1925a127abc76ed4971fecb",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/results/requirements.lock.txt": {
         "blob_equals_lf_normalised": true,
@@ -133,12 +131,13 @@
         "sha256_of_git_blob": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d"
       },
       "experiments/G0-prime/results/suite_manifest.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1087,
         "bytes_worktree": 1087,
         "git_blob_sha1": "11485c44237361a8f2049db1dfaf2b672b3de264",
         "line_endings": "LF",
         "sha256_lf": "365aaef11021d8da75d940d597ca0237145412a32d3932a8e004d3eadac5e362",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "365aaef11021d8da75d940d597ca0237145412a32d3932a8e004d3eadac5e362"
       },
       "experiments/G0-prime/results/word_provenance_audit.json": {
         "blob_equals_lf_normalised": true,
@@ -213,13 +212,12 @@
         "sha256_of_git_blob": "4db5bcad441c1d8fc9dbce131998ed49c98354ed8aa5e9fa88c246ed4eda7ea7"
       },
       "tests/test_g0_prime_instruments.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 15106,
-        "bytes_worktree": 15395,
-        "git_blob_sha1": "9b2db666e2ecf54c95d7cf2fb83607c8684df0da",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 21533,
+        "git_blob_sha1": "5fca7916162b27501406a66e8b7912a78b9abc57",
         "line_endings": "CRLF",
-        "sha256_lf": "ab2c69bfae421c3920a6da11040152a250821552e641eea358729d482b823f78",
-        "sha256_of_git_blob": "ab2c69bfae421c3920a6da11040152a250821552e641eea358729d482b823f78"
+        "sha256_lf": "865cd1f4dd859fe0eb976af6adb5851be17c7eba95f96f1fc0116dee45be281a",
+        "sha256_of_git_blob": null
       },
       "tests/test_word_provenance.py": {
         "blob_equals_lf_normalised": true,
@@ -231,13 +229,12 @@
         "sha256_of_git_blob": "d587906036f366a001aaafb414eb82b9cf8ac70c23c13bd0eaaaf6d040a252e8"
       },
       "tools/bench_noise_floor.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 10119,
-        "bytes_worktree": 10344,
-        "git_blob_sha1": "ddfb24b1069964b194bfa5ae12e0b6dc031e16bd",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 19710,
+        "git_blob_sha1": "2b7dd9ebf1a21e2d02df222f196ebc240b38babc",
         "line_endings": "CRLF",
-        "sha256_lf": "85bfb78f26b2d5550967df43f6c1b59aff5770175a298a476da47fab7fab578b",
-        "sha256_of_git_blob": "85bfb78f26b2d5550967df43f6c1b59aff5770175a298a476da47fab7fab578b"
+        "sha256_lf": "f7f5775098ee524bb7c5ee40006210411f06086a5e6a96a351e3bcaa912d1bc8",
+        "sha256_of_git_blob": null
       },
       "tools/derive_pre_flag_snapshot.py": {
         "blob_equals_lf_normalised": true,
@@ -267,13 +264,12 @@
         "sha256_of_git_blob": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548"
       },
       "tools/noise_floor_report.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 8323,
-        "bytes_worktree": 8497,
-        "git_blob_sha1": "681851ea48695db3b84d3da917493f79def4fc32",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 11105,
+        "git_blob_sha1": "fb67690a72d46a6499b9fd5b8873bb5b16ec9398",
         "line_endings": "CRLF",
-        "sha256_lf": "36723a970f5f745801c775653a7ed3d30ba91a2dc5a392829c7b20737477d5c5",
-        "sha256_of_git_blob": "36723a970f5f745801c775653a7ed3d30ba91a2dc5a392829c7b20737477d5c5"
+        "sha256_lf": "0c20f93ad1f7111177272c5bcaca71db534a4fdd533b4f3d265e3d863740b88a",
+        "sha256_of_git_blob": null
       },
       "tools/promote_plan_extract.py": {
         "blob_equals_lf_normalised": true,
@@ -285,13 +281,12 @@
         "sha256_of_git_blob": "72f3e00305d9ad6d8bc64b77523fee0ed9ba6ddd77015eb95cb0597a33b16c64"
       },
       "tools/registration_seal.py": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 16695,
-        "bytes_worktree": 17005,
-        "git_blob_sha1": "9df5db06872e059146461117d2a1c0efa88414bb",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 17515,
+        "git_blob_sha1": "1ec306be900a5c5109dbd6879b7fcc4a80be9c40",
         "line_endings": "CRLF",
-        "sha256_lf": "a6e2493bcd099846a75e44b376886a7a421a046e257bc264dde5cb9b1d8b1c28",
-        "sha256_of_git_blob": "a6e2493bcd099846a75e44b376886a7a421a046e257bc264dde5cb9b1d8b1c28"
+        "sha256_lf": "bc30a744f84eb3e63f9b5285f23009c64cd5b96a1bf744d18f74b89a13851710",
+        "sha256_of_git_blob": null
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -313,7 +308,7 @@
       }
     },
     "git_dirty": true,
-    "git_head": "bf0bc40e04232c915c0672b65bc49595ce62d7dd",
+    "git_head": "698a6d3d450b5a91c894c35a982e06c45bfe1185",
     "hash_basis": "sha256 over CRLF-folded-to-LF bytes",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -354,7 +349,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-03T06:07:06Z",
+    "sealed_at_utc": "2026-11-03T06:31:59Z",
     "self_excluded": {
       "path": "experiments/MP-E9/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -364,18 +359,37 @@
     "H1": {
       "directional_prediction": "UNTRACEABLE_ASSERTED rows 16 -> 0.",
       "measured_by": "tools/word_provenance.py --out, over the post-treatment evidence file",
+      "numeric_thresholds": {
+        "asserted_untraceable_rows_max": 0,
+        "heard_not_told_rows": "reported and counted, NOT part of this threshold (D-G0P-03)",
+        "transcribed_from": "0 asserted-untraceable rows in every arm, every depth, every phase. The heard-not-told class (6 rows) is reported separately and is NOT part of this threshold until the PI rules on its scope -- see open_decisions_for_pi."
+      },
       "statement": "Under the word-level grader, zero untraceable content words across the full bench at every depth.",
-      "threshold": "0 asserted-untraceable rows in every arm, every depth, every phase. The heard-not-told class (6 rows) is reported separately and is NOT part of this threshold until the PI rules on its scope -- see open_decisions_for_pi."
+      "threshold": "0 asserted-untraceable rows in every arm, every depth, every phase. The heard-not-told class (6 rows today) is a third class, UNTRACEABLE_HEARD: reported and counted in every audit, NOT an abort -- ruled by the PI as D-G0P-03 on 2026-11-03, which resolves the question this threshold previously left open. The threshold VALUE is unchanged by the ruling: C1 was already written against UNTRACEABLE_ASSERTED, so C1 fires at 16 today and not at 22. Had the PI ruled the other way, H1 would have had to be re-scoped before MP-E9 opened."
     },
     "H2": {
       "directional_prediction": "the 16 `says` rows become cls=refused, src=''; arbiter_tell_rows stays 36; no row loses cls=correct.",
       "measured_by": "positional row matrix against experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.json and against the current committed evidence",
+      "numeric_thresholds": {
+        "arbiter_tell_rows_equal": 36,
+        "rows_losing_correct_max": 0,
+        "says_gap_refused_plus_echo_min": 65,
+        "says_rows_flagged_max": 0,
+        "transcribed_from": "says_rows_flagged == 0 AND arbiter_tell_rows == 36 AND rows_losing_correct == 0 AND says-gap refused+echo rows >= 65 (the 81-row census must not shrink into new speech)."
+      },
       "statement": "The three routing-regression rows return to refused without losing any correct row; the 36 arbiter-tell conversions stay intact.",
       "threshold": "says_rows_flagged == 0 AND arbiter_tell_rows == 36 AND rows_losing_correct == 0 AND says-gap refused+echo rows >= 65 (the 81-row census must not shrink into new speech)."
     },
     "H3": {
       "directional_prediction": "toll-class correct rows 0 -> at least 6 of 54, concentrated in the 16 currently-refused marked asks.",
       "note": "The kin are registered because the defect is the stemmer, not the word: _verb_stem under-folds carries/crosses/catches to carrie/crosse/catche (docs/STATE.md, ELECTRIC_ASK_DO_SUPPORT).",
+      "numeric_thresholds": {
+        "asserted_untraceable_rows_max": 0,
+        "guarded_absence_rows_equal": 24,
+        "invented_rows_max": 0,
+        "toll_correct_min": 6,
+        "transcribed_from": "toll correct >= 6 AND invented_rows == 0 AND UNTRACEABLE_ASSERTED == 0 AND guarded_absence_rows == 24."
+      },
       "registered_kin": [
         "rings/ring",
         "hangs/hang",
@@ -389,6 +403,20 @@
     },
     "H4": {
       "note": "R6 is absolute: a fluency or reach gain that degrades retention or refusal is rejected regardless of size.",
+      "numeric_thresholds": {
+        "absence_admitted_by_form_equal": 24,
+        "battery_frozen_correct": 19,
+        "battery_frozen_total": 24,
+        "battery_guarded_pass": 4,
+        "battery_guarded_total": 4,
+        "guarded_absence_rows_equal": 24,
+        "learn_correct_live_min_by_depth": [
+          38,
+          75,
+          115
+        ],
+        "transcribed_from": "guarded_absence_rows == 24 AND absence rows admitted by the grader's form == 24 AND learn correct at depths 1/2/3 not below 38/75/115 AND battery frozen 19/24 with ELECTRIC off AND battery guarded 4/4."
+      },
       "statement": "Invariants hold: retention and restart survival unchanged, 4/4 guarded battery invariants, 24/24 guarded-absence rows.",
       "threshold": "guarded_absence_rows == 24 AND absence rows admitted by the grader's form == 24 AND learn correct at depths 1/2/3 not below 38/75/115 AND battery frozen 19/24 with ELECTRIC off AND battery guarded 4/4."
     }
@@ -484,9 +512,67 @@
   "name": "Recognition, Morphology, and the Direct Answer Path",
   "objective": "Close the honesty and morphology residuals so the organism MP-E8 measures does not confabulate and does not refuse over a suffix. Three defects, one experiment: the says-gap routing regression, the stemmer boundary on the QA store keys, and the direct answer path's formal bounds.",
   "open_decisions_for_pi": {
-    "1_heard_not_told_scope": "R9 as written ('a taught row, the ask itself, or an admitted source') fails 6 rows whose untraceable word reached the house only inside some OTHER question the harness asked. The bench already classifies those as cross_echo/echo and calls them 'not failures of truthfulness'. The grader therefore reports them at a separate severity and does not fail the run on them. Ruling needed: does R9 cover heard-not-told words? If yes, C1 fires today at 22 rows, not 16, and MP-E9 H1 must be re-scoped before it opens.",
-    "2_instrument_reproducibility": "The plan's G0-prime criterion is 'three clones produce identical outcomes row for row'. Re-deriving the pre-flag snapshot at its own commit diverged on 12 of 3,672 rows. If the clone run confirms non-identity, the criterion as written cannot be met by this instrument, and the gate needs a registered tolerance instead of an equality. That is a decision about the standard, not an engineering fix, and it is not mine to make by editing the criterion.",
-    "3_tier_120_and_300": "Neither exists as code. MP-E8 cannot run them and MP-E10's replay-at-scale depends on them."
+    "3_tier_120_and_300": "Neither exists as code. MP-E8 cannot run them and MP-E10's replay-at-scale depends on them.",
+    "4_requirements_txt_pinning": "STILL OPEN. requirements.txt names six packages with NO version pins (numpy, pandas, scipy, psutil, pytest, pyarrow) plus pypdf, which this session added because a TRACKED file imports it. The exact measured environment -- 29 packages, versions pinned, interpreter 3.12.10 -- is sealed in experiments/G0-prime/results/requirements.lock.txt, generated by tools/freeze_env.py. fastapi, starlette, uvicorn, pydantic and anyio are installed and imported by nothing in the repository. The question is whether requirements.txt grows version pins and what to do with the five unused packages: the requirements file and the environment the numbers were measured in are not the same set, and a seal cannot be built on that difference.",
+    "_resolved": "Decisions 1 (heard-not-told scope) and 2 (instrument reproducibility) were ruled by the PI on 2026-11-03 and moved to pi_decisions_resolved as D-G0P-03 and D-G0P-02. They are recorded as decisions with reasoning, not as agent discoveries."
+  },
+  "pi_decisions_resolved": {
+    "D-G0P-02_clone_criterion": {
+      "consequence_registered": "B.1 step 3 is met WITH a named excluded cell, not outright. The excluded rows stay in the artifact with their values.",
+      "decided_by": "PI",
+      "decided_on": "2026-11-03",
+      "excluded_from_the_noise_floor_claim": [
+        "learn/1/reasked",
+        "learn/1/restarted"
+      ],
+      "identity_required_on": [
+        "cls",
+        "said",
+        "src",
+        "item",
+        "shape",
+        "mech",
+        "taught",
+        "own",
+        "answered"
+      ],
+      "implemented_in": [
+        "tools/bench_noise_floor.py (IDENTITY_FIELDS / TOLERATED_FIELDS / R13A_EXCLUDED_CELLS / r13a_assess)",
+        "tools/noise_floor_report.py (r13a block)",
+        "experiments/G0-prime/results/noise_floor/noise_floor.json",
+        "experiments/G0-prime/results/noise_floor/per_arm_breakdown.json"
+      ],
+      "long_term_fix_scheduled_not_improvised": "R13 option (b), an injectable clock, is the correct fix and is SCHEDULED rather than done here. The time-dependence finding in G0-prime decision.md section 4 is the mechanism: the organ reads time.time() in its answer path, so a clone's coverage percentage can move with machine load. Swapping the clock is an organ change and needs its own registered design step, not a mid-gate improvisation.",
+      "question": "B.1 step 3 requires three clones identical row for row; measurement showed 11 of 3,672 rows moving, 1 of them in a graded field.",
+      "reasoning": [
+        "`said` is deliberately NOT tolerated. The single graded difference the clones produced IS the says-gap row (learn/d1/reasked[120]: 'droso says when does the bell toll' vs 'when the bell toll'), and `said` is the quantity MP-E9 grades. Tolerating it would weaken C1 and C2 on exactly the measurement the next gate depends on.",
+        "The tolerance buys reproducibility on the organ's self-commentary (`reason`, a coverage percentage) and pays for it with nothing that is scored.",
+        "The offending cell is EXCLUDED from the noise-floor claim rather than averaged into it: B.1 step 3 is met on 2 of 3 clones and on every phase except reasked/restarted of learn/d1."
+      ],
+      "ruling": "R13 option (a), a registered tolerance, written FIELD-LEVEL and narrow.",
+      "tolerated_as_noise": [
+        "reason"
+      ]
+    },
+    "D-G0P-03_heard_not_told_scope": {
+      "consequence_registered": "C1 fires at 16, not 22. The 6 heard rows stay visible in every audit rather than being silently admitted into the trace set -- the ruling changes their SEVERITY, not their visibility.",
+      "decided_by": "PI",
+      "decided_on": "2026-11-03",
+      "implemented_in": [
+        "tools/word_provenance.py (VERDICTS, audit_row severity split, exit code fatal on ASSERTED only)",
+        "experiments/G0-prime/results/word_provenance_audit.json",
+        "tests/test_word_provenance.py"
+      ],
+      "question": "Does R9 treat a word that reached the organism only inside another question as an abort? If yes, C1 fires at 22 rows today rather than 16.",
+      "reasoning": "The word reached the organism through the harness's OWN probe. That makes it a leakage channel in the instrument, not confabulation by the organism. Aborting a run because the measuring device fed the subject a word is the instrument punishing itself for its own design.",
+      "ruling": "No. UNTRACEABLE_HEARD is a THIRD CLASS: reported and counted, non-aborting, distinct from UNTRACEABLE_ASSERTED."
+    },
+    "D-G0P-04_suite_measurement": {
+      "decided_by": "PI instruction, 2026-11-03",
+      "measured": "1,167 collected / 1,167 reached / 0 collected-but-not-executed / returncode 0 / 0 failures / 3 skipped / 528.27 s wall.",
+      "note": "Not a re-run in search of a better total: the previous run already proved 0 missing. The tree had changed and the record's remaining claim was an inference.",
+      "ruling": "Run the full suite once more, alone, to convert the gate's last inferred number into a measurement."
+    }
   },
   "plan_source": "DROSO Master Plan v1.1 section 6.1 and Appendix B.2",
   "registered_at": {
@@ -495,8 +581,31 @@
     "plan_baseline_commit": "0b5f191",
     "utc": "2026-11-03T04:20:00Z"
   },
+  "registration_amendments": [
+    {
+      "at": "2026-11-03T06:20:00Z",
+      "kind": "PI ruling incorporated, pre-run",
+      "results_existed": false,
+      "what": "H1's pending clause retired by D-G0P-03; threshold value unchanged (0 ASSERTED rows).",
+      "why": "The registration itself asked for this ruling before MP-E9 opened."
+    },
+    {
+      "at": "2026-11-03T06:20:00Z",
+      "kind": "transcription, pre-run",
+      "results_existed": false,
+      "what": "numeric_thresholds added to H1-H4, each carrying transcribed_from with the prose string.",
+      "why": "So the harness executes the registered standard instead of restating it. No number was invented: each value is copied from the threshold text already in this file."
+    },
+    {
+      "at": "2026-11-03T06:20:00Z",
+      "kind": "PI ruling incorporated, pre-run",
+      "results_existed": false,
+      "what": "analysis_plan.noise_tolerance replaced by a pointer to the comparator's field classes.",
+      "why": "The draft listed 5 treatment-effect fields where the ruling names 9 plus a fail-closed default; two copies of a standard had already drifted apart."
+    }
+  ],
   "schema": "droso.registration.v1",
-  "status": "registered before any run (R2). Nothing in this file changes after results exist.",
+  "status": "OPEN (B.2), instrument implemented and validated against the registered baseline. NO treatment arm has been run. Registered before any run (R2); the only post-registration changes are the pre-run PI rulings and the transcription of prose thresholds into numbers, each listed in registration_amendments with results_existed=false.",
   "stopping_rules": {
     "hard_stop": "If arm A_control does not reproduce the committed evidence within the registered tolerance, the experiment does not open: the instrument, not the organism, is the unknown.",
     "on_gate_failure": "One registered fallback per defect, in plan order: (a) tighter arbiter bound; (b) per-entry morphological aliases instead of a global stemmer. A second failure documents the defect as an open problem and MP-E8 runs with the residual measured and named."

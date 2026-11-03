@@ -42,6 +42,7 @@
     ]
   },
   "criterion_as_written": "three clones of one configuration identical row for row (B.1 step 3); N is defined as clones of ARM A's configuration (section 6.2)",
+  "criterion_literal": "B.1 step 3 as written: identical outcomes row for row, every graded field",
   "differences_by_arm_and_field": {
     "learn": {
       "reason": 20,
@@ -90,6 +91,39 @@
       ],
       "rows_compared": 3672
     }
+  },
+  "r13a": {
+    "excluded_cells": [
+      "learn/1/reasked",
+      "learn/1/restarted"
+    ],
+    "excluded_rows": [
+      "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
+      "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'"
+    ],
+    "graded_differences_in_excluded_cell": 2,
+    "graded_differences_outside_excluded_cell": 0,
+    "graded_differences_total": 2,
+    "identity_fields": [
+      "cls",
+      "said",
+      "src",
+      "item",
+      "shape",
+      "mech",
+      "taught",
+      "own",
+      "answered"
+    ],
+    "outside_excluded_rows": [],
+    "reason_only_differences": 20,
+    "tolerated_fields": [
+      "reason"
+    ],
+    "unenumerated_held_to_identity": [
+      "ask"
+    ],
+    "verdict": "MET WITH REGISTERED EXCLUSION"
   },
   "reason_string_differences_by_arm": {
     "learn": 20

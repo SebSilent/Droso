@@ -1,15 +1,19 @@
 {
  "baseline_reverify": {
+  "all": [],
   "committed_rows": 3672,
   "committed_sha256": "bb33873ee8ef7eacc957cb078b387f8591368f2b86d867dcbc88a0814e9a1544",
   "differences_vs_clone1": 0,
-  "first": [],
   "verdict": "reproduces"
  },
  "configuration": {
   "arms": "control,teach,learn",
   "clones": 3,
   "depth": "1,2,3 (bench default)",
+  "excluded_cells_r13a": [
+   "learn/1/reasked",
+   "learn/1/restarted"
+  ],
   "excluded_fields": [
    "seconds",
    "started_utc"
@@ -26,7 +30,52 @@
    "own",
    "reason",
    "answered"
+  ],
+  "identity_fields_r13a": [
+   "cls",
+   "said",
+   "src",
+   "item",
+   "shape",
+   "mech",
+   "taught",
+   "own",
+   "answered"
+  ],
+  "tolerated_fields_r13a": [
+   "reason"
+  ],
+  "unenumerated_held_to_identity": [
+   "ask"
   ]
+ },
+ "criterion_literal": "B.1 step 3 as written: identical outcomes row for row on every graded field",
+ "criterion_r13a": {
+  "criterion": "R13(a) as ruled by the PI -- identity required on cls, said, src, item, shape, mech, taught, own, answered, ask; tolerated as noise: reason; cell excluded from the noise-floor claim: learn/1/reasked, learn/1/restarted",
+  "differences_total": 22,
+  "fields_observed": {
+   "reason": 20,
+   "said": 2
+  },
+  "identity_in_excluded_cell": 2,
+  "identity_outside_excluded_cell": 0,
+  "identity_outside_list": [],
+  "rows_touched": 11,
+  "rows_touched_list": [
+   "learn/d1/reasked[120]",
+   "learn/d1/reasked[125]",
+   "learn/d1/reasked[126]",
+   "learn/d1/reasked[131]",
+   "learn/d1/reasked[132]",
+   "learn/d1/reasked[134]",
+   "learn/d1/reasked[74]",
+   "learn/d1/reasked[82]",
+   "learn/d1/restarted[126]",
+   "learn/d1/restarted[131]",
+   "learn/d1/restarted[132]"
+  ],
+  "tolerated_reason_only": 20,
+  "verdict": "MET WITH REGISTERED EXCLUSION"
  },
  "harness_sha256": "f4432e63b70fb5fef904d9156d85694208ff114395d3b76381f9bb0c5c578fc2",
  "headline_identical": true,
@@ -692,12 +741,11 @@
    }
   }
  },
- "measured_at_utc": "2026-11-03T04:47:05Z",
+ "measured_at_utc": "2026-11-03T06:13:13Z",
  "noise_floor_verdict": "NOT REPRODUCIBLE",
  "pairs": {
-  "clone1vs2": {
-   "differences": 11,
-   "first": [
+  "clone1vsclone2": {
+   "all": [
     "learn/d1/reasked[74].reason: 'the closest memory of his covers 41% of the question' vs 'the closest memory of his covers 40% of the question'",
     "learn/d1/reasked[82].reason: 'the closest memory of his covers 19% of the question' vs 'the closest memory of his covers 20% of the question'",
     "learn/d1/reasked[120].said: 'droso says when does the bell toll' vs 'when the bell toll'",
@@ -707,18 +755,23 @@
     "learn/d1/reasked[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'",
     "learn/d1/reasked[134].reason: 'what he remembers there is only the asking itself' vs 'the only thing that matched was the asking itself'",
     "learn/d1/restarted[126].reason: 'the closest memory of his covers 51% of the question' vs 'the closest memory of his covers 50% of the question'",
-    "learn/d1/restarted[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'"
+    "learn/d1/restarted[131].reason: 'the closest memory of his covers 31% of the question' vs 'the closest memory of his covers 28% of the question'",
+    "learn/d1/restarted[132].reason: 'the closest memory of his covers 54% of the question' vs 'the closest memory of his covers 55% of the question'"
    ],
-   "rows_compared": 3672
-  },
-  "clone1vs3": {
-   "differences": 0,
-   "first": [],
-   "rows_compared": 3672
-  },
-  "clone2vs3": {
    "differences": 11,
-   "first": [
+   "identity_differences": 1,
+   "rows_compared": 3672,
+   "tolerated_reason_only": 10
+  },
+  "clone1vsclone3": {
+   "all": [],
+   "differences": 0,
+   "identity_differences": 0,
+   "rows_compared": 3672,
+   "tolerated_reason_only": 0
+  },
+  "clone2vsclone3": {
+   "all": [
     "learn/d1/reasked[74].reason: 'the closest memory of his covers 40% of the question' vs 'the closest memory of his covers 41% of the question'",
     "learn/d1/reasked[82].reason: 'the closest memory of his covers 20% of the question' vs 'the closest memory of his covers 19% of the question'",
     "learn/d1/reasked[120].said: 'when the bell toll' vs 'droso says when does the bell toll'",
@@ -728,10 +781,20 @@
     "learn/d1/reasked[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'",
     "learn/d1/reasked[134].reason: 'the only thing that matched was the asking itself' vs 'what he remembers there is only the asking itself'",
     "learn/d1/restarted[126].reason: 'the closest memory of his covers 50% of the question' vs 'the closest memory of his covers 51% of the question'",
-    "learn/d1/restarted[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'"
+    "learn/d1/restarted[131].reason: 'the closest memory of his covers 28% of the question' vs 'the closest memory of his covers 31% of the question'",
+    "learn/d1/restarted[132].reason: 'the closest memory of his covers 55% of the question' vs 'the closest memory of his covers 54% of the question'"
    ],
-   "rows_compared": 3672
+   "differences": 11,
+   "identity_differences": 1,
+   "rows_compared": 3672,
+   "tolerated_reason_only": 10
   }
+ },
+ "r13a_verdict": "MET WITH REGISTERED EXCLUSION",
+ "re_derivation": {
+  "note": "--reuse: this pass ran NO bench and measured NOTHING new. It recomputes the verdict from the three sealed clone files under a criterion the PI registered after those files were written. The `runs` block is the ORIGINAL measurement record, carried forward so this artifact keeps saying how its own inputs were made.",
+  "original_harness_sha256": "f4432e63b70fb5fef904d9156d85694208ff114395d3b76381f9bb0c5c578fc2",
+  "original_measured_at_utc": "2026-11-03T04:47:05Z"
  },
  "runs": [
   {
