@@ -99,6 +99,11 @@ import tools.electric_teach_mode as tm               # noqa: E402
 from organs.neural_language import NeuralLanguage     # noqa: E402  (qa_key / qa_paraphrase_key)
 
 TMP = Path("_tmp/electric_learn_bench")
+
+# MP-E9 treatment arms turned on for THIS process, parsed from --flag-on in main(). Module-level
+# because boot() reads it and boot() is reached from run_arm() deep inside the harness. Empty by
+# default, which is what makes a run without the flag the pre-treatment house.
+FLAG_ON: set = set()
 EVIDENCE = Path("docs/evidence/electric_learn_bench.json")
 
 
@@ -261,6 +266,17 @@ def boot(tag, mode, root):
         tm.enable(lang)
     elif mode == "learn":
         tm.enable_learn(lang)
+    # MP-E9 treatment arms, applied LAST and only to the arms that already carry the electric stack.
+    # control is deliberately excluded, and this is the point PRE-1 makes about BASE: the arms must
+    # differ by exactly the flags, and control is the reference that says what the house does with no
+    # treatment at all. Give control the flag and the invariant "the control arm, byte for byte"
+    # stops being a check on the treatment and becomes a second treatment -- 727 arbiter-head rows
+    # in the pre-treatment census would move, and there would be nothing left to compare against.
+    # Writing every candidate explicitly -- on or off, never absent -- is the E25 rule: a missing key
+    # must not be indistinguishable from a deliberate off.
+    if mode != "control":
+        for attr in tm.CANDIDATE_ATTRS:
+            setattr(lang, attr, attr in FLAG_ON)
     lang.exposure_enabled = False
     lang.social_drive = 1.0
     lang.EXPOSURE_MIN_REAL_S = 0.0
@@ -734,6 +750,14 @@ def seals(argv):
         "harness": os.path.relpath(here, os.getcwd()).replace("\\", "/"),
         "harness_sha256": hashlib.sha256(open(here, "rb").read()).hexdigest(),
         "argv": list(argv),
+        # Which treatment arms this artifact was produced with, stated by the artifact rather than
+        # inferred from the filename. Every candidate is written, on or off, so an absent key is
+        # never read as a deliberate off -- and the flag-OFF reproduction test reads this field to
+        # prove the census it pins has no treatment in it.
+        "electric_flags": {a: bool(a in FLAG_ON) for a in tm.CANDIDATE_ATTRS},
+        # Which arms the flags above actually reach. control never carries a treatment arm, so an
+        # artifact whose control rows moved is describing something other than the flag.
+        "electric_flags_apply_to": ["learn", "teach"],
         "started_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
     }
 
@@ -751,6 +775,22 @@ def main():
     out_path = EVIDENCE
     if "--out" in args:
         out_path = Path(args[args.index("--out") + 1])
+    # --flag-on ATTR[,ATTR]: opt into an MP-E9 treatment arm. The name is validated against
+    # tools/electric_teach_mode.CANDIDATE_ATTRS, because an unrecognised name would otherwise
+    # produce exactly the thing this whole gate exists to prevent: an ordinary pre-treatment run
+    # that believes itself a treatment run, and a typo that costs eight minutes to discover.
+    global FLAG_ON
+    FLAG_ON = set()
+    if "--flag-on" in args:
+        for name in args[args.index("--flag-on") + 1].split(","):
+            name = name.strip()
+            if not name:
+                continue
+            attr = name.upper().replace("-", "_")
+            if attr not in tm.CANDIDATE_ATTRS:
+                raise SystemExit(f"--flag-on: {name!r} is not a registered treatment arm. "
+                                 f"Known: {', '.join(tm.CANDIDATE_ATTRS)}")
+            FLAG_ON.add(attr)
     write = "--no-write" not in args
     # --workdir: the scratch tree this run teaches into. It defaults to the shipped path, but two
     # runs sharing it would rmtree each other's session state -- which is exactly the failure mode a

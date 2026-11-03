@@ -528,7 +528,7 @@
   "measured_baseline_at_registration": {
     "battery_measured_pre_treatment": {
       "artifact": "experiments/MP-E9/results/battery_pre_flag.json",
-      "at": "2026-11-04T12:00:00Z",
+      "at": "2026-11-03T07:35:39Z",
       "electric": "off",
       "frozen": "19/24",
       "frozen_lost_vs_baseline": [],
@@ -649,7 +649,7 @@
         "state": "VACUOUS PRE-TREATMENT"
       }
     },
-    "as_of": "2026-11-04T12:00:00Z",
+    "as_of": "2026-11-03T07:35:39Z",
     "battery_provenance": {
       "all_chunks_same_commit": true,
       "chunking": "6 chunks of one script-pair each via --only, because the shell caps one command at 600 s and the full 42-ask run measures ~18 min. Sanctioned by run_generation.py:880-887; every ask builds a fresh house, so a chunk boundary cannot leak state between asks.",
@@ -862,7 +862,7 @@
         "the control arm, byte for byte",
         "refusal strings, reused verbatim from the existing guarded-absence template"
       ],
-      "registered_at": "2026-11-04T00:00:00Z",
+      "registered_at": "2026-11-03T07:44:10Z",
       "title": "organs/ design step closes the says leak at its two real sites before any MP-E9 treatment arm runs",
       "why_a_document_is_not_enough": "Before this entry the constraint lived only in a markdown file that nothing referenced, so its own claim that B.2 steps 1-2 are blocked was unenforced. A precondition with no test is a memo. tests/test_mp_e9_precondition.py now fails if the registration loses its reference to the document, if the document leaves the seal manifest, or if the sealed bytes drift from the worktree."
     }
@@ -873,6 +873,135 @@
     "git_head": "5d036210254341325ea2286ce54686681a2612df",
     "plan_baseline_commit": "0b5f191",
     "utc": "2026-11-03T04:20:00Z"
+  },
+  "registered_predictions": {
+    "P1_arbiter_head_bound": {
+      "artifact": "experiments/MP-E9/results/treatment_arbiter_head_bound.json",
+      "flag": "ELECTRIC_ARBITER_HEAD_BOUND",
+      "hypotheses_tested": [
+        "H1",
+        "H2"
+      ],
+      "must_not_move": [
+        "the 36 arbiter tell rows",
+        "the 24 guarded-absence rows",
+        "the control arm, byte for byte",
+        "toll correct (0) -- the morph flag is separate and must not be credited with P1's effect"
+      ],
+      "numeric": {
+        "UNTRACEABLE_ASSERTED_rows_max": 0,
+        "arbiter_tell_rows_equal": 36,
+        "rows_losing_correct_max": 0,
+        "says_gap_census_rows_equal": 81,
+        "says_gap_refused_plus_echo_expected": 81,
+        "says_gap_refused_plus_echo_min": 65,
+        "says_rows_flagged_max": 0
+      },
+      "outcome": {
+        "artifacts": [
+          "experiments/MP-E9/results/treatment_arbiter_head_bound.json",
+          "experiments/MP-E9/results/treatment_arbiter_head_bound_effect.json"
+        ],
+        "attribution": "Every number that moved is P1's own: the 16 asserted rows to 0, refused+echo 65 to 81 exactly as predicted, and 16 rows changed in total. toll_correct stayed 0, arbiter_tell stayed 36, guarded-absence stayed 24, and the 6 heard-not-told tripwire rows stayed 6. H1 and H2 pass.",
+        "measured": {
+          "UNTRACEABLE_ASSERTED_rows": 0,
+          "UNTRACEABLE_HEARD_rows": 6,
+          "arbiter_tell_rows": 36,
+          "guarded_absence_rows": 24,
+          "rows_losing_correct": 0,
+          "says_gap_refused_plus_echo": 81,
+          "says_gap_rows": 81,
+          "says_rows_flagged": 0,
+          "toll_correct": 0
+        },
+        "measured_at": "2026-11-03T08:43:05Z",
+        "prediction_met": true,
+        "rows_moved_vs_pre_treatment": {
+          "gained": 0,
+          "inside_r13_cells": 2,
+          "lost": 0,
+          "moved": 16,
+          "outside_r13_cells": 14,
+          "rows_keyed_both": 3672,
+          "total_differences": 16
+        }
+      },
+      "prediction_verbatim": {
+        "H1": "UNTRACEABLE_ASSERTED rows 16 -> 0.",
+        "H2": "the 16 `says` rows become cls=refused, src=''; arbiter_tell_rows stays 36; no row loses cls=correct."
+      }
+    },
+    "P2_qa_morph_normalize": {
+      "artifact": "experiments/MP-E9/results/treatment_qa_morph_normalize.json",
+      "c4_becomes_measurable": "C4 was NOT YET MEASURABLE because the person-marked store population only exists once the keys widen. After P2 it must be reported: rows whose provenance is neither person_marked nor person_paraphrase, expected 0.",
+      "flag": "ELECTRIC_QA_MORPH_NORMALIZE",
+      "hypotheses_tested": [
+        "H3",
+        "C4"
+      ],
+      "must_not_move": [
+        "the 36 arbiter tell rows",
+        "the 24 guarded-absence rows",
+        "the control arm, byte for byte"
+      ],
+      "numeric": {
+        "guarded_absence_rows_equal": 24,
+        "invented_rows_max": 0,
+        "toll_correct_min": 6,
+        "toll_correct_plus_refused_equal": 54,
+        "toll_refused_pool_at_prediction": 16,
+        "toll_rows_equal": 54
+      },
+      "outcome": {
+        "artifacts": [
+          "experiments/MP-E9/results/treatment_qa_morph_normalize.json",
+          "experiments/MP-E9/results/treatment_qa_morph_normalize_effect.json"
+        ],
+        "finding": "NOT a partial recovery. ZERO of 3,672 rows differ from the pre-treatment artifact, inside or outside the R13 cells, so the flag is indistinguishable from not being there. The registered premise -- that the toll class fails because the store keys are exact characters -- is FALSIFIED for this bench: the stored question `when does the bell toll?` and the probe ask `when does the bell toll` already produce the identical qa_key, so folding that key is a no-op. The inflected form is in the ANSWER (`it tolls at dusk`), not the question, and the ask dies downstream at the coverage gate (measured refusal: `the closest memory of his covers 32-33% of the question`, floor 0.6) before the store can answer.",
+        "measured": {
+          "guarded_absence_rows": 24,
+          "invented_rows": 0,
+          "rows_gaining_correct": 0,
+          "rows_losing_correct": 0,
+          "toll_correct": 0,
+          "toll_echo": 38,
+          "toll_refused": 16,
+          "toll_rows": 54
+        },
+        "measured_at": "2026-11-03T08:43:05Z",
+        "prediction_left_unedited": true,
+        "prediction_met": false,
+        "premise_status": "FALSIFIED",
+        "rows_moved_vs_pre_treatment": {
+          "gained": 0,
+          "inside_r13_cells": 0,
+          "lost": 0,
+          "moved": 0,
+          "outside_r13_cells": 0,
+          "rows_keyed_both": 3672,
+          "total_differences": 0
+        }
+      },
+      "prediction_verbatim": {
+        "H3": "toll-class correct rows 0 -> at least 6 of 54, concentrated in the 16 currently-refused marked asks."
+      }
+    },
+    "ab_inertness_control": {
+      "artifact": "experiments/MP-E9/results/ab_flag_off_reproduction.json",
+      "instrument": "tools/ab_reproduction.py",
+      "result": {
+        "differences_total": 0,
+        "inside_r13_cells": 0,
+        "outside_r13_cells": 0,
+        "rows_compared": 3672
+      },
+      "why_it_matters": "Without this half, P1's 16 moved rows would be an observation on one arm. The flag-OFF arm moved nothing, so the difference between the ON artifact and the pre-treatment artifact is attributable to the flag and not to the run. The registered R13 tolerance was available and was not needed: 0 rows moved even inside the two time-dependent cells."
+    },
+    "attribution": "P1 and P2 are separate flags and the ON arm must not be credited to both at once. Each prediction names the metric its own flag moves, and the must_not_move lines name the metric the OTHER flag owns. A run with both on that moves both numbers is consistent with both predictions; it is single-flag runs that attribute, and those are scheduled as P1-only and P2-only arms.",
+    "if_prediction_and_measurement_disagree": "Report it. Do not edit this block, and do not edit the test that reads it. R5: a bad number stays on record, labelled superseded, with what replaced it.",
+    "predicted_at": "2026-11-03T07:53:05Z",
+    "why": "A flag-ON test with no registered prediction is a description of whatever happened. These numbers come from H1/H2/H3 as registered at OPEN, before any arm ran, and they are allowed to be wrong: a disagreement between prediction and measurement is a finding, not a test failure to repair.",
+    "written_before_any_treatment_ran": true
   },
   "registration_amendments": [
     {
@@ -906,7 +1035,7 @@
       "why": "The draft listed 5 treatment-effect fields where the ruling names 9 plus a fail-closed default; two copies of a standard had already drifted apart."
     },
     {
-      "at": "2026-11-04T00:00:00Z",
+      "at": "2026-11-03T07:44:10Z",
       "baseline_measurements_existed": false,
       "direction": "no instrument change; threshold value unchanged",
       "kind": "precondition registered as a gate",
@@ -916,7 +1045,7 @@
       "why": "The document asserted that B.2 steps 1-2 are blocked until it is committed and sealed, but nothing in the registration referenced it, so the assertion was unenforceable. Registering it converts a memo into a gate."
     },
     {
-      "at": "2026-11-04T12:00:00Z",
+      "at": "2026-11-03T07:35:39Z",
       "baseline_measurements_existed": true,
       "direction": "instrument added; no threshold value changed",
       "kind": "instrument added; no threshold changed",
@@ -927,7 +1056,7 @@
       "why": "The clause was registered as prose and the gate's H4.pass was null because no artifact had ever been supplied. No threshold value changed; the transcription already said 19/24 and 4/4 and the measurement agrees with it."
     },
     {
-      "at": "2026-11-04T12:00:00Z",
+      "at": "2026-11-03T07:35:39Z",
       "baseline_measurements_existed": true,
       "direction": "STRICTER -- the gate refused to pass an artifact it would have accepted",
       "kind": "instrument strengthened to match registered text",
@@ -936,12 +1065,60 @@
       "treatment_results_existed": false,
       "what": "The gate now requires the ELECTRIC-off half of H4's battery clause, read from the artifact's provenance, and reports C4 and C5 explicitly (NOT YET MEASURABLE / VACUOUS PRE-TREATMENT) instead of omitting them.",
       "why": "The registered text always said 'with ELECTRIC off'; the first gate compared four numbers and would have passed a battery run with the treatment wired in. Absence of a condition and a deliberate not-fired are different claims -- the house rule that a missing key must never be indistinguishable from a deliberate off applies to abort conditions too. Threshold values unchanged."
+    },
+    {
+      "at": "2026-11-03T07:53:05Z",
+      "baseline_measurements_existed": true,
+      "direction": "prediction added; no threshold value changed",
+      "kind": "prediction registered before treatment",
+      "results_existed": false,
+      "treatment_results_existed": false,
+      "what": "Added registered_predictions P1 (ELECTRIC_ARBITER_HEAD_BOUND, against H1/H2) and P2 (ELECTRIC_QA_MORPH_NORMALIZE, against H3/C4), each transcribed from the hypothesis text as registered at OPEN. The pre-treatment census pin in tests/test_mp_e9_gate.py was split into a flag-OFF pin and a flag-ON prediction test that reads these numbers.",
+      "why": "The flag-OFF pin asserts toll rows 54 and toll correct 0, which is the state BEFORE the morphology flag exists; step 2 is what changes it. Flipping that assertion after the treatment produced a result would be R2. Writing the expected result down first, from the registered threshold, makes the run falsifiable in both directions."
+    },
+    {
+      "at": "2026-11-03T08:43:05Z",
+      "baseline_measurements_existed": true,
+      "direction": "record only; no threshold, prediction or tolerance changed",
+      "kind": "outcome recorded; prediction left unedited",
+      "result_it_follows": "treatment_arbiter_head_bound.json and treatment_qa_morph_normalize.json, both produced after registered_predictions was written",
+      "results_existed": true,
+      "treatment_results_existed": true,
+      "what": "P1 met its prediction (16 asserted rows -> 0; says-gap refused+echo 65 -> 81; 36 arbiter-tell and 24 guarded-absence rows intact; 16 rows moved in total). P2 did not: 0 of 3,672 rows differ from the pre-treatment artifact, so the morphology flag is inert on this bench and H3's registered premise is falsified. The flag-OFF arm moved 0 rows, which is what makes both statements controlled.",
+      "why": "R5: a prediction that a measurement disagrees with stays on the record as written. Nothing in P1/P2's numeric blocks was touched; the outcome blocks are additions. The test that asserts P2's prediction is marked with the recorded outcome rather than having its assertion rewritten."
     }
   ],
   "schema": "droso.registration.v1",
-  "status": "OPEN (B.2), instrument implemented and validated against the registered baseline. NO treatment arm has been run. Registered before any run (R2); the only post-registration changes are the pre-run PI rulings and the transcription of prose thresholds into numbers, each listed in registration_amendments with results_existed=false.",
+  "status": "OPEN (B.2), treatment arms RUN and sealed. P1 (ELECTRIC_ARBITER_HEAD_BOUND) met its registered prediction: H1 and H2 pass, 16 rows moved, every protected population intact. P2 (ELECTRIC_QA_MORPH_NORMALIZE) moved 0 of 3,672 rows and its registered premise is falsified: H3 fails. H4 holds, measured. The flag-OFF arm reproduced the pre-treatment artifact row for row (0 differences), so both statements are controlled rather than observational. Registered fallback F1 (per-entry morphological aliases, the plan's own G1 fallback) is the next and last registered attempt at the morphology defect; a second failure documents the residual and the duel proceeds with it measured and named. Registered before any run (R2); every post-registration change is listed in registration_amendments with the result it followed, and no threshold or prediction value has been altered by any of them.",
+  "status_history": [
+    {
+      "at": "2026-11-03T08:44:42Z",
+      "superseded": "OPEN (B.2), instrument implemented and validated against the registered baseline. NO treatment arm has been run. Registered before any run (R2); the only post-registration changes are the pre-run PI rulings and the transcription of prose thresholds into numbers, each listed in registration_amendments with results_existed=false.",
+      "why": "arms were run after this text was written; the status was stale"
+    }
+  ],
   "stopping_rules": {
     "hard_stop": "If arm A_control does not reproduce the committed evidence within the registered tolerance, the experiment does not open: the instrument, not the organism, is the unknown.",
     "on_gate_failure": "One registered fallback per defect, in plan order: (a) tighter arbiter bound; (b) per-entry morphological aliases instead of a global stemmer. A second failure documents the defect as an open problem and MP-E8 runs with the residual measured and named."
+  },
+  "timestamp_correction": {
+    "at": "2026-11-03T07:53:28Z",
+    "no_measurement_changed": true,
+    "superseded_values": [
+      {
+        "was": "2026-11-04T00:00:00Z",
+        "what": "Added preconditions.PRE-1 naming experiments/MP-E9/organs_pr"
+      },
+      {
+        "was": "2026-11-04T12:00:00Z",
+        "what": "H4's battery clause became measurable. tools/mp_e9_battery.p"
+      },
+      {
+        "was": "2026-11-04T12:00:00Z",
+        "what": "The gate now requires the ELECTRIC-off half of H4's battery "
+      }
+    ],
+    "what": "Three records carried hand-typed 2026-11-04 dates while the clock read 2026-11-03. Replaced with times taken from the artifacts and the commits that created them: battery_pre_flag.json written_at 2026-11-03T07:35:39Z, commit 625e96d at 2026-11-03T07:44:10Z (= 04:44:10-03:00).",
+    "why": "A timestamp nobody measured cannot order events. registered_predictions.predicted_at is compared against treatment provenance.started_utc by tests/test_mp_e9_gate.py::test_the_predictions_were_registered_before_any_treatment_ran, and a future-dated record would either pass that check by accident or fail it for the wrong reason."
   }
 }

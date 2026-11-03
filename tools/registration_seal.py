@@ -90,6 +90,26 @@ DEFAULT_MANIFEST = [
     # state/selection/ is the tracked lineage and generations 9001-9006 never happened -- so this
     # is what makes H4's battery numbers recomputable from rows instead of trusted.
     "experiments/MP-E9/results/battery_pre_flag_rows.jsonl",
+    # The MP-E9 A/B. Three 1.4 MB artifacts, and they are committed for the same reason the noise
+    # floor clones are: the decision in decision.md is "H1/H2 hold, H3 fails", every number behind
+    # that is computed from these files, and a gate claim whose inputs only exist on one machine is
+    # not a sealed result. Each carries its own provenance.electric_flags, so an artifact states
+    # which arm it is instead of being identified by the filename somebody gave it.
+    "experiments/MP-E9/results/ab_flag_off.json",
+    "experiments/MP-E9/results/treatment_arbiter_head_bound.json",
+    "experiments/MP-E9/results/treatment_qa_morph_normalize.json",
+    # The instrument that proves the OTHER half of the A/B -- that the flag-OFF arm moved nothing --
+    # and the reports it wrote. A treatment effect is only controlled if the no-treatment arm is
+    # measured on the same keyed comparison, so this file is as load-bearing as the gate.
+    "tools/ab_reproduction.py",
+    "experiments/MP-E9/results/ab_flag_off_reproduction.json",
+    "experiments/MP-E9/results/treatment_arbiter_head_bound_effect.json",
+    "experiments/MP-E9/results/treatment_qa_morph_normalize_effect.json",
+    # The gate verdict computed over each arm, committed so a reader gets the same numbers without
+    # re-running the gate against a tree that has since moved.
+    "experiments/MP-E9/results/gate_ab_flag_off.json",
+    "experiments/MP-E9/results/gate_treatment_arbiter_head_bound.json",
+    "experiments/MP-E9/results/gate_treatment_qa_morph_normalize.json",
     "tests/test_word_provenance.py",
     "tests/test_g0_prime_instruments.py",
     "experiments/G0-prime/tier_protocol.json",

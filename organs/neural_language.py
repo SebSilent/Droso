@@ -3117,6 +3117,43 @@ class NeuralLanguage:
     # the RUN being unchanged when it is ON: see the caveat above, the flag is not confined to this
     # branch, and "byte for byte" was the claim this comment made before it was measured.
     ELECTRIC_ARBITER_TELL = False
+    # MP-E9 / B.2 step 1 (PRE-1). THE HEAD BRANCH'S BOUND.
+    #
+    # `_arbiter_tell` above is a bound on the TELL path: it decides whether the whole sentence may
+    # be spoken. The `else` it falls through to speaks ONE WORD out of the same row and was never
+    # given a bound, which is where the says leak lives: `experience("droso", "says", ...)` at
+    # :1780 writes a row whose `who` is "droso", the shape arbiter verifies it, the tell path
+    # correctly refuses it because `who != "you"`, and the head path then speaks `says` anyway.
+    #
+    # This is NOT a restoration of `_arbiter_tell`, and the plan's wording "restore the bound"
+    # leads a reader into the wrong branch. `_arbiter_tell` returns None for FIVE different reasons
+    # -- fewer than two words, who != "you", the row is itself an asking, the named word is absent,
+    # a word the ask omitted -- and only the second is this defect. Refusing whenever it returns
+    # None would silence all 1,014 `arbiter head` rows in the bench, the 36 `arbiter tell` rows
+    # with them, and the frozen battery along the way. So the predicate here is the autobiographical
+    # one alone: a row he was not told is not a fact he may re-issue, whole or in part.
+    #
+    # Off by default, and off means byte-identical to HEAD: with the flag off this branch is not
+    # entered at all. Registered prediction: experiments/MP-E9/registration.json
+    # registered_predictions.P1_arbiter_head_bound.
+    ELECTRIC_ARBITER_HEAD_BOUND = False
+    # MP-E9 / B.2 step 2 (PRE-1). STORE KEYS FOLD INFLECTED FORMS TO THE STEM.
+    #
+    # `qa_key` normalises characters, not morphology: it lowercases and splits. So `tolls`,
+    # `tolling` and `tolled` fold to `toll` and `when does the bell toll?` never finds the pair
+    # stored under the inflected form -- measured with this project's own stemmer, which is why
+    # the kin (rings/hangs/carries/crosses/guards/bites) all answer and toll alone does not.
+    #
+    # THE PERSISTENCE HAZARD, which is the reason this flag is not just a different key function:
+    # qa_store survives restart. Changing the key form without re-deriving stored keys makes every
+    # pre-flag record unreachable, and the symptom is SILENCE -- indistinguishable from an empty
+    # memory, which is the same failure `qa_key`'s own docstring warns about. So the restore path
+    # re-derives keys from each record's stored `q`, and does it whether or not the writer used the
+    # flag. See _qa_restore_store.
+    #
+    # Inert without ELECTRIC_QA_STORE: with no store there is no key to fold. Registered in
+    # tools/electric_teach_mode.py DEPENDS_ON so every wiring site says so in the same words.
+    ELECTRIC_QA_MORPH_NORMALIZE = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3242,6 +3279,75 @@ class NeuralLanguage:
         """
         toks = NeuralLanguage.qa_key(text).split()
         return " ".join(stem(t) for t in toks if t not in ASK_PARAPHRASE_DROP)
+
+    def qa_store_key(self, text) -> str:
+        """ELECTRIC_QA_MORPH_NORMALIZE: the key the store is indexed by, right now, on this organ.
+
+        The one place that knows, so a write and a read cannot disagree by drifting apart. Off, this
+        is `qa_key` unchanged -- exact characters, exactly what HEAD stored and looked up. On, every
+        token folds through `stem()`, the same single stemmer the paraphrase path uses.
+
+        Word order is kept and no word is dropped, which is what separates this from
+        `qa_paraphrase_key`: that one answers a REPHRASED ask and has to survive copulas and
+        do-support; this one is the store's primary key, and a key that forgets which word the
+        question asked about is a key that answers any question with any fact. `stem()`'s own policy
+        -- under-folding refuses, over-folding gets believed -- is why folding the content words and
+        nothing else is the safe width.
+
+        The flag is read per call, not captured at construction, so one process can hold two organs
+        in the two conditions and A/B them inside a single tree.
+        """
+        k = self.qa_key(text)
+        if not self.ELECTRIC_QA_MORPH_NORMALIZE or not k:
+            return k
+        return " ".join(stem(t) for t in k.split())
+
+    def _qa_restore_store(self, qst) -> dict:
+        """Rebuild qa_store from a persisted dict, RE-DERIVING every key.
+
+        THE PERSISTENCE HAZARD, handled at the node that can handle it. qa_store survives restart.
+        If restore trusted the keys in the file, switching ELECTRIC_QA_MORPH_NORMALIZE on between one
+        boot and the next would leave every pre-flag record filed under its unfolded key while every
+        ask looked the folded one up -- and the symptom is SILENCE, indistinguishable from a house
+        that never learned anything. That is the same failure `qa_key`'s docstring warns about,
+        arriving by a different route, so the key is recomputed here from the record's own `q` and
+        the key stored in the file is used for nothing.
+
+        With the flag off this is a no-op by construction, not by assertion: qa_store_key is qa_key,
+        and qa_key over a stored token list reproduces exactly what _qa_keep wrote. That is what
+        makes the OFF arm a reproduction of HEAD rather than a new behaviour with the same name.
+
+        A collision is not resolved by overwriting. Two records that fold onto one key are two facts
+        the house was told, and silently keeping one is the false-adjacency failure the elicitation
+        path refuses for the same reason. First record wins; every loser is counted and named in
+        self._qa_restore_report, and that count is what C4 reads.
+        """
+        store: dict = {}
+        collisions = []
+        for k, v in (qst or {}).items():
+            if not isinstance(v, dict) or not v.get("prov") or not (v.get("a") or []):
+                continue
+            rec = {"q": [str(t) for t in v.get("q") or []],
+                   "a": [str(t) for t in v.get("a") or []],
+                   "word": str(v.get("word") or ""),
+                   "role": int(v.get("role") or 0),
+                   "filler": str(v.get("filler") or ""),
+                   "prov": dict(v.get("prov") or {})}
+            nk = self.qa_store_key(" ".join(rec["q"]))
+            if not nk:
+                collisions.append({"file_key": str(k), "reason": "re-derived key is empty",
+                                   "dropped": True})
+                continue
+            if nk in store:
+                collisions.append({"file_key": str(k), "re_derived_key": nk,
+                                   "kept_file_key": None, "reason": "fold collision, first wins"})
+                continue
+            store[nk] = rec
+        self._qa_restore_report = {"records_in": len(qst or {}), "kept": len(store),
+                                   "collisions": collisions,
+                                   "morph_normalize": bool(self.ELECTRIC_QA_MORPH_NORMALIZE),
+                                   "keys_re_derived": True}
+        return store
 
     def learn_qa(self, q_tokens, a_tokens, provenance=None) -> dict:
         """Learn which role a question word asks about, from a Q and its A.
@@ -3397,7 +3503,7 @@ class NeuralLanguage:
         """
         if not self._qa_admissible(provenance)[0]:
             return ""
-        key = self.qa_key(q)
+        key = self.qa_store_key(q)
         if not key or key in self.qa_store:
             return ""
         self.qa_store[key] = {"q": list(q), "a": list(a), "word": w,
@@ -3486,10 +3592,15 @@ class NeuralLanguage:
         """
         if not self.ELECTRIC_QA_PARAPHRASE or not self.qa_store:
             return None
-        if self.qa_key(text) in self.qa_store:
+        if self.qa_store_key(text) in self.qa_store:
             # The exact key is tried first, and here is the second time that is enforced:
             # a caller that forgot the ordering cannot let a fold take a pair away from the
-            # words it was actually stored under.
+            # words it was actually stored under. "Exact" means exact FOR THIS STORE, which is
+            # why this line reads qa_store_key and not qa_key: with ELECTRIC_QA_MORPH_NORMALIZE
+            # on, the keys in the store are folded, and comparing an unfolded ask against them
+            # would never match -- the precedence guarantee would not be weakened, it would be
+            # silently removed, and the paraphrase fold would start taking pairs that the exact
+            # key owns.
             return None
         want = {self.qa_paraphrase_key(text)}
         for variant in normalize_ask_variants(str(text or ""), self._taught_says):
@@ -3526,7 +3637,7 @@ class NeuralLanguage:
         line sat under that question in that book.
         """
         raw = str(text or "").strip()
-        rec = self.qa_store.get(self.qa_key(raw))
+        rec = self.qa_store.get(self.qa_store_key(raw))
         folded = rec is None
         if folded:
             # ELECTRIC_QA_PARAPHRASE: the exact characters are not in the store, so try the
@@ -5253,6 +5364,30 @@ class NeuralLanguage:
                 # in order of one house that stores what it hears, so seven whole answers re-route
                 # a later ask this bound refuses (`what the nora carry` speaks where it was
                 # silent). Measured; docs/STATE.md carries the numbers.
+                # MP-E9 / B.2 step 1: THE HEAD BRANCH'S BOUND. Read the flag's declaration first --
+                # this is NOT `_arbiter_tell` re-applied. That predicate returns None for five
+                # different reasons (fewer than two words, who != "you", the row is itself an asking,
+                # the named word is absent, a word the ask omitted) and only the second is this
+                # defect, so refusing whenever it returns None would silence all 1,014
+                # `arbiter head` rows, take the 36 `arbiter tell` rows with them, and fail the frozen
+                # battery on a mechanism that was never a leak. The bound is the autobiographical
+                # predicate alone: a row whose `who` is not "you" is not something this house was
+                # told, and a single word taken out of it is not a fact it may re-issue.
+                # `experience("droso", "says", ...)` binds who="droso" -- that is the row that has
+                # been answering as `says`, verified by the arbiter and spoken by the else below.
+                if (self.ELECTRIC_ARBITER_HEAD_BOUND
+                        and str(best.get("who") or "") != "you"):
+                    trace["parser"] = {"shape": shape, "verdict": "head_bound",
+                                       "filler": shape_filler}
+                    return {"answered": False, "spoken": False,
+                            "reason": "the only thing that matched was something he said to "
+                                      "himself, not something he was told",
+                            "cue": content,
+                            "parser": {"shape": shape, "verdict": "head_bound"},
+                            "head_bound": {"who": str(best.get("who") or ""),
+                                           "head": str(sf),
+                                           "row": " ".join(str(t) for t in
+                                                           (best.get("tokens") or []))}}
                 whole = (self._arbiter_tell(best, sf, q)
                          if self.ELECTRIC_ARBITER_TELL else None)
                 if whole:
@@ -5797,7 +5932,7 @@ class NeuralLanguage:
         # that word one vote. Same record test afterwards, so an ask the store holds no pair
         # for -- folded or not -- keeps the path it always took.
         if self.ELECTRIC_QA_ELICIT and self.qa_store:
-            rec = self.qa_store.get(self.qa_key(user_text))
+            rec = self.qa_store.get(self.qa_store_key(user_text))
             if rec is None:
                 rec = self._qa_paraphrase_hit(user_text)
             if rec and str((rec.get("prov") or {}).get("source")
@@ -6565,16 +6700,12 @@ class NeuralLanguage:
                         # Rebuilt, not trusted: a record with no provenance or no answer
                         # is not a memory, it is a hole in the file, and the store's
                         # whole claim is that every answer in it came from a line.
-                        self.qa_store = {
-                            str(k): {"q": [str(t) for t in v.get("q") or []],
-                                     "a": [str(t) for t in v.get("a") or []],
-                                     "word": str(v.get("word") or ""),
-                                     "role": int(v.get("role") or 0),
-                                     "filler": str(v.get("filler") or ""),
-                                     "prov": dict(v.get("prov") or {})}
-                            for k, v in qst.items()
-                            if isinstance(v, dict) and v.get("prov")
-                            and (v.get("a") or [])}
+                        # Rebuilt, and RE-KEYED: see _qa_restore_store. The key in the file is not
+                        # used, because a store written before ELECTRIC_QA_MORPH_NORMALIZE existed
+                        # would otherwise come back filed under its unfolded key while every ask
+                        # looked up the folded one -- and the symptom of that is silence, which is
+                        # indistinguishable from a house that never learned anything.
+                        self.qa_store = self._qa_restore_store(qst)
                     at = qs.get("answer_types")
                     if isinstance(at, dict):
                         self.answer_types = {

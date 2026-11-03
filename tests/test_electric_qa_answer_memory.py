@@ -235,10 +235,17 @@ def test_the_table_lists_it_as_a_widening_and_declares_its_parent():
     assert "ELECTRIC_QA_ANSWER_MEMORY" in tm.EXCLUDED_ATTRS
     assert "ELECTRIC_QA_ANSWER_MEMORY" in tm.LEARN_ATTRS
     assert "ELECTRIC_QA_ANSWER_MEMORY" not in tm.STACK_ATTRS
-    assert len(tm.EXCLUDED) == 7 and len(tm.ALL_ATTRS) == 18
+    assert len(tm.EXCLUDED) == 7 and len(tm.ALL_ATTRS) == 20, (
+        "census: 18 until MP-E9's two CANDIDATE treatment arms were registered. See "
+        "tests/test_electric_arbiter_tell.py for the same pin and the reason stated once.")
+    assert tm.ALL_ATTRS == (tm.STACK_ATTRS + tm.BASE_ATTRS + tm.EXCLUDED_ATTRS
+                            + tm.CANDIDATE_ATTRS)
     assert any(l.startswith("WIDENS") and "ELECTRIC_QA_ANSWER_MEMORY" in l
                for l in tm.describe_learn()), tm.describe_learn()
     assert tm.DEPENDS_ON["ELECTRIC_QA_ANSWER_MEMORY"][0] == "ELECTRIC_QA_STORE"
+    # The store-key treatment arm shares this flag's parent, and says so in the same words at the
+    # same single site: with no store there is no key to fold, so the symptom is silence.
+    assert tm.DEPENDS_ON["ELECTRIC_QA_MORPH_NORMALIZE"][0] == "ELECTRIC_QA_STORE"
 
 
 def test_inert_without_the_store_and_says_so():

@@ -157,11 +157,43 @@ EXCLUDED = (
      "it lives inside the branch the shape arbiter already gates"),
 )
 
+# MP-E9 TREATMENT ARMS. Deliberately NOT in BASE, which is the deviation from
+# experiments/MP-E9/organs_precondition.md section 3, recorded here rather than left in a prose
+# note: that document says to add both to BASE so the learn arm gets them and control does not,
+# and the second half is what matters -- but BASE is what every bench run and every generation
+# applies by default, and `second_brain_on()` states the house rule for that: "an unvalidated
+# mechanism does not get to be the default until the gate has been measured". These two have not
+# been measured yet; measuring them IS B.2. So they are opt-in per run (--flag-on in the bench),
+# they are in ALL_ATTRS so state()/warnings() report them, and the arm that turns them on is the
+# one that has to say so in its own provenance.
+CANDIDATE = (
+    ("ELECTRIC_ARBITER_HEAD_BOUND", "electric-arbiter-head-bound",
+     "bound the HEAD branch, which never had one: when the shape arbiter verifies a memory and "
+     "the tell path refuses to speak it whole, the branch still speaks the single word it named. "
+     "The bound is one predicate -- the row must be something he was told (who == 'you') -- and "
+     "NOT a re-application of _arbiter_tell, whose five other refusal reasons would take the "
+     "whole arbiter-head population with them. Registered against H1/H2 as P1."),
+    ("ELECTRIC_QA_MORPH_NORMALIZE", "electric-qa-morph-normalize",
+     "fold the store's keys through stem(), so `when does the bell toll?` reaches a pair stored "
+     "under an inflected form. Measured with this project's own stemmer: tolls/tolling/tolled "
+     "fold to toll while says stays says and said stays said, which is why the six kin answer and "
+     "toll alone does not. Re-keys the store at RESTORE as well as at write, because qa_store "
+     "survives restart and a pre-flag record left under its old key fails silently -- silence is "
+     "indistinguishable from an empty memory. Registered against H3/C4 as P2. Inert without "
+     "--electric-qa-store"),
+)
+
 # A flag whose parent is off is INERT, not merely weaker: the user has to be told, because the
 # symptom of an inert flag is that nothing happens and nothing is said. Text kept here rather
 # than in the wiring sites so serve.py and electric_chat.py report the same fact in the same
 # words.
 DEPENDS_ON = {
+    "ELECTRIC_QA_MORPH_NORMALIZE": ("ELECTRIC_QA_STORE",
+                                    "--electric-qa-morph-normalize without --electric-qa-store: "
+                                    "there is no store to key, so nothing is folded, nothing is "
+                                    "re-read and nothing changes anyone can hear. The restore "
+                                    "path still runs, which is why this is reported rather than "
+                                    "assumed away."),
     "ELECTRIC_QA_ELICIT": ("ELECTRIC_QA_STORE",
                            "--electric-qa-elicit without --electric-qa-store: a paired question "
                            "is voted and forgotten. Nothing said in chat will be answerable "
@@ -199,7 +231,10 @@ STACK_ATTRS = tuple(attr for attr, _cli, _why in STACK)
 BASE_ATTRS = tuple(attr for attr, _cli, _why in BASE)
 EXCLUDED_ATTRS = tuple(attr for attr, _cli, _why in EXCLUDED)
 LEARN_ATTRS = STACK_ATTRS + EXCLUDED_ATTRS
-ALL_ATTRS = STACK_ATTRS + BASE_ATTRS + EXCLUDED_ATTRS
+CANDIDATE_ATTRS = tuple(attr for attr, _cli, _why in CANDIDATE)
+# CANDIDATE_ATTRS is in ALL_ATTRS so state() reports a treatment flag's state instead of
+# silently omitting it, and is in NO enable*() so nothing turns it on by accident.
+ALL_ATTRS = STACK_ATTRS + BASE_ATTRS + EXCLUDED_ATTRS + CANDIDATE_ATTRS
 
 
 # What the FULL teach/learn mode adds on top of the stack: the seven widenings the narrow mode
@@ -267,6 +302,20 @@ def enable_learn(lang, base=True):
     is blast radius, and it is the user's, made by one explicit flag.
     """
     return _set(lang, LEARN_ATTRS + (BASE_ATTRS if base else ()))
+
+
+def enable_candidate(lang, attrs=None, on=True):
+    """Turn MP-E9 treatment arms on or off for THIS organ, and say which were touched.
+
+    Not wired into enable()/enable_learn(): a treatment flag is turned on by the run that is
+    measuring it, and the run has to record that it did. Returns the resulting state of every
+    candidate flag, which is what a bench artifact writes into provenance.electric_flags -- the
+    A/B is only evidence if the artifact says which arm it is, rather than being identified by the
+    filename somebody gave it.
+    """
+    for attr in (attrs or CANDIDATE_ATTRS):
+        setattr(lang, attr, bool(on))
+    return {attr: bool(getattr(lang, attr, False)) for attr in CANDIDATE_ATTRS}
 
 
 def state(lang):

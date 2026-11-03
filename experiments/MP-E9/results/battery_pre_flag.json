@@ -29,14 +29,6 @@
     "chunk_heads": [
       "5e1e663"
     ],
-    "chunk_row_journals": [
-      "generation_9001.jsonl",
-      "generation_9002.jsonl",
-      "generation_9003.jsonl",
-      "generation_9004.jsonl",
-      "generation_9005.jsonl",
-      "generation_9006.jsonl"
-    ],
     "code_flags": {
       "absence_inventory": false,
       "coverage_exclude_frame": false,
@@ -69,30 +61,34 @@
     "genome_id": "abffa2b7f101",
     "interpreter": "3.12.10",
     "invocation": "py tools/run_generation.py --generation 9001..9006 --lines 1 --tier frozen,probe --only {count-frequency,order-first-last,conjunction-and-absence,exact-repeat,hop-and-inventory,quantity-change} ; ELECTRIC off (no --electric flag)",
-    "journal_bytes": {
-      "generation_9001_asks.jsonl": 5341,
-      "generation_9002_asks.jsonl": 6774,
-      "generation_9003_asks.jsonl": 6563,
-      "generation_9004_asks.jsonl": 7459,
-      "generation_9005_asks.jsonl": 8697,
-      "generation_9006_asks.jsonl": 4366
+    "journals_deleted_scratch_not_for_recheck": {
+      "bytes_pre_deletion": {
+        "generation_9001_asks.jsonl": 5341,
+        "generation_9002_asks.jsonl": 6774,
+        "generation_9003_asks.jsonl": 6563,
+        "generation_9004_asks.jsonl": 7459,
+        "generation_9005_asks.jsonl": 8697,
+        "generation_9006_asks.jsonl": 4366
+      },
+      "paths": [
+        "state/selection/generation_9001_asks.jsonl",
+        "state/selection/generation_9002_asks.jsonl",
+        "state/selection/generation_9003_asks.jsonl",
+        "state/selection/generation_9004_asks.jsonl",
+        "state/selection/generation_9005_asks.jsonl",
+        "state/selection/generation_9006_asks.jsonl"
+      ],
+      "sha256_lf_pre_deletion": {
+        "generation_9001_asks.jsonl": "55d3c8f35072511e9f2cd6ee793088c72955182e08540444f9d6183fcce18ec8",
+        "generation_9002_asks.jsonl": "0df3313a9821b823404c08089beb46ace018ee320b5a302662813794fcadf78e",
+        "generation_9003_asks.jsonl": "d83dca62401da056eefd8188fcd70d0b348a2d46681e95099715913406d98223",
+        "generation_9004_asks.jsonl": "33f82cd3d79b1f8c58ef028a4e532a01c1b3c2ce93bbc9d74a90bf3a88750910",
+        "generation_9005_asks.jsonl": "00544d0399b836ef48926a4e242350d4ce1a4cf0ee694a66d823036379c7be68",
+        "generation_9006_asks.jsonl": "4401faab5ce6d727a1edb28030924afcd320ef37d5d81af6255233bd633cd5fe"
+      },
+      "status": "DELETED SCRATCH -- DO NOT ATTEMPT A RECHECK AGAINST THESE PATHS. Generations 9001-9006 were synthetic --only chunk numbers, not generations. state/selection/ is deliberately tracked (.gitignore:94-101, the lineage record), so leaving a scratch generation in it would put a run that never happened into the lineage.",
+      "why_the_hashes_still_mean_something": "Each hash was taken from the file while it existed, before deletion, and the rows those files carried were written out verbatim to recheck_target below. A recheck verifies the rows, not the deleted paths."
     },
-    "journal_sha256_lf": {
-      "generation_9001_asks.jsonl": "55d3c8f35072511e9f2cd6ee793088c72955182e08540444f9d6183fcce18ec8",
-      "generation_9002_asks.jsonl": "0df3313a9821b823404c08089beb46ace018ee320b5a302662813794fcadf78e",
-      "generation_9003_asks.jsonl": "d83dca62401da056eefd8188fcd70d0b348a2d46681e95099715913406d98223",
-      "generation_9004_asks.jsonl": "33f82cd3d79b1f8c58ef028a4e532a01c1b3c2ce93bbc9d74a90bf3a88750910",
-      "generation_9005_asks.jsonl": "00544d0399b836ef48926a4e242350d4ce1a4cf0ee694a66d823036379c7be68",
-      "generation_9006_asks.jsonl": "4401faab5ce6d727a1edb28030924afcd320ef37d5d81af6255233bd633cd5fe"
-    },
-    "journals": [
-      "state/selection/generation_9001_asks.jsonl",
-      "state/selection/generation_9002_asks.jsonl",
-      "state/selection/generation_9003_asks.jsonl",
-      "state/selection/generation_9004_asks.jsonl",
-      "state/selection/generation_9005_asks.jsonl",
-      "state/selection/generation_9006_asks.jsonl"
-    ],
     "line": "g9001-1",
     "measured_under_commit": "5e1e663",
     "measured_under_commit_dirty": true,
@@ -100,6 +96,13 @@
     "numpy": "2.5.4",
     "operator": "clone",
     "plastic_synapses": 2983,
+    "recheck_target": {
+      "bytes": 39158,
+      "path": "experiments/MP-E9/results/battery_pre_flag_rows.jsonl",
+      "rows": 42,
+      "sha256_lf": "1cfafeb2557c1192c4f3eb8ea0c55fc94f63992681678cb14f2d419251a445b8",
+      "this_is_what_to_open": "Grade this file with tools/mp_e9_battery.py --journal <this path> to reproduce every number in `measured`. It is the same 42 rows the deleted chunk journals carried, ordered frozen-then-probe."
+    },
     "rows_extract": {
       "bytes": 39158,
       "path": "experiments/MP-E9/results/battery_pre_flag_rows.jsonl",
