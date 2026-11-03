@@ -12,8 +12,11 @@ absorbed.
 B.1 steps are met and sealed. Step 3 — "three clones … must produce identical outcomes row for row" —
 **is falsified by measurement** (11 of 3,672 rows move; §4), and the choice among the three
 pre-registered R13 resolutions is the PI's, not mine. The suite blocker that also gated this record is
-**closed**: 1,164 collected, 1,164 reached, 0 collected-but-not-executed (§7). Blocker 1 and the two open
-decisions in §7 travel with the gate into MP-E9 rather than being quietly answered.
+**closed, and now measured rather than inferred**: 1,167 collected, 1,167 reached,
+0 collected-but-not-executed, **returncode 0, 0 failures, 3 skipped, 528.27 s** (§7). The earlier
+exit-1 run stays on the record; the 1,164 → 1,167 move is attributed node-id by node-id and is not
+collection instability. Blocker 1 and the two open decisions travel with the gate into MP-E9 rather than
+being quietly answered.
 
 ---
 
@@ -237,15 +240,29 @@ this is `tools/suite_manifest.py`: it collects once, runs the suite **once** wit
 diffs the two sets by node id, so the question "are 244 tests silently not running?" is answered by
 file name rather than by a better-looking total. Run alone, nothing else on the machine, per §9:
 
-| | |
-|---|---|
-| collected | **1,164** (collect exit 0) |
-| executed (`<testcase>` elements reached) | **1,164** |
-| **collected-but-not-executed** | **0** — `collected-minus-executed is empty` |
-| pytest returncode | **1** |
-| junit counters | tests 1164, errors 0, failures 1, skipped 3, time 519.320 s |
-| wall | 521.18 s |
-| artifact | `experiments/G0-prime/results/suite_manifest.json` (XML kept in `_tmp/`, untracked by design) |
+| | run 1 — 05:36:39Z | run 2 — 05:59:51Z |
+|---|---|---|
+| collected | **1,164** (collect exit 0) | **1,167** (collect exit 0) |
+| executed (`<testcase>` reached) | **1,164** | **1,167** |
+| **collected-but-not-executed** | **0** | **0** |
+| pytest returncode | **1** | **0** |
+| junit counters | tests 1164, errors 0, failures **1**, skipped 3, 519.320 s | tests 1167, errors 0, failures **0**, skipped 3, 526.447 s |
+| wall | 521.18 s | 528.27 s |
+| tree | pre-commit (the gate commit did not exist yet) | `bf0bc40` + the re-stamp, worktree clean |
+
+Both runs are in the artifact; run 2 is the one `README.md:853` and `registration.json` now cite. Run 1
+stays because it is the measurement that closed the 244-test question and it is the run whose single
+failure produced the two seal bugs in §6 — deleting it would delete the evidence for those findings.
+
+**The count moved 1,164 → 1,167, and the reason is arithmetic, not instability.** Three testcases
+appeared between the two runs while only one `def test_` was added, which is the signature of collection
+reading something other than the tree. It was checked rather than assumed: a throwaway worktree pinned at
+the gate commit collected **1,166** ids, and the current tree collects **1,167**, differing by exactly one
+node id — `test_index_cross_check_is_not_vacuous`. No id disappeared; no module's count moved except
+`tests/test_g0_prime_instruments.py` (16 → 17). So run 1 measured a tree that predated **two**
+seal-regression tests which the gate commit itself then carried, and run 2 measures the tree after the
+third was added. Collection is deterministic and tree-determined, which is the property MP-E9 needs from
+a baseline: the suite does not collect differently depending on artifacts the suite writes.
 
 **The 244-test gap never existed.** `917 passed, 3 skipped in 268.71s` was a **truncated invocation** — a
 background wrapper that reported exit 1 while its captured file ended on a pass summary, and two
@@ -276,10 +293,17 @@ drops any `registration.json` target and records the exclusion in `registrations
 `test_no_registration_seals_another_registration` pins it so the cycle cannot be reintroduced silently.
 Both registrations are stamped with both exclusions in force, which makes stamping order-independent and
 the result idempotent. **Verified, not assumed:** the seal tests were re-run alone —
-`37 passed, returncode 0, 7.69s`. The full suite was **not** run a second time. Its exit code on the
-repaired tree is `0` *by inference* from 1,164 reached, 0 missing, and one repaired-and-re-verified
-failure; that inference is recorded as an inference in `registration.json` rather than laundered into a
-measured run.
+`37 passed, returncode 0, 7.69s`, later `38 passed, 13.71s` once the vacuous-check regression was added.
+
+**The inference that used to sit here is now a measurement.** At this point the record claimed the full
+suite's exit code on the repaired tree was `0` *by inference* from 1,164 reached, 0 missing and one
+repaired failure, explicitly labelled as an inference rather than laundered into a measured run. It has
+since been run: **1,167 collected, 1,167 reached, 0 collected-but-not-executed, returncode 0, failures 0,
+errors 0, 3 skipped, 528.27 s wall**, alone on the machine per §9, in `suite_manifest.json`. Nothing in
+the repaired tree changed a bench probe, threshold, class or exit-code rule, so this is the same
+instrument the freeze registered — the delta is the three added regression tests and the seal tool. The
+inference was correct, and being correct is not the same as being measured, which is why it is replaced
+here rather than left as a vindicated prediction.
 
 **The self-reference this exposes, stated rather than hidden.** The suite contains a test that seals
 `experiments/G0-prime/decision.md` — the document that cites the suite result. It cannot both quote the

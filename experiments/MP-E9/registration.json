@@ -62,13 +62,12 @@
         "sha256_of_git_blob": "318eb8c2d4fa5125945305ae862cf507dc8de30ed244bde04f8ed43cbb181ea6"
       },
       "experiments/G0-prime/decision.md": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 25358,
-        "bytes_worktree": 25721,
-        "git_blob_sha1": "042d5ce7f939d1cbef2df303f662078965f696d0",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 27974,
+        "git_blob_sha1": "59ed46dc6e17e3189f578ca43974b9080c06c8f1",
         "line_endings": "CRLF",
-        "sha256_lf": "5c7b494a306d3b5fd0129f4fc590542ba51c7b6d2ab451d8f7b9160b45f5914f",
-        "sha256_of_git_blob": "5c7b494a306d3b5fd0129f4fc590542ba51c7b6d2ab451d8f7b9160b45f5914f"
+        "sha256_lf": "d410683b8ff11bb8515123f55309a9fe3c3ab03a49fa62a113b6a315f0909189",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/failure_taxonomy.json": {
         "blob_equals_lf_normalised": true,
@@ -134,13 +133,12 @@
         "sha256_of_git_blob": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d"
       },
       "experiments/G0-prime/results/suite_manifest.json": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 1087,
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
         "bytes_worktree": 1087,
-        "git_blob_sha1": "8b3acacf671cad9aa6e0904424d8ac96f3d1ff62",
+        "git_blob_sha1": "11485c44237361a8f2049db1dfaf2b672b3de264",
         "line_endings": "LF",
-        "sha256_lf": "bd48a20142bc1f961bd91914fac8f89128cff0cef1b9a7973db99bdb62bd66fd",
-        "sha256_of_git_blob": "bd48a20142bc1f961bd91914fac8f89128cff0cef1b9a7973db99bdb62bd66fd"
+        "sha256_lf": "365aaef11021d8da75d940d597ca0237145412a32d3932a8e004d3eadac5e362",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/results/word_provenance_audit.json": {
         "blob_equals_lf_normalised": true,
@@ -315,7 +313,7 @@
       }
     },
     "git_dirty": true,
-    "git_head": "a5989936fae2f9a2d81e520e69ad24cf76b25427",
+    "git_head": "bf0bc40e04232c915c0672b65bc49595ce62d7dd",
     "hash_basis": "sha256 over CRLF-folded-to-LF bytes",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -356,7 +354,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-03T05:47:27Z",
+    "sealed_at_utc": "2026-11-03T06:07:06Z",
     "self_excluded": {
       "path": "experiments/MP-E9/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."

@@ -104,7 +104,7 @@
       "B.1 step 6"
     ],
     "closing_blockers": [],
-    "status": "CLOSED conditional on B.1 step 3, carried forward to the PI. Suite blocker closed: 1164 collected / 1164 reached / 0 collected-but-not-executed. Both registrations stamped and --check clean."
+    "status": "CLOSED conditional on B.1 step 3, carried forward to the PI. Suite blocker closed by measurement, not inference: 1167 collected / 1167 reached / 0 collected-but-not-executed / returncode 0. Both registrations stamped and --check clean (29/29 on the git blob, 29 of 29 in the index, 0 index drift, every sealed blob sha256 confirmed against the object database)."
   },
   "harness_hashes": {
     "files": {
@@ -118,13 +118,12 @@
         "sha256_of_git_blob": "318eb8c2d4fa5125945305ae862cf507dc8de30ed244bde04f8ed43cbb181ea6"
       },
       "experiments/G0-prime/decision.md": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 25358,
-        "bytes_worktree": 25721,
-        "git_blob_sha1": "042d5ce7f939d1cbef2df303f662078965f696d0",
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "bytes_worktree": 27974,
+        "git_blob_sha1": "59ed46dc6e17e3189f578ca43974b9080c06c8f1",
         "line_endings": "CRLF",
-        "sha256_lf": "5c7b494a306d3b5fd0129f4fc590542ba51c7b6d2ab451d8f7b9160b45f5914f",
-        "sha256_of_git_blob": "5c7b494a306d3b5fd0129f4fc590542ba51c7b6d2ab451d8f7b9160b45f5914f"
+        "sha256_lf": "d410683b8ff11bb8515123f55309a9fe3c3ab03a49fa62a113b6a315f0909189",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/failure_taxonomy.json": {
         "blob_equals_lf_normalised": true,
@@ -190,13 +189,12 @@
         "sha256_of_git_blob": "247e1e7494de2a71a1ba84ff54384f6173f4496a6985ba3e7f768907e399137d"
       },
       "experiments/G0-prime/results/suite_manifest.json": {
-        "blob_equals_lf_normalised": true,
-        "bytes_blob": 1087,
+        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
         "bytes_worktree": 1087,
-        "git_blob_sha1": "8b3acacf671cad9aa6e0904424d8ac96f3d1ff62",
+        "git_blob_sha1": "11485c44237361a8f2049db1dfaf2b672b3de264",
         "line_endings": "LF",
-        "sha256_lf": "bd48a20142bc1f961bd91914fac8f89128cff0cef1b9a7973db99bdb62bd66fd",
-        "sha256_of_git_blob": "bd48a20142bc1f961bd91914fac8f89128cff0cef1b9a7973db99bdb62bd66fd"
+        "sha256_lf": "365aaef11021d8da75d940d597ca0237145412a32d3932a8e004d3eadac5e362",
+        "sha256_of_git_blob": null
       },
       "experiments/G0-prime/results/word_provenance_audit.json": {
         "blob_equals_lf_normalised": true,
@@ -371,7 +369,7 @@
       }
     },
     "git_dirty": true,
-    "git_head": "a5989936fae2f9a2d81e520e69ad24cf76b25427",
+    "git_head": "bf0bc40e04232c915c0672b65bc49595ce62d7dd",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -394,7 +392,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-03T05:47:24Z",
+    "sealed_at_utc": "2026-11-03T06:07:03Z",
     "self_excluded": {
       "path": "experiments/G0-prime/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -715,29 +713,49 @@
     "baseline_reproduced": "PENDING -- tools/bench_noise_floor.py compares clone 1 against docs/evidence/electric_learn_bench.json row for row and records the verdict",
     "full_suite": {
       "artifact": "experiments/G0-prime/results/suite_manifest.json",
-      "collected": 1164,
+      "collected": 1167,
       "collected_but_not_executed": 0,
+      "executed": 1167,
+      "first_run": {
+        "collected": 1164,
+        "collected_but_not_executed": 0,
+        "executed": 1164,
+        "generated_at_utc": "2026-11-03T05:36:39Z",
+        "inference_recorded_at_the_time": "0 by inference from the above -- 1164 reached, 0 missing, and the single failure is repaired and re-verified. Recorded as an inference, not as a measured run.",
+        "junit_counters": {
+          "errors": 0,
+          "failures": 1,
+          "skipped": 3,
+          "tests": 1164,
+          "time_seconds": 519.32
+        },
+        "note_on_the_single_failure": "test_registration_seal_verifies_against_the_registration read REG = experiments/MP-E9/registration.json while every seal this session stamped went into experiments/G0-prime/registration.json. MP-E9's manifest still listed its own path, which is permanent self-DRIFT: writing a seal into a file changes the file, so a registration that seals itself can never verify clean. The failure was a stale seal on a file the test was not stamping, not a defect in the bench or the organism. Repaired: the test now checks BOTH registrations, both are stamped with the self-entry dropped, and test_no_registration_seals_its_own_bytes pins the exclusion so the bug cannot return silently.",
+        "pytest_returncode": 1,
+        "status": "SUPERSEDED by the measured clean run below, and retained: run 1 is the measurement that closed the 244-test question and the run whose single failure exposed the self-referential and mutual-sealing seal bugs. Deleting it would delete the evidence for those findings.",
+        "wall_seconds": 521.18
+      },
+      "generated_at_utc": "2026-11-03T05:59:51Z",
       "generated_by": "tools/suite_manifest.py",
       "junit_counters": {
         "errors": 0,
-        "failures": 1,
+        "failures": 0,
         "skipped": 3,
-        "tests": 1164,
-        "time_seconds": 519.32
+        "tests": 1167,
+        "time_seconds": 526.447
       },
-      "note_on_the_single_failure": "test_registration_seal_verifies_against_the_registration read REG = experiments/MP-E9/registration.json while every seal this session stamped went into experiments/G0-prime/registration.json. MP-E9's manifest still listed its own path, which is permanent self-DRIFT: writing a seal into a file changes the file, so a registration that seals itself can never verify clean. The failure was a stale seal on a file the test was not stamping, not a defect in the bench or the organism. Repaired: the test now checks BOTH registrations, both are stamped with the self-entry dropped, and test_no_registration_seals_its_own_bytes pins the exclusion so the bug cannot return silently.",
-      "pytest_returncode": 1,
-      "repair_verified_by": "targeted re-run of tests/test_g0_prime_instruments.py + tests/test_word_provenance.py = 37 passed, returncode 0, 7.69s. The full suite was NOT run a second time: the only failing node was the seal test, and re-running an 8-minute suite to chase a cleaner total is the behaviour this blocker exists to forbid.",
+      "note_on_the_count_move_1164_to_1167": "Three testcases appeared while only one `def test_` was added, which is the signature of collection reading something other than the tree. Checked, not assumed: a throwaway git worktree pinned at the gate commit collects 1,166 node ids and the current tree collects 1,167, differing by exactly one id -- tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous. No id disappeared and no other module's count moved. So run 1 measured a tree that predated TWO seal-regression tests which the gate commit itself later carried. Collection is deterministic and tree-determined: the suite does not collect differently depending on artifacts it writes.",
+      "pytest_returncode": 0,
+      "repair_verified_by": "Targeted re-runs before the full one: tests/test_g0_prime_instruments.py + tests/test_word_provenance.py = 37 passed, returncode 0, 7.69s, then 38 passed, returncode 0, 13.71s after the vacuous-check regression was added. Both are now subsumed by the full-suite returncode 0.",
       "sequencing_note": "run after the clone run finished, never concurrently with it: the organ reads time.time() in its answer path, so CPU contention from a second heavy process would perturb the organism being measured and contaminate the noise estimate",
       "skips_are_preexisting_legacy_archive": [
         "tests/test_multilang.py::test_agent_full_loop_in_lua",
         "tests/test_reasoning.py::test_reasoning_loop_solves_and_thinks_multistep",
         "tests/test_reasoning.py::test_backtrack_switches_approach_and_can_recover"
       ],
-      "status": "done",
-      "suite_exit_code_if_rerun_now": "0 by inference from the above -- 1164 reached, 0 missing, and the single failure is repaired and re-verified. Recorded as an inference, not as a measured run.",
+      "status": "done -- measured clean, exit 0, alone on the machine per section 9",
       "superseded_number": "917 passed, 3 skipped in 268.71s -- a TRUNCATED invocation whose wrapper reported exit 1 while its captured file ended on a pass summary. Kept on the record per R5 rather than deleted; it is the origin of the 1164-vs-920 mystery, which measurement shows never existed: every collected test is reached.",
-      "wall_seconds": 521.18
+      "wall_seconds": 528.27,
+      "why_a_second_full_run_is_not_chasing_a_number": "The instruction was not to re-run hoping for a better total -- run 1 already proved 0 missing. The tree had genuinely changed since run 1 (three files edited, three tests added), and the gate record's only remaining inference was the suite's exit code on THAT tree. One run, alone, to convert an explicitly-labelled inference into a measurement."
     },
     "one_bench_cell": {
       "configuration": "control, depth 1, --no-write",
@@ -822,6 +840,7 @@
     "resolution_adopted": "Every hash written by G0-prime is computed over CRLF-folded-to-LF content, with the worktree hash recorded alongside where the two differ. tools/registration_seal.py implements the rule so it is a computed field, not a convention.",
     "summary": "Published hashes in this repository are worktree-dependent, so at least one of them changes when you check the code out."
   },
+  "suite_reverified": "MEASURED -- 1,167 collected / 1,167 reached / 0 collected-but-not-executed / returncode 0 / 0 failures / 3 skipped at 2026-11-03T05:59:51Z, alone on the machine. See re_verification.full_suite; the earlier exit-1 run is retained under re_verification.full_suite.first_run.",
   "title": "Benchmark freeze to battery standards",
   "word_level_grader": {
     "admitted_refusal_form": {
