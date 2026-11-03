@@ -3154,6 +3154,22 @@ class NeuralLanguage:
     # Inert without ELECTRIC_QA_STORE: with no store there is no key to fold. Registered in
     # tools/electric_teach_mode.py DEPENDS_ON so every wiring site says so in the same words.
     ELECTRIC_QA_MORPH_NORMALIZE = False
+    # MP-E9 F1: the plan's ONE registered fallback for the morphology defect -- "per-entry
+    # morphological aliases instead of a global stemmer" (Master Plan v1.1, Gate G1 fallback clause).
+    #
+    # P2 folded EVERY key through stem(), which re-keyed the whole store and, as measured, moved zero
+    # rows. This does the opposite: the store keeps its exact keys, and each record additionally
+    # registers aliases derived from ITS OWN words -- one token replaced by its stem, plus the
+    # all-stems fold -- in a side index consulted only after the exact key has already missed. A
+    # global stemmer can over-admit because it decides for every pair at once; a per-entry alias can
+    # only ever offer a pair the house was actually told, under a spelling of the question it was
+    # actually asked.
+    #
+    # Inert without ELECTRIC_QA_STORE (no store, nothing to alias). An alias claimed by two different
+    # primaries is dropped, not resolved: choosing between two lessons that spell alike is guessing,
+    # and a guess here gets believed because what comes back is a verbatim line.
+    # Prediction: registered_predictions.F1_per_entry_aliases. It predicts its own failure.
+    ELECTRIC_QA_MORPH_ALIASES = False
     # E25: drop function words from `must`, the set whose size is the coverage
     # DENOMINATOR. E23 measured this lever (`v_synt`) and it was refuted -- not
     # because the arithmetic was wrong but because the guarded scarf ask's refusal
@@ -3302,6 +3318,65 @@ class NeuralLanguage:
             return k
         return " ".join(stem(t) for t in k.split())
 
+    def qa_alias_keys(self, key) -> list:
+        """Per-entry aliases for ONE stored key: this entry's own tokens, each folded alone.
+
+        Derived from the record's words and nothing else -- no global fold of the key space, which is
+        the distinction the plan draws. Returns the all-stems form plus every single-token variant
+        that differs from the key, never the key itself.
+        """
+        toks = str(key or "").split()
+        stems = [stem(t) for t in toks]
+        out = set()
+        if stems != toks:
+            out.add(" ".join(stems))
+        for i, (t, s) in enumerate(zip(toks, stems)):
+            if s != t:
+                v = list(toks)
+                v[i] = s
+                out.add(" ".join(v))
+        out.discard(" ".join(toks))
+        return sorted(out)
+
+    def qa_alias_register(self, key, record) -> None:
+        """File one record's aliases in the side index. First wins; a contested alias is DROPPED.
+
+        Two records claiming the same alias is not a tie to break, it is evidence the alias is too
+        broad, and the house rule on this path is that an ambiguous fold answers nothing.
+        """
+        if not self.ELECTRIC_QA_MORPH_ALIASES or not key:
+            return
+        idx = getattr(self, "qa_alias", None)
+        if idx is None:
+            idx = self.qa_alias = {}
+        for a in self.qa_alias_keys(key):
+            have = idx.get(a)
+            if have is None:
+                idx[a] = key
+            elif have != key:
+                # Contested: neither record may be reached by this alias.
+                idx[a] = None
+
+    def qa_store_lookup(self, text):
+        """The one read path for the store: exact key first, alias index only on a miss.
+
+        Returns (record, key_used, how) with how in {"exact", "alias", None}. With both morphology
+        flags off this is `qa_store.get(qa_key(text))` and nothing more, which is what keeps the
+        flag-OFF arm a reproduction rather than a near-miss: the alias index is empty, so the second
+        branch cannot be taken even in principle.
+        """
+        k = self.qa_store_key(text)
+        rec = self.qa_store.get(k)
+        if rec is not None:
+            return rec, k, "exact"
+        if self.ELECTRIC_QA_MORPH_ALIASES:
+            target = (getattr(self, "qa_alias", None) or {}).get(k)
+            if target:
+                rec = self.qa_store.get(target)
+                if rec is not None:
+                    return rec, target, "alias"
+        return None, k, None
+
     def _qa_restore_store(self, qst) -> dict:
         """Rebuild qa_store from a persisted dict, RE-DERIVING every key.
 
@@ -3324,6 +3399,9 @@ class NeuralLanguage:
         """
         store: dict = {}
         collisions = []
+        # The alias index is a property of the keys currently in the store, so it is rebuilt here
+        # rather than persisted: a file could carry an alias for a record that no longer qualifies.
+        self.qa_alias = {}
         for k, v in (qst or {}).items():
             if not isinstance(v, dict) or not v.get("prov") or not (v.get("a") or []):
                 continue
@@ -3343,6 +3421,7 @@ class NeuralLanguage:
                                    "kept_file_key": None, "reason": "fold collision, first wins"})
                 continue
             store[nk] = rec
+            self.qa_alias_register(nk, rec)
         self._qa_restore_report = {"records_in": len(qst or {}), "kept": len(store),
                                    "collisions": collisions,
                                    "morph_normalize": bool(self.ELECTRIC_QA_MORPH_NORMALIZE),
@@ -3509,6 +3588,10 @@ class NeuralLanguage:
         self.qa_store[key] = {"q": list(q), "a": list(a), "word": w,
                               "role": int(role), "filler": str(filler),
                               "prov": dict(provenance)}
+        # Per-entry aliases are filed for the record that was JUST admitted, from its own key. The
+        # write side is where an alias earns its warrant: it can only ever spell a question this
+        # house was actually given, never a question a stemmer inferred on its behalf.
+        self.qa_alias_register(key, self.qa_store[key])
         return key
 
     def _qa_elicit(self, text, speaker):
@@ -3637,7 +3720,7 @@ class NeuralLanguage:
         line sat under that question in that book.
         """
         raw = str(text or "").strip()
-        rec = self.qa_store.get(self.qa_store_key(raw))
+        rec, _used_key, how = self.qa_store_lookup(raw)
         folded = rec is None
         if folded:
             # ELECTRIC_QA_PARAPHRASE: the exact characters are not in the store, so try the
@@ -3648,7 +3731,13 @@ class NeuralLanguage:
             return None
         typed = raw.endswith("?")
         evidence = "typed"
-        if folded:
+        if how == "alias":
+            # Reached through a PER-ENTRY ALIAS, not the words anybody typed at him. The same
+            # discipline as the paraphrase fold one branch below: a weaker claim gets its own word
+            # instead of borrowing a stronger one, because `prov.source` and this ladder are what
+            # C4 counts, and an alias hit filed as `person_marked` would be a provenance lie.
+            evidence = "typed_alias" if typed else "person_alias"
+        elif folded:
             # Not the words anybody typed with a `?` at him -- the words that FOLD onto them.
             # Marked or not, that is a weaker claim than `typed` and a different claim from
             # `person_marked`, so it gets its own word instead of borrowing either.
@@ -5932,7 +6021,9 @@ class NeuralLanguage:
         # that word one vote. Same record test afterwards, so an ask the store holds no pair
         # for -- folded or not -- keeps the path it always took.
         if self.ELECTRIC_QA_ELICIT and self.qa_store:
-            rec = self.qa_store.get(self.qa_store_key(user_text))
+            # Exact key, then the per-entry alias index, then the paraphrase fold -- in that order,
+            # and this router only decides whether to CALL answer(), it never answers from the row.
+            rec, _used_key, _how = self.qa_store_lookup(user_text)
             if rec is None:
                 rec = self._qa_paraphrase_hit(user_text)
             if rec and str((rec.get("prov") or {}).get("source")

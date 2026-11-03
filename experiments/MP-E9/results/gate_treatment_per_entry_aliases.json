@@ -1,0 +1,257 @@
+{
+ "H1": {
+  "numeric": {
+   "asserted_untraceable_rows_max": 0,
+   "heard_not_told_rows": "reported and counted, NOT part of this threshold (D-G0P-03)",
+   "transcribed_from": "0 asserted-untraceable rows in every arm, every depth, every phase. The heard-not-told class (6 rows) is reported separately and is NOT part of this threshold until the PI rules on its scope -- see open_decisions_for_pi."
+  },
+  "observed": {
+   "asserted_rows": 16,
+   "heard_rows_reported_not_counted": 6
+  },
+  "pass": false,
+  "threshold_as_registered": "0 asserted-untraceable rows in every arm, every depth, every phase. The heard-not-told class (6 rows today) is a third class, UNTRACEABLE_HEARD: reported and counted in every audit, NOT an abort -- ruled by the PI as D-G0P-03 on 2026-11-03, which resolves the question this threshold previously left open. The threshold VALUE is unchanged by the ruling: C1 was already written against UNTRACEABLE_ASSERTED, so C1 fires at 16 today and not at 22. Had the PI ruled the other way, H1 would have had to be re-scoped before MP-E9 opened."
+ },
+ "H2": {
+  "numeric": {
+   "arbiter_tell_rows_equal": 36,
+   "rows_losing_correct_max": 0,
+   "says_gap_refused_plus_echo_min": 65,
+   "says_rows_flagged_max": 0,
+   "transcribed_from": "says_rows_flagged == 0 AND arbiter_tell_rows == 36 AND rows_losing_correct == 0 AND says-gap refused+echo rows >= 65 (the 81-row census must not shrink into new speech)."
+  },
+  "observed": {
+   "arbiter_tell_rows": 36,
+   "rows_losing_correct": 0,
+   "says_gap_refused_plus_echo": 65,
+   "says_rows_flagged": 16
+  },
+  "pass": false,
+  "threshold_as_registered": "says_rows_flagged == 0 AND arbiter_tell_rows == 36 AND rows_losing_correct == 0 AND says-gap refused+echo rows >= 65 (the 81-row census must not shrink into new speech)."
+ },
+ "H3": {
+  "numeric": {
+   "asserted_untraceable_rows_max": 0,
+   "guarded_absence_rows_equal": 24,
+   "invented_rows_max": 0,
+   "toll_correct_min": 6,
+   "transcribed_from": "toll correct >= 6 AND invented_rows == 0 AND UNTRACEABLE_ASSERTED == 0 AND guarded_absence_rows == 24."
+  },
+  "observed": {
+   "asserted_rows": 16,
+   "guarded_absence_rows": 24,
+   "invented_rows": 0,
+   "kin_correct": {
+    "bite": 90,
+    "carry": 81,
+    "cross": 27,
+    "guard": 18,
+    "hang": 30,
+    "ring": 54
+   },
+   "toll_correct": 0,
+   "toll_rows": 54
+  },
+  "pass": false,
+  "threshold_as_registered": "toll correct >= 6 AND invented_rows == 0 AND UNTRACEABLE_ASSERTED == 0 AND guarded_absence_rows == 24."
+ },
+ "H4": {
+  "battery": "not supplied -- pass --battery PATH",
+  "battery_clause": "not supplied -- pass --battery PATH",
+  "battery_electric": "not supplied",
+  "battery_measured": null,
+  "invariants_pass": true,
+  "numeric": {
+   "absence_admitted_by_form_equal": 24,
+   "battery_frozen_correct": 19,
+   "battery_frozen_total": 24,
+   "battery_guarded_pass": 4,
+   "battery_guarded_total": 4,
+   "guarded_absence_rows_equal": 24,
+   "learn_correct_live_min_by_depth": [
+    38,
+    75,
+    115
+   ],
+   "transcribed_from": "guarded_absence_rows == 24 AND absence rows admitted by the grader's form == 24 AND learn correct at depths 1/2/3 not below 38/75/115 AND battery frozen 19/24 with ELECTRIC off AND battery guarded 4/4."
+  },
+  "observed": {
+   "absence_admitted_by_form": 24,
+   "guarded_absence_rows": 24,
+   "learn_correct_live": {
+    "1": 38,
+    "2": 75,
+    "3": 115
+   }
+  },
+  "pass": null,
+  "threshold_as_registered": "guarded_absence_rows == 24 AND absence rows admitted by the grader's form == 24 AND learn correct at depths 1/2/3 not below 38/75/115 AND battery frozen 19/24 with ELECTRIC off AND battery guarded 4/4."
+ },
+ "abort_conditions": {
+  "C1": {
+   "fired": true,
+   "measured_by": "word_provenance verdict_counts.UNTRACEABLE_ASSERTED > 0",
+   "note": "D-G0P-03 as ruled: C1 counts the ASSERTED class only. heard-not-told rows are reported and are NOT aborts -- the harness put that word in front of the organism, so it is a leakage channel in the instrument rather than confabulation by the organism."
+  },
+  "C2": {
+   "fired": false,
+   "measured_by": "src == electric_absence rows != 24, or any of the 24 fails the admitted-form check"
+  },
+  "C3": {
+   "fired": false,
+   "measured_by": "headline_per_clone from tools/bench_noise_floor.py",
+   "observed": {
+    "1": 38,
+    "2": 75,
+    "3": 115
+   },
+   "registered_floor": [
+    38,
+    75,
+    115
+   ]
+  },
+  "C4": {
+   "fired": null,
+   "measured_by": "qa_store rows whose provenance field is not person_marked or person_paraphrase",
+   "state": "NOT YET MEASURABLE",
+   "why": "C4 counts qa_store rows whose provenance is neither person_marked nor person_paraphrase. That population only exists once ELECTRIC_QA_MORPH_NORMALIZE widens the store keys, which is PRE-1 / B.2 step 2 and has not been implemented. A pre-treatment count over today's 288 electric_qa_store rows would measure a key form the condition does not describe, so no number is reported rather than a misleading one."
+  },
+  "C5": {
+   "fired": null,
+   "measured_by": "correct rows gained, grouped by probe shape; a single shape carrying all gains fires C5",
+   "state": "VACUOUS PRE-TREATMENT",
+   "why": "C5 groups GAINED rows by probe shape. In the pre-treatment self-check rows_gaining_correct == 0, so there is nothing to group and the condition cannot fire. It becomes measurable only against a treatment candidate, where row_movement_vs_reference supplies the gains."
+  }
+ },
+ "invented": {
+  "failure_list_rows": 0,
+  "summary_invented_rows": 0
+ },
+ "morphology_class": {
+  "bite": {
+   "correct": 90,
+   "echo": 9,
+   "partial": 50,
+   "refused": 65,
+   "rows": 216
+  },
+  "carry": {
+   "correct": 81,
+   "echo": 9,
+   "partial": 63,
+   "refused": 36,
+   "rows": 189
+  },
+  "cross": {
+   "correct": 27,
+   "echo": 9,
+   "partial": 21,
+   "refused": 132,
+   "rows": 189
+  },
+  "guard": {
+   "correct": 18,
+   "echo": 9,
+   "partial": 40,
+   "refused": 41,
+   "rows": 108
+  },
+  "hang": {
+   "correct": 30,
+   "echo": 52,
+   "partial": 12,
+   "refused": 17,
+   "rows": 135
+  },
+  "ring": {
+   "correct": 54,
+   "echo": 3,
+   "partial": 0,
+   "refused": 60,
+   "rows": 135
+  },
+  "toll": {
+   "correct": 0,
+   "echo": 38,
+   "partial": 0,
+   "refused": 16,
+   "rows": 54
+  }
+ },
+ "preconditions": {
+  "noise_floor_blocks_scoring": false,
+  "noise_floor_r13a": "MET WITH REGISTERED EXCLUSION",
+  "tier_40_protocol": {
+   "items": 40,
+   "matches_registered_tier_40": true,
+   "probes": 136,
+   "registered": "481.3 s for all three arms at HEAD 5d03621, inside the 15-minute budget."
+  }
+ },
+ "registered_baseline": {
+  "UNTRACEABLE_ASSERTED_rows": 16,
+  "UNTRACEABLE_HEARD_rows": 6,
+  "arbiter_tell_rows": 36,
+  "guarded_absence_rows": 24,
+  "learn_correct_live_depths_1_2_3": [
+   38,
+   75,
+   115
+  ],
+  "narration_frame_rows": 23,
+  "rows_audited": 3672,
+  "says_gap_rows": 81,
+  "silence_rows": 1519,
+  "toll_correct": 0,
+  "toll_rows": 54
+ },
+ "row_movement_vs_reference": {
+  "candidate_only_rows": 0,
+  "gaining_list": [],
+  "losing_list": [],
+  "reference_only_rows": 0,
+  "rows_compared": 3672,
+  "rows_gaining_correct": 0,
+  "rows_losing_correct": 0
+ },
+ "says_gap_census": {
+  "asks": [
+   "what the bridge cross",
+   "what the dog guard",
+   "what the nora carry"
+  ],
+  "by_cls": {
+   "echo": 27,
+   "partial": 16,
+   "refused": 38
+  },
+  "refused_plus_echo": 65,
+  "rows": 81,
+  "speaking": 16
+ },
+ "src_counts": {
+  "arbiter head": 1014,
+  "arbiter tell": 36,
+  "electric_absence": 24
+ },
+ "status": "POST-TREATMENT EVALUATION",
+ "word_level": {
+  "UNTRACEABLE_ASSERTED_rows": 16,
+  "UNTRACEABLE_HEARD_rows": 6,
+  "absence_rows_admitted_by_form": 24,
+  "asserted_words": [
+   "says"
+  ],
+  "guarded_absence_rows": 24,
+  "heard_words": {
+   "which": 3,
+   "why": 3
+  },
+  "narration_frame_rows": 23,
+  "rows_audited": 3672,
+  "says_rows": 16,
+  "says_rows_flagged_asserted": 16,
+  "silence_rows": 1519
+ }
+}

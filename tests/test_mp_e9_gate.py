@@ -411,6 +411,68 @@ def test_flag_on_p2_qa_morph_normalize_meets_its_registered_prediction():
     assert r["word_level"]["guarded_absence_rows"] == n["guarded_absence_rows_equal"]
 
 
+@pytest.mark.xfail(
+    strict=True,
+    reason=("REGISTERED SECOND FAILURE. F1 (per-entry aliases) is the plan's one registered fallback "
+            "for the morphology defect and it also failed: 0 of 3,672 rows moved. Gate G1 then "
+            "requires the residual be documented and the duel proceed with it named -- NOT a third "
+            "attempt -- so this stays a recorded negative. See "
+            "registered_predictions.F1_per_entry_aliases.outcome and residual_for_the_duel."))
+def test_flag_on_f1_per_entry_aliases_meets_its_registered_prediction():
+    r = _treatment("F1_per_entry_aliases")
+    n = PRED["F1_per_entry_aliases"]["numeric"]
+    toll = r["morphology_class"]["toll"]
+    assert toll["rows"] == n["toll_rows_equal"]
+    assert toll["correct"] >= n["toll_correct_min"], (
+        f"H3 predicted toll correct -> at least {n['toll_correct_min']} of 54 via the fallback; "
+        f"measured {toll['correct']}")
+    assert r["invented"]["summary_invented_rows"] <= n["invented_rows_max"]
+    assert r["word_level"]["guarded_absence_rows"] == n["guarded_absence_rows_equal"]
+
+
+def test_f1_mechanism_prediction_was_confirmed_and_is_distinct_from_its_criterion():
+    """F1 carried two predictions and they resolved in opposite directions. Both are checked.
+
+    The success criterion (H3's number) failed. The MECHANISM prediction -- 0 rows would move,
+    written from P2's post-mortem before F1 was implemented -- was confirmed exactly. A test that
+    only recorded the first would let a wrong diagnosis pass as a mere null result; the second is
+    what makes this a finding about where the defect lives rather than a failed attempt.
+    """
+    f1 = PRED["F1_per_entry_aliases"]
+    o = f1["outcome"]
+    assert o["prediction_met"] is False, "the criterion was met, so the premise was not falsified"
+    m = f1["mechanism_prediction_written_before_implementing"]
+    assert o["mechanism_prediction_result"]["met"] is True
+    assert m["predicted_rows_moved"] == o["rows_moved_vs_pre_treatment"]["total_differences"], (
+        "the mechanism prediction and the measurement disagree; the diagnosis needs revisiting, "
+        "not this test")
+    assert m["basis"], "a mechanism prediction with no stated basis is a guess"
+    # The ordering that makes this a prediction rather than a description. F1 was registered by its
+    # own amendment, so that amendment's time is the registration instant -- not the top-level
+    # predicted_at, which belongs to P1/P2 and would pass against any later run.
+    reg_at = [a["at"] for a in REG["registration_amendments"]
+              if a.get("what", "").startswith("Added registered_predictions.F1")]
+    assert reg_at, "F1's prediction was never registered by an amendment"
+    art = mg.load(ROOT / f1["artifact"])
+    started = (art.get("provenance") or {})["started_utc"]
+    assert reg_at[0] <= started, (
+        f"F1's mechanism prediction is recorded at {reg_at[0]} but the bench ran at {started}")
+
+
+def test_the_registered_fallback_is_exhausted_and_no_third_attempt_is_registered():
+    """G1: one registered fallback per defect, then a second failure documents the residual."""
+    keys = [k for k in PRED if k.startswith(("P", "F"))]
+    morph = [k for k in keys if "morph" in k.lower() or "alias" in k.lower()]
+    assert sorted(morph) == ["F1_per_entry_aliases", "P2_qa_morph_normalize"], (
+        f"a third morphology attempt is registered: {sorted(morph)}")
+    res = REG.get("residual_for_the_duel")
+    assert res, "a second failure must leave the residual on the record for the duel to carry"
+    assert res["status"].startswith("OPEN"), res["status"]
+    assert "coverage" in res["cause_named"].lower(), "the residual must name its cause"
+    # What MP-E9 ruled OUT has to be stated, or the next reader re-derives it and burns two more arms.
+    assert len(res["what_MP_E9_ruled_out"]) == 2, res["what_MP_E9_ruled_out"]
+
+
 # Every number an outcome block is allowed to claim, and where it comes from in the artifact.
 OUTCOME_FIELDS = {
     "UNTRACEABLE_ASSERTED_rows": lambda r: r["word_level"]["UNTRACEABLE_ASSERTED_rows"],
@@ -433,7 +495,7 @@ OUTCOME_FIELDS = {
 def test_a_recorded_outcome_is_the_artifact_it_names():
     """An outcome block that flatters its own measurement is the same corruption as an edited
     prediction, so every number in it is recomputed from the artifact it points at."""
-    for key in ("P1_arbiter_head_bound", "P2_qa_morph_normalize"):
+    for key in ("P1_arbiter_head_bound", "P2_qa_morph_normalize", "F1_per_entry_aliases"):
         o = PRED[key].get("outcome")
         assert o, f"{key} has been run and records no outcome"
         r = _treatment(key)

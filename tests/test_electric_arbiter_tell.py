@@ -109,11 +109,13 @@ def test_the_table_lists_it_as_a_widening_and_gives_it_no_parent():
     assert "ELECTRIC_ARBITER_TELL" in tm.LEARN_ATTRS
     assert "ELECTRIC_ARBITER_TELL" not in tm.STACK_ATTRS, \
         "a widening is not in the mode that can only ever refuse"
-    assert len(tm.EXCLUDED) == 7 and len(tm.ALL_ATTRS) == 20, (
-        "the census was 18 until MP-E9 registered two treatment arms. CANDIDATE contributes "
-        "ELECTRIC_ARBITER_HEAD_BOUND and ELECTRIC_QA_MORPH_NORMALIZE: they are in ALL_ATTRS so "
-        "state() reports their state instead of omitting it, and in no enable*() so no mode turns "
-        "them on by accident. Bumping this number is only correct alongside that composition.")
+    assert len(tm.EXCLUDED) == 7 and len(tm.ALL_ATTRS) == 21, (
+        "census: 18 before MP-E9, 20 with its two treatment arms, 21 with F1 (per-entry aliases), "
+        "the plan's registered fallback for the morphology defect. CANDIDATE contributes "
+        "ELECTRIC_ARBITER_HEAD_BOUND, ELECTRIC_QA_MORPH_NORMALIZE and ELECTRIC_QA_MORPH_ALIASES: "
+        "they are in ALL_ATTRS so state() reports their state instead of omitting it, and in no "
+        "enable*() so no mode turns them on by accident. Bumping this number is only correct "
+        "alongside the composition assertion below.")
     assert tm.ALL_ATTRS == (tm.STACK_ATTRS + tm.BASE_ATTRS + tm.EXCLUDED_ATTRS
                             + tm.CANDIDATE_ATTRS)
     assert "ELECTRIC_ARBITER_TELL" not in tm.CANDIDATE_ATTRS

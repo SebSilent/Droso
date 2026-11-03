@@ -965,6 +965,76 @@
     "utc": "2026-11-03T04:20:00Z"
   },
   "registered_predictions": {
+    "F1_per_entry_aliases": {
+      "artifact": "experiments/MP-E9/results/treatment_per_entry_aliases.json",
+      "flag": "ELECTRIC_QA_MORPH_ALIASES",
+      "if_this_fails": "That is the plan's second failure. The residual is documented measured and named, the duel proceeds carrying it, and the coverage denominator is NOT touched inside MP-E9 -- it is E23/E25 territory and G2's rule forbids specification edits mid-run.",
+      "mechanism_prediction_written_before_implementing": {
+        "basis": "Measured in P2's post-mortem, not assumed: qa_key('when does the bell toll?') and qa_key('when does the bell toll') already return the identical string, so the store lookup for the toll pair succeeds or fails on its exact key and an alias index adds nothing to a lookup that already matches. The inflected form is in the ANSWER ('it tolls at dusk'), and the refusal is issued downstream at the coverage gate, measured 32-33% against the 0.6 floor.",
+        "predicted_falsifier": "If F1 recovers any toll row, the diagnosis above is wrong and the store-key path IS reachable on this bench -- which would make P2's inertness a wiring failure rather than a premise failure. That is the more interesting outcome and it is why this is run rather than skipped.",
+        "predicted_rows_moved": 0,
+        "predicted_toll_correct": 0
+      },
+      "numeric": {
+        "guarded_absence_rows_equal": 24,
+        "invented_rows_max": 0,
+        "toll_correct_min": 6,
+        "toll_rows_equal": 54,
+        "transcribed_from": "H3 numeric_thresholds, unchanged. toll_rows_equal is the class census."
+      },
+      "outcome": {
+        "artifacts": [
+          "experiments/MP-E9/results/treatment_per_entry_aliases.json",
+          "experiments/MP-E9/results/treatment_per_entry_aliases_effect.json",
+          "experiments/MP-E9/results/gate_treatment_per_entry_aliases.json"
+        ],
+        "measured": {
+          "UNTRACEABLE_ASSERTED_rows": 16,
+          "arbiter_tell_rows": 36,
+          "guarded_absence_rows": 24,
+          "invented_rows": 0,
+          "rows_gaining_correct": 0,
+          "rows_losing_correct": 0,
+          "toll_correct": 0,
+          "toll_echo": 38,
+          "toll_refused": 16,
+          "toll_rows": 54
+        },
+        "measured_at": "2026-11-03T09:00:10Z",
+        "mechanism_prediction_result": {
+          "measured_rows_moved": 0,
+          "met": true,
+          "note": "The diagnosis written from P2's post-mortem before F1 was implemented is confirmed: the store lookup for the toll pair already succeeds or fails on its exact key, so an alias index cannot change what happens next. The predicted falsifier -- any recovered toll row, which would have made P2's inertness a wiring failure rather than a premise failure -- did not occur.",
+          "predicted_rows_moved": 0
+        },
+        "prediction_met": false,
+        "rows_moved_vs_pre_treatment": {
+          "gained": 0,
+          "inside_r13_cells": 0,
+          "lost": 0,
+          "moved": 0,
+          "outside_r13_cells": 0,
+          "rows_keyed_both": 3672,
+          "total_differences": 0
+        },
+        "second_failure": "This is the second failure G1 anticipates for this defect. Per the plan, the morphology defect is documented as an open problem and the duel proceeds with the residual measured and named. No third attempt is registered.",
+        "success_criterion_result": "NOT MET. toll correct 0 against a registered minimum of 6 of 54. 0 of 3,672 rows differ from the pre-treatment artifact, inside or outside the R13 cells -- the fallback is inert on this bench, exactly as the global stemmer was."
+      },
+      "plan_source": {
+        "gate": "G1 fallback clause",
+        "risk_register": "per-entry aliases are the fallback if a global stemmer over-admits",
+        "verbatim": "one registered fallback per defect (tighter arbiter bound; per-entry morphological aliases instead of a global stemmer); a second failure documents the defect as an open problem and the duel runs with the residual measured and named"
+      },
+      "prediction_verbatim": {
+        "H3": "toll-class correct rows 0 -> at least 6 of 54, concentrated in the 16 currently-refused marked asks."
+      },
+      "role": "the plan's ONE registered fallback for the morphology defect (G1, Table 6)",
+      "scoping": {
+        "H3_component_reported_not_gated": "UNTRACEABLE_ASSERTED == 0",
+        "no_threshold_value_changed": true,
+        "why": "That component is P1's condition and P1 is OFF in this arm. Gating F1 on it would judge the alias fallback against a defect it does not touch. The number is still reported, and it is expected to read 16, the pre-treatment value."
+      }
+    },
     "P1_arbiter_head_bound": {
       "artifact": "experiments/MP-E9/results/treatment_arbiter_head_bound.json",
       "flag": "ELECTRIC_ARBITER_HEAD_BOUND",
@@ -1176,8 +1246,47 @@
       "treatment_results_existed": true,
       "what": "P1 met its prediction (16 asserted rows -> 0; says-gap refused+echo 65 -> 81; 36 arbiter-tell and 24 guarded-absence rows intact; 16 rows moved in total). P2 did not: 0 of 3,672 rows differ from the pre-treatment artifact, so the morphology flag is inert on this bench and H3's registered premise is falsified. The flag-OFF arm moved 0 rows, which is what makes both statements controlled.",
       "why": "R5: a prediction that a measurement disagrees with stays on the record as written. Nothing in P1/P2's numeric blocks was touched; the outcome blocks are additions. The test that asserts P2's prediction is marked with the recorded outcome rather than having its assertion rewritten."
+    },
+    {
+      "at": "2026-11-03T08:47:06Z",
+      "baseline_measurements_existed": true,
+      "direction": "prediction added; no threshold value changed",
+      "kind": "registered fallback prediction",
+      "result_it_follows": "P2_qa_morph_normalize outcome (prediction falsified, 0 of 3,672 rows moved)",
+      "results_existed": true,
+      "treatment_results_existed": true,
+      "what": "Added registered_predictions.F1_per_entry_aliases: the plan's one registered fallback for the morphology defect, judged on H3's transcribed numbers (toll correct >= 6 of 54, invented 0, guarded-absence 24), with UNTRACEABLE_ASSERTED reported but not gated because it belongs to P1 and P1 is off in this arm.",
+      "why": "G1 licenses exactly one registered fallback per defect and a second failure closes the question. The prediction is written before F1 is implemented or run, and it predicts failure from P2's measured mechanism -- so the run is falsifiable in both directions and cannot be described afterwards as whatever happened."
+    },
+    {
+      "at": "2026-11-03T09:00:10Z",
+      "baseline_measurements_existed": true,
+      "direction": "record only; no threshold, prediction or tolerance changed",
+      "kind": "outcome recorded; registered fallback exhausted",
+      "result_it_follows": "treatment_per_entry_aliases.json, produced after F1's prediction was registered",
+      "results_existed": true,
+      "treatment_results_existed": true,
+      "what": "F1 (per-entry aliases) moved 0 of 3,672 rows: H3's criterion not met, the mechanism prediction confirmed. Recorded as the plan's second failure, with the residual named in residual_for_the_duel and the morphology defect closing MP-E9 as an open problem.",
+      "why": "G1 licenses one fallback per defect and then requires the residual be documented rather than retried. Nothing here edits a prediction: F1's numeric block is the transcription it was written as, and the outcome is an addition beside it."
     }
   ],
+  "residual_for_the_duel": {
+    "cause_named": "The coverage gate (ANSWER_COVERAGE_FLOOR = 0.6, organs/neural_language.py:2799) refuses the ask at a measured 32-33% before any store answer is possible, because `toll` is not among the memory's tokens as characters (`it tolls at dusk`). stem('tolls') == 'toll', so folding the coverage comparison would recover the class -- that is the coverage DENOMINATOR, which is E23/E25 territory and out of MP-E9's scope by G2's no-specification-edits rule.",
+    "defect": "Morphological brittleness: an inflected form in the ANSWER does not cover the ask",
+    "handoff": "The next experiment inherits the diagnosis rather than re-deriving it: the lever is morphology inside the coverage arithmetic, and the prior on it is E23 (refuted: a refusal depended on the denominator) and E24 phase 1 (relocated that guard onto the absence inventory, which is what makes the denominator re-testable).",
+    "measured_residual": {
+      "arms_affected": "all three, including control -- the defect predates every treatment arm",
+      "toll_class_correct": 0,
+      "toll_class_echo": 38,
+      "toll_class_refused": 16,
+      "toll_class_rows": 54
+    },
+    "status": "OPEN, measured and named. Not fixed by MP-E9 and not attempted a third time.",
+    "what_MP_E9_ruled_out": [
+      "the store key form (P2: global stemmer, 0 of 3,672 rows moved)",
+      "the absence of per-entry aliases (F1: 0 of 3,672 rows moved)"
+    ]
+  },
   "schema": "droso.registration.v1",
   "status": "OPEN (B.2), treatment arms RUN and sealed. P1 (ELECTRIC_ARBITER_HEAD_BOUND) met its registered prediction: H1 and H2 pass, 16 rows moved, every protected population intact. P2 (ELECTRIC_QA_MORPH_NORMALIZE) moved 0 of 3,672 rows and its registered premise is falsified: H3 fails. H4 holds, measured. The flag-OFF arm reproduced the pre-treatment artifact row for row (0 differences), so both statements are controlled rather than observational. Registered fallback F1 (per-entry morphological aliases, the plan's own G1 fallback) is the next and last registered attempt at the morphology defect; a second failure documents the residual and the duel proceeds with it measured and named. Registered before any run (R2); every post-registration change is listed in registration_amendments with the result it followed, and no threshold or prediction value has been altered by any of them.",
   "status_history": [

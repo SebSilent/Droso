@@ -181,6 +181,14 @@ CANDIDATE = (
      "survives restart and a pre-flag record left under its old key fails silently -- silence is "
      "indistinguishable from an empty memory. Registered against H3/C4 as P2. Inert without "
      "--electric-qa-store"),
+    ("ELECTRIC_QA_MORPH_ALIASES", "electric-qa-morph-aliases",
+     "F1, the plan's ONE registered fallback for the morphology defect: per-entry aliases instead "
+     "of a global stemmer (Master Plan v1.1, Gate G1). The store keeps its exact keys; each record "
+     "additionally files aliases derived from ITS OWN tokens, consulted only after the exact key "
+     "has already missed, and an alias claimed by two primaries is dropped rather than resolved. "
+     "P2 moved 0 of 3,672 rows and falsified the store-key premise, so this arm is predicted by its "
+     "own registration to move nothing too -- it is run because that prediction is falsifiable in "
+     "both directions. Inert without --electric-qa-store"),
 )
 
 # A flag whose parent is off is INERT, not merely weaker: the user has to be told, because the
@@ -188,6 +196,11 @@ CANDIDATE = (
 # than in the wiring sites so serve.py and electric_chat.py report the same fact in the same
 # words.
 DEPENDS_ON = {
+    "ELECTRIC_QA_MORPH_ALIASES": ("ELECTRIC_QA_STORE",
+                                  "--electric-qa-morph-aliases without --electric-qa-store: there "
+                                  "is no record to alias, so the side index stays empty, every "
+                                  "lookup falls through exactly as it did, and nothing changes "
+                                  "anyone can hear."),
     "ELECTRIC_QA_MORPH_NORMALIZE": ("ELECTRIC_QA_STORE",
                                     "--electric-qa-morph-normalize without --electric-qa-store: "
                                     "there is no store to key, so nothing is folded, nothing is "

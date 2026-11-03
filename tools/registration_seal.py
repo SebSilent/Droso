@@ -110,6 +110,14 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E9/results/gate_ab_flag_off.json",
     "experiments/MP-E9/results/gate_treatment_arbiter_head_bound.json",
     "experiments/MP-E9/results/gate_treatment_qa_morph_normalize.json",
+    # F1: the plan's one registered fallback for the morphology defect, and the mechanism tests for
+    # it. Committed because the second-failure claim in decision.md rests on this artifact: "0 of
+    # 3,672 rows moved" is the evidence that the defect is not a store-key problem, and a negative
+    # nobody can re-check is an assertion.
+    "experiments/MP-E9/results/treatment_per_entry_aliases.json",
+    "experiments/MP-E9/results/treatment_per_entry_aliases_effect.json",
+    "experiments/MP-E9/results/gate_treatment_per_entry_aliases.json",
+    "tests/test_electric_qa_morph_aliases.py",
     "tests/test_word_provenance.py",
     "tests/test_g0_prime_instruments.py",
     "experiments/G0-prime/tier_protocol.json",
@@ -120,6 +128,10 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.json",
     "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.manifest.json",
     "experiments/MP-E9/registration.json",
+    # MP-E9's result. Sealed for the same reason G0-prime's is: it states a negative -- H3 fails, a
+    # registered premise is falsified, two arms moved zero rows -- and a published negative that can
+    # be edited after the fact without a signal is worth less than no negative at all.
+    "experiments/MP-E9/decision.md",
     "experiments/MP-E9/plan_extract/PROVENANCE.json",
     "experiments/MP-E9/plan_extract/extract_pdf.py",
     # The noise-floor evidence. The clones are 1.4 MB each and regenerable, but the gate claim in
