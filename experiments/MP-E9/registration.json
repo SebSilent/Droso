@@ -161,20 +161,22 @@
         "sha256_of_git_blob": "9882c184922739a7d9cec01c40ed27c5a17d636730d96936d3ac6eb2a19fad0f"
       },
       "experiments/MP-E8/curriculum_tier40.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 4409,
         "bytes_worktree": 4409,
         "git_blob_sha1": "520cf349342f0d91c291724102a92ff483e366a8",
         "line_endings": "LF",
         "sha256_lf": "022686ab4c8a096ea49c4ef59284ebfd668710fa697b0c07c0c83437129aca35",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "022686ab4c8a096ea49c4ef59284ebfd668710fa697b0c07c0c83437129aca35"
       },
       "experiments/MP-E8/results/noise_floor_reverification.json": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 2280,
         "bytes_worktree": 2280,
         "git_blob_sha1": "cbd79bdca3f3303edc118fdd00d7ebf3107406df",
         "line_endings": "LF",
         "sha256_lf": "d1356a59fd8858b209a6390d43391b5ea924af48ace077dda5093e79abdb2055",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "d1356a59fd8858b209a6390d43391b5ea924af48ace077dda5093e79abdb2055"
       },
       "experiments/MP-E9/baselines/bench_pre_arbiter_tell_HEAD.json": {
         "blob_equals_lf_normalised": true,
@@ -195,12 +197,13 @@
         "sha256_of_git_blob": "89ab286700667f648a9a8157f65ef1d22d75029d8fc3e23fc58d2b50c5b92a97"
       },
       "experiments/MP-E9/decision.md": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 18109,
         "bytes_worktree": 18389,
         "git_blob_sha1": "8984d1e2954af46ab341c4e45945c39d17f8e6ec",
         "line_endings": "CRLF",
         "sha256_lf": "da8f9a4f2f77ce55eb792fdeac4f93ec306f29ff70f15d5ec4b2794e11ed4211",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "da8f9a4f2f77ce55eb792fdeac4f93ec306f29ff70f15d5ec4b2794e11ed4211"
       },
       "experiments/MP-E9/organs_precondition.md": {
         "blob_equals_lf_normalised": true,
@@ -482,12 +485,13 @@
         "sha256_of_git_blob": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548"
       },
       "tools/mp_e8_curriculum.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 6740,
         "bytes_worktree": 6888,
         "git_blob_sha1": "5402563d4328c4cbb1788f887aa3e871d627e93b",
         "line_endings": "CRLF",
         "sha256_lf": "4a1f26087e03d4ba2e5b7935eae6069f29b31acfa12f6fd033db6f4c043dcce5",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "4a1f26087e03d4ba2e5b7935eae6069f29b31acfa12f6fd033db6f4c043dcce5"
       },
       "tools/mp_e9_battery.py": {
         "blob_equals_lf_normalised": true,
@@ -526,12 +530,13 @@
         "sha256_of_git_blob": "72f3e00305d9ad6d8bc64b77523fee0ed9ba6ddd77015eb95cb0597a33b16c64"
       },
       "tools/registration_seal.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 26720,
         "bytes_worktree": 27165,
         "git_blob_sha1": "3a978c7160493c4285a3daf0003a7af7101485f3",
         "line_endings": "CRLF",
         "sha256_lf": "a69f689e8a28c773cd8652330f1020b1342e3945402d355598d9812f88640d19",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "a69f689e8a28c773cd8652330f1020b1342e3945402d355598d9812f88640d19"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -553,14 +558,8 @@
       }
     },
     "git_dirty": true,
-    "git_dirty_sealed": [
-      "experiments/MP-E8/curriculum_tier40.json",
-      "experiments/MP-E8/results/noise_floor_reverification.json",
-      "experiments/MP-E9/decision.md",
-      "tools/mp_e8_curriculum.py",
-      "tools/registration_seal.py"
-    ],
-    "git_head": "a0ae7594298e244da41ea4c4eaa4b707ff2bd42c",
+    "git_dirty_sealed": [],
+    "git_head": "716a3b7813b0f0a5e78fe4bdd7a01b08116a7116",
     "hash_basis": "sha256 over CRLF-folded-to-LF bytes",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -602,7 +601,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-03T09:27:24Z",
+    "sealed_at_utc": "2026-11-03T09:29:40Z",
     "self_excluded": {
       "path": "experiments/MP-E9/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -617,13 +616,7 @@
         "4. registration_seal.py <registration.json> --check   # must be clean at that HEAD"
       ],
       "rule": "COMMIT FIRST, THEN STAMP, THEN COMMIT THE STAMP. Never stamp while a file this seal hashes is uncommitted -- that is what git_dirty_sealed reports, not mere tree dirt.",
-      "this_stamp_found_uncommitted_bytes_among_sealed_files": [
-        "experiments/MP-E8/curriculum_tier40.json",
-        "experiments/MP-E8/results/noise_floor_reverification.json",
-        "experiments/MP-E9/decision.md",
-        "tools/mp_e8_curriculum.py",
-        "tools/registration_seal.py"
-      ],
+      "this_stamp_found_uncommitted_bytes_among_sealed_files": [],
       "why": "git_head is the commit the seal claims to describe. If the sealed bytes are still uncommitted when the stamp is taken, git_head names a commit that does not contain them, and there is no checkout you can verify the seal against."
     }
   },
