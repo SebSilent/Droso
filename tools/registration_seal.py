@@ -275,6 +275,11 @@ DEFAULT_MANIFEST = [
     # the decision it puts to the PI is unanswerable without it, and an open decision that cites an
     # unsealed artifact is an open decision nobody can close.
     "experiments/MP-E8/results/guarded_absence_arm_attribution.json",
+    # The first green full-suite record on a stamped tree: 1,246 collected, 1,246 executed, 0 failures,
+    # 0 errors, 5 skipped, measured at the anchor 7d4501a. Sealed with an ordering caveat attached --
+    # see AMD-MPE8-10: adding THIS line edits the sealing tool, so the next suite run will report one
+    # failure in the seal test until the seal is re-stamped. That is stamp ordering, not a defect.
+    "experiments/MP-E8/results/suite_manifest_post_stamp.json",
 ]
 
 

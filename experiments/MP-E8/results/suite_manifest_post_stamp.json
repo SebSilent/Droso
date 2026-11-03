@@ -1,0 +1,40 @@
+{
+  "collect_returncode": 0,
+  "collected": 1246,
+  "collected_not_executed": 0,
+  "collected_not_executed_by_file": {},
+  "command": "python.exe -m pytest tests -q -p no:cacheprovider --junit-xml=_tmp/junit_post_stamp.xml",
+  "executed": 1246,
+  "executed_not_collected": [],
+  "files_missing_entirely": [],
+  "files_partially_missing": [],
+  "generated_at_utc": "2026-11-03T17:22:17Z",
+  "generated_by": "tools/suite_manifest.py",
+  "git_dirty": [
+    "?? experiments/MP-E8/results/armB_state/",
+    "?? experiments/MP-E8/results/armB_state_a/",
+    "?? experiments/MP-E8/results/armB_state_b/",
+    "?? experiments/MP-E8/results/armB_state_battier40/",
+    "?? experiments/MP-E8/results/armB_state_run2/",
+    "?? experiments/MP-E8/results/armB_state_t120_s1/",
+    "?? experiments/MP-E8/results/armB_state_t120_s1_superseded_battery/",
+    "?? experiments/MP-E8/results/armB_state_t120_s2/",
+    "?? experiments/MP-E8/results/armB_state_t120_s2_superseded_battery/",
+    "?? experiments/MP-E8/results/armB_state_t120_s3/",
+    "?? experiments/MP-E8/results/armB_state_t120_s3_superseded_battery/"
+  ],
+  "git_head": "7d4501a87131b0cfe59303c8d3d9c29b61f06997",
+  "interpreter": "3.12.10",
+  "junit_counters": {
+    "errors": "0",
+    "failures": "0",
+    "skipped": "5",
+    "tests": "1246",
+    "time": "693.526"
+  },
+  "junit_xml_kept_in_scratch": "_tmp/junit_post_stamp.xml",
+  "note": "The XML stays in _tmp/ because .gitignore sweeps it and organs/tempstore.py declares the area non-normative; this JSON summary is the tracked artifact. A test counts as executed if it appears as a <testcase>, including skips -- skipped means reached and deliberately not run, which is not the same fault as never being reached at all.",
+  "pytest_returncode": 0,
+  "schema": "droso.suite_manifest.v1",
+  "wall_seconds": 695.83
+}

@@ -2724,6 +2724,96 @@
         "probes_projected": 1020,
         "projected_minutes": 60.2
       }
+    },
+    {
+      "class": "a sealed record whose one failure had already closed, and the stamp-ordering that produced it",
+      "id": "AMD-MPE8-10",
+      "ordering_rule_demonstrated_while_writing": "this amendment first recorded 'CLOSED', then its own DEFAULT_MANIFEST edit made the seal test fail, and the re-stamp closes it again. The ordering rule is not hypothetical: it operated on the amendment that states it.",
+      "recorded_at": "2026-11-03T18:05:00Z",
+      "recorded_by": "agent",
+      "scope": "the suite baseline chain. No test was edited, skipped or reinterpreted; the suite was simply run again against a tree whose seal was current.",
+      "the_chain": {
+        "batteryfix": {
+          "collected": 1246,
+          "executed": 1246,
+          "junit_counters": {
+            "errors": "0",
+            "failures": "1",
+            "skipped": "5",
+            "tests": "1246",
+            "time": "681.063"
+          },
+          "pytest_returncode": 1
+        },
+        "post_stamp": {
+          "collected": 1246,
+          "executed": 1246,
+          "junit_counters": {
+            "errors": "0",
+            "failures": "0",
+            "skipped": "5",
+            "tests": "1246",
+            "time": "693.526"
+          },
+          "pytest_returncode": 0
+        },
+        "published": {
+          "collected": 1238,
+          "executed": 1238,
+          "junit_counters": {
+            "errors": "0",
+            "failures": "2",
+            "skipped": "5",
+            "tests": "1238",
+            "time": "594.151"
+          },
+          "pytest_returncode": 1
+        },
+        "reading": "1,238 collected with 2 failures (a tree whose curriculum tests asserted a premise D-MPE8-03 had already killed) -> 1,246 with 1 failure (the seal test objecting to its own tooling being edited mid-flight) -> this run, against a stamped tree. All three records are kept; none was overwritten (R5)."
+      },
+      "the_ordering_rule_this_exposes": "a suite manifest that contains the seal test cannot be sealed without making the NEXT run's seal test fail on the sealing tool's own edit. The rule is therefore procedural and it is recorded here so the next reader does not chase a phantom: edit DEFAULT_MANIFEST, re-stamp, and only then run the suite whose manifest you intend to seal. A suite record showing exactly one failure, in that test, at a head whose seal is one edit behind, is a stamp-ordering artifact -- check the anchor before treating it as a defect.",
+      "the_rerun_at_the_stamped_tree": {
+        "artifact": "experiments/MP-E8/results/suite_manifest_post_stamp.json",
+        "collected": 1246,
+        "collected_not_executed": 0,
+        "executed": 1246,
+        "git_dirty_at_run": true,
+        "interpreter": "3.12.10",
+        "junit_counters": {
+          "errors": "0",
+          "failures": "0",
+          "skipped": "5",
+          "tests": "1246",
+          "time": "693.526"
+        },
+        "measured_at_git_head": "7d4501a87131b0cfe59303c8d3d9c29b61f06997",
+        "note": "git_dirty is true at every one of these runs for the same reason: the per-depth arm B state directories are scratch and deliberately unsealed (AMD-MPE8-05). It is git_dirty_sealed that a stamp has to bring to empty, and it is empty.",
+        "pytest_returncode": 0,
+        "wall_seconds": 695.83
+      },
+      "the_sealed_record_and_its_one_failure": {
+        "artifact": "experiments/MP-E8/results/suite_manifest_post_batteryfix.json",
+        "collected": 1246,
+        "executed": 1246,
+        "junit_counters": {
+          "errors": "0",
+          "failures": "1",
+          "skipped": "5",
+          "tests": "1246",
+          "time": "681.063"
+        },
+        "measured_at_git_head": "b9ea96b87871377ad5e12dade2a071c26620f83a",
+        "pytest_returncode": 1,
+        "status_now": {
+          "measurement_1_at_the_anchor": "1 passed in 21.42s, exit 0, measured at git_head 7d4501a before this amendment touched any tooling. The failure recorded in the sealed 1,246/1 manifest had closed: the seal was re-stamped after that manifest's tree, and the test agrees.",
+          "measurement_2_while_this_amendment_was_being_written": "1 failed in 10.90s, exit 1, DRIFT on tools/registration_seal.py -- because adding the post-stamp manifest to DEFAULT_MANIFEST edits the sealing tool, and no stamp had recorded that edit yet. The test is right; nothing was wrong with the organism.",
+          "what_has_to_be_true_after_the_next_stamp": "the seal test must pass again once this edit is stamped. If it does not, this amendment is wrong and gets corrected -- not the test explained away.",
+          "why_both_are_recorded": "a single 'CLOSED' would have been the same class of error as a green --check that omits the evidence it is supposed to attest. The status of this test is a function of which commit and which manifest list it ran against, so both are stated with their trees."
+        },
+        "the_failing_test": "tests/test_g0_prime_instruments.py::test_registration_seal_verifies_against_the_registration",
+        "why_it_failed": "at that tree tools/registration_seal.py had been edited -- DEFAULT_MANIFEST gained the arm C, seed-artifact and attribution entries -- but the seal had not been re-stamped since, so the test correctly reported DRIFT on the sealing tool itself (blob 02d3b9ce1e -> 6c7c8095cb). It is the instrument saying 'my own definition changed and nobody re-attested it'. That is the test working, not a defect."
+      },
+      "what_this_does_not_change": "H1's FAIL at tier 120, the 5.0 pp margin, C3's registered trigger, D-MPE8-07 and D-MPE8-09's open status, and every published artifact."
     }
   ],
   "schema": "droso.registration.v1",
