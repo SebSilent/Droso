@@ -1,0 +1,156 @@
+{
+  "artifact": "armA_tier120_refusal_and_wallclock",
+  "environment": {
+    "git_head": "8ee1c8f3eae258e5577b1afd19232e744e3632d2",
+    "python": "3.12.10",
+    "torch": "2.15.0+cpu"
+  },
+  "guarded_absence_behaviour": {
+    "distractor_items_involved": [
+      "dist20",
+      "dist29",
+      "dist33"
+    ],
+    "examples": [
+      "learn/d2/live/dist29/qword: 'how does the tile bolt the keg' -> 'droso says the tile bolts the keg' (nobody said that)",
+      "learn/d2/restarted/dist29/qword: 'how does the tile bolt the keg' -> 'droso says the tile bolts the keg' (nobody said that)",
+      "learn/d2/restarted/dist33/qword: 'how does the strap roll the drum' -> 'droso says the strap rolls the drum' (nobody said that)"
+    ],
+    "reading": "Arm A asserted an untaught relation on rows where nothing was said, which is the class the exit code fails on. This is a within-tier observation about tier 120 and is NOT subject to the regime-break confound; the tier-40 comparison of it is, because the 8 untaught-word asks sit in the same qword shape.",
+    "tier_120_failures": 13,
+    "tier_120_live_phase_failures": 3,
+    "tier_40_failures": 0
+  },
+  "learn_arm_vectors": {
+    "item_scaling_measured": 3.0,
+    "refusal_delta_pp": {
+      "1": 1.8,
+      "2": 0.5,
+      "3": 0.9
+    },
+    "rows_per_depth": {
+      "tier_120": 416,
+      "tier_40": 136
+    },
+    "tier_120_this_run": {
+      "1": {
+        "absence": 0,
+        "correct": 122,
+        "correct_pct": 29.3,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 416,
+        "refusal_pct": 68.0,
+        "refused": 283
+      },
+      "2": {
+        "absence": 0,
+        "correct": 239,
+        "correct_pct": 57.5,
+        "invented": 1,
+        "misattrib": 10,
+        "n": 416,
+        "refusal_pct": 38.7,
+        "refused": 161
+      },
+      "3": {
+        "absence": 0,
+        "correct": 347,
+        "correct_pct": 83.4,
+        "invented": 2,
+        "misattrib": 13,
+        "n": 416,
+        "refusal_pct": 12.7,
+        "refused": 53
+      }
+    },
+    "tier_40_sealed": {
+      "1": {
+        "absence": 0,
+        "correct": 38,
+        "correct_pct": 27.9,
+        "invented": 0,
+        "misattrib": 1,
+        "n": 136,
+        "refusal_pct": 66.2,
+        "refused": 90
+      },
+      "2": {
+        "absence": 0,
+        "correct": 75,
+        "correct_pct": 55.1,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 136,
+        "refusal_pct": 38.2,
+        "refused": 52
+      },
+      "3": {
+        "absence": 0,
+        "correct": 115,
+        "correct_pct": 84.6,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 136,
+        "refusal_pct": 11.8,
+        "refused": 16
+      }
+    }
+  },
+  "measured_at_utc": "2026-11-03T12:44:25Z",
+  "question": "What does arm A's refusal rate do between tier 40 and tier 120 on the current tree, and does the registered wall-clock projection survive contact with the run?",
+  "run": {
+    "command": "tools/electric_learn_bench.py --arms control,teach,learn --flag-on ELECTRIC_ARBITER_HEAD_BOUND --curriculum experiments/MP-E8/curriculum_tier120.json --out experiments/MP-E8/results/armA_tier120_curriculum.json --workdir _tmp\\armA_t120",
+    "curriculum_mode": "manifest",
+    "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+    "distractors": 36,
+    "exit_code": 1,
+    "exit_code_reading": "The bench returns non-zero because it printed failures of its own invariants; the artifact is complete and carries provenance. The refusals are the guarded-absence assertions counted below, not a crash.",
+    "flags": {
+      "ELECTRIC_ARBITER_HEAD_BOUND": true,
+      "ELECTRIC_QA_MORPH_ALIASES": false,
+      "ELECTRIC_QA_MORPH_NORMALIZE": false
+    },
+    "git_head": "8ee1c8f3eae258e5577b1afd19232e744e3632d2",
+    "items": 120,
+    "probes_built_by_this_bench": 416,
+    "probes_registered_in_manifest": 416
+  },
+  "schema": 1,
+  "supersedes": "nothing. The sealed tier-40 baseline is untouched; this is a new tier, not a re-measurement.",
+  "verdict_on_the_refusal_change": {
+    "claim_may_not_be_made": "That arm A's memory degrades, holds or fails between tier 40 and tier 120.",
+    "direction_of_the_confound_and_why_it_matters": "The 8 tier-40 asks that use words no taught sentence contains are asks a refusal is defensible on; tier 120 has none of them, so its refusals cannot be excused that way. The refusal rate nonetheless moved only 1.8 pp at depth 1, 0.5 pp at depth 2 and 0.9 pp at depth 3 -- a change in the direction OPPOSITE to what the definitional difference predicts, on a baseline that is not the same instrument. That is exactly why the registration forbids reading it as a curve.",
+    "label": "CONFOUNDED -- not a forgetting result",
+    "numbers_may_be_quoted": true,
+    "registered_authority": {
+      "consequence_for_analysis": "FORGETTING CURVES MAY BE COMPARED ACROSS TIERS ONLY WITHIN THE SAME CONSTRAINT-(b) REGIME. Tier 120 and tier 300 are mutually comparable (both strict). Tier 40 is not comparable to them as a curve. The tier-40-to-tier-120 refusal-rate change is reported as CONFOUNDED, not as a result, and no hypothesis about forgetting may rest on it.",
+      "key": "confounds.cross_tier_comparability_regime_break",
+      "name": "tiers 120/300 satisfy constraint (b) strictly; the sealed tier-40 baseline does not",
+      "tier_120_asks_using_untaught_content_words": 0,
+      "tier_40_asks_using_untaught_content_words": 8,
+      "tier_40_words_involved": [
+        "tower",
+        "many",
+        "toll",
+        "love",
+        "dusk"
+      ]
+    },
+    "what_would_be_needed": "A tier-120 vs tier-300 comparison (both strict constraint-(b) regime) carries a forgetting claim. Tier 40 cannot."
+  },
+  "wall_clock": {
+    "consequence_for_tier_300": {
+      "caveat": "Probe counts do not scale as the projection assumed -- tier 120 was projected at 408 probes and the bench builds 416 from the authored manifest. The wall-clock still landed near the projection, which says the projection's error and the probe-count error partly cancel; that is luck, not validation.",
+      "implied_by_this_run_if_scaling_holds": 58.67,
+      "reading": "The tier-120 projection was accurate to within a few percent, so the item-linear scaling rule survives one contact with reality. The tier-300 figure keeps the same basis but is still a projection until run: this run checked the rule at one data point, not at two.",
+      "registered_projection_minutes": 60.2
+    },
+    "error_vs_projection_pct": -2.6,
+    "external_timer_seconds": 1408.1,
+    "measured_minutes": 23.47,
+    "projection_checked_not_reused": true,
+    "projection_source": "experiments/G0-prime/tier_protocol.json -> tier_120.wall_clock_projected_minutes_all_arms",
+    "registered_projection_minutes": 24.1
+  }
+}

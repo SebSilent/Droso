@@ -208,6 +208,17 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E8/results/armB_tier40_rerun_pair.json",
     "experiments/MP-E8/results/armB_offbyone_effect.json",
     "experiments/MP-E8/results/armB_tier40_unseeded_pair.json",
+    # Arm B on the corrected instrument: the two calibration runs, their row-for-row comparison, and the
+    # determinism measurement the seed protocol rests on. Sealed because D-MPE8-06 is a ruling about
+    # numbers, and a ruling cannot be made against numbers that live in working files.
+    "experiments/MP-E8/results/armB_tier40_calib_a.json",
+    "experiments/MP-E8/results/armB_tier40_calib_b.json",
+    "experiments/MP-E8/results/armB_tier40_calib_pair.json",
+    "experiments/MP-E8/results/armB_seed_determinism.json",
+    # The first cross-tier arm A run and the finding that reports it, including the wall-clock check
+    # against the registered projection.
+    "experiments/MP-E8/results/armA_tier120_curriculum.json",
+    "experiments/MP-E8/results/armA_tier120_finding.json",
 ]
 
 

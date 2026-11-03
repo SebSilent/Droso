@@ -1,0 +1,80 @@
+{
+  "artifact": "armB_seed_determinism",
+  "question": "Is a repeat of one arm B seed a measurement, or the same number twice?",
+  "method": {
+    "config": "registered SEED, EPOCHS, manifest experiments/MP-E8/curriculum_tier40.json, session 1 only, no probing and no calibration, so nothing but the initialisation and the thread count varies",
+    "cells": [
+      {
+        "order": "before",
+        "torch_set_num_threads": 6,
+        "final_loss": 0.31129738688468933,
+        "first_probe_conf": -0.03451120977600416,
+        "tokens": 5,
+        "said": "the dog bites the latch"
+      },
+      {
+        "order": "before",
+        "torch_set_num_threads": 6,
+        "final_loss": 0.31129738688468933,
+        "first_probe_conf": -0.03451120977600416,
+        "tokens": 5,
+        "said": "the dog bites the latch"
+      },
+      {
+        "order": "before",
+        "torch_set_num_threads": 1,
+        "final_loss": 0.31129738688468933,
+        "first_probe_conf": -0.03451115203400453,
+        "tokens": 5,
+        "said": "the dog bites the latch"
+      },
+      {
+        "order": "before",
+        "torch_set_num_threads": 1,
+        "final_loss": 0.31129738688468933,
+        "first_probe_conf": -0.03451115203400453,
+        "tokens": 5,
+        "said": "the dog bites the latch"
+      },
+      {
+        "order": "after",
+        "torch_set_num_threads": 6,
+        "final_loss": 0.3103348910808563,
+        "first_probe_conf": -0.03252196668957671,
+        "tokens": 5,
+        "said": "the dog bites the latch"
+      },
+      {
+        "order": "after",
+        "torch_set_num_threads": 6,
+        "final_loss": 0.31162169575691223,
+        "first_probe_conf": -0.03649630676954985,
+        "tokens": 5,
+        "said": "the dog bites the latch"
+      }
+    ],
+    "every_number_measured": true
+  },
+  "finding": {
+    "agreement_within_each_order_and_thread_count": {
+      "after_threads6": false,
+      "before_threads1": true,
+      "before_threads6": true
+    },
+    "seed_set_before_construction_agrees_bit_for_bit_at_fixed_threads": true,
+    "seed_set_after_construction_agrees_bit_for_bit_at_fixed_threads": false,
+    "before_order_processes": 4,
+    "after_order_processes": 2,
+    "thread_counts_tested": [
+      1,
+      6
+    ],
+    "cross_thread_confidence_delta_same_seed": 5.774199962615967e-08,
+    "cross_thread_note": "Same seed and same thread count reproduce exactly. Changing the thread count moves the confidence in the eighth decimal without moving the training loss, which is intra-op float reduction and is why the tool pins torch.set_num_threads rather than leaving it to the machine. No row and no threshold moved across the thread counts in this test, but a threshold sitting in a dense confidence region is not the place to find out."
+  },
+  "consequence_for_the_protocol": "Repeating one seed at a fixed thread count is not a noise measurement: it returns the identical artifact, so it can detect a broken tool but nothing about the arm. The variance H1 has to survive is ACROSS seeds, which is why the protocol counts seeds and why the margin is taken against each seed's own session-1 score rather than a pooled mean. The thread count is part of the configuration for the same reason.",
+  "environment": {
+    "torch": "2.15.0+cpu",
+    "measured_at_utc": "2026-11-03T12:18:19Z"
+  }
+}

@@ -43,6 +43,152 @@
       "trigger": "arm A gains confined to one phrasing family"
     }
   },
+  "armB_seed_protocol": {
+    "calibration_artifacts": {
+      "label": "CALIBRATION ONLY -- they cannot carry H1",
+      "paths": [
+        "experiments/MP-E8/results/armB_tier40_calib_a.json",
+        "experiments/MP-E8/results/armB_tier40_calib_b.json"
+      ],
+      "reason": "Two, not three: they exist to show that the corrected, seeded three-depth run reproduces, which is a property of the instrument, not a result. And H1's registered threshold says it outright: tiers_required_for_H1 is [120, 300] because 'tier 40 is the calibration tier and cannot carry H1'."
+    },
+    "gap_this_closes": "H1's registered statement says arm B drops below its own session-1 score, and the registered margin is a percentage-point figure, but nothing in the registration said how many runs establish the score a drop is measured against, or whether the drop is taken within a run or across runs. That is the same class of gap as the R13 cell list: a number the gate depends on that was only implied.",
+    "id": "armB_seed_protocol",
+    "margin": {
+      "claim_rule": "H1 is carried by the LEAST favourable seed. The direction must hold in every seed; the pooled mean may be reported alongside but cannot carry the claim.",
+      "measured_against": "each seed's OWN session-1 (depth-1) score, never a pooled mean across seeds",
+      "per_seed_statistics": {
+        "correct_retention": "correct_i(depth 3) / correct_i(depth 1), per seed",
+        "invention_growth_pp": "100 * (invented_i(depth 3) - invented_i(depth 1)) / rows_per_depth",
+        "refusal_shift_pp": "100 * (refused_i(depth 3) - refused_i(depth 1)) / rows_per_depth"
+      },
+      "reporting": "the per-seed vectors first, then min/median/max of each per-seed margin",
+      "why_not_pooled": "Pooling lets a favourable initialisation pay for an unfavourable one: the drop H1 asserts would then be a property of the pool, and no single run in the pool would exhibit it. The statement is about an arm dropping below its own baseline, so the baseline has to belong to the run that drops."
+    },
+    "measured_basis": {
+      "arm_A_noise_floor_not_transferable": {
+        "floor": [
+          38,
+          75,
+          115
+        ],
+        "why": "That floor is arm A's, measured on arm A's rows and registered against arm A's cells. It is recorded here only to say it must not be borrowed for arm B."
+      },
+      "invented_at_depth1": {
+        "rows_per_depth": 136,
+        "run_1": 35,
+        "run_2": 75,
+        "spread_pp": 29.4
+      },
+      "pad_defect_rows_moved_for_contrast": 444,
+      "per_depth_class_counts_before_vs_after": {
+        "1": {
+          "correct": [
+            12,
+            12
+          ],
+          "invented": [
+            35,
+            75
+          ],
+          "misattrib": [
+            8,
+            17
+          ],
+          "refused": [
+            81,
+            32
+          ]
+        },
+        "2": {
+          "correct": [
+            2,
+            4
+          ],
+          "invented": [
+            52,
+            95
+          ],
+          "misattrib": [
+            1,
+            0
+          ],
+          "refused": [
+            81,
+            37
+          ]
+        },
+        "3": {
+          "correct": [
+            0,
+            0
+          ],
+          "invented": [
+            38,
+            80
+          ],
+          "misattrib": [
+            0,
+            0
+          ],
+          "refused": [
+            98,
+            56
+          ]
+        }
+      },
+      "reading": "The two runs differed only in how the model was initialised, and the invention rate -- the class that fails the exit code -- moved by more than the registered margin by itself. A margin cannot be quoted against a background that large without saying what the background is.",
+      "registered_h1_margin_pp": 5.0,
+      "spread_is_a_multiple_of_the_registered_margin": 5.9,
+      "two_runs_of_one_configuration_pair_artifact": "experiments/MP-E8/results/armB_tier40_unseeded_pair.json",
+      "two_runs_of_one_configuration_rows_moved": 672
+    },
+    "plain_statement": "A single seed cannot support H1. H1 is a claim about a DROP relative to a baseline the same run establishes -- session-1 of that very seed -- so one seed supplies one baseline and one later score and no distribution at all. There is nothing in a single seed that can distinguish 'this arm forgets' from 'this initialisation happened to sit there'.",
+    "r13_scope": {
+      "applies_to": "arm A rows only. The registered tolerance cells are arm-A cells (learn/1/reasked, learn/1/restarted).",
+      "arm_B_within_depth": "arm B's live, reasked and restarted phases are identical within a depth (measured in the pair artifact: phase-identical = True), because arm B has no time-gated path -- its only forgetting is across depths. There is therefore no within-depth forgetting for R13 to tolerate in arm B, and no R13 cell to widen.",
+      "cells_widened_by_this_note": "none"
+    },
+    "registered_at": "2026-11-03T12:19:52Z",
+    "seeds": {
+      "count": 3,
+      "declared_before_any_H1_run": true,
+      "each_seed_is": "a complete three-depth run (depths 1, 2, 3) of the same manifest and config, merged into its own artifact -- not one depth per seed",
+      "frozen_config": {
+        "BATCH": 8,
+        "EMBED": 256,
+        "EPOCHS": 60,
+        "HIDDEN": 768,
+        "LR": 0.0003,
+        "SEED": 20261103
+      },
+      "manifest": "experiments/MP-E8/curriculum_tier40.json (tier 40 is calibration; H1 needs 120/300)",
+      "values": [
+        20261103,
+        20261104,
+        20261105
+      ]
+    },
+    "status": "REGISTERED as a requirement on any H1 number for arm B. The seed COUNT and the choice of statistic are put to the PI as D-MPE8-06; until that is ruled, H1 stays unquotable for arm B.",
+    "what_this_does_not_change": "No sealed number is re-measured or moved. H1's registered margin of 5.0 pp is untouched and is put to the PI in D-MPE8-06 rather than silently revised, because the measured across-initialisation spread is what calls it into question.",
+    "within_seed_determinism": {
+      "agreement_within_each_order_and_thread_count": {
+        "after_threads6": false,
+        "before_threads1": true,
+        "before_threads6": true
+      },
+      "consequence": "Re-running one seed at a fixed thread count returns the identical artifact. It can catch a broken tool and nothing else, so repeats of a fixed seed are NOT the noise measurement -- the variance H1 has to survive is across seeds.",
+      "cross_thread_confidence_delta_same_seed": 5.774199962615967e-08,
+      "finding_artifact": "experiments/MP-E8/results/armB_seed_determinism.json",
+      "full_three_depth_repeat_at_one_seed_rows_moved": 0,
+      "full_three_depth_repeat_pair_artifact": "experiments/MP-E8/results/armB_tier40_calib_pair.json",
+      "regression_guard": "tests/test_mp_e8_arm_b.py::test_two_processes_reproduce_depth1_exactly (sealed in the manifest)",
+      "seed_set_after_construction_agrees_bit_for_bit_at_fixed_threads": false,
+      "seed_set_before_construction_agrees_bit_for_bit_at_fixed_threads": true,
+      "thread_count_is_part_of_the_configuration": "torch.set_num_threads(6) is pinned in the tool for this reason: the same seed at a different thread count moves the confidence in the eighth decimal, and the abstention threshold sits in a dense confidence region.",
+      "thresholds_agreed_across_that_repeat": true
+    }
+  },
   "arms": {
     "A": {
       "definition": "Droso in ELECTRIC-learn mode.",
@@ -1147,6 +1293,28 @@
       "question": "The registered noise tolerance names two cells (learn/1/reasked, learn/1/restarted) as wall-clock-gated. Measurement found a third gated row outside that list: control/3/live/pair1.0/pair_exact flips its surface string in 1 of 6 runs across two heads and three bench versions. Should the tolerance cell list be widened to cover any row whose outcome depends on the 2.0 s speech-act gate, or should the gate be made deterministic (a fixed budget instead of wall clock) so the question does not arise?",
       "status": "OPEN. Nothing was widened. The affected row is a control-arm surface string; cls and src are identical in every run, so no graded outcome and no C-condition moves on it.",
       "why_it_cannot_be_decided_by_the_agent": "Widening a tolerance after artifacts exist is an R2 event. The list was registered before the runs that are now being compared against it."
+    },
+    "D-MPE8-06": {
+      "agent_recommendation": "Keep 3 seeds (the same count arm A's clone floor was built on, so the two arms' stability claims rest on comparable evidence), keep the margin per-seed against its own session-1, and do not revise the 5 pp figure until a tier-120 or tier-300 run supplies an arm B spread at the tier the claim is about. The tier-40 spread is evidence about the instrument, not about the claim's magnitude.",
+      "consequence_if_not_ruled": "H1 stays unquotable for arm B. Any single-seed number would be a measurement of one initialisation, and a pooled-mean number would be a property of the pool that no run in it exhibits.",
+      "measured_evidence": {
+        "depth1_invented_before_after": [
+          35,
+          75
+        ],
+        "determinism_artifact": "experiments/MP-E8/results/armB_seed_determinism.json",
+        "pair_artifact": "experiments/MP-E8/results/armB_tier40_unseeded_pair.json",
+        "registered_margin_pp": 5.0,
+        "rows_moved_between_two_initialisations": 672,
+        "rows_per_depth": 136,
+        "spread_over_margin": 5.9,
+        "spread_pp": 29.4
+      },
+      "opened_at": "2026-11-03T12:19:52Z",
+      "question": "Is 3 the right number of arm B seeds, and is 'drop against each seed's own session-1, carried by the least favourable seed' the right statistic -- and does the registered 5 pp margin survive being measured against an across-initialisation spread of the size now on file?",
+      "status": "OPEN",
+      "what_was_not_done": "The margin was not changed, no tolerance cell was widened, and no existing sealed number was re-measured.",
+      "why_it_is_a_ruling_not_a_discovery": "Choosing how many runs a claim needs, and which statistic carries it, changes what would count as evidence for H1. That is the PI's call, not something to settle by measuring harder."
     }
   },
   "pi_decisions": {
@@ -1716,6 +1884,156 @@
           "removed": []
         }
       }
+    },
+    {
+      "amended_at": "2026-11-03T12:19:52Z",
+      "cross_reference": "AMD-MPE8-01 (the torch-environment amendment and D-MPE8-05), which is the same discipline applied to arm A's environment instead of arm B's initialisation.",
+      "direction": "ADDITION of a protocol requirement. Nothing was removed, relaxed or re-measured. H1 remains BLOCKED -- it is now blocked by the seed protocol as well as by the missing tiers.",
+      "id": "AMD-MPE8-02",
+      "measured_trigger": "Two runs of one arm B configuration moved 672 of 1,224 rows, with the depth-1 invention rate going 35 -> 75 of 136 (29.4 pp, 5.9x the registered margin of 5.0 pp). The pair artifact is sealed: experiments/MP-E8/results/armB_tier40_unseeded_pair.json",
+      "not_re_measured": [
+        "every sealed arm A artifact",
+        "every sealed arm B artifact",
+        "the noise floor",
+        "H1's 5 pp margin"
+      ],
+      "r2_status": "The protocol pre-existed the problem it solves in the only place it could: H1's own statement already says 'its own session-1 score', and tiers_required_for_H1 already says tier 40 cannot carry H1. What was missing was the count and the statistic, and this amendment supplies them without touching either registered number.",
+      "re_measured": [],
+      "results_existed": true,
+      "retraction_and_correction": "Nothing retracted. For the record: no claim in this registration rests on a single arm B seed, and none may be made to, because a single seed has no baseline to drop below that belongs to anything else.",
+      "supersession": "armB_tier40_superseded_hashbasis.json, armB_tier40_offbyone_superseded.json, armB_tier40_unseeded_superseded.json and armB_tier40_unseeded_run2_superseded.json are SUPERSEDED as measurements (target-shift defect, unseeded initialisation, or both) and kept as defect evidence. Their graded outcomes are not usable as capability numbers.",
+      "what_changed": "Added armB_seed_protocol as a requirement on any H1 number for arm B, and opened D-MPE8-06 on the seed count and the statistic. No measurement was re-run and no sealed number changed."
+    },
+    {
+      "amended_at": "2026-11-03T12:49:05Z",
+      "cross_reference": "AMD-MPE8-01 (inertness of --curriculum at tier 40), AMD-MPE8-02 and D-MPE8-06 (arm B's seed protocol, which is what stands between the current arm B numbers and any H1 claim).",
+      "direction": "NEW MEASUREMENT at a new tier. Nothing sealed was re-measured and nothing was removed or relaxed. D-MPE8-03's constraint (b) is what governs how this number may be used, and it forbids the use the number most invites.",
+      "id": "AMD-MPE8-03",
+      "instrument_change": "None. --curriculum was already registered and proven inert at tier 40 by AMD-MPE8-01; this run is the first time it carried a tier other than 40.",
+      "measured": {
+        "artifact": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+        "finding": "experiments/MP-E8/results/armA_tier120_finding.json",
+        "guarded_absence": {
+          "distractor_items_involved": [
+            "dist20",
+            "dist29",
+            "dist33"
+          ],
+          "examples": [
+            "learn/d2/live/dist29/qword: 'how does the tile bolt the keg' -> 'droso says the tile bolts the keg' (nobody said that)",
+            "learn/d2/restarted/dist29/qword: 'how does the tile bolt the keg' -> 'droso says the tile bolts the keg' (nobody said that)",
+            "learn/d2/restarted/dist33/qword: 'how does the strap roll the drum' -> 'droso says the strap rolls the drum' (nobody said that)"
+          ],
+          "reading": "Arm A asserted an untaught relation on rows where nothing was said, which is the class the exit code fails on. This is a within-tier observation about tier 120 and is NOT subject to the regime-break confound; the tier-40 comparison of it is, because the 8 untaught-word asks sit in the same qword shape.",
+          "tier_120_failures": 13,
+          "tier_120_live_phase_failures": 3,
+          "tier_40_failures": 0
+        },
+        "items": 120,
+        "probes_built_by_this_bench": 416,
+        "probes_projected_in_tier_protocol": 408,
+        "refusal_pct_learn_live": {
+          "item_scaling_measured": 3.0,
+          "refusal_delta_pp": {
+            "1": 1.8,
+            "2": 0.5,
+            "3": 0.9
+          },
+          "rows_per_depth": {
+            "tier_120": 416,
+            "tier_40": 136
+          },
+          "tier_120_this_run": {
+            "1": {
+              "absence": 0,
+              "correct": 122,
+              "correct_pct": 29.3,
+              "invented": 0,
+              "misattrib": 4,
+              "n": 416,
+              "refusal_pct": 68.0,
+              "refused": 283
+            },
+            "2": {
+              "absence": 0,
+              "correct": 239,
+              "correct_pct": 57.5,
+              "invented": 1,
+              "misattrib": 10,
+              "n": 416,
+              "refusal_pct": 38.7,
+              "refused": 161
+            },
+            "3": {
+              "absence": 0,
+              "correct": 347,
+              "correct_pct": 83.4,
+              "invented": 2,
+              "misattrib": 13,
+              "n": 416,
+              "refusal_pct": 12.7,
+              "refused": 53
+            }
+          },
+          "tier_40_sealed": {
+            "1": {
+              "absence": 0,
+              "correct": 38,
+              "correct_pct": 27.9,
+              "invented": 0,
+              "misattrib": 1,
+              "n": 136,
+              "refusal_pct": 66.2,
+              "refused": 90
+            },
+            "2": {
+              "absence": 0,
+              "correct": 75,
+              "correct_pct": 55.1,
+              "invented": 0,
+              "misattrib": 4,
+              "n": 136,
+              "refusal_pct": 38.2,
+              "refused": 52
+            },
+            "3": {
+              "absence": 0,
+              "correct": 115,
+              "correct_pct": 84.6,
+              "invented": 0,
+              "misattrib": 4,
+              "n": 136,
+              "refusal_pct": 11.8,
+              "refused": 16
+            }
+          }
+        },
+        "wall_clock": {
+          "consequence_for_tier_300": {
+            "caveat": "Probe counts do not scale as the projection assumed -- tier 120 was projected at 408 probes and the bench builds 416 from the authored manifest. The wall-clock still landed near the projection, which says the projection's error and the probe-count error partly cancel; that is luck, not validation.",
+            "implied_by_this_run_if_scaling_holds": 58.67,
+            "reading": "The tier-120 projection was accurate to within a few percent, so the item-linear scaling rule survives one contact with reality. The tier-300 figure keeps the same basis but is still a projection until run: this run checked the rule at one data point, not at two.",
+            "registered_projection_minutes": 60.2
+          },
+          "error_vs_projection_pct": -2.6,
+          "external_timer_seconds": 1408.1,
+          "measured_minutes": 23.47,
+          "projection_checked_not_reused": true,
+          "projection_source": "experiments/G0-prime/tier_protocol.json -> tier_120.wall_clock_projected_minutes_all_arms",
+          "registered_projection_minutes": 24.1
+        }
+      },
+      "not_re_measured": [
+        "the sealed tier-40 baseline",
+        "the noise floor",
+        "every G0-prime artifact"
+      ],
+      "r2_status": "The confound that limits this result was registered BEFORE the run (2026-11-03T10:59:38Z, confounds.cross_tier_comparability_regime_break), including the sentence 'The tier-40-to-tier-120 refusal-rate change is reported as CONFOUNDED, not as a result'. The run was executed to test the wall-clock projection and to produce the number, not to earn a claim out of it.",
+      "re_measured": [],
+      "results_existed": false,
+      "what_changed": "Tier 120 is no longer 'registered, not yet built': it was built (curriculum_tier120.json, already sealed) and arm A has now been run on it through --curriculum. This amendment records the result and its limits. It also updates experiments/G0-prime/tier_protocol.json's tier_120 status field and adds a projection_status note to tier_300; no projected number in that file was edited.",
+      "what_it_does_not_support": "Any forgetting claim. Tier 40 and tier 120 are different instruments under constraint (b) -- 8 of tier 40's 136 asks use content words no taught sentence contains, and tier 120 has none -- so the refusal-rate change between them is partly definitional. The registration's own consequence_for_analysis says this in terms, and it is quoted in the finding artifact rather than paraphrased.",
+      "what_it_does_support": "A within-tier observation: at tier 120 arm A asserted an untaught relation on 3 live-phase guarded-absence rows (items dist20, dist29, dist33), where the tier-40 run had 0. That is the class the exit code fails on and it is the first time it has been seen outside prose. It needs its own look before H2 is quoted."
     }
   ],
   "schema": "droso.registration.v1",
