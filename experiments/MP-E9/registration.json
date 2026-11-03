@@ -178,6 +178,15 @@
         "sha256_lf": "89ab286700667f648a9a8157f65ef1d22d75029d8fc3e23fc58d2b50c5b92a97",
         "sha256_of_git_blob": "89ab286700667f648a9a8157f65ef1d22d75029d8fc3e23fc58d2b50c5b92a97"
       },
+      "experiments/MP-E9/organs_precondition.md": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 14521,
+        "bytes_worktree": 14747,
+        "git_blob_sha1": "18b395e9d793706bce52a65aa0689929af477550",
+        "line_endings": "CRLF",
+        "sha256_lf": "3a254b77b606e0a65e85cca7053b8119194fa9597f283f13f3f58457c2f9eee6",
+        "sha256_of_git_blob": "3a254b77b606e0a65e85cca7053b8119194fa9597f283f13f3f58457c2f9eee6"
+      },
       "experiments/MP-E9/plan_extract/PROVENANCE.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 1626,
@@ -196,6 +205,24 @@
         "sha256_lf": "24c1b72aff10b0e2dd9408a801de2607404343b9ca5f2bbde4db4c4cdbaf05a4",
         "sha256_of_git_blob": "24c1b72aff10b0e2dd9408a801de2607404343b9ca5f2bbde4db4c4cdbaf05a4"
       },
+      "experiments/MP-E9/results/battery_pre_flag.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 7183,
+        "bytes_worktree": 7183,
+        "git_blob_sha1": "3efe802fc5d6e9b65411f2aa6d44a5d5cee7a0fd",
+        "line_endings": "LF",
+        "sha256_lf": "774c2d4b548fc1138237082d656f143eda8e54754d709cfdb8996c01c26cb086",
+        "sha256_of_git_blob": "774c2d4b548fc1138237082d656f143eda8e54754d709cfdb8996c01c26cb086"
+      },
+      "experiments/MP-E9/results/battery_pre_flag_rows.jsonl": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 39158,
+        "bytes_worktree": 39158,
+        "git_blob_sha1": "f6c88957999626dae4909ca4cda846d13a294fdb",
+        "line_endings": "LF",
+        "sha256_lf": "1cfafeb2557c1192c4f3eb8ea0c55fc94f63992681678cb14f2d419251a445b8",
+        "sha256_of_git_blob": "1cfafeb2557c1192c4f3eb8ea0c55fc94f63992681678cb14f2d419251a445b8"
+      },
       "experiments/MP-E9/results/gate_validation.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 6919,
@@ -204,6 +231,15 @@
         "line_endings": "LF",
         "sha256_lf": "942c1140c791e6ec78a17a7c630b6595d91c05a78d26d56fc0e9e2daf66752cb",
         "sha256_of_git_blob": "942c1140c791e6ec78a17a7c630b6595d91c05a78d26d56fc0e9e2daf66752cb"
+      },
+      "experiments/MP-E9/results/gate_validation_with_battery.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 8252,
+        "bytes_worktree": 8252,
+        "git_blob_sha1": "5a0494675f3037a5a1c0f31f4386797faa93cffa",
+        "line_endings": "LF",
+        "sha256_lf": "569c17c26f830e8ce401516d2ca0b5d52a5f0eed3670739139b3171da309de5f",
+        "sha256_of_git_blob": "569c17c26f830e8ce401516d2ca0b5d52a5f0eed3670739139b3171da309de5f"
       },
       "organs/neural_language.py": {
         "blob_equals_lf_normalised": true,
@@ -234,12 +270,21 @@
       },
       "tests/test_mp_e9_gate.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 10869,
-        "bytes_worktree": 11082,
-        "git_blob_sha1": "3a656a4587ff3ddf3a75010432a12290b773a951",
+        "bytes_blob": 13485,
+        "bytes_worktree": 13737,
+        "git_blob_sha1": "11c79e2a9dad35fce793c44bd6044287e6855b1f",
         "line_endings": "CRLF",
-        "sha256_lf": "0dea1eb72a6666b0f8d423b15350222c9765f7baec8fad1eeb140f90d4760a6b",
-        "sha256_of_git_blob": "0dea1eb72a6666b0f8d423b15350222c9765f7baec8fad1eeb140f90d4760a6b"
+        "sha256_lf": "871aa8196a2172f040c1c02d0c4fbc6f1d34f1adeeb09640d2cc59677f12ca55",
+        "sha256_of_git_blob": "871aa8196a2172f040c1c02d0c4fbc6f1d34f1adeeb09640d2cc59677f12ca55"
+      },
+      "tests/test_mp_e9_precondition.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 7146,
+        "bytes_worktree": 7301,
+        "git_blob_sha1": "92e8f1921a3b1c7e267b44ac3a966a8908425cbb",
+        "line_endings": "CRLF",
+        "sha256_lf": "675f661caa82b14fd9020c96a36bc76a5018509fdedf7e186545e1fbdb16aa12",
+        "sha256_of_git_blob": "675f661caa82b14fd9020c96a36bc76a5018509fdedf7e186545e1fbdb16aa12"
       },
       "tests/test_word_provenance.py": {
         "blob_equals_lf_normalised": true,
@@ -286,14 +331,23 @@
         "sha256_lf": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548",
         "sha256_of_git_blob": "690ec2ca1ca1fa5e01bad80e22dccc849f3105917110b84d6031e04903f15548"
       },
+      "tools/mp_e9_battery.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 15415,
+        "bytes_worktree": 15708,
+        "git_blob_sha1": "924df7c85021c4f7d0f26baf7102dab9792923fa",
+        "line_endings": "CRLF",
+        "sha256_lf": "049e93a0617457ba53d9607fac322fd40d6cb1ac66c3e1b0b48bc06e8368ec1e",
+        "sha256_of_git_blob": "049e93a0617457ba53d9607fac322fd40d6cb1ac66c3e1b0b48bc06e8368ec1e"
+      },
       "tools/mp_e9_gate.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 19710,
-        "bytes_worktree": 20089,
-        "git_blob_sha1": "d324ff9100e6bc13db38694f1638d54a81898baf",
+        "bytes_blob": 22917,
+        "bytes_worktree": 23334,
+        "git_blob_sha1": "0cdf8be055ebecaf0860d66667571a68acba577d",
         "line_endings": "CRLF",
-        "sha256_lf": "33dbd36eea141f5e9d7cf7bace1b2ad9302112cb99dd5381140abc88a324cd2c",
-        "sha256_of_git_blob": "33dbd36eea141f5e9d7cf7bace1b2ad9302112cb99dd5381140abc88a324cd2c"
+        "sha256_lf": "235d31e185d47390e293fc20e3b3fab324cf8eb4c8b9e41c01957c3146950805",
+        "sha256_of_git_blob": "235d31e185d47390e293fc20e3b3fab324cf8eb4c8b9e41c01957c3146950805"
       },
       "tools/noise_floor_report.py": {
         "blob_equals_lf_normalised": true,
@@ -315,12 +369,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 22411,
-        "bytes_worktree": 22799,
-        "git_blob_sha1": "bc30979636900e6cf1d249b6afdb4e71067be814",
+        "bytes_blob": 23727,
+        "bytes_worktree": 24132,
+        "git_blob_sha1": "930005786964c2730c11f59e5fb7ea7e542ffe4a",
         "line_endings": "CRLF",
-        "sha256_lf": "088ee80f8dbbd6ad13dc7e2c0fc38e6039bb1f8ff677c23f4ec1656ff8a9c06f",
-        "sha256_of_git_blob": "088ee80f8dbbd6ad13dc7e2c0fc38e6039bb1f8ff677c23f4ec1656ff8a9c06f"
+        "sha256_lf": "eabb822ab5e381d73d304dfe21f56a1468a74310808f9bd48a966db3fe065a31",
+        "sha256_of_git_blob": "eabb822ab5e381d73d304dfe21f56a1468a74310808f9bd48a966db3fe065a31"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -343,7 +397,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "9f0e7859b946f648a2989ca343bf13b0e1ffdcf7",
+    "git_head": "625e96df57504a132a888073aa60f6551b3dc3f2",
     "hash_basis": "sha256 over CRLF-folded-to-LF bytes",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -384,7 +438,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-03T06:42:28Z",
+    "sealed_at_utc": "2026-11-03T07:44:13Z",
     "self_excluded": {
       "path": "experiments/MP-E9/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -430,6 +484,7 @@
     },
     "H3": {
       "directional_prediction": "toll-class correct rows 0 -> at least 6 of 54, concentrated in the 16 currently-refused marked asks.",
+      "measured_by": "tools/mp_e9_gate.py morphology_class.toll over the candidate evidence file -- toll_correct is computed by the gate, not by the grader. This field was empty when the registration opened; the instrument existed but was never named.",
       "note": "The kin are registered because the defect is the stemmer, not the word: _verb_stem under-folds carries/crosses/catches to carrie/crosse/catche (docs/STATE.md, ELECTRIC_ASK_DO_SUPPORT).",
       "numeric_thresholds": {
         "asserted_untraceable_rows_max": 0,
@@ -450,6 +505,7 @@
       "threshold": "toll correct >= 6 AND invented_rows == 0 AND UNTRACEABLE_ASSERTED == 0 AND guarded_absence_rows == 24."
     },
     "H4": {
+      "measured_by": "invariants: tools/mp_e9_gate.py (guarded-absence, admitted-by-form, learn floor). battery clause: tools/mp_e9_battery.py -> experiments/MP-E9/results/battery_pre_flag.json, fed back with --battery. This field was empty when the registration opened, which is why the battery clause was a quotation.",
       "note": "R6 is absolute: a fluency or reach gain that degrades retention or refusal is rejected regardless of size.",
       "numeric_thresholds": {
         "absence_admitted_by_form_equal": 24,
@@ -470,6 +526,16 @@
     }
   },
   "measured_baseline_at_registration": {
+    "battery_measured_pre_treatment": {
+      "artifact": "experiments/MP-E9/results/battery_pre_flag.json",
+      "at": "2026-11-04T12:00:00Z",
+      "electric": "off",
+      "frozen": "19/24",
+      "frozen_lost_vs_baseline": [],
+      "guarded": "4/4",
+      "note": "Measured, not quoted. The prose record in battery_regression_guard is left exactly as registered -- this block is a sibling, not a correction, because the original was never wrong, only unverified.",
+      "paraphrase": "0/14"
+    },
     "battery_regression_guard": {
       "frozen": "19/24",
       "guarded_invariants": "4/4",
@@ -557,6 +623,137 @@
       "silence_rows": 1519
     }
   },
+  "measured_states": {
+    "abort_conditions": {
+      "C1": {
+        "fired": true,
+        "note": "Expected pre-treatment: C1 is the says leak itself, and MP-E9 exists to close it. It is not an abort of the experiment -- it is the reason the experiment is open.",
+        "state": "FIRED"
+      },
+      "C2": {
+        "fired": false,
+        "state": "NOT FIRED"
+      },
+      "C3": {
+        "fired": false,
+        "state": "NOT FIRED"
+      },
+      "C4": {
+        "fired": null,
+        "note": "C4 counts qa_store rows whose provenance is neither person_marked nor person_paraphrase. That population only exists once ELECTRIC_QA_MORPH_NORMALIZE widens the store keys, which is PRE-1 / B.2 step 2 and has not been implemented. A pre-treatment count over today's 288 electric_qa_store rows would measure a key form the condition does not describe, so no number is reported rather than a misleading one.",
+        "state": "NOT YET MEASURABLE"
+      },
+      "C5": {
+        "fired": null,
+        "note": "C5 groups GAINED rows by probe shape. In the pre-treatment self-check rows_gaining_correct == 0, so there is nothing to group and the condition cannot fire. It becomes measurable only against a treatment candidate, where row_movement_vs_reference supplies the gains.",
+        "state": "VACUOUS PRE-TREATMENT"
+      }
+    },
+    "as_of": "2026-11-04T12:00:00Z",
+    "battery_provenance": {
+      "all_chunks_same_commit": true,
+      "chunking": "6 chunks of one script-pair each via --only, because the shell caps one command at 600 s and the full 42-ask run measures ~18 min. Sanctioned by run_generation.py:880-887; every ask builds a fresh house, so a chunk boundary cannot leak state between asks.",
+      "electric": {
+        "chunks": 6,
+        "state": "off",
+        "verified": true
+      },
+      "generation_numbers": [
+        9001,
+        9002,
+        9003,
+        9004,
+        9005,
+        9006
+      ],
+      "genome_id": "abffa2b7f101",
+      "interpreter": "3.12.10",
+      "invocation": "py tools/run_generation.py --generation 9001..9006 --lines 1 --tier frozen,probe --only {count-frequency,order-first-last,conjunction-and-absence,exact-repeat,hop-and-inventory,quantity-change} ; ELECTRIC off (no --electric flag)",
+      "measured_under_commit": "5e1e663",
+      "measured_under_commit_dirty": true,
+      "n_nodes": 12867,
+      "operator": "clone",
+      "plastic_synapses": 2983,
+      "run_seconds": 1035.6,
+      "scratch_note": "Generations 9001-9006 are synthetic scratch. Their journals were written to state/selection/, which .gitignore deliberately does NOT ignore (lines 94-101: it is the tracked lineage record). They were deleted after extraction and were never committed; the lineage in state/selection/ remains the real generations only. The numbers live on in the artifact named above, which carries the per-chunk journal hashes."
+    },
+    "gaps_still_open": [
+      "C4 has no measurement until ELECTRIC_QA_MORPH_NORMALIZE exists (PRE-1 / B.2 step 2).",
+      "C5 is vacuous until a treatment candidate produces gains.",
+      "The battery is one line, one clone: unanimity across clones cannot be tested by a single line, so an unstable ask would be reported here as stable by construction."
+    ],
+    "hypotheses": {
+      "H1": {
+        "note": "16 asserted-untraceable rows against a threshold of 0. This is the defect B.2 step 1 addresses. C1 fires today for exactly this reason.",
+        "observed": {
+          "asserted_rows": 16,
+          "heard_rows_reported_not_counted": 6
+        },
+        "state": "MEASURED -- FAILING, as registered"
+      },
+      "H2": {
+        "note": "says_rows_flagged 16 against 0; the three populations H2 protects (arbiter_tell_rows 36, rows_losing_correct 0, says-gap 65) are all at their registered values, so only the leak itself fails.",
+        "observed": {
+          "arbiter_tell_rows": 36,
+          "rows_losing_correct": 0,
+          "says_gap_refused_plus_echo": 65,
+          "says_rows_flagged": 16
+        },
+        "state": "MEASURED -- FAILING, as registered"
+      },
+      "H3": {
+        "note": "toll_correct 0 against a minimum of 6, over 54 rows touching toll. The kin (bite 90, carry 81, ring 54, hang 30, cross 27, guard 18) all pass, which is the signature of the exact-character store key: the class that needs no inflection is the class that works.",
+        "observed": {
+          "guarded_absence_rows": 24,
+          "invented_rows": 0,
+          "toll_correct": 0,
+          "toll_rows": 54
+        },
+        "state": "MEASURED -- FAILING, as registered"
+      },
+      "H4": {
+        "note": "All four components measured: guarded-absence 24/24, absence admitted by form 24/24, learn correct 38/75/115 at the registered floor, battery frozen 19/24 and guarded 4/4 with ELECTRIC verified off from the run's own provenance. H4 was the only hypothesis whose battery clause had no instrument behind it; that gap is what tools/mp_e9_battery.py closes.",
+        "observed": {
+          "absence_admitted_by_form": 24,
+          "battery": {
+            "asked_rows": 42,
+            "frozen_correct": 19,
+            "frozen_total": 24,
+            "guarded_pass": 4,
+            "guarded_total": 4,
+            "paraphrase_pass": 0,
+            "paraphrase_total": 14
+          },
+          "electric": {
+            "off_counts_as_verified": true,
+            "state": "off",
+            "verified": true
+          },
+          "guarded_absence_rows": 24,
+          "learn_correct_live": {
+            "1": 38,
+            "2": 75,
+            "3": 115
+          }
+        },
+        "pass": true,
+        "state": "MEASURED -- PASSING"
+      }
+    },
+    "instruments": {
+      "battery": {
+        "artifact": "experiments/MP-E9/results/battery_pre_flag.json",
+        "grades": "H4's battery clause (frozen 19/24, guarded 4/4, ELECTRIC off)",
+        "tool": "tools/mp_e9_battery.py"
+      },
+      "gate": {
+        "artifact": "experiments/MP-E9/results/gate_validation_with_battery.json",
+        "grades": "H1 H2 H3 H4 invariants and C1-C5, thresholds read from this file",
+        "tool": "tools/mp_e9_gate.py"
+      }
+    },
+    "what_this_is": "Every hypothesis and every abort condition, in its state BEFORE any MP-E9 treatment. H1-H3 failing here is the point: these are the defects the experiment exists to close. H4 passing is the regression guard holding. A threshold with no instrument is a quotation, and a quotation cannot fail -- so it cannot hold either."
+  },
   "name": "Recognition, Morphology, and the Direct Answer Path",
   "objective": "Close the honesty and morphology residuals so the organism MP-E8 measures does not confabulate and does not refuse over a suffix. Three defects, one experiment: the says-gap routing regression, the stemmer boundary on the QA store keys, and the direct answer path's formal bounds.",
   "open_decisions_for_pi": {
@@ -623,6 +820,54 @@
     }
   },
   "plan_source": "DROSO Master Plan v1.1 section 6.1 and Appendix B.2",
+  "preconditions": {
+    "PRE-1": {
+      "amendment": "PRE-1 (see registration_amendments)",
+      "blocks": [
+        "B.2 step 1 -- ELECTRIC_ARBITER_HEAD_BOUND (the head branch's unbounded else)",
+        "B.2 step 2 -- ELECTRIC_QA_MORPH_NORMALIZE (store keys are exact characters)"
+      ],
+      "document": "experiments/MP-E9/organs_precondition.md",
+      "document_status": "written; sealed by tools/registration_seal.py in the same commit that registers it",
+      "does_not_block": [
+        "MP-E9 registration and instrument validation",
+        "the pre-treatment battery baseline (H4's measured state)",
+        "any MP-E9 arm that does not touch organs/"
+      ],
+      "enforced_by": "tests/test_mp_e9_precondition.py",
+      "flags": {
+        "ELECTRIC_ARBITER_HEAD_BOUND": {
+          "acceptance": "a PREDICATE, not arithmetic: no row with who != 'you' reaches the mouth as an answer at any timing. '16 -> 0' is NOT the test, because the 16 is itself gated on the 2.0 s wall-clock in organs/neural_language.py:946-948.",
+          "cli": "--electric-arbiter-head-bound",
+          "default": false,
+          "defect": "_arbiter_tell(best, ...) correctly refuses a who != 'you' row, then the else speaks sf unconditionally. The TELL path is bounded; the HEAD path is not, because it predates the flag.",
+          "read_at": "organs/neural_language.py:5256-5261"
+        },
+        "ELECTRIC_QA_MORPH_NORMALIZE": {
+          "cli": "--electric-qa-morph-normalize",
+          "default": false,
+          "defect": "write and read keys are exact characters; only qa_paraphrase_key stems, and it is reachable only through ELECTRIC_QA_PARAPHRASE on the paraphrase path. Measured with the project's own stemmer: tolls/tolling/tolled -> toll, but says -> says and said -> said.",
+          "parent": "ELECTRIC_QA_STORE",
+          "persistence_hazard": "qa_store survives restart (:6368/:6568). Changing the key form makes a pre-flag store unreadable and the symptom is SILENCE, indistinguishable from an empty memory. Keys must be re-derived at restore, not merely at write.",
+          "read_at": "organs/neural_language.py:3400, :3529, :5800, :6568"
+        }
+      },
+      "id": "PRE-1",
+      "independence_of_the_two_flags": "A morphology fix cannot remove the says rows and a bound fix cannot recover the toll class. Proven by the stemmer measurement above, which is why they are two flags and not one.",
+      "must_not_change": [
+        "the 36 rows with src == 'arbiter tell', checked ROW FOR ROW, not by count",
+        "the 24 rows with src == 'electric_absence', checked ROW FOR ROW, not by count",
+        "the 6 UNTRACEABLE_HEARD rows -- untouched, and they are the tripwire for an over-broad bound",
+        "the 27 told sentences",
+        "the control arm, byte for byte",
+        "refusal strings, reused verbatim from the existing guarded-absence template"
+      ],
+      "registered_at": "2026-11-04T00:00:00Z",
+      "title": "organs/ design step closes the says leak at its two real sites before any MP-E9 treatment arm runs",
+      "why_a_document_is_not_enough": "Before this entry the constraint lived only in a markdown file that nothing referenced, so its own claim that B.2 steps 1-2 are blocked was unenforced. A precondition with no test is a memo. tests/test_mp_e9_precondition.py now fails if the registration loses its reference to the document, if the document leaves the seal manifest, or if the sealed bytes drift from the worktree."
+    }
+  },
+  "r2_results_existed_meaning": "`results_existed` means a MP-E9 TREATMENT ARM result existed when the amendment was made. Baseline measurements are recorded separately in baseline_measurements_existed, and any amendment with that true must state its direction; an instrument change made after a measurement is admissible only if it can remove a pass, never if it can manufacture one. Enforced by tests/test_mp_e9_gate.py::test_no_mp_e9_result_exists_yet_and_the_amendments_say_so.",
   "registered_at": {
     "baseline_note": "The plan states its baseline at 0b5f191. HEAD is 5d03621, four commits later; all four are handover-note commits, and the last one is titled 'Handover note kept local only'. No organ code differs between them, so the plan's measured baseline still applies -- but the discrepancy is recorded rather than smoothed over, because a plan that cites a commit it does not match is how a stale number survives a gate.",
     "git_head": "5d036210254341325ea2286ce54686681a2612df",
@@ -632,24 +877,65 @@
   "registration_amendments": [
     {
       "at": "2026-11-03T06:20:00Z",
+      "baseline_measurements_existed": false,
+      "direction": "no instrument change; threshold value unchanged",
       "kind": "PI ruling incorporated, pre-run",
       "results_existed": false,
+      "treatment_results_existed": false,
       "what": "H1's pending clause retired by D-G0P-03; threshold value unchanged (0 ASSERTED rows).",
       "why": "The registration itself asked for this ruling before MP-E9 opened."
     },
     {
       "at": "2026-11-03T06:20:00Z",
+      "baseline_measurements_existed": false,
+      "direction": "no instrument change; threshold value unchanged",
       "kind": "transcription, pre-run",
       "results_existed": false,
+      "treatment_results_existed": false,
       "what": "numeric_thresholds added to H1-H4, each carrying transcribed_from with the prose string.",
       "why": "So the harness executes the registered standard instead of restating it. No number was invented: each value is copied from the threshold text already in this file."
     },
     {
       "at": "2026-11-03T06:20:00Z",
+      "baseline_measurements_existed": false,
+      "direction": "no instrument change; threshold value unchanged",
       "kind": "PI ruling incorporated, pre-run",
       "results_existed": false,
+      "treatment_results_existed": false,
       "what": "analysis_plan.noise_tolerance replaced by a pointer to the comparator's field classes.",
       "why": "The draft listed 5 treatment-effect fields where the ruling names 9 plus a fail-closed default; two copies of a standard had already drifted apart."
+    },
+    {
+      "at": "2026-11-04T00:00:00Z",
+      "baseline_measurements_existed": false,
+      "direction": "no instrument change; threshold value unchanged",
+      "kind": "precondition registered as a gate",
+      "results_existed": false,
+      "treatment_results_existed": false,
+      "what": "Added preconditions.PRE-1 naming experiments/MP-E9/organs_precondition.md, its two flags and their read sites, and the row-for-row invariants that must not move. Added the document and the new instrument/test to the seal manifest.",
+      "why": "The document asserted that B.2 steps 1-2 are blocked until it is committed and sealed, but nothing in the registration referenced it, so the assertion was unenforceable. Registering it converts a memo into a gate."
+    },
+    {
+      "at": "2026-11-04T12:00:00Z",
+      "baseline_measurements_existed": true,
+      "direction": "instrument added; no threshold value changed",
+      "kind": "instrument added; no threshold changed",
+      "r2_note": "The registered text already said 19/24 and 4/4. This amendment added the instrument that could check it. Nothing was loosened, and the measurement agrees with the registered value.",
+      "results_existed": false,
+      "treatment_results_existed": false,
+      "what": "H4's battery clause became measurable. tools/mp_e9_battery.py grades a run_generation asks journal against the registration's own numbers and the split in tools/selection_baseline.json, and tools/mp_e9_gate.py now consumes its artifact via --battery. Measured: frozen 19/24, guarded 4/4, paraphrase 0/14, ELECTRIC off verified from provenance.code_flags. H4 pass=True.",
+      "why": "The clause was registered as prose and the gate's H4.pass was null because no artifact had ever been supplied. No threshold value changed; the transcription already said 19/24 and 4/4 and the measurement agrees with it."
+    },
+    {
+      "at": "2026-11-04T12:00:00Z",
+      "baseline_measurements_existed": true,
+      "direction": "STRICTER -- the gate refused to pass an artifact it would have accepted",
+      "kind": "instrument strengthened to match registered text",
+      "r2_note": "Made after the battery artifact existed, which R2 requires be said out loud. It is admissible because it only ever REMOVES a pass: a battery run with ELECTRIC on, or with no ELECTRIC provenance, now fails H4 where it previously would have passed on four numbers alone. No threshold value moved; the instrument was made to match the text that was registered before any run.",
+      "results_existed": false,
+      "treatment_results_existed": false,
+      "what": "The gate now requires the ELECTRIC-off half of H4's battery clause, read from the artifact's provenance, and reports C4 and C5 explicitly (NOT YET MEASURABLE / VACUOUS PRE-TREATMENT) instead of omitting them.",
+      "why": "The registered text always said 'with ELECTRIC off'; the first gate compared four numbers and would have passed a battery run with the treatment wired in. Absence of a condition and a deliberate not-fired are different claims -- the house rule that a missing key must never be indistinguishable from a deliberate off applies to abort conditions too. Threshold values unchanged."
     }
   ],
   "schema": "droso.registration.v1",
