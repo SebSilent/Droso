@@ -196,6 +196,18 @@ DEFAULT_MANIFEST = [
     # tier-120 number and the file that produced the sealed tier-40 baseline are the SAME bytes only
     # if this entry says so.
     "tools/electric_learn_bench.py",
+    # Arm B's instrument history, sealed because the seed-protocol decision depends on it: the gate
+    # cannot rest on numbers that live only in untracked working files. These four are SUPERSEDED
+    # measurements -- defective pad, or unseeded initialisation -- kept because the defect reports
+    # quantify what each defect did (444 rows, 672 rows), and a supersession with no surviving
+    # artifact is a claim, not a record.
+    "experiments/MP-E8/results/armB_tier40_superseded_hashbasis.json",
+    "experiments/MP-E8/results/armB_tier40_offbyone_superseded.json",
+    "experiments/MP-E8/results/armB_tier40_unseeded_superseded.json",
+    "experiments/MP-E8/results/armB_tier40_unseeded_run2_superseded.json",
+    "experiments/MP-E8/results/armB_tier40_rerun_pair.json",
+    "experiments/MP-E8/results/armB_offbyone_effect.json",
+    "experiments/MP-E8/results/armB_tier40_unseeded_pair.json",
 ]
 
 

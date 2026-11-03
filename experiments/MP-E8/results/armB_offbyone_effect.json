@@ -1,0 +1,6270 @@
+{
+  "by_cell": {
+    "B/1/live": 55,
+    "B/1/reasked": 55,
+    "B/1/restarted": 55,
+    "B/2/live": 55,
+    "B/2/reasked": 55,
+    "B/2/restarted": 55,
+    "B/3/live": 38,
+    "B/3/reasked": 38,
+    "B/3/restarted": 38
+  },
+  "candidate": {
+    "electric_flags": {},
+    "path": "experiments/MP-E8/results/armB_tier40_unseeded_superseded.json",
+    "rows": 1224,
+    "sha256_lf": "e2cf5987d806b733fcc374db2aaf55ab651f4b0e743adcb50be581ac9bc8a3c5"
+  },
+  "counts": {
+    "gained": 0,
+    "inside_r13_cells": 0,
+    "lost": 0,
+    "moved": 444,
+    "outside_r13_cells": 444,
+    "rows_keyed_both": 1224,
+    "total_differences": 444
+  },
+  "differences": {
+    "moved": {
+      "B|1|live|dist0|role_swap": {
+        "after": [
+          "what chases the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what chases the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|dist5|role_swap": {
+        "after": [
+          "what crosses the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what crosses the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|dist8|qword": {
+        "after": [
+          "which bell rings",
+          "the tower? the copper bell rings",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "which bell rings",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.0|pair_exact": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.0|pair_fold": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.1|pair_exact": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.1|pair_fold": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.2|pair_exact": {
+        "after": [
+          "what rings in the tower",
+          "the copper bell rings",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.2|pair_fold": {
+        "after": [
+          "what rings in the tower",
+          "the copper bell rings",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.3|pair_exact": {
+        "after": [
+          "who does the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.3|pair_fold": {
+        "after": [
+          "who the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.4|pair_exact": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair0.4|pair_fold": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair1.3|pair_exact": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair1.3|pair_fold": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair1.4|pair_exact": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair1.4|pair_fold": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "the lantern belong to? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.0|object_fold": {
+        "after": [
+          "what the dog bite",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the dog bite",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.0|subject": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.1|object": {
+        "after": [
+          "what does the mouse chase",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mouse chase",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.1|subject": {
+        "after": [
+          "what chases the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what chases the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.1|subject_fold": {
+        "after": [
+          "what chase the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what chase the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.2|object": {
+        "after": [
+          "what does the nora carry",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.2|object_fold": {
+        "after": [
+          "what the nora carry",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.2|subject": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.3|subject": {
+        "after": [
+          "what rings",
+          "the tower? the copper bell rings",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.4|reverse": {
+        "after": [
+          "who does the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.4|reverse_fold": {
+        "after": [
+          "who the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.4|subject": {
+        "after": [
+          "what belongs to Mira",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what belongs to Mira",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.5|object": {
+        "after": [
+          "what does the key open",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.5|object_fold": {
+        "after": [
+          "what the key open",
+          "the door? the key opens the door",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.5|subject": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.6|object": {
+        "after": [
+          "what does the rope hold",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rope hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell0.7|object": {
+        "after": [
+          "what does the kettle warm",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.0|object_fold": {
+        "after": [
+          "what the dog guard",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the dog guard",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.1|object": {
+        "after": [
+          "what does the mira feed",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mira feed",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.1|subject": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.3|object": {
+        "after": [
+          "what does the rain fill",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.3|subject": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.4|object": {
+        "after": [
+          "what does the socket power",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the socket power",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.5|object": {
+        "after": [
+          "what does the thread bind",
+          "the lantern belong to? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.6|object": {
+        "after": [
+          "what does the gate block",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the gate block",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell1.7|object": {
+        "after": [
+          "what does the shelf hold",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the shelf hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.0|object": {
+        "after": [
+          "what does the collar fit",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the collar fit",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.0|subject_fold": {
+        "after": [
+          "what fit the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fit the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.1|object": {
+        "after": [
+          "what does the bridge cross",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the bridge cross",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.2|object": {
+        "after": [
+          "what does the lamp light",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the lamp light",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.3|object": {
+        "after": [
+          "what does the net catch",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the net catch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.4|object": {
+        "after": [
+          "what does the moon pull",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the moon pull",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.5|object": {
+        "after": [
+          "what does the tide flood",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the tide flood",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.6|object": {
+        "after": [
+          "what does the wind wake",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the wind wake",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.6|subject_fold": {
+        "after": [
+          "what wake the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what wake the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|live|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|dist0|role_swap": {
+        "after": [
+          "what chases the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what chases the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|dist5|role_swap": {
+        "after": [
+          "what crosses the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what crosses the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|dist8|qword": {
+        "after": [
+          "which bell rings",
+          "the tower? the copper bell rings",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "which bell rings",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.0|pair_exact": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.0|pair_fold": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.1|pair_exact": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.1|pair_fold": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.2|pair_exact": {
+        "after": [
+          "what rings in the tower",
+          "the copper bell rings",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.2|pair_fold": {
+        "after": [
+          "what rings in the tower",
+          "the copper bell rings",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.3|pair_exact": {
+        "after": [
+          "who does the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.3|pair_fold": {
+        "after": [
+          "who the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.4|pair_exact": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair0.4|pair_fold": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair1.3|pair_exact": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair1.3|pair_fold": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair1.4|pair_exact": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair1.4|pair_fold": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "the lantern belong to? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.0|object_fold": {
+        "after": [
+          "what the dog bite",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the dog bite",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.0|subject": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.1|object": {
+        "after": [
+          "what does the mouse chase",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mouse chase",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.1|subject": {
+        "after": [
+          "what chases the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what chases the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.1|subject_fold": {
+        "after": [
+          "what chase the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what chase the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.2|object": {
+        "after": [
+          "what does the nora carry",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.2|object_fold": {
+        "after": [
+          "what the nora carry",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.2|subject": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.3|subject": {
+        "after": [
+          "what rings",
+          "the tower? the copper bell rings",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.4|reverse": {
+        "after": [
+          "who does the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.4|reverse_fold": {
+        "after": [
+          "who the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.4|subject": {
+        "after": [
+          "what belongs to Mira",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what belongs to Mira",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.5|object": {
+        "after": [
+          "what does the key open",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.5|object_fold": {
+        "after": [
+          "what the key open",
+          "the door? the key opens the door",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.5|subject": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.6|object": {
+        "after": [
+          "what does the rope hold",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rope hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell0.7|object": {
+        "after": [
+          "what does the kettle warm",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.0|object_fold": {
+        "after": [
+          "what the dog guard",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the dog guard",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.1|object": {
+        "after": [
+          "what does the mira feed",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mira feed",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.1|subject": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.3|object": {
+        "after": [
+          "what does the rain fill",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.3|subject": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.4|object": {
+        "after": [
+          "what does the socket power",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the socket power",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.5|object": {
+        "after": [
+          "what does the thread bind",
+          "the lantern belong to? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.6|object": {
+        "after": [
+          "what does the gate block",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the gate block",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell1.7|object": {
+        "after": [
+          "what does the shelf hold",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the shelf hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.0|object": {
+        "after": [
+          "what does the collar fit",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the collar fit",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.0|subject_fold": {
+        "after": [
+          "what fit the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fit the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.1|object": {
+        "after": [
+          "what does the bridge cross",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the bridge cross",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.2|object": {
+        "after": [
+          "what does the lamp light",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the lamp light",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.3|object": {
+        "after": [
+          "what does the net catch",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the net catch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.4|object": {
+        "after": [
+          "what does the moon pull",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the moon pull",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.5|object": {
+        "after": [
+          "what does the tide flood",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the tide flood",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.6|object": {
+        "after": [
+          "what does the wind wake",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the wind wake",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.6|subject_fold": {
+        "after": [
+          "what wake the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what wake the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|reasked|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|dist0|role_swap": {
+        "after": [
+          "what chases the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what chases the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|dist5|role_swap": {
+        "after": [
+          "what crosses the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what crosses the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|dist8|qword": {
+        "after": [
+          "which bell rings",
+          "the tower? the copper bell rings",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "which bell rings",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.0|pair_exact": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.0|pair_fold": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.1|pair_exact": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.1|pair_fold": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.2|pair_exact": {
+        "after": [
+          "what rings in the tower",
+          "the copper bell rings",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.2|pair_fold": {
+        "after": [
+          "what rings in the tower",
+          "the copper bell rings",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.3|pair_exact": {
+        "after": [
+          "who does the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.3|pair_fold": {
+        "after": [
+          "who the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.4|pair_exact": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair0.4|pair_fold": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair1.3|pair_exact": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair1.3|pair_fold": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair1.4|pair_exact": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair1.4|pair_fold": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "the lantern belong to? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.0|object_fold": {
+        "after": [
+          "what the dog bite",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the dog bite",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.0|subject": {
+        "after": [
+          "what bites the latch",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.1|object": {
+        "after": [
+          "what does the mouse chase",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mouse chase",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.1|subject": {
+        "after": [
+          "what chases the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what chases the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.1|subject_fold": {
+        "after": [
+          "what chase the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what chase the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.2|object": {
+        "after": [
+          "what does the nora carry",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.2|object_fold": {
+        "after": [
+          "what the nora carry",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.2|subject": {
+        "after": [
+          "who carries the lantern",
+          "? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.3|subject": {
+        "after": [
+          "what rings",
+          "the tower? the copper bell rings",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.4|reverse": {
+        "after": [
+          "who does the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.4|reverse_fold": {
+        "after": [
+          "who the lantern belong to",
+          "the lantern belongs to mira",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "who the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.4|subject": {
+        "after": [
+          "what belongs to Mira",
+          "the lantern? nora carries the lantern",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what belongs to Mira",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.5|object": {
+        "after": [
+          "what does the key open",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.5|object_fold": {
+        "after": [
+          "what the key open",
+          "the door? the key opens the door",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.5|subject": {
+        "after": [
+          "what opens the door",
+          "the key opens the door",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.6|object": {
+        "after": [
+          "what does the rope hold",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rope hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell0.7|object": {
+        "after": [
+          "what does the kettle warm",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.0|object_fold": {
+        "after": [
+          "what the dog guard",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the dog guard",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.1|object": {
+        "after": [
+          "what does the mira feed",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mira feed",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.1|subject": {
+        "after": [
+          "who feeds the mouse",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.3|object": {
+        "after": [
+          "what does the rain fill",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.3|subject": {
+        "after": [
+          "what fills the bucket",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what fills the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.4|object": {
+        "after": [
+          "what does the socket power",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the socket power",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.5|object": {
+        "after": [
+          "what does the thread bind",
+          "the lantern belong to? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.6|object": {
+        "after": [
+          "what does the gate block",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the gate block",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell1.7|object": {
+        "after": [
+          "what does the shelf hold",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the shelf hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.0|object": {
+        "after": [
+          "what does the collar fit",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the collar fit",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.0|subject_fold": {
+        "after": [
+          "what fit the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fit the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.1|object": {
+        "after": [
+          "what does the bridge cross",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the bridge cross",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.2|object": {
+        "after": [
+          "what does the lamp light",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the lamp light",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "the dog bites the latch",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.3|object": {
+        "after": [
+          "what does the net catch",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the net catch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.4|object": {
+        "after": [
+          "what does the moon pull",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the moon pull",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.5|object": {
+        "after": [
+          "what does the tide flood",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the tide flood",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.6|object": {
+        "after": [
+          "what does the wind wake",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the wind wake",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.6|subject_fold": {
+        "after": [
+          "what wake the dog",
+          "the latch? the dog bites the latch",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what wake the dog",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|1|restarted|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "the lantern? the lantern belongs to mira",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|dist1|role_swap": {
+        "after": [
+          "who does the dog carry",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the dog carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|dist6|qword": {
+        "after": [
+          "why does the dog bite the latch",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "why does the dog bite the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|dist7|qword": {
+        "after": [
+          "how does the rope hold the shelf",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how does the rope hold the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair0.3|pair_exact": {
+        "after": [
+          "who does the lantern belong to",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair1.0|pair_exact": {
+        "after": [
+          "where does the bell hang",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair1.3|pair_exact": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair1.3|pair_fold": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair2.0|pair_exact": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair2.0|pair_fold": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|pair2.4|pair_exact": {
+        "after": [
+          "when does the bell toll",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "when does the bell toll",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.0|object": {
+        "after": [
+          "what does the dog bite",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the dog bite",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.0|subject_fold": {
+        "after": [
+          "what bite the latch",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bite the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.1|object": {
+        "after": [
+          "what does the mouse chase",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mouse chase",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.2|object": {
+        "after": [
+          "what does the nora carry",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.2|subject_fold": {
+        "after": [
+          "who carry the lantern",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carry the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.4|reverse": {
+        "after": [
+          "who does the lantern belong to",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.5|object": {
+        "after": [
+          "what does the key open",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.5|subject_fold": {
+        "after": [
+          "what open the door",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what open the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.6|object": {
+        "after": [
+          "what does the rope hold",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rope hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.6|subject_fold": {
+        "after": [
+          "what hold the shelf",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what hold the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.7|object": {
+        "after": [
+          "what does the kettle warm",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell0.7|object_fold": {
+        "after": [
+          "what the kettle warm",
+          "the water? the kettle warms the water",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.0|object": {
+        "after": [
+          "what does the dog guard",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the dog guard",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.0|subject_fold": {
+        "after": [
+          "what guard the gate",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what guard the gate",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.1|object": {
+        "after": [
+          "what does the mira feed",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mira feed",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.1|subject": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.1|subject_fold": {
+        "after": [
+          "who feed the mouse",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feed the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.2|reverse": {
+        "after": [
+          "where does the bell hang",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.3|object": {
+        "after": [
+          "what does the rain fill",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.3|object_fold": {
+        "after": [
+          "what the rain fill",
+          "the bucket? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.3|subject_fold": {
+        "after": [
+          "what fill the bucket",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fill the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.4|object": {
+        "after": [
+          "what does the socket power",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the socket power",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.4|subject": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.4|subject_fold": {
+        "after": [
+          "what power the lamp",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what power the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.5|object": {
+        "after": [
+          "what does the thread bind",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.5|subject_fold": {
+        "after": [
+          "what bind the button",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bind the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.6|object": {
+        "after": [
+          "what does the gate block",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the gate block",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.7|object": {
+        "after": [
+          "what does the shelf hold",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the shelf hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell1.7|subject_fold": {
+        "after": [
+          "what hold the lamp",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what hold the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.0|object": {
+        "after": [
+          "what does the collar fit",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the collar fit",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.1|object": {
+        "after": [
+          "what does the bridge cross",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the bridge cross",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.1|subject_fold": {
+        "after": [
+          "what cross the river",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what cross the river",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.2|object": {
+        "after": [
+          "what does the lamp light",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the lamp light",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.2|subject_fold": {
+        "after": [
+          "what light the door",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what light the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.3|object": {
+        "after": [
+          "what does the net catch",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the net catch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.3|subject_fold": {
+        "after": [
+          "what catch the mouse",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what catch the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.4|object": {
+        "after": [
+          "what does the moon pull",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the moon pull",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.4|subject_fold": {
+        "after": [
+          "what pull the tide",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what pull the tide",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.5|object": {
+        "after": [
+          "what does the tide flood",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the tide flood",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.6|object": {
+        "after": [
+          "what does the wind wake",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the wind wake",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.7|subject": {
+        "after": [
+          "who mends the net",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mends the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|live|tell2.7|subject_fold": {
+        "after": [
+          "who mend the net",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mend the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|dist1|role_swap": {
+        "after": [
+          "who does the dog carry",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the dog carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|dist6|qword": {
+        "after": [
+          "why does the dog bite the latch",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "why does the dog bite the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|dist7|qword": {
+        "after": [
+          "how does the rope hold the shelf",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how does the rope hold the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair0.3|pair_exact": {
+        "after": [
+          "who does the lantern belong to",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair1.0|pair_exact": {
+        "after": [
+          "where does the bell hang",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair1.3|pair_exact": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair1.3|pair_fold": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair2.0|pair_exact": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair2.0|pair_fold": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|pair2.4|pair_exact": {
+        "after": [
+          "when does the bell toll",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "when does the bell toll",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.0|object": {
+        "after": [
+          "what does the dog bite",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the dog bite",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.0|subject_fold": {
+        "after": [
+          "what bite the latch",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bite the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.1|object": {
+        "after": [
+          "what does the mouse chase",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mouse chase",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.2|object": {
+        "after": [
+          "what does the nora carry",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.2|subject_fold": {
+        "after": [
+          "who carry the lantern",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carry the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.4|reverse": {
+        "after": [
+          "who does the lantern belong to",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.5|object": {
+        "after": [
+          "what does the key open",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.5|subject_fold": {
+        "after": [
+          "what open the door",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what open the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.6|object": {
+        "after": [
+          "what does the rope hold",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rope hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.6|subject_fold": {
+        "after": [
+          "what hold the shelf",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what hold the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.7|object": {
+        "after": [
+          "what does the kettle warm",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell0.7|object_fold": {
+        "after": [
+          "what the kettle warm",
+          "the water? the kettle warms the water",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.0|object": {
+        "after": [
+          "what does the dog guard",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the dog guard",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.0|subject_fold": {
+        "after": [
+          "what guard the gate",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what guard the gate",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.1|object": {
+        "after": [
+          "what does the mira feed",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mira feed",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.1|subject": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.1|subject_fold": {
+        "after": [
+          "who feed the mouse",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feed the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.2|reverse": {
+        "after": [
+          "where does the bell hang",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.3|object": {
+        "after": [
+          "what does the rain fill",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.3|object_fold": {
+        "after": [
+          "what the rain fill",
+          "the bucket? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.3|subject_fold": {
+        "after": [
+          "what fill the bucket",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fill the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.4|object": {
+        "after": [
+          "what does the socket power",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the socket power",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.4|subject": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.4|subject_fold": {
+        "after": [
+          "what power the lamp",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what power the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.5|object": {
+        "after": [
+          "what does the thread bind",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.5|subject_fold": {
+        "after": [
+          "what bind the button",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bind the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.6|object": {
+        "after": [
+          "what does the gate block",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the gate block",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.7|object": {
+        "after": [
+          "what does the shelf hold",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the shelf hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell1.7|subject_fold": {
+        "after": [
+          "what hold the lamp",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what hold the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.0|object": {
+        "after": [
+          "what does the collar fit",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the collar fit",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.1|object": {
+        "after": [
+          "what does the bridge cross",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the bridge cross",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.1|subject_fold": {
+        "after": [
+          "what cross the river",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what cross the river",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.2|object": {
+        "after": [
+          "what does the lamp light",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the lamp light",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.2|subject_fold": {
+        "after": [
+          "what light the door",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what light the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.3|object": {
+        "after": [
+          "what does the net catch",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the net catch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.3|subject_fold": {
+        "after": [
+          "what catch the mouse",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what catch the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.4|object": {
+        "after": [
+          "what does the moon pull",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the moon pull",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.4|subject_fold": {
+        "after": [
+          "what pull the tide",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what pull the tide",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.5|object": {
+        "after": [
+          "what does the tide flood",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the tide flood",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.6|object": {
+        "after": [
+          "what does the wind wake",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the wind wake",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.7|subject": {
+        "after": [
+          "who mends the net",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mends the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|reasked|tell2.7|subject_fold": {
+        "after": [
+          "who mend the net",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mend the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|dist1|role_swap": {
+        "after": [
+          "who does the dog carry",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the dog carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|dist6|qword": {
+        "after": [
+          "why does the dog bite the latch",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "why does the dog bite the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|dist7|qword": {
+        "after": [
+          "how does the rope hold the shelf",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how does the rope hold the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair0.3|pair_exact": {
+        "after": [
+          "who does the lantern belong to",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair1.0|pair_exact": {
+        "after": [
+          "where does the bell hang",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair1.3|pair_exact": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair1.3|pair_fold": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair2.0|pair_exact": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair2.0|pair_fold": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|pair2.4|pair_exact": {
+        "after": [
+          "when does the bell toll",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "misattrib"
+        ],
+        "before": [
+          "when does the bell toll",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.0|object": {
+        "after": [
+          "what does the dog bite",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the dog bite",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.0|subject_fold": {
+        "after": [
+          "what bite the latch",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bite the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.1|object": {
+        "after": [
+          "what does the mouse chase",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mouse chase",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.2|object": {
+        "after": [
+          "what does the nora carry",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the nora carry",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.2|subject_fold": {
+        "after": [
+          "who carry the lantern",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carry the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.4|reverse": {
+        "after": [
+          "who does the lantern belong to",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who does the lantern belong to",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.5|object": {
+        "after": [
+          "what does the key open",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the key open",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.5|subject_fold": {
+        "after": [
+          "what open the door",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what open the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.6|object": {
+        "after": [
+          "what does the rope hold",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rope hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.6|subject_fold": {
+        "after": [
+          "what hold the shelf",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what hold the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.7|object": {
+        "after": [
+          "what does the kettle warm",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell0.7|object_fold": {
+        "after": [
+          "what the kettle warm",
+          "the water? the kettle warms the water",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the kettle warm",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.0|object": {
+        "after": [
+          "what does the dog guard",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the dog guard",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.0|subject_fold": {
+        "after": [
+          "what guard the gate",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what guard the gate",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.1|object": {
+        "after": [
+          "what does the mira feed",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the mira feed",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.1|subject": {
+        "after": [
+          "who feeds the mouse",
+          "? mira feeds the mouse",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feeds the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.1|subject_fold": {
+        "after": [
+          "who feed the mouse",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who feed the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.2|reverse": {
+        "after": [
+          "where does the bell hang",
+          "the bell hangs on the wall",
+          "arm_b_lstm",
+          "correct"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.3|object": {
+        "after": [
+          "what does the rain fill",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.3|object_fold": {
+        "after": [
+          "what the rain fill",
+          "the bucket? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the rain fill",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.3|subject_fold": {
+        "after": [
+          "what fill the bucket",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fill the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.4|object": {
+        "after": [
+          "what does the socket power",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the socket power",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.4|subject": {
+        "after": [
+          "what powers the lamp",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.4|subject_fold": {
+        "after": [
+          "what power the lamp",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what power the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.5|object": {
+        "after": [
+          "what does the thread bind",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.5|subject_fold": {
+        "after": [
+          "what bind the button",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bind the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.6|object": {
+        "after": [
+          "what does the gate block",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the gate block",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.7|object": {
+        "after": [
+          "what does the shelf hold",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the shelf hold",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell1.7|subject_fold": {
+        "after": [
+          "what hold the lamp",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what hold the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.0|object": {
+        "after": [
+          "what does the collar fit",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the collar fit",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.1|object": {
+        "after": [
+          "what does the bridge cross",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the bridge cross",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.1|subject_fold": {
+        "after": [
+          "what cross the river",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what cross the river",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.2|object": {
+        "after": [
+          "what does the lamp light",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the lamp light",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.2|subject_fold": {
+        "after": [
+          "what light the door",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what light the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.3|object": {
+        "after": [
+          "what does the net catch",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the net catch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.3|subject_fold": {
+        "after": [
+          "what catch the mouse",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what catch the mouse",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.4|object": {
+        "after": [
+          "what does the moon pull",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the moon pull",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.4|subject_fold": {
+        "after": [
+          "what pull the tide",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what pull the tide",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.5|object": {
+        "after": [
+          "what does the tide flood",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the tide flood",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.6|object": {
+        "after": [
+          "what does the wind wake",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the wind wake",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "the bell hang? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.7|subject": {
+        "after": [
+          "who mends the net",
+          "? the rain fills the bucket",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mends the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|2|restarted|tell2.7|subject_fold": {
+        "after": [
+          "who mend the net",
+          "? the bell hangs on the wall",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mend the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.0|pair_exact": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.0|pair_fold": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.1|pair_exact": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.1|pair_fold": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.2|pair_exact": {
+        "after": [
+          "what rings in the tower",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.2|pair_fold": {
+        "after": [
+          "what rings in the tower",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.4|pair_exact": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair0.4|pair_fold": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair1.0|pair_exact": {
+        "after": [
+          "where does the bell hang",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair1.1|pair_exact": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair1.1|pair_fold": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair1.2|pair_exact": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair1.2|pair_fold": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.0|pair_exact": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.0|pair_fold": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.1|pair_exact": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.1|pair_fold": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "? she loves the lantern most",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.3|pair_fold": {
+        "after": [
+          "what Mira love most",
+          "? she loves the lantern most",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.4|pair_exact": {
+        "after": [
+          "when does the bell toll",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "when does the bell toll",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.5|pair_exact": {
+        "after": [
+          "how many dogs sleep",
+          "? two dogs sleep",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how many dogs sleep",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|pair2.5|pair_fold": {
+        "after": [
+          "how many dogs sleep",
+          "? two dogs sleep",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how many dogs sleep",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell0.0|subject": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell0.2|subject": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell0.2|subject_fold": {
+        "after": [
+          "who carry the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carry the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell0.5|subject": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell0.6|subject": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell0.7|subject": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell1.2|reverse": {
+        "after": [
+          "where does the bell hang",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell1.3|subject_fold": {
+        "after": [
+          "what fill the bucket",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fill the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell1.4|subject": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell1.5|object_fold": {
+        "after": [
+          "what the thread bind",
+          "the button? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell1.5|subject": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell1.7|subject": {
+        "after": [
+          "what holds the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell2.1|subject_fold": {
+        "after": [
+          "what cross the river",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what cross the river",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|live|tell2.7|subject": {
+        "after": [
+          "who mends the net",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mends the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.0|pair_exact": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.0|pair_fold": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.1|pair_exact": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.1|pair_fold": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.2|pair_exact": {
+        "after": [
+          "what rings in the tower",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.2|pair_fold": {
+        "after": [
+          "what rings in the tower",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.4|pair_exact": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair0.4|pair_fold": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair1.0|pair_exact": {
+        "after": [
+          "where does the bell hang",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair1.1|pair_exact": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair1.1|pair_fold": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair1.2|pair_exact": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair1.2|pair_fold": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.0|pair_exact": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.0|pair_fold": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.1|pair_exact": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.1|pair_fold": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "? she loves the lantern most",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.3|pair_fold": {
+        "after": [
+          "what Mira love most",
+          "? she loves the lantern most",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.4|pair_exact": {
+        "after": [
+          "when does the bell toll",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "when does the bell toll",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.5|pair_exact": {
+        "after": [
+          "how many dogs sleep",
+          "? two dogs sleep",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how many dogs sleep",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|pair2.5|pair_fold": {
+        "after": [
+          "how many dogs sleep",
+          "? two dogs sleep",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how many dogs sleep",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell0.0|subject": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell0.2|subject": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell0.2|subject_fold": {
+        "after": [
+          "who carry the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carry the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell0.5|subject": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell0.6|subject": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell0.7|subject": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell1.2|reverse": {
+        "after": [
+          "where does the bell hang",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell1.3|subject_fold": {
+        "after": [
+          "what fill the bucket",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fill the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell1.4|subject": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell1.5|object_fold": {
+        "after": [
+          "what the thread bind",
+          "the button? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell1.5|subject": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell1.7|subject": {
+        "after": [
+          "what holds the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell2.1|subject_fold": {
+        "after": [
+          "what cross the river",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what cross the river",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|reasked|tell2.7|subject": {
+        "after": [
+          "who mends the net",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mends the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.0|pair_exact": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.0|pair_fold": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.1|pair_exact": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.1|pair_fold": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.2|pair_exact": {
+        "after": [
+          "what rings in the tower",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.2|pair_fold": {
+        "after": [
+          "what rings in the tower",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what rings in the tower",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.4|pair_exact": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair0.4|pair_fold": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair1.0|pair_exact": {
+        "after": [
+          "where does the bell hang",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair1.1|pair_exact": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair1.1|pair_fold": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair1.2|pair_exact": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair1.2|pair_fold": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.0|pair_exact": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.0|pair_fold": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.1|pair_exact": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.1|pair_fold": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.3|pair_exact": {
+        "after": [
+          "what does Mira love most",
+          "? she loves the lantern most",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.3|pair_fold": {
+        "after": [
+          "what Mira love most",
+          "? she loves the lantern most",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what Mira love most",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.4|pair_exact": {
+        "after": [
+          "when does the bell toll",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "when does the bell toll",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.5|pair_exact": {
+        "after": [
+          "how many dogs sleep",
+          "? two dogs sleep",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how many dogs sleep",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|pair2.5|pair_fold": {
+        "after": [
+          "how many dogs sleep",
+          "? two dogs sleep",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "how many dogs sleep",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell0.0|subject": {
+        "after": [
+          "what bites the latch",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what bites the latch",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell0.2|subject": {
+        "after": [
+          "who carries the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carries the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell0.2|subject_fold": {
+        "after": [
+          "who carry the lantern",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who carry the lantern",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell0.5|subject": {
+        "after": [
+          "what opens the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what opens the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell0.6|subject": {
+        "after": [
+          "what holds the shelf",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the shelf",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell0.7|subject": {
+        "after": [
+          "what warms the water",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what warms the water",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell1.2|reverse": {
+        "after": [
+          "where does the bell hang",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "where does the bell hang",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell1.3|subject_fold": {
+        "after": [
+          "what fill the bucket",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what fill the bucket",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell1.4|subject": {
+        "after": [
+          "what powers the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what powers the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell1.5|object_fold": {
+        "after": [
+          "what the thread bind",
+          "the button? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what the thread bind",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell1.5|subject": {
+        "after": [
+          "what binds the button",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what binds the button",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell1.7|subject": {
+        "after": [
+          "what holds the lamp",
+          "? the socket powers the lamp",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what holds the lamp",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell2.1|subject_fold": {
+        "after": [
+          "what cross the river",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what cross the river",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell2.2|subject": {
+        "after": [
+          "what lights the door",
+          "? the thread binds the button",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what lights the door",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell2.7|object": {
+        "after": [
+          "what does the boy mend",
+          "? it tolls at dusk",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "what does the boy mend",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      },
+      "B|3|restarted|tell2.7|subject": {
+        "after": [
+          "who mends the net",
+          "? the bridge crosses the river",
+          "arm_b_lstm",
+          "invented"
+        ],
+        "before": [
+          "who mends the net",
+          "",
+          "arm_b_lstm",
+          "refused"
+        ]
+      }
+    }
+  },
+  "label": "fixed pad vs the off-by-one pad: what the target-shift defect did to arm B's graded rows",
+  "provenance_note": "An artifact identifies its own arm through provenance.electric_flags; this instrument reads that field rather than trusting the filename, because a flag-OFF reproduction of a run that secretly had a treatment on would prove nothing.",
+  "reference": {
+    "path": "experiments/MP-E8/results/armB_tier40_offbyone_superseded.json",
+    "rows": 1224,
+    "sha256_lf": "3c6d2efe07675272c627abda2bccb2ba9c9b032b74cf0d7b15cbc0f0a7acce13"
+  },
+  "schema": "droso.ab_reproduction.v1",
+  "tolerance": {
+    "basis": "G0-prime noise floor: 11 rows of 3,672 moved across three identical clones, all in these two cells, because the speech-act row is gated on 2.0 s of wall clock. R13 excluded these cells from the noise-floor claim; this instrument excludes them from the inertness FAILURE and still counts them.",
+    "cells": [
+      "learn/1/reasked",
+      "learn/1/restarted"
+    ],
+    "registered_rows": 11
+  },
+  "verdict": {
+    "inert_outside_registered_tolerance": false,
+    "movement_within_registered_rows": true,
+    "row_for_row_identical": false
+  },
+  "written_at": "2026-11-03T12:03:11Z"
+}

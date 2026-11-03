@@ -156,13 +156,27 @@ def session_sequences(sess: dict, ix: dict) -> list[list[int]]:
 
 
 def pad(batch: list[list[int]], ix: dict):
+    """Teacher-forcing tensors. y[k] is the token that must be PREDICTED from x[:k+1] -- the NEXT
+    token, s[k+1] -- and the last real position plus every pad position are masked at -100.
+
+    This function was wrong, and the wrongness is the reason it is now documented at this length. The
+    first version wrote `y[i, 1:len(s)] = s[1:]`, which sets y[k] = s[k]: the model was trained to COPY
+    its own input. Copying is easy, so the loss still fell (final_loss 0.0055 at depth 2), which is why
+    no aggregate number flagged it. What gave it away was the measured argmax after the <sep> of a
+    taught question: <sep> itself, at log-prob -0.007 (88% of the mass). Greedy decode therefore
+    emitted ZERO tokens on all 1,224 rows of the first measured run, and arm B scored 0 correct / 136
+    refused at every depth and phase. A baseline that loses because its target tensor is shifted by one
+    is the failure D-MPE8-02 registered as the whole risk of building arm B in torch -- "a subtly wrong
+    one produces a baseline that loses for the wrong reason". Regression tests:
+    test_pad_targets_are_the_next_token (the algebra) and test_a_trained_model_answers_a_taught_question
+    (the behaviour, which is the one that would have caught a differently-shaped version of this bug).
+    """
     n = max(len(s) for s in batch)
     x = torch.full((len(batch), n), ix[PAD] if PAD in ix else ix[EOS], dtype=torch.long)
-    for i, s in enumerate(batch):
-        x[i, :len(s)] = torch.tensor(s, dtype=torch.long)
     y = torch.full((len(batch), n), -100, dtype=torch.long)
     for i, s in enumerate(batch):
-        y[i, 1:len(s)] = torch.tensor(s[1:], dtype=torch.long)
+        x[i, :len(s)] = torch.tensor(s, dtype=torch.long)
+        y[i, :len(s) - 1] = torch.tensor(s[1:], dtype=torch.long)
     return x, y
 
 
@@ -310,6 +324,16 @@ def git(*a) -> str:
         return ""
 
 
+def _sha256_lf(p: Path) -> str:
+    """Checkout-stable content hash: the same basis tools/registration_seal.py uses."""
+    return hashlib.sha256(Path(p).read_bytes().replace(b"\r\n", b"\n")).hexdigest()
+
+
+def _git_blob(p: Path) -> str | None:
+    """The blob id git would store -- directly comparable to a registration's harness_hashes entry."""
+    return git("hash-object", str(p)) or None
+
+
 def torch_build() -> dict:
     return {"version": torch.__version__, "cuda_version": torch.version.cuda,
             "cuda_available": bool(torch.cuda.is_available()),
@@ -327,9 +351,21 @@ def provenance(man_path: Path, man: dict, seed: int, arch: dict) -> dict:
         "platform": platform.platform(),
         "torch": torch_build(),
         "harness": "tools/mp_e8_arm_b.py",
-        "harness_sha256": hashlib.sha256((HERE / "tools" / "mp_e8_arm_b.py").read_bytes()).hexdigest(),
+        "harness_sha256": _sha256_lf(HERE / "tools" / "mp_e8_arm_b.py"),
+        "harness_git_blob_sha1": _git_blob(HERE / "tools" / "mp_e8_arm_b.py"),
         "grader": "tools/electric_learn_bench.py (eb.classify, eb.by_shape, eb.retention)",
-        "grader_sha256": hashlib.sha256((HERE / "tools" / "electric_learn_bench.py").read_bytes()).hexdigest(),
+        "grader_sha256": _sha256_lf(HERE / "tools" / "electric_learn_bench.py"),
+        "grader_git_blob_sha1": _git_blob(HERE / "tools" / "electric_learn_bench.py"),
+        # WHY THE BASIS CHANGED. The first version hashed RAW WORKTREE BYTES, and this repository runs
+        # core.autocrlf=true: the seal tool's own docstring proves that worktree bytes != blob bytes
+        # (1,473,837 vs 1,421,862 on the evidence file) and that a worktree hash is therefore not
+        # checkout-stable. A provenance hash that a reader on another platform cannot reproduce is not
+        # provenance. These two fields ARE reproducible, and the git blob sha is the same value
+        # registration_seal.py writes into harness_hashes, so an artifact can now be cross-checked
+        # against the seal that pins the instrument that made it.
+        "hash_basis": ("sha256 over CRLF-folded-to-LF bytes, which equals sha256(git blob) per file -- "
+                       "the basis tools/registration_seal.py seals on. Raw worktree bytes are NOT "
+                       "recorded."),
         "curriculum_file": _rel(man_path),
         "curriculum_sha256": man["curriculum_sha256"],
         # Recomputed from arm A's SOURCE, not read from the manifest: the contract is that the file
@@ -382,9 +418,18 @@ def run_depth(depth: int, man: dict, sd: Path, seed: int) -> dict:
     inv = {v: k for k, v in ix.items()}
 
     sd.mkdir(parents=True, exist_ok=True)
+    # SEED BEFORE THE MODEL EXISTS, not after. PyTorch seeds its default generator from OS entropy at
+    # first use unless manual_seed is called first, so the original order -- Net(len(ix)) then
+    # torch.manual_seed(seed) -- drew the initial weights from a seed nobody set. Every chunk therefore
+    # started from different random weights, and the two measured runs of the SAME configuration moved
+    # 672 of 1,224 rows: correct [12,2,0] vs [12,4,0], invented [35,52,38] vs [75,95,80], thresholds
+    # -0.2419 vs -0.3589 at depth 1. Four controlled processes (tools/mp_e8_arm_b.py::train_session +
+    # generate, threads 1 and 6) came out bit-identical once seeded first, which locates the cause
+    # exactly here rather than in CPU float reduction. An arm whose headline number is an invention rate
+    # cannot be measured once and cited; see test_two_processes_reproduce_depth1_exactly.
+    torch.manual_seed(seed)
     model = Net(len(ix))
     model.ix, model.inv = ix, inv
-    torch.manual_seed(seed)
     model.eval()
 
     # sequential fine-tuning: resume from the previous depth's checkpoint, never from scratch

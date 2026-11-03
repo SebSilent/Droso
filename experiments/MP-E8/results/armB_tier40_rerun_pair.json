@@ -1,0 +1,41 @@
+{
+  "by_cell": {},
+  "candidate": {
+    "electric_flags": {},
+    "path": "experiments/MP-E8/results/armB_tier40.json",
+    "rows": 1224,
+    "sha256_lf": "3c6d2efe07675272c627abda2bccb2ba9c9b032b74cf0d7b15cbc0f0a7acce13"
+  },
+  "counts": {
+    "gained": 0,
+    "inside_r13_cells": 0,
+    "lost": 0,
+    "moved": 0,
+    "outside_r13_cells": 0,
+    "rows_keyed_both": 1224,
+    "total_differences": 0
+  },
+  "differences": {},
+  "label": "arm B measured run vs the superseded first run of the same configuration",
+  "provenance_note": "An artifact identifies its own arm through provenance.electric_flags; this instrument reads that field rather than trusting the filename, because a flag-OFF reproduction of a run that secretly had a treatment on would prove nothing.",
+  "reference": {
+    "path": "experiments/MP-E8/results/armB_tier40_superseded_hashbasis.json",
+    "rows": 1224,
+    "sha256_lf": "cc295fcb14956f89187c805f0a69b7aa0b89f154b0d039c2aa83f57ca2df3ca1"
+  },
+  "schema": "droso.ab_reproduction.v1",
+  "tolerance": {
+    "basis": "G0-prime noise floor: 11 rows of 3,672 moved across three identical clones, all in these two cells, because the speech-act row is gated on 2.0 s of wall clock. R13 excluded these cells from the noise-floor claim; this instrument excludes them from the inertness FAILURE and still counts them.",
+    "cells": [
+      "learn/1/reasked",
+      "learn/1/restarted"
+    ],
+    "registered_rows": 11
+  },
+  "verdict": {
+    "inert_outside_registered_tolerance": true,
+    "movement_within_registered_rows": true,
+    "row_for_row_identical": true
+  },
+  "written_at": "2026-11-03T11:47:53Z"
+}

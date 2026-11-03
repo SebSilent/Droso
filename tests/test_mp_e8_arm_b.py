@@ -65,6 +65,72 @@ def test_depth_2_cannot_run_without_depth_1(tmp_path):
     assert "arm B is SEQUENTIAL" in (r.stdout + r.stderr), r.stdout[-500:]
 
 
+# ------------------------------------------------- the target-alignment defect ----
+# These two tests exist because the first MEASURED arm B run was worthless and every structural
+# assertion below passed it. Rows were keyable, own was None on all 1,224 of them, each phase held its
+# 136 probes, the loss fell to 0.0055 -- and every row's answer was the empty string, because pad()
+# built y[k] = s[k] (train the model to copy its input) instead of y[k] = s[k+1]. Greedy decode then
+# predicted <sep> after the <sep> of a taught question at 88% of the probability mass and emitted zero
+# tokens, so arm B "scored" 0 correct / 136 refused at every depth. D-MPE8-02 registered exactly this
+# risk: a subtly wrong baseline loses for the wrong reason. See tools/mp_e8_arm_b.py::pad.
+
+def test_pad_targets_are_the_next_token():
+    import mp_e8_arm_b as ab
+    ix = {"<pad>": 7, "<eos>": 1}
+    seqs = [[0, 4, 5, 6], [2, 3]]
+    x, y = ab.pad(seqs, ix)
+    for row, s in zip(y.tolist(), seqs):
+        assert row[:len(s) - 1] == s[1:], f"y={row} for s={s}: the target is not the NEXT token"
+        assert set(row[len(s) - 1:]) == {-100}, f"tail not masked in {row}"
+    assert x.tolist()[1][2:] == [ix["<pad>"], ix["<pad>"]], "padding did not reach the row end"
+
+
+def test_two_processes_reproduce_depth1_exactly(tmp_path):
+    """Arm B's headline number is an invention rate, and two measured runs of the SAME configuration
+    moved 672 of 1,224 rows -- invented [35,52,38] vs [75,95,80] -- because run_depth() built the Net
+    before calling torch.manual_seed(), so the initial weights were drawn from PyTorch's
+    entropy-seeded generator instead of the registered seed. Reproducibility is not a nicety here: a
+    single run cannot support a comparison against arm A. This test is the regression guard."""
+    outs = []
+    for i in (1, 2):
+        sd = tmp_path / f"sd{i}"
+        run("--curriculum", MANIFEST, "--state-dir", str(sd), "--depth", "1",
+            "--epochs", "30", "--max-gen", "4")
+        blk = json.loads((sd / "rows_d1.json").read_text(encoding="utf-8"))
+        # cls is added at merge time, not in the chunk, so the comparison is on what a chunk holds:
+        # the generated text, its confidence and whether the gate let it through.
+        outs.append({"final_loss": blk["train_log"]["session_1"]["final_loss"],
+                     "threshold": blk["calibration"]["threshold"],
+                     "rows": [[r["ask"], r["said"], r["conf"], r["mech"]]
+                              for ph in ("live", "reasked", "restarted") for r in blk["phases"][ph]]})
+    a, b = outs
+    assert a["final_loss"] == b["final_loss"], f"{a['final_loss']} vs {b['final_loss']}"
+    assert a["threshold"] == b["threshold"], f"threshold {a['threshold']} vs {b['threshold']}"
+    assert a["rows"] == b["rows"], "two processes produced different rows from the same seed"
+
+
+def test_a_trained_model_answers_a_taught_question():
+    """The behavioural floor, and the one that does not depend on the algebra being written this way:
+    a model that has seen a QA pair thirty times must be ABLE to say something when asked it. Nothing
+    here writes an artifact, so no shrunken epoch count can be mistaken for the measured run."""
+    import random
+    import mp_e8_arm_b as ab
+    man = json.loads(Path(MANIFEST).read_text(encoding="utf-8"))
+    vocab, ix = ab.build_vocab(man)
+    ix[ab.PAD] = len(ix)
+    inv = {v: k for k, v in ix.items()}
+    model = ab.Net(len(ix))
+    model.ix, model.inv = ix, inv
+    ab.EPOCHS = 30                      # test-only shrink; the measured chunks use the default 60
+    ab.train_session(model, ab.session_sequences(man["sessions"][0], ix), random.Random(ab.SEED))
+    q, a = man["sessions"][0]["qa_pairs"][0]
+    text, conf, ntok = ab.generate(model, ab.ask_prompt(q, ix))
+    assert ntok > 0, (f"zero tokens emitted after a taught question (conf {conf}). The model is not "
+                      f"predicting the next token; check pad().")
+    assert set(text.lower().split()) & set(ab.tokenize(a)), \
+        f"answer {text!r} shares no word with the taught answer {a!r}"
+
+
 # ---------------------------------------------------------------- the rows ----
 
 def test_rows_are_keyable_against_arm_A(depth1):
