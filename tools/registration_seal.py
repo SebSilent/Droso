@@ -265,8 +265,12 @@ DEFAULT_MANIFEST = [
     # reason that has nothing to do with the files it is meant to attest. The tier-300 run was started,
     # cut off by a step budget at 39.5 of ~60 minutes, and is being re-run; the entries go in the
     # commit that contains the artifacts.
-    #   "experiments/MP-E8/results/armA_tier300_curriculum.json",
-    #   "experiments/MP-E8/results/armA_tier300_finding.json",
+    "experiments/MP-E8/results/armA_tier300_curriculum.json",
+    "experiments/MP-E8/results/armA_tier300_finding.json",
+    # The classification that fires abort condition C3 at tier 300, and the cross-tier confabulation
+    # trend. Sealed because D-MPE8-09 asks the PI to act on it, and a decision that cites an unsealed
+    # artifact cannot be checked by anyone who was not in this session.
+    "experiments/MP-E8/results/armA_tier300_c3_finding.json",
     # D-MPE8-07's evidence: which arm the 24 guarded-absence rows actually belong to. Sealed because
     # the decision it puts to the PI is unanswerable without it, and an open decision that cites an
     # unsealed artifact is an open decision nobody can close.

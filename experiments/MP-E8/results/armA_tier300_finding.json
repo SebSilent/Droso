@@ -1,0 +1,214 @@
+{
+  "artifact": "armA_tier300_refusal_and_wallclock",
+  "comparison_120_to_300": {
+    "permitted": true,
+    "reading": "REPORT THE NUMBERS, THEN THE CLAIM -- see the verdict block.",
+    "refusal_delta_pp": {
+      "1": 0.9,
+      "2": 4.4,
+      "3": 7.9
+    },
+    "registered_authority": {
+      "consequence_for_analysis": "FORGETTING CURVES MAY BE COMPARED ACROSS TIERS ONLY WITHIN THE SAME CONSTRAINT-(b) REGIME. Tier 120 and tier 300 are mutually comparable (both strict). Tier 40 is not comparable to them as a curve. The tier-40-to-tier-120 refusal-rate change is reported as CONFOUNDED, not as a result, and no hypothesis about forgetting may rest on it.",
+      "key": "confounds.cross_tier_comparability_regime_break",
+      "name": "tiers 120/300 satisfy constraint (b) strictly; the sealed tier-40 baseline does not"
+    },
+    "why_permitted": "Both tiers are in the strict constraint-(b) regime: the registration measured 0 untaught content words in the asks of tier 120 and tier 300, against 8 asks at tier 40. The confound that forbids a 40-to-120 curve does not apply between 120 and 300."
+  },
+  "comparison_40_to_300": {
+    "label": "CONFOUNDED -- regime break, same as 40-to-120",
+    "permitted_as_a_curve": false,
+    "refusal_delta_pp": {
+      "1": 2.7,
+      "2": 4.9,
+      "3": 8.8
+    },
+    "tier_40_asks_using_untaught_content_words": 8,
+    "why": "FORGETTING CURVES MAY BE COMPARED ACROSS TIERS ONLY WITHIN THE SAME CONSTRAINT-(b) REGIME. Tier 120 and tier 300 are mutually comparable (both strict). Tier 40 is not comparable to them as a curve. The tier-40-to-tier-120 refusal-rate change is reported as CONFOUNDED, not as a result, and no hypothesis about forgetting may rest on it."
+  },
+  "environment": {
+    "git_head": "73b6ade14f6271dbdc55fdd57046461b59be9619",
+    "python": "3.12.10",
+    "torch": "2.15.0+cpu"
+  },
+  "guarded_absence_behaviour": {
+    "examples": [
+      "teach/d1/reasked/dist33/qword: 'how does the strap roll the drum' -> 'droso says how does the strap roll the' (nobody said that)",
+      "teach/d2/live/dist20/qword: 'why does the loom bridge the ring' -> 'droso says the loom bridges the ring' (nobody said that)",
+      "teach/d2/restarted/dist20/qword: 'why does the loom bridge the ring' -> 'droso says the loom bridges the ring' (nobody said that)",
+      "teach/d2/reasked/dist20/qword: 'why does the loom bridge the ring' -> 'droso says the loom bridges the ring' (nobody said that)"
+    ],
+    "status": "SUPERSEDED within the same uncommitted working set by experiments/MP-E8/results/armA_tier300_c3_finding.json, which classifies the failures against C1 and C3 on the arm-aware measurement. C3 FIRES at tier 300 (2 named rows); C1 remains NOT EVALUABLE as registered (D-MPE8-07). This file was written before that classification existed and its UNCLASSIFIED label was accurate when written.",
+    "tier_120_failures": 13,
+    "tier_300_distractor_items_involved": [
+      "dist20",
+      "dist28",
+      "dist29",
+      "dist33",
+      "dist41",
+      "dist44",
+      "dist46",
+      "dist52",
+      "dist55",
+      "dist56",
+      "dist59",
+      "dist62",
+      "dist64",
+      "dist65",
+      "dist67",
+      "dist68",
+      "dist70",
+      "dist74",
+      "dist76",
+      "dist80",
+      "dist82",
+      "dist85",
+      "dist86",
+      "dist89"
+    ],
+    "tier_300_failures": 101,
+    "tier_300_live_phase_failures": 20
+  },
+  "learn_arm_vectors": {
+    "item_scaling_measured": {
+      "t120_over_t40": 3.0,
+      "t300_over_t120": 2.5
+    },
+    "rows_per_depth": {
+      "tier_120": 416,
+      "tier_300": 1046,
+      "tier_40": 136
+    },
+    "tier_120": {
+      "1": {
+        "absence": 0,
+        "correct": 122,
+        "correct_pct": 29.3,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 416,
+        "refusal_pct": 68.0,
+        "refused": 283
+      },
+      "2": {
+        "absence": 0,
+        "correct": 239,
+        "correct_pct": 57.5,
+        "invented": 1,
+        "misattrib": 10,
+        "n": 416,
+        "refusal_pct": 38.7,
+        "refused": 161
+      },
+      "3": {
+        "absence": 0,
+        "correct": 347,
+        "correct_pct": 83.4,
+        "invented": 2,
+        "misattrib": 13,
+        "n": 416,
+        "refusal_pct": 12.7,
+        "refused": 53
+      }
+    },
+    "tier_300_this_run": {
+      "1": {
+        "absence": 0,
+        "correct": 291,
+        "correct_pct": 27.8,
+        "invented": 2,
+        "misattrib": 22,
+        "n": 1046,
+        "refusal_pct": 68.9,
+        "refused": 721
+      },
+      "2": {
+        "absence": 0,
+        "correct": 546,
+        "correct_pct": 52.2,
+        "invented": 8,
+        "misattrib": 34,
+        "n": 1046,
+        "refusal_pct": 43.1,
+        "refused": 451
+      },
+      "3": {
+        "absence": 0,
+        "correct": 785,
+        "correct_pct": 75.0,
+        "invented": 8,
+        "misattrib": 34,
+        "n": 1046,
+        "refusal_pct": 20.6,
+        "refused": 215
+      }
+    },
+    "tier_40_sealed": {
+      "1": {
+        "absence": 0,
+        "correct": 38,
+        "correct_pct": 27.9,
+        "invented": 0,
+        "misattrib": 1,
+        "n": 136,
+        "refusal_pct": 66.2,
+        "refused": 90
+      },
+      "2": {
+        "absence": 0,
+        "correct": 75,
+        "correct_pct": 55.1,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 136,
+        "refusal_pct": 38.2,
+        "refused": 52
+      },
+      "3": {
+        "absence": 0,
+        "correct": 115,
+        "correct_pct": 84.6,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 136,
+        "refusal_pct": 11.8,
+        "refused": 16
+      }
+    }
+  },
+  "question": "Does arm A's taught-set behaviour at tier 300 continue what tier 120 showed, on the only cross-tier comparison the registration permits, and does the 60.2 minute projection survive its second contact?",
+  "run": {
+    "command": "tools/electric_learn_bench.py --arms control,teach,learn --flag-on ELECTRIC_ARBITER_HEAD_BOUND --curriculum experiments/MP-E8/curriculum_tier300.json --out experiments/MP-E8/results/armA_tier300_curriculum.json --workdir _tmp\\armA_t300",
+    "command_inherited_from": "experiments/MP-E8/results/armA_tier120_curriculum.json provenance.argv, with only --curriculum/--out/--workdir swapped",
+    "curriculum_mode": "manifest",
+    "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+    "distractors": 90,
+    "exit_code": 1,
+    "exit_code_reading": "The bench returns non-zero when it prints failures of its own invariants. The artifact is complete and carries provenance.",
+    "flags": {
+      "ELECTRIC_ARBITER_HEAD_BOUND": true,
+      "ELECTRIC_QA_MORPH_ALIASES": false,
+      "ELECTRIC_QA_MORPH_NORMALIZE": false
+    },
+    "git_head": "73b6ade14f6271dbdc55fdd57046461b59be9619",
+    "items": 300,
+    "probes_built_by_this_bench": 1046,
+    "probes_projected_in_protocol": 1020,
+    "probes_registered_in_manifest": 1046,
+    "started_utc": "2026-11-03T16:11:52Z"
+  },
+  "schema": 1,
+  "superseded_by": "experiments/MP-E8/results/armA_tier300_c3_finding.json",
+  "wall_clock": {
+    "error_vs_projection_pct": -10.88,
+    "measured_minutes": 53.65,
+    "projection_checked_not_reused": true,
+    "projection_source": "experiments/G0-prime/tier_protocol.json -> tier_300.wall_clock_projected_minutes_all_arms",
+    "registered_projection_minutes": 60.2,
+    "second_contact": "tier 120 measured -2.6% against its projection; this is the second data point for the item-linear scaling rule. Two points are a trend, not a proof, and the rule is still registered as a projection."
+  },
+  "what_this_run_cannot_say": {
+    "h1_is_not_closed": "H1's arm B clause is not met at tier 120 (least favourable seed 1.68 pp against a 5.0 pp margin) and tier 300 arm B does not exist. Arm A's clause -- taught-set retention across restarts, minimum 1.0 -- is a different measurement from the refusal rates reported here.",
+    "no_cross_arm_tier_300_comparison": "arm B has never completed a correct-battery three-seed run at tier 300, and arm C has never run above tier 40 at all. So this artifact is arm A against arm A at a second tier, not the duel."
+  }
+}

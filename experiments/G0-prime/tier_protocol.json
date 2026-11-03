@@ -1,27 +1,142 @@
 {
-  "schema": "droso.tier_protocol.v1",
-  "gate": "G0-prime",
   "checklist_step": "B.1 step 5 -- register the tier protocol",
+  "compute_budget_and_deferral": {
+    "measured_tier_40": "481.3 s for all three arms at HEAD 5d03621, inside the 15-minute budget.",
+    "rule": "A tier that cannot complete inside its registered budget is deferred with cause rather than silently shrunk, and the shrink is never decided after the result is seen. Registered budgets: tier 40 = 15 min, tier 120 = 45 min, tier 300 = 120 min, all for the full three-arm run on this machine."
+  },
+  "gate": "G0-prime",
+  "noise_floor_policy": {
+    "tier_120_and_300": "One clone per tier at build time, plus the tier-40 floor carried forward as the instrument's measured noise. Re-measuring three clones at tier 300 would cost three hours to re-establish a number already established on the same instrument; if a tier-300 result is ever argued from a single-row margin, the tier gets its own clone run first.",
+    "tier_40": "Three clones of one configuration at depths 1/2/3, row for row identical, required before any treatment arm is scored. This is the G0-prime criterion and it is measured in experiments/G0-prime/results/noise_floor/."
+  },
+  "open_item_created_by_this_registration": "Tier 120 and tier 300 do not exist as code. MP-E8 cannot run them, and MP-E10's replay-at-scale depends on them. Registered as a risk, not as a to-do an agent may discover mid-run.",
   "purpose": "Curricula at 40, 120 and 300 taught items, probe matrices scaling from the registered 136-probe matrix at tier 40, every tier keeping its guarded-absence rows and distractor rows. Required by Master Plan v1.1 section 6.2 (MP-E8) and registered here so MP-E8 opens against a frozen protocol rather than an improvised one.",
-  "tier_40_registered": {
-    "status": "FROZEN and shipped. tools/electric_learn_bench.py as committed; the 136-probe matrix is the registered instrument and is not edited after results have been seen against it (R3).",
-    "items": 40,
-    "item_composition": {
-      "tells": 24,
-      "qa_pairs": 16,
-      "sessions": 3,
-      "tells_per_session": [
-        8,
-        8,
-        8
+  "scaling_rule": {
+    "invariants_that_must_hold_at_every_tier": [
+      "distractor rows are present and are never taught",
+      "guarded-absence rows are present: a subject with a taught property and an untaught relation",
+      "every probe word is introduced by a tell or a taught pair, so a refusal cannot be an artifact of an unknown word",
+      "the restart is real: a process boundary between sessions, and the state is saved BEFORE the live probe round",
+      "the reasked phase is kept, so the probing artifact stays measured rather than assumed"
+    ],
+    "ratio_distractors_per_item": 0.3,
+    "ratio_probes_per_item": 3.4,
+    "statement": "Items scale linearly to the target tier. The probe matrix scales proportionally from the registered 136 at tier 40, holding the per-item probe count at 3.4 and the shape mix fixed, so a tier-300 run measures the same ten ways of asking a question at 7.5 times the content, not a different instrument."
+  },
+  "schema": "droso.tier_protocol.v1",
+  "tier_120": {
+    "build_note": "The curriculum is data, not code: SESSIONS and PAIRS are literal lists in tools/electric_learn_bench.py. A tier is a generator over the live vocabulary plus the existing ten shapes, so the build is a generator and a registration, not a new harness.",
+    "built_as": "experiments/MP-E8/curriculum_tier120.json",
+    "distractors_projected": 36,
+    "item_composition_projected": {
+      "per_session": [
+        24,
+        24,
+        24
       ],
+      "qa_pairs": 48,
+      "sessions": 3,
+      "tells": 72
+    },
+    "items": 120,
+    "measured": {
+      "arm_A_run": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+      "distractors": 36,
+      "finding": "experiments/MP-E8/results/armA_tier120_finding.json",
+      "items": 120,
+      "note": "The projected probe count and the built probe count differ, and the wall clock still landed within a few percent. Recorded as an observation about the rule, not as a correction to it: no projected number in this file was edited.",
+      "probes_built_by_this_bench": 416,
+      "projection_status": "checked at tier 120, not yet at tier 300",
+      "wall_clock_error_vs_projection_pct": -2.6,
+      "wall_clock_minutes_all_arms": 23.47
+    },
+    "probe_asks_projected": 11016,
+    "probes_projected": 408,
+    "status": "built and run",
+    "wall_clock_projected_minutes_all_arms": 24.1
+  },
+  "tier_300": {
+    "cross_tier_comparability": {
+      "tier_120_to_tier_300": "permitted: both tiers are in the strict constraint-(b) regime (0 untaught content words in the asks), so this is the first pair of tiers whose forgetting curves the registration allows to be compared.",
+      "tier_40_to_tier_300": "NOT permitted as a curve: tier 40 violates constraint (b) in 8 asks. See experiments/MP-E8/registration.json confounds.cross_tier_comparability_regime_break."
+    },
+    "distractors_projected": 90,
+    "item_composition_projected": {
+      "per_session": [
+        60,
+        60,
+        60
+      ],
+      "qa_pairs": 120,
+      "sessions": 3,
+      "tells": 180
+    },
+    "items": 300,
+    "measured": {
+      "arm_A_run": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+      "bench_exit_code": 1,
+      "distractors": 90,
+      "finding": "experiments/MP-E8/results/armA_tier300_finding.json",
+      "git_head": "73b6ade14f6271dbdc55fdd57046461b59be9619",
+      "items": 300,
+      "note_on_probe_counts": "projected 1020, built 1046 from the committed manifest. The projection's error and the probe-count error do not cancel by design; the wall clock landing near the projection is reported as an observation about the rule, not as a correction to it.",
+      "probes_built_by_this_bench": 1046,
+      "projection_status": "checked at tier 120 (-2.6%) and at tier 300. Two contacts, item-linear scaling, both within a few percent of the registered figures -- a trend, not a proof, and the projection above is still the registered number.",
+      "wall_clock_error_vs_projection_pct": -10.88,
+      "wall_clock_minutes_all_arms": 53.65
+    },
+    "probe_asks_projected": 27540,
+    "probes_projected": 1020,
+    "projection_status": "still a projection; the item-linear rule was checked once at tier 120 (23.47 min measured vs 24.1 min projected, -2.6%), which supports but does not replace it",
+    "status": "MEASURED for arm A on the current tree (three arms, three depths). Arms B and C have never run at this tier.",
+    "vocabulary_budget": "180 tells at roughly four content words each needs on the order of 700 distinct content words. The live vocabulary is measured at 11,555 words, so the budget is not the constraint; the constraint is that a tell must be novel against the binder, and the binder is a fixed-capacity ring of 60,000 rows at 99.19% book prose.",
+    "wall_clock_projected_minutes_all_arms": 60.2
+  },
+  "tier_40_registered": {
+    "arms": [
+      "control",
+      "teach",
+      "learn"
+    ],
+    "depths": [
+      1,
+      2,
+      3
+    ],
+    "guarded_absence_rows": 24,
+    "item_composition": {
       "pairs_per_session": [
         5,
         5,
         6
+      ],
+      "qa_pairs": 16,
+      "sessions": 3,
+      "tells": 24,
+      "tells_per_session": [
+        8,
+        8,
+        8
       ]
     },
-    "probes": 136,
+    "items": 40,
+    "measured_at": {
+      "git_head": "5d036210254341325ea2286ce54686681a2612df",
+      "interpreter": "3.12.10"
+    },
+    "measured_full_run_seconds": {
+      "control": 170.3,
+      "learn": 154.8,
+      "teach": 156.2,
+      "total": 481.3
+    },
+    "measured_seconds_per_probe_ask": 0.1311,
+    "phases_per_depth": [
+      "live",
+      "restarted",
+      "reasked"
+    ],
+    "probe_asks_per_full_run": 3672,
     "probe_composition_by_depth": {
       "depth_0_items": 39,
       "depth_1_items": 41,
@@ -40,106 +155,9 @@
       "role_swap",
       "qword"
     ],
-    "told_sentences": 27,
-    "guarded_absence_rows": 24,
-    "arms": [
-      "control",
-      "teach",
-      "learn"
-    ],
-    "depths": [
-      1,
-      2,
-      3
-    ],
-    "phases_per_depth": [
-      "live",
-      "restarted",
-      "reasked"
-    ],
-    "probe_asks_per_full_run": 3672,
-    "measured_seconds_per_probe_ask": 0.1311,
-    "measured_full_run_seconds": {
-      "control": 170.3,
-      "teach": 156.2,
-      "learn": 154.8,
-      "total": 481.3
-    },
-    "measured_at": {
-      "git_head": "5d036210254341325ea2286ce54686681a2612df",
-      "interpreter": "3.12.10"
-    }
-  },
-  "scaling_rule": {
-    "statement": "Items scale linearly to the target tier. The probe matrix scales proportionally from the registered 136 at tier 40, holding the per-item probe count at 3.4 and the shape mix fixed, so a tier-300 run measures the same ten ways of asking a question at 7.5 times the content, not a different instrument.",
-    "ratio_probes_per_item": 3.4,
-    "ratio_distractors_per_item": 0.3,
-    "invariants_that_must_hold_at_every_tier": [
-      "distractor rows are present and are never taught",
-      "guarded-absence rows are present: a subject with a taught property and an untaught relation",
-      "every probe word is introduced by a tell or a taught pair, so a refusal cannot be an artifact of an unknown word",
-      "the restart is real: a process boundary between sessions, and the state is saved BEFORE the live probe round",
-      "the reasked phase is kept, so the probing artifact stays measured rather than assumed"
-    ]
-  },
-  "tier_120": {
-    "status": "built and run",
-    "items": 120,
-    "item_composition_projected": {
-      "tells": 72,
-      "qa_pairs": 48,
-      "sessions": 3,
-      "per_session": [
-        24,
-        24,
-        24
-      ]
-    },
-    "probes_projected": 408,
-    "distractors_projected": 36,
-    "probe_asks_projected": 11016,
-    "wall_clock_projected_minutes_all_arms": 24.1,
-    "build_note": "The curriculum is data, not code: SESSIONS and PAIRS are literal lists in tools/electric_learn_bench.py. A tier is a generator over the live vocabulary plus the existing ten shapes, so the build is a generator and a registration, not a new harness.",
-    "built_as": "experiments/MP-E8/curriculum_tier120.json",
-    "measured": {
-      "arm_A_run": "experiments/MP-E8/results/armA_tier120_curriculum.json",
-      "finding": "experiments/MP-E8/results/armA_tier120_finding.json",
-      "items": 120,
-      "probes_built_by_this_bench": 416,
-      "distractors": 36,
-      "wall_clock_minutes_all_arms": 23.47,
-      "wall_clock_error_vs_projection_pct": -2.6,
-      "projection_status": "checked at tier 120, not yet at tier 300",
-      "note": "The projected probe count and the built probe count differ, and the wall clock still landed within a few percent. Recorded as an observation about the rule, not as a correction to it: no projected number in this file was edited."
-    }
-  },
-  "tier_300": {
-    "status": "registered, not yet built",
-    "items": 300,
-    "item_composition_projected": {
-      "tells": 180,
-      "qa_pairs": 120,
-      "sessions": 3,
-      "per_session": [
-        60,
-        60,
-        60
-      ]
-    },
-    "probes_projected": 1020,
-    "distractors_projected": 90,
-    "probe_asks_projected": 27540,
-    "wall_clock_projected_minutes_all_arms": 60.2,
-    "vocabulary_budget": "180 tells at roughly four content words each needs on the order of 700 distinct content words. The live vocabulary is measured at 11,555 words, so the budget is not the constraint; the constraint is that a tell must be novel against the binder, and the binder is a fixed-capacity ring of 60,000 rows at 99.19% book prose.",
-    "projection_status": "still a projection; the item-linear rule was checked once at tier 120 (23.47 min measured vs 24.1 min projected, -2.6%), which supports but does not replace it"
-  },
-  "compute_budget_and_deferral": {
-    "rule": "A tier that cannot complete inside its registered budget is deferred with cause rather than silently shrunk, and the shrink is never decided after the result is seen. Registered budgets: tier 40 = 15 min, tier 120 = 45 min, tier 300 = 120 min, all for the full three-arm run on this machine.",
-    "measured_tier_40": "481.3 s for all three arms at HEAD 5d03621, inside the 15-minute budget."
-  },
-  "noise_floor_policy": {
-    "tier_40": "Three clones of one configuration at depths 1/2/3, row for row identical, required before any treatment arm is scored. This is the G0-prime criterion and it is measured in experiments/G0-prime/results/noise_floor/.",
-    "tier_120_and_300": "One clone per tier at build time, plus the tier-40 floor carried forward as the instrument's measured noise. Re-measuring three clones at tier 300 would cost three hours to re-establish a number already established on the same instrument; if a tier-300 result is ever argued from a single-row margin, the tier gets its own clone run first."
+    "probes": 136,
+    "status": "FROZEN and shipped. tools/electric_learn_bench.py as committed; the 136-probe matrix is the registered instrument and is not edited after results have been seen against it (R3).",
+    "told_sentences": 27
   },
   "what_does_not_change_between_tiers": [
     "the ten probe shapes",
@@ -147,6 +165,5 @@
     "the mechanism decomposition fields",
     "the exit-code rule (an invented sentence fails the run)",
     "the word-level provenance grader's trace sets and admitted refusal form"
-  ],
-  "open_item_created_by_this_registration": "Tier 120 and tier 300 do not exist as code. MP-E8 cannot run them, and MP-E10's replay-at-scale depends on them. Registered as a risk, not as a to-do an agent may discover mid-run."
+  ]
 }

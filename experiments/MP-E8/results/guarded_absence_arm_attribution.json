@@ -290,6 +290,102 @@
       "learn_src_on_those_rows": {
         "electric_qa_store": 24
       }
+    },
+    "tier300": {
+      "artifact": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+      "electric_absence_rows_by_arm": {
+        "teach": 24
+      },
+      "electric_absence_rows_in_learn": 0,
+      "examples": [
+        {
+          "ask": "where does the bell hang",
+          "control": {
+            "cls": "echo",
+            "said": "where does the bell hang?",
+            "src": "recalled proposition"
+          },
+          "learn": {
+            "cls": "correct",
+            "said": "the bell hangs on the wall",
+            "src": "electric_qa_store"
+          },
+          "row": "2/live/tell1.2/reverse",
+          "taught": "the bell hangs on the wall",
+          "teach": {
+            "cls": "absence",
+            "said": "i don't know, bell was told but no place was ever told for bell",
+            "src": "electric_absence"
+          }
+        },
+        {
+          "ask": "where the bell hang",
+          "control": {
+            "cls": "echo",
+            "said": "where does the bell hang",
+            "src": "recalled proposition"
+          },
+          "learn": {
+            "cls": "correct",
+            "said": "the bell hangs on the wall",
+            "src": "electric_qa_store"
+          },
+          "row": "2/live/tell1.2/reverse_fold",
+          "taught": "the bell hangs on the wall",
+          "teach": {
+            "cls": "absence",
+            "said": "i don't know, bell was told but no place was ever told for bell",
+            "src": "electric_absence"
+          }
+        },
+        {
+          "ask": "where does the bell hang",
+          "control": {
+            "cls": "echo",
+            "said": "where the bell hang",
+            "src": "recalled proposition"
+          },
+          "learn": {
+            "cls": "correct",
+            "said": "the bell hangs on the wall",
+            "src": "electric_qa_store"
+          },
+          "row": "2/live/pair1.0/pair_exact",
+          "taught": "the bell hangs on the wall",
+          "teach": {
+            "cls": "absence",
+            "said": "i don't know, bell was told but no place was ever told for bell",
+            "src": "electric_absence"
+          }
+        },
+        {
+          "ask": "where the bell hang",
+          "control": {
+            "cls": "echo",
+            "said": "where does the bell hang",
+            "src": "recalled proposition"
+          },
+          "learn": {
+            "cls": "correct",
+            "said": "the bell hangs on the wall",
+            "src": "electric_qa_store"
+          },
+          "row": "2/live/pair1.0/pair_fold",
+          "taught": "the bell hangs on the wall",
+          "teach": {
+            "cls": "absence",
+            "said": "i don't know, bell was told but no place was ever told for bell",
+            "src": "electric_absence"
+          }
+        }
+      ],
+      "learn_cls_on_those_rows": {
+        "correct": 24
+      },
+      "learn_refusals_on_those_rows": 0,
+      "learn_src_on_those_rows": {
+        "electric_qa_store": 24
+      }
     }
   },
   "question": "Which arm holds the 24 guarded-absence refusals that H2's threshold and C1's 'NOT FIRING' state are both written against?",

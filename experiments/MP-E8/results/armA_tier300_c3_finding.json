@@ -1,0 +1,153 @@
+{
+  "C3": {
+    "count": 2,
+    "firing_rows": [
+      "3/tell0.26/object: live correct, restarted refused",
+      "3/tell0.38/object: live correct, restarted refused"
+    ],
+    "per_tier": {
+      "120": "NOT FIRING",
+      "300": "FIRING",
+      "40": "NOT FIRING"
+    },
+    "registered_action": "abort",
+    "registered_measured_by": "restart phase rows vs live phase rows, per item, named not counted",
+    "registered_trigger": "arm A loses any taught item across a restart",
+    "what_the_rows_are": "tell0.26 and tell0.38, both in the object shape, at depth 3. Both were answered correctly before the restart and refused after it -- not answered wrongly. That distinction matters to the reading: this is loss of availability across a restart, which is exactly what C3 was written to catch, and it is arm A, the arm H1 claims holds its taught set."
+  },
+  "artifact": "armA_tier300_c3_and_cross_tier_classification",
+  "bench_printed_failures": {
+    "120": 13,
+    "300": 101,
+    "40": 0
+  },
+  "confabulation_on_unanswerable_asks_grows_with_tier": {
+    "definition": "rows whose ask has no taught answer (the manifest's distractor items) that nonetheless carry an answer. Measured because C1's registered basis (src == electric_absence) is not evaluable for arm A at any tier -- see D-MPE8-07 -- so the behaviour has to be observed directly.",
+    "per_tier": {
+      "120": {
+        "answered": 67,
+        "by_cls": {
+          "invented": 13,
+          "misattrib": 54
+        },
+        "rate_pct": 20.7,
+        "unanswerable_rows": 324
+      },
+      "300": {
+        "answered": 217,
+        "by_cls": {
+          "cross_echo": 15,
+          "invented": 91,
+          "misattrib": 111
+        },
+        "rate_pct": 26.8,
+        "unanswerable_rows": 810
+      },
+      "40": {
+        "answered": 10,
+        "by_cls": {
+          "cross_echo": 1,
+          "misattrib": 9
+        },
+        "rate_pct": 9.3,
+        "unanswerable_rows": 108
+      }
+    },
+    "reading": "9.3% at tier 40, 20.7% at tier 120, 26.8% at tier 300. The invented share in particular goes 0 -> 13 -> 91. This is the direction H1 predicted for arm B and H2 predicted arm A would NOT show."
+  },
+  "cross_tier_comparability": {
+    "tier_120_to_300": "permitted: both strict constraint-(b). The depth-3 refusal rate rises 12.7 -> 20.6 pp and depth-3 correct falls 83.4 -> 75.0.",
+    "tier_40_to_either": "not permitted as a curve (regime break, 8 asks) -- see the registration"
+  },
+  "headline": "abort condition C3 fired at tier 300: two taught items were correct in the live phase at depth 3 and refused after a restart. C3's registered action is abort. The same measurement returns zero rows at tier 40 and zero at tier 120.",
+  "learn_arm_vectors": {
+    "120": {
+      "1": {
+        "correct": 122,
+        "invented": 0,
+        "n": 416,
+        "refused": 283
+      },
+      "2": {
+        "correct": 239,
+        "invented": 1,
+        "n": 416,
+        "refused": 161
+      },
+      "3": {
+        "correct": 347,
+        "invented": 2,
+        "n": 416,
+        "refused": 53
+      }
+    },
+    "300": {
+      "1": {
+        "correct": 291,
+        "invented": 2,
+        "n": 1046,
+        "refused": 721
+      },
+      "2": {
+        "correct": 546,
+        "invented": 8,
+        "n": 1046,
+        "refused": 451
+      },
+      "3": {
+        "correct": 785,
+        "invented": 8,
+        "n": 1046,
+        "refused": 215
+      }
+    },
+    "40": {
+      "1": {
+        "correct": 38,
+        "invented": 0,
+        "n": 136,
+        "refused": 90
+      },
+      "2": {
+        "correct": 75,
+        "invented": 0,
+        "n": 136,
+        "refused": 52
+      },
+      "3": {
+        "correct": 115,
+        "invented": 0,
+        "n": 136,
+        "refused": 16
+      }
+    }
+  },
+  "measured_at_utc": "2026-11-03T13:30:00Z",
+  "refusal_pct_by_tier_and_depth": {
+    "120": {
+      "1": 68.0,
+      "2": 38.7,
+      "3": 12.7
+    },
+    "300": {
+      "1": 68.9,
+      "2": 43.1,
+      "3": 20.6
+    },
+    "40": {
+      "1": 66.2,
+      "2": 38.2,
+      "3": 11.8
+    }
+  },
+  "related_open_decision": "D-MPE8-07 (C1's measurement basis), D-MPE8-09 (C3 firing)",
+  "wall_clock": {
+    "bench_exit_code": 1,
+    "confounded_by": "the machine's own load history is in the log, and this run held the machine alone. What is NOT controlled is the bench's per-depth work: 1,046 probes is 2.5% more than projected, so a 10.88% saving cannot be attributed to the harness alone.",
+    "error_pct": -10.88,
+    "measured_minutes": 53.65,
+    "reading": "the projection overshot by 10.88%: 53.65 measured against 60.2 registered, with the probe count 2.5% ABOVE its projection (1,046 against 1,020). Cost does not track probe count linearly at this tier; two contacts, -2.6% then -10.88%, is a trend in the projection being conservative, not a proof. The registered projection is left exactly where it is.",
+    "registered_projection_minutes": 60.2
+  },
+  "what_this_does_not_do": "it does not execute the abort and it does not waive it. C3 says abort; executing or overriding a pre-registered stopping rule is not the agent's call, and the difference between the two is visible in the record rather than assumed."
+}

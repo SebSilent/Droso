@@ -259,7 +259,8 @@
         },
         "source": "experiments/MP-E9/results/gate_ab_flag_off.json"
       },
-      "open_config_question": "D-MPE8-01: does arm A run with ELECTRIC_ARBITER_HEAD_BOUND on?"
+      "open_config_question": "D-MPE8-01: does arm A run with ELECTRIC_ARBITER_HEAD_BOUND on?",
+      "status": "MEASURED at tiers 40, 120 and 300 on the current tree. Tier 300 fires abort condition C3 (2 named rows) -- see AMD-MPE8-09 and D-MPE8-09. Confabulation on unanswerable asks rises 9.3% -> 20.7% -> 26.8% across the three tiers. H1's arm A clause is not met at tier 300."
     },
     "B": {
       "abstention": "its OWN confidence threshold calibrated on held-out data, so refusal is a fair contest rather than a structural gift to arm A (plan: Refusal fairness)",
@@ -1701,6 +1702,15 @@
         "tier120"
       ],
       "why_it_cannot_be_decided_by_the_agent": "Both options change a pre-registered quantity. Re-attributing the threshold changes what H2 claims; re-expressing C1's measured_by changes what the abort condition watches. Either is an R2 event, and doing it quietly would be the same fault D-MPE8-05 ruled against for R13's tolerance cells."
+    },
+    "D-MPE8-09_c3_abort_at_tier_300": {
+      "asked_at": "2026-11-03T13:30:00Z",
+      "asked_by": "agent",
+      "measured": "experiments/MP-E8/results/armA_tier300_c3_finding.json",
+      "question": "C3 is pre-registered with action 'abort' and it has fired: two taught items (tell0.26/object, tell0.38/object) were correct live at depth 3 and refused after restart, at tier 300 only, zero rows at tier 40 and tier 120. Does MP-E8 abort as written -- which stops G2 on this instrument -- or is the abort executed against a named remediation (re-run at the same seed, or a restart-phase tolerance registered as a dated amendment before any further tier-300 claim)? The agent has done neither.",
+      "status": "OPEN. C3 recorded as FIRING; nothing aborted, nothing waived.",
+      "what_is_already_true_regardless": "the tier-300 arm A measurement, its wall clock against the projection, and the cross-tier confabulation trend are recorded and stand on their own.",
+      "why_it_cannot_be_decided_by_the_agent": "a stopping rule exists precisely to remove the agent's discretion at the moment it is inconvenient. Choosing to continue, or choosing to re-run until it passes, are both the same fault in different clothes."
     }
   },
   "pi_decisions": {
@@ -2648,6 +2658,45 @@
       },
       "what_the_old_run_measured": "a tree whose tests/test_mp_e8_curriculum.py asserted that tiers 120 and 300 'do not exist as code'. That premise died when D-MPE8-03 emitted those tiers and the files were committed, so the 2 failures were staleness, not regression: the tests were right that something had changed and wrong about what. They were replaced, not edited to match -- see the four new tests, which assert the acceptance rule itself (a tier is accepted only if it is authored as code OR a committed file re-derives from the rule), including that --check-tier on an unregistered tier returns a refusal rather than a traceback.",
       "what_this_does_not_change": "H1's statement, its 5.0 pp margin, its tiers, R13's tolerance cells, and every tier-40 artifact."
+    },
+    {
+      "C3_fired": {
+        "count": 2,
+        "per_tier_verdicts": {
+          "120": "NOT FIRING",
+          "300": "FIRING",
+          "40": "NOT FIRING"
+        },
+        "registered_action": "abort",
+        "rows": [
+          "3/tell0.26/object: live correct, restarted refused",
+          "3/tell0.38/object: live correct, restarted refused"
+        ]
+      },
+      "class": "abort condition firing, and the last arm A tier G2 asked for",
+      "confabulation_trend": {
+        "120": 67,
+        "300": 217,
+        "40": 10
+      },
+      "escalated_as": "D-MPE8-09",
+      "evidence": [
+        "experiments/MP-E8/results/armA_tier300_curriculum.json",
+        "experiments/MP-E8/results/armA_tier300_finding.json",
+        "experiments/MP-E8/results/armA_tier300_c3_finding.json"
+      ],
+      "h1_consequence": "H1's arm A clause -- 'arm A holds its taught set across restarts', registered minimum retention 1.0 -- is not met at tier 300, and the instrument now says so by name rather than by aggregate. Combined with the arm B clause failing at tier 120 (least favourable seed 1.68 pp against a 5.0 pp margin), H1 does not hold at the tiers it names, on either arm.",
+      "id": "AMD-MPE8-09",
+      "recorded_at": "2026-11-03T13:30:00Z",
+      "recorded_by": "agent",
+      "scope": "arm A at tier 300. No threshold, tolerance, margin or hypothesis was edited.",
+      "wall_clock_second_contact": {
+        "error_pct": -10.88,
+        "measured_minutes": 53.65,
+        "probes_built": 1046,
+        "probes_projected": 1020,
+        "projected_minutes": 60.2
+      }
     }
   ],
   "schema": "droso.registration.v1",
