@@ -266,9 +266,17 @@ def test_registration_head_contains_its_sealed_files():
         assert not wrong, (
             f"{reg.relative_to(ROOT)} disagrees with git_head {head[:9]} on {len(wrong)} file(s):\n"
             + "\n".join(f"  {f}: sealed {a[:10]} vs commit {b[:10]}" for f, a, b in wrong[:15]))
-        assert hh.get("git_dirty") is False, (
-            f"{reg.relative_to(ROOT)} was stamped on a DIRTY tree (git_dirty={hh.get('git_dirty')!r}); "
-            f"the seal then describes a commit that cannot contain those bytes")
+        # NOT `git_dirty`: stamping one registration dirties the tree for the next, and the dirty file is
+        # a registration, which no seal hashes. The field that matters is the path-scoped one -- uncommitted
+        # bytes among the files this seal actually lists.
+        dirty_sealed = hh.get("git_dirty_sealed")
+        assert dirty_sealed is not None, (
+            f"{reg.relative_to(ROOT)} records only the blunt git_dirty; a stamp taken before that field "
+            f"existed must be re-taken, or the anchor is unverified")
+        assert dirty_sealed == [], (
+            f"{reg.relative_to(ROOT)} was stamped with these sealed files uncommitted: {dirty_sealed}")
+        assert hh["stamp_ordering"]["rule"].startswith("COMMIT FIRST, THEN STAMP"), \
+            f"{reg.relative_to(ROOT)} does not state the ordering rule the anchor depends on"
 
 
 def test_report_coordinate_count_is_not_a_display_artefact():

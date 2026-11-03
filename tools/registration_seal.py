@@ -200,13 +200,22 @@ def seal(reg_path: pathlib.Path) -> dict:
     hh["sealed_at_utc"] = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
     hh["git_head"] = git("rev-parse", "HEAD")
     hh["git_dirty"] = bool(git("status", "--porcelain"))
+    # `git_dirty` alone is too blunt to act on: stamping G0-prime dirties the tree, so stamping MP-E9
+    # immediately after reports dirty -- and the file that made it dirty is a registration, which NO
+    # seal hashes. What threatens the anchor is uncommitted bytes among the files this seal actually
+    # lists, so that is what gets measured, path-scoped, rather than a flag that cries wolf and gets
+    # ignored. Both are recorded: the blunt one for the historical field, the precise one for the verdict.
+    dirty_sealed = [ln.split()[-1].replace("\\", "/")
+                    for ln in git("status", "--porcelain", "--", *targets).splitlines() if ln.strip()]
+    hh["git_dirty_sealed"] = sorted(set(dirty_sealed))
     # The ordering rule, written by the tool rather than by prose someone might not read. The seal
     # records the CURRENT HEAD as the commit it is anchored to, so the only way that anchor can contain
     # the bytes being hashed is for the bytes to be committed first. Stamping a dirty tree produces a
     # seal that names a commit which does not contain its own artifacts -- unfalsifiable, and the same
     # defect class as the plan's stale 0b5f191. `git_dirty` above is the tell; `anchor` below is the test.
     hh["stamp_ordering"] = {
-        "rule": "COMMIT FIRST, THEN STAMP, THEN COMMIT THE STAMP. Never stamp a dirty tree.",
+        "rule": ("COMMIT FIRST, THEN STAMP, THEN COMMIT THE STAMP. Never stamp while a file this seal "
+                 "hashes is uncommitted -- that is what git_dirty_sealed reports, not mere tree dirt."),
         "why": ("git_head is the commit the seal claims to describe. If the sealed bytes are still "
                 "uncommitted when the stamp is taken, git_head names a commit that does not contain "
                 "them, and there is no checkout you can verify the seal against."),
@@ -216,7 +225,11 @@ def seal(reg_path: pathlib.Path) -> dict:
             "3. commit the registration (the stamp itself)",
             "4. registration_seal.py <registration.json> --check   # must be clean at that HEAD",
         ],
-        "this_stamp_was_taken_with_git_dirty": bool(git("status", "--porcelain")),
+        "this_stamp_found_uncommitted_bytes_among_sealed_files": sorted(set(dirty_sealed)),
+        "note": ("git_dirty_sealed is the field to act on. A non-empty list means at least one file this "
+                 "seal hashes is not yet in the commit it names -- the seal is anchored to a commit that "
+                 "cannot reproduce it. Stamping a second registration right after the first is NOT that "
+                 "case, because registrations are excluded from every seal."),
         "checked_by": "registration_seal.py --check (anchor section) and "
                       "tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files",
     }
