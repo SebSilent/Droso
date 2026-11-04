@@ -103,7 +103,14 @@ manifest is sealed after it is produced, never before (AMD-MPE10-07).
 `test_index_cross_check_is_not_vacuous` and `test_registration_head_contains_its_sealed_files` (all three in
 `tests/test_g0_prime_instruments.py`) plus
 `tests/test_registration_seal_coverage.py::test_every_registration_seal_verifies`.
-ALONE-RESULT-PENDING
+run alone at the post-stamp tree `5adc3c573e1b62c68112d1155887346c7d0a5049`, after the stamp commit that seals
+this manifest: **4 passed in 162.69 s** (wall 163.13 s). That is the governing procedure stated in
+`tools/suite_manifest.py`'s own docstring -- run the suite once, write the result into the record, re-stamp,
+then re-run the seal tests alone to prove freshness -- and it is why the covering run's counters are not
+re-measured away. The stamp at `5adc3c5` records anchor `ac3d42b16b16`, **183 sealed files** in each of the
+five ledgers, `git_dirty_sealed` `[]` read back from the committed bytes rather than from the tool's summary,
+and the anchor proven an ancestor of HEAD. `docs/STATE.md` is not a sealed path, so recording this result after
+the stamp cannot put the seal out of step with the tree.
 
 Held-out and guard numbers in the tables below are still the **`f2e1748`** measurements and have not been
 re-run; the badge's other three chips point at them.
