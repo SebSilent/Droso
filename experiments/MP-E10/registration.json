@@ -459,7 +459,13 @@
         "sha256_of_git_blob": "bd32012e0ea25d7815d8896adf6b801c1772e904a122555eab0d2658971bab29"
       },
       "experiments/MP-E10/results/suite_manifest_post_tier300_closure.json": {
-        "status": "MISSING"
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1401,
+        "bytes_worktree": 1401,
+        "git_blob_sha1": "f4f50063ad1b9fc5e0aedad9eb1cd0eea2486e82",
+        "line_endings": "LF",
+        "sha256_lf": "d01bf360b2491c983cbf52c466d6955970e05ec030b003b388f0bd46f2ad4ff1",
+        "sha256_of_git_blob": "d01bf360b2491c983cbf52c466d6955970e05ec030b003b388f0bd46f2ad4ff1"
       },
       "experiments/MP-E10/results/suite_manifest_pristine_post_stale_guard.json": {
         "blob_equals_lf_normalised": true,
@@ -1660,12 +1666,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 51274,
-        "bytes_worktree": 52030,
-        "git_blob_sha1": "8c131691c7eb78a0affd91935f5cf95ea2b7060e",
+        "bytes_blob": 51999,
+        "bytes_worktree": 52762,
+        "git_blob_sha1": "8f1471e055007d32e5e168edcb1ea155faf904a5",
         "line_endings": "CRLF",
-        "sha256_lf": "27ec736ad5667db74284753b92ed919e5974c7a52ee7cc87cc967332dac8ac60",
-        "sha256_of_git_blob": "27ec736ad5667db74284753b92ed919e5974c7a52ee7cc87cc967332dac8ac60"
+        "sha256_lf": "845f1ade95ddd891a03d3e7c7c654520a020a6cfed3f295760da82e172f2eaa8",
+        "sha256_of_git_blob": "845f1ade95ddd891a03d3e7c7c654520a020a6cfed3f295760da82e172f2eaa8"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -1688,7 +1694,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "cb61fc00e008f3bf609383ab350b41644948a423",
+    "git_head": "5c0d4401e78cb2b311fee73c57af40e47b15e5ca",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -1715,7 +1721,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T19:10:49Z",
+    "sealed_at_utc": "2026-11-04T19:34:27Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -2159,22 +2165,22 @@
       "why_it_matters": "H3 is a claim about retention ACROSS A RESTART, which points at `restarted`; the interference interval has so far been computed on `live`. If the registered basis is `restarted`, every interference figure quoted to date was computed on the wrong phase -- harmlessly at tier 120 and at 0.0000 pp either way, but not harmlessly at a tier where the phases differ."
     },
     "D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run": {
+      "agent_recommendation": "option 2 before any of the others. The breach is measured and constant, so option 1 is defensible, but 100 invented rows at the tier that exists to demonstrate capacity is the kind of number that gets quoted out of context by the end of the week, and nothing on this machine says yet WHAT they are.",
       "asked_at": "2026-11-04T19:28:57Z",
       "asked_by": "agent",
       "measured": {
+        "MP-E8_sealed_baseline": 91,
         "control_replay_OFF": 100,
-        "replay_ON": 92,
-        "MP-E8_sealed_baseline": 91
+        "replay_ON": 92
       },
-      "the_fact": "tier 300 breaches the invention floor in all three runs on disk, control included. The floor is the one thing this program's safety claim rests on: a house may not say a sentence nobody said. At tier 300 it does -- 100 of 9,414 graded asks (1.06%) with the flag off, 92 (0.98%) with it on, 91 (0.97%) in MP-E8's sealed baseline -- in every run, whether or not replay is on.",
-      "why_it_matters": "MP-E10's tier-300 verdicts are H1/H2/H3 statements about retention and interference. If a tier cannot hold the refusal contract, evidence taken at it may not be admissible for a claim about what the house KNOWS -- and tier 300 is where the capacity headroom was supposed to be demonstrated, not where a known defect was supposed to live.",
       "options": {
         "1": "rule tier 300 admissible for H1/H2/H3 with the breach named in every quote of it, on the ground that the breach is tier-level and constant across arms, so it cannot bias a between-arm comparison.",
         "2": "rule tier 300 NOT admissible until the breach is understood, and spend a run on the 100 invented rows to classify them -- which shapes are involved and whether they are the distractor set speaking or the taught set.",
         "3": "re-scope tier 300's registered claims to the ones the breach cannot touch (organ-side measurements: ||w||_F, boundedness, read direction) and leave the behavioural claims at tier 120, where the floor holds."
       },
-      "agent_recommendation": "option 2 before any of the others. The breach is measured and constant, so option 1 is defensible, but 100 invented rows at the tier that exists to demonstrate capacity is the kind of number that gets quoted out of context by the end of the week, and nothing on this machine says yet WHAT they are.",
-      "status": "OPEN -- the agent does not decide admissibility of its own evidence"
+      "status": "OPEN -- the agent does not decide admissibility of its own evidence",
+      "the_fact": "tier 300 breaches the invention floor in all three runs on disk, control included. The floor is the one thing this program's safety claim rests on: a house may not say a sentence nobody said. At tier 300 it does -- 100 of 9,414 graded asks (1.06%) with the flag off, 92 (0.98%) with it on, 91 (0.97%) in MP-E8's sealed baseline -- in every run, whether or not replay is on.",
+      "why_it_matters": "MP-E10's tier-300 verdicts are H1/H2/H3 statements about retention and interference. If a tier cannot hold the refusal contract, evidence taken at it may not be admissible for a claim about what the house KNOWS -- and tier 300 is where the capacity headroom was supposed to be demonstrated, not where a known defect was supposed to live."
     }
   },
   "open_suite": {
@@ -3052,126 +3058,123 @@
       "why_it_never_bit_before": "at tier 120 live and restarted are the same triple (122/239/347 in both, in all three tier-120 artifacts), so a quote that did not name its phase was harmless. At tier 300 the phases diverge by 1 row at depth 1, 2 at depth 2 and 1 at depth 3, and the same unqualified quote became a contradiction."
     },
     {
-      "id": "AMD-MPE10-06",
-      "date": "2026-11-04T19:28:57Z",
+      "additive": "one entry appended to registration_amendments, one key added to open_decisions_for_PI",
+      "aggregation": "sum of summary.learn.<depth>.<phase>.invented over depths 1-3 x phases live/restarted/reasked. This is the convention that already yields the 100 and 92 published in AMD-MPE10-04, re-derived here and asserted against them, so the baseline is added on the ledger's own method rather than a new one.",
       "amends": "AMD-MPE10-04's `safety_property` (adds the third run's count and the direction between them) and its `wall_clock.replay_run_learn_arm_minutes_for_comparison` (units label), by reference. Neither sealed field was edited.",
       "class": "registration of a measured property of the TIER, plus a units-label correction. No verdict number changes and no measurement is retracted.",
+      "correction_to_my_own_published_prose": "earlier in this phase the baseline was quoted as 101 inventions. Measured: 91. Checked before writing this: the figure 101 does NOT appear in registration.json or in the closure artifact -- the published pair there is 100/92 and both are correct -- so the wrong number lived only in conversation and superseding nothing in the ledger is the honest report of it.",
+      "date": "2026-11-04T19:28:57Z",
+      "escalated_as": "D-MPE10-11",
+      "graded_ask_denominator": {
+        "denominator_discrepancy_named_not_resolved": "the migration tool reports rows_compared = 8,199 for these same runs, 1,215 short of the 9,414 graded asks. The two instruments count the same runs differently and this amendment does not know why. Registered because a rate without an agreed denominator is the kind of number that gets quoted twice with two different values.",
+        "how": "no summary node carries an n, so the count is the sum of the classes (correct + partial + refused + invented + echo + cross_echo + entailed + misattrib) = 1,046 per (depth, phase) x 9 phases = 9,414, IDENTICAL in all three artifacts.",
+        "per_artifact": {
+          "MP-E8_sealed_baseline": 9414,
+          "control_replay_OFF": 9414,
+          "replay_ON": 9414
+        },
+        "rates": {
+          "MP-E8_sealed_baseline": "91/9414 = 0.97%",
+          "control_replay_OFF": "100/9414 = 1.06%",
+          "replay_ON": "92/9414 = 0.98%"
+        }
+      },
+      "id": "AMD-MPE10-06",
       "invention_counts_as_measured": {
+        "MP-E8_sealed_baseline": 91,
         "control_replay_OFF": 100,
-        "replay_ON": 92,
-        "MP-E8_sealed_baseline": 91
+        "replay_ON": 92
       },
       "per_depth_and_phase": {
-        "control_replay_OFF": {
+        "MP-E8_sealed_baseline": {
           "1": {
-            "live": 4,
-            "restarted": 5,
-            "reasked": 6
+            "live": 2,
+            "reasked": 5,
+            "restarted": 5
           },
           "2": {
             "live": 8,
-            "restarted": 14,
-            "reasked": 22
+            "reasked": 18,
+            "restarted": 14
+          },
+          "3": {
+            "live": 8,
+            "reasked": 17,
+            "restarted": 14
+          }
+        },
+        "control_replay_OFF": {
+          "1": {
+            "live": 4,
+            "reasked": 6,
+            "restarted": 5
+          },
+          "2": {
+            "live": 8,
+            "reasked": 22,
+            "restarted": 14
           },
           "3": {
             "live": 7,
-            "restarted": 14,
-            "reasked": 20
+            "reasked": 20,
+            "restarted": 14
           }
         },
         "replay_ON": {
           "1": {
             "live": 2,
-            "restarted": 5,
-            "reasked": 5
+            "reasked": 5,
+            "restarted": 5
           },
           "2": {
             "live": 8,
-            "restarted": 14,
-            "reasked": 18
+            "reasked": 18,
+            "restarted": 14
           },
           "3": {
             "live": 7,
-            "restarted": 13,
-            "reasked": 20
-          }
-        },
-        "MP-E8_sealed_baseline": {
-          "1": {
-            "live": 2,
-            "restarted": 5,
-            "reasked": 5
-          },
-          "2": {
-            "live": 8,
-            "restarted": 14,
-            "reasked": 18
-          },
-          "3": {
-            "live": 8,
-            "restarted": 14,
-            "reasked": 17
+            "reasked": 20,
+            "restarted": 13
           }
         }
-      },
-      "aggregation": "sum of summary.learn.<depth>.<phase>.invented over depths 1-3 x phases live/restarted/reasked. This is the convention that already yields the 100 and 92 published in AMD-MPE10-04, re-derived here and asserted against them, so the baseline is added on the ledger's own method rather than a new one.",
-      "the_finding": "the invention floor is breached at tier 300 in all three runs: 100 with replay OFF, 92 with replay ON, 91 in MP-E8's sealed baseline. The run that NEVER REPLAYED is the worst of the three. Invention is the only class that fails this bench's exit code (tools/electric_learn_bench.py: 'exits non-zero if a house says a sentence nobody said'; ABSENCE is the licensed refusal speaking, not an invention), so all three runs exit 1 by design and the control's exit 1 is the gate working, not a crash.",
-      "graded_ask_denominator": {
-        "per_artifact": {
-          "control_replay_OFF": 9414,
-          "replay_ON": 9414,
-          "MP-E8_sealed_baseline": 9414
-        },
-        "how": "no summary node carries an n, so the count is the sum of the classes (correct + partial + refused + invented + echo + cross_echo + entailed + misattrib) = 1,046 per (depth, phase) x 9 phases = 9,414, IDENTICAL in all three artifacts.",
-        "rates": {
-          "control_replay_OFF": "100/9414 = 1.06%",
-          "replay_ON": "92/9414 = 0.98%",
-          "MP-E8_sealed_baseline": "91/9414 = 0.97%"
-        },
-        "denominator_discrepancy_named_not_resolved": "the migration tool reports rows_compared = 8,199 for these same runs, 1,215 short of the 9,414 graded asks. The two instruments count the same runs differently and this amendment does not know why. Registered because a rate without an agreed denominator is the kind of number that gets quoted twice with two different values."
-      },
-      "why_this_is_a_property_of_the_tier_not_the_treatment": "the treatment cannot be the cause of a breach that is LARGER with the treatment off. Ordering: control 100 (1.06%) > replay 92 (0.98%) > baseline 91 (0.97%), on 9,414 graded asks in each. The spread between the three is 9 rows, while the same-instrument pair in this closure moved 111 rows with no direction. What tier 300 does is put every run past the floor; what replay adds to that is below the resolution this program can currently measure.",
-      "correction_to_my_own_published_prose": "earlier in this phase the baseline was quoted as 101 inventions. Measured: 91. Checked before writing this: the figure 101 does NOT appear in registration.json or in the closure artifact -- the published pair there is 100/92 and both are correct -- so the wrong number lived only in conversation and superseding nothing in the ledger is the honest report of it.",
-      "units_label_correction": {
-        "published": "AMD-MPE10-04 wall_clock.replay_run_learn_arm_minutes_for_comparison = 1124.6",
-        "source_field_in_both_artifacts": "arms.learn.seconds",
-        "measured_seconds": {
-          "control_replay_OFF": 1317.1,
-          "replay_ON": 1124.6,
-          "MP-E8_sealed_baseline": 1296.5
-        },
-        "correct_reading": "the replayed run's learn arm took 1124.6 SECONDS = 18.74 min, not 1124.6 minutes. The number is right; the unit in the field name is wrong. 1,124.6 min would be 18.7 hours, which is not a thing that happened on this machine.",
-        "what_it_does_not_change": "the comparison's DIRECTION stands as published and is now readable: the flag-OFF control's learn arm (1317.1 s = 21.95 min) was SLOWER than the replayed run's (1124.6 s = 18.74 min). Cost is not the treatment's either, at this resolution.",
-        "why_it_slips": "the field was filled from a seconds-valued source and named for minutes without converting. A label that disagrees with its own source field is exactly why the unit belongs IN the value, not in the field name."
       },
       "provenance_gap_named": {
         "claim": "the artifact does not record WHY the bench exited nonzero. Exhaustive walk of all 104,834 keys in the control and 104,921 in the replayed run: 0 occurrences of exit_code, returncode, exit or gate at any depth. The only 'reason' keys are the 9,414 per-probe fields, 3,815 of them non-empty -- and those are the licensed absences speaking ('nothing he remembers has that shape'), not an exit reason.",
         "consequence": "'exit 1 is by design' is readable only from the bench source (tools/electric_learn_bench.py: 'exits non-zero if a house says a sentence nobody said'), not from the artifact a reader would trust. A reader who pipes this run into a CI step sees a failure with no recorded cause.",
         "not_fixed_because": "adding an exit-reason field changes the bench, and the bench's harness_sha256 is sealed into every tier-300 artifact on disk. Recorded as a gap; the fix is the PI's call, not an edit made mid-closeout."
       },
-      "escalated_as": "D-MPE10-11",
+      "the_finding": "the invention floor is breached at tier 300 in all three runs: 100 with replay OFF, 92 with replay ON, 91 in MP-E8's sealed baseline. The run that NEVER REPLAYED is the worst of the three. Invention is the only class that fails this bench's exit code (tools/electric_learn_bench.py: 'exits non-zero if a house says a sentence nobody said'; ABSENCE is the licensed refusal speaking, not an invention), so all three runs exit 1 by design and the control's exit 1 is the gate working, not a crash.",
+      "units_label_correction": {
+        "correct_reading": "the replayed run's learn arm took 1124.6 SECONDS = 18.74 min, not 1124.6 minutes. The number is right; the unit in the field name is wrong. 1,124.6 min would be 18.7 hours, which is not a thing that happened on this machine.",
+        "measured_seconds": {
+          "MP-E8_sealed_baseline": 1296.5,
+          "control_replay_OFF": 1317.1,
+          "replay_ON": 1124.6
+        },
+        "published": "AMD-MPE10-04 wall_clock.replay_run_learn_arm_minutes_for_comparison = 1124.6",
+        "source_field_in_both_artifacts": "arms.learn.seconds",
+        "what_it_does_not_change": "the comparison's DIRECTION stands as published and is now readable: the flag-OFF control's learn arm (1317.1 s = 21.95 min) was SLOWER than the replayed run's (1124.6 s = 18.74 min). Cost is not the treatment's either, at this resolution.",
+        "why_it_slips": "the field was filled from a seconds-valued source and named for minutes without converting. A label that disagrees with its own source field is exactly why the unit belongs IN the value, not in the field name."
+      },
       "what_was_NOT_done": "no number in this ledger changed; the sealed AMD-MPE10-04 fields stay as published and are superseded by reference (R5); the closure artifact was not edited; the bench was not touched.",
-      "additive": "one entry appended to registration_amendments, one key added to open_decisions_for_PI"
+      "why_this_is_a_property_of_the_tier_not_the_treatment": "the treatment cannot be the cause of a breach that is LARGER with the treatment off. Ordering: control 100 (1.06%) > replay 92 (0.98%) > baseline 91 (0.97%), on 9,414 graded asks in each. The spread between the three is 9 rows, while the same-instrument pair in this closure moved 111 rows with no direction. What tier 300 does is put every run past the floor; what replay adds to that is below the resolution this program can currently measure."
     },
     {
-      "id": "AMD-MPE10-07",
-      "date": "2026-11-04T19:29:37Z",
       "amends": "the ordering rule registered in tools/registration_seal.py's comment on suite_manifest_post_tier300_closure.json, and in the commit message of cb61fc0, by reference. No sealed number changes.",
       "class": "a correction to a procedure this agent registered as house practice, on evidence from the suite that procedure itself caused. Not a measurement and not a verdict.",
+      "consequence_for_the_record": "STATE.md's sentence 'There is no suite run at HEAD' is superseded by this run, named by git_head. The badge moves to the measured pass count of this run, and the four failures are stated beside it rather than hidden inside a total.",
+      "date": "2026-11-04T19:29:37Z",
+      "id": "AMD-MPE10-07",
       "the_covering_run_as_measured": {
         "artifact": "experiments/MP-E10/results/suite_manifest_post_tier300_closure.json",
-        "git_head": "cb61fc00e008f3bf609383ab350b41644948a423",
-        "command": "python.exe -m pytest tests -q -p no:cacheprovider --junit-xml=_tmp/suite_manifest.xml",
-        "interpreter": "3.12.10",
         "collected": 1348,
-        "executed": 1348,
+        "collected_counted_up": "1,348 = the 1,333 collected at 8b1e8d0 plus the 15 tests in the two promotion files added this phase. Reported as measured, not as a prediction: the prediction was 'more than 1,333', and the measurement says how much more.",
         "collected_not_executed": 0,
-        "files_missing_entirely": [],
-        "failures": 4,
+        "command": "python.exe -m pytest tests -q -p no:cacheprovider --junit-xml=_tmp/suite_manifest.xml",
         "errors": 0,
-        "skipped": 6,
-        "pytest_returncode": 1,
-        "wall_seconds": 802.51,
+        "executed": 1348,
+        "failures": 4,
+        "files_missing_entirely": [],
         "git_dirty_at_run": [
           " M experiments/G0-prime/registration.json",
           " M experiments/MP-E10/registration.json",
@@ -3179,29 +3182,32 @@
           " M experiments/MP-E8/registration.json",
           " M experiments/MP-E9/registration.json"
         ],
-        "collected_counted_up": "1,348 = the 1,333 collected at 8b1e8d0 plus the 15 tests in the two promotion files added this phase. Reported as measured, not as a prediction: the prediction was 'more than 1,333', and the measurement says how much more."
+        "git_head": "cb61fc00e008f3bf609383ab350b41644948a423",
+        "interpreter": "3.12.10",
+        "pytest_returncode": 1,
+        "skipped": 6,
+        "wall_seconds": 802.51
       },
       "the_four_failures_and_their_one_cause": {
+        "also_recorded": "git_dirty at run time listed the five registrations -- the re-stamp had not been committed when the run started, which is the same ordering mistake in its second form. Both forms are recorded here because both are visible in the artifact and neither should be read later as a defect in the code under test.",
+        "as_the_seal_tool_printed_it": "DRIFT experiments/MP-E10/results/suite_manifest_post_tier300_closure.json: missing | 174/175 files match on the git blob | 174 of 175 are in the git index | anchor: 174/175 sealed blobs present, byte for byte, in git_head cb61fc00e | HEAD-MISSING ... absent from cb61fc00e: stamped before it was committed",
+        "every_one_names_the_same_path": "experiments/MP-E10/results/suite_manifest_post_tier300_closure.json",
         "failing_tests": [
           "tests/test_g0_prime_instruments.py::test_registration_seal_verifies_against_the_registration",
           "tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous",
           "tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files",
           "tests/test_registration_seal_coverage.py::test_every_registration_seal_verifies"
         ],
-        "every_one_names_the_same_path": "experiments/MP-E10/results/suite_manifest_post_tier300_closure.json",
-        "as_the_seal_tool_printed_it": "DRIFT experiments/MP-E10/results/suite_manifest_post_tier300_closure.json: missing | 174/175 files match on the git blob | 174 of 175 are in the git index | anchor: 174/175 sealed blobs present, byte for byte, in git_head cb61fc00e | HEAD-MISSING ... absent from cb61fc00e: stamped before it was committed",
-        "not_a_test_logic_failure": "1,344 of 1,348 passed. Nothing about the organs, the bench, the curriculum or the amendments is implicated: the four failures are the seal's own bookkeeping objecting to a path sealed before the run that produces it existed. The 6 skips are the standing registered skips, including the licensed-absence seed-dependence defect.",
-        "also_recorded": "git_dirty at run time listed the five registrations -- the re-stamp had not been committed when the run started, which is the same ordering mistake in its second form. Both forms are recorded here because both are visible in the artifact and neither should be read later as a defect in the code under test."
+        "not_a_test_logic_failure": "1,344 of 1,348 passed. Nothing about the organs, the bench, the curriculum or the amendments is implicated: the four failures are the seal's own bookkeeping objecting to a path sealed before the run that produces it existed. The 6 skips are the standing registered skips, including the licensed-absence seed-dependence defect."
       },
       "the_rule_as_registered_and_why_it_cannot_work": {
         "as_written": "edit DEFAULT_MANIFEST, re-stamp, THEN run the suite whose manifest you intend to seal.",
-        "why_it_was_written": "to stop a run on an unstamped tree, which the seal tool's own comments record as producing an artifact that 'records a failure that is really a stamp'.",
+        "corrected_rule": "1) commit the tree the run will measure; 2) re-stamp so the seal is fresh at that commit and COMMIT THE STAMP; 3) run the suite ONCE to a new path; 4) commit the artifact; 5) add its path to DEFAULT_MANIFEST and re-stamp; 6) prove freshness by re-running the seal tests ALONE, never the whole suite again. The manifest is sealed after it is produced, not before.",
         "the_defect": "the rule seals a path BEFORE the artifact exists. tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous asserts in_index == total for every sealed path, and ::test_registration_head_contains_its_sealed_files asserts every sealed path is present in the registration's own git_head. A sealed-but-unproduced manifest fails both by construction, so the rule guarantees the run it mandates will report failures.",
-        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md §7.'",
-        "corrected_rule": "1) commit the tree the run will measure; 2) re-stamp so the seal is fresh at that commit and COMMIT THE STAMP; 3) run the suite ONCE to a new path; 4) commit the artifact; 5) add its path to DEFAULT_MANIFEST and re-stamp; 6) prove freshness by re-running the seal tests ALONE, never the whole suite again. The manifest is sealed after it is produced, not before."
+        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md \u00a77.'",
+        "why_it_was_written": "to stop a run on an unstamped tree, which the seal tool's own comments record as producing an artifact that 'records a failure that is really a stamp'."
       },
-      "what_was_NOT_done": "no test was edited, weakened or skipped to turn the run green; the suite was not run a second time to chase a total; the RED manifest is published at its own path and the earlier 1,333/0 record at 8b1e8d0 stays published (R5); no sealed number in this ledger moved.",
-      "consequence_for_the_record": "STATE.md's sentence 'There is no suite run at HEAD' is superseded by this run, named by git_head. The badge moves to the measured pass count of this run, and the four failures are stated beside it rather than hidden inside a total."
+      "what_was_NOT_done": "no test was edited, weakened or skipped to turn the run green; the suite was not run a second time to chase a total; the RED manifest is published at its own path and the earlier 1,333/0 record at 8b1e8d0 stays published (R5); no sealed number in this ledger moved."
     }
   ],
   "replay_gain_ruling": {
