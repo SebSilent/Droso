@@ -1,6 +1,6 @@
 # Repository state
 
-[![Tests: 734 passed · 3 skipped](https://img.shields.io/badge/Tests-734%20passed%20%C2%B7%203%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Tests: 1,327 passed · 6 skipped](https://img.shields.io/badge/Tests-1%2C327%20passed%20%C2%B7%206%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
@@ -26,6 +26,23 @@ is.
 
 Suite re-run at **`04e4d4d`**: **743 passed, 3 skipped**, exit 0. The badge above
 still reads 734 and is stale by nine tests.
+
+Suite re-run at **`8b1e8d0`**: **1,333 collected, 1,333 executed, 0 missing, 0 failures, 6 skipped, 0
+errors**, exit 0, `git_dirty` empty, 811.33 s --
+`experiments/MP-E10/results/suite_manifest_post_intermittence_record.json`, sealed in all five ledgers.
+The badge above now reads **1,327 passed · 6 skipped**, which is 1,333 minus the 6 skips: the manifest
+records junit counters and has no pass field, so the pass count is arithmetic on its own numbers and is
+labelled as such rather than presented as a measured field. The two figures above (734 at `0abd505`+
+records, 743 at `04e4d4d`) are left in place as history, each with the tree it was true of -- they are
+what "the badge is stale by nine tests" meant, and that sentence was correct when written.
+
+**Caveat on currency, stated rather than implied:** the tree has moved since `8b1e8d0` -- the `--replay`
+flag fix at `d9258ec` touched `tools/electric_learn_bench.py`, and artifact and ledger commits followed --
+while **no file under `tests/` changed**, so the test set is identical but the measured tree is not. There
+is no suite run at HEAD. 1,333 is true of `8b1e8d0`.
+
+Held-out and guard numbers in the tables below are still the **`f2e1748`** measurements and have not been
+re-run; the badge's other three chips point at them.
 
 ## Retrieval-lever closure: E19, E20, E21a
 
