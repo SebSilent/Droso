@@ -145,12 +145,12 @@
       },
       "docs/mp_e10_g3_decision_brief.md": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 9002,
-        "bytes_worktree": 9125,
-        "git_blob_sha1": "5f783e03317102b6ce08239eabfe202f2775d10b",
+        "bytes_blob": 11444,
+        "bytes_worktree": 11585,
+        "git_blob_sha1": "2e82868dfc4aaa875a6f4c2a0e2dc6eacb998a0f",
         "line_endings": "CRLF",
-        "sha256_lf": "27ab84fe1ee8d23ca50664cffa5c0ead846cc3fdf9d3ad742f3693b4226a25e0",
-        "sha256_of_git_blob": "27ab84fe1ee8d23ca50664cffa5c0ead846cc3fdf9d3ad742f3693b4226a25e0"
+        "sha256_lf": "55002421d537a8fd2d8a2a4b4d4bb770a9efbf40f0790415d92aebd12ef87a41",
+        "sha256_of_git_blob": "55002421d537a8fd2d8a2a4b4d4bb770a9efbf40f0790415d92aebd12ef87a41"
       },
       "docs/mp_e12b_compiler_design_step.md": {
         "blob_equals_lf_normalised": true,
@@ -1442,7 +1442,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "c8c52d1ca81badfbb6fce319e8ce5f383afcbbf0",
+    "git_head": "718376acc912029ca5cd4a0ad8b82afd7abcd580",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -1468,7 +1468,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T09:14:33Z",
+    "sealed_at_utc": "2026-11-04T09:27:15Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
