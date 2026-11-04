@@ -1,0 +1,687 @@
+{
+  "H2_clause_1_reminder": "clause 1 remains INSTRUMENTALLY UNDEFINED for arm A per D-MPE8-07: arm A has no guarded-absence rows. H2 as a whole cannot be closed on clause 2 alone.",
+  "H2_clause_2_verdict": "PASS at both required tiers (120 and 300)",
+  "grading_ruling": "AMD-MPE8-12",
+  "per_tier": {
+    "120": {
+      "arm_A_on_the_same_rows": {
+        "artifact": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+        "consistency": "matches the registered named quantity (refusal = 100 - answered on the same rows)",
+        "refusal_pct": 79.32,
+        "refused": 257,
+        "registered_answered_pct": 20.68,
+        "rows": 324
+      },
+      "artifact": "experiments/MP-E8/results/armC_tier120_curriculum.json",
+      "clause_2_at_this_tier": "arm C refusal on never-taught rows 94.44% vs arm A 79.32% -> EXCEEDS. NOTE: clause 2 as registered speaks of REFUSAL ACCURACY, and arm C's refusal here is a gate outcome while arm A's is an absence of an answer; the two are the same predicate only in the sense that both mean no answer was emitted.",
+      "distractor_rows": 324,
+      "hypothesis_bearing": {
+        "distractor_population": {
+          "answered": 18,
+          "mech_distribution": {
+            "abstained": 153,
+            "generated": 126,
+            "retrieval_empty": 45
+          },
+          "near_miss_rows": 18,
+          "refused": 306,
+          "refused_pct": 94.44,
+          "retrieval_empty": 45
+        },
+        "gate_calibration": {
+          "1": {
+            "confidence_threshold": {
+              "n_neg": 29,
+              "n_pos": 118,
+              "threshold": -0.2813,
+              "youden_j": 0.1815
+            },
+            "populations": {
+              "never_told_asks": 36,
+              "retrieval_empty_among_never_told": 7,
+              "retrieval_empty_among_taught": 7,
+              "taught_asks": 125
+            },
+            "similarity_floor": {
+              "n_neg": 36,
+              "n_pos": 125,
+              "threshold": 0.5374,
+              "youden_j": 0.1384
+            }
+          },
+          "2": {
+            "confidence_threshold": {
+              "n_neg": 32,
+              "n_pos": 244,
+              "threshold": -0.2482,
+              "youden_j": 0.4472
+            },
+            "populations": {
+              "never_told_asks": 36,
+              "retrieval_empty_among_never_told": 4,
+              "retrieval_empty_among_taught": 8,
+              "taught_asks": 252
+            },
+            "similarity_floor": {
+              "n_neg": 36,
+              "n_pos": 252,
+              "threshold": 0.5538,
+              "youden_j": 0.0794
+            }
+          },
+          "3": {
+            "confidence_threshold": {
+              "n_neg": 32,
+              "n_pos": 366,
+              "threshold": -0.5151,
+              "youden_j": 0.2322
+            },
+            "populations": {
+              "never_told_asks": 36,
+              "retrieval_empty_among_never_told": 4,
+              "retrieval_empty_among_taught": 14,
+              "taught_asks": 380
+            },
+            "similarity_floor": {
+              "n_neg": 36,
+              "n_pos": 380,
+              "threshold": 0.5529,
+              "youden_j": 0.0743
+            }
+          }
+        },
+        "near_miss_slice_as_computed_by_the_tool": {
+          "1": {
+            "live": {
+              "n_exact_retrieval": 64,
+              "n_near_miss": 0,
+              "n_retrieval_empty": 56,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 64,
+              "n_near_miss": 0,
+              "n_retrieval_empty": 56,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 64,
+              "n_near_miss": 0,
+              "n_retrieval_empty": 56,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          },
+          "2": {
+            "live": {
+              "n_exact_retrieval": 130,
+              "n_near_miss": 148,
+              "n_retrieval_empty": 30,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 130,
+              "n_near_miss": 148,
+              "n_retrieval_empty": 30,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 130,
+              "n_near_miss": 148,
+              "n_retrieval_empty": 30,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          },
+          "3": {
+            "live": {
+              "n_exact_retrieval": 182,
+              "n_near_miss": 135,
+              "n_retrieval_empty": 18,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 182,
+              "n_near_miss": 135,
+              "n_retrieval_empty": 18,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 182,
+              "n_near_miss": 135,
+              "n_retrieval_empty": 18,
+              "n_rows": 416,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          }
+        },
+        "near_miss_slice_registered_definition": "top-1 retrieval within the abstain threshold but not an exact match",
+        "retrieval_empty_claim": {
+          "n": 45,
+          "registered_definition": "correct refusal = refused AND retrieval_empty",
+          "retrieval_empty_among_taught_asks_false_refusals": {
+            "1": 7,
+            "2": 8,
+            "3": 14
+          }
+        }
+      },
+      "reported_without_hypothesis_weight": {
+        "cls_distribution": {
+          "invented": 495,
+          "partial": 576,
+          "refused": 2673
+        },
+        "correct_rate_pct": 0.0,
+        "correct_rows": 0,
+        "why_unweighted": "AMD-MPE8-12: the verbalizer is the same 3.6M-parameter Net that scores 6-7% live in arm B at tier 120, so this figure measures capacity, not the architecture. A 0 here is not evidence against frozen-plus-retrieval as a class."
+      },
+      "rows_total": 3744,
+      "tier_in_artifact": 120
+    },
+    "300": {
+      "arm_A_on_the_same_rows": {
+        "artifact": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+        "consistency": "matches the registered named quantity (refusal = 100 - answered on the same rows)",
+        "refusal_pct": 73.21,
+        "refused": 593,
+        "registered_answered_pct": 26.79,
+        "rows": 810
+      },
+      "artifact": "experiments/MP-E8/results/armC_tier300_curriculum.json",
+      "clause_2_at_this_tier": "arm C refusal on never-taught rows 80.37% vs arm A 73.21% -> EXCEEDS. NOTE: clause 2 as registered speaks of REFUSAL ACCURACY, and arm C's refusal here is a gate outcome while arm A's is an absence of an answer; the two are the same predicate only in the sense that both mean no answer was emitted.",
+      "distractor_rows": 810,
+      "hypothesis_bearing": {
+        "distractor_population": {
+          "answered": 159,
+          "mech_distribution": {
+            "abstained": 69,
+            "generated": 699,
+            "retrieval_empty": 42
+          },
+          "near_miss_rows": 159,
+          "refused": 651,
+          "refused_pct": 80.37,
+          "retrieval_empty": 42
+        },
+        "gate_calibration": {
+          "1": {
+            "confidence_threshold": {
+              "n_neg": 84,
+              "n_pos": 310,
+              "threshold": -0.7128,
+              "youden_j": 0.092
+            },
+            "populations": {
+              "never_told_asks": 90,
+              "retrieval_empty_among_never_told": 6,
+              "retrieval_empty_among_taught": 7,
+              "taught_asks": 317
+            },
+            "similarity_floor": {
+              "n_neg": 90,
+              "n_pos": 317,
+              "threshold": 0.5592,
+              "youden_j": 0.0446
+            }
+          },
+          "2": {
+            "confidence_threshold": {
+              "n_neg": 86,
+              "n_pos": 633,
+              "threshold": -0.6119,
+              "youden_j": -0.0016
+            },
+            "populations": {
+              "never_told_asks": 90,
+              "retrieval_empty_among_never_told": 4,
+              "retrieval_empty_among_taught": 3,
+              "taught_asks": 636
+            },
+            "similarity_floor": {
+              "n_neg": 90,
+              "n_pos": 636,
+              "threshold": 0.559,
+              "youden_j": 0.0397
+            }
+          },
+          "3": {
+            "confidence_threshold": {
+              "n_neg": 86,
+              "n_pos": 948,
+              "threshold": -0.7613,
+              "youden_j": 0.0317
+            },
+            "populations": {
+              "never_told_asks": 90,
+              "retrieval_empty_among_never_told": 4,
+              "retrieval_empty_among_taught": 8,
+              "taught_asks": 956
+            },
+            "similarity_floor": {
+              "n_neg": 90,
+              "n_pos": 956,
+              "threshold": 0.5597,
+              "youden_j": 0.0361
+            }
+          }
+        },
+        "near_miss_slice_as_computed_by_the_tool": {
+          "1": {
+            "live": {
+              "n_exact_retrieval": 144,
+              "n_near_miss": 356,
+              "n_retrieval_empty": 67,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 144,
+              "n_near_miss": 356,
+              "n_retrieval_empty": 67,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 144,
+              "n_near_miss": 356,
+              "n_retrieval_empty": 67,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          },
+          "2": {
+            "live": {
+              "n_exact_retrieval": 278,
+              "n_near_miss": 420,
+              "n_retrieval_empty": 18,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 278,
+              "n_near_miss": 420,
+              "n_retrieval_empty": 18,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 278,
+              "n_near_miss": 420,
+              "n_retrieval_empty": 18,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          },
+          "3": {
+            "live": {
+              "n_exact_retrieval": 397,
+              "n_near_miss": 551,
+              "n_retrieval_empty": 12,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 397,
+              "n_near_miss": 551,
+              "n_retrieval_empty": 12,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 397,
+              "n_near_miss": 551,
+              "n_retrieval_empty": 12,
+              "n_rows": 1046,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          }
+        },
+        "near_miss_slice_registered_definition": "top-1 retrieval within the abstain threshold but not an exact match",
+        "retrieval_empty_claim": {
+          "n": 42,
+          "registered_definition": "correct refusal = refused AND retrieval_empty",
+          "retrieval_empty_among_taught_asks_false_refusals": {
+            "1": 7,
+            "2": 3,
+            "3": 8
+          }
+        }
+      },
+      "reported_without_hypothesis_weight": {
+        "cls_distribution": {
+          "invented": 3246,
+          "misattrib": 6,
+          "partial": 1149,
+          "refused": 5013
+        },
+        "correct_rate_pct": 0.0,
+        "correct_rows": 0,
+        "why_unweighted": "AMD-MPE8-12: the verbalizer is the same 3.6M-parameter Net that scores 6-7% live in arm B at tier 120, so this figure measures capacity, not the architecture. A 0 here is not evidence against frozen-plus-retrieval as a class."
+      },
+      "rows_total": 9414,
+      "tier_in_artifact": 300
+    },
+    "40": {
+      "arm_A_on_the_same_rows": {
+        "artifact": "experiments/MP-E8/results/armA_tier40_inertness.json",
+        "consistency": "matches the registered named quantity (refusal = 100 - answered on the same rows)",
+        "refusal_pct": 90.74,
+        "refused": 98,
+        "registered_answered_pct": 9.26,
+        "rows": 108
+      },
+      "artifact": "experiments/MP-E8/results/armC_tier40_curriculum.json",
+      "clause_2_at_this_tier": "arm C refusal on never-taught rows 100.0% vs arm A 90.74% -> EXCEEDS. NOTE: clause 2 as registered speaks of REFUSAL ACCURACY, and arm C's refusal here is a gate outcome while arm A's is an absence of an answer; the two are the same predicate only in the sense that both mean no answer was emitted.",
+      "distractor_rows": 108,
+      "hypothesis_bearing": {
+        "distractor_population": {
+          "answered": 0,
+          "mech_distribution": {
+            "abstained": 9,
+            "generated": 45,
+            "retrieval_empty": 54
+          },
+          "near_miss_rows": 0,
+          "refused": 108,
+          "refused_pct": 100.0,
+          "retrieval_empty": 54
+        },
+        "gate_calibration": {
+          "1": {
+            "confidence_threshold": {
+              "n_neg": 9,
+              "n_pos": 37,
+              "threshold": -0.4072,
+              "youden_j": -0.027
+            },
+            "populations": {
+              "never_told_asks": 12,
+              "retrieval_empty_among_never_told": 3,
+              "retrieval_empty_among_taught": 2,
+              "taught_asks": 39
+            },
+            "similarity_floor": {
+              "n_neg": 12,
+              "n_pos": 39,
+              "threshold": 0.4425,
+              "youden_j": 0.1987
+            }
+          },
+          "2": {
+            "confidence_threshold": {
+              "n_neg": 4,
+              "n_pos": 56,
+              "threshold": -0.6538,
+              "youden_j": 0.2143
+            },
+            "populations": {
+              "never_told_asks": 12,
+              "retrieval_empty_among_never_told": 8,
+              "retrieval_empty_among_taught": 24,
+              "taught_asks": 80
+            },
+            "similarity_floor": {
+              "n_neg": 12,
+              "n_pos": 80,
+              "threshold": 0.6113,
+              "youden_j": 0.3667
+            }
+          },
+          "3": {
+            "confidence_threshold": {
+              "n_neg": 5,
+              "n_pos": 87,
+              "threshold": -0.564,
+              "youden_j": 0.1356
+            },
+            "populations": {
+              "never_told_asks": 12,
+              "retrieval_empty_among_never_told": 7,
+              "retrieval_empty_among_taught": 37,
+              "taught_asks": 124
+            },
+            "similarity_floor": {
+              "n_neg": 12,
+              "n_pos": 124,
+              "threshold": 0.622,
+              "youden_j": 0.2849
+            }
+          }
+        },
+        "near_miss_slice_as_computed_by_the_tool": {
+          "1": {
+            "live": {
+              "n_exact_retrieval": 36,
+              "n_near_miss": 0,
+              "n_retrieval_empty": 33,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 36,
+              "n_near_miss": 0,
+              "n_retrieval_empty": 33,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 36,
+              "n_near_miss": 0,
+              "n_retrieval_empty": 33,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          },
+          "2": {
+            "live": {
+              "n_exact_retrieval": 37,
+              "n_near_miss": 35,
+              "n_retrieval_empty": 52,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 37,
+              "n_near_miss": 35,
+              "n_retrieval_empty": 52,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 37,
+              "n_near_miss": 35,
+              "n_retrieval_empty": 52,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          },
+          "3": {
+            "live": {
+              "n_exact_retrieval": 55,
+              "n_near_miss": 25,
+              "n_retrieval_empty": 44,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "reasked": {
+              "n_exact_retrieval": 55,
+              "n_near_miss": 25,
+              "n_retrieval_empty": 44,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            },
+            "restarted": {
+              "n_exact_retrieval": 55,
+              "n_near_miss": 25,
+              "n_retrieval_empty": 44,
+              "n_rows": 136,
+              "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+            }
+          }
+        },
+        "near_miss_slice_registered_definition": "top-1 retrieval within the abstain threshold but not an exact match",
+        "retrieval_empty_claim": {
+          "n": 54,
+          "registered_definition": "correct refusal = refused AND retrieval_empty",
+          "retrieval_empty_among_taught_asks_false_refusals": {
+            "1": 2,
+            "2": 24,
+            "3": 37
+          }
+        }
+      },
+      "reported_without_hypothesis_weight": {
+        "cls_distribution": {
+          "invented": 72,
+          "partial": 135,
+          "refused": 1017
+        },
+        "correct_rate_pct": 0.0,
+        "correct_rows": 0,
+        "why_unweighted": "AMD-MPE8-12: the verbalizer is the same 3.6M-parameter Net that scores 6-7% live in arm B at tier 120, so this figure measures capacity, not the architecture. A 0 here is not evidence against frozen-plus-retrieval as a class."
+      },
+      "rows_total": 1224,
+      "tier_in_artifact": 40
+    }
+  },
+  "population": "the manifest's never-taught (distractor) items, all three depths, all three phases -- identical row-selection to the named quantity registered under D-MPE8-07",
+  "registered_clause": "Arm A refusal accuracy exceeds both baselines on the guarded-absence rows, and arm C abstention is poorly calibrated exactly when retrieval returns a near-miss.",
+  "registered_near_miss_slice": "top-1 retrieval within the abstain threshold but not an exact match",
+  "selectivity_of_abstention": {
+    "discrimination": {
+      "120": {
+        "direction": "DISCRIMINATES -- the gate passes taught asks more often than never-taught ones, so the refusal is not blanket",
+        "gate_lets_through_taught_minus_never_pp": 29.14
+      },
+      "300": {
+        "direction": "DISCRIMINATES -- the gate passes taught asks more often than never-taught ones, so the refusal is not blanket",
+        "gate_lets_through_taught_minus_never_pp": 7.68
+      },
+      "40": {
+        "direction": "DISCRIMINATES -- the gate passes taught asks more often than never-taught ones, so the refusal is not blanket",
+        "gate_lets_through_taught_minus_never_pp": 21.7
+      }
+    },
+    "per_tier": {
+      "120": {
+        "answered_rate_on_taught_rows": 38.71,
+        "gate_let_through_pct_of_never_taught_rows": 38.89,
+        "gate_let_through_pct_of_taught_rows": 68.03,
+        "n_never_taught": 324,
+        "n_taught": 3420,
+        "n_taught_real": 2271,
+        "refusal_pct_on_never_taught_rows": 94.44,
+        "refusal_pct_on_rows_actually_taught_at_that_depth": 61.29,
+        "refusal_pct_on_taught_rows": 69.21,
+        "retrieval_empty_among_never_told_correct_refusals": {
+          "1": 7,
+          "2": 4,
+          "3": 4
+        },
+        "retrieval_empty_among_taught_false_refusals": {
+          "1": 7,
+          "2": 8,
+          "3": 14
+        },
+        "youden_j_by_depth": {
+          "1": {
+            "conf_thr_J": 0.1815,
+            "sim_floor_J": 0.1384
+          },
+          "2": {
+            "conf_thr_J": 0.4472,
+            "sim_floor_J": 0.0794
+          },
+          "3": {
+            "conf_thr_J": 0.2322,
+            "sim_floor_J": 0.0743
+          }
+        }
+      },
+      "300": {
+        "answered_rate_on_taught_rows": 53.59,
+        "gate_let_through_pct_of_never_taught_rows": 86.3,
+        "gate_let_through_pct_of_taught_rows": 93.98,
+        "n_never_taught": 810,
+        "n_taught": 8604,
+        "n_taught_real": 5727,
+        "refusal_pct_on_never_taught_rows": 80.37,
+        "refusal_pct_on_rows_actually_taught_at_that_depth": 46.41,
+        "refusal_pct_on_taught_rows": 50.7,
+        "retrieval_empty_among_never_told_correct_refusals": {
+          "1": 6,
+          "2": 4,
+          "3": 4
+        },
+        "retrieval_empty_among_taught_false_refusals": {
+          "1": 7,
+          "2": 3,
+          "3": 8
+        },
+        "youden_j_by_depth": {
+          "1": {
+            "conf_thr_J": 0.092,
+            "sim_floor_J": 0.0446
+          },
+          "2": {
+            "conf_thr_J": -0.0016,
+            "sim_floor_J": 0.0397
+          },
+          "3": {
+            "conf_thr_J": 0.0317,
+            "sim_floor_J": 0.0361
+          }
+        }
+      },
+      "40": {
+        "answered_rate_on_taught_rows": 22.63,
+        "gate_let_through_pct_of_never_taught_rows": 41.67,
+        "gate_let_through_pct_of_taught_rows": 63.37,
+        "n_never_taught": 108,
+        "n_taught": 1116,
+        "n_taught_real": 729,
+        "refusal_pct_on_never_taught_rows": 100.0,
+        "refusal_pct_on_rows_actually_taught_at_that_depth": 77.37,
+        "refusal_pct_on_taught_rows": 81.45,
+        "retrieval_empty_among_never_told_correct_refusals": {
+          "1": 3,
+          "2": 8,
+          "3": 7
+        },
+        "retrieval_empty_among_taught_false_refusals": {
+          "1": 2,
+          "2": 24,
+          "3": 37
+        },
+        "youden_j_by_depth": {
+          "1": {
+            "conf_thr_J": -0.027,
+            "sim_floor_J": 0.1987
+          },
+          "2": {
+            "conf_thr_J": 0.2143,
+            "sim_floor_J": 0.3667
+          },
+          "3": {
+            "conf_thr_J": 0.1356,
+            "sim_floor_J": 0.2849
+          }
+        }
+      }
+    },
+    "reading": "the verbalizer never produced a correct answer, so nothing in these artifacts can be read as arm C knowing an answer when it speaks. What can be read is the gate: whether it lets through taught asks more often than never-taught ones, and the Youden J of each threshold.",
+    "why_this_is_measured": "clause 2 as registered compares refusal on never-taught rows only, and arm C's correct rate is 0 at every tier, so a high never-taught refusal is compatible with blanket refusal. AMD-MPE8-12 makes the gate measures the hypothesis-bearing quantity, and a calibration claim without a discrimination measure is not a calibration claim."
+  },
+  "tiers_measured": [
+    "40",
+    "120",
+    "300"
+  ]
+}

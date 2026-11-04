@@ -1,0 +1,152 @@
+{
+  "differences": {
+    "frozen_gained_vs_baseline": [],
+    "frozen_lost_vs_baseline": [],
+    "guarded_failed": [],
+    "guarded_not_asked": []
+  },
+  "experiment": "MP-E9",
+  "h4_battery_clause_pass": true,
+  "limitations": [
+    "One line, one clone (operator=clone, genome abffa2b7f101). The battery's own clone criterion is unanimity across lines; a single line cannot register instability, so an ask that would flip between identical brains is reported here as stable by construction.",
+    "Measured as 6 chunks of one script-pair each (--only), because the shell caps a single command at 600 s and the full 42-ask run needs ~18 min. Chunking is a sanctioned mode (run_generation.py:880-887) and every script builds a FRESH house per ask, so a chunk boundary cannot leak state between asks -- but it does mean the measurement spans 6 processes, and the per-chunk provenance is recorded above so that is visible rather than implied.",
+    "The guarded set is the baseline's regression_pass_set, which is by construction the set that PASSED when the split was frozen. guarded_pass == guarded_total therefore confirms the four still pass; it cannot discover a fifth invariant that was never guarded."
+  ],
+  "measured": {
+    "asked_rows": 42,
+    "frozen_correct": 19,
+    "frozen_total": 24,
+    "guarded_pass": 4,
+    "guarded_total": 4,
+    "paraphrase_pass": 0,
+    "paraphrase_total": 14
+  },
+  "provenance": {
+    "baseline_file": "tools/selection_baseline.json",
+    "baseline_frozen_at": "2026-10-29T23:39:31",
+    "baseline_frozen_seal": "b9d0f2d83fbb7e78",
+    "baseline_probe_seal": "6b6117e9e0a7c331",
+    "chunk_heads": [
+      "8200abb"
+    ],
+    "chunk_row_journals": [
+      "generation_9101.jsonl",
+      "generation_9102.jsonl",
+      "generation_9103.jsonl",
+      "generation_9104.jsonl",
+      "generation_9105.jsonl",
+      "generation_9106.jsonl"
+    ],
+    "code_flags": {
+      "absence_inventory": false,
+      "coverage_exclude_frame": false,
+      "coverage_exclude_synt": false,
+      "electric_answer": false,
+      "electric_teach": false,
+      "recall_unfiltered_fallback": false,
+      "resonance_content_scope": false,
+      "resonance_session_scope": false,
+      "shape_allow_passive": false,
+      "shape_determiner_interrogatives": [],
+      "shape_extra_interrogatives": []
+    },
+    "commit_at_write": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
+    "containing_commit_note": "This block names the commit the MEASUREMENT ran under. It does not name the commit that contains this artifact, because an artifact cannot attest to its own inclusion -- that is the G0-prime ordering defect. The containing commit is in seal.json and is proven by tools/registration_seal.py --check's anchor axis (git ls-tree -r <git_head>).",
+    "electric": {
+      "chunks": 6,
+      "state": "off",
+      "verified": true
+    },
+    "generation": 9101,
+    "generations": [
+      9101,
+      9102,
+      9103,
+      9104,
+      9105,
+      9106
+    ],
+    "genome_id": "abffa2b7f101",
+    "interpreter": "3.12.10",
+    "invocation": "tools/mp_e8_arm_b imported in-process, then run_generation.py --generation 9101..9106 --lines 1 --tier frozen,probe --only <one family per chunk>; ELECTRIC off (no --electric flag)",
+    "journal_bytes": {
+      "generation_9101_asks.jsonl": 5341,
+      "generation_9102_asks.jsonl": 6776,
+      "generation_9103_asks.jsonl": 6563,
+      "generation_9104_asks.jsonl": 7459,
+      "generation_9105_asks.jsonl": 8697,
+      "generation_9106_asks.jsonl": 4366
+    },
+    "journal_sha256_lf": {
+      "generation_9101_asks.jsonl": "fd7a97fd8745da2aa6ea0fcbcab891ed5510787086da77587a92e53e5f73d035",
+      "generation_9102_asks.jsonl": "ef0f0b51cf8f5072fd0a993e3e25d4c3956a20dc19e32a0ef87513112cbf6cb2",
+      "generation_9103_asks.jsonl": "851eb91b50516090af5cc2df8fb2ee14e3f1d06c8bcd93986cd87bb382cb2e7a",
+      "generation_9104_asks.jsonl": "7739230265f67c3b39f742213247fa4e811a69246424ddf059566e9601aeb333",
+      "generation_9105_asks.jsonl": "47f43c5a119182de4c7368f8c1ad907954ad0600372e90f7031b6a25b500a99e",
+      "generation_9106_asks.jsonl": "595370f4c93d2cc83c6732aaa60e119bef51efa9fe18fb80a8bfd7fff4473c7c"
+    },
+    "journals": [
+      "state/selection/generation_9101_asks.jsonl",
+      "state/selection/generation_9102_asks.jsonl",
+      "state/selection/generation_9103_asks.jsonl",
+      "state/selection/generation_9104_asks.jsonl",
+      "state/selection/generation_9105_asks.jsonl",
+      "state/selection/generation_9106_asks.jsonl"
+    ],
+    "line": "g9101-1",
+    "measured_under_commit": "8200abb",
+    "measured_under_commit_dirty": true,
+    "n_nodes": 12867,
+    "numpy": "2.5.4",
+    "operator": "clone",
+    "plastic_synapses": 2983,
+    "run_seconds": 1039.9,
+    "single_commit_measurement": true,
+    "tree_at_write": "65342b06a5faaab474942758330b658180201317"
+  },
+  "role": "H4 battery clause, measured before any MP-E9 treatment (pre-flag)",
+  "schema": "droso.battery.v1",
+  "split_consistency": {
+    "note": "sizes agree",
+    "regression_pass_set_n": 4,
+    "sizes_agree": true,
+    "test_guarded_probes": [
+      "P-numeral-final",
+      "R-count-moon",
+      "R-disj-reversed",
+      "R-order-ofthe"
+    ],
+    "test_guarded_probes_n": 4
+  },
+  "verdict": {
+    "battery_frozen_correct": {
+      "expected": 19,
+      "measured": 19,
+      "pass": true
+    },
+    "battery_frozen_total": {
+      "expected": 24,
+      "measured": 24,
+      "pass": true
+    },
+    "battery_guarded_pass": {
+      "expected": 4,
+      "measured": 4,
+      "pass": true
+    },
+    "battery_guarded_total": {
+      "expected": 4,
+      "measured": 4,
+      "pass": true
+    },
+    "electric_off": {
+      "measured": "off",
+      "pass": true
+    },
+    "no_frozen_ask_lost": {
+      "measured": [],
+      "pass": true
+    }
+  },
+  "written_at": "2026-11-04T06:03:13Z"
+}

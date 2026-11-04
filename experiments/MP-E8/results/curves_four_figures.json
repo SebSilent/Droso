@@ -1,0 +1,639 @@
+{
+  "arm_B_single_seed_note": "cost and the A/B/C curves read arm B's seed 1 (20261103) for every tier. The seed spread measured at tier 120 was 1.434 pp on the drop statistic and the tier-300 spread was 1.434 pp too, so a single seed is adequate for a COST figure and inadequate for a CLAIM figure -- the claim figures live in the per-tier verdict artifacts, not here.",
+  "artifacts_used": {
+    "A@120": "armA_tier120_curriculum.json",
+    "A@300": "armA_tier300_curriculum.json",
+    "A@40": "armA_tier40_newenv.json",
+    "B@120": "armB_tier120_seed1.json",
+    "B@300": "armB_tier300_seed1.json",
+    "B@40": "armB_tier40_batteryfix.json",
+    "C@120": "armC_tier120_curriculum.json",
+    "C@300": "armC_tier300_curriculum.json",
+    "C@40": "armC_tier40_curriculum.json"
+  },
+  "cost_curve": {
+    "A@120": {
+      "artifact": "armA_tier120_curriculum.json",
+      "error_vs_projection_pct": -2.6,
+      "items": 120,
+      "measured_minutes": 23.47,
+      "registered_projection_minutes": 24.1
+    },
+    "A@300": {
+      "artifact": "armA_tier300_curriculum.json",
+      "error_vs_projection_pct": -10.88,
+      "items": 300,
+      "measured_minutes": 53.65,
+      "registered_projection_minutes": 60.2
+    },
+    "A@40": {
+      "artifact": "armA_tier40_newenv.json",
+      "items": 40,
+      "note": "tier 40 arm A wall clock is the registration's own quoted figure, 481.3 s for 40 items across 3 arms x 3 depths (hypotheses.H4 threshold provenance); no timing block is carried in the tier-40 artifact itself"
+    },
+    "B@120": {
+      "artifact": "armB_tier120_seed1.json",
+      "items": 120,
+      "optimizer_steps": 900,
+      "s_per_item": 0.2925,
+      "train_wall_clock_s": 35.1
+    },
+    "B@300": {
+      "artifact": "armB_tier300_seed1.json",
+      "items": 300,
+      "optimizer_steps": 2340,
+      "s_per_item": 0.5524,
+      "train_wall_clock_s": 165.731
+    },
+    "B@40": {
+      "artifact": "armB_tier40_batteryfix.json",
+      "items": 40,
+      "optimizer_steps": 360,
+      "s_per_item": 0.3887,
+      "train_wall_clock_s": 15.549
+    },
+    "C@120": {
+      "artifact": "armC_tier120_curriculum.json",
+      "items": 120,
+      "optimizer_steps": 900,
+      "s_per_item": 0.7096,
+      "train_wall_clock_s": 85.152
+    },
+    "C@300": {
+      "artifact": "armC_tier300_curriculum.json",
+      "items": 300,
+      "optimizer_steps": 2340,
+      "s_per_item": 0.6955,
+      "train_wall_clock_s": 208.653
+    },
+    "C@40": {
+      "artifact": "armC_tier40_curriculum.json",
+      "items": 40,
+      "optimizer_steps": 360,
+      "s_per_item": 0.9184,
+      "train_wall_clock_s": 36.738
+    }
+  },
+  "cross_tier_reading_rule": "FORGETTING CURVES MAY BE COMPARED ACROSS TIERS ONLY WITHIN THE SAME CONSTRAINT-(b) REGIME. Tier 120 and tier 300 are mutually comparable (both strict). Tier 40 is not comparable to them as a curve. The tier-40-to-tier-120 refusal-rate change is reported as CONFOUNDED, not as a result, and no hypothesis about forgetting may rest on it.",
+  "definitions": {
+    "cost": "wall-clock per tier per arm, plus optimizer steps where the arm has an optimizer",
+    "exposure": "live correct rate at depths 1/2/3 -- accuracy versus exposures",
+    "forgetting": "restarted correct as a percentage of the SAME depth's live correct -- what survives a real restart",
+    "interference": "answers produced out of competing taught material: confabulation fields (invented + misattributed + cross-echo) over the battery, and the never-taught population answered rather than refused"
+  },
+  "experiment": "MP-E8",
+  "exposure_curve": {
+    "A@120": {
+      "1": 29.3269,
+      "2": 57.4519,
+      "3": 83.4135,
+      "rows_per_depth": {
+        "1": 416,
+        "2": 416,
+        "3": 416
+      }
+    },
+    "A@300": {
+      "1": 27.8203,
+      "2": 52.1989,
+      "3": 75.0478,
+      "rows_per_depth": {
+        "1": 1046,
+        "2": 1046,
+        "3": 1046
+      }
+    },
+    "A@40": {
+      "1": 27.9412,
+      "2": 55.1471,
+      "3": 84.5588,
+      "rows_per_depth": {
+        "1": 136,
+        "2": 136,
+        "3": 136
+      }
+    },
+    "B@120": {
+      "1": 6.9712,
+      "2": 6.25,
+      "3": 3.125,
+      "rows_per_depth": {
+        "1": 416,
+        "2": 416,
+        "3": 416
+      }
+    },
+    "B@300": {
+      "1": 1.6252,
+      "2": 3.7285,
+      "3": 4.3021,
+      "rows_per_depth": {
+        "1": 1046,
+        "2": 1046,
+        "3": 1046
+      }
+    },
+    "B@40": {
+      "1": 8.8235,
+      "2": 9.5588,
+      "3": 4.4118,
+      "rows_per_depth": {
+        "1": 136,
+        "2": 136,
+        "3": 136
+      }
+    },
+    "C@120": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0,
+      "rows_per_depth": {
+        "1": 416,
+        "2": 416,
+        "3": 416
+      }
+    },
+    "C@300": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0,
+      "rows_per_depth": {
+        "1": 1046,
+        "2": 1046,
+        "3": 1046
+      }
+    },
+    "C@40": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0,
+      "rows_per_depth": {
+        "1": 136,
+        "2": 136,
+        "3": 136
+      }
+    }
+  },
+  "figures_that_cannot_be_drawn": {
+    "cost_updates_per_taught_fact_for_arm_A": {
+      "consequence": "H4's registered comparison is 'A_total < B_total at each tier, in BOTH updates and wall-clock'. Half of it has no instrument, so H4 is PARTIAL and cannot be closed by anything in this file.",
+      "status": "NOT MEASURED",
+      "what_was_done_instead": "No proxy is substituted. A before/after diff of plastic weights counts synapses whose VALUE differs, not UPDATE EVENTS, and cannot see an update that cancelled out or three writes to one synapse -- so it is not the registered quantity. Counting update events means instrumenting the write path, which is a Droso internal and the brief says do not modify Droso internals during the run.",
+      "why": "INSTRUMENT NEEDED: the organ exposes no counter for synapse updates per taught fact. Plastic synapses at build are 2,983 (battery provenance), which is a state, not a cost rate."
+    },
+    "interference_curve_for_arm_B_never_taught_slice": {
+      "status": "NOT SEPARABLE IN THE ARTIFACT",
+      "why": "arm B's artifact carries no distractor-population breakdown -- its summary is by_shape over the whole battery, and arm B has no abstention gate, so 'answered a never-taught row' and 'answered a taught row wrong' are the same event to it. Its whole-battery confabulation fields are reported above; the never-taught slice is not."
+    }
+  },
+  "forgetting_curve": {
+    "A@120": {
+      "1": {
+        "drop_pp": 0.0,
+        "live_correct": 122,
+        "restarted_correct": 122,
+        "retention_pct_of_own_live": 100.0
+      },
+      "2": {
+        "drop_pp": 0.0,
+        "live_correct": 239,
+        "restarted_correct": 239,
+        "retention_pct_of_own_live": 100.0
+      },
+      "3": {
+        "drop_pp": 0.0,
+        "live_correct": 347,
+        "restarted_correct": 347,
+        "retention_pct_of_own_live": 100.0
+      }
+    },
+    "A@300": {
+      "1": {
+        "drop_pp": -0.3436,
+        "live_correct": 291,
+        "restarted_correct": 292,
+        "retention_pct_of_own_live": 100.3436
+      },
+      "2": {
+        "drop_pp": -0.3663,
+        "live_correct": 546,
+        "restarted_correct": 548,
+        "retention_pct_of_own_live": 100.3663
+      },
+      "3": {
+        "drop_pp": 0.1274,
+        "live_correct": 785,
+        "restarted_correct": 784,
+        "retention_pct_of_own_live": 99.8726
+      }
+    },
+    "A@40": {
+      "1": {
+        "drop_pp": 0.0,
+        "live_correct": 38,
+        "restarted_correct": 38,
+        "retention_pct_of_own_live": 100.0
+      },
+      "2": {
+        "drop_pp": 0.0,
+        "live_correct": 75,
+        "restarted_correct": 75,
+        "retention_pct_of_own_live": 100.0
+      },
+      "3": {
+        "drop_pp": 0.0,
+        "live_correct": 115,
+        "restarted_correct": 115,
+        "retention_pct_of_own_live": 100.0
+      }
+    },
+    "B@120": {
+      "1": {
+        "drop_pp": 0.0,
+        "live_correct": 29,
+        "restarted_correct": 29,
+        "retention_pct_of_own_live": 100.0
+      },
+      "2": {
+        "drop_pp": 0.0,
+        "live_correct": 26,
+        "restarted_correct": 26,
+        "retention_pct_of_own_live": 100.0
+      },
+      "3": {
+        "drop_pp": 0.0,
+        "live_correct": 13,
+        "restarted_correct": 13,
+        "retention_pct_of_own_live": 100.0
+      }
+    },
+    "B@300": {
+      "1": {
+        "drop_pp": 0.0,
+        "live_correct": 17,
+        "restarted_correct": 17,
+        "retention_pct_of_own_live": 100.0
+      },
+      "2": {
+        "drop_pp": 0.0,
+        "live_correct": 39,
+        "restarted_correct": 39,
+        "retention_pct_of_own_live": 100.0
+      },
+      "3": {
+        "drop_pp": 0.0,
+        "live_correct": 45,
+        "restarted_correct": 45,
+        "retention_pct_of_own_live": 100.0
+      }
+    },
+    "B@40": {
+      "1": {
+        "drop_pp": 0.0,
+        "live_correct": 12,
+        "restarted_correct": 12,
+        "retention_pct_of_own_live": 100.0
+      },
+      "2": {
+        "drop_pp": 0.0,
+        "live_correct": 13,
+        "restarted_correct": 13,
+        "retention_pct_of_own_live": 100.0
+      },
+      "3": {
+        "drop_pp": 0.0,
+        "live_correct": 6,
+        "restarted_correct": 6,
+        "retention_pct_of_own_live": 100.0
+      }
+    },
+    "C@120": {
+      "1": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      },
+      "2": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      },
+      "3": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      }
+    },
+    "C@300": {
+      "1": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      },
+      "2": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      },
+      "3": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      }
+    },
+    "C@40": {
+      "1": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      },
+      "2": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      },
+      "3": {
+        "drop_pp": null,
+        "live_correct": 0,
+        "restarted_correct": 0,
+        "retention_pct_of_own_live": null
+      }
+    }
+  },
+  "generated_at_utc": "2026-11-04T05:30:53Z",
+  "interference_curve_whole_battery": {
+    "A@120": {
+      "1": {
+        "confabulation_pct_of_battery": 0.9615,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 416,
+        "refused": 283
+      },
+      "2": {
+        "confabulation_pct_of_battery": 2.6442,
+        "cross_echo": 0,
+        "invented": 1,
+        "misattrib": 10,
+        "n": 416,
+        "refused": 161
+      },
+      "3": {
+        "confabulation_pct_of_battery": 3.6058,
+        "cross_echo": 0,
+        "invented": 2,
+        "misattrib": 13,
+        "n": 416,
+        "refused": 53
+      }
+    },
+    "A@300": {
+      "1": {
+        "confabulation_pct_of_battery": 2.5813,
+        "cross_echo": 3,
+        "invented": 2,
+        "misattrib": 22,
+        "n": 1046,
+        "refused": 721
+      },
+      "2": {
+        "confabulation_pct_of_battery": 4.2065,
+        "cross_echo": 2,
+        "invented": 8,
+        "misattrib": 34,
+        "n": 1046,
+        "refused": 451
+      },
+      "3": {
+        "confabulation_pct_of_battery": 4.3021,
+        "cross_echo": 3,
+        "invented": 8,
+        "misattrib": 34,
+        "n": 1046,
+        "refused": 215
+      }
+    },
+    "A@40": {
+      "1": {
+        "confabulation_pct_of_battery": 0.7353,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 1,
+        "n": 136,
+        "refused": 90
+      },
+      "2": {
+        "confabulation_pct_of_battery": 2.9412,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 136,
+        "refused": 52
+      },
+      "3": {
+        "confabulation_pct_of_battery": 2.9412,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 4,
+        "n": 136,
+        "refused": 16
+      }
+    },
+    "B@120": {
+      "1": {
+        "confabulation_pct_of_battery": 65.8654,
+        "cross_echo": 0,
+        "invented": 241,
+        "misattrib": 33,
+        "n": 416,
+        "refused": 113
+      },
+      "2": {
+        "confabulation_pct_of_battery": 42.0673,
+        "cross_echo": 0,
+        "invented": 147,
+        "misattrib": 28,
+        "n": 416,
+        "refused": 214
+      },
+      "3": {
+        "confabulation_pct_of_battery": 47.5962,
+        "cross_echo": 0,
+        "invented": 197,
+        "misattrib": 1,
+        "n": 416,
+        "refused": 205
+      }
+    },
+    "B@300": {
+      "1": {
+        "confabulation_pct_of_battery": 18.0688,
+        "cross_echo": 0,
+        "invented": 166,
+        "misattrib": 23,
+        "n": 1046,
+        "refused": 840
+      },
+      "2": {
+        "confabulation_pct_of_battery": 18.738,
+        "cross_echo": 0,
+        "invented": 178,
+        "misattrib": 18,
+        "n": 1046,
+        "refused": 811
+      },
+      "3": {
+        "confabulation_pct_of_battery": 17.5908,
+        "cross_echo": 0,
+        "invented": 162,
+        "misattrib": 22,
+        "n": 1046,
+        "refused": 817
+      }
+    },
+    "B@40": {
+      "1": {
+        "confabulation_pct_of_battery": 13.9706,
+        "cross_echo": 0,
+        "invented": 15,
+        "misattrib": 4,
+        "n": 136,
+        "refused": 105
+      },
+      "2": {
+        "confabulation_pct_of_battery": 44.8529,
+        "cross_echo": 0,
+        "invented": 55,
+        "misattrib": 6,
+        "n": 136,
+        "refused": 62
+      },
+      "3": {
+        "confabulation_pct_of_battery": 60.2941,
+        "cross_echo": 0,
+        "invented": 78,
+        "misattrib": 4,
+        "n": 136,
+        "refused": 48
+      }
+    },
+    "C@120": {
+      "1": {
+        "confabulation_pct_of_battery": 0.0,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 0,
+        "n": 416,
+        "refused": 416
+      },
+      "2": {
+        "confabulation_pct_of_battery": 0.0,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 0,
+        "n": 416,
+        "refused": 241
+      },
+      "3": {
+        "confabulation_pct_of_battery": 39.6635,
+        "cross_echo": 0,
+        "invented": 165,
+        "misattrib": 0,
+        "n": 416,
+        "refused": 234
+      }
+    },
+    "C@300": {
+      "1": {
+        "confabulation_pct_of_battery": 0.0,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 0,
+        "n": 1046,
+        "refused": 687
+      },
+      "2": {
+        "confabulation_pct_of_battery": 41.6826,
+        "cross_echo": 0,
+        "invented": 436,
+        "misattrib": 0,
+        "n": 1046,
+        "refused": 591
+      },
+      "3": {
+        "confabulation_pct_of_battery": 61.9503,
+        "cross_echo": 0,
+        "invented": 646,
+        "misattrib": 2,
+        "n": 1046,
+        "refused": 393
+      }
+    },
+    "C@40": {
+      "1": {
+        "confabulation_pct_of_battery": 0.0,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 0,
+        "n": 136,
+        "refused": 136
+      },
+      "2": {
+        "confabulation_pct_of_battery": 0.0,
+        "cross_echo": 0,
+        "invented": 0,
+        "misattrib": 0,
+        "n": 136,
+        "refused": 98
+      },
+      "3": {
+        "confabulation_pct_of_battery": 17.6471,
+        "cross_echo": 0,
+        "invented": 24,
+        "misattrib": 0,
+        "n": 136,
+        "refused": 105
+      }
+    }
+  },
+  "interference_never_taught_population": {
+    "120": {
+      "arm_A_answered_instead_of_refusing_pct": 20.68,
+      "arm_A_rows": 324,
+      "arm_C_answered_instead_of_refusing_pct": 5.56,
+      "arm_C_answered_rows": 18,
+      "arm_C_refused_rows": 306,
+      "arm_C_rows": 324,
+      "near_miss_rows_arm_C": 18
+    },
+    "300": {
+      "arm_A_answered_instead_of_refusing_pct": 26.79,
+      "arm_A_rows": 810,
+      "arm_C_answered_instead_of_refusing_pct": 19.63,
+      "arm_C_answered_rows": 159,
+      "arm_C_refused_rows": 651,
+      "arm_C_rows": 810,
+      "near_miss_rows_arm_C": 159
+    },
+    "40": {
+      "arm_A_answered_instead_of_refusing_pct": 9.26,
+      "arm_A_rows": 108,
+      "arm_C_answered_instead_of_refusing_pct": 0.0,
+      "arm_C_answered_rows": 0,
+      "arm_C_refused_rows": 108,
+      "arm_C_rows": 108,
+      "near_miss_rows_arm_C": 0
+    }
+  },
+  "missing_artifacts": [],
+  "purpose": "the four curve figures the MP-E8 agent brief requires (plan line 695 / checklist step 8): forgetting, interference, exposure, cost"
+}

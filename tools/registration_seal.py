@@ -280,6 +280,44 @@ DEFAULT_MANIFEST = [
     # see AMD-MPE8-10: adding THIS line edits the sealing tool, so the next suite run will report one
     # failure in the seal test until the seal is re-stamped. That is stamp ordering, not a defect.
     "experiments/MP-E8/results/suite_manifest_post_stamp.json",
+    # ---- G2 close-out, 2026-11-04. Every artifact the decision.md verdicts rest on, plus the ones that
+    # were committed but never attested. An artifact that is in git but not in the manifest is a number
+    # nobody outside this session can re-check, which is the exact fault the seal exists to prevent.
+    # D-MPE8-09's replication pair: the re-run and its row-by-row diff against the published tier-300
+    # artifact. The ruling "3/tell0.26/object reproduces, 3/tell0.38/object does not" is computed from
+    # these two and is the basis for abort being executed as a withdrawal.
+    "experiments/MP-E8/results/armA_tier300_rerun.json",
+    "experiments/MP-E8/results/armA_tier300_rerun_c3_diff.json",
+    # Arm C's first sealed runs, one per tier. Graded per AMD-MPE8-12 on its gate and near-miss measures.
+    "experiments/MP-E8/results/armC_tier40_curriculum.json",
+    "experiments/MP-E8/results/armC_tier120_curriculum.json",
+    "experiments/MP-E8/results/armC_tier300_curriculum.json",
+    # H2 clause 2's verdict and the selectivity that keeps it honest (the clause is satisfiable by
+    # blanket refusal; D-MPE8-11 is open because of it).
+    "experiments/MP-E8/results/armC_h2_clause2_and_retrieval_empty.json",
+    # Arm B at its second required tier: three registered seeds, the verdict, and the superseded first
+    # verdict kept BY RENAME because its nearness test used a hard-coded 9.0 and mislabelled 1.15% as
+    # "at or near 6-7%". A superseded artifact stays in the record so the mistake is checkable.
+    "experiments/MP-E8/results/armB_tier300_seed1.json",
+    "experiments/MP-E8/results/armB_tier300_seed2.json",
+    "experiments/MP-E8/results/armB_tier300_seed3.json",
+    "experiments/MP-E8/results/armB_tier300_seeds_verdict.json",
+    "experiments/MP-E8/results/armB_tier300_seeds_verdict_superseded_nearness_bug.json",
+    # The four curve figures the agent brief demands, and the battery regression guard run per arm.
+    "experiments/MP-E8/results/curves_four_figures.json",
+    "experiments/MP-E8/results/battery_guard_armB.json",
+    "experiments/MP-E8/results/battery_guard_armC.json",
+    # MP-E8's outcome, as measured. Sealed because it is the document the gate is read from.
+    "experiments/MP-E8/decision.md",
+    # MP-E10 is registered ahead of its first timed run, so its k-sweep grid and its R6-guarded
+    # invariants are on record before any number exists.
+    "experiments/MP-E10/registration.json",
+    # Checklist step 1's code and its tests. Sealed as a pair, because step 1's requirement is
+    # "unit-test decay bounds and restart clearing" -- the module without the tests would be an
+    # unguarded claim, and C4 (a working-memory state that survives a restart) is a definitional
+    # abort whose only real guard is the test file next to it.
+    "tools/mp_e10_working_memory.py",
+    "tests/test_mp_e10_working_memory.py",
 ]
 
 

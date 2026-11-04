@@ -1,0 +1,196 @@
+{
+  "ablations_required": [
+    "state-only",
+    "spread-only",
+    "state-plus-spread",
+    "legacy unigram path kept runnable for comparison"
+  ],
+  "abort_conditions": {
+    "C1": "any untraceable word in generated output - abort (R9)",
+    "C2": "guarded rows answered - abort",
+    "C3": "retention or restart survival regresses - abort",
+    "C4": "working-memory state leaks across a restart - abort by definition (it is seconds-scale)",
+    "C5": "one routing variant wins only with the other disabled - record as ablation result, not a win"
+  },
+  "architecture_transcribed": {
+    "consolidation_at_scale": "replay through the same local rule that wrote the engrams (Hebbian co-activation with Oja-style normalization) at tiers 120 and 300, with interference measured against the MP-E8 curriculum",
+    "seconds_working_memory": "plasticize the central-complex loop into a decayed activation trace over the last k tokens; a fast-weight state computed by spread, replacing unigram context; parameterize k and register its sweep",
+    "selection_two_native_routing_variants_both_flag_gated": {
+      "registered_ablation": "variant_i",
+      "registered_primary": "variant_ii",
+      "variant_i": "scores candidates by spread of the decayed state plus target-organ injection (the target organ already injects into speak_sentence and is hereby actually used for selection)",
+      "variant_ii": "routes candidates through carve as an allowed_pools mask, the version closest to existing machinery",
+      "why_this_one_is_primary": "the plan itself designates variant (ii) as 'the version closest to existing machinery', and 6.3 requires one variant registered primary and the other the ablation. The choice is made before any treatment and against a property of the code, not against a result. If the PI prefers (i) as primary, say so before the first run is scored -- swapping primary and ablation afterwards is an R2 event."
+    }
+  },
+  "constraints_from_the_plan": {
+    "R10": "every number in a verdict names the artifact it came from",
+    "R13": "a noise-floor tolerance must be registered before the run that uses it",
+    "R2": "no threshold, tier or tolerance chosen after seeing a result",
+    "R5": "historical rows are never back-edited; suites freeze after first use",
+    "R6": "the guarded invariants are the floor; regression is a hard reject",
+    "R9": "word-level grading; an untraceable word in output aborts"
+  },
+  "experiment": "MP-E10",
+  "gate": "G3",
+  "gate_G3": {
+    "go_if": "H1-H4 hold",
+    "on_failure": "the bigram-era organ stays as the fallback arm, and the routing ablation data decides the next attempt"
+  },
+  "harness_hashes": {
+    "note": "Step 1's harness exists as of this timestamp. These are the bytes sealed, not a promise about files to come; further MP-E10 modules get added to this block in the commit that contains them, the way MP-E8's harness_hashes.files works.",
+    "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
+    "updated_at_utc": "2026-11-04T06:25:05Z",
+    "files": {
+      "tools/mp_e10_working_memory.py": {
+        "sha256_lf": "f38894cb13bded6f3ac949ee37db1f5c0c06c3e6e01d8d06dfb8680ed07e04e1"
+      },
+      "tests/test_mp_e10_working_memory.py": {
+        "sha256_lf": "605e1e85e77b56e24ae4b86974baf52cae45f946f44564a67eb6720a1de741e8"
+      }
+    }
+  },
+  "hypotheses": {
+    "H1": "the four mouth-stage evaluations improve on at least two stages with none regressing",
+    "H2": "fluency improves over the MP-E8 arm-A baseline at the same tier",
+    "H3": "replay at tier 300 holds retention at the invariant with interference bounded by the pre-registered margin",
+    "H4": "the invariants hold; regression on either is a hard reject under R6"
+  },
+  "k_sweep": {
+    "anchored_on": {
+      "longest_taught_utterance_tokens": 14,
+      "reason": "6.3 requires the sweep registered but gives no values, so the grid brackets the data the window must hold: below the shortest useful span, through the longest taught surface at tier 300, and past it so the decay is visibly decaying rather than merely truncating",
+      "status": "agent-registered before any treatment; revise only before the first run is scored",
+      "taught_utterance_lengths_by_tier": {
+        "120": {
+          "max_tokens": 14,
+          "mean_tokens": 6.85,
+          "n_utterances": 168
+        },
+        "300": {
+          "max_tokens": 14,
+          "mean_tokens": 6.83,
+          "n_utterances": 420
+        },
+        "40": {
+          "max_tokens": 14,
+          "mean_tokens": 6.91,
+          "n_utterances": 56
+        }
+      }
+    },
+    "grid_tokens": [
+      1,
+      2,
+      4,
+      8,
+      14,
+      16,
+      22
+    ]
+  },
+  "numeric_thresholds": {
+    "H1": {
+      "improve_on_at_least": 2,
+      "regressions_allowed": 0,
+      "source": "section 6.3, verbatim: 'improve on at least two stages with none regressing'",
+      "stages_evaluated": 4,
+      "what_is_NOT_yet_fixed": "WHICH four stages. 6.3 uses 'the four mouth-stage evaluations' as a v1.0 term -- the plan's glossary says terms defined in v1.0 ('mouth stages' among them) keep their meanings -- and the v1.1 body does not enumerate them. The instrument that reports stages today is stage_of() in tools/heldout_eval.py, whose ladder is recall, recall_untraced, shape_arbiter, gating, mouth, plus the error classes engine_error and harness-bug. Five of those are pipeline stages, not four, so the denominator cannot be derived from the code either. Registered as D-MPE10-01: H1 is NOT SCOREABLE until the four stages are named, and naming them after seeing a run would set the denominator to suit the numerator."
+    },
+    "H2": {
+      "baseline_artifacts": [
+        "experiments/MP-E8/results/armA_tier40_inertness.json",
+        "experiments/MP-E8/results/armA_tier120_curriculum.json",
+        "experiments/MP-E8/results/armA_tier300_curriculum.json"
+      ],
+      "comparison": "MP-E10 mouth vs the MP-E8 arm-A baseline at the same tier",
+      "source": "section 6.3",
+      "what_is_NOT_yet_fixed": "the fluency metric. 6.3 says 'fluency improves' with no measure; the nine-axis table defines fluency as 'generation quality under staged failure evaluation', which is H1's instrument, not a scalar. Registered as D-MPE10-02: H2 needs a named scalar before it can be scored, and it must not be borrowed from whichever column wins."
+    },
+    "H3": {
+      "basis_for_the_5_0_pp": "the same margin MP-E8 registered for retention (metrics.H1), so the two gates are commensurable and one organism is not being judged by two different tolerances for the same kind of drift. It is NOT derived from any MP-E10 measurement, of which there are none. The PI may revise it, but only before a run is scored.",
+      "interference_margin_pp": 5.0,
+      "retention_must_hold_at": "the R6 guarded battery, all four named probes still passing: P-numeral-final, R-count-moon, R-disj-reversed, R-order-ofthe. These are named rows, not a percentage; a 0.95/0.90 style threshold is NOT what R6 registers and was removed from this draft when the source was checked",
+      "source": "section 6.3 defers to 'the pre-registered margin'; this registration is where it is pre-registered",
+      "tier_required": 300
+    },
+    "H4": {
+      "invariants": {
+        "cross_check": "tools/mp_e9_battery.py::split_consistency compares this set against the baseline's regression_pass_set and reports disagreement rather than hiding it",
+        "guarded_probes": [
+          "P-numeral-final",
+          "R-count-moon",
+          "R-disj-reversed",
+          "R-order-ofthe"
+        ],
+        "source_of_the_names": "tests/test_stage_cause.py::GUARDED_PROBES"
+      },
+      "on_regression": "hard reject under R6",
+      "source": "R6's guarded invariants are these four named probes. They are read from the test that owns them rather than retyped, because the plan's glossary defines them as 'the guarded invariants' without listing them"
+    }
+  },
+  "objective_transcribed": "Replace unigram context with a native, contextual sequence organ, and extend consolidation from the proven 40-item scale to the MP-E8 tiers. The episodic-write and replay-consolidation legs of the original three-timescale design are considered covered at 40 items by ELECTRIC C2 and C3 and are not re-proven at toy scale; this experiment carries them to scale and builds the missing seconds-scale timescale.",
+  "open_decisions_for_PI": {
+    "D-MPE10-01_name_the_four_mouth_stages": "H1's denominator. 6.3 assumes a v1.0 definition the v1.1 body does not restate, and the current instrument reports five pipeline stages. Until four are named, H1 cannot be scored at all -- and it must be named before the first run, not after.",
+    "D-MPE10-02_name_the_fluency_scalar": "H2 says 'fluency improves' without a measure. Name the scalar.",
+    "D-MPE10-03_confirm_primary_routing_variant": "variant (ii) carve/allowed_pools is registered primary on the plan's own words; confirm or swap before the first scored run.",
+    "D-MPE10-04_interference_margin": "5.0 pp registered here by derivation from MP-E8's retention margin. Confirm or set another number before any replay is scored.",
+    "D-MPE10-05_G2_is_not_closed": "G3 opens while G2's evidence is incomplete. Whether MP-E10 may run before G2 closes is the PI's call; the plan's own ordering says 'the duel precedes the mouth because its tiers define the scale the mouth must consolidate'."
+  },
+  "plan_source": {
+    "document": "DROSO_Master_Plan_v1_1.pdf, section 6.3",
+    "note": "embedded whole, because the thresholds below are only checkable against the wording they came from",
+    "transcribed_verbatim": "6.3 MP-E10 - The Mouth and the Second Timescale Objective. Replace unigram context with a native, contextual sequence organ, and extend consolidation from the proven 40-item scale to the MP-E8 tiers. The episodic-write and replay-consolidation legs of the original three-timescale design are considered covered at 40 items by ELECTRIC C2 and C3 and are not re-proven at toy scale; this experiment carries them to scale and builds the missing seconds-scale timescale. Architecture. Seconds - working memory: plasticize the central-complex loop into a decayed activation trace over the last k tokens; a fast-weight state computed by spread, replacing unigram context; parameterize k and register its sweep. Selection - two native routing variants, both flag-gated: variant (i) scores candidates by spread of the decayed state plus target-organ injection (the target organ already injects into speak_sentence and is hereby actually used for selection); variant (ii) routes candidates through carve as an allowed_pools mask, the version closest to existing machinery. One variant is registered primary, the other the ablation. Consolidation at scale - replay through the same local rule that wrote the engrams (Hebbian co-activation with Oja-style normalization) at tiers 120 and 300, with interference measured against the MP-E8 curriculum. ===== PAGE 18 ===== DROSO Master Plan v1.1 | Live Brain Protocol 15 Hypotheses. H1: the four mouth-stage evaluations improve on at least two stages with none regressing. H2: fluency improves over the MP-E8 arm-A baseline at the same tier. H3: replay at tier 300 holds retention at the invariant with interference bounded by the pre- registered margin. H4: the invariants hold; regression on either is a hard reject under R6. C-conditions. C1: any untraceable word in generated output - abort (R9). C2: guarded rows answered - abort. C3: retention or restart survival regresses - abort. C4: working- memory state leaks across a restart - abort by definition (it is seconds-scale). C5: one routing variant wins only with the other disabled - record as ablation result, not a win. Gate G3. Go only if H1-H4 hold. On failure: the bigram-era organ stays as the fallback arm, and the routing ablation data decides the next attempt. Agent brief. Implement both routing variants behind flags; ablate state-only, spread-only, and state-plus-spread; keep the legacy path runnable for comparison; replay at the registered tiers with the interference protocol; emit per-stage results, the k-sweep grid, and decision.md."
+  },
+  "preconditions": [
+    "no MP-E10 code exists; this file registers intent, not an instrument",
+    "the four mouth stages must be named (D-MPE10-01) before H1 can be scored",
+    "the fluency scalar must be named (D-MPE10-02) before H2 can be scored",
+    "unit-test decay bounds and restart clearing before any scored run, per checklist item 1",
+    "C4's restart-leak test is a definitional abort and must exist as a test, not a narrative"
+  ],
+  "registered_at": "2026-11-04T01:30:00Z",
+  "registered_by": "agent, on the PI's instruction to open G3 at the end of the 2026-11-03 session",
+  "status": "OPEN. Checklist step 1 implemented and unit-tested (see working_memory_step1); the decayed trace, its k parameter, its bounded decay and its restart clearing exist as code with tests that pass. Nothing scored: no curriculum run, no tier, no hypothesis evaluated. H1 and H2 remain unscoreable while D-MPE10-01 and D-MPE10-02 are open, and result_quoting_guard_while_blocked stops any working-memory figure being quoted as their evidence. G2's evidence is closed out and G2 does not pass -- see experiments/MP-E8/decision.md -- and this registration does not imply otherwise about G3.",
+  "stopping_rules": [
+    "any C-condition fires: stop, report, do not re-run the same configuration and call the second run independent",
+    "a threshold is found to be unscoreable after a run: record it as a defect, do not move it"
+  ],
+  "tiers": {
+    "consolidation_replay": [
+      120,
+      300
+    ],
+    "curriculum": "the MP-E8 tier manifests, unedited",
+    "explicitly_not_re_proved": "consolidation at 40 items -- ELECTRIC C2 and C3 cover it; the checklist says 'do not re-prove consolidation at 40 items'",
+    "mouth_evaluations": "every tier the organ is run at; the comparison against arm A is per-tier"
+  },
+  "title": "The Mouth and the Second Timescale",
+  "working_memory_step1": {
+    "recorded_at_utc": "2026-11-04T06:25:05Z",
+    "checklist_step": "B.4 step 1: 'Plasticize the central-complex loop into the decayed working-memory trace; parameterize the window k; unit-test decay bounds and restart clearing.'",
+    "implemented_in": "tools/mp_e10_working_memory.py",
+    "tests_in": "tests/test_mp_e10_working_memory.py",
+    "test_result_measured": {
+      "command": "C:\\Projects\\HybridLLM\\.venv\\Scripts\\python.exe -m pytest -q tests/test_mp_e10_working_memory.py",
+      "exit_code": 0,
+      "summary": ".......................                                                  [100%] | 23 passed in 0.19s"
+    },
+    "k_is_a_constructor_argument_not_a_choice": "Nothing in the module picks k. The sweep grid [1,2,4,8,14,16,22] is registered in k_sweep and read from there by main(); the module would run with any k.",
+    "c4_as_code": "Restart clearing is a test, not a sentence: test_restart_clearing_leaves_no_fingerprint_of_what_was_there compares the bytes of ring + fast-weight state + validity mask against a fresh trace. C4 says a leak is a definitional abort, and a definitional abort that only lives in a decision file guards nothing.",
+    "not_yet_done": "No scored run. No curriculum, no tier, no hypothesis touched. The k-sweep at tier 40 as calibration is the next step and it is a timed measurement, so it runs alone."
+  },
+  "result_quoting_guard_while_blocked": {
+    "installed_at_utc": "2026-11-04T06:25:05Z",
+    "why": "H1's denominator (which four mouth stages) is D-MPE10-01 and H2's scalar (what 'fluency' means) is D-MPE10-02. Both are open. A working-memory result measured while those are undecided can be reported as an organ characterisation, but it cannot be quoted as evidence for or against H1 or H2, because the quantity it would be quoted on has no definition yet.",
+    "rule": "While open_decisions_for_PI contains an UNRESOLVED D-MPE10-01 or D-MPE10-02: no MP-E10 working-memory or k-sweep figure may appear in any verdict sentence about H1 or H2, in this registration, in decision.md, or in any downstream document. Such figures may appear only under a heading that names them as organ characterisation, with the blocking decision id attached.",
+    "what_this_does_not_do": "It does not stop step 1's implementation or its unit tests, and it does not stop the k-sweep measurement itself -- the grid was registered before any treatment, so measuring it is not a post-hoc choice. It stops the QUOTING of a result as a hypothesis verdict.",
+    "open_decisions_at_install": {
+      "D-MPE10-01_name_the_four_mouth_stages": "H1's denominator. 6.3 assumes a v1.0 definition the v1.1 body does not restate, and the current instrument reports five pipeline stages. Until four are named, H1 cannot be scored at all -- and it must be named before the first run, not after.",
+      "D-MPE10-02_name_the_fluency_scalar": "H2 says 'fluency improves' without a measure. Name the scalar.",
+      "D-MPE10-03_confirm_primary_routing_variant": "variant (ii) carve/allowed_pools is registered primary on the plan's own words; confirm or swap before the first scored run.",
+      "D-MPE10-04_interference_margin": "5.0 pp registered here by derivation from MP-E8's retention margin. Confirm or set another number before any replay is scored.",
+      "D-MPE10-05_G2_is_not_closed": "G3 opens while G2's evidence is incomplete. Whether MP-E10 may run before G2 closes is the PI's call; the plan's own ordering says 'the duel precedes the mouth because its tiers define the scale the mouth must consolidate'."
+    }
+  }
+}

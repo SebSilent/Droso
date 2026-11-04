@@ -1,0 +1,224 @@
+{
+  "H1_overall": "H1 requires BOTH tiers [120, 300] for its arm B clause. Tier 120: FAIL at this tier (least favourable drop 1.6827 pp). Tier 300: FAIL at this tier (least favourable drop -2.6769 pp). H1's arm A clause is separately falsified at tier 300 by a reproduced restart row (AMD-MPE8-13). The margin was not moved and no tier was dropped.",
+  "across_tiers": {
+    "tier_120": {
+      "least_favourable_seed_drop_pp": 1.6827,
+      "margin_pp": 5.0,
+      "per_seed_drop_pp": {
+        "20261103": 3.8462,
+        "20261104": 2.1634,
+        "20261105": 1.6827
+      },
+      "rule_applied": "D-MPE8-06: H1 is carried by the least favourable seed, and if the observed seed spread exceeds the registered margin the claim is NOT DECIDABLE at this tier rather than passed. The margin itself is not adjusted.",
+      "seed_spread_drop_pp": 2.1635,
+      "seed_spread_session1_score_pp": 1.2019,
+      "seed_spread_session3_score_pp": 2.1635,
+      "verdict": "FAIL at this tier"
+    },
+    "tier_300_this_run": {
+      "margin_pp": 5.0,
+      "per_seed_drop_pp": {
+        "20261103": -2.6769,
+        "20261104": -2.3901,
+        "20261105": -1.2429
+      },
+      "seed_spread_drop_pp": 1.434,
+      "verdict": "FAIL at this tier"
+    }
+  },
+  "battery": {
+    "curriculum_sha256": {
+      "20261103": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+      "20261104": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+      "20261105": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c"
+    },
+    "probes_per_phase": 1046,
+    "tier": 300
+  },
+  "computed_at_utc": "2026-11-04T05:10:05Z",
+  "h1_tier_300": {
+    "least_favourable_seed": "20261103",
+    "least_favourable_seed_drop_pp": -2.6769,
+    "margin_pp": 5.0,
+    "per_seed_drop_pp": {
+      "20261103": -2.6769,
+      "20261104": -2.3901,
+      "20261105": -1.2429
+    },
+    "rule_applied": "D-MPE8-06: H1 is carried by the least favourable seed, and if the observed seed spread exceeds the registered margin the claim is NOT DECIDABLE at this tier rather than passed. The margin itself is not adjusted. Applied here exactly as at tier 120, including which end of the drop counts as unfavourable.",
+    "seed_spread_drop_pp": 1.434,
+    "seed_spread_session1_score_pp": 0.478,
+    "seed_spread_session3_score_pp": 1.8164,
+    "verdict": "FAIL at this tier"
+  },
+  "interpretation_at_this_absolute_level": {
+    "applies_at_this_tier": false,
+    "arm_B_session1_level_at_tier_120_pct": {
+      "max": 7.4519,
+      "min": 6.25
+    },
+    "arm_B_session1_level_at_tier_300_pct": {
+      "all": [
+        1.6252,
+        1.1472,
+        1.2428
+      ],
+      "max": 1.6252,
+      "min": 1.1472
+    },
+    "carried_from_tier_120": "if arm B's session-1 level at tier 300 is at or near its tier-120 level of 6-7 percent, a 5 pp margin cannot separate 'forgot' from 'never knew' at that absolute level",
+    "drop_is_negative_at_this_tier": {
+      "per_seed_drop_pp": {
+        "20261103": -2.6769,
+        "20261104": -2.3901,
+        "20261105": -1.2429
+      },
+      "reading": "every seed scores HIGHER at session 3 than at session 1 (+1.24 to +2.68 pp). Arm B does not forget at tier 300; it accumulates. H1's arm B clause asks for a drop of at least 5.0 pp, and the measured quantity has the opposite sign, so the clause fails at this tier for a different reason than it failed at tier 120 -- there, the drop was positive but too small."
+    },
+    "nearness_test": "the two ranges overlap, or their nearer edges are within 2 pp -- computed from the tier-120 verdict artifact, not from a threshold invented here",
+    "statement": "Arm B's session-1 live rate at tier 300 is 1.15-1.63% of 1,046 asks, which is NOT at or near the 6.25-7.45% it reached at tier 120 -- it is roughly four to six times lower. The tier-120 note is therefore not transferred here as though it applied; it applies with greater force instead. H1's arm B clause asks arm B to drop BY at least 5.0 percentage points from a session-1 level of about 1.1%, and the measured drops are negative (-2.68, -2.39, -1.24 pp): the arm scores better at session 3 than at session 1. At an absolute level of 1-2% the margin cannot separate 'forgot' from 'never knew' -- there is almost nothing here to lose -- and a clause that requires a 5 pp fall cannot be satisfied by a curve that rises. H1's FAIL at tier 120 stands, the margin is left exactly as registered, and no tier was dropped."
+  },
+  "per_seed_detail": {
+    "20261103": {
+      "artifact": "experiments/MP-E8/results/armB_tier300_seed1.json",
+      "calibration_thresholds": {
+        "1": -0.1799,
+        "2": -0.1382,
+        "3": -0.2443
+      },
+      "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+      "drop_session1_to_session3_pp": -2.6769,
+      "git_head": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
+      "parameters": 3732022,
+      "per_depth": {
+        "1": {
+          "live_correct": 17,
+          "live_rows": 1046,
+          "score_pct": 1.6252
+        },
+        "2": {
+          "live_correct": 39,
+          "live_rows": 1046,
+          "score_pct": 3.7285
+        },
+        "3": {
+          "live_correct": 45,
+          "live_rows": 1046,
+          "score_pct": 4.3021
+        }
+      },
+      "seed": 20261103
+    },
+    "20261104": {
+      "artifact": "experiments/MP-E8/results/armB_tier300_seed2.json",
+      "calibration_thresholds": {
+        "1": -0.4998,
+        "2": -0.2189,
+        "3": -0.4952
+      },
+      "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+      "drop_session1_to_session3_pp": -2.3901,
+      "git_head": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
+      "parameters": 3732022,
+      "per_depth": {
+        "1": {
+          "live_correct": 12,
+          "live_rows": 1046,
+          "score_pct": 1.1472
+        },
+        "2": {
+          "live_correct": 24,
+          "live_rows": 1046,
+          "score_pct": 2.2945
+        },
+        "3": {
+          "live_correct": 37,
+          "live_rows": 1046,
+          "score_pct": 3.5373
+        }
+      },
+      "seed": 20261104
+    },
+    "20261105": {
+      "artifact": "experiments/MP-E8/results/armB_tier300_seed3.json",
+      "calibration_thresholds": {
+        "1": -0.2472,
+        "2": -0.359,
+        "3": -0.3103
+      },
+      "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+      "drop_session1_to_session3_pp": -1.2429,
+      "git_head": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
+      "parameters": 3732022,
+      "per_depth": {
+        "1": {
+          "live_correct": 13,
+          "live_rows": 1046,
+          "score_pct": 1.2428
+        },
+        "2": {
+          "live_correct": 31,
+          "live_rows": 1046,
+          "score_pct": 2.9637
+        },
+        "3": {
+          "live_correct": 26,
+          "live_rows": 1046,
+          "score_pct": 2.4857
+        }
+      },
+      "seed": 20261105
+    }
+  },
+  "rows_per_seed_per_depth": {
+    "20261103": {
+      "1": [
+        17,
+        1046
+      ],
+      "2": [
+        39,
+        1046
+      ],
+      "3": [
+        45,
+        1046
+      ]
+    },
+    "20261104": {
+      "1": [
+        12,
+        1046
+      ],
+      "2": [
+        24,
+        1046
+      ],
+      "3": [
+        37,
+        1046
+      ]
+    },
+    "20261105": {
+      "1": [
+        13,
+        1046
+      ],
+      "2": [
+        31,
+        1046
+      ],
+      "3": [
+        26,
+        1046
+      ]
+    }
+  },
+  "score_definition": "live-phase correct rate = sum(correct)/sum(n) over the by_shape table of summary.B.<depth>.live -- the same definition the tier-120 verdict used",
+  "spread_definition": "max minus min across the three seeds of the same quantity, reported for the session-1 score, the session-3 score and the drop statistic",
+  "what_this_result_does_not_say": {
+    "arm_B_did_not_run_at_tier_40_under_this_battery": "tier 40 is the calibration tier and cannot carry H1, per the registered tiers block",
+    "no_tier_was_dropped": "tier 300 is measured here precisely because tier 120 came out awkward",
+    "the_margin_was_not_renumbered": "the registered 5.0 pp minimum drop is used as written at both tiers"
+  }
+}
