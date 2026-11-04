@@ -384,6 +384,11 @@ DEFAULT_MANIFEST = [
     # intermittence. The green run below it is the covering manifest for this tree.
     "experiments/MP-E10/results/suite_manifest_pristine_post_stale_guard.json",
     "experiments/MP-E10/results/suite_manifest_post_intermittence_record.json",
+    # B.4 step 2 tier 120 with replay genuinely applied (after the flag-ordering fix), its summary,
+    # and the decision document that states which hypotheses are measured, unscored or not instrumented.
+    "experiments/MP-E10/results/replay_tier120_armA.json",
+    "experiments/MP-E10/results/replay_tier120_summary.json",
+    "experiments/MP-E10/decision.md",
 
 # The inertness proof itself: additive diff, and byte-identity between the pre-edit module pulled from
 # git and the working tree on the untouched path. Sealed because 'nothing else changed' is a claim.
