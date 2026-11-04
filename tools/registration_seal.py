@@ -372,6 +372,10 @@ DEFAULT_MANIFEST = [
     # A new path, not an overwrite: the published 1,272/0 manifest describes 7d2a84d and must not be read as
     # covering code that did not exist when it ran.
     "experiments/MP-E10/results/suite_manifest_post_mpe12_routing.json",
+    # The GREEN covering run for this turns code, taken at the stamped tree 55fe6cc with git_dirty empty:
+    # 1313 collected / 1313 executed / 0 missing / 0 failures / returncode 0. The 3-failure record above it
+    # stays published under R5: it is the run that caught the seal tool drifting against its own manifest.
+    "experiments/MP-E10/results/suite_manifest_post_stamp_mpe12.json",
 ]
 
 
