@@ -466,6 +466,15 @@
         "sha256_lf": "bc7779ebd0ca47f81d6992bf42422c8501ba4c32780b6127aea3f21b1ad38297",
         "sha256_of_git_blob": "bc7779ebd0ca47f81d6992bf42422c8501ba4c32780b6127aea3f21b1ad38297"
       },
+      "experiments/MP-E10/results/suite_manifest_uniquekey.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1184,
+        "bytes_worktree": 1184,
+        "git_blob_sha1": "65909a343bb455e84684d04511523eb51eb976ab",
+        "line_endings": "LF",
+        "sha256_lf": "50db22bbffa5fc5d596f6de4c17156a8ed5311cfd4616512e5c732e876b38750",
+        "sha256_of_git_blob": "50db22bbffa5fc5d596f6de4c17156a8ed5311cfd4616512e5c732e876b38750"
+      },
       "experiments/MP-E10/results/tier300_named_measurements_closure.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 51835,
@@ -1665,12 +1674,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 53716,
-        "bytes_worktree": 54498,
-        "git_blob_sha1": "af9e80a9cb4c4ae1284816029586e2fe407b8d45",
+        "bytes_blob": 54324,
+        "bytes_worktree": 55112,
+        "git_blob_sha1": "d69f5f9340ce82087d0d1569452a7d5c3a2233bd",
         "line_endings": "CRLF",
-        "sha256_lf": "0427b752d51715db04c095821a9510ab39f2f674cc05c15bc5022b250baeed7b",
-        "sha256_of_git_blob": "0427b752d51715db04c095821a9510ab39f2f674cc05c15bc5022b250baeed7b"
+        "sha256_lf": "263f38601740779686c28480ad41e7602550136f12cb9629c04559e125593ff3",
+        "sha256_of_git_blob": "263f38601740779686c28480ad41e7602550136f12cb9629c04559e125593ff3"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -1693,7 +1702,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "cf5794b95aeb1943073ffb2040dcae9ce839d2e4",
+    "git_head": "ac3d42b16b16a28c90bdcfc3c9edac39e6fc8ed2",
     "hash_basis": "sha256 over CRLF-folded-to-LF bytes",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -1737,7 +1746,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T20:38:44Z",
+    "sealed_at_utc": "2026-11-04T20:59:41Z",
     "self_excluded": {
       "path": "experiments/MP-E9/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
