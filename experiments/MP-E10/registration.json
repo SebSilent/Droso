@@ -1304,7 +1304,27 @@
       14,
       16,
       22
-    ]
+    ],
+    "what_k_bounds": {
+      "ruled_by": "PI ruling D-MPE10-06, 2026-11-04",
+      "activation_trace": "bounded by k -- the ring holds the last k tokens and nothing else",
+      "fast_weight_store": "NOT bounded by k -- accumulates every adjacent pair until clear(); measured ||w||_F identical at k=2, k=8 and k=22 over a 64-token stream",
+      "reporting_obligation": "Every MP-E10 artifact reports ||w||_F against tokens pushed as its own quantity, so a reader can never take 'capacity k' to mean the whole organ"
+    },
+    "grid_scored_tokens": [
+      2,
+      4,
+      8,
+      14,
+      16,
+      22
+    ],
+    "excluded_from_scored_grid": {
+      "k": 1,
+      "by": "AMD-MPE10-01, 2026-11-04, on PI ruling D-MPE10-07",
+      "excluded_not_deleted": "grid_tokens keeps 1 and the sweep keeps printing it with its diagonal mass; grid_scored_tokens is what a scored run iterates over",
+      "why": "at k=1 prev aliases the slot being written, so the state is self-links (diagonal mass 3.679 vs -0.039)"
+    }
   },
   "k_sweep_calibration_tier40": {
     "artifact": "experiments/MP-E10/results/ksweep_tier40_calibration.json",
@@ -1386,8 +1406,22 @@
       "improve_on_at_least": 2,
       "regressions_allowed": 0,
       "source": "section 6.3, verbatim: 'improve on at least two stages with none regressing'",
-      "stages_evaluated": 4,
-      "what_is_NOT_yet_fixed": "WHICH four stages. 6.3 uses 'the four mouth-stage evaluations' as a v1.0 term -- the plan's glossary says terms defined in v1.0 ('mouth stages' among them) keep their meanings -- and the v1.1 body does not enumerate them. The instrument that reports stages today is stage_of() in tools/heldout_eval.py, whose ladder is recall, recall_untraced, shape_arbiter, gating, mouth, plus the error classes engine_error and harness-bug. Five of those are pipeline stages, not four, so the denominator cannot be derived from the code either. Registered as D-MPE10-01: H1 is NOT SCOREABLE until the four stages are named, and naming them after seeing a run would set the denominator to suit the numerator."
+      "stages_evaluated": 5,
+      "what_is_NOT_yet_fixed": "Nothing on H1 -- the denominator is fixed. What remains visible about it: recall_untraced is a default attribution, not a measurement (heldout_eval's own comment), so the per-stage table must print it as untraced.",
+      "stages_reported_by_instrument": [
+        "gating",
+        "mouth",
+        "recall",
+        "recall_untraced",
+        "shape_arbiter"
+      ],
+      "denominator_set_by": "PI ruling D-MPE10-01, 2026-11-04",
+      "tie_break": "Where the plan and the instrument disagree and the choice affects the claim, take the reading that is HARDER to pass. Here that means five, not four: this raises the bar.",
+      "excluded_from_the_denominator_and_why": {
+        "engine_error": "a crash kept as turn['error'] -- a failure class, not a stage",
+        "harness-bug": "UNGRADED -- a failure class, not a stage",
+        "other": "NOT an error class and NOT a stage: the catch-all for a spoken reply whose source matches neither mouth nor arbiter. Excluded from the denominator of five because it is not one of the ladder's positions, but it is NOT ignorable -- if a scored run has any mass in `other`, the five-stage denominator does not cover that run's output and H1's table must say so rather than divide by five anyway."
+      }
     },
     "H2": {
       "baseline_artifacts": [
@@ -1423,14 +1457,14 @@
   },
   "objective_transcribed": "Replace unigram context with a native, contextual sequence organ, and extend consolidation from the proven 40-item scale to the MP-E8 tiers. The episodic-write and replay-consolidation legs of the original three-timescale design are considered covered at 40 items by ELECTRIC C2 and C3 and are not re-proven at toy scale; this experiment carries them to scale and builds the missing seconds-scale timescale.",
   "open_decisions_for_PI": {
-    "D-MPE10-01_name_the_four_mouth_stages": "H1's denominator. 6.3 assumes a v1.0 definition the v1.1 body does not restate, and the current instrument reports five pipeline stages. Until four are named, H1 cannot be scored at all -- and it must be named before the first run, not after.",
-    "D-MPE10-02_name_the_fluency_scalar": "H2 says 'fluency improves' without a measure. Name the scalar.",
-    "D-MPE10-03_confirm_primary_routing_variant": "variant (ii) carve/allowed_pools is registered primary on the plan's own words; confirm or swap before the first scored run.",
-    "D-MPE10-04_interference_margin": "5.0 pp registered here by derivation from MP-E8's retention margin. Confirm or set another number before any replay is scored.",
-    "D-MPE10-05_G2_is_not_closed": "G3 opens while G2's evidence is incomplete. Whether MP-E10 may run before G2 closes is the PI's call; the plan's own ordering says 'the duel precedes the mouth because its tiers define the scale the mouth must consolidate'.",
-    "D-MPE10-06_k_does_not_bound_the_fast_weight_store": "The registered k is the capacity of a working memory, but the organ's associative state w accumulates every adjacent pair until clear() and its norm is identical at k=2, k=8 and k=22. Either k is meant to bound only the activation trace -- in which case H1/H2's 'capacity k' needs restating -- or the organ must decay/trim w with the window. This is a design decision, not a tolerance, and it is a candidate additional blocker on scoring H1/H2 alongside D-MPE10-01/02.",
-    "D-MPE10-07_k1_in_the_registered_grid_measures_self_links": "push() reads prev as a numpy view of ring[(head-1) % k] and then writes ring[head]; at k=1 those are the same slot, so the recorded 'pair' is outer(v_i, v_i). Measured: diagonal mass 3.679 at k=1 against -0.039 (i.e. zero) at every other k. The grid's baseline point is therefore a different object from the rest of the grid. Options: drop k=1 from the grid, or copy prev before the write. Registered as an instrument defect, not fixed unilaterally.",
-    "D-MPE10-08_predecessor_or_successor_links": "outer(post, pre) means probing the later token recovers the earlier one (cosine 0.982) and probing the earlier does not recover the later (0.056). A working memory feeding next-token behaviour needs the other transpose. The registration does not say which direction H1/H2 assume; settling it before any scored run is cheaper than discovering it in a curve."
+    "D-MPE10-01_name_the_four_mouth_stages": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-01_H1_denominator. Denominator is the five stages stage_of() reports (gating, mouth, recall, recall_untraced, shape_arbiter); 'improve on at least two, none regressing' unchanged; the tie-break is to take the HARDER reading. Original text kept: H1's denominator. 6.3 assumes a v1.0 definition the v1.1 body does not restate, and the current instrument reports five pipeline stages. Until four are named, H1 cannot be scored at all -- and it must be named before the first run, not after.",
+    "D-MPE10-02_name_the_fluency_scalar": "OPEN as of 2026-11-04, stated as open. H2 says 'fluency improves' without a measure. Name the scalar.",
+    "D-MPE10-03_confirm_primary_routing_variant": "OPEN as of 2026-11-04, stated as open. variant (ii) carve/allowed_pools is registered primary on the plan's own words; confirm or swap before the first scored run.",
+    "D-MPE10-04_interference_margin": "OPEN as of 2026-11-04, stated as open. 5.0 pp registered here by derivation from MP-E8's retention margin. Confirm or set another number before any replay is scored.",
+    "D-MPE10-05_G2_is_not_closed": "OPEN as of 2026-11-04, stated as open. G3 opens while G2's evidence is incomplete. Whether MP-E10 may run before G2 closes is the PI's call; the plan's own ordering says 'the duel precedes the mouth because its tiers define the scale the mouth must consolidate'.",
+    "D-MPE10-06_k_does_not_bound_the_fast_weight_store": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-06_k_and_the_fast_weight_store. Not a defect: the plan describes two objects and the module implements two objects. k bounds the activation trace only; ||w||_F against tokens pushed is reported as its own quantity in every artifact. Organ not edited. Original text kept: The registered k is the capacity of a working memory, but the organ's associative state w accumulates every adjacent pair until clear() and its norm is identical at k=2, k=8 and k=22. Either k is meant to bound only the activation trace -- in which case H1/H2's 'capacity k' needs restating -- or the organ must decay/trim w with the window. This is a design decision, not a tolerance, and it is a candidate additional blocker on scoring H1/H2 alongside D-MPE10-01/02.",
+    "D-MPE10-07_k1_in_the_registered_grid_measures_self_links": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-07_k_equals_1. k=1 excluded from the SCORED grid by AMD-MPE10-01, not deleted; diagonal mass still printed; the module's 'excluded by construction' claim corrected as a docstring-only edit. Original text kept: push() reads prev as a numpy view of ring[(head-1) % k] and then writes ring[head]; at k=1 those are the same slot, so the recorded 'pair' is outer(v_i, v_i). Measured: diagonal mass 3.679 at k=1 against -0.039 (i.e. zero) at every other k. The grid's baseline point is therefore a different object from the rest of the grid. Options: drop k=1 from the grid, or copy prev before the write. Registered as an instrument defect, not fixed unilaterally.",
+    "D-MPE10-08_predecessor_or_successor_links": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-08_read_direction. Organ not transposed; every artifact must name the direction it read; a successor map would be a registered organ change with its own design step. Original text kept: outer(post, pre) means probing the later token recovers the earlier one (cosine 0.982) and probing the earlier does not recover the later (0.056). A working memory feeding next-token behaviour needs the other transpose. The registration does not say which direction H1/H2 assume; settling it before any scored run is cheaper than discovering it in a curve."
   },
   "open_suite": {
     "artifact": "experiments/MP-E8/results/suite_manifest_mpe10_open.json",
@@ -1485,9 +1519,10 @@
     },
     "rule": "While open_decisions_for_PI contains an UNRESOLVED D-MPE10-01 or D-MPE10-02: no MP-E10 working-memory or k-sweep figure may appear in any verdict sentence about H1 or H2, in this registration, in decision.md, or in any downstream document. Such figures may appear only under a heading that names them as organ characterisation, with the blocking decision id attached.",
     "what_this_does_not_do": "It does not stop step 1's implementation or its unit tests, and it does not stop the k-sweep measurement itself -- the grid was registered before any treatment, so measuring it is not a post-hoc choice. It stops the QUOTING of a result as a hypothesis verdict.",
-    "why": "H1's denominator (which four mouth stages) is D-MPE10-01 and H2's scalar (what 'fluency' means) is D-MPE10-02. Both are open. A working-memory result measured while those are undecided can be reported as an organ characterisation, but it cannot be quoted as evidence for or against H1 or H2, because the quantity it would be quoted on has no definition yet."
+    "why": "H1's denominator (which four mouth stages) is D-MPE10-01 and H2's scalar (what 'fluency' means) is D-MPE10-02. Both are open. A working-memory result measured while those are undecided can be reported as an organ characterisation, but it cannot be quoted as evidence for or against H1 or H2, because the quantity it would be quoted on has no definition yet.",
+    "status_after_rulings": "2026-11-04: D-MPE10-01 is RULED, so H1 has a denominator (five stages) and is scoreable in principle. D-MPE10-02 is still OPEN, so H2 has no scalar and the guard still binds: no MP-E10 figure may be quoted as a hypothesis verdict. The guard is not lifted by the rulings on -01/-06/-07/-08."
   },
-  "status": "OPEN. Checklist step 1 implemented and unit-tested (see working_memory_step1); the decayed trace, its k parameter, its bounded decay and its restart clearing exist as code with tests that pass. Nothing scored: no curriculum run, no tier, no hypothesis evaluated. H1 and H2 remain unscoreable while D-MPE10-01 and D-MPE10-02 are open, and result_quoting_guard_while_blocked stops any working-memory figure being quoted as their evidence. G2's evidence is closed out and G2 does not pass -- see experiments/MP-E8/decision.md -- and this registration does not imply otherwise about G3. G3 step 2 run: the registered k grid was swept at tier 40 as calibration (0.237s, artifact ksweep_tier40_calibration.json) and it found three properties of the sealed organ that were never registered -- D-MPE10-06, -07, -08. Still nothing scored; tiers 120 and 300 deliberately unrun until those are settled.",
+  "status": "OPEN. Checklist step 1 implemented and unit-tested (see working_memory_step1); the decayed trace, its k parameter, its bounded decay and its restart clearing exist as code with tests that pass. Nothing scored: no curriculum run, no tier, no hypothesis evaluated. H1 and H2 remain unscoreable while D-MPE10-01 and D-MPE10-02 are open, and result_quoting_guard_while_blocked stops any working-memory figure being quoted as their evidence. G2's evidence is closed out and G2 does not pass -- see experiments/MP-E8/decision.md -- and this registration does not imply otherwise about G3. G3 step 2 run: the registered k grid was swept at tier 40 as calibration (0.237s, artifact ksweep_tier40_calibration.json) and it found three properties of the sealed organ that were never registered -- D-MPE10-06, -07, -08. Still nothing scored; tiers 120 and 300 deliberately unrun until those are settled. PI rulings recorded 2026-11-04 in pi_decisions: D-MPE10-01 (H1's denominator is the five stages the instrument reports, the harder reading), -06 (k bounds the trace, not the store), -07 (k=1 excluded from the scored grid, docstring corrected, behaviour untouched), -08 (predecessor map stays; artifacts must name their read direction). D-MPE10-02, -03, -04, -05 remain OPEN and stated as open, so still nothing is scored and no tier has been run.",
   "stopping_rules": [
     "any C-condition fires: stop, report, do not re-run the same configuration and call the second run independent",
     "a threshold is found to be unscoreable after a run: record it as a defect, do not move it"
@@ -1515,5 +1550,71 @@
       "summary": ".......................                                                  [100%] | 23 passed in 0.19s"
     },
     "tests_in": "tests/test_mp_e10_working_memory.py"
-  }
+  },
+  "pi_decisions": {
+    "decided_at": "2026-11-04T07:41:19Z",
+    "decided_by": "PI",
+    "recorded_by": "agent, on PI instruction, in the same session as the measurement",
+    "on": "Four of MP-E10's eight open decisions, ruled after the tier-40 calibration sweep measured what the sealed organ does. The other four stay open below and are stated as open.",
+    "how_each_ruling_was_reached": "Every ruling cites a measurement from experiments/MP-E10/results/ksweep_tier40_calibration.json or a line of the instrument it replaces a claim about. None cites a preference.",
+    "rulings": {
+      "D-MPE10-01_H1_denominator": {
+        "ruled": "H1's denominator is the FIVE pipeline stages stage_of() actually reports: gating, mouth, recall, recall_untraced, shape_arbiter. The plan's word 'four' is a v1.0 term that the v1.1 body never restates, so it is not a count of anything in this repository. 'Improve on at least two, none regressing' is unchanged.",
+        "reasoning": "Picking four of the five stages would be choosing a denominator to suit a numerator -- the exact failure this ledger has been built to refuse, since the denominator decides which arm looks improved. The plan cannot settle it either: 6.3 says 'the four mouth-stage evaluations' as a term, and the v1.1 body does not enumerate them. The instrument is the only thing here that actually counts, and it counts five.",
+        "tie_break_stated_for_future_cases": "Where the plan and the instrument disagree and the choice affects the claim, take the reading that is HARDER to pass.",
+        "effect_on_the_bar": "This RAISES the bar, not lowers it: two improvements and zero regressions must now hold across five stages instead of four, so a stage that would have been outside the denominator can now be the one that fails H1. Recorded explicitly because a denominator change that goes the other way would be indistinguishable from shopping.",
+        "residual_caveat_kept_visible": "One of the five, recall_untraced, is a DEFAULT rather than a measurement -- heldout_eval's own comment says silence with no reason string 'carries no evidence either way'. It is inside the denominator because the instrument reports it as a stage, and an arm that regresses there is a real regression in what the system can explain; but H1's per-stage table must print it as untraced rather than let it read as a measurement.",
+        "what_it_unblocks": "H1 is now scoreable in principle. H2 is not -- see D-MPE10-02 below.",
+        "classes_excluded_and_why": {
+          "engine_error": "a crash kept as turn['error'] -- a failure class, not a stage",
+          "harness-bug": "UNGRADED -- a failure class, not a stage",
+          "other": "NOT an error class and NOT a stage: the catch-all for a spoken reply whose source matches neither mouth nor arbiter. Excluded from the denominator of five because it is not one of the ladder's positions, but it is NOT ignorable -- if a scored run has any mass in `other`, the five-stage denominator does not cover that run's output and H1's table must say so rather than divide by five anyway."
+        },
+        "correction_made_when_recording": "An earlier draft of this ruling put `other` with the two failure classes. Corrected before the ledger was committed: `other` is an unclassified spoken reply, so excluding it is a judgement about the ladder's shape, and it has to be visible as one."
+      },
+      "D-MPE10-06_k_and_the_fast_weight_store": {
+        "ruled": "k bounds the ACTIVATION TRACE only. The fast-weight store is unbounded until clear(), and that is the design, not a defect. Every MP-E10 artifact reports ||w||_F against tokens pushed as its own quantity.",
+        "reasoning": "The plan describes two objects -- 'a decayed activation trace over the last k tokens' and 'a fast-weight state computed by spread' -- and the module implements exactly that. The sweep found ||w||_F identical at k=2, k=8 and k=22 over a 64-token stream, which is not a bug in the second object; it is the first object's bound failing to be read as the second one's. What was wrong was the description: 'capacity k' was being used as though it named the whole organ.",
+        "what_was_NOT_done": "The organ was not edited. Bounding the store by k would be a different machine, and the ruling is about what to REPORT, not what to build.",
+        "if_the_PI_later_wants_k_to_bound_the_store": "That is an organ change: re-seal and re-sweep. The sweep costs 0.237s at tier 40, so the cheap re-run is never the reason not to revisit it."
+      },
+      "D-MPE10-07_k_equals_1": {
+        "ruled": "k=1 is registered as DEGENERATE and EXCLUDED from the grid used to score a run, by dated amendment experiments/MP-E10/results/ksweep_tier40_calibration.json. Excluded, not deleted: it stays in the registered grid and its diagonal mass keeps being printed, because the diagonal mass is the instrument that shows why it is degenerate.",
+        "reasoning": "At k=1, (head-1) % k == head, so prev aliases the slot push() is about to overwrite and the 'pair' stored is outer(v, v) -- self-links. Measured: diagonal mass 3.679 at k=1 against -0.039 (zero) at every other k. A grid whose baseline point is a different object from the rest of the grid cannot be interpolated or compared, but deleting the point would destroy the evidence for the exclusion.",
+        "docstring_corrected": "tools/mp_e10_working_memory.py claimed self-links are 'excluded by construction'. At k=1 that is false, and a false claim in a sealed instrument is its own defect. The claim was corrected; the behaviour was not touched. A docstring fix is not a behaviour change, so the re-seal is bookkeeping and the only re-run is the 0.237s sweep -- nothing else.",
+        "behaviour_unchanged_proof": "tests/test_mp_e10_working_memory.py: 23 passed in 0.17s after the edit (0.16s before)."
+      },
+      "D-MPE10-08_read_direction": {
+        "ruled": "The organ is not transposed. Every MP-E10 artifact must NAME WHICH DIRECTION it read -- the token probed and the token recovered -- and no figure may be reported as a bare 'alignment'. If a scored run requires the successor map, that is a registered organ change with its own design step.",
+        "reasoning": "The mouth produces, which needs the successor direction; outer(post, pre) supplies the predecessor direction (measured 0.982 later-recovers-earlier against 0.056 earlier-recovers-later). Silently transposing the store would change what every previous measurement means, and it is the same class of move as quietly absorbing the sim_floor cells or the nearness bug: a fix that is really a redesign has to be seen to be a redesign.",
+        "discipline_precedent": "MP-E8's nearness bug was measured, costed and ruled before it was fixed; the sim_floor cells were named rather than tolerated. This ruling keeps that shape."
+      }
+    },
+    "decisions_left_open": {
+      "D-MPE10-02_name_the_fluency_scalar": "OPEN, and it is the binding one: H2 says 'fluency improves' with no measure, so H2 cannot be scored and the gate's go_if 'H1-H4 hold' cannot be evaluated. Naming the denominator for H1 does not name a scalar for H2.",
+      "D-MPE10-03_confirm_primary_routing_variant": "OPEN. Variant (ii) carve/allowed_pools stays registered primary on the plan's own words; confirm or swap before the first scored run.",
+      "D-MPE10-04_interference_margin": "OPEN. The 5.0 pp derived from MP-E8's retention margin stands as registered but unconfirmed; no replay is scored until the PI sets it.",
+      "D-MPE10-05_G2_is_not_closed": "OPEN, and it is not the agent's to close: G2's evidence is complete and G2 does not pass, so whether MP-E10 runs before G2 closes is the PI's call. The plan's ordering says the duel precedes the mouth."
+    },
+    "what_these_rulings_do_and_do_not_authorise": {
+      "authorised": "Instrument preparation: the denominator is fixed, the organ's two objects are described correctly, the scored grid excludes k=1, and every artifact must declare its read direction.",
+      "NOT_authorised": "No scored MP-E10 run. D-MPE10-02 leaves H2 without a measure, D-MPE10-04 leaves the interference margin unconfirmed, and D-MPE10-05 leaves the question of running inside an open G2. Tiers 120 and 300 remain unrun by choice."
+    }
+  },
+  "read_direction_discipline": {
+    "ruled_by": "PI ruling D-MPE10-08, 2026-11-04",
+    "rule": "No MP-E10 artifact may report a read() figure without naming the token probed and the token recovered. The store is a predecessor map (measured 0.982 later-recovers-earlier, 0.056 earlier-recovers-later); the mouth needs the successor direction, and transposing the organ to supply it is a registered organ change with its own design step, not a silent fix.",
+    "applies_to": "every artifact this experiment or a later one writes from tools/mp_e10_working_memory.py"
+  },
+  "registration_amendments": [
+    {
+      "id": "AMD-MPE10-01",
+      "date": "2026-11-04T07:41:19Z",
+      "amends": "k_sweep.grid_tokens / the grid a scored run iterates over",
+      "change": "k=1 registered as degenerate and excluded from the scored grid. grid_tokens is unchanged and still contains 1; grid_scored_tokens is introduced and does not.",
+      "evidence": "experiments/MP-E10/results/ksweep_tier40_calibration.json -- w_diagonal_mass_mean 3.679 at k=1 against -0.039 at every other k, measured on the tier-40 curriculum (sha 4b2ae5fa), 53 utterances, 7 k values, 0.237s",
+      "on_PI_ruling": "D-MPE10-07",
+      "additive": "no registered value was deleted or rewritten; a field was added and one value annotated"
+    }
+  ]
 }

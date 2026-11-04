@@ -30,6 +30,21 @@ here on THIS module's own state; the house's weights are not read, touched or re
 k is a constructor argument and MP-E10 registers the sweep [1, 2, 4, 8, 14, 16, 22] against the
 longest taught utterance (14 tokens) -- see k_sweep in the registration. Nothing in this file picks
 a k: that is the experiment's measurement, and the grid was registered before any treatment.
+
+WHAT k BOUNDS, AND WHAT IT DOES NOT (PI ruling D-MPE10-06, 2026-08-10). The plan describes two
+objects -- "a decayed activation trace over the last k tokens" and "a fast-weight state computed by
+spread" -- and this module implements exactly that: `k` bounds the RING (`self.ring`, `self.age`),
+never the associative store. `self.w` accumulates every adjacent pair pushed since construction or
+`clear()`, and its Frobenius norm grows with tokens pushed, not with k -- measured identical at
+k=2, k=8 and k=22 over a 64-token stream. That is a property of the design, not a defect: every
+MP-E10 artifact reports ||w||_F against tokens pushed as its own quantity rather than folding it
+into a capacity claim.
+
+k=1 IS DEGENERATE AND EXCLUDED FROM THE SCORED GRID (D-MPE10-07, same date). At k=1,
+`(head-1) % k == head`, so `prev` aliases the slot `push()` is about to overwrite and the "pair"
+recorded is outer(v, v). Measured diagonal mass 3.679 at k=1 against -0.039 (zero) at every other k.
+The value stays in the registered grid and keeps being printed, because the diagonal mass is the
+detector; it is excluded from any grid used to score a run.
 """
 from __future__ import annotations
 
@@ -105,9 +120,23 @@ class DecayedTrace:
         """Spread a probe through the fast-weight state -- rows it touches, summed.
 
         Same gather-not-gemv shape as the house's `_spread()`: the probe is sparse, so the touched
-        rows are read directly. Self-links are excluded by construction here (the state is
-        asymmetric, outer(post, pre)), which is the point: an asymmetric state is what carries
-        ORDER, and a symmetric one cannot (see organs/sequence_organ.py's design note).
+        rows are read directly. An asymmetric state is what carries ORDER, and a symmetric one
+        cannot (see organs/sequence_organ.py's design note).
+
+        WHICH WAY IT READS, named because a bare "alignment" figure is not enough (PI ruling
+        D-MPE10-08, 2026-08-10). The state is outer(post, pre), so a link maps a token to the token
+        that PRECEDED it: this is a PREDECESSOR map. Probing the later token returns the earlier one
+        strongly; probing the earlier token does not return the later one -- measured 0.982 against
+        0.056 on the tier-40 calibration sweep. Producing the NEXT word needs the successor
+        transpose, and supplying it is a registered organ change with its own design step, not
+        something this method may quietly become.
+
+        SELF-LINKS are excluded for k >= 2, since a link is always outer(v_i, v_{i-1}) with distinct
+        i. They are NOT excluded at k = 1: there `(head-1) % k == head`, so `prev` is a view of the
+        slot push() has just overwritten and the link recorded is outer(v, v). Measured diagonal
+        mass 3.679 at k=1 against -0.039 (zero) at every other k. An earlier revision of this
+        docstring claimed exclusion "by construction", which that measurement shows to be false; the
+        behaviour was left as it is and the claim is what was corrected (D-MPE10-07, 2026-08-10).
         """
         p = np.asarray(probe, dtype=np.float32).reshape(-1)
         idx = np.nonzero(p)[0]

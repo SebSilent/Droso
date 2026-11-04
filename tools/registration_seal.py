@@ -332,6 +332,11 @@ DEFAULT_MANIFEST = [
     # the same: three findings about the sealed module came out of it, and a record that changes what the
     # next experiment should do is exactly the kind of thing that must not be editable after the fact.
     "experiments/MP-E10/results/ksweep_tier40_calibration.json",
+    # The re-run PI ruling D-MPE10-07 asked for, after the module's docstring was corrected. Both files are
+    # sealed: the original records the bytes the claim was wrong about, this one records the sweep against
+    # the corrected file, and the two sets of numbers being identical IS the proof that a docstring edit
+    # changed no behaviour. Supersession by reference, the way AMD-MPE8-17 handled the suite manifests.
+    "experiments/MP-E10/results/ksweep_tier40_calibration_post_rulings.json",
 ]
 
 

@@ -1,0 +1,343 @@
+{
+  "experiment": "MP-E10",
+  "artifact": "ksweep_tier40_calibration",
+  "schema": 2,
+  "kind": "ORGAN CHARACTERISATION. Not a scored run, not a hypothesis verdict. No curriculum session was taught to any arm, no bench was run, no tier-120 or tier-300 number appears.",
+  "generated_at_utc": "2026-11-04T07:44:32Z",
+  "this_is_a_re_run_of": "experiments/MP-E10/results/ksweep_tier40_calibration.json",
+  "why_a_re_run_instead_of_an_edit": "The original artifact is sealed and records the bytes the module had when the sweep was first run. PI ruling D-MPE10-07 corrected that module's docstring, which changes the file's hash but not its behaviour, so the ruling's instruction is to re-seal and re-run the sweep and nothing else. The original stays published, unmodified, under the seal; this file is the run against the corrected bytes.",
+  "quoting_guard_attached": {
+    "rule_source": "experiments/MP-E10/registration.json -> result_quoting_guard_while_blocked",
+    "open_decisions_at_generation": [
+      "D-MPE10-01_name_the_four_mouth_stages",
+      "D-MPE10-02_name_the_fluency_scalar",
+      "D-MPE10-03_confirm_primary_routing_variant",
+      "D-MPE10-04_interference_margin",
+      "D-MPE10-05_G2_is_not_closed",
+      "D-MPE10-06_k_does_not_bound_the_fast_weight_store",
+      "D-MPE10-07_k1_in_the_registered_grid_measures_self_links",
+      "D-MPE10-08_predecessor_or_successor_links"
+    ],
+    "still_blocking_a_scored_run_after_the_rulings": {
+      "D-MPE10-02": "H2 has no scalar; the guard binds on H2 regardless of what H1 can now do",
+      "D-MPE10-04": "the interference margin is registered but unconfirmed",
+      "D-MPE10-05": "G2 is open, and whether MP-E10 runs inside it is the PI's call"
+    },
+    "meaning": "No figure in this file may be quoted as evidence for or against H1 or H2. The rulings changed that in one direction only: H1 now has a denominator (the five stages stage_of() reports, the HARDER reading), so an H1 number would at least be a number rather than an ambiguity. H2 still has no measure, so the gate's go_if 'H1-H4 hold' cannot be evaluated, and this sweep says what the organ is, not how well Droso does."
+  },
+  "rulings_this_run_is_made_under": {
+    "D-MPE10-01": "H1's denominator is the five pipeline stages the instrument reports (gating, mouth, recall, recall_untraced, shape_arbiter), not four chosen from them. Tie-break on the record: where plan and instrument disagree and it affects the claim, take the harder reading.",
+    "D-MPE10-06": "k bounds the activation trace only; ||w||_F against tokens pushed is reported as its own quantity -- see findings_about_the_sealed_organ.1, which now carries the curve at 8/16/32/64 tokens rather than a single number.",
+    "D-MPE10-07": "k=1 is excluded from the scored grid (grid_scored_tokens) and still printed here with its diagonal mass, because the mass is the evidence for the exclusion. Each row carries in_scored_grid.",
+    "D-MPE10-08": "The store is a predecessor map and is not transposed. Each row carries read_direction_declared; no figure in this file is called a bare 'alignment'."
+  },
+  "input": {
+    "curriculum": "experiments/MP-E8/curriculum_tier40.json",
+    "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
+    "n_items": 40,
+    "utterances_parsed": 53,
+    "by_kind": {
+      "qa_answer": 16,
+      "qa_question": 16,
+      "tell_frame": 21
+    },
+    "tokens_per_utterance": {
+      "min": 3,
+      "max": 6,
+      "mean": 4.679
+    },
+    "why_this_is_the_calibration_tier": "Tier 40 is the only tier whose regime matches MP-E9's sealed baseline, and 40->120 is confounded by the regime break in MP-E8's confounds, so nothing here is a curve point."
+  },
+  "token_vectors_are_a_stand_in": "Deterministic sha256-seeded unit vectors, dim 64. Every figure is a property of the trace, not of Droso's SAN. To make it a property of Droso the same sweep must run over the organ's real projections.",
+  "registered_grid": [
+    1,
+    2,
+    4,
+    8,
+    14,
+    16,
+    22
+  ],
+  "sweep": [
+    {
+      "k": 1,
+      "in_scored_grid": false,
+      "exclusion_reason_if_not": "k=1 is degenerate (self-links, diagonal mass nonzero) -- excluded from the scored grid by AMD-MPE10-01 on PI ruling D-MPE10-07, printed here because the diagonal mass is the evidence",
+      "read_direction_declared": "probe_earlier_recovers_later = probe an EARLIER token, see what comes back on the LATER side; probe_later_recovers_earlier = probe a LATER token, recover the EARLIER one. Named per PI ruling D-MPE10-08: no read() figure may be reported as a bare 'alignment', because the store is a predecessor map and the two columns are 0.056 and 0.982.",
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 1.0,
+      "oldest_weight_measured_mean": 1.0,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 0,
+      "utterances_fully_held_pct": 0.0,
+      "tokens_dropped_beyond_window": 195,
+      "state_norm_mean": 1.0,
+      "probe_earlier_recovers_later_cosine_mean": -0.022588,
+      "probe_later_recovers_earlier_cosine_mean": -0.017912,
+      "direction_asymmetry_pp": 0.4676,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": 3.679245,
+      "w_frobenius_norm_mean": 1.953747,
+      "order_separation_vs_reversed_utterance_mean": 1.018078,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 2,
+      "in_scored_grid": true,
+      "exclusion_reason_if_not": null,
+      "read_direction_declared": "probe_earlier_recovers_later = probe an EARLIER token, see what comes back on the LATER side; probe_later_recovers_earlier = probe a LATER token, recover the EARLIER one. Named per PI ruling D-MPE10-08: no read() figure may be reported as a bare 'alignment', because the store is a predecessor map and the two columns are 0.056 and 0.982.",
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.5,
+      "oldest_weight_measured_mean": 0.5,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 0,
+      "utterances_fully_held_pct": 0.0,
+      "tokens_dropped_beyond_window": 142,
+      "state_norm_mean": 1.105221,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.805563,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 4,
+      "in_scored_grid": true,
+      "exclusion_reason_if_not": null,
+      "read_direction_declared": "probe_earlier_recovers_later = probe an EARLIER token, see what comes back on the LATER side; probe_later_recovers_earlier = probe a LATER token, recover the EARLIER one. Named per PI ruling D-MPE10-08: no read() figure may be reported as a bare 'alignment', because the store is a predecessor map and the two columns are 0.056 and 0.982.",
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.125,
+      "oldest_weight_measured_mean": 0.127358,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 18,
+      "utterances_fully_held_pct": 33.96,
+      "tokens_dropped_beyond_window": 37,
+      "state_norm_mean": 1.133097,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.62513,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 8,
+      "in_scored_grid": true,
+      "exclusion_reason_if_not": null,
+      "read_direction_declared": "probe_earlier_recovers_later = probe an EARLIER token, see what comes back on the LATER side; probe_later_recovers_earlier = probe a LATER token, recover the EARLIER one. Named per PI ruling D-MPE10-08: no read() figure may be reported as a bare 'alignment', because the store is a predecessor map and the two columns are 0.056 and 0.982.",
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.0078125,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 14,
+      "in_scored_grid": true,
+      "exclusion_reason_if_not": null,
+      "read_direction_declared": "probe_earlier_recovers_later = probe an EARLIER token, see what comes back on the LATER side; probe_later_recovers_earlier = probe a LATER token, recover the EARLIER one. Named per PI ruling D-MPE10-08: no read() figure may be reported as a bare 'alignment', because the store is a predecessor map and the two columns are 0.056 and 0.982.",
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.00012207,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 16,
+      "in_scored_grid": true,
+      "exclusion_reason_if_not": null,
+      "read_direction_declared": "probe_earlier_recovers_later = probe an EARLIER token, see what comes back on the LATER side; probe_later_recovers_earlier = probe a LATER token, recover the EARLIER one. Named per PI ruling D-MPE10-08: no read() figure may be reported as a bare 'alignment', because the store is a predecessor map and the two columns are 0.056 and 0.982.",
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 3.052e-05,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 22,
+      "in_scored_grid": true,
+      "exclusion_reason_if_not": null,
+      "read_direction_declared": "probe_earlier_recovers_later = probe an EARLIER token, see what comes back on the LATER side; probe_later_recovers_earlier = probe a LATER token, recover the EARLIER one. Named per PI ruling D-MPE10-08: no read() figure may be reported as a bare 'alignment', because the store is a predecessor map and the two columns are 0.056 and 0.982.",
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 4.8e-07,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    }
+  ],
+  "findings_about_the_sealed_organ": {
+    "naming_note": "The first run of this sweep called these `defects_found_by_this_sweep`. The PI's rulings reclassified two of the three: -06 is a wrong DESCRIPTION, not a wrong machine, and -07 is a wrong DOCSTRING, not a wrong behaviour. -08 stays a design question that was answered by refusing to change the design. So the block is renamed, and the old name is kept in the sealed original, which is where the word was written in good faith.",
+    "summary": "Three properties of the sealed organ, each measured rather than argued, each now ruled on (D-MPE10-06, -07, -08). None is fixed in this run: the organ's behaviour is untouched, and the only code change since the first sweep is a docstring.",
+    "1_fast_weight_store_is_not_bounded_by_k": {
+      "question": "Is the associative store bounded by k, or does it accumulate every adjacency ever pushed until clear()?",
+      "same_stream_64_tokens_at_four_values_of_k": [
+        {
+          "k": 1,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 1,
+          "n_pushed": 64,
+          "w_frobenius_norm_vs_tokens_pushed": {
+            "8": 2.7547,
+            "16": 4.2767,
+            "32": 6.7745,
+            "64": 11.2213
+          },
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        },
+        {
+          "k": 2,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 2,
+          "n_pushed": 64,
+          "w_frobenius_norm_vs_tokens_pushed": {
+            "8": 2.6182,
+            "16": 3.8376,
+            "32": 5.477,
+            "64": 7.824
+          },
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        },
+        {
+          "k": 8,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 8,
+          "n_pushed": 64,
+          "w_frobenius_norm_vs_tokens_pushed": {
+            "8": 2.6182,
+            "16": 3.8376,
+            "32": 5.477,
+            "64": 7.824
+          },
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        },
+        {
+          "k": 22,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 22,
+          "n_pushed": 64,
+          "w_frobenius_norm_vs_tokens_pushed": {
+            "8": 2.6182,
+            "16": 3.8376,
+            "32": 5.477,
+            "64": 7.824
+          },
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        }
+      ],
+      "answer_as_measured": "The ring is bounded -- slots in use never exceeds k -- but ||w||_F is the same at k=2, k=8 and k=22 at every checkpoint and grows with the NUMBER OF TOKENS PUSHED, not with k. The fast-weight state has no capacity limit tied to k: it holds every adjacent pair the organ has ever seen until a restart.",
+      "status_after_ruling": "RULED, D-MPE10-06 (2026-08-10): this is the design, not a defect -- the plan describes two objects and the module implements two. k bounds the activation trace only. The obligation the ruling creates is the one this probe now satisfies: ||w||_F against tokens pushed is reported as its own quantity in every MP-E10 artifact, so 'capacity k' can never be read as a claim about the whole organ.",
+      "why_this_matters_for_the_registered_hypotheses": "MP-E10's k is registered as the capacity of a working memory. If the associative store is unbounded, a 'capacity-k' arm is not a capacity-k arm, and H1/H2 would be scored against a treatment that does not match its name. This is a design question for the PI, not a tolerance to widen."
+    },
+    "2_registered_grid_point_k1_degenerates_to_self_links": {
+      "question": "The module's docstring says self-links are excluded by construction, because the state is outer(post, pre). Is that true at k=1?",
+      "mechanism": "push() takes `prev = self.ring[(head-1) % k]` -- a numpy VIEW -- and then writes `self.ring[head] = v`. At k=1, (head-1) % 1 == head, so prev aliases the slot being overwritten and is the NEW vector by the time outer(v, prev) is evaluated. The 'pair' recorded at k=1 is outer(v_i, v_i), a self-link.",
+      "measured": {
+        "1": {
+          "w_equals_sum_of_self_links": true,
+          "w_equals_sum_of_adjacent_pair_links": false,
+          "diagonal_mass": 5.0,
+          "offdiag_frobenius": 2.1396
+        },
+        "2": {
+          "w_equals_sum_of_self_links": false,
+          "w_equals_sum_of_adjacent_pair_links": true,
+          "diagonal_mass": -0.3827,
+          "offdiag_frobenius": 2.229
+        },
+        "3": {
+          "w_equals_sum_of_self_links": false,
+          "w_equals_sum_of_adjacent_pair_links": true,
+          "diagonal_mass": -0.3827,
+          "offdiag_frobenius": 2.229
+        }
+      },
+      "answer_as_measured": "No. At k=1 the state is exactly the sum of self-links and its diagonal mass is nonzero, while at k=2 and k=3 the diagonal mass is 0.0 and the state is the sum of adjacent pair-links. k=1 is the FIRST POINT OF THE REGISTERED GRID, so the grid's baseline is not a smaller version of the other points -- it is a different object.",
+      "what_was_NOT_done_about_it": "The module was not edited. It is a sealed instrument, hashed in every registration's harness_hashes, and a fix that changes what k=1 means is a design change, not a typo repair. It is registered as an open decision for the PI.",
+      "status_after_ruling": "RULED, D-MPE10-07 (2026-08-10): k=1 is excluded from the SCORED grid by AMD-MPE10-01 -- excluded, not deleted, which is why this row is still printed and its diagonal mass is still the detector. The module's docstring claim that self-links are excluded by construction was corrected; the behaviour was not, and the 23 module tests pass unchanged in 0.17s, which is what makes the correction demonstrably a docstring edit rather than a silent redesign."
+    },
+    "3_the_store_is_a_predecessor_map_not_a_successor_map": {
+      "question": "outer(post, pre) maps which way? A next-token predictor needs the forward link.",
+      "measured": {
+        "probe_the_earlier_token_recovers_the_later_cosine": -0.015555,
+        "probe_the_later_token_recovers_the_earlier_cosine": 0.98591
+      },
+      "answer_as_measured": "The store is a PREDECESSOR map: probing the later token returns the earlier one strongly, probing the earlier token does not return the later one. That is a coherent object, but it is the transpose of what a language-model working memory is normally asked to supply, and the registration does not say which one H1/H2 assume.",
+      "status_after_ruling": "RULED, D-MPE10-08 (2026-08-10): the organ is NOT transposed. Every MP-E10 artifact must name which direction it read -- the token probed and the token recovered -- and if a scored run needs the successor map, that is a registered organ change with its own design step, on the precedent of the sim_floor cells and MP-E8's nearness bug rather than as a quiet fix."
+    }
+  },
+  "reading": {
+    "what_to_look_for": "utterances_fully_held_pct rises with k and saturates at the longest utterance (7 tokens), which is the only genuinely k-dependent capacity number in the table; w_diagonal_mass_mean is the detector for the k=1 degeneracy; direction_asymmetry_pp is the point of the organ -- a link that does not run backwards, which a bag of words cannot have at all.",
+    "bag_of_words_order_separation_mean_is_zero_by_construction": "unigram_context is a mean over tokens, so an utterance and its reverse give the identical vector. That is the thing being replaced, measured.",
+    "what_is_NOT_established": "No claim that this organ helps a language model. The alignment columns say the trace has directional links; whether those links improve anything is H1/H2 territory and is blocked by the two open decisions."
+  },
+  "provenance": {
+    "module": "tools/mp_e10_working_memory.py",
+    "driver": "_tmp/mp_e10_ksweep_t40.py",
+    "git_head": "890af883a2e52a8fab11b7636354deaf09bbe741",
+    "python": "3.12.10",
+    "numpy": "2.5.4",
+    "decay_per_step": 0.5,
+    "dim": 64,
+    "wall_seconds": 0.255
+  }
+}
