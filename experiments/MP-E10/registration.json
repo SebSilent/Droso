@@ -2116,7 +2116,8 @@
       "route_1": "give run_generation a curriculum input so tier-300 material can be taught through the selection pipeline and the battery graded on the resulting journal. New pipeline input.",
       "route_2": "add the four probes to the tier-300 curriculum manifest. Changes curriculum_sha256, the identity every sealed tier-300 artifact is keyed to, breaking the comparison the verdict is computed against.",
       "status": "OPEN -- a design step for the PI, not an implementation choice for the agent",
-      "the_fact": "the four R6 guarded probes cannot be scored on the tier-300 run by any instrument on this machine. They are turns inside selection scripts (tools/scripts_selection.json), graded only by tools/mp_e9_battery.py from a run_generation journal. The tier-300 run is the learn bench: its rows carry no probe field and no pass field, it writes no journal, its curriculum contains none of the four asks, and run_generation's --tier means frozen/probe/open -- a battery axis, not a curriculum axis."
+      "the_fact": "the four R6 guarded probes cannot be scored on the tier-300 run by any instrument on this machine. They are turns inside selection scripts (tools/scripts_selection.json), graded only by tools/mp_e9_battery.py from a run_generation journal. The tier-300 run is the learn bench: its rows carry no probe field and no pass field, it writes no journal, its curriculum contains none of the four asks, and run_generation's --tier means frozen/probe/open -- a battery axis, not a curriculum axis.",
+      "brief_reference": "docs/mp_e10_pi_decision_brief_consolidated.md:127"
     },
     "D-MPE10-10_which_phase_is_h3s_registered_basis": {
       "agent_recommendation": "option 3 for the record and option 1 for the scored quantity: report the pair, score the restarted phase, because that is the phase the hypothesis names.",
@@ -2234,7 +2235,8 @@
           ]
         }
       },
-      "why_it_matters": "H3 is a claim about retention ACROSS A RESTART, which points at `restarted`; the interference interval has so far been computed on `live`. If the registered basis is `restarted`, every interference figure quoted to date was computed on the wrong phase -- harmlessly at tier 120 and at 0.0000 pp either way, but not harmlessly at a tier where the phases differ."
+      "why_it_matters": "H3 is a claim about retention ACROSS A RESTART, which points at `restarted`; the interference interval has so far been computed on `live`. If the registered basis is `restarted`, every interference figure quoted to date was computed on the wrong phase -- harmlessly at tier 120 and at 0.0000 pp either way, but not harmlessly at a tier where the phases differ.",
+      "brief_reference": "docs/mp_e10_pi_decision_brief_consolidated.md:107"
     },
     "D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run": {
       "agent_recommendation": "option 2 before any of the others. The breach is measured and constant, so option 1 is defensible, but 100 invented rows at the tier that exists to demonstrate capacity is the kind of number that gets quoted out of context by the end of the week, and nothing on this machine says yet WHAT they are.",
@@ -2252,8 +2254,107 @@
       },
       "status": "OPEN -- the agent does not decide admissibility of its own evidence",
       "the_fact": "tier 300 breaches the invention floor in all three runs on disk, control included. The floor is the one thing this program's safety claim rests on: a house may not say a sentence nobody said. At tier 300 it does -- 100 of 9,414 graded asks (1.06%) with the flag off, 92 (0.98%) with it on, 91 (0.97%) in MP-E8's sealed baseline -- in every run, whether or not replay is on.",
-      "why_it_matters": "MP-E10's tier-300 verdicts are H1/H2/H3 statements about retention and interference. If a tier cannot hold the refusal contract, evidence taken at it may not be admissible for a claim about what the house KNOWS -- and tier 300 is where the capacity headroom was supposed to be demonstrated, not where a known defect was supposed to live."
-    }
+      "why_it_matters": "MP-E10's tier-300 verdicts are H1/H2/H3 statements about retention and interference. If a tier cannot hold the refusal contract, evidence taken at it may not be admissible for a claim about what the house KNOWS -- and tier 300 is where the capacity headroom was supposed to be demonstrated, not where a known defect was supposed to live.",
+      "brief_reference": "docs/mp_e10_pi_decision_brief_consolidated.md:79"
+    },
+    "D-MPE10-12_h3_saturation_guard_voids_its_own_tier": {
+      "status": "OPEN -- a ruling on the registered guard, not an implementation choice. The agent does not decide whether its own pre-registered void condition may be worked around.",
+      "asked_at": "2026-11-04T21:09:05Z",
+      "asked_by": "agent",
+      "created_by": "AMD-MPE10-11, which also retired the colliding renumber proposal",
+      "why_it_was_unnumbered": "docs/mp_e10_pi_decision_brief_consolidated.md:40 carries the item and :54 states plainly that it 'is not yet a ledger decision entry'. An item that gates G3 with no key cannot be ruled on, tracked or closed -- only re-derived every session. This entry fixes that without adding any measurement.",
+      "the_fact": "H3's registered tier is 300. At tier 300 the pre-registered saturation guard FIRED, and the guard's own wording makes a ceiling-limited configuration VOID for H3 -- not merely flagged. So H3 currently has no scoreable number at the tier it is registered for, while the measured interference is 0.0000 pp at every depth.",
+      "measured_facts_from_the_verdict_artifact": {
+        "source": "experiments/MP-E10/results/replay_tier300_summary.json -> per_pass_ceiling_guard",
+        "ceiling": 4.0,
+        "gain_used": 0.35,
+        "depth_1": {
+          "void_for_H3": false,
+          "passes_run_of_registered": "2/2",
+          "pairs_on_tape": 13878,
+          "pairs_advanced": 13878,
+          "entries_at_ceiling_before": 0,
+          "pushed_to_ceiling_this_pass": 0,
+          "predicted_max_accumulation": 0.7,
+          "reason": "no entry reached the ceiling"
+        },
+        "depth_2": {
+          "void_for_H3": true,
+          "passes_run_of_registered": "1/2",
+          "entries_at_ceiling_before": 0,
+          "pushed_to_ceiling_this_pass": 72,
+          "predicted_max_accumulation": 0.35,
+          "reason": "an entry reached the ceiling during a replay pass; SUCCESSOR_FLOOR and SUCCESSOR_MARGIN are absolute gates, so the readout cannot be trusted"
+        },
+        "depth_3": {
+          "void_for_H3": true,
+          "passes_run_of_registered": "1/2",
+          "entries_at_ceiling_before": 156,
+          "pushed_to_ceiling_this_pass": 252,
+          "predicted_max_accumulation": 0.35,
+          "reason": "an entry reached the ceiling during a replay pass; SUCCESSOR_FLOOR and SUCCESSOR_MARGIN are absolute gates, so the readout cannot be trusted"
+        },
+        "interference_measured_pp": {
+          "1": 0.0,
+          "2": 0.0,
+          "3": 0.0
+        },
+        "margin_applied_pp": 2.0,
+        "configurations_void_for_H3": [
+          "2",
+          "3"
+        ]
+      },
+      "what_the_registered_rule_currently_forbids": {
+        "rule_at": "pi_rulings_2026_08_10.D-MPE10-05.saturation_guard_pre_registered",
+        "operative_words": "'If ANY entry reaches the ceiling during a replay pass, that configuration is reported as CEILING-LIMITED and H3's interference number is VOID for it -- because SUCCESSOR_FLOOR 0.12 and SUCCESSOR_MARGIN 0.35 are ABSOLUTE gates that cannot survive a saturated store. The guard is a reporting rule, not a warning: a ceiling-limited run may not be scored.'",
+        "as_applied": "the 0.0000 pp interval may NOT be quoted as satisfying H3 at depths 2 and 3. The verdict artifact's own consequence_of_the_guard: 'An unchanged tally from a run whose gates are saturated is not a null result; it is a result that was not obtainable.'"
+      },
+      "options_and_costs": {
+        "1": {
+          "brief_ref": "docs/mp_e10_pi_decision_brief_consolidated.md:61",
+          "option": "re-run tier 300 with a replay gain or ceiling that keeps entries below 4.0 at depths 2 and 3",
+          "cost": "the only option that buys machine time: tier-300 arm A measured 53.65 min against a registered projection of 60.2 min, plus the replay passes at roughly 1.3 h+ serial per replay configuration. It is also an organ-parameter change against a pre-registered guard, so it needs a ruling BEFORE the run.",
+          "note": "depth 2 predicted max accumulation is 0.35 against a ceiling of 4.0, so the accumulation that saturated came from the teaching state, not from the replay gain alone."
+        },
+        "2": {
+          "brief_ref": "docs/mp_e10_pi_decision_brief_consolidated.md:64",
+          "option": "accept depth 1 only, and register explicitly that H3 at tier 300 is scored on a single depth",
+          "cost": "zero machine time. Wording."
+        },
+        "3": {
+          "brief_ref": "docs/mp_e10_pi_decision_brief_consolidated.md:66",
+          "option": "keep the guard and let H3 stand void at tier 300, reporting 0.0000 pp as unobtainable rather than as a pass",
+          "cost": "zero machine time. The strictest reading of the guard's own words."
+        },
+        "4": {
+          "brief_ref": "docs/mp_e10_pi_decision_brief_consolidated.md:68",
+          "option": "re-scope H3's registered tier to 120, where the guard does not fire",
+          "cost": "zero machine time, and it is a plan amendment rather than a ruling."
+        }
+      },
+      "consequence_if_neither": "H3 has no scoreable number at the tier H3 is registered for. G3's go_if is 'H1-H4 hold', so G3 cannot close while this is unruled, and the 0.0000 pp result -- the most favourable number this program has ever measured for interference -- cannot be quoted as a pass. It is not an adverse result being hidden; it is a result that the registered guard says was not obtainable.",
+      "what_it_gates": [
+        "G3 go_if = H1-H4 hold",
+        "H3 at tier 300",
+        "any decision to spend machine time on a non-saturating tier-300 replay configuration"
+      ],
+      "related_open_items": {
+        "D-MPE10-10_which_phase_is_h3s_registered_basis": "which phase triple is H3's basis is a separate unruled question; whichever way it goes, depths 2 and 3 stay void under this guard.",
+        "D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run": "admissibility of tier 300 at all is unruled, and would supersede this question if ruled as inadmissible.",
+        "D-MPE10-09_r6_guarded_battery_at_tier_300": "the R6 invariant cell is required and empty at tier 300; both this entry and that one mean H3's clause is incomplete there.",
+        "D-MPE10-04 condition 3": "the 2.0 pp margin applied here is derived from tier-40 noise; UNSPENT."
+      },
+      "no_new_measurement_in_this_entry": "every figure above is read from replay_tier300_summary.json, which was sealed before this pass. Nothing was re-run, re-timed or recomputed to write it.",
+      "brief_reference": "docs/mp_e10_pi_decision_brief_consolidated.md:40",
+      "supersedes_by_reference": {
+        "sentence": "docs/mp_e10_pi_decision_brief_consolidated.md:54 -- 'This item is not yet a ledger decision entry.'",
+        "status_of_that_sentence": "TRUE WHEN WRITTEN and now SUPERSEDED by this entry. The brief is a sealed artifact (in DEFAULT_MANIFEST since 9c32029) and is NOT edited: this program closes a gap by publishing beside the record that reported it and naming the reference, not by rewriting the sealed text (R5, same handling as experiments/G0-prime/decision.md).",
+        "what_changed": "the item now has a key, a status field, measured facts, options with costs and a named consequence -- so it can be ruled on, tracked and closed rather than re-derived each session.",
+        "where_to_find_the_queue": "pi_queue_2026_11_05 in this file"
+      }
+    },
+    "_brief_cross_reference": "Every item in this block, and every item waiting outside it, is laid out with options and machine-time costs in docs/mp_e10_pi_decision_brief_consolidated.md (sections A1-A5, B1-B4, C1-C3, D1-D2). The index with measured status strings is pi_queue_2026_11_05 in this file. Note that _brief_cross_reference is a POINTER, not a decision: keys in this block that are not numbered D-MPE10-nn are not decisions."
   },
   "open_suite": {
     "artifact": "experiments/MP-E8/results/suite_manifest_mpe10_open.json",
@@ -3284,7 +3385,7 @@
         "as_written": "edit DEFAULT_MANIFEST, re-stamp, THEN run the suite whose manifest you intend to seal.",
         "corrected_rule": "1) commit the tree the run will measure; 2) re-stamp so the seal is fresh at that commit and COMMIT THE STAMP; 3) run the suite ONCE to a new path; 4) commit the artifact; 5) add its path to DEFAULT_MANIFEST and re-stamp; 6) prove freshness by re-running the seal tests ALONE, never the whole suite again. The manifest is sealed after it is produced, not before.",
         "the_defect": "the rule seals a path BEFORE the artifact exists. tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous asserts in_index == total for every sealed path, and ::test_registration_head_contains_its_sealed_files asserts every sealed path is present in the registration's own git_head. A sealed-but-unproduced manifest fails both by construction, so the rule guarantees the run it mandates will report failures.",
-        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md \u00a77.'",
+        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md §7.'",
         "why_it_was_written": "to stop a run on an unstamped tree, which the seal tool's own comments record as producing an artifact that 'records a failure that is really a stamp'."
       },
       "what_was_NOT_done": "no test was edited, weakened or skipped to turn the run green; the suite was not run a second time to chase a total; the RED manifest is published at its own path and the earlier 1,333/0 record at 8b1e8d0 stays published (R5); no sealed number in this ledger moved."
@@ -3568,6 +3669,48 @@
         "key_now": "IMPORTED from tools/mp_e10_row_migration.py (learn_rows, key_uniqueness, ROW_KEY_MODES), not copied. One definition of a row identity in this program, so the two records cannot drift apart again. The private copy was deleted rather than left as a fallback, because a second definition later in the file would have shadowed the import and restored the collapsed key with no edit that looked like a key change.",
         "second_bug_found_and_fixed": "the overlap sets were built from mr['moved_keys'] on one side and from (depth, phase, ask) triples on the other. The keyfix artifacts record FIVE-field moved_keys, so intersecting a 5-tuple set against a 3-tuple set returns the empty set -- the closure would have published 'the two runs share no migrated row' as a finding, manufactured by a projection mismatch. Both sides now derive one canonical identity from moved_rows."
       }
+    },
+    {
+      "id": "AMD-MPE10-11",
+      "date": "2026-11-04T21:09:05Z",
+      "class": "a PROPOSAL withdrawn because its target identifier was already taken. The historical rows are not edited (R5); this entry is the correction, by reference.",
+      "withdraws": {
+        "path": "identifier_collision_recorded.amendment_proposal_2026_08_10.proposed",
+        "line_in_this_file_as_written": 1826,
+        "also_affects": [
+          "identifier_collision_recorded.amendment_proposal_2026_08_10.if_accepted (line 1825)",
+          "identifier_collision_recorded.amendment_proposal_2026_08_10.resolution_offered (line 1832)"
+        ],
+        "text_withdrawn": "'Renumber the G2-ORDERING question to D-MPE10-09 at the next amendment.' -- NOT APPLIED and now WITHDRAWN as written.",
+        "rows_left_intact": "the proposal's own text, the 2026-08-10 rulings and every quotation of 'D-MPE10-05' stay exactly as they are. Nothing here renumbers history."
+      },
+      "why_it_collides": {
+        "measured_occupied_decision_numbers": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "D-MPE10-09_is": "open_decisions_for_PI.D-MPE10-09_r6_guarded_battery_at_tier_300",
+        "D-MPE10-10_is": "open_decisions_for_PI.D-MPE10-10_which_phase_is_h3s_registered_basis",
+        "D-MPE10-11_is": "open_decisions_for_PI.D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run",
+        "note": "the proposal named a number that was occupied at the time it was WRITTEN, not one that became occupied later. -10 and -11 were added after it and are also unavailable now."
+      },
+      "retargeted_to": {
+        "decision_number": "D-MPE10-12",
+        "taken_by": "the saturation-guard entry created in this same pass, which is the item that gates G3 today. The guard got the free number because it is blocking; the renumber is a housekeeping proposal that was never applied.",
+        "next_free_after_this_pass": "D-MPE10-13",
+        "if_the_renumber_is_ever_accepted": "it targets the next free DECISION number measured AT THE MOMENT OF APPLYING IT, which after this amendment is D-MPE10-13. The number is not reserved by this entry."
+      },
+      "the_rule_this_registers": "A PROPOSED IDENTIFIER IS CHECKED AGAINST THE LIVE KEY SET BEFORE IT IS WRITTEN DOWN, NOT AFTER. Concretely: before any amendment, decision or artifact names a D-MPE / AMD-MPE identifier, enumerate the occupied set from the registration itself -- decision keys and amendment ids are SEPARATE namespaces and must be enumerated apart, which is why an earlier grep that matched only 'AMD-D-MPE10-' reported no amendment ids at all and would have hidden this collision rather than finding it. A number that is free in prose is not free until the key set says so.",
+      "amendment_id_also_checked": "this entry's own id was chosen the same way: AMD-MPE10-01 through -10 exist, so -11 is the next free AMENDMENT number, verified before writing."
     }
   ],
   "replay_gain_ruling": {
@@ -3671,5 +3814,385 @@
       "summary": ".......................                                                  [100%] | 23 passed in 0.19s"
     },
     "tests_in": "tests/test_mp_e10_working_memory.py"
+  },
+  "pi_queue_2026_11_05": {
+    "recorded_at": "2026-11-04T21:11:40Z",
+    "purpose": "the PI queue, readable from the record. docs/mp_e10_pi_decision_brief_consolidated.md is the reasoning and the costs; this block is the index. Every status string below is READ from the file named, not restated -- including the entries that have no status field at all.",
+    "how_to_read_it": "`has_status_field` false means the ledger entry is a bare string or a field-set that never declared a status. That is a property of the record worth knowing: a stale-status guard can only correct entries that declare one, so an entry without a status cannot be caught going stale. It is reported, not invented.",
+    "counts": {
+      "entries_in_open_decision_blocks": 34,
+      "with_a_status_field": 11,
+      "without_a_status_field_dict_entries": 5,
+      "without_a_status_field_bare_strings": 18,
+      "waiting_outside_decision_blocks": 4,
+      "markers_excluded": 3
+    },
+    "non_item_markers_in_decision_blocks": [
+      {
+        "ledger": "G0-prime",
+        "key": "_resolved",
+        "note": "not a PI item: a marker or pointer inside the decision block. Excluded from the counts.",
+        "text": "clone_criterion and heard_not_told_scope were ruled by the PI on 2026-11-03 and moved to pi_decisions_resolved (D-G0P-02, D-G0P-03). The questions are kept ther"
+      },
+      {
+        "ledger": "MP-E9",
+        "key": "_resolved",
+        "note": "not a PI item: a marker or pointer inside the decision block. Excluded from the counts.",
+        "text": "Decisions 1 (heard-not-told scope) and 2 (instrument reproducibility) were ruled by the PI on 2026-11-03 and moved to pi_decisions_resolved as D-G0P-03 and D-G0"
+      },
+      {
+        "ledger": "MP-E10",
+        "key": "_brief_cross_reference",
+        "note": "not a PI item: a marker or pointer inside the decision block. Excluded from the counts.",
+        "text": "Every item in this block, and every item waiting outside it, is laid out with options and machine-time costs in docs/mp_e10_pi_decision_brief_consolidated.md (s"
+      }
+    ],
+    "open_decision_entries": [
+      {
+        "ledger": "G0-prime",
+        "block": "open_decisions_for_pi",
+        "key": "requirements_txt",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "Whether to pin the six named packages, and what to do with the five installed-but-unused ones.",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:309"
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-01_arm_A_flag_configuration",
+        "form": "dict",
+        "has_status_field": false,
+        "status_as_measured": "NO STATUS FIELD -- the entry is a dict and does not carry a `status` key. A stale-status guard can only correct entries that declare one, so this entry cannot be caught going stale",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-02_arm_B_dependency",
+        "form": "dict",
+        "has_status_field": false,
+        "status_as_measured": "NO STATUS FIELD -- the entry is a dict and does not carry a `status` key. A stale-status guard can only correct entries that declare one, so this entry cannot be caught going stale",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-03_tier_authoring",
+        "form": "dict",
+        "has_status_field": false,
+        "status_as_measured": "NO STATUS FIELD -- the entry is a dict and does not carry a `status` key. A stale-status guard can only correct entries that declare one, so this entry cannot be caught going stale",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-03b_tier_material_authorship",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "RESOLVED 2026-11-03 by the second D-MPE8-03 ruling: the agent may extend the pool, under constraints (a)-(d). See pi_decisions.D-MPE8-03.",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-04_H3_instrument",
+        "form": "dict",
+        "has_status_field": false,
+        "status_as_measured": "NO STATUS FIELD -- the entry is a dict and does not carry a `status` key. A stale-status guard can only correct entries that declare one, so this entry cannot be caught going stale",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-05_r13_tolerance_cells_incomplete",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "RULED by the PI at 2026-11-03T14:20:00Z: not widened. See pi_decisions.rulings['D-MPE8-05'] and R16. The discovery is carried by dated amendment AMD-MPE8-04 into observed_wall_clock_gated_cells.",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-06",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "RULED by the PI at 2026-11-03T14:20:00Z: 3 seeds, per-seed own session-1 baseline, least favourable seed carries H1, margin unchanged at 5.0 pp, and spread > margin means NOT DECIDABLE rather than a pass. See pi_decision",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-07_guarded_absence_arm_attribution",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "RULED by the PI at 2026-11-03T19:25:00Z. C1's registered trigger stands exactly as written and is recorded NOT EVALUABLE for arm A; the distractor population is registered as a named measured quantity and NOT as an abort",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-09_c3_abort_at_tier_300",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "RULED by the PI at 2026-11-04T05:25:10Z: C3's registered action ABORT is executed against the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN. See pi_decisions.rulings.['D-MPE8-09']. The artifacts stay publishe",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-10_r13_cells_do_not_cover_the_observed_instability",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "OPEN. Nothing widened. AMD-MPE8-13 names both artifacts.",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:178"
+      },
+      {
+        "ledger": "MP-E8",
+        "block": "open_decisions_for_pi",
+        "key": "D-MPE8-11_H2_clause_2_is_satisfiable_by_blanket_refusal",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "OPEN. Clause 2 recorded as measured PASS at 120 and 300, with this limitation attached to the record rather than resolved inside it.",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:201"
+      },
+      {
+        "ledger": "MP-E9",
+        "block": "open_decisions_for_pi",
+        "key": "3_tier_120_and_300",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "Neither exists as code. MP-E8 cannot run them and MP-E10's replay-at-scale depends on them.",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:221"
+      },
+      {
+        "ledger": "MP-E9",
+        "block": "open_decisions_for_pi",
+        "key": "4_requirements_txt_pinning",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "STILL OPEN. requirements.txt names six packages with NO version pins (numpy, pandas, scipy, psutil, pytest, pyarrow) plus pypdf, which this session added because a TRACKED file imports it. The exact measured environment ",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:309"
+      },
+      {
+        "ledger": "MP-E9",
+        "block": "open_decisions_for_pi",
+        "key": "5_promote_the_bound_to_BASE_D-MPE9-05",
+        "form": "dict",
+        "has_status_field": false,
+        "status_as_measured": "NO STATUS FIELD -- the entry is a dict and does not carry a `status` key. A stale-status guard can only correct entries that declare one, so this entry cannot be caught going stale",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:288"
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-01_name_the_four_mouth_stages",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-01_H1_denominator. Denominator is the five stages stage_of() reports (gating, mouth, recall, recall_untraced, shape_arbiter); 'improve on at least two, none regr",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-02_name_the_fluency_scalar",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-02']. H2's fluency scalar is the mean number of content words per emitted answer over the bench's live phase at that tier, with refusal rate and coverage repor",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-02_name_the_fluency_scalar_as_registered_before_the_ruling",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "OPEN as of 2026-11-04, stated as open. H2 says 'fluency improves' without a measure. Name the scalar.",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-03_confirm_primary_routing_variant",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-03']. Variant (ii) carve/allowed_pools stays primary as the plan designates it; variant (i) is registered as the ablation that measures what re-weighting alone",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-04_interference_margin",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-04']. The margin is 2.0 pp, DERIVED (clone noise 0.2996 pp; 0 regressions in 159 tier-40 exposures; rule-of-three bound 1.887 pp), with three conditions attach",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-05_G2_is_not_closed",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "STILL OPEN as of 2026-08-10, and now disambiguated. This is the G2-ORDERING question (may MP-E10 run before G2 closes) and the PI has not ruled it. It is a DIFFERENT question from D-MPE10-05_replay_write_path, which WAS ",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:236"
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-06_k_does_not_bound_the_fast_weight_store",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-06_k_and_the_fast_weight_store. Not a defect: the plan describes two objects and the module implements two objects. k bounds the activation trace only; ||w||_F a",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-07_k1_in_the_registered_grid_measures_self_links",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-07_k_equals_1. k=1 excluded from the SCORED grid by AMD-MPE10-01, not deleted; diagonal mass still printed; the module's 'excluded by construction' claim correct",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-08_predecessor_or_successor_links",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-08_read_direction. Organ not transposed; every artifact must name the direction it read; a successor map would be a registered organ change with its own design s",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-09_r6_guarded_battery_at_tier_300",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "OPEN -- a design step for the PI, not an implementation choice for the agent",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:127"
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-10_which_phase_is_h3s_registered_basis",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "OPEN -- a protocol decision about the registered quantity, not an implementation choice",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:107"
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "OPEN -- the agent does not decide admissibility of its own evidence",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:79"
+      },
+      {
+        "ledger": "MP-E10",
+        "block": "open_decisions_for_PI",
+        "key": "D-MPE10-12_h3_saturation_guard_voids_its_own_tier",
+        "form": "dict",
+        "has_status_field": true,
+        "status_as_measured": "OPEN -- a ruling on the registered guard, not an implementation choice. The agent does not decide whether its own pre-registered void condition may be worked around.",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:40"
+      },
+      {
+        "ledger": "MP-E12",
+        "block": "open_decisions",
+        "key": "D-MPE12-01",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "Whether the sealed operation-count log from the synthetic donor satisfies B.6 item 1's 'log and seal operation counts', or whether the log must be regenerated against the real donor before item 1 can be called done. This",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:351"
+      },
+      {
+        "ledger": "MP-E12",
+        "block": "open_decisions",
+        "key": "D-MPE12-02",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "How the energy estimate is produced. The plan names wall-clock, operation count AND energy estimate; this repository has no energy instrument, so on both the synthetic and the real run energy is NOT MEASURED rather than ",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:351"
+      },
+      {
+        "ledger": "MP-E12",
+        "block": "open_decisions",
+        "key": "D-MPE12-03",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "The probe list for the real donor (which tokens, how many, chosen how). It cannot be fixed against an absent model and must not be chosen after the weights arrive; the PI may fix it now, or authorise a rule for fixing it",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:351"
+      },
+      {
+        "ledger": "MP-E12",
+        "block": "open_decisions",
+        "key": "D-MPE12-04",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "Whether MP-E12b (the compiler) may be built against the synthetic graph before the real graph exists. Not started here: stage b mutates connectome objects, which is not disjoint from Droso organs, and so is NOT covered b",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:351"
+      },
+      {
+        "ledger": "MP-E12",
+        "block": "open_decisions",
+        "key": "D-MPE12-05",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "RULED 2026-08-10 by PI -- see pi_rulings['D-MPE12-05']. H2's claim is UNDER-SPECIFIED and that is the finding: the read-versus-inference ratio must be reported as a CURVE against generated-token count (minimum 1, 5, 9 an",
+        "brief_section": null
+      },
+      {
+        "ledger": "MP-E12",
+        "block": "open_decisions",
+        "key": "D-MPE12-05_as_registered_before_the_ruling",
+        "form": "bare string",
+        "has_status_field": false,
+        "status_as_measured": "How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibration measured that the pre-registered 10x threshold is crossed at 5",
+        "brief_section": null
+      }
+    ],
+    "also_waiting": [
+      {
+        "ledger": "MP-E10",
+        "key": "licensed_absence_intermittence",
+        "form": "dict (not a decision block)",
+        "has_status_field": true,
+        "status_as_measured": "OPEN -- NAMED, NOT CLOSED. Does not gate H3 (the flip is in `reason`, which R13 tolerates; the graded fields and the safety property are unaffected). Still a live defect on the answer path and not permitted to be quoted ",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:258"
+      },
+      {
+        "ledger": "MP-E10",
+        "key": "d_mpe10_04_condition_3_unspent",
+        "form": "dict (a ruling condition)",
+        "has_status_field": true,
+        "status_as_measured": "UNSPENT -- declined for cost, not forgotten",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:155"
+      },
+      {
+        "ledger": "MP-E8",
+        "key": "registration_amendments.AMD-MPE8-16.t_and_n_at_tiers_120_and_300.status",
+        "form": "dict (an amendment field)",
+        "has_status_field": true,
+        "status_as_measured": "NOT RUN, and named missing rather than glossed",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:221"
+      },
+      {
+        "ledger": "MP-E12",
+        "key": "pre_registered_failure_modes.named_external_blocker",
+        "form": "dict",
+        "has_status_field": false,
+        "status_as_measured": "NO STATUS FIELD -- the blocker is recorded as machine state, and it is not a decision: no ruling moves it",
+        "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:333"
+      }
+    ],
+    "the_one_the_PI_named": {
+      "D-MPE9-05": "MEASURED, not inferred: MP-E9 open_decisions_for_pi.5_promote_the_bound_to_BASE_D-MPE9-05 is a DICT carrying question, measured_state, precondition_before_any_promotion, registered_at and scope_note -- and no `status` key. It is therefore in the without_a_status_field_dict_entries count, not the bare-string one, and no status was invented for it. The consequence is stated in how_to_read_it: the stale-status guard cannot catch an entry that declares nothing."
+    },
+    "brief": "docs/mp_e10_pi_decision_brief_consolidated.md",
+    "brief_line_54_now_superseded": "docs/mp_e10_pi_decision_brief_consolidated.md:54 states the saturation-guard item is not yet a ledger decision entry. It is: open_decisions_for_PI.D-MPE10-12_h3_saturation_guard_voids_its_own_tier, created by AMD-MPE10-11. The brief is sealed and left unedited; this pointer is the correction."
   }
 }
