@@ -410,6 +410,15 @@ DEFAULT_MANIFEST = [
 # baseline also drags in a harness change (baseline build 6e09171a, both MP-E10 tier-300 runs 5cf038c2),
 # so those pairs bound the total movement but cannot attribute it. This pair differs by one flag.
     "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json",
+# The SAME five pairs re-issued on the corrected row key (depth, phase, ask, item, shape), which is unique
+# at 9,414 and 3,744 where the old key addressed only 8,199 and 3,222. Registered as AMD-MPE10-09. The five
+# un-suffixed artifacts above stay sealed and unmodified -- R5 keeps a bad denominator on the record -- but
+# THESE are the figures that govern, because they compare every graded ask the run contains.
+    "experiments/MP-E10/results/120_row_migration_keyfix.json",
+    "experiments/MP-E10/results/120ctl_row_migration_keyfix.json",
+    "experiments/MP-E10/results/300_row_migration_keyfix.json",
+    "experiments/MP-E10/results/300ctl_row_migration_keyfix.json",
+    "experiments/MP-E10/results/300_replay_vs_control_row_migration_keyfix.json",
 # ||w||_F against tokens pushed at each tier's OWN stream volume (D-MPE10-06's obligation). The sealed
 # tier-40 sweep stopped at 64 tokens because tier 40 is 248 tokens; a tier-300 stream is 1,951 tokens
 # and a curve that truncates at 64 reports a growing quantity as a stable one.

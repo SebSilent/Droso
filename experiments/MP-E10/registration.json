@@ -3204,7 +3204,7 @@
         "as_written": "edit DEFAULT_MANIFEST, re-stamp, THEN run the suite whose manifest you intend to seal.",
         "corrected_rule": "1) commit the tree the run will measure; 2) re-stamp so the seal is fresh at that commit and COMMIT THE STAMP; 3) run the suite ONCE to a new path; 4) commit the artifact; 5) add its path to DEFAULT_MANIFEST and re-stamp; 6) prove freshness by re-running the seal tests ALONE, never the whole suite again. The manifest is sealed after it is produced, not before.",
         "the_defect": "the rule seals a path BEFORE the artifact exists. tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous asserts in_index == total for every sealed path, and ::test_registration_head_contains_its_sealed_files asserts every sealed path is present in the registration's own git_head. A sealed-but-unproduced manifest fails both by construction, so the rule guarantees the run it mandates will report failures.",
-        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md \u00a77.'",
+        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md §7.'",
         "why_it_was_written": "to stop a run on an unstamped tree, which the seal tool's own comments record as producing an artifact that 'records a failure that is really a stamp'."
       },
       "what_was_NOT_done": "no test was edited, weakened or skipped to turn the run green; the suite was not run a second time to chase a total; the RED manifest is published at its own path and the earlier 1,333/0 record at 8b1e8d0 stays published (R5); no sealed number in this ledger moved."
@@ -3262,6 +3262,166 @@
       "question_that_started_it": "the migration artifacts report rows_compared = 8,199 while the same runs hold 9,414 graded asks (1,046 x 9 phases). 1,215 rows were unaccounted.",
       "remedy_named_not_taken": "key the index on (depth, phase, ask, item) -- or on the row's ordinal -- and re-issue the five migration artifacts plus the closure artifact at NEW paths, leaving the present ones published and labelled superseded under R5. Not done here: tools/mp_e10_row_migration.py and tools/mp_e10_tier300_closure.py are both sealed in all five ledgers, so editing them would leave the artifacts they already produced without a seal over the bytes that made them. That trade belongs to the PI.",
       "verdict_stated_plainly": "YES, it is an instrument bug: the row identity (depth, phase, ask) is not unique in the tier-120 and tier-300 curricula, and a set intersection over a non-unique key silently drops 1,215 and 522 graded asks respectively. YES, published migration figures depend on the wrong denominator, and they are named above. NO published figure is withdrawn: the collapse does not manufacture migrations on the fields it varies, so the counts read as lower bounds on a stated subset."
+    },
+    {
+      "id": "AMD-MPE10-09",
+      "date": "2026-11-04T20:08:05Z",
+      "class": "an instrument defect FIXED and its figures RE-ISSUED at new paths. The superseded artifacts stay sealed and unmodified; this entry names which numbers govern from here.",
+      "amends": "AMD-MPE10-08, which named the row-key defect and explicitly did NOT fix it. The five row-migration figures it listed as sitting on the wrong denominator are re-issued below. No sealed artifact was edited; nothing was overwritten.",
+      "the_fix": {
+        "instrument": "tools/mp_e10_row_migration.py",
+        "key_before": [
+          "depth",
+          "phase",
+          "ask"
+        ],
+        "key_after": [
+          "depth",
+          "phase",
+          "ask",
+          "item",
+          "shape"
+        ],
+        "uniqueness_measured": "9,414 rows / 9,414 distinct keys at tier 300 and 3,744 / 3,744 at tier 120, in all six artifacts, zero collapse. Measured before the edit, not after.",
+        "item_alone_is_not_enough": "the obvious fix -- add `item` -- still collapses 1,044 rows at tier 300 and 396 at tier 120, because the same ask+item is posed twice, once as pair_exact and once as pair_fold.",
+        "why_shape_may_be_keyed_on": "shape is one of the nine COMPARED fields, so keying on it would be circular if it were a model output -- a row whose shape moved would stop registering as a migration and become a one-sided key. Measured across baseline, replay and control, three runs with different answers: all 8,370 (tier 300) and 3,348 (tier 120) (ask,item) groups carry an identical shape sequence, 0 differ, and matched on the five fields no row is one-sided. shape is authored, not produced.",
+        "legacy_key_kept": "--row-key legacy restores (depth, phase, ask) so the superseded figures stay reproducible. Verified: in legacy mode the tool returns rows_compared 3,222 and n_rows_moved 66 for pair 120, with class_split and transitions_by_axis equal to the sealed artifact, and it now prints 'THIS KEY DROPS ROWS'."
+      },
+      "tests": {
+        "file": "tests/test_mp_e10_row_migration_promotion.py",
+        "result_as_measured": "24 passed in 2.60s (Python 3.12.10, pytest 9.1.1)",
+        "added": [
+          "test_probe_key_is_unique_in_every_curriculum (7 artifacts: tier 40 arm A, tier 120 and tier 300 baseline/replay/control)",
+          "test_legacy_key_still_collapses_the_measured_number_of_rows (pins 522 and 1,215 so a curriculum change cannot quietly redefine the defect away)",
+          "test_shape_is_an_authored_property_not_a_model_output",
+          "test_item_alone_does_not_close_the_gap",
+          "test_corrected_key_compares_every_graded_ask"
+        ],
+        "assertion_not_weakened": "test_promotion_reproduces_the_sealed_counts was renamed to test_legacy_key_reproduces_the_superseded_counts and now pins --row-key legacy. The assertions are the same four fields plus the moved-row SET; what changed is that they are applied to the mode defined to reproduce the published numbers, because the corrected key is defined NOT to. Nothing was re-labelled to make a red test green."
+      },
+      "re_issue_side_by_side": [
+        {
+          "pair": "120",
+          "superseded_path": "experiments/MP-E10/results/replay_tier120_row_migration.json",
+          "superseded_rows_compared": 3222,
+          "superseded_n_rows_moved": 66,
+          "superseded_rate_pct": 2.05,
+          "governing_path": "experiments/MP-E10/results/120_row_migration_keyfix.json",
+          "governing_rows_compared": 3744,
+          "governing_n_rows_moved": 66,
+          "governing_rate_pct": 1.76,
+          "graded_asks_both_sides": [
+            3744,
+            3744
+          ],
+          "rows_collapsed_by_the_key": 0,
+          "n_rows_only_in_one_set": 0,
+          "same_tree": false,
+          "differences_that_break_the_comparison": [
+            "harness_sha256 differs: baseline=6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7 replayed=5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+          ]
+        },
+        {
+          "pair": "120ctl",
+          "superseded_path": "experiments/MP-E10/results/control_tier120_no_replay_row_migration.json",
+          "superseded_rows_compared": 3222,
+          "superseded_n_rows_moved": 58,
+          "superseded_rate_pct": 1.8,
+          "governing_path": "experiments/MP-E10/results/120ctl_row_migration_keyfix.json",
+          "governing_rows_compared": 3744,
+          "governing_n_rows_moved": 58,
+          "governing_rate_pct": 1.55,
+          "graded_asks_both_sides": [
+            3744,
+            3744
+          ],
+          "rows_collapsed_by_the_key": 0,
+          "n_rows_only_in_one_set": 0,
+          "same_tree": false,
+          "differences_that_break_the_comparison": [
+            "harness_sha256 differs: baseline=6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7 replayed=5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+          ]
+        },
+        {
+          "pair": "300",
+          "superseded_path": "experiments/MP-E10/results/replay_tier300_row_migration.json",
+          "superseded_rows_compared": 8199,
+          "superseded_n_rows_moved": 251,
+          "superseded_rate_pct": 3.06,
+          "governing_path": "experiments/MP-E10/results/300_row_migration_keyfix.json",
+          "governing_rows_compared": 9414,
+          "governing_n_rows_moved": 251,
+          "governing_rate_pct": 2.67,
+          "graded_asks_both_sides": [
+            9414,
+            9414
+          ],
+          "rows_collapsed_by_the_key": 0,
+          "n_rows_only_in_one_set": 0,
+          "same_tree": false,
+          "differences_that_break_the_comparison": [
+            "harness_sha256 differs: baseline=6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7 replayed=5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+          ]
+        },
+        {
+          "pair": "300ctl",
+          "superseded_path": "experiments/MP-E10/results/control_tier300_no_replay_row_migration.json",
+          "superseded_rows_compared": 8199,
+          "superseded_n_rows_moved": 302,
+          "superseded_rate_pct": 3.68,
+          "governing_path": "experiments/MP-E10/results/300ctl_row_migration_keyfix.json",
+          "governing_rows_compared": 9414,
+          "governing_n_rows_moved": 302,
+          "governing_rate_pct": 3.21,
+          "graded_asks_both_sides": [
+            9414,
+            9414
+          ],
+          "rows_collapsed_by_the_key": 0,
+          "n_rows_only_in_one_set": 0,
+          "same_tree": false,
+          "differences_that_break_the_comparison": [
+            "harness_sha256 differs: baseline=6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7 replayed=5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+          ]
+        },
+        {
+          "pair": "300_replay_vs_control",
+          "superseded_path": "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json",
+          "superseded_rows_compared": 8199,
+          "superseded_n_rows_moved": 111,
+          "superseded_rate_pct": 1.35,
+          "governing_path": "experiments/MP-E10/results/300_replay_vs_control_row_migration_keyfix.json",
+          "governing_rows_compared": 9414,
+          "governing_n_rows_moved": 111,
+          "governing_rate_pct": 1.18,
+          "graded_asks_both_sides": [
+            9414,
+            9414
+          ],
+          "rows_collapsed_by_the_key": 0,
+          "n_rows_only_in_one_set": 0,
+          "same_tree": false,
+          "differences_that_break_the_comparison": []
+        }
+      ],
+      "what_the_fix_changed_and_did_not_change": {
+        "numerator": "UNCHANGED IN ALL FIVE PAIRS: 66, 58, 251, 302, 111. Measured further: the moved ROW SETS are identical under both keys -- legacy-only rows 0, probe-only rows 0 in every pair. So the 1,215 and 522 asks the old key never compared were all stable rows; the collapse dropped no migration.",
+        "denominator": "CHANGED: 8,199 -> 9,414 (tier 300) and 3,222 -> 3,744 (tier 120).",
+        "rates": "CHANGED, and this is the only substantive effect: 3.06% -> 2.67% (300), 3.68% -> 3.21% (300ctl), 1.35% -> 1.18% (300 replay vs control), 2.05% -> 1.76% (120), 1.80% -> 1.55% (120ctl). Every published RATE must be re-read against the new denominator.",
+        "refinement_of_AMD-MPE10-08": "AMD-08 said the collapse was 'not loss-free' because the dropped rows differed from the representative that survived -- still true. It also said there was 'no evidence' the collapse manufactured migrations; that is now measured directly rather than inferred from fields_moved_split: the moved sets are identical key for key."
+      },
+      "does_the_attribution_conclusion_survive": {
+        "answer": "YES on both halves, and it no longer rests on the denominator this entry calls a bug.",
+        "more_rows_move_with_replay_OFF": "302 vs 251 out of the SAME 9,414 graded asks, a gap of 51 rows (0.54 pp). Unchanged by the fix in count, and the direction is the same on the corrected denominator as on the collapsed one.",
+        "matched_pair_transitions_near_symmetric": "measured on the re-issued 300_replay_vs_control pair: partial->refused 41 against refused->partial 32 (ratio 1.28), invented->refused 20 against refused->invented 13 (1.54), refused->refused 3 against 3 (1.00). Only 2 of 111 rows are one-directional with no reverse anywhere (invented->cross_echo 1, refused->correct 1). Movement in the matched pair is dominated by run-to-run noise, not a directional effect of the flag.",
+        "what_the_matched_pair_adds": "the same-instrument pair moves 111 of 9,414 (1.18%) while both baseline pairs move more (251, 302) because the MP-E8 baseline was built on harness 6e09171a and the MP-E10 runs on 5cf038c2 -- the artifacts record that as a difference that breaks the comparison. The sharp pair is the one that isolates the flag.",
+        "caveat_kept": "none of this rescues H3 at tier 300: the saturation guard voids depths 2 and 3 there and D-MPE10-10 still has no registered basis for which phase H3 scores on. The attribution conclusion is about what the migration instrument measures, not about whether H3 passes."
+      },
+      "named_not_fixed": "tools/mp_e10_tier300_closure.py keeps its OWN private copy of the old key at line 75 -- out[(str(depth), phase, str(r.get('ask')))] = r -- so its sealed row_attribution and primary_attribution_same_instrument.rows_compared still read 8,199. Re-issuing the closure artifact was not ordered in this instruction, so it is left sealed and labelled here. The attribution conclusion above is therefore taken from the re-issued migration artifacts, which compare every graded ask, and NOT from the closure artifact.",
+      "figures_that_govern_from_here": "the five *_row_migration_keyfix.json artifacts named in re_issue_side_by_side. The five un-suffixed artifacts remain on disk, sealed, and are superseded by reference under R5 -- they are not deleted and their numbers are not restated as fact.",
+      "seal": {
+        "instrument_sealed_before_use": "all five ledgers were re-stamped at a372e90 (the commit carrying the fixed tool and its 24 tests) BEFORE the re-run, so the new artifacts are covered by a seal over the bytes that produced them. git_dirty_sealed read back empty in all five; anchor a372e90 is an ancestor of HEAD."
+      }
     }
   ],
   "replay_gain_ruling": {

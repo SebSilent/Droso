@@ -1,0 +1,6272 @@
+{
+  "artifacts": {
+    "baseline": "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
+    "replayed": "experiments/MP-E10/results/replay_tier300_armA.json"
+  },
+  "class_split": {
+    "distractor/unanswerable": 34,
+    "taught item": 77
+  },
+  "denominator": {
+    "graded_asks_baseline": 9414,
+    "graded_asks_replayed": 9414,
+    "note": "rows_compared counts keys the key could address; the graded asks the run contains are the denominator field. Under 'probe' they are equal. Under 'legacy' the difference is rows the instrument never compared.",
+    "rows_compared_is_keys_not_asks": false
+  },
+  "duplicate_keys_within_either_index": {
+    "baseline": [],
+    "baseline_n": 0,
+    "replayed": [],
+    "replayed_n": 0
+  },
+  "experiment": "MP-E10",
+  "fields_moved_split": {
+    "answered": 107,
+    "cls": 108,
+    "mech": 111,
+    "said": 108,
+    "src": 107
+  },
+  "generated_at_utc": "2026-11-04T20:06:05Z",
+  "is_control": false,
+  "label": "tier 300, replay ON vs replay OFF -- same instrument bytes, same curriculum, same seed",
+  "matched_pair": {
+    "baseline": {
+      "argv": [
+        "--arms",
+        "learn",
+        "--curriculum",
+        "experiments/MP-E8/curriculum_tier300.json",
+        "--out",
+        "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
+        "--workdir",
+        "_tmp/wd_ctl300"
+      ],
+      "artifact": "baseline",
+      "curriculum_path": "experiments/MP-E8/curriculum_tier300.json",
+      "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+      "git_head": "9fd6272d219d4bf7b5aaa53567f0bb198ccfb5fc",
+      "harness": "tools/electric_learn_bench.py",
+      "harness_sha256": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+      "replay_requested_in_argv": false,
+      "seed": 20261103,
+      "started_utc": "2026-11-04T18:47:55Z",
+      "tier": 300
+    },
+    "differences_that_break_the_comparison": [],
+    "reading": "the two runs differ by more than the treatment; see the fields above. A migration count spanning a code change or a different curriculum hash cannot be read as an effect of replay.",
+    "replayed": {
+      "argv": [
+        "--arms",
+        "learn",
+        "--curriculum",
+        "experiments/MP-E8/curriculum_tier300.json",
+        "--replay",
+        "--out",
+        "experiments/MP-E10/results/replay_tier300_armA.json",
+        "--workdir",
+        "_tmp/wd_tier300"
+      ],
+      "artifact": "replayed",
+      "curriculum_path": "experiments/MP-E8/curriculum_tier300.json",
+      "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+      "git_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
+      "harness": "tools/electric_learn_bench.py",
+      "harness_sha256": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+      "replay_requested_in_argv": true,
+      "seed": 20261103,
+      "started_utc": "2026-11-04T12:39:45Z",
+      "tier": 300
+    },
+    "same_git_head": false
+  },
+  "method": "row-level diff on the nine R13 identity fields, keyed ('depth', 'phase', 'ask', 'item', 'shape'); the same code path runs for every tier and for the control -- tools/mp_e10_row_migration.py",
+  "moved_keys": [
+    [
+      "1",
+      "live",
+      "how does the tile bolt the keg",
+      "dist29",
+      "qword"
+    ],
+    [
+      "1",
+      "live",
+      "what the cooper pack",
+      "tell0.40",
+      "object_fold"
+    ],
+    [
+      "1",
+      "live",
+      "what the drum trail",
+      "tell0.45",
+      "object_fold"
+    ],
+    [
+      "1",
+      "live",
+      "what the magnet clip",
+      "tell0.44",
+      "object_fold"
+    ],
+    [
+      "1",
+      "live",
+      "what the sail lock",
+      "tell0.20",
+      "object_fold"
+    ],
+    [
+      "1",
+      "live",
+      "what the tile bolt",
+      "tell0.26",
+      "object_fold"
+    ],
+    [
+      "1",
+      "live",
+      "what the weaver pull",
+      "tell0.23",
+      "object_fold"
+    ],
+    [
+      "1",
+      "live",
+      "why does the drum trail the cradle",
+      "dist46",
+      "qword"
+    ],
+    [
+      "1",
+      "reasked",
+      "how does the strap roll the drum",
+      "dist33",
+      "qword"
+    ],
+    [
+      "1",
+      "reasked",
+      "what the cooper pack",
+      "tell0.40",
+      "object_fold"
+    ],
+    [
+      "1",
+      "reasked",
+      "what the mason lock",
+      "tell0.39",
+      "object_fold"
+    ],
+    [
+      "1",
+      "reasked",
+      "what the strap cool",
+      "tell0.59",
+      "object_fold"
+    ],
+    [
+      "1",
+      "reasked",
+      "what the weaver pull",
+      "tell0.23",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "how does the Nora clear the lantern",
+      "dist89",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "how does the faucet tape the rod",
+      "dist65",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "how does the screw mark the stair",
+      "dist83",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "how does the welder tile the faucet",
+      "dist80",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "what does the axle drill",
+      "tell2.57",
+      "object"
+    ],
+    [
+      "2",
+      "reasked",
+      "what does the mast bridge",
+      "tell2.37",
+      "object"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the cage unroll",
+      "tell1.52",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the drum crank",
+      "tell1.11",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the faucet file",
+      "tell1.15",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the keg bolt",
+      "tell0.42",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the loom screw",
+      "tell1.39",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the nail bolt",
+      "tell2.32",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the raft clip",
+      "tell1.48",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the reel drill",
+      "tell1.47",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the stove unveil",
+      "tell1.36",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the wick spin",
+      "tell1.19",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "what the wick unlock",
+      "tell1.12",
+      "object_fold"
+    ],
+    [
+      "2",
+      "reasked",
+      "why does the drum trail the cradle",
+      "dist46",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "why does the loom bridge the ring",
+      "dist20",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "why does the post bridge the flare",
+      "dist79",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "why does the sign roll the axle",
+      "dist55",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "why does the strap crank the pan",
+      "dist88",
+      "qword"
+    ],
+    [
+      "2",
+      "reasked",
+      "why does the turner bridge the tread",
+      "dist73",
+      "qword"
+    ],
+    [
+      "2",
+      "restarted",
+      "how does the Nora clear the lantern",
+      "dist89",
+      "qword"
+    ],
+    [
+      "2",
+      "restarted",
+      "how does the screw mark the stair",
+      "dist83",
+      "qword"
+    ],
+    [
+      "2",
+      "restarted",
+      "how does the welder tile the faucet",
+      "dist80",
+      "qword"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the Nora clear",
+      "tell1.50",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the cage unroll",
+      "tell1.52",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the gardener wrap",
+      "tell1.43",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the girdle tile",
+      "tell1.20",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the magnet wind",
+      "tell1.22",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the pan shift",
+      "tell1.53",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the post bridge",
+      "tell1.37",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the raft block",
+      "tell1.41",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the raft clip",
+      "tell1.48",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the reel drill",
+      "tell1.47",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the screw mark",
+      "tell1.42",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the strap crank",
+      "tell1.49",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the welder tile",
+      "tell1.38",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "what the wick spin",
+      "tell1.19",
+      "object_fold"
+    ],
+    [
+      "2",
+      "restarted",
+      "why does the post bridge the flare",
+      "dist79",
+      "qword"
+    ],
+    [
+      "2",
+      "restarted",
+      "why does the raft block the pan",
+      "dist82",
+      "qword"
+    ],
+    [
+      "2",
+      "restarted",
+      "why does the strap crank the pan",
+      "dist88",
+      "qword"
+    ],
+    [
+      "3",
+      "reasked",
+      "how does the Nora clear the lantern",
+      "dist89",
+      "qword"
+    ],
+    [
+      "3",
+      "reasked",
+      "how does the faucet tape the rod",
+      "dist65",
+      "qword"
+    ],
+    [
+      "3",
+      "reasked",
+      "how does the vault smooth the vase",
+      "dist59",
+      "qword"
+    ],
+    [
+      "3",
+      "reasked",
+      "what does the strap cool",
+      "tell0.59",
+      "object"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the cage clean",
+      "tell2.44",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the cage unroll",
+      "tell1.52",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the dog guard",
+      "tell1.0",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the gardener wrap",
+      "tell1.43",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the mast bridge",
+      "tell2.37",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the net catch",
+      "tell2.3",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the peg wrap",
+      "tell2.21",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the reel drill",
+      "tell1.47",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the sail post",
+      "tell1.16",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the shackle mark",
+      "tell2.39",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the tap stack",
+      "tell2.22",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the tray send",
+      "tell2.59",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the urn wipe",
+      "tell2.55",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the wick spin",
+      "tell1.19",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the wick unlock",
+      "tell1.12",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "why does the strap crank the pan",
+      "dist88",
+      "qword"
+    ],
+    [
+      "3",
+      "reasked",
+      "why does the tube shine the stove",
+      "dist85",
+      "qword"
+    ],
+    [
+      "3",
+      "reasked",
+      "why does the vault cool the wagon",
+      "dist64",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "how does the faucet tape the rod",
+      "dist65",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "how does the screw mark the stair",
+      "dist83",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "how does the tap sort the lock",
+      "dist86",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "how does the vault smooth the vase",
+      "dist59",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "how does the welder tile the faucet",
+      "dist80",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the Ivo brace",
+      "tell2.33",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the bottle rove",
+      "tell1.51",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the cage unroll",
+      "tell1.52",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the crate link",
+      "tell2.20",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the dog guard",
+      "tell1.0",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the drum crank",
+      "tell1.11",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the faucet tape",
+      "tell1.18",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the flare hook",
+      "tell2.23",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the pan shift",
+      "tell1.53",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the peg wrap",
+      "tell2.21",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the post bridge",
+      "tell1.37",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the raft block",
+      "tell1.41",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the raft clip",
+      "tell1.48",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the reel drill",
+      "tell1.47",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the sail post",
+      "tell1.16",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the screw mark",
+      "tell1.42",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the strap crank",
+      "tell1.49",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the tap sort",
+      "tell1.46",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the tap stack",
+      "tell2.22",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the tube shine",
+      "tell1.45",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the vault smooth",
+      "tell1.10",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the weaver fold",
+      "tell2.26",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the welder tile",
+      "tell1.38",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the wick spin",
+      "tell1.19",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "why does the post bridge the flare",
+      "dist79",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "why does the raft block the pan",
+      "dist82",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "why does the strap crank the pan",
+      "dist88",
+      "qword"
+    ],
+    [
+      "3",
+      "restarted",
+      "why does the tube shine the stove",
+      "dist85",
+      "qword"
+    ]
+  ],
+  "moved_keys_fields": [
+    "depth",
+    "phase",
+    "ask",
+    "item",
+    "shape"
+  ],
+  "moved_rows": [
+    {
+      "ask": "how does the tile bolt the keg",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the tile bolts the keg",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist29",
+      "item_baseline": "dist29",
+      "item_replayed": "dist29",
+      "phase": "live",
+      "shape": "qword"
+    },
+    {
+      "ask": "what the cooper pack",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.40",
+      "item_baseline": "tell0.40",
+      "item_replayed": "tell0.40",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the drum trail",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.45",
+      "item_baseline": "tell0.45",
+      "item_replayed": "tell0.45",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the magnet clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.44",
+      "item_baseline": "tell0.44",
+      "item_replayed": "tell0.44",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the sail lock",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.20",
+      "item_baseline": "tell0.20",
+      "item_replayed": "tell0.20",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the tile bolt",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.26",
+      "item_baseline": "tell0.26",
+      "item_replayed": "tell0.26",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.23",
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "why does the drum trail the cradle",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "cross_echo",
+      "depth": "1",
+      "detail": {
+        "cls": {
+          "baseline": "invented",
+          "replayed": "cross_echo"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "droso says the drum trails the cradle",
+          "replayed": "why does the sailor screw the cradle"
+        }
+      },
+      "fields_moved": [
+        "cls",
+        "mech",
+        "said"
+      ],
+      "item": "dist46",
+      "item_baseline": "dist46",
+      "item_replayed": "dist46",
+      "phase": "live",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the strap roll the drum",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says how does the strap roll the",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist33",
+      "item_baseline": "dist33",
+      "item_replayed": "dist33",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "what the cooper pack",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.40",
+      "item_baseline": "tell0.40",
+      "item_replayed": "tell0.40",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the mason lock",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.39",
+      "item_baseline": "tell0.39",
+      "item_replayed": "tell0.39",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the strap cool",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.59",
+      "item_baseline": "tell0.59",
+      "item_replayed": "tell0.59",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.23",
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "how does the Nora clear the lantern",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says nora clears the lantern"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist89",
+      "item_baseline": "dist89",
+      "item_replayed": "dist89",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the faucet tape the rod",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the faucet tapes the rod",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist65",
+      "item_baseline": "dist65",
+      "item_replayed": "dist65",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the screw mark the stair",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the screw marks the stair",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist83",
+      "item_baseline": "dist83",
+      "item_replayed": "dist83",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the welder tile the faucet",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the welder tiles the faucet"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist80",
+      "item_baseline": "dist80",
+      "item_replayed": "dist80",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "what does the axle drill",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "refusal_silence"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item": "tell2.57",
+      "item_baseline": "tell2.57",
+      "item_replayed": "tell2.57",
+      "phase": "reasked",
+      "shape": "object"
+    },
+    {
+      "ask": "what does the mast bridge",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "refusal_silence"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item": "tell2.37",
+      "item_baseline": "tell2.37",
+      "item_replayed": "tell2.37",
+      "phase": "reasked",
+      "shape": "object"
+    },
+    {
+      "ask": "what the cage unroll",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.52",
+      "item_baseline": "tell1.52",
+      "item_replayed": "tell1.52",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the drum crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.11",
+      "item_baseline": "tell1.11",
+      "item_replayed": "tell1.11",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the faucet file",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.15",
+      "item_baseline": "tell1.15",
+      "item_replayed": "tell1.15",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the keg bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.42",
+      "item_baseline": "tell0.42",
+      "item_replayed": "tell0.42",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the loom screw",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.39",
+      "item_baseline": "tell1.39",
+      "item_replayed": "tell1.39",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the nail bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "ask_not_recognized"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item": "tell2.32",
+      "item_baseline": "tell2.32",
+      "item_replayed": "tell2.32",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the raft clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.48",
+      "item_baseline": "tell1.48",
+      "item_replayed": "tell1.48",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the reel drill",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.47",
+      "item_baseline": "tell1.47",
+      "item_replayed": "tell1.47",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the stove unveil",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.36",
+      "item_baseline": "tell1.36",
+      "item_replayed": "tell1.36",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the wick spin",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.19",
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the wick unlock",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.12",
+      "item_baseline": "tell1.12",
+      "item_replayed": "tell1.12",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "why does the drum trail the cradle",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the drum trails the cradle"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist46",
+      "item_baseline": "dist46",
+      "item_replayed": "dist46",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the loom bridge the ring",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the loom bridges the ring",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist20",
+      "item_baseline": "dist20",
+      "item_replayed": "dist20",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the post bridge the flare",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the post bridges the flare",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist79",
+      "item_baseline": "dist79",
+      "item_replayed": "dist79",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the sign roll the axle",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says why does the sign roll the",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist55",
+      "item_baseline": "dist55",
+      "item_replayed": "dist55",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the strap crank the pan",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the strap cranks the pan",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist88",
+      "item_baseline": "dist88",
+      "item_replayed": "dist88",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the turner bridge the tread",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the turner bridges the tread",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist73",
+      "item_baseline": "dist73",
+      "item_replayed": "dist73",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the Nora clear the lantern",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says nora clears the lantern"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist89",
+      "item_baseline": "dist89",
+      "item_replayed": "dist89",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the screw mark the stair",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the screw marks the stair",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist83",
+      "item_baseline": "dist83",
+      "item_replayed": "dist83",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the welder tile the faucet",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the welder tiles the faucet"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist80",
+      "item_baseline": "dist80",
+      "item_replayed": "dist80",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "what the Nora clear",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.50",
+      "item_baseline": "tell1.50",
+      "item_replayed": "tell1.50",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the cage unroll",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.52",
+      "item_baseline": "tell1.52",
+      "item_replayed": "tell1.52",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the gardener wrap",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.43",
+      "item_baseline": "tell1.43",
+      "item_replayed": "tell1.43",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the girdle tile",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.20",
+      "item_baseline": "tell1.20",
+      "item_replayed": "tell1.20",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the magnet wind",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.22",
+      "item_baseline": "tell1.22",
+      "item_replayed": "tell1.22",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the pan shift",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.53",
+      "item_baseline": "tell1.53",
+      "item_replayed": "tell1.53",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the post bridge",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.37",
+      "item_baseline": "tell1.37",
+      "item_replayed": "tell1.37",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the raft block",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.41",
+      "item_baseline": "tell1.41",
+      "item_replayed": "tell1.41",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the raft clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.48",
+      "item_baseline": "tell1.48",
+      "item_replayed": "tell1.48",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the reel drill",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.47",
+      "item_baseline": "tell1.47",
+      "item_replayed": "tell1.47",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the screw mark",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.42",
+      "item_baseline": "tell1.42",
+      "item_replayed": "tell1.42",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the strap crank",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.49",
+      "item_baseline": "tell1.49",
+      "item_replayed": "tell1.49",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the welder tile",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.38",
+      "item_baseline": "tell1.38",
+      "item_replayed": "tell1.38",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the wick spin",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.19",
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "why does the post bridge the flare",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the post bridges the flare",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist79",
+      "item_baseline": "dist79",
+      "item_replayed": "dist79",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the raft block the pan",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the raft blocks the pan"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist82",
+      "item_baseline": "dist82",
+      "item_replayed": "dist82",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the strap crank the pan",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the strap cranks the pan",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist88",
+      "item_baseline": "dist88",
+      "item_replayed": "dist88",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the Nora clear the lantern",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says nora clears the lantern"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist89",
+      "item_baseline": "dist89",
+      "item_replayed": "dist89",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the faucet tape the rod",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the faucet tapes the rod"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist65",
+      "item_baseline": "dist65",
+      "item_replayed": "dist65",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the vault smooth the vase",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the vault smooths the vase",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist59",
+      "item_baseline": "dist59",
+      "item_replayed": "dist59",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "what does the strap cool",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "correct",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "correct"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "answered"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "the strap cools the rod"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter tell"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.59",
+      "item_baseline": "tell0.59",
+      "item_replayed": "tell0.59",
+      "phase": "reasked",
+      "shape": "object"
+    },
+    {
+      "ask": "what the cage clean",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.44",
+      "item_baseline": "tell2.44",
+      "item_replayed": "tell2.44",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the cage unroll",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.52",
+      "item_baseline": "tell1.52",
+      "item_replayed": "tell1.52",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the dog guard",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.0",
+      "item_baseline": "tell1.0",
+      "item_replayed": "tell1.0",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the gardener wrap",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.43",
+      "item_baseline": "tell1.43",
+      "item_replayed": "tell1.43",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the mast bridge",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.37",
+      "item_baseline": "tell2.37",
+      "item_replayed": "tell2.37",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the net catch",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.3",
+      "item_baseline": "tell2.3",
+      "item_replayed": "tell2.3",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the peg wrap",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.21",
+      "item_baseline": "tell2.21",
+      "item_replayed": "tell2.21",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the reel drill",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.47",
+      "item_baseline": "tell1.47",
+      "item_replayed": "tell1.47",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the sail post",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.16",
+      "item_baseline": "tell1.16",
+      "item_replayed": "tell1.16",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the shackle mark",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.39",
+      "item_baseline": "tell2.39",
+      "item_replayed": "tell2.39",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the tap stack",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.22",
+      "item_baseline": "tell2.22",
+      "item_replayed": "tell2.22",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the tray send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.59",
+      "item_baseline": "tell2.59",
+      "item_replayed": "tell2.59",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the urn wipe",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.55",
+      "item_baseline": "tell2.55",
+      "item_replayed": "tell2.55",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the wick spin",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.19",
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the wick unlock",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.12",
+      "item_baseline": "tell1.12",
+      "item_replayed": "tell1.12",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "why does the strap crank the pan",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the strap cranks the pan",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist88",
+      "item_baseline": "dist88",
+      "item_replayed": "dist88",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the tube shine the stove",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the tube shines the stove",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist85",
+      "item_baseline": "dist85",
+      "item_replayed": "dist85",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the vault cool the wagon",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the vault cools the wagon"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist64",
+      "item_baseline": "dist64",
+      "item_replayed": "dist64",
+      "phase": "reasked",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the faucet tape the rod",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the faucet tapes the rod"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist65",
+      "item_baseline": "dist65",
+      "item_replayed": "dist65",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the screw mark the stair",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the screw marks the stair",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist83",
+      "item_baseline": "dist83",
+      "item_replayed": "dist83",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the tap sort the lock",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the tap sorts the lock"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist86",
+      "item_baseline": "dist86",
+      "item_replayed": "dist86",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the vault smooth the vase",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the vault smooths the vase",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist59",
+      "item_baseline": "dist59",
+      "item_replayed": "dist59",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "how does the welder tile the faucet",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the welder tiles the faucet"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist80",
+      "item_baseline": "dist80",
+      "item_replayed": "dist80",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "what the Ivo brace",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.33",
+      "item_baseline": "tell2.33",
+      "item_replayed": "tell2.33",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the bottle rove",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.51",
+      "item_baseline": "tell1.51",
+      "item_replayed": "tell1.51",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the cage unroll",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.52",
+      "item_baseline": "tell1.52",
+      "item_replayed": "tell1.52",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the crate link",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.20",
+      "item_baseline": "tell2.20",
+      "item_replayed": "tell2.20",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the dog guard",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.0",
+      "item_baseline": "tell1.0",
+      "item_replayed": "tell1.0",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the drum crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.11",
+      "item_baseline": "tell1.11",
+      "item_replayed": "tell1.11",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the faucet tape",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.18",
+      "item_baseline": "tell1.18",
+      "item_replayed": "tell1.18",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the flare hook",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.23",
+      "item_baseline": "tell2.23",
+      "item_replayed": "tell2.23",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the pan shift",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.53",
+      "item_baseline": "tell1.53",
+      "item_replayed": "tell1.53",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the peg wrap",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.21",
+      "item_baseline": "tell2.21",
+      "item_replayed": "tell2.21",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the post bridge",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.37",
+      "item_baseline": "tell1.37",
+      "item_replayed": "tell1.37",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the raft block",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.41",
+      "item_baseline": "tell1.41",
+      "item_replayed": "tell1.41",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the raft clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.48",
+      "item_baseline": "tell1.48",
+      "item_replayed": "tell1.48",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the reel drill",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.47",
+      "item_baseline": "tell1.47",
+      "item_replayed": "tell1.47",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the sail post",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.16",
+      "item_baseline": "tell1.16",
+      "item_replayed": "tell1.16",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the screw mark",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.42",
+      "item_baseline": "tell1.42",
+      "item_replayed": "tell1.42",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the strap crank",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.49",
+      "item_baseline": "tell1.49",
+      "item_replayed": "tell1.49",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the tap sort",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.46",
+      "item_baseline": "tell1.46",
+      "item_replayed": "tell1.46",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the tap stack",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.22",
+      "item_baseline": "tell2.22",
+      "item_replayed": "tell2.22",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the tube shine",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.45",
+      "item_baseline": "tell1.45",
+      "item_replayed": "tell1.45",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the vault smooth",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.10",
+      "item_baseline": "tell1.10",
+      "item_replayed": "tell1.10",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the weaver fold",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.26",
+      "item_baseline": "tell2.26",
+      "item_replayed": "tell2.26",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the welder tile",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.38",
+      "item_baseline": "tell1.38",
+      "item_replayed": "tell1.38",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the wick spin",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.19",
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "why does the post bridge the flare",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the post bridges the flare",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist79",
+      "item_baseline": "dist79",
+      "item_replayed": "dist79",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the raft block the pan",
+      "class": "distractor/unanswerable",
+      "cls_from": "refused",
+      "cls_to": "invented",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "invented"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "invented"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "droso says the raft blocks the pan"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "recalled proposition"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist82",
+      "item_baseline": "dist82",
+      "item_replayed": "dist82",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the strap crank the pan",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the strap cranks the pan",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist88",
+      "item_baseline": "dist88",
+      "item_replayed": "dist88",
+      "phase": "restarted",
+      "shape": "qword"
+    },
+    {
+      "ask": "why does the tube shine the stove",
+      "class": "distractor/unanswerable",
+      "cls_from": "invented",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "invented",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "invented",
+          "replayed": "refusal_silence"
+        },
+        "said": {
+          "baseline": "droso says the tube shines the stove",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "recalled proposition",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "dist85",
+      "item_baseline": "dist85",
+      "item_replayed": "dist85",
+      "phase": "restarted",
+      "shape": "qword"
+    }
+  ],
+  "n_rows_moved": 111,
+  "n_rows_only_in_one_set": 0,
+  "provenance": {
+    "driver": "tools/mp_e10_row_migration.py",
+    "git_head_at_write": "d50f80efee48d223f2d179e8ceb919ce2b28d7d3",
+    "promoted_from": "_tmp/row_migration.py",
+    "promotion_reason": "R10: three sealed MP-E10 artifacts were produced by a scratch file. A swept driver cannot reproduce a sealed number.",
+    "python": "3.12.10"
+  },
+  "reading": "a tally of `correct` can be unchanged while refusals become answers: the interval measures retention of taught items, the migration measures the refusal axis. Both are reported.",
+  "refused_by_phase": {
+    "1/live": {
+      "baseline": 711,
+      "delta": 3,
+      "replayed": 714
+    },
+    "1/reasked": {
+      "baseline": 643,
+      "delta": 1,
+      "replayed": 644
+    },
+    "1/restarted": {
+      "baseline": 709,
+      "delta": 0,
+      "replayed": 709
+    },
+    "2/live": {
+      "baseline": 433,
+      "delta": 0,
+      "replayed": 433
+    },
+    "2/reasked": {
+      "baseline": 407,
+      "delta": 8,
+      "replayed": 415
+    },
+    "2/restarted": {
+      "baseline": 413,
+      "delta": 0,
+      "replayed": 413
+    },
+    "3/live": {
+      "baseline": 190,
+      "delta": 0,
+      "replayed": 190
+    },
+    "3/reasked": {
+      "baseline": 151,
+      "delta": 2,
+      "replayed": 153
+    },
+    "3/restarted": {
+      "baseline": 158,
+      "delta": 1,
+      "replayed": 159
+    }
+  },
+  "row_key": {
+    "collapses_any_row": false,
+    "fields": [
+      "depth",
+      "phase",
+      "ask",
+      "item",
+      "shape"
+    ],
+    "mode": "probe",
+    "modes_available": {
+      "legacy": [
+        "depth",
+        "phase",
+        "ask"
+      ],
+      "probe": [
+        "depth",
+        "phase",
+        "ask",
+        "item",
+        "shape"
+      ]
+    },
+    "note": "'probe' is the corrected key, unique at every tier measured. 'legacy' is the key that produced the superseded figures and is kept so they can be reproduced; it silently drops rows wherever an ask repeats across items.",
+    "uniqueness": {
+      "baseline": {
+        "distinct_keys": 9414,
+        "duplicate_keys": 0,
+        "is_unique": true,
+        "key_fields": [
+          "depth",
+          "phase",
+          "ask",
+          "item",
+          "shape"
+        ],
+        "mode": "probe",
+        "rows_collapsed_by_this_key": 0,
+        "rows_total": 9414
+      },
+      "collapses_any_row": false,
+      "replayed": {
+        "distinct_keys": 9414,
+        "duplicate_keys": 0,
+        "is_unique": true,
+        "key_fields": [
+          "depth",
+          "phase",
+          "ask",
+          "item",
+          "shape"
+        ],
+        "mode": "probe",
+        "rows_collapsed_by_this_key": 0,
+        "rows_total": 9414
+      }
+    }
+  },
+  "rows_compared": 9414,
+  "rows_only_in_one_set": [],
+  "taught_rows_moved": [
+    {
+      "ask": "what the cooper pack",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.40",
+      "item_baseline": "tell0.40",
+      "item_replayed": "tell0.40",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the drum trail",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.45",
+      "item_baseline": "tell0.45",
+      "item_replayed": "tell0.45",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the magnet clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.44",
+      "item_baseline": "tell0.44",
+      "item_replayed": "tell0.44",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the sail lock",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.20",
+      "item_baseline": "tell0.20",
+      "item_replayed": "tell0.20",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the tile bolt",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.26",
+      "item_baseline": "tell0.26",
+      "item_replayed": "tell0.26",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.23",
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the cooper pack",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.40",
+      "item_baseline": "tell0.40",
+      "item_replayed": "tell0.40",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the mason lock",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.39",
+      "item_baseline": "tell0.39",
+      "item_replayed": "tell0.39",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the strap cool",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.59",
+      "item_baseline": "tell0.59",
+      "item_replayed": "tell0.59",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.23",
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what does the axle drill",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "refusal_silence"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item": "tell2.57",
+      "item_baseline": "tell2.57",
+      "item_replayed": "tell2.57",
+      "phase": "reasked",
+      "shape": "object"
+    },
+    {
+      "ask": "what does the mast bridge",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "refusal_silence"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item": "tell2.37",
+      "item_baseline": "tell2.37",
+      "item_replayed": "tell2.37",
+      "phase": "reasked",
+      "shape": "object"
+    },
+    {
+      "ask": "what the cage unroll",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.52",
+      "item_baseline": "tell1.52",
+      "item_replayed": "tell1.52",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the drum crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.11",
+      "item_baseline": "tell1.11",
+      "item_replayed": "tell1.11",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the faucet file",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.15",
+      "item_baseline": "tell1.15",
+      "item_replayed": "tell1.15",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the keg bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.42",
+      "item_baseline": "tell0.42",
+      "item_replayed": "tell0.42",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the loom screw",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.39",
+      "item_baseline": "tell1.39",
+      "item_replayed": "tell1.39",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the nail bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "ask_not_recognized"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item": "tell2.32",
+      "item_baseline": "tell2.32",
+      "item_replayed": "tell2.32",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the raft clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.48",
+      "item_baseline": "tell1.48",
+      "item_replayed": "tell1.48",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the reel drill",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell1.47",
+      "item_baseline": "tell1.47",
+      "item_replayed": "tell1.47",
+      "phase": "reasked",
+      "shape": "object_fold"
+    }
+  ],
+  "transitions_by_axis": {
+    "1/live": {
+      "invented -> cross_echo [distractor/unanswerable]": 1,
+      "invented -> refused [distractor/unanswerable]": 1,
+      "partial -> refused [taught item]": 4,
+      "refused -> partial [taught item]": 2
+    },
+    "1/reasked": {
+      "invented -> refused [distractor/unanswerable]": 1,
+      "partial -> refused [taught item]": 2,
+      "refused -> partial [taught item]": 2
+    },
+    "2/reasked": {
+      "invented -> refused [distractor/unanswerable]": 7,
+      "partial -> refused [taught item]": 7,
+      "refused -> invented [distractor/unanswerable]": 3,
+      "refused -> partial [taught item]": 3,
+      "refused -> refused [taught item]": 3
+    },
+    "2/restarted": {
+      "invented -> refused [distractor/unanswerable]": 3,
+      "partial -> refused [taught item]": 7,
+      "refused -> invented [distractor/unanswerable]": 3,
+      "refused -> partial [taught item]": 7
+    },
+    "3/reasked": {
+      "invented -> refused [distractor/unanswerable]": 3,
+      "partial -> refused [taught item]": 9,
+      "refused -> correct [taught item]": 1,
+      "refused -> invented [distractor/unanswerable]": 3,
+      "refused -> partial [taught item]": 6
+    },
+    "3/restarted": {
+      "invented -> refused [distractor/unanswerable]": 5,
+      "partial -> refused [taught item]": 12,
+      "refused -> invented [distractor/unanswerable]": 4,
+      "refused -> partial [taught item]": 12
+    }
+  }
+}
