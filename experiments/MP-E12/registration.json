@@ -1,0 +1,183 @@
+{
+  "experiment": "MP-E12a",
+  "title": "Frozen weights as a library -- the weight-reading probes (flagship stage A)",
+  "gate": "G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)",
+  "status": "REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.",
+  "registered_at": "2026-08-10T00:00:00Z",
+  "authenticity": {
+    "what_this_is": "The registration of MP-E12a, the only parallel track rule R4 sanctions. It is opened here because the plan opens it on a condition that is already true, not on a condition that is convenient.",
+    "plan_authorisation": {
+      "quote": "The single sanctioned parallelism is the MP-E12a probe track, disjoint from Droso organs, opening when G0-prime closes (rule R4).",
+      "location": "DROSO Master Plan v1.1, section 7 preamble, lines 846-848",
+      "condition_is_met": "G0-prime is CLOSED, conditional, and the condition is recorded in G0-prime's own decision record. The conditional is about the corpus size the organ was tested on; it does not qualify the parallel-track authorisation, which the plan ties to G0-prime closing.",
+      "disjoint_from_droso_organs": "MP-E12a touches only a donor's weight matrices and writes its own artifacts. It imports no Droso organ, mutates no store, changes no flag, and runs no curriculum. Nothing it does can perturb a G1/G2/G3 measurement, which is the reason R4 makes this the one exception.",
+      "what_opening_does_NOT_mean": "It does not open G5. G5 belongs to MP-E12 as a whole and its go criteria are unchanged; this is stage a of that experiment, and stage b and stage c are not registered here."
+    },
+    "why_registration_is_not_blocked": "The missing thing is the donor's weights. A registration does not read them: it fixes, before any run, what will be extracted, how many operations each extraction may spend, what schema the output has, what threshold counts as the headline, and which failure modes will be reported. Every one of those is decidable now. Deferring the registration until the weights arrive would be the R2 failure this repository has already paid for once: a run whose thresholds were chosen after the shape of the data was known."
+  },
+
+  "plan_text_transcribed_verbatim": {
+    "transcription_note": "Line-wrapping of the source is normalised to single spaces; no word is changed, added or dropped. Source: experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt, section 6.5 (lines 756-815), appendix A.2 (lines 1219-1226), checklist B.6 (lines 1341-1355).",
+    "section_6_5_MP-E12": "Objective. Establish a knowledge-transfer channel that no published system has: teach the connectome to read a trained network's weights statically, without running it, and re-express what it reads in its own currency. Unchanged from v1.0; this is the flag-plant. Concept. A trained network's weights are a compressed association library, paid for at training time. The only interface the industry uses for that library is inference: run the model token by token, and pay latency and energy on every query. MP-E12 replaces the interface. The connectome reads the weight matrices directly - a bounded number of matrix operations per probed association, no autoregressive loop, no sampling - compiles the associations into pools and plastic synapses, and then discards the donor. The library is read once and owned; nothing of the foreign network remains resident. This is why the delays disappear: reading is not running. Stage MP-E12a - weight-reading probes. Read-only; touches only the donor, and is therefore parallelizable from the moment G0-prime closes under rule R4. Donor: GPT-2 124M public weights - deliberately the same model family already used as the program's reference opponent. Three extractions, each a static pass. First, embedding geometry: nearest-neighbour structure of the token-embedding matrix, clustered into candidate feature pools. Second, association edges: for probed tokens, top-k associative successors read from the unembedding and head structure in single matrix operations, not generation. Third, circuit motifs: attention heads read as directed association maps, and MLP neurons read as key-value feature detectors - the top-responding neurons for a probe are the features the donor associates with it. Deliverable: a typed association graph (nodes, edges, confidences) produced under a hard per-item read budget, logged, sealed, and benchmarked.",
+    "section_6_5_MP-E12b_and_c": "Stage MP-E12b - the weight-to-connectome compiler. Compile the association graph through the existing primitives: grow_pool for discovered feature clusters; grow_plastic and wire_pool for association edges, gated by confidence. Every transplanted edge carries a provenance tag - source model, extraction method, confidence - compiled in the same discipline the repository already applies to measurement rows (git, interpreter, live-state). The coverage gate gains a source dimension: curriculum-learned and library-read knowledge become distinct classes, which is what protects refusal. Stage MP-E12c - verification, three falsifiable hypotheses. H1 (transfer): Droso bootstrapped from the library beats Droso trained on text alone - at equal corpus exposure - on paraphrase probes and on acquisition of new material. The binding control is the text-distillation arm: run the frozen donor once, offline, to emit text, and feed that text to Droso through its normal curriculum. Weight-reading must beat or match text-distillation at lower latency and energy; if it does not, the weights carried nothing beyond their own outputs, and that null result is itself the first controlled measurement of its kind. H2 (latency): per-association read cost is at least ten times lower than autoregressive inference for equivalent association queries, on identical hardware (matrix-operation count, wall-clock, energy). H3 (honesty preserved): retention stays at the invariant, the refusal suites are unchanged after transplantation, and the agent can refuse to ground library-sourced claims - the source dimension works. All three are graded under R9 at word level. C-conditions and gate G5. C1: any guarded row answered post-transplant - abort. C2: library-sourced knowledge silently promoted to curriculum class - abort. C3: read budget exceeded on any logged item - abort the extraction. Full go only if H1, H2 and H3 all hold: paper 3 headline. Partial go: the compiler ships as diagnostic tooling and the transfer result is reported exactly as measured. Null: a negative-results paper - the flag is still planted, because a controlled null on weight-reading into a non-backprop substrate does not exist yet. What MP-E12 is not. It never runs the donor for answers, never fine-tunes the donor, never wraps a transformer around Droso, and never leaves donor weights resident at deployment. Rule R1 holds: the library is read through native compilation, and the connectome remains the only thing that thinks. Known risk. Representational superposition: donor features share dimensions, so extracted edges can be noisy. Mitigations: breadth of the probe battery, confidence gating at compile time, and the text-distillation control that bounds expectations in advance.",
+    "appendix_A_2_read_budget_and_benchmark": "A.2 The Read Budget and the Benchmark. Every extraction in MP-E12a carries a per-item read budget: a maximum number of matrix operations per probed association, fixed in the registration file, with every item's operation count logged and sealed. The benchmark compares, on identical hardware and an identical association query set: static reading (the budgeted extraction) against autoregressive inference (the donor generating the association token by token). Reported quantities: wall-clock, operation count, and energy estimate. The pre-registered threshold for H2 is that reading is at least ten times cheaper per association than inference.",
+    "checklist_B_6": [
+      "1. MP-E12a (opens when G0-prime closes; parallel to G1-G2): implement the three read-only extractions against the GPT-2 124M weights with per-item read budgets; log and seal operation counts.",
+      "2. Emit the typed association graph (nodes, edges, confidences) to a versioned schema.",
+      "3. Benchmark reads against autoregressive inference on the same hardware and query set; the 10x threshold is pre-registered.",
+      "4. MP-E12b: implement the compiler - grow_pool from clusters, grow_plastic and wire_pool from edges, confidence-gated; add the provenance tag and the coverage-gate source dimension, sealed per edge.",
+      "5. Run the text-distillation control: the donor emits text once, offline; Droso trains on it through the normal curriculum.",
+      "6. MP-E12c: run H1-H3 - transfer versus text-distillation at equal exposure; the latency comparison; retention and refusal suites post-transplant, word-level graded.",
+      "7. Emit before-and-after paraphrase and acquisition figures; write decision.md."
+    ],
+    "B_6_items_this_registration_covers": "Items 1, 2 and 3, and only against a SYNTHETIC donor of the registered shape (see synthetic_donor). Items 4, 5, 6 and 7 belong to MP-E12b and MP-E12c, are not implemented here, and are not opened by this registration.",
+    "B_6_item_1_divergence_recorded": "Item 1 says 'against the GPT-2 124M weights'. This registration implements the extractions against a synthetic donor of the same shape and says so in every field of every artifact. The divergence is not a substitution of the claim: the real donor run remains item 1 and is blocked by the named external blocker below. What is delivered now is the code path, the operation counts and the schema, so that the run against real weights is a download rather than a build."
+  },
+
+  "extractions_registered": {
+    "counting_rule_for_a_matrix_operation": "ONE matrix operation = one multiply of a probe vector by one donor parameter matrix, of any shape, plus one similarity search against one donor matrix. Element-wise arithmetic (layer-norm rescale, gating masks, top-k selection) is NOT counted, because it touches no donor matrix and its cost is linear in one dimension rather than in the vocabulary. The rule is registered so that the budget is checkable by a reader rather than by the tool that spent it.",
+    "1_embedding_geometry_into_candidate_feature_pools": {
+      "plan_words": "nearest-neighbour structure of the token-embedding matrix, clustered into candidate feature pools",
+      "implemented_as": "cosine similarity of the probe's row of wte against all of wte, top-k neighbours, then a single-linkage cluster over those neighbours to propose a candidate pool. Reads wte once.",
+      "donor_matrices_touched": ["wte (50257 x 768)", "the k x 768 gram of the already-read neighbour rows"],
+      "operations_per_item": 2,
+      "operation_note": "one similarity search against wte, plus one gram over the k neighbour rows. The gram multiplies a matrix ASSEMBLED from donor rows, so it is counted; the mutual-nearest-neighbour linking that follows touches no donor matrix and is not.",
+      "output_node_type": "pool_candidate",
+      "what_it_would_mean_on_real_weights": "a pool of donor-adjacent tokens, which MP-E12b would compile through grow_pool."
+    },
+    "2_association_edges_from_unembedding_and_head_structure": {
+      "plan_words": "for probed tokens, top-k associative successors read from the unembedding and head structure in single matrix operations, not generation",
+      "implemented_as": "the probe embedding, rescaled by the final layer norm, multiplied by the unembedding to score every vocabulary row, top-k taken as associative successors; plus a read of each registered head's value slice applied to the probe, whose output directions are the values that head writes. NO autoregressive loop, NO sampling, NO generated text.",
+      "donor_matrices_touched": ["wte as the tied unembedding (768 x 50257)", "per-head W_V slice (768 x 64)"],
+      "operations_per_item": 5,
+      "output_edge_type": "association",
+      "registered_head_subset": "4 heads, fixed by (layer, head) index in the probe configuration and named in every artifact. The subset is registered BEFORE any figure exists; selecting heads after seeing results would be the selection-after-shape failure R2 names.",
+      "weight_tying_consequence": "GPT-2 ties the unembedding to the token embedding, so extraction 2 and extraction 1 read the SAME matrix. They are not two independent measurements of the donor and the artifact must not present them as such. See pre_registered_failure_modes.2."
+    },
+    "3_circuit_motifs_heads_as_directed_maps_and_MLP_as_key_value_detectors": {
+      "plan_words": "attention heads read as directed association maps, and MLP neurons read as key-value feature detectors - the top-responding neurons for a probe are the features the donor associates with it",
+      "implemented_as": "for each registered head, its output projection slice applied to the probe gives the direction that head writes when it attends to the probe -- a directed association map, recorded as source, target, direction and confidence. For each layer, the probe is multiplied by the MLP input projection and the top-responding neurons are the features the donor associates with it; their output rows are the values those features write. A neuron's response is a read, not a run: no forward pass is executed.",
+      "donor_matrices_touched": ["per-head W_O slice (64 x 768)", "per-layer c_fc (768 x 3072)"],
+      "operations_per_item": 16,
+      "output_edge_types": ["directed_map", "feature_detector"],
+      "why_12_layers_are_all_read": "the plan's claim is about the donor's library, not about a subset of it. Reading a subset of layers would be a registered limitation; reading all twelve costs 12 operations and removes the caveat."
+    }
+  },
+
+  "hard_per_item_read_budget": {
+    "value": 24,
+    "unit": "matrix operations per probed association, as defined by the counting rule above",
+    "arithmetic": "extraction 1 = 2 (one search against wte, one gram over the neighbour rows it returned), extraction 2 = 5 (one tied-unembedding read, one W_V read per registered head), extraction 3 = 16 (one W_O read per registered head, one c_fc read per layer, twelve layers). Total 23 spent by design against a budget of 24: headroom 1. The number is not a margin picked after the fact; it is the design's cost plus one, and the unit test that pins the per-item count at 23 is what stops the plus-one from quietly becoming a plus-six.",
+    "arithmetic_corrected_before_any_run": "the first draft of this file counted extraction 1 as 1 operation. The implementation's neighbour gram made it 2. Corrected before any measurement existed, and recorded here because a budget whose arithmetic was fixed after a run would be a budget chosen to pass.",
+    "enforcement": "C3 of the plan's own C-conditions: 'read budget exceeded on any logged item - abort the extraction'. The counter is in the extraction path, not in a report: an item whose count would exceed 24 raises and writes nothing.",
+    "logged_and_sealed": "every item's actual operation count is written into the artifact, per extraction and per probe, so a reader can audit the budget against the counting rule rather than against the tool's summary.",
+    "registered_before_any_run": true
+  },
+
+  "association_graph_schema": {
+    "version": "droso.association_graph.v1",
+    "version_note": "A schema version is part of the deliverable, so it is fixed here rather than in the writer. A v2 artifact must not be readable as v1.",
+    "nodes": {
+      "required_fields": ["node_id", "type", "source", "confidence"],
+      "types": ["probe_token", "pool_candidate", "feature_detector", "successor_token"],
+      "source": "the donor matrix the node was read from, by name and shape, never a file path"
+    },
+    "edges": {
+      "required_fields": ["src", "dst", "type", "confidence", "extraction", "operations_spent", "provenance"],
+      "types": ["co_clustered", "association", "directed_map", "detector_value"],
+      "confidence": "the read's own score (cosine, unembedding logit rank, or neuron response), normalised to [0,1]; NOT a probability and never presented as one",
+      "provenance": "the plan's MP-E12b wording (source model, extraction method, confidence), attached at read time in stage a so stage b cannot add it retrospectively"
+    },
+    "graph_level_fields": ["schema_version", "donor", "donor_is_synthetic", "read_budget", "operations_total", "items", "quoting_guard"],
+    "not_in_v1": "no compiled pool or plastic-synapse identifiers. Mapping graph nodes onto connectome objects is MP-E12b and is not registered here."
+  },
+
+  "pre_registered_threshold_H2": {
+    "threshold": 10.0,
+    "statement": "reading is at least ten times cheaper per association than inference",
+    "measured_as": ["matrix_operation_count", "wall_clock", "energy_estimate"],
+    "identical_hardware_and_query_set": "the comparison runs the same donor, the same probe list and the same machine; the inference side generates the association token by token, the read side spends its budgeted operations.",
+    "status_of_the_number": "PRE-REGISTERED, not yet met, and not claimed. The threshold is fixed before any benchmark exists.",
+    "what_a_synthetic_benchmark_can_and_cannot_show": "Operation counts are a property of the code path and the shapes, so a synthetic donor of the registered shape gives a real operation-count comparison. Wall-clock is a property of the shapes too, but on random matrices it carries no information about which associations a real donor would surface. Energy is not estimated here at all: an energy estimate from a synthetic run would be a number with no referent."
+  },
+
+  "pre_registered_failure_modes": {
+    "1_representational_superposition": {
+      "plan_words": "Representational superposition: donor features share dimensions, so extracted edges can be noisy.",
+      "how_it_will_be_seen": "a probe whose top-k neighbours and top-k successors disagree sharply, or whose neuron responses are dominated by a few high-variance directions, is superposition, not a wrong answer. The artifact reports the disagreement per probe rather than averaging it away.",
+      "mitigations_registered_by_the_plan": "breadth of the probe battery, confidence gating at compile time, and the text-distillation control that bounds expectations in advance.",
+      "what_would_make_this_stage_fail_honestly": "a graph whose edges are so noisy that no confidence threshold separates them. That is a result, and the plan's null branch already provides for it."
+    },
+    "2_tied_weights_make_two_extractions_one_measurement": {
+      "statement": "GPT-2 ties wte and the unembedding, so extraction 1 (nearest neighbours in the embedding) and extraction 2 (top successors from the unembedding) read the same matrix. An agreement between them is partly arithmetic, not two independent confirmations.",
+      "consequence_registered": "any figure that combines them must say the donor is weight-tied, and the graph's provenance field carries the matrix name so the tie is visible per edge.",
+      "why_this_is_registered_before_the_run": "on random weights the tie is invisible in the numbers; it becomes a live interpretation error only when real associations are read. Registering it now is the whole point of a pre-registration."
+    },
+    "3_read_budget_exhaustion_on_a_logged_item": {
+      "statement": "an item that would spend more than 24 operations aborts the extraction (C3). The failure mode is a silent truncation: a graph that looks complete but is missing its most expensive probes.",
+      "consequence_registered": "the artifact records aborted items and their would-be cost, and the operation total is reported with the count of items that were refused, so a budget-limited graph cannot be read as a complete one."
+    },
+    "named_external_blocker": {
+      "what_must_arrive": "GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to the unembedding).",
+      "where_it_must_be": "experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.",
+      "what_is_blocked_until_it_does": "B.6 item 1 against the real donor, every association figure, and therefore all of MP-E12b and MP-E12c.",
+      "what_is_NOT_blocked": "this registration, the three extractions, their unit tests, the operation counts, the schema, the threshold, and the benchmark's operation-count side. Those are what this document is for.",
+      "stated_as_a_fact_not_a_discovery": "the absence is recorded here, before any run, so that a later session finds a named blocker in the ledger rather than discovering a missing dependency mid-experiment. No ruling, no budget and no session time changes it: the weights have to arrive.",
+      "machine_state_measured_2026_08_10": "no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present)."
+    }
+  },
+
+  "probe_configuration": {
+    "registered_head_subset": [[0, 0], [3, 5], [7, 2], [11, 11]],
+    "head_subset_note": "(layer, head) indices, fixed here before any figure exists, chosen to span first, middle and last layers rather than to suit a result. Four heads is a registered limitation: the graph describes these heads, not the donor's 144.",
+    "k_values": {"nearest_neighbours": 10, "successors": 5, "top_neurons_per_layer": 5},
+    "probe_items_synthetic": "the 24 token ids 0..23 of the synthetic donor's vocabulary, one probed association each, so the operation budget is exercised on a fixed and reproducible item count",
+    "probe_items_real_donor": "the probe list for the real run is NOT fixed here, because naming words against a donor that is not present would be a guess. It is a registered open item (D-MPE12-03), and the budget applies per item whatever the list turns out to be."
+  },
+
+  "synthetic_donor": {
+    "what_it_is": "A randomly initialised tensor set with the SAME SHAPES as GPT-2 124M: wte (50257 x 768), wpe (1024 x 768 -- n_positions is 1024; a 1500-row wpe would be 356,736 parameters wrong and would not be the donor), and for each of 12 layers c_attn (768 x 2304) split into 12 heads of d_head 64, attn c_proj (768 x 768), mlp c_fc (768 x 3072), mlp c_proj (3072 x 768), plus the layer-norm vectors and ln_f. The unembedding is tied to wte, as in the real model. Total parameters 124,439,808, COMPUTED from the config by the generator and checked against GPT-2 small's published count rather than typed in from a model card.",
+    "how_it_is_made": "tools/mp_e12_synthetic_donor.py, deterministic from a registered seed (1249), float32, standard normal scaled by 0.02 the way a GPT-2 checkpoint is initialised. The donor's own shape manifest is sealed so that a later reader can check that the stand-in had the shape the budget was sized against.",
+    "why_a_stand_in_and_not_a_wait": "the same discipline MP-E10 used. Its hash-projected token vectors were labelled a stand-in, and the calibration they made possible found three properties of the sealed organ that 23 unit tests had missed. A shape-correct donor makes the extraction path executable and testable now, so that when the weights arrive MP-E12a is a download rather than a build.",
+    "named_synthetic_in_every_field": "every artifact this stage writes carries donor_is_synthetic: true, donor.name: 'synthetic-124M-shaped-random', and a quoting guard naming the donor. No field of a synthetic artifact may be lifted into a sentence about GPT-2.",
+    "what_it_can_prove": "that the three extractions run, that they read only the matrices the registration names, that the operation counts match the counting rule and fit the budget of 24, that the schema validates, that the abort path fires on an over-budget item, and that the read-versus-infer operation comparison holds at these shapes.",
+    "what_it_cannot_prove": "anything about GPT-2's associations, pools, motifs, confidences or the ten-times claim in the world. Random matrices have no library to read. A number from this donor that appears in a sentence about the flagship result is a reporting error, and this file is the place that would have been violated."
+  },
+
+  "open_decisions": {
+    "D-MPE12-01": "Whether the sealed operation-count log from the synthetic donor satisfies B.6 item 1's 'log and seal operation counts', or whether the log must be regenerated against the real donor before item 1 can be called done. This registration's position: regenerated -- the counts will very likely be identical because they are a property of the code path and the shapes, but 'very likely identical' is not the same artifact and must not be filed as one.",
+    "D-MPE12-02": "How the energy estimate is produced. The plan names wall-clock, operation count AND energy estimate; this repository has no energy instrument, so on both the synthetic and the real run energy is NOT MEASURED rather than modelled. Whether a modelled estimate is acceptable, and from what basis, is the PI's call.",
+    "D-MPE12-03": "The probe list for the real donor (which tokens, how many, chosen how). It cannot be fixed against an absent model and must not be chosen after the weights arrive; the PI may fix it now, or authorise a rule for fixing it later.",
+    "D-MPE12-04": "Whether MP-E12b (the compiler) may be built against the synthetic graph before the real graph exists. Not started here: stage b mutates connectome objects, which is not disjoint from Droso organs, and so is NOT covered by R4's parallel-track authorisation. Building it now would be the one kind of licence this registration does not have.",
+    "D-MPE12-05": "How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibration measured that the pre-registered 10x threshold is crossed at 5 generated tokens on operation count and at 9 on MACs, and is NOT reached on wall-clock at any registered length (a factor of 5.8 at nine tokens, and under 2.0 at one). The plan says 'at least ten times cheaper per association than inference' and never fixes the association's length, so the verdict is a property of an unstated definition rather than of weight-reading. Raised by the measurement, not by reading ahead -- see experiments/MP-E12/results/probes_synthetic_calibration.json calibration_findings.1."
+  },
+  "calibration_findings_recorded_after_the_first_run": {
+    "status": "Written after the synthetic calibration ran. It adds no definition, changes no threshold and alters no budget; the numbers it quotes are the run's own, derived in the artifact.",
+    "why_this_block_is_here_and_not_inside_the_pre_run_sections": "R2 forbids a registration choosing its thresholds after seeing data. It does not forbid a registration recording what a calibration measured, provided the two are visibly separate documents in one file. The budget stayed 24, the threshold stayed 10x, the schema stayed v1: none of the pre-run numbers moved.",
+    "findings": "five, in probes_synthetic_calibration.json under calibration_findings: (1) 10x depends on a query length the plan never gives -> D-MPE12-05; (2) the read is slower than generating one token on wall-clock, with unpriced work on BOTH sides in opposite directions; (3) 72.8% of the read's MACs are the two wte multiplies, so the operation budget does not see the cost that actually dominates; (4) the budget has one operation of headroom and already bound the design -- a dropped per-head nearest-token read costs 4 more and would abort every item; (5) weight tying is visible as a shape statistic the instrument reports, which is what a superposition probe needs to be able to say."
+  },
+
+  "quoting_guard": {
+    "meaning": "No figure in any MP-E12a artifact may be quoted as evidence about GPT-2, about the ten-times claim, or about the flagship result. The donor is synthetic; there is no library in it.",
+    "open_decisions_at_generation": ["D-MPE12-01", "D-MPE12-02", "D-MPE12-03", "D-MPE12-04", "D-MPE12-05"],
+    "rule_source": "This registration, and the plan's own What MP-E12 is not. Established practice in this repository: MP-E10's sweep and G2's H4 clause both attach a guard naming what the artifact is and is not evidence of.",
+    "still_blocking_a_scored_run_after_this_registration": "the donor itself, which is a physical absence, not a decision. Nothing in the open list above prevents the code path from being built and tested; the absence prevents it from being pointed at anything real."
+  },
+
+  "cross_refs": {
+    "plan": "DROSO Master Plan v1.1, section 6.5, appendix A.2, checklist B.6, rule R4, gate G5",
+    "plan_extract_in_repository": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt",
+    "precedent_for_a_labelled_stand_in": "tools/mp_e10_working_memory.py (hash-projected token vectors) and experiments/MP-E10/results/ksweep_tier40_calibration.json",
+    "precedent_for_registering_an_absent_dependency": "experiments/MP-E9/registration.json open_decisions (GPT-2 124M absent), and experiments/MP-E8/registration.json named-missing lists",
+    "tool": "tools/mp_e12_synthetic_donor.py, tools/mp_e12_probes.py",
+    "tests": "tests/test_mp_e12_probes.py"
+  },
+
+  "sealed_files": {},
+  "sealed_at": "",
+  "sealed_count": 0,
+  "git_commit_at_seal": "",
+  "git_dirty_tracked": [],
+  "git_dirty_sealed": [],
+  "seal_note": "Empty by design until the seal tool stamps this ledger. A registration written after a run would show a seal date earlier than its own evidence; this one cannot."
+}

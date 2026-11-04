@@ -1,0 +1,1252 @@
+{
+  "flags_run": [
+    "off",
+    "variant_i",
+    "variant_ii",
+    "both"
+  ],
+  "k": 8,
+  "n_probes": 6,
+  "probes": [
+    {
+      "probe": [
+        "w00"
+      ],
+      "result": {
+        "all_flags_agree": false,
+        "c5_ablation_test": {
+          "both_flag_winner_matches_primary_alone": true,
+          "condition": "a variant wins only with the other disabled",
+          "i_wins_only_against_off": true,
+          "ii_wins_only_against_off": false,
+          "variants_disagree": true,
+          "verdict_if_any_of_these_is_true": "record as an ABLATION RESULT, not a win (C5)"
+        },
+        "candidate_pools": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "candidates": [
+          "w00",
+          "w01",
+          "w02",
+          "w03",
+          "w04",
+          "w05",
+          "w06",
+          "w07",
+          "w08",
+          "w09",
+          "w10",
+          "w11"
+        ],
+        "k": 8,
+        "per_flag": {
+          "both": {
+            "excluded": [
+              "w00",
+              "w01",
+              "w02",
+              "w03",
+              "w05",
+              "w06",
+              "w07",
+              "w08",
+              "w11"
+            ],
+            "flag": "both",
+            "mechanism": "both: drive AND mask (the C5 condition)",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w04",
+              "w10",
+              "w09"
+            ],
+            "scores": {
+              "w00": null,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": 1.031832,
+              "w05": null,
+              "w06": null,
+              "w07": null,
+              "w08": null,
+              "w09": -12.057976,
+              "w10": -3.122488,
+              "w11": null
+            }
+          },
+          "off": {
+            "excluded": [],
+            "flag": "off",
+            "mechanism": "legacy unigram context over the sequence (kept runnable for comparison)",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w00",
+              "w02",
+              "w11",
+              "w08",
+              "w01",
+              "w07",
+              "w05",
+              "w04",
+              "w03",
+              "w06",
+              "w10",
+              "w09"
+            ],
+            "scores": {
+              "w00": 52.749321,
+              "w01": 5.039869,
+              "w02": 13.046232,
+              "w03": 0.888428,
+              "w04": 1.031832,
+              "w05": 3.974137,
+              "w06": -1.315879,
+              "w07": 4.016051,
+              "w08": 10.616631,
+              "w09": -12.057977,
+              "w10": -3.122488,
+              "w11": 12.768097
+            }
+          },
+          "variant_i": {
+            "excluded": [],
+            "flag": "variant_i",
+            "mechanism": "extra_drive from trace spread",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w00",
+              "w02",
+              "w11",
+              "w08",
+              "w01",
+              "w07",
+              "w05",
+              "w04",
+              "w03",
+              "w06",
+              "w10",
+              "w09"
+            ],
+            "scores": {
+              "w00": 52.749321,
+              "w01": 5.039869,
+              "w02": 13.046232,
+              "w03": 0.888428,
+              "w04": 1.031832,
+              "w05": 3.974137,
+              "w06": -1.315879,
+              "w07": 4.016051,
+              "w08": 10.616631,
+              "w09": -12.057976,
+              "w10": -3.122488,
+              "w11": 12.768096
+            }
+          },
+          "variant_ii": {
+            "excluded": [
+              "w00",
+              "w01",
+              "w02",
+              "w03",
+              "w05",
+              "w06",
+              "w07",
+              "w08",
+              "w11"
+            ],
+            "flag": "variant_ii",
+            "mechanism": "allowed_pools mask from trace resonance",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w04",
+              "w10",
+              "w09"
+            ],
+            "scores": {
+              "w00": null,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": 1.031832,
+              "w05": null,
+              "w06": null,
+              "w07": null,
+              "w08": null,
+              "w09": -12.057977,
+              "w10": -3.122488,
+              "w11": null
+            }
+          }
+        },
+        "sequence": [
+          "w00"
+        ],
+        "trace_fingerprint_after_run": "c6f5c81602fd053a966b26d6b0cf2d81c525da7ae5fa919a5fdf36451b1287e9",
+        "winners": {
+          "both": "w04",
+          "off": "w00",
+          "variant_i": "w00",
+          "variant_ii": "w04"
+        }
+      }
+    },
+    {
+      "probe": [
+        "w01",
+        "w02"
+      ],
+      "result": {
+        "all_flags_agree": false,
+        "c5_ablation_test": {
+          "both_flag_winner_matches_primary_alone": true,
+          "condition": "a variant wins only with the other disabled",
+          "i_wins_only_against_off": true,
+          "ii_wins_only_against_off": false,
+          "variants_disagree": true,
+          "verdict_if_any_of_these_is_true": "record as an ABLATION RESULT, not a win (C5)"
+        },
+        "candidate_pools": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "candidates": [
+          "w00",
+          "w01",
+          "w02",
+          "w03",
+          "w04",
+          "w05",
+          "w06",
+          "w07",
+          "w08",
+          "w09",
+          "w10",
+          "w11"
+        ],
+        "k": 8,
+        "per_flag": {
+          "both": {
+            "excluded": [
+              "w01",
+              "w02",
+              "w03",
+              "w04",
+              "w05",
+              "w06",
+              "w08",
+              "w09",
+              "w11"
+            ],
+            "flag": "both",
+            "mechanism": "both: drive AND mask (the C5 condition)",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w00",
+              "w07",
+              "w10"
+            ],
+            "scores": {
+              "w00": 15.566166,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": null,
+              "w07": -0.927327,
+              "w08": null,
+              "w09": null,
+              "w10": -14.493778,
+              "w11": null
+            }
+          },
+          "off": {
+            "excluded": [],
+            "flag": "off",
+            "mechanism": "legacy unigram context over the sequence (kept runnable for comparison)",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w02",
+              "w01",
+              "w00",
+              "w06",
+              "w05",
+              "w07",
+              "w04",
+              "w11",
+              "w08",
+              "w09",
+              "w03",
+              "w10"
+            ],
+            "scores": {
+              "w00": 9.043051,
+              "w01": 37.265541,
+              "w02": 48.689743,
+              "w03": -8.690331,
+              "w04": 0.404012,
+              "w05": 2.507257,
+              "w06": 3.938251,
+              "w07": 0.534084,
+              "w08": -2.497514,
+              "w09": -2.889153,
+              "w10": -9.026434,
+              "w11": -2.428826
+            }
+          },
+          "variant_i": {
+            "excluded": [],
+            "flag": "variant_i",
+            "mechanism": "extra_drive from trace spread",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w02",
+              "w01",
+              "w00",
+              "w06",
+              "w05",
+              "w11",
+              "w08",
+              "w07",
+              "w04",
+              "w09",
+              "w03",
+              "w10"
+            ],
+            "scores": {
+              "w00": 15.566166,
+              "w01": 45.590263,
+              "w02": 89.054764,
+              "w03": -9.474375,
+              "w04": -2.329358,
+              "w05": 3.030205,
+              "w06": 7.739759,
+              "w07": -0.927327,
+              "w08": 0.005909,
+              "w09": -4.462138,
+              "w10": -14.493778,
+              "w11": 1.868775
+            }
+          },
+          "variant_ii": {
+            "excluded": [
+              "w01",
+              "w02",
+              "w03",
+              "w04",
+              "w05",
+              "w06",
+              "w08",
+              "w09",
+              "w11"
+            ],
+            "flag": "variant_ii",
+            "mechanism": "allowed_pools mask from trace resonance",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w00",
+              "w07",
+              "w10"
+            ],
+            "scores": {
+              "w00": 15.566166,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": null,
+              "w07": -0.927327,
+              "w08": null,
+              "w09": null,
+              "w10": -14.493779,
+              "w11": null
+            }
+          }
+        },
+        "sequence": [
+          "w01",
+          "w02"
+        ],
+        "trace_fingerprint_after_run": "9db6b051cabdb705cfd9ea2a843f0a57bf3ef23d41c353e27cca64272312bcae",
+        "winners": {
+          "both": "w00",
+          "off": "w02",
+          "variant_i": "w02",
+          "variant_ii": "w00"
+        }
+      }
+    },
+    {
+      "probe": [
+        "w00",
+        "w00",
+        "w05"
+      ],
+      "result": {
+        "all_flags_agree": false,
+        "c5_ablation_test": {
+          "both_flag_winner_matches_primary_alone": true,
+          "condition": "a variant wins only with the other disabled",
+          "i_wins_only_against_off": false,
+          "ii_wins_only_against_off": false,
+          "variants_disagree": true,
+          "verdict_if_any_of_these_is_true": "record as an ABLATION RESULT, not a win (C5)"
+        },
+        "candidate_pools": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "candidates": [
+          "w00",
+          "w01",
+          "w02",
+          "w03",
+          "w04",
+          "w05",
+          "w06",
+          "w07",
+          "w08",
+          "w09",
+          "w10",
+          "w11"
+        ],
+        "k": 8,
+        "per_flag": {
+          "both": {
+            "excluded": [
+              "w00",
+              "w01",
+              "w03",
+              "w04",
+              "w05",
+              "w06",
+              "w07",
+              "w09",
+              "w11"
+            ],
+            "flag": "both",
+            "mechanism": "both: drive AND mask (the C5 condition)",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w02",
+              "w08",
+              "w10"
+            ],
+            "scores": {
+              "w00": null,
+              "w01": null,
+              "w02": 10.830568,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": null,
+              "w07": null,
+              "w08": 4.960171,
+              "w09": null,
+              "w10": -19.864853,
+              "w11": null
+            }
+          },
+          "off": {
+            "excluded": [],
+            "flag": "off",
+            "mechanism": "legacy unigram context over the sequence (kept runnable for comparison)",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w00",
+              "w05",
+              "w02",
+              "w11",
+              "w08",
+              "w01",
+              "w03",
+              "w04",
+              "w07",
+              "w06",
+              "w10",
+              "w09"
+            ],
+            "scores": {
+              "w00": 36.490925,
+              "w01": 4.682787,
+              "w02": 9.046119,
+              "w03": 4.644471,
+              "w04": 0.647587,
+              "w05": 23.967079,
+              "w06": -0.873653,
+              "w07": 0.251143,
+              "w08": 6.076986,
+              "w09": -8.878366,
+              "w10": -7.922655,
+              "w11": 8.59231
+            }
+          },
+          "variant_i": {
+            "excluded": [],
+            "flag": "variant_i",
+            "mechanism": "extra_drive from trace spread",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w05",
+              "w00",
+              "w03",
+              "w02",
+              "w11",
+              "w01",
+              "w08",
+              "w04",
+              "w06",
+              "w07",
+              "w09",
+              "w10"
+            ],
+            "scores": {
+              "w00": 43.536125,
+              "w01": 7.748523,
+              "w02": 10.830568,
+              "w03": 12.822878,
+              "w04": 0.652972,
+              "w05": 66.933563,
+              "w06": -0.976109,
+              "w07": -4.266637,
+              "w08": 4.960171,
+              "w09": -11.56263,
+              "w10": -19.864853,
+              "w11": 9.816808
+            }
+          },
+          "variant_ii": {
+            "excluded": [
+              "w00",
+              "w01",
+              "w03",
+              "w04",
+              "w05",
+              "w06",
+              "w07",
+              "w09",
+              "w11"
+            ],
+            "flag": "variant_ii",
+            "mechanism": "allowed_pools mask from trace resonance",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w02",
+              "w08",
+              "w10"
+            ],
+            "scores": {
+              "w00": null,
+              "w01": null,
+              "w02": 10.830567,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": null,
+              "w07": null,
+              "w08": 4.960171,
+              "w09": null,
+              "w10": -19.864853,
+              "w11": null
+            }
+          }
+        },
+        "sequence": [
+          "w00",
+          "w00",
+          "w05"
+        ],
+        "trace_fingerprint_after_run": "7ecc618fc3f49d94503c9ddcc18013d61b909cca528a204b045a1a52719752c8",
+        "winners": {
+          "both": "w02",
+          "off": "w00",
+          "variant_i": "w05",
+          "variant_ii": "w02"
+        }
+      }
+    },
+    {
+      "probe": [
+        "w03",
+        "w07",
+        "w11",
+        "w02"
+      ],
+      "result": {
+        "all_flags_agree": false,
+        "c5_ablation_test": {
+          "both_flag_winner_matches_primary_alone": true,
+          "condition": "a variant wins only with the other disabled",
+          "i_wins_only_against_off": true,
+          "ii_wins_only_against_off": false,
+          "variants_disagree": true,
+          "verdict_if_any_of_these_is_true": "record as an ABLATION RESULT, not a win (C5)"
+        },
+        "candidate_pools": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "candidates": [
+          "w00",
+          "w01",
+          "w02",
+          "w03",
+          "w04",
+          "w05",
+          "w06",
+          "w07",
+          "w08",
+          "w09",
+          "w10",
+          "w11"
+        ],
+        "k": 8,
+        "per_flag": {
+          "both": {
+            "excluded": [
+              "w01",
+              "w02",
+              "w03",
+              "w04",
+              "w05",
+              "w06",
+              "w08",
+              "w09",
+              "w11"
+            ],
+            "flag": "both",
+            "mechanism": "both: drive AND mask (the C5 condition)",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w00",
+              "w07",
+              "w10"
+            ],
+            "scores": {
+              "w00": 20.545345,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": null,
+              "w07": 9.555046,
+              "w08": null,
+              "w09": null,
+              "w10": -17.03938,
+              "w11": null
+            }
+          },
+          "off": {
+            "excluded": [],
+            "flag": "off",
+            "mechanism": "legacy unigram context over the sequence (kept runnable for comparison)",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w02",
+              "w11",
+              "w07",
+              "w03",
+              "w00",
+              "w08",
+              "w05",
+              "w09",
+              "w01",
+              "w06",
+              "w10",
+              "w04"
+            ],
+            "scores": {
+              "w00": 7.679702,
+              "w01": -2.15625,
+              "w02": 21.208584,
+              "w03": 14.156793,
+              "w04": -6.103134,
+              "w05": 1.541127,
+              "w06": -2.753211,
+              "w07": 15.414735,
+              "w08": 2.036027,
+              "w09": -1.558374,
+              "w10": -3.231848,
+              "w11": 16.487761
+            }
+          },
+          "variant_i": {
+            "excluded": [],
+            "flag": "variant_i",
+            "mechanism": "extra_drive from trace spread",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w02",
+              "w11",
+              "w00",
+              "w07",
+              "w01",
+              "w08",
+              "w03",
+              "w05",
+              "w06",
+              "w09",
+              "w04",
+              "w10"
+            ],
+            "scores": {
+              "w00": 20.545345,
+              "w01": 8.944188,
+              "w02": 84.100929,
+              "w03": 5.640432,
+              "w04": -6.431589,
+              "w05": 0.86616,
+              "w06": -0.025548,
+              "w07": 9.555046,
+              "w08": 6.299461,
+              "w09": -3.491011,
+              "w10": -17.03938,
+              "w11": 41.006576
+            }
+          },
+          "variant_ii": {
+            "excluded": [
+              "w01",
+              "w02",
+              "w03",
+              "w04",
+              "w05",
+              "w06",
+              "w08",
+              "w09",
+              "w11"
+            ],
+            "flag": "variant_ii",
+            "mechanism": "allowed_pools mask from trace resonance",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w00",
+              "w07",
+              "w10"
+            ],
+            "scores": {
+              "w00": 20.545345,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": null,
+              "w07": 9.555046,
+              "w08": null,
+              "w09": null,
+              "w10": -17.039381,
+              "w11": null
+            }
+          }
+        },
+        "sequence": [
+          "w03",
+          "w07",
+          "w11",
+          "w02"
+        ],
+        "trace_fingerprint_after_run": "b0719fc257ebc59a1211fa7b56e0808ba0aa849fc2c0057d54fcbbb6c2a4e1e2",
+        "winners": {
+          "both": "w00",
+          "off": "w02",
+          "variant_i": "w02",
+          "variant_ii": "w00"
+        }
+      }
+    },
+    {
+      "probe": [
+        "w06",
+        "w06",
+        "w06",
+        "w06",
+        "w06"
+      ],
+      "result": {
+        "all_flags_agree": true,
+        "c5_ablation_test": {
+          "both_flag_winner_matches_primary_alone": true,
+          "condition": "a variant wins only with the other disabled",
+          "i_wins_only_against_off": false,
+          "ii_wins_only_against_off": false,
+          "variants_disagree": false,
+          "verdict_if_any_of_these_is_true": "record as an ABLATION RESULT, not a win (C5)"
+        },
+        "candidate_pools": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "candidates": [
+          "w00",
+          "w01",
+          "w02",
+          "w03",
+          "w04",
+          "w05",
+          "w06",
+          "w07",
+          "w08",
+          "w09",
+          "w10",
+          "w11"
+        ],
+        "k": 8,
+        "per_flag": {
+          "both": {
+            "excluded": [
+              "w01",
+              "w02",
+              "w03",
+              "w04",
+              "w07",
+              "w08",
+              "w09",
+              "w10",
+              "w11"
+            ],
+            "flag": "both",
+            "mechanism": "both: drive AND mask (the C5 condition)",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w06",
+              "w05",
+              "w00"
+            ],
+            "scores": {
+              "w00": -2.549515,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": 0.020925,
+              "w06": 111.312692,
+              "w07": null,
+              "w08": null,
+              "w09": null,
+              "w10": null,
+              "w11": null
+            }
+          },
+          "off": {
+            "excluded": [],
+            "flag": "off",
+            "mechanism": "legacy unigram context over the sequence (kept runnable for comparison)",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w06",
+              "w09",
+              "w02",
+              "w04",
+              "w10",
+              "w08",
+              "w01",
+              "w05",
+              "w07",
+              "w00",
+              "w03",
+              "w11"
+            ],
+            "scores": {
+              "w00": -1.315879,
+              "w01": 0.273482,
+              "w02": 7.60302,
+              "w03": -3.962319,
+              "w04": 5.141574,
+              "w05": 0.010801,
+              "w06": 57.451714,
+              "w07": -0.773983,
+              "w08": 1.36988,
+              "w09": 9.547962,
+              "w10": 3.970216,
+              "w11": -13.87956
+            }
+          },
+          "variant_i": {
+            "excluded": [],
+            "flag": "variant_i",
+            "mechanism": "extra_drive from trace spread",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w06",
+              "w09",
+              "w02",
+              "w04",
+              "w10",
+              "w08",
+              "w01",
+              "w05",
+              "w07",
+              "w00",
+              "w03",
+              "w11"
+            ],
+            "scores": {
+              "w00": -2.549515,
+              "w01": 0.529872,
+              "w02": 14.730847,
+              "w03": -7.676991,
+              "w04": 9.9618,
+              "w05": 0.020925,
+              "w06": 111.312692,
+              "w07": -1.499594,
+              "w08": 2.654143,
+              "w09": 18.499176,
+              "w10": 7.692292,
+              "w11": -26.891644
+            }
+          },
+          "variant_ii": {
+            "excluded": [
+              "w01",
+              "w02",
+              "w03",
+              "w04",
+              "w07",
+              "w08",
+              "w09",
+              "w10",
+              "w11"
+            ],
+            "flag": "variant_ii",
+            "mechanism": "allowed_pools mask from trace resonance",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w06",
+              "w05",
+              "w00"
+            ],
+            "scores": {
+              "w00": -2.549516,
+              "w01": null,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": 0.020925,
+              "w06": 111.312691,
+              "w07": null,
+              "w08": null,
+              "w09": null,
+              "w10": null,
+              "w11": null
+            }
+          }
+        },
+        "sequence": [
+          "w06",
+          "w06",
+          "w06",
+          "w06",
+          "w06"
+        ],
+        "trace_fingerprint_after_run": "5363da125f1991f00f8a07b18fb41b06ccd3d31eff0dfa2009380cede63a87a2",
+        "winners": {
+          "both": "w06",
+          "off": "w06",
+          "variant_i": "w06",
+          "variant_ii": "w06"
+        }
+      }
+    },
+    {
+      "probe": [
+        "w00",
+        "w01",
+        "w02",
+        "w03",
+        "w04",
+        "w05",
+        "w06",
+        "w07"
+      ],
+      "result": {
+        "all_flags_agree": false,
+        "c5_ablation_test": {
+          "both_flag_winner_matches_primary_alone": true,
+          "condition": "a variant wins only with the other disabled",
+          "i_wins_only_against_off": false,
+          "ii_wins_only_against_off": false,
+          "variants_disagree": true,
+          "verdict_if_any_of_these_is_true": "record as an ABLATION RESULT, not a win (C5)"
+        },
+        "candidate_pools": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "candidates": [
+          "w00",
+          "w01",
+          "w02",
+          "w03",
+          "w04",
+          "w05",
+          "w06",
+          "w07",
+          "w08",
+          "w09",
+          "w10",
+          "w11"
+        ],
+        "k": 8,
+        "per_flag": {
+          "both": {
+            "excluded": [
+              "w02",
+              "w03",
+              "w04",
+              "w05",
+              "w07",
+              "w08",
+              "w09",
+              "w10",
+              "w11"
+            ],
+            "flag": "both",
+            "mechanism": "both: drive AND mask (the C5 condition)",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w06",
+              "w01",
+              "w00"
+            ],
+            "scores": {
+              "w00": 6.429533,
+              "w01": 6.720395,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": 29.097565,
+              "w07": null,
+              "w08": null,
+              "w09": null,
+              "w10": null,
+              "w11": null
+            }
+          },
+          "off": {
+            "excluded": [],
+            "flag": "off",
+            "mechanism": "legacy unigram context over the sequence (kept runnable for comparison)",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w02",
+              "w00",
+              "w07",
+              "w01",
+              "w05",
+              "w06",
+              "w04",
+              "w03",
+              "w08",
+              "w09",
+              "w11",
+              "w10"
+            ],
+            "scores": {
+              "w00": 9.928749,
+              "w01": 9.783279,
+              "w02": 13.639624,
+              "w03": 3.23166,
+              "w04": 6.377305,
+              "w05": 9.713675,
+              "w06": 8.053551,
+              "w07": 9.822616,
+              "w08": 1.713518,
+              "w09": 0.18674,
+              "w10": -3.319736,
+              "w11": -2.199726
+            }
+          },
+          "variant_i": {
+            "excluded": [],
+            "flag": "variant_i",
+            "mechanism": "extra_drive from trace spread",
+            "n_candidates": 12,
+            "pools_legal": 12,
+            "ranking": [
+              "w07",
+              "w06",
+              "w10",
+              "w04",
+              "w09",
+              "w05",
+              "w01",
+              "w00",
+              "w08",
+              "w02",
+              "w03",
+              "w11"
+            ],
+            "scores": {
+              "w00": 6.429533,
+              "w01": 6.720395,
+              "w02": 2.341542,
+              "w03": 1.203214,
+              "w04": 11.249374,
+              "w05": 9.484859,
+              "w06": 29.097565,
+              "w07": 78.022593,
+              "w08": 3.636583,
+              "w09": 9.504604,
+              "w10": 14.990007,
+              "w11": -22.203587
+            }
+          },
+          "variant_ii": {
+            "excluded": [
+              "w02",
+              "w03",
+              "w04",
+              "w05",
+              "w07",
+              "w08",
+              "w09",
+              "w10",
+              "w11"
+            ],
+            "flag": "variant_ii",
+            "mechanism": "allowed_pools mask from trace resonance",
+            "n_candidates": 12,
+            "pools_legal": 3,
+            "ranking": [
+              "w06",
+              "w01",
+              "w00"
+            ],
+            "scores": {
+              "w00": 5.434698,
+              "w01": 6.380015,
+              "w02": null,
+              "w03": null,
+              "w04": null,
+              "w05": null,
+              "w06": 28.581211,
+              "w07": null,
+              "w08": null,
+              "w09": null,
+              "w10": null,
+              "w11": null
+            }
+          }
+        },
+        "sequence": [
+          "w00",
+          "w01",
+          "w02",
+          "w03",
+          "w04",
+          "w05",
+          "w06",
+          "w07"
+        ],
+        "trace_fingerprint_after_run": "8cdfca81c06512c23cccf9f8befa2f633ed6592a6b321f96768a4b2b8620f457",
+        "winners": {
+          "both": "w06",
+          "off": "w02",
+          "variant_i": "w07",
+          "variant_ii": "w06"
+        }
+      }
+    }
+  ],
+  "quoting_guard": {
+    "meaning": "This is an instrument-level ablation of two selection rules over a labelled stand-in geometry. It is not a scored MP-E10 run, not an H1 or H2 figure, and not a decision about which variant is primary. No verdict sentence about G3 may quote it while D-MPE10-02 and D-MPE10-03 remain open.",
+    "rule_source": "experiments/MP-E10/registration.json",
+    "what_it_does_measure": "that both registered variants exist, are flag-gated, run over the same input, and differ or agree in the ways C5 asks about",
+    "what_it_does_not_measure": "anything about the live carve, the house's pools, spoken output, retention or the guard batteries -- the house-side wiring is a separate step (named-missing in the registration)"
+  },
+  "schema": "mp_e10.routing_ablation.v1",
+  "summary": {
+    "probes_where_a_variant_won_only_against_off": 3,
+    "probes_where_all_four_flags_agree": 1,
+    "probes_where_variants_disagree_on_the_winner": 5
+  }
+}

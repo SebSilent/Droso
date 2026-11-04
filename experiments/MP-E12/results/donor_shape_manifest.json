@@ -1,0 +1,73 @@
+{
+  "config": {
+    "d_head": 64,
+    "mlp_inner": 3072,
+    "n_embd": 768,
+    "n_head": 12,
+    "n_layer": 12,
+    "n_positions": 1024,
+    "n_vocab": 50257
+  },
+  "d_head": 64,
+  "n_head": 12,
+  "n_layers": 12,
+  "param_count": 124439808,
+  "param_count_matches_registered_124M": true,
+  "per_layer_tensors": {
+    "attn_c_proj_bias": [
+      768
+    ],
+    "attn_c_proj_weight": [
+      768,
+      768
+    ],
+    "c_attn_bias": [
+      2304
+    ],
+    "c_attn_weight": [
+      768,
+      2304
+    ],
+    "ln_1_bias": [
+      768
+    ],
+    "ln_1_weight": [
+      768
+    ],
+    "ln_2_bias": [
+      768
+    ],
+    "ln_2_weight": [
+      768
+    ],
+    "mlp_c_fc_bias": [
+      3072
+    ],
+    "mlp_c_fc_weight": [
+      768,
+      3072
+    ],
+    "mlp_c_proj_bias": [
+      768
+    ],
+    "mlp_c_proj_weight": [
+      3072,
+      768
+    ]
+  },
+  "registered_param_count_for_124M": 124439808,
+  "tensors": {
+    "ln_f_weight": [
+      768
+    ],
+    "wpe": [
+      1024,
+      768
+    ],
+    "wte": [
+      50257,
+      768
+    ]
+  },
+  "unembedding_tied_to_wte": true
+}

@@ -337,6 +337,27 @@ DEFAULT_MANIFEST = [
     # the corrected file, and the two sets of numbers being identical IS the proof that a docstring edit
     # changed no behaviour. Supersession by reference, the way AMD-MPE8-17 handled the suite manifests.
     "experiments/MP-E10/results/ksweep_tier40_calibration_post_rulings.json",
+    # B.4 step 3: both routing variants, their tests, and the ablation they made possible. Sealed as a trio
+    # because the artifact's whole claim is that neither variant was chosen -- the module is the evidence for
+    # that, the tests are the guard, and the ablation is the data. If only the artifact were sealed, the C5
+    # finding (the mask subsumes the drive whenever both are on) would be a number with no code behind it.
+    "tools/mp_e10_routing.py",
+    "tests/test_mp_e10_routing.py",
+    "experiments/MP-E10/results/routing_ablation_instrument_level.json",
+    # MP-E12a: the registration written before any run, the donor whose shapes the read budget was sized
+    # against, the extractions, their tests, and the two artifacts. The donor is SYNTHETIC and every artifact
+    # says so; it is sealed anyway, because the budget of 24 operations and the 10x threshold are claims about
+    # this shape and a reader has to be able to check the shape rather than take it on trust.
+    "experiments/MP-E12/registration.json",
+    "tools/mp_e12_synthetic_donor.py",
+    "tools/mp_e12_probes.py",
+    "tests/test_mp_e12_probes.py",
+    "experiments/MP-E12/results/donor_shape_manifest.json",
+    "experiments/MP-E12/results/probes_synthetic_calibration.json",
+    # The H4 updates-counter DESIGN step. Nothing in it is implemented, which is exactly why it is sealed: an
+    # unimplemented design that can be edited after the fact is a design that can be quietly retro-fitted to
+    # whatever the instrument eventually says.
+    "docs/h4_updates_counter_design.md",
 ]
 
 

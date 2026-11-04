@@ -401,6 +401,15 @@
   },
   "experiment": "MP-E8",
   "gate": "G2",
+  "h4_updates_counter_design_step": {
+    "added": "2026-08-10",
+    "cost_measured_or_stated": "~2.3-2.4 h exclusive machine time (inertness proof ~50 min, then arm A at tiers 40/120/300 ~1.5 h) plus a PI ruling, because it edits the write path.",
+    "does_not_close": "H4 stays PARTIAL until the ruling and the run. This document changes no verdict and adds no measurement; it is a design step and is labelled as one.",
+    "the_finding_that_changes_the_cost": "MP-E8's registration says 'the organ exposes no counter for synapse updates per taught fact'. True of the quantity, false of the counter: `connectome/rate_core.py:50,595,630` already increments `teach_count` at BOTH write sites and exposes it at rate_core.py:440 as `plasticity_report`'s `teach_calls` field. What is missing is attribution to a taught fact and a count of synapses that actually changed per event -- so the change is three insertions plus a report, not a new organ.",
+    "the_risk_the_design_has_to_answer": "The counter sits on the same path as H4's OTHER half. Wall-clock is measured there, arms B and C cannot carry the same instrument, so an inertness proof that checks only correctness would leave the cost claim contaminated. The design requires a wall-clock OFF/ON comparison at tier 40 inside the registered R13 tolerance, before any updates figure is quoted.",
+    "what_it_is": "A registered DESIGN document for the instrument H4's updates half needs: docs/h4_updates_counter_design.md. Nothing in it is implemented.",
+    "why_a_document_and_not_a_run": "The gap is an instrument, not machine time. Writing the design down is the cheapest thing that can move it, because the PI's approval becomes one line instead of a re-derived argument next session. Precedent: MP-E9's PRE-1 registered the precondition ahead of the promotion."
+  },
   "harness_hashes": {
     "files": {
       "docs/evidence/electric_learn_bench.json": {
