@@ -58,6 +58,15 @@
     "R6": "the guarded invariants are the floor; regression is a hard reject",
     "R9": "word-level grading; an untraceable word in output aborts"
   },
+  "d_mpe10_04_condition_3_unspent": {
+    "condition": "D-MPE10-04 condition 3: re-measure the clone-noise input at the tier being judged and re-derive the margin by amendment rather than carrying tier-40 data upward.",
+    "consequence_for_the_H3_number": "NAMED LIMITATION, not a hidden one: the 2.0 pp margin applied at tier 300 is derived from tier-40 noise. If interference at tier 300 lands near the margin, the result is not decidable without the re-measurement, and any write-up must say so.",
+    "not_done_because": "cost, and H3 does not require it -- the ruling's conditions are spendable choices, not obligations that can be quietly dropped.",
+    "registered_at": "2026-08-10",
+    "status": "UNSPENT -- declined for cost, not forgotten",
+    "what_the_margin_still_rests_on": "tier-40-derived clone noise: 11 rows of 3,672 = 0.2996 pp, with the rule-of-three bound 1.887 pp from 0 regressions in 159 tier-40 exposures; the adopted margin is 2.0 pp (6.7x that noise floor)",
+    "what_was_declined": "the tier-300 three-clone set, roughly 2.7 h on top of the tier runs"
+  },
   "episode_tape_for_selective_replay": {
     "belongs_to": [
       "MP-E10 consolidation ambition",
@@ -1572,7 +1581,15 @@
       120,
       300
     ],
-    "timed_tiers_gate": "BLOCKED on licensed_absence_intermittence, not on any definition. The protocol, the gain, the guard, the entry and the bench wiring are all landed; the tiers wait because the answer path they measure has an uncharacterised intermittent."
+    "timed_tiers_gate": {
+      "clone_set_declined": "The tier-300 clone set is NOT run: roughly 2.7 h on top, and H3 does not require it. See d_mpe10_04_condition_3_unspent.",
+      "reasoning": "H3 is scored on the R13 identity fields -- cls, said, src, item, shape, mech, taught, own, answered. The licensed-absence flip lives in `reason`, and R13 tolerates `reason` as noise by the ruling's own words ('identity required on [those nine]; only reason tolerated'). The safety property the guard exists for -- never spoken, never from the arbiter head -- held under every seed tested. So the graded fields H3 reads are unaffected by the defect, the covering suite is green at a pristine tree (1333/1333, 0 failures, git_dirty empty at 8b1e8d0), and tier 120 starts.",
+      "status": "CLEARED 2026-08-10 by PI -- tiers start now",
+      "stays_a_pi_decision": "The proposed order-independence fix to hit construction (organs/neural_language.py :5387, upstream of the list-iterating _arbitrate_shape at :4129) edits the answer path that published evidence quotes, so it needs a ruling and a re-baseline, not an agent edit.",
+      "was": "BLOCKED on licensed_absence_intermittence",
+      "what_this_does_not_mean": "It is NOT proof of absence. A green suite drawn from an intermittent is one sample of a coin flip; this decision says only that the remaining risk sits in a field the registered rule already tolerates. licensed_absence_intermittence stays OPEN with its own entry and is not permitted to be quoted as closed."
+    },
+    "timed_tiers_gate_as_written_before_the_decision": "BLOCKED on licensed_absence_intermittence, not on any definition. The protocol, the gain, the guard, the entry and the bench wiring are all landed; the tiers wait because the answer path they measure has an uncharacterised intermittent."
   },
   "k_sweep": {
     "anchored_on": {
@@ -1708,10 +1725,11 @@
       "the trustworthiness of any '0 failures' manifest over the full suite",
       "H1/H2/H3 scored runs, which all read this path"
     ],
+    "gate_decision_2026_08_10": "PI cleared the tiers over this defect on the reasoning recorded in interference_protocol_step2.timed_tiers_gate. Cleared is not closed.",
     "hypothesis_1_refuted": "Ordering. There is no ordering plugin: pytest 9.1.1 with no pytest-randomly and no pytest-order, and my new test file sorts AFTER tests/test_electric_* alphabetically, so it cannot have changed what ran before the failing test.",
     "hypothesis_2_refuted": "PYTHONHASHSEED alone. A direct pytest run at seed 6 failed once (and seeds 0-5,7 passed), but the IDENTICAL command failed to reproduce on the next attempt, and a bare-interpreter child under all eight seeds named the correct absence every time. So the flip is not a function of the seed.",
     "registered_at": "2026-08-10",
-    "status": "OPEN -- NAMED, NOT CLOSED. Tiers 120/300 stay stopped on this.",
+    "status": "OPEN -- NAMED, NOT CLOSED. Does not gate H3 (the flip is in `reason`, which R13 tolerates; the graded fields and the safety property are unaffected). Still a live defect on the answer path and not permitted to be quoted as closed.",
     "test_pinned": "tests/test_licensed_absence_seed_dependence.py -- the safety property (never spoken, never from the arbiter head) is asserted under eight seeds unconditionally. The reproduction test is SKIPPED with this reason recorded, because a test that asserts a reproduction which does not hold manufactures a red or a green on demand.",
     "the_failure": "tests/test_electric_fragment_guard.py::test_the_guard_returns_the_licensed_absence_instead_of_the_fragment, assert at line 89: `assert \"asking\" in str(out.get(\"reason\"))` -- got 'nothing he remembers has that shape'. One failing testcase in the pristine 1,331-test run at 88e6f8d (returncode 1). The fragment was still silenced (spoken=False, source != 'arbiter head') in every observation: the guard's SAFETY property held; only which licensed absence he NAMES moved.",
     "tiers_gate": "Per the standing instruction -- do not run tier 120 on a tree whose covering suite has a failure. The covering manifest at 47a0e69 reports 0 failures but was taken while this defect was undiagnosed, so a green run here is necessary and not sufficient.",
