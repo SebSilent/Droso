@@ -389,6 +389,13 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E10/results/replay_tier120_armA.json",
     "experiments/MP-E10/results/replay_tier120_summary.json",
     "experiments/MP-E10/decision.md",
+    # Row-level migration on the nine R13 identity fields, per tier, plus the replay-OFF control that
+# shows how much of it is baseline drift rather than treatment.
+    "experiments/MP-E10/results/replay_tier120_row_migration.json",
+    "experiments/MP-E10/results/replay_tier300_row_migration.json",
+    "experiments/MP-E10/results/control_tier120_no_replay_row_migration.json",
+    "experiments/MP-E10/results/replay_tier300_armA.json",
+    "experiments/MP-E10/results/control_tier120_no_replay_armA.json",
 
 # The inertness proof itself: additive diff, and byte-identity between the pre-edit module pulled from
 # git and the working tree on the untouched path. Sealed because 'nothing else changed' is a claim.

@@ -1,0 +1,3099 @@
+{
+  "artifacts": {
+    "baseline": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+    "replayed": "experiments/MP-E10/results/control_tier120_no_replay_armA.json"
+  },
+  "class_split": {
+    "taught item": 58
+  },
+  "is_control": true,
+  "method": "row-level diff on the nine R13 identity fields, keyed (depth, phase, ask); the same code path runs for both tiers",
+  "moved_rows": [
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "live"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "live"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "live"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "live"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "live"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "ask_not_recognized"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "live"
+    },
+    {
+      "ask": "what the tile bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.10",
+      "item_replayed": "tell1.10",
+      "phase": "live"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "live"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the wagon bring",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.22",
+      "item_replayed": "tell1.22",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the strap roll",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.14",
+      "item_replayed": "tell1.14",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the tile bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.10",
+      "item_replayed": "tell1.10",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the wagon bring",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.22",
+      "item_replayed": "tell1.22",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "live"
+    },
+    {
+      "ask": "what the loom bridge",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.17",
+      "item_replayed": "tell0.17",
+      "phase": "live"
+    },
+    {
+      "ask": "what the magnet clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.12",
+      "item_replayed": "tell2.12",
+      "phase": "live"
+    },
+    {
+      "ask": "what the net catch",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.3",
+      "item_replayed": "tell2.3",
+      "phase": "live"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "live"
+    },
+    {
+      "ask": "what the tile bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.10",
+      "item_replayed": "tell1.10",
+      "phase": "live"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the bridge cross",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.1",
+      "item_replayed": "tell2.1",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the cooper pack",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.8",
+      "item_replayed": "tell2.8",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the cradle stack",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.21",
+      "item_replayed": "tell2.21",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the faucet fold",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.22",
+      "item_replayed": "tell2.22",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the magnet clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.12",
+      "item_replayed": "tell2.12",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the mast smooth",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.15",
+      "item_replayed": "tell2.15",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the shackle clamp",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.18",
+      "item_replayed": "tell2.18",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the wagon bring",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.22",
+      "item_replayed": "tell1.22",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the bridge cross",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.1",
+      "item_replayed": "tell2.1",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the cooper pack",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.8",
+      "item_replayed": "tell2.8",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the cradle stack",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.21",
+      "item_replayed": "tell2.21",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the loom bridge",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.17",
+      "item_replayed": "tell0.17",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the magnet clip",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.12",
+      "item_replayed": "tell2.12",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the mast smooth",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.15",
+      "item_replayed": "tell2.15",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the shackle clamp",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell2.18",
+      "item_replayed": "tell2.18",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the strap roll",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.14",
+      "item_replayed": "tell1.14",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the tile bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.10",
+      "item_replayed": "tell1.10",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the wagon bring",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.22",
+      "item_replayed": "tell1.22",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "restarted"
+    }
+  ],
+  "n_rows_moved": 58,
+  "reading": "a tally of `correct` can be unchanged while refusals become answers: the interval measures retention of taught items, the migration measures the refusal axis. Both are reported.",
+  "refused_by_phase": {
+    "1/live": {
+      "baseline": 283,
+      "delta": -3,
+      "replayed": 280
+    },
+    "1/reasked": {
+      "baseline": 268,
+      "delta": -3,
+      "replayed": 265
+    },
+    "1/restarted": {
+      "baseline": 283,
+      "delta": -3,
+      "replayed": 280
+    },
+    "2/live": {
+      "baseline": 161,
+      "delta": -4,
+      "replayed": 157
+    },
+    "2/reasked": {
+      "baseline": 159,
+      "delta": -5,
+      "replayed": 154
+    },
+    "2/restarted": {
+      "baseline": 160,
+      "delta": -7,
+      "replayed": 153
+    },
+    "3/live": {
+      "baseline": 53,
+      "delta": -6,
+      "replayed": 47
+    },
+    "3/reasked": {
+      "baseline": 51,
+      "delta": -12,
+      "replayed": 39
+    },
+    "3/restarted": {
+      "baseline": 52,
+      "delta": -14,
+      "replayed": 38
+    }
+  },
+  "rows_compared": 3222,
+  "rows_only_in_one_set": [],
+  "taught_rows_moved": [
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "live"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "live"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "live"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "1",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "restarted"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "live"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "live"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "refused",
+      "depth": "2",
+      "detail": {
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "ask_not_recognized"
+        }
+      },
+      "fields_moved": [
+        "mech"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "live"
+    },
+    {
+      "ask": "what the tile bolt",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.10",
+      "item_replayed": "tell1.10",
+      "phase": "live"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "live"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the nora carry",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.2",
+      "item_replayed": "tell0.2",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the wagon bring",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.22",
+      "item_replayed": "tell1.22",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the weaver pull",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell0.23",
+      "item_replayed": "tell0.23",
+      "phase": "reasked"
+    },
+    {
+      "ask": "what the Nora send",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "refusal_silence",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item_baseline": "tell1.19",
+      "item_replayed": "tell1.19",
+      "phase": "restarted"
+    }
+  ],
+  "tier": "120 CONTROL -- replay OFF, same tree, same curriculum",
+  "transitions_by_axis": {
+    "1/live": {
+      "refused -> partial [taught item]": 3
+    },
+    "1/reasked": {
+      "refused -> partial [taught item]": 3
+    },
+    "1/restarted": {
+      "refused -> partial [taught item]": 3
+    },
+    "2/live": {
+      "refused -> partial [taught item]": 4,
+      "refused -> refused [taught item]": 1
+    },
+    "2/reasked": {
+      "refused -> partial [taught item]": 5
+    },
+    "2/restarted": {
+      "refused -> partial [taught item]": 7
+    },
+    "3/live": {
+      "refused -> partial [taught item]": 6
+    },
+    "3/reasked": {
+      "refused -> partial [taught item]": 12
+    },
+    "3/restarted": {
+      "refused -> partial [taught item]": 14
+    }
+  }
+}

@@ -87,6 +87,30 @@
     "go_if": "H1-H4 hold",
     "on_failure": "the bigram-era organ stays as the fallback arm, and the routing ablation data decides the next attempt"
   },
+  "h3_two_quantities": {
+    "control_finding": {
+      "registered_as": "sealed_baseline_reproducibility",
+      "result": "58 rows moved of 3222 compared WITHOUT any replay pass -- including the identical refused -> partial counts at d1 (3), d2/restarted (7) and d3/restarted (14).",
+      "what_it_is": "Same tree, same curriculum, same seed, replay OFF, diffed against the same sealed baseline by the same code path.",
+      "what_that_means": "Most of the tier-120 'migration' is NOT a replay effect. It is run-to-run drift between two executions of identical code and the sealed baseline (~1.8% of rows). The replay-attributable residue at tier 120 is the single distractor invented -> refusal_silence and the mech-only rows. Attributing the tier-300 distractor movements to replay would need the same control at tier 300, which has not been run.",
+      "why_it_matters_beyond_this_experiment": "Every arm-vs-baseline comparison in this program rests on sealed single-run baselines. If two identical runs differ on ~1.8% of rows, a treatment effect smaller than that is not detectable by a single run, and the registered clone-noise floor (11 rows of 3,672 = 0.2996 pp) was measured on CLONES AT TIER 40, not against a sealed artifact."
+    },
+    "named_limitation_of_the_registered_protocol": "The interval is insensitive to class movement: at tier 120 it read 0.00 pp while 66 rows changed class, and the same reading at tier 300 came from a run the guard voided. Whether H3 needs a second registered quantity (a refusal-axis or ceiling-adjacency measure) is a PI decision about the protocol; it is NOT amended here.",
+    "registered_at": "2026-08-10",
+    "the_registered_prediction_that_failed": "replay_gain_ruling.3 predicted no configuration would be ceiling-limited at 2 passes. It was computed from a store whose entries start near 1.05 (tier-40 teaching). At tier 300 the taught store is already far higher -- pairs are reinforced across 300 items -- so 0.70 of added weight reaches 4.0 within one pass at depths 2 and 3. The prediction did not transfer because its premise was a tier-40 state, and the guard is what caught it rather than the prediction.",
+    "tier_120": {
+      "guard": "no entry reached the ceiling at any depth; void_for_H3 false everywhere; counters unmoved. The registered prediction held at this tier (max accumulation 0.70 against a 4.0 ceiling).",
+      "interference_interval": "0.0000 pp at depths 1/2/3, divided by 416 rows compared (380 taught probes at depth 3); correct 122/239/347 identical to the same-tier unreplayed baseline; within the registered 2.0 pp margin. Retention not damaged.",
+      "row_migration": "66 rows moved of 3222 compared: {'distractor/unanswerable': 1, 'taught item': 65}. Dominant transition refused -> partial at every depth and phase (3/7/14 at the restarted phase, matching the refused deltas); 5 rows moved class-unchanged on `mech` (refusal_silence -> ask_not_recognized); 1 distractor row moved invented -> refusal_silence (dist20), which is why the bench's gate list went 13 -> 12."
+    },
+    "tier_300": {
+      "consequence": "By the D-MPE10-05 saturation rule, a ceiling-limited configuration has no H3 number. H3 at tier 300 is therefore VOID at depths 2 and 3 and unmeasured-as-scoreable at depth 1 only. The 0.00 pp interval at this tier may NOT be quoted as satisfying the clause.",
+      "guard": "THE GUARD FIRED AND VOIDED. Depth 1 clean (13,878 pairs advanced, no entry at ceiling). Depth 2: pass 1 pushed 72 entries to the 4.0 ceiling -> ceiling_limited, void_for_H3 TRUE, passes_run 1 (it stopped rather than accumulating into a void measurement). Depth 3: pass 1 pushed 252 entries to the ceiling -> void_for_H3 TRUE, passes_run 1.",
+      "interference_interval": "0.0000 pp at depths 1/2/3, divided by 1,046 rows compared (956 taught probes at depth 3); correct 292/548/784 identical to the same-tier unreplayed baseline; item-level retention identical (kept 80/129/176, lost 0/3/9, part 20/68/115).",
+      "row_migration": "251 rows moved of 8199 compared: {'distractor/unanswerable': 9, 'taught item': 242}. refused -> partial dominates (11/30/53 at the restarted phase). Unlike tier 120, the distractor axis moved BOTH ways at depth 3: invented -> refused (2 restarted, 1 live) and refused -> invented (1 restarted, 4 reasked) -- the latter is the direction R6 and C1/C2 care about. Also 1 refused -> correct and 2 correct -> refused on taught rows at d3/reasked."
+    },
+    "why_two": "The registered H3 quantity is a tally of `correct` over rows at the clean restarted phase. A tally cannot see rows changing class without changing that count, so the protocol was run against a row-level diff on the nine R13 identity fields as well. Neither is adjusted to fit the other."
+  },
   "harness_hashes": {
     "files": {
       "docs/evidence/electric_learn_bench.json": {
@@ -1577,6 +1601,7 @@
     "cost_stated": "arm A at tier 120 ~23.5 min and tier 300 ~53.7 min as measured for MP-E8, plus the replay passes on top, serial and alone; the clone re-measurement condition (-04 condition 3) adds 3 x tier-300 if the tier-300 clone set is run",
     "explicit_next_gate": "harness wiring: call replay_tier() at the two restart boundaries of the bench's session loop, then prove the wired path inert against the same baseline.",
     "explicitly_not_at_40": "the plan forbids re-proving consolidation at 40 items; tier 40 stays the sealed baseline and the source of the derivation's zero-event observation, not a new measurement target",
+    "h3_status_after_tiers": "TIER 120: interval 0.00 pp within margin, guard silent, migration measured with an off-control showing most of it is not replay. TIER 300: interval 0.00 pp but VOID at depths 2 and 3 by the saturation guard -- H3's clause is NOT satisfied as scored evidence. The protocol's coarseness and the baseline-reproducibility finding are named limitations for the PI.",
     "inertness_required_of_the_replay_entry": "a run that never calls the replay entry must be bit-identical to the same run before the method existed (fingerprint, chain, counters, batteries, noise floor) -- the same shape as docs/h4_updates_counter_design.md section 5, and for the same reason: an instrument that changes the quantity it measures is not an instrument",
     "margin": {
       "basis": "D-MPE10-04, derived in the ruling block",
@@ -2058,6 +2083,17 @@
     "status_after_rulings_as_written_before_the_reconciliation": "2026-11-04: D-MPE10-01 is RULED, so H1 has a denominator (five stages) and is scoreable in principle. D-MPE10-02 is still OPEN, so H2 has no scalar and the guard still binds: no MP-E10 figure may be quoted as a hypothesis verdict. The guard is not lifted by the rulings on -01/-06/-07/-08.",
     "what_this_does_not_do": "It does not stop step 1's implementation or its unit tests, and it does not stop the k-sweep measurement itself -- the grid was registered before any treatment, so measuring it is not a post-hoc choice. It stops the QUOTING of a result as a hypothesis verdict.",
     "why": "H1's denominator (which four mouth stages) is D-MPE10-01 and H2's scalar (what 'fluency' means) is D-MPE10-02. Both are open. A working-memory result measured while those are undecided can be reported as an organ characterisation, but it cannot be quoted as evidence for or against H1 or H2, because the quantity it would be quoted on has no definition yet."
+  },
+  "sealed_baseline_reproducibility": {
+    "direction_of_travel": "almost all of it is refused -> partial, i.e. the house volunteers more than the sealed record says it did; correct counts did not move.",
+    "measurement": "58 of 3,222 rows (1.8%) differ between a fresh unreplayed tier-120 run and the sealed tier-120 baseline, on the nine R13 identity fields, with identical code, curriculum and seed.",
+    "not_done_this_turn": "budget. Recorded rather than guessed at.",
+    "possible_causes_not_separated_yet": [
+      "the licensed_absence_intermittence class (process context, hash order), environment drift since the baseline was sealed (the baseline predates the organ edit and the bench edit), model/state files outside the artifact"
+    ],
+    "registered_at": "2026-08-10",
+    "status": "OPEN -- MEASURED, NOT YET PRICED",
+    "what_would_separate_them": "run the same unreplayed configuration twice in the SAME process context and diff the two fresh runs against each other; if fresh-vs-fresh moves rows too, it is nondeterminism, not drift."
   },
   "status": "RECONCILED 2026-08-10 by the stale-status guard (tests/test_stale_status_guard.py): D-MPE10-02 are RULED in this file's ruling blocks, so this field's claim that they were OPEN is no longer true -- the superseded wording is preserved at status_as_written_before_the_reconciliation. What the field still correctly records is the thing that has not changed: no MP-E10 figure has been scored on the current tree, so no number may be quoted as a hypothesis verdict. The guard's FORCE is intact; its stated REASON was stale.",
   "status_as_written_before_the_reconciliation": "OPEN. Checklist step 1 implemented and unit-tested (see working_memory_step1); the decayed trace, its k parameter, its bounded decay and its restart clearing exist as code with tests that pass. Nothing scored: no curriculum run, no tier, no hypothesis evaluated. H1 and H2 remain unscoreable while D-MPE10-01 and D-MPE10-02 are open, and result_quoting_guard_while_blocked stops any working-memory figure being quoted as their evidence. G2's evidence is closed out and G2 does not pass -- see experiments/MP-E8/decision.md -- and this registration does not imply otherwise about G3. G3 step 2 run: the registered k grid was swept at tier 40 as calibration (0.237s, artifact ksweep_tier40_calibration.json) and it found three properties of the sealed organ that were never registered -- D-MPE10-06, -07, -08. Still nothing scored; tiers 120 and 300 deliberately unrun until those are settled. PI rulings recorded 2026-11-04 in pi_decisions: D-MPE10-01 (H1's denominator is the five stages the instrument reports, the harder reading), -06 (k bounds the trace, not the store), -07 (k=1 excluded from the scored grid, docstring corrected, behaviour untouched), -08 (predecessor map stays; artifacts must name their read direction). D-MPE10-02, -03, -04, -05 remain OPEN and stated as open, so still nothing is scored and no tier has been run.",
