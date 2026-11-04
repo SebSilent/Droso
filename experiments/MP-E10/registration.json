@@ -1256,12 +1256,12 @@
       },
       "tools/electric_learn_bench.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 62717,
-        "bytes_worktree": 63846,
-        "git_blob_sha1": "21091e0e99de8d47e7d4fff87f1a2634f23a74b4",
+        "bytes_blob": 66150,
+        "bytes_worktree": 67327,
+        "git_blob_sha1": "826228fa6cb70ca669f5931c0158671898627bf8",
         "line_endings": "CRLF",
-        "sha256_lf": "5347aa7e0f89be2a4773c7a93c289dee0ad0879b92b539e693967155e0f2890d",
-        "sha256_of_git_blob": "5347aa7e0f89be2a4773c7a93c289dee0ad0879b92b539e693967155e0f2890d"
+        "sha256_lf": "0ae65ca9b753656a890d309b91b04e4cdf78c155e8254b3f5ec9825b22470da4",
+        "sha256_of_git_blob": "0ae65ca9b753656a890d309b91b04e4cdf78c155e8254b3f5ec9825b22470da4"
       },
       "tools/freeze_env.py": {
         "blob_equals_lf_normalised": true,
@@ -1419,7 +1419,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "55b70c5f67075074934f3faa0a2c91e4b1bb319e",
+    "git_head": "7374c6e8c53c68ab7e157867aebaf373b6143ced",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -1446,7 +1446,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T09:52:07Z",
+    "sealed_at_utc": "2026-11-04T10:13:30Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
