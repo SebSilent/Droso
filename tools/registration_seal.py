@@ -380,6 +380,10 @@ DEFAULT_MANIFEST = [
     # and the covering suite run that post-dates BOTH the organ edit and the bench edit.
     "experiments/MP-E10/results/replay_wiring_instrument_check.json",
     "experiments/MP-E10/results/suite_manifest_post_replay_wiring.json",
+    # The RED pristine run (1331/1, rc 1) -- published under R5: it is the record that named the
+    # intermittence. The green run below it is the covering manifest for this tree.
+    "experiments/MP-E10/results/suite_manifest_pristine_post_stale_guard.json",
+    "experiments/MP-E10/results/suite_manifest_post_intermittence_record.json",
 
 # The inertness proof itself: additive diff, and byte-identity between the pre-edit module pulled from
 # git and the working tree on the untouched path. Sealed because 'nothing else changed' is a claim.
