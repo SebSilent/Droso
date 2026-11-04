@@ -593,22 +593,40 @@ def check(reg_path: pathlib.Path) -> int:
     return 1
 
 
+def registrations() -> list[pathlib.Path]:
+    """Every ledger under experiments/, counted rather than named."""
+    return sorted((HERE / "experiments").glob("*/registration.json"))
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("registration")
+    # nargs="*" plus --all. The single-path CLI is how MP-E9 came to be skipped: "re-stamp all three
+    # registrations" was typed as three commands, a fourth experiment opened mid-close-out, and nothing
+    # complained. A flag that enumerates makes the count impossible to get wrong, and it is the same
+    # rule tests/test_registration_seal_coverage.py enforces -- the CLI and the test now agree because
+    # they use the same discovery, not because two lists were kept in step by hand.
+    ap.add_argument("registration", nargs="*", help="path(s) to a registration.json")
+    ap.add_argument("--all", action="store_true",
+                    help="every experiments/*/registration.json, whatever number that is")
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
-    p = pathlib.Path(a.registration)
-    if not p.is_absolute():
-        p = HERE / p
-    if a.check:
-        return check(p)
-    sealed = seal(p)
-    for f, m in sorted(sealed.items()):
-        print(f"  {str(m.get('git_blob_sha1'))[:12]}  {m.get('line_endings','?'):4s}  "
-              f"{str(m.get('sha256_of_git_blob'))[:12]}  {f}")
-    print(f"[seal] stamped {len(sealed)} files into {p.relative_to(HERE).as_posix()}")
-    return 0
+    paths = registrations() if a.all else [pathlib.Path(x) for x in a.registration]
+    if not paths:
+        print("[seal] nothing to do: give a path, several, or --all", file=sys.stderr)
+        return 2
+    rc = 0
+    for p in paths:
+        if not p.is_absolute():
+            p = HERE / p
+        if a.check:
+            rc |= check(p)
+            continue
+        sealed = seal(p)
+        for f, m in sorted(sealed.items()):
+            print(f"  {str(m.get('git_blob_sha1'))[:12]}  {m.get('line_endings','?'):4s}  "
+                  f"{str(m.get('sha256_of_git_blob'))[:12]}  {f}")
+        print(f"[seal] stamped {len(sealed)} files into {p.relative_to(HERE).as_posix()}")
+    return rc
 
 
 if __name__ == "__main__":
