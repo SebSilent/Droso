@@ -440,6 +440,13 @@ DEFAULT_MANIFEST = [
 # by the same anchor as the ruling that authorised it -- the inertness proof compares a run against THIS
 # file's pre-edit blob, so the sealed blob is part of the evidence, not incidental to it.
     "organs/sequence_organ.py",
+# The covering suite run for THIS tree. Sealed before it is produced, which is the house ordering: edit
+# the manifest, re-stamp, THEN run the suite whose manifest you intend to seal -- running first leaves the
+# suite's own seal test failing on an unstamped tree and records a defect that is really a stamp.
+# The published 1,333/0 manifest (suite_manifest_post_intermittence_record.json) describes 8b1e8d0 and
+# cannot be read as covering the promoted drivers, the closure tool or the two new promotion test files;
+# it stays published under R5, superseded by reference rather than overwritten.
+    "experiments/MP-E10/results/suite_manifest_post_tier300_closure.json",
 ]
 
 
