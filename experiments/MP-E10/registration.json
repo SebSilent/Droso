@@ -1660,6 +1660,33 @@
       "authorised": "Instrument preparation: the denominator is fixed, the organ's two objects are described correctly, the scored grid excludes k=1, and every artifact must declare its read direction."
     }
   },
+  "pi_rulings_2026_08_10": {
+    "D-MPE10-02": {
+      "status": "RULED.",
+      "the_guardrails": "Refusal rate and coverage are reported as the guardrails the plan already names ('without moving refusal or coverage backwards'). They are reported, not traded: a fluency gain that moves either backwards is not a fluency gain.",
+      "the_ladder_is_not_reused": "The mouth-stage ladder is NOT reused for H2. H1 already consumes it, and two hypotheses measured on one instrument is one hypothesis wearing two names.",
+      "the_objection_registered_as_required": "A longer answer is not necessarily a better answer, and this scalar rewards verbosity. It is therefore a DIRECTION-CHECK and not a quality measure, and it is recorded as such wherever it is used. The objection is registered in the same block as the ruling rather than in a footnote, because a metric whose weakness is buried reads like a metric that has none.",
+      "the_scalar": "H2's fluency scalar is the MEAN NUMBER OF CONTENT WORDS PER EMITTED ANSWER over the bench's live phase at that tier.",
+      "what_this_unblocks_and_what_it_does_not": "It makes H2 scoreable in principle, which it was not, and it removes the D-MPE10-02 half of the 'nothing in flight' blocker. It does not open step 2 or H3: those wait on D-MPE10-04 and D-MPE10-05. It also does not by itself produce a number -- the content-word count must be computed by the bench's existing word-level grader (R9) rather than by a new counter, and that is an implementation step with its own inertness question, the same shape as the H4 counter's."
+    },
+    "decision_brief_delivered": {
+      "covers": [
+        "D-MPE10-03",
+        "D-MPE10-04",
+        "D-MPE10-05"
+      ],
+      "document": "docs/mp_e10_g3_decision_brief.md",
+      "for_each": "options, cost, the measured evidence that exists, and the gate clause that stays uncloseable while the decision is open",
+      "replay_rule_probe_artifact": "experiments/MP-E10/results/replay_rule_saturation_probe.json (tools/mp_e10_replay_rule_probe.py): 7,632 entries all at exactly 1.05 after 3 cycles; distinct_weight_values = 1 at every pass, so replay is a uniform translation and cannot strengthen one engram relative to another; every entry at the 4.0 ceiling after 9 passes from the 3-cycle state (11 from a single cycle), where the ranking readout depends on is gone; 30 passes move sequences_learned +1,590 but transitions only +1,908 against 6,360 expected -- the counter that would show the drift is the one that saturates.",
+      "the_derivation_for_-04": "margin proposed FROM measurement, not from a round number: clone noise 11 rows of 3,672 = 0.2996 pp (registered), tier-40 interference 0 regressions over 3 cycles x 53 items = 159 exposures, rule-of-three 95% upper bound 3/159 = 1.887 pp, so 2.0 pp is the tightest margin the existing data distinguishes from 'nothing observed' and is 6.7x the measured noise floor. Row equivalent 2.7 rows of the 136-row tier-40 matrix. Stated with its limit: the bound is about what tier-40 can show, not a prediction about tier 300, and 2 pp is the MORE demanding option than MP-E8's 5 pp precedent.",
+      "the_evidence_that_makes_-03_a_real_choice": "the mask subsumes the drive: the `both` condition returned variant_ii's winner on every one of 6 probes, so option (c) 'register the compound' is variant_ii with dead arithmetic attached. The live question is whether the sequence organ should ever be able to make a word ILLEGAL, which is a design question and not a measurement.",
+      "the_line_sites_for_-05": "learn_sequence at organs/sequence_organ.py:174-216; the write and its hard ceiling of 4.0 at :206; lr = LEARN_LR x (1 + reward) with LEARN_LR = 0.35 at :76; transitions :213 and sequences_learned :214; absolute readout gates SUCCESSOR_FLOOR 0.12 at :77 and SUCCESSOR_MARGIN 0.35 at :83. Plus the measured behaviour of replay under each option, in the artifact below."
+    },
+    "note_on_the_older_status_list": "pi_decisions.decisions_left_open still reads [02, 03, 04, 05] because it was written by the 2026-11-04 ruling round and R5 forbids back-editing a historical record. As of this block, 02 is RULED and 03, 04, 05 are open pending the brief above.",
+    "recorded_by": "agent, in the working set that received it",
+    "ruled_by": "PI",
+    "supersedes": "pi_decisions.on['D-MPE10-02'] (DEFERRED, 2026-11-04, on the ground that no fluency metric was named). The earlier record is left in place untouched -- R5, historical rows are never back-edited -- and this block is the later ruling that replaces it."
+  },
   "plan_source": {
     "document": "DROSO_Master_Plan_v1_1.pdf, section 6.3",
     "note": "embedded whole, because the thresholds below are only checkable against the wording they came from",

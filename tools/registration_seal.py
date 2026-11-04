@@ -358,6 +358,20 @@ DEFAULT_MANIFEST = [
     # unimplemented design that can be edited after the fact is a design that can be quietly retro-fitted to
     # whatever the instrument eventually says.
     "docs/h4_updates_counter_design.md",
+    # The PI asked for a decision brief with measured evidence and line sites, and for the -04 margin to be
+    # DERIVED rather than rounded. A brief whose numbers came from nowhere would be exactly the kind of
+    # document that gets quoted later as if it had been measured, so the brief and the probe it cites are
+    # sealed together: the probe is the artifact every figure in the brief divides by.
+    "docs/mp_e10_g3_decision_brief.md",
+    "tools/mp_e10_replay_rule_probe.py",
+    "experiments/MP-E10/results/replay_rule_saturation_probe.json",
+    # MP-E12b as a DESIGN STEP only, under R4: stage b is not disjoint from Droso organs, so the parallel
+    # track does not authorise building it. Sealed unimplemented, same reason as the H4 design step.
+    "docs/mp_e12b_compiler_design_step.md",
+    # The suite re-run at the tree that carries the MP-E12 probes, the routing variants and both design docs.
+    # A new path, not an overwrite: the published 1,272/0 manifest describes 7d2a84d and must not be read as
+    # covering code that did not exist when it ran.
+    "experiments/MP-E10/results/suite_manifest_post_mpe12_routing.json",
 ]
 
 

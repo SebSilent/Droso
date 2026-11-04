@@ -114,9 +114,6 @@
     "counting_rule_for_a_matrix_operation": "ONE matrix operation = one multiply of a probe vector by one donor parameter matrix, of any shape, plus one similarity search against one donor matrix. Element-wise arithmetic (layer-norm rescale, gating masks, top-k selection) is NOT counted, because it touches no donor matrix and its cost is linear in one dimension rather than in the vocabulary. The rule is registered so that the budget is checkable by a reader rather than by the tool that spent it."
   },
   "gate": "G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)",
-  "git_commit_at_seal": "",
-  "git_dirty_sealed": [],
-  "git_dirty_tracked": [],
   "hard_per_item_read_budget": {
     "arithmetic": "extraction 1 = 2 (one search against wte, one gram over the neighbour rows it returned), extraction 2 = 5 (one tied-unembedding read, one W_V read per registered head), extraction 3 = 16 (one W_O read per registered head, one c_fc read per layer, twelve layers). Total 23 spent by design against a budget of 24: headroom 1. The number is not a margin picked after the fact; it is the design's cost plus one, and the unit test that pins the per-item count at 23 is what stops the plus-one from quietly becoming a plus-six.",
     "arithmetic_corrected_before_any_run": "the first draft of this file counted extraction 1 as 1 operation. The implementation's neighbour gram made it 2. Corrected before any measurement existed, and recorded here because a budget whose arithmetic was fixed after a run would be a budget chosen to pass.",
@@ -1445,12 +1442,39 @@
       "why": "git_head is the commit the seal claims to describe. If the sealed bytes are still uncommitted when the stamp is taken, git_head names a commit that does not contain them, and there is no checkout you can verify the seal against."
     }
   },
+  "mp_e12b_design_step": {
+    "added": "2026-08-10",
+    "document": "docs/mp_e12b_compiler_design_step.md",
+    "new_open_decisions_raised_by_writing_it": {
+      "D-MPE12-06": "The confidence threshold that gates an edge into grow_plastic/wire_pool. Must be fixed before the first real graph is compiled; cannot be derived from the synthetic donor, whose confidences describe geometry and not knowledge.",
+      "D-MPE12-07": "Whether the source dimension is a new KEY inside prov (inert data) or a new ADMISSIBILITY class in _qa_admissible (an authority). The plan's wording asks for the second, which is the one that can break refusal.",
+      "D-MPE12-08": "Whether stage b may be exercised on a scratch organ before the live one, and what would make a scratch result admissible.",
+      "gate_order": "Does stage b wait for G4 (MP-E11) to close as the plan's order implies, or is the parallel track extended? This is the decision that unblocks the work and it is not a technical one."
+    },
+    "status": "DESIGN ONLY. Nothing implemented. No MP-E12 stage has run against the synthetic donor beyond the sealed calibration, and none will: the quoting guard bars a synthetic figure as evidence about GPT-2, and this document extends the same bar to ACTIONS -- compiling a graph read from random weights into a live organ would be an organ change whose entire rationale is a placeholder.",
+    "the_distinction_the_design_holds": "The plumbing (provenance shape, coverage source dimension, reporting) must be INERT; the treatment (the compiled pools and edges) is what H1 measures and must NOT be inert. Conflating them would let a treatment masquerade as an instrument or an instrument as a result. The inertness control is therefore a specific run: transplant an EMPTY graph.",
+    "why_a_design_step_and_not_a_build": "Stage b calls grow_pool (connectome/rate_core.py:498), grow_plastic (:238) and wire_pool (:305) and adds a class to the provenance machinery that protects refusal (organs/neural_language.py:3431 learn_qa, :3556 _qa_admissible, :4196 _provenance_vote). That is not disjoint from Droso organs, so rule R4's parallel-track authorisation does not cover it. The blocker is a gate-order ruling, not code."
+  },
   "open_decisions": {
     "D-MPE12-01": "Whether the sealed operation-count log from the synthetic donor satisfies B.6 item 1's 'log and seal operation counts', or whether the log must be regenerated against the real donor before item 1 can be called done. This registration's position: regenerated -- the counts will very likely be identical because they are a property of the code path and the shapes, but 'very likely identical' is not the same artifact and must not be filed as one.",
     "D-MPE12-02": "How the energy estimate is produced. The plan names wall-clock, operation count AND energy estimate; this repository has no energy instrument, so on both the synthetic and the real run energy is NOT MEASURED rather than modelled. Whether a modelled estimate is acceptable, and from what basis, is the PI's call.",
     "D-MPE12-03": "The probe list for the real donor (which tokens, how many, chosen how). It cannot be fixed against an absent model and must not be chosen after the weights arrive; the PI may fix it now, or authorise a rule for fixing it later.",
     "D-MPE12-04": "Whether MP-E12b (the compiler) may be built against the synthetic graph before the real graph exists. Not started here: stage b mutates connectome objects, which is not disjoint from Droso organs, and so is NOT covered by R4's parallel-track authorisation. Building it now would be the one kind of licence this registration does not have.",
     "D-MPE12-05": "How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibration measured that the pre-registered 10x threshold is crossed at 5 generated tokens on operation count and at 9 on MACs, and is NOT reached on wall-clock at any registered length (a factor of 5.8 at nine tokens, and under 2.0 at one). The plan says 'at least ten times cheaper per association than inference' and never fixes the association's length, so the verdict is a property of an unstated definition rather than of weight-reading. Raised by the measurement, not by reading ahead -- see experiments/MP-E12/results/probes_synthetic_calibration.json calibration_findings.1."
+  },
+  "pi_rulings": {
+    "D-MPE12-05": {
+      "if_only_the_longer_framings_pass": "the claim must be RE-WORDED to name its own condition rather than presented as a property of weight-reading. On the synthetic calibration the shorter framings do not pass (2.13x at one token on operations, 0.70x on wall-clock), so this branch is the likely one and the re-wording is pre-authorised rather than improvised.",
+      "implementation_note": "The curve shape is already in the sealed artifact's benchmark_vs_reference_inference list; what changes is that a single number may never be lifted out of it.",
+      "ruling": "MP-E12c must report the read-versus-inference ratio as a CURVE against generated-token count, never as a single number, and must state the verdict at each point on the curve. The curve carries at minimum 1, 5 and 9 generated tokens -- the three points at which this registration's own calibration crossed or failed to cross 10x -- plus the donor's MEASURED mean answer length, which cannot be known until the real donor is present and is therefore registered here as a required point rather than a value.",
+      "status": "RULED. The ruling is that the claim is UNDER-SPECIFIED, and that this is the finding -- not a gap to be filled with whichever choice reads well.",
+      "the_R2_event_this_forecloses": "Choosing the association length after seeing which lengths pass would be the R2 event this project has refused repeatedly, and it is refused here in advance: the points on the curve are fixed by this ruling, before the real donor exists, and no point may be added, dropped or headlined selectively.",
+      "the_plan_sentence_and_its_condition": "The plan's 'at least ten times cheaper per association than inference' cannot be evaluated until an association's token length is fixed. H2 is therefore registered as CONDITIONAL on that definition: the condition is part of the claim, not a caveat under it.",
+      "what_the_ruling_does_NOT_do": "It does not make the 10x threshold measurable about GPT-2 -- the calibration that produced these ratios ran on a synthetic donor and its quoting guard forbids quoting any of it as evidence about GPT-2. What it settles is the FORM of the eventual figure, which is a decision the PI can make without the weights."
+    },
+    "recorded_by": "agent, in the working set that received it",
+    "ruled_at": "2026-08-10",
+    "ruled_by": "PI"
   },
   "plan_text_transcribed_verbatim": {
     "B_6_item_1_divergence_recorded": "Item 1 says 'against the GPT-2 124M weights'. This registration implements the extractions against a synthetic donor of the same shape and says so in every field of every artifact. The divergence is not a substitution of the claim: the real donor run remains item 1 and is blocked by the named external blocker below. What is delivered now is the code path, the operation counts and the schema, so that the run against real weights is a download rather than a build.",
@@ -1536,6 +1560,7 @@
   },
   "quoting_guard": {
     "meaning": "No figure in any MP-E12a artifact may be quoted as evidence about GPT-2, about the ten-times claim, or about the flagship result. The donor is synthetic; there is no library in it.",
+    "no_stage_b_work_has_been_done": "Confirmed on 2026-08-10: stage a's calibration is the only MP-E12 run that exists, and no synthetic figure from it has been quoted as evidence about GPT-2 in any document in this repository.",
     "open_decisions_at_generation": [
       "D-MPE12-01",
       "D-MPE12-02",
@@ -1547,10 +1572,6 @@
     "still_blocking_a_scored_run_after_this_registration": "the donor itself, which is a physical absence, not a decision. Nothing in the open list above prevents the code path from being built and tested; the absence prevents it from being pointed at anything real."
   },
   "registered_at": "2026-08-10T00:00:00Z",
-  "seal_note": "Empty by design until the seal tool stamps this ledger. A registration written after a run would show a seal date earlier than its own evidence; this one cannot.",
-  "sealed_at": "",
-  "sealed_count": 0,
-  "sealed_files": {},
   "status": "REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.",
   "synthetic_donor": {
     "how_it_is_made": "tools/mp_e12_synthetic_donor.py, deterministic from a registered seed (1249), float32, standard normal scaled by 0.02 the way a GPT-2 checkpoint is initialised. The donor's own shape manifest is sealed so that a later reader can check that the stand-in had the shape the budget was sized against.",

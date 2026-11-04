@@ -1,0 +1,135 @@
+{
+  "after_teaching_cycles": {
+    "at_ceiling": 0,
+    "counters": {
+      "sequences_learned": 159,
+      "transitions": 636
+    },
+    "distinct_weight_values": 1,
+    "max_weight": 1.05,
+    "mean_weight": 1.05,
+    "min_weight": 1.05,
+    "n_entries": 7632,
+    "share_at_ceiling": 0.0
+  },
+  "constants": {
+    "LEARN_LR": 0.35,
+    "SUCCESSOR_FLOOR": 0.12,
+    "SUCCESSOR_MARGIN": 0.35,
+    "ceiling": 4.0
+  },
+  "corpus": {
+    "cycles": 3,
+    "items": 53,
+    "kind": "deterministic synthetic sequences (NOT a curriculum, NOT language)",
+    "n_slots": 8,
+    "sequence_length": 5
+  },
+  "findings": {
+    "1_replay_is_a_uniform_translation_not_selective_strengthening": "with a constant lr and reward 0, every visited pair gains the same amount per pass, so replay cannot strengthen one engram relative to another. After 3 cycles mean == max == min: the chain has one value.",
+    "2_past_the_ceiling_replay_destroys_the_ranking_readout_needs": "every entry reaches the 4.0 ceiling at pass 9; at that point all pairs are equal, so the within-slot ordering generate() reads through SUCCESSOR_FLOOR/MARGIN is gone. A pass-count limit is a precondition of option A, not an optimisation of it.",
+    "3_replay_contaminates_the_organ_s_own_accounting": "transitions and sequences_learned advance as though new material arrived, and they saturate non-linearly (once nothing grows, `grew` is False and written stops counting), so the drift hides itself in the counters that published evidence quotes.",
+    "4_consequence_for_the_ruling": "option A costs no code and cannot express selective consolidation; option B (a dedicated replay entry with a replay gain, advancing no teaching counter) is the only one that can, and it is an organ change. See docs/mp_e10_g3_decision_brief.md."
+  },
+  "option_A_replay_via_learn_sequence": [
+    {
+      "counters_moved": {
+        "sequences_learned": 53,
+        "transitions": 212
+      },
+      "distinct_weight_values": 1,
+      "entries_changed": 7632,
+      "entries_total": 7632,
+      "mean_weight": 1.4,
+      "new_entries_created": 0,
+      "replay_passes": 1,
+      "share_at_ceiling": 0.0,
+      "transitions_if_every_pass_were_counted": 212,
+      "transitions_moved_vs_counted": [
+        212,
+        212
+      ]
+    },
+    {
+      "counters_moved": {
+        "sequences_learned": 159,
+        "transitions": 636
+      },
+      "distinct_weight_values": 1,
+      "entries_changed": 7632,
+      "entries_total": 7632,
+      "mean_weight": 2.1,
+      "new_entries_created": 0,
+      "replay_passes": 3,
+      "share_at_ceiling": 0.0,
+      "transitions_if_every_pass_were_counted": 636,
+      "transitions_moved_vs_counted": [
+        636,
+        636
+      ]
+    },
+    {
+      "counters_moved": {
+        "sequences_learned": 530,
+        "transitions": 1908
+      },
+      "distinct_weight_values": 1,
+      "entries_changed": 7632,
+      "entries_total": 7632,
+      "mean_weight": 4.0,
+      "new_entries_created": 0,
+      "replay_passes": 10,
+      "share_at_ceiling": 1.0,
+      "transitions_if_every_pass_were_counted": 2120,
+      "transitions_moved_vs_counted": [
+        1908,
+        2120
+      ]
+    },
+    {
+      "counters_moved": {
+        "sequences_learned": 583,
+        "transitions": 1908
+      },
+      "distinct_weight_values": 1,
+      "entries_changed": 7632,
+      "entries_total": 7632,
+      "mean_weight": 4.0,
+      "new_entries_created": 0,
+      "replay_passes": 11,
+      "share_at_ceiling": 1.0,
+      "transitions_if_every_pass_were_counted": 2332,
+      "transitions_moved_vs_counted": [
+        1908,
+        2332
+      ]
+    },
+    {
+      "counters_moved": {
+        "sequences_learned": 1590,
+        "transitions": 1908
+      },
+      "distinct_weight_values": 1,
+      "entries_changed": 7632,
+      "entries_total": 7632,
+      "mean_weight": 4.0,
+      "new_entries_created": 0,
+      "replay_passes": 30,
+      "share_at_ceiling": 1.0,
+      "transitions_if_every_pass_were_counted": 6360,
+      "transitions_moved_vs_counted": [
+        1908,
+        6360
+      ]
+    }
+  ],
+  "passes_until_every_entry_at_ceiling": 9,
+  "purpose": "D-MPE10-05 evidence: the write rule's behaviour under replay, measured",
+  "rule_line_sites": {
+    "counters": "transitions :213, sequences_learned :214",
+    "learn_sequence": "organs/sequence_organ.py:174-216",
+    "lr": "LEARN_LR x (1 + reward), LEARN_LR = 0.35 at organs/sequence_organ.py:76",
+    "readout_gates": "SUCCESSOR_FLOOR = 0.12 :77, SUCCESSOR_MARGIN = 0.35 :83",
+    "write_and_ceiling": "organs/sequence_organ.py:206 (new = old + lr, clamped at 4.0)"
+  }
+}
