@@ -278,6 +278,42 @@
         "sha256_lf": "07a55e58f4cef3c6029f80607954f5201b72f5f94fd1ca9c3d3179eb2ac62225",
         "sha256_of_git_blob": "07a55e58f4cef3c6029f80607954f5201b72f5f94fd1ca9c3d3179eb2ac62225"
       },
+      "experiments/MP-E10/results/control_tier300_no_replay_armA.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 3543279,
+        "bytes_worktree": 3668035,
+        "git_blob_sha1": "81776843f4faa7582ca386c9f7efe502b78aab27",
+        "line_endings": "CRLF",
+        "sha256_lf": "dd73f6e7942427ad59095faa5231135718ee4c51d8843c0d0a0283b0e0b0bd58",
+        "sha256_of_git_blob": "dd73f6e7942427ad59095faa5231135718ee4c51d8843c0d0a0283b0e0b0bd58"
+      },
+      "experiments/MP-E10/results/control_tier300_no_replay_row_migration.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 294235,
+        "bytes_worktree": 307930,
+        "git_blob_sha1": "2189581cbe41d21b19524504ddee2c4113e26d47",
+        "line_endings": "CRLF",
+        "sha256_lf": "074daa29d4c23695c40eadb01fd96cb287d8e16fb3881f831098ae878edb5018",
+        "sha256_of_git_blob": "074daa29d4c23695c40eadb01fd96cb287d8e16fb3881f831098ae878edb5018"
+      },
+      "experiments/MP-E10/results/ksweep_tier120_organ_characterisation.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 21249,
+        "bytes_worktree": 21249,
+        "git_blob_sha1": "c50f7096b7167daf3d85665a730ff776e291c44b",
+        "line_endings": "LF",
+        "sha256_lf": "2a6cff02cff47bbc1f12805035c63a28e2d75c2ee23dfcb4f7bbce9d6405789c",
+        "sha256_of_git_blob": "2a6cff02cff47bbc1f12805035c63a28e2d75c2ee23dfcb4f7bbce9d6405789c"
+      },
+      "experiments/MP-E10/results/ksweep_tier300_organ_characterisation.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 21959,
+        "bytes_worktree": 21959,
+        "git_blob_sha1": "91c5e174bf396b046fa905d07da19b8263a0994a",
+        "line_endings": "LF",
+        "sha256_lf": "58f2d179801795da3311231081b6c3a2417afc699f1908fb8dcd85aa361c9b49",
+        "sha256_of_git_blob": "58f2d179801795da3311231081b6c3a2417afc699f1908fb8dcd85aa361c9b49"
+      },
       "experiments/MP-E10/results/ksweep_tier40_calibration.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 15034,
@@ -430,6 +466,24 @@
         "line_endings": "LF",
         "sha256_lf": "bc7779ebd0ca47f81d6992bf42422c8501ba4c32780b6127aea3f21b1ad38297",
         "sha256_of_git_blob": "bc7779ebd0ca47f81d6992bf42422c8501ba4c32780b6127aea3f21b1ad38297"
+      },
+      "experiments/MP-E10/results/tier300_named_measurements_closure.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 51835,
+        "bytes_worktree": 51835,
+        "git_blob_sha1": "aabf24a2026203736aa1e7436891dfdbe1ec0b4f",
+        "line_endings": "LF",
+        "sha256_lf": "7e62ec9830e55f22c35f47734d357e0dc71af5b65def5145bb8b436733ca3d4d",
+        "sha256_of_git_blob": "7e62ec9830e55f22c35f47734d357e0dc71af5b65def5145bb8b436733ca3d4d"
+      },
+      "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 127745,
+        "bytes_worktree": 133563,
+        "git_blob_sha1": "3e31dbd539568c19249f8f77aa2c30c6059c1631",
+        "line_endings": "CRLF",
+        "sha256_lf": "1ab7387e11644b6913e9d9f344136fe54813579115bb63fd40f79d17359155ba",
+        "sha256_of_git_blob": "1ab7387e11644b6913e9d9f344136fe54813579115bb63fd40f79d17359155ba"
       },
       "experiments/MP-E12/results/donor_shape_manifest.json": {
         "blob_equals_lf_normalised": true,
@@ -1295,6 +1349,15 @@
         "sha256_lf": "347522547215e81695f2e9748e408667b74fe90e7b4a059c438495103fe0233e",
         "sha256_of_git_blob": "347522547215e81695f2e9748e408667b74fe90e7b4a059c438495103fe0233e"
       },
+      "tests/test_mp_e10_ksweep_promotion.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 5994,
+        "bytes_worktree": 6116,
+        "git_blob_sha1": "8ae668a8e615e36759def12cbf68dbdf778a4723",
+        "line_endings": "CRLF",
+        "sha256_lf": "299d5118308f0a51c66fd7f46b6d92453356b89c815543d41a850aa51863090e",
+        "sha256_of_git_blob": "299d5118308f0a51c66fd7f46b6d92453356b89c815543d41a850aa51863090e"
+      },
       "tests/test_mp_e10_replay.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 8006,
@@ -1312,6 +1375,15 @@
         "line_endings": "CRLF",
         "sha256_lf": "6976f60ed917748cb23351d27df57b2d53bec2c2c4eb2a5a46e9205f72ce8f6a",
         "sha256_of_git_blob": "6976f60ed917748cb23351d27df57b2d53bec2c2c4eb2a5a46e9205f72ce8f6a"
+      },
+      "tests/test_mp_e10_row_migration_promotion.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 4507,
+        "bytes_worktree": 4599,
+        "git_blob_sha1": "38759626959b976dc5b25cdd0e246f71ed9ad4d2",
+        "line_endings": "CRLF",
+        "sha256_lf": "22f7dd000a976c23235091366a016a21bfd6ebbd04a7ec50d5cda101d8d759bb",
+        "sha256_of_git_blob": "22f7dd000a976c23235091366a016a21bfd6ebbd04a7ec50d5cda101d8d759bb"
       },
       "tests/test_mp_e10_working_memory.py": {
         "blob_equals_lf_normalised": true,
@@ -1439,6 +1511,15 @@
         "sha256_lf": "64abef35352b56b164924ca313690324bb3b043f524bff23bd37fd2ff5f90c40",
         "sha256_of_git_blob": "64abef35352b56b164924ca313690324bb3b043f524bff23bd37fd2ff5f90c40"
       },
+      "tools/mp_e10_ksweep.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 22079,
+        "bytes_worktree": 22481,
+        "git_blob_sha1": "fb8b2abfaaf9359966be77d317dfd94d3d7d57df",
+        "line_endings": "CRLF",
+        "sha256_lf": "dcbe82bd7a8c9aaa77751a6113f91db89d62a793b4e896832b4e29a88f710a08",
+        "sha256_of_git_blob": "dcbe82bd7a8c9aaa77751a6113f91db89d62a793b4e896832b4e29a88f710a08"
+      },
       "tools/mp_e10_replay_rule_probe.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 7876,
@@ -1456,6 +1537,24 @@
         "line_endings": "CRLF",
         "sha256_lf": "ca2c4af6c85162bab5973e9e07150674c37148b34698e6fd860d544ccd7ddf48",
         "sha256_of_git_blob": "ca2c4af6c85162bab5973e9e07150674c37148b34698e6fd860d544ccd7ddf48"
+      },
+      "tools/mp_e10_row_migration.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 13216,
+        "bytes_worktree": 13472,
+        "git_blob_sha1": "b0748100327b84bc6961133b7373acaf0665057d",
+        "line_endings": "CRLF",
+        "sha256_lf": "5571a543916cd4f772feeb1bc172bfea6b65855e00da14f1125ef1d4fe795eb7",
+        "sha256_of_git_blob": "5571a543916cd4f772feeb1bc172bfea6b65855e00da14f1125ef1d4fe795eb7"
+      },
+      "tools/mp_e10_tier300_closure.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 39464,
+        "bytes_worktree": 40102,
+        "git_blob_sha1": "5f31a4239a578f0ac7cc90001cd072ee4090c599",
+        "line_endings": "CRLF",
+        "sha256_lf": "5c6e3550e12fb3ac5cc2cb619b19beaf74bc73755cd6c9d4a940d764214cbec2",
+        "sha256_of_git_blob": "5c6e3550e12fb3ac5cc2cb619b19beaf74bc73755cd6c9d4a940d764214cbec2"
       },
       "tools/mp_e10_working_memory.py": {
         "blob_equals_lf_normalised": true,
@@ -1558,12 +1657,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 48217,
-        "bytes_worktree": 48937,
-        "git_blob_sha1": "97c85a199bce115edbb09b101427deae795a2d15",
+        "bytes_blob": 50602,
+        "bytes_worktree": 51351,
+        "git_blob_sha1": "0c2ea4211f36f6a21d980b010dc7fb3ee1d15d94",
         "line_endings": "CRLF",
-        "sha256_lf": "1bfa0d50bdc09b5f567786f224f163475fdb2c49516ac93b4ab92ea3c4c4d949",
-        "sha256_of_git_blob": "1bfa0d50bdc09b5f567786f224f163475fdb2c49516ac93b4ab92ea3c4c4d949"
+        "sha256_lf": "2621f14f16d9df686f20a4480ab9b0c8ad765300e8d5816c21e38a5dce92c505",
+        "sha256_of_git_blob": "2621f14f16d9df686f20a4480ab9b0c8ad765300e8d5816c21e38a5dce92c505"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -1586,7 +1685,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "2d06146446b071c9039e76f0a9592ee73200d7fe",
+    "git_head": "590d056938457babe587397563d6c4e788b3445b",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -1613,7 +1712,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T18:08:09Z",
+    "sealed_at_utc": "2026-11-04T19:05:32Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -1928,105 +2027,61 @@
     "D-MPE10-07_k1_in_the_registered_grid_measures_self_links": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-07_k_equals_1. k=1 excluded from the SCORED grid by AMD-MPE10-01, not deleted; diagonal mass still printed; the module's 'excluded by construction' claim corrected as a docstring-only edit. Original text kept: push() reads prev as a numpy view of ring[(head-1) % k] and then writes ring[head]; at k=1 those are the same slot, so the recorded 'pair' is outer(v_i, v_i). Measured: diagonal mass 3.679 at k=1 against -0.039 (i.e. zero) at every other k. The grid's baseline point is therefore a different object from the rest of the grid. Options: drop k=1 from the grid, or copy prev before the write. Registered as an instrument defect, not fixed unilaterally.",
     "D-MPE10-08_predecessor_or_successor_links": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-08_read_direction. Organ not transposed; every artifact must name the direction it read; a successor map would be a registered organ change with its own design step. Original text kept: outer(post, pre) means probing the later token recovers the earlier one (cosine 0.982) and probing the earlier does not recover the later (0.056). A working memory feeding next-token behaviour needs the other transpose. The registration does not say which direction H1/H2 assume; settling it before any scored run is cheaper than discovering it in a curve.",
     "D-MPE10-09_r6_guarded_battery_at_tier_300": {
+      "agent_recommendation": "route 1, and only if the PI wants an R6 floor at scale. Route 2 trades a sealed baseline for a number, which is the trade this program has refused three times over (D-MPE10-06, -07, -08).",
       "asked_at": "2026-11-04T18:57:38Z",
       "asked_by": "agent",
+      "consequence_if_neither": "H3's clause at tier 300 keeps an unmeasured floor. The interference interval, the ceiling guard and the row attribution are now measured, but R6's 'the guarded invariants are the floor; regression is a hard reject' has no tier-300 reading, and the write-up must say so in the same sentence as the 0.00 pp.",
       "measured": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
-      "the_fact": "the four R6 guarded probes cannot be scored on the tier-300 run by any instrument on this machine. They are turns inside selection scripts (tools/scripts_selection.json), graded only by tools/mp_e9_battery.py from a run_generation journal. The tier-300 run is the learn bench: its rows carry no probe field and no pass field, it writes no journal, its curriculum contains none of the four asks, and run_generation's --tier means frozen/probe/open -- a battery axis, not a curriculum axis.",
       "route_1": "give run_generation a curriculum input so tier-300 material can be taught through the selection pipeline and the battery graded on the resulting journal. New pipeline input.",
       "route_2": "add the four probes to the tier-300 curriculum manifest. Changes curriculum_sha256, the identity every sealed tier-300 artifact is keyed to, breaking the comparison the verdict is computed against.",
-      "agent_recommendation": "route 1, and only if the PI wants an R6 floor at scale. Route 2 trades a sealed baseline for a number, which is the trade this program has refused three times over (D-MPE10-06, -07, -08).",
-      "consequence_if_neither": "H3's clause at tier 300 keeps an unmeasured floor. The interference interval, the ceiling guard and the row attribution are now measured, but R6's 'the guarded invariants are the floor; regression is a hard reject' has no tier-300 reading, and the write-up must say so in the same sentence as the 0.00 pp.",
-      "status": "OPEN -- a design step for the PI, not an implementation choice for the agent"
+      "status": "OPEN -- a design step for the PI, not an implementation choice for the agent",
+      "the_fact": "the four R6 guarded probes cannot be scored on the tier-300 run by any instrument on this machine. They are turns inside selection scripts (tools/scripts_selection.json), graded only by tools/mp_e9_battery.py from a run_generation journal. The tier-300 run is the learn bench: its rows carry no probe field and no pass field, it writes no journal, its curriculum contains none of the four asks, and run_generation's --tier means frozen/probe/open -- a battery axis, not a curriculum axis."
     },
     "D-MPE10-10_which_phase_is_h3s_registered_basis": {
+      "agent_recommendation": "option 3 for the record and option 1 for the scored quantity: report the pair, score the restarted phase, because that is the phase the hypothesis names.",
       "asked_at": "2026-11-04T18:57:38Z",
       "asked_by": "agent",
       "measured": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
+      "options": {
+        "1": "register `restarted` as H3's basis, since the claim is about post-restart retention, and re-quote the tier-120 and tier-300 intervals on it (both read 0.0000 pp, so no verdict moves today).",
+        "2": "register `live` and state that H3's retention claim is scored on the pre-restart round, which makes the word 'retention' in the hypothesis do work the measurement does not do.",
+        "3": "register both as a named pair, which is the honest description of what has actually been measured, and require every quote to carry its phase label."
+      },
+      "status": "OPEN -- a protocol decision about the registered quantity, not an implementation choice",
       "the_fact": "H3's taught-set triple has three phase readings at tier 300 and the registration does not say which is the basis. In the replayed run they read `live` (291, 546, 785) / `restarted` (292, 548, 784) / `reasked` (283, 520, 757); the same run's three phases are three different triples. At tier 120 live and restarted are the same triple (122, 239, 347), so the protocol never had to choose.",
       "the_three_phase_triples_side_by_side": {
-        "baseline_sealed_tier300": {
-          "live": [
-            291,
-            546,
-            785
-          ],
-          "restarted": [
-            292,
-            548,
-            784
-          ],
-          "reasked": [
-            283,
-            520,
-            758
-          ]
-        },
-        "replay_tier300": {
-          "live": [
-            291,
-            546,
-            785
-          ],
-          "restarted": [
-            292,
-            548,
-            784
-          ],
-          "reasked": [
-            283,
-            520,
-            757
-          ]
-        },
-        "control_tier300": {
-          "live": [
-            291,
-            546,
-            785
-          ],
-          "restarted": [
-            292,
-            548,
-            784
-          ],
-          "reasked": [
-            283,
-            520,
-            756
-          ]
-        },
         "baseline_sealed_tier120": {
           "live": [
             122,
             239,
             347
           ],
-          "restarted": [
-            122,
-            239,
-            347
-          ],
           "reasked": [
             122,
             237,
             344
+          ],
+          "restarted": [
+            122,
+            239,
+            347
           ]
         },
-        "replay_tier120": {
+        "baseline_sealed_tier300": {
           "live": [
-            122,
-            239,
-            347
-          ],
-          "restarted": [
-            122,
-            239,
-            347
+            291,
+            546,
+            785
           ],
           "reasked": [
-            122,
-            237,
-            344
+            283,
+            520,
+            758
+          ],
+          "restarted": [
+            292,
+            548,
+            784
           ]
         },
         "control_tier120": {
@@ -2035,7 +2090,36 @@
             239,
             347
           ],
+          "reasked": [
+            122,
+            237,
+            344
+          ],
           "restarted": [
+            122,
+            239,
+            347
+          ]
+        },
+        "control_tier300": {
+          "live": [
+            291,
+            546,
+            785
+          ],
+          "reasked": [
+            283,
+            520,
+            756
+          ],
+          "restarted": [
+            292,
+            548,
+            784
+          ]
+        },
+        "replay_tier120": {
+          "live": [
             122,
             239,
             347
@@ -2044,17 +2128,32 @@
             122,
             237,
             344
+          ],
+          "restarted": [
+            122,
+            239,
+            347
+          ]
+        },
+        "replay_tier300": {
+          "live": [
+            291,
+            546,
+            785
+          ],
+          "reasked": [
+            283,
+            520,
+            757
+          ],
+          "restarted": [
+            292,
+            548,
+            784
           ]
         }
       },
-      "why_it_matters": "H3 is a claim about retention ACROSS A RESTART, which points at `restarted`; the interference interval has so far been computed on `live`. If the registered basis is `restarted`, every interference figure quoted to date was computed on the wrong phase -- harmlessly at tier 120 and at 0.0000 pp either way, but not harmlessly at a tier where the phases differ.",
-      "options": {
-        "1": "register `restarted` as H3's basis, since the claim is about post-restart retention, and re-quote the tier-120 and tier-300 intervals on it (both read 0.0000 pp, so no verdict moves today).",
-        "2": "register `live` and state that H3's retention claim is scored on the pre-restart round, which makes the word 'retention' in the hypothesis do work the measurement does not do.",
-        "3": "register both as a named pair, which is the honest description of what has actually been measured, and require every quote to carry its phase label."
-      },
-      "agent_recommendation": "option 3 for the record and option 1 for the scored quantity: report the pair, score the restarted phase, because that is the phase the hypothesis names.",
-      "status": "OPEN -- a protocol decision about the registered quantity, not an implementation choice"
+      "why_it_matters": "H3 is a claim about retention ACROSS A RESTART, which points at `restarted`; the interference interval has so far been computed on `live`. If the registered basis is `restarted`, every interference figure quoted to date was computed on the wrong phase -- harmlessly at tier 120 and at 0.0000 pp either way, but not harmlessly at a tier where the phases differ."
     }
   },
   "open_suite": {
@@ -2267,14 +2366,40 @@
       "why_a_verdict_artifact_was_needed": "tier 120's H3 numbers live as fields in replay_tier120_summary.json; tier 300's lived only as prose in the ledger, and prose is what turned out to be wrong. The correction is that the numbers become fields computed from the artifacts by a script that asserts all three bases agree before writing."
     },
     {
-      "id": "AMD-MPE10-04",
-      "date": "2026-11-04T18:57:38Z",
-      "amends": "results/replay_tier300_summary.json's four named-absent fields (r6_guarded_probes, read_direction, w_frobenius_norm_vs_tokens, replay_off_control) and AMD-MPE10-03's `what_remains_missing_at_tier_300`, by reference -- neither file was edited",
-      "class": "closure of a tier's own named-missing measurements. Changes no threshold, no ruling and no sealed number; three of the four items become MEASURED, the fourth becomes a registered decision (D-MPE10-09) instead of an implied gap.",
-      "instrument": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
       "a_r6_guarded_probes": {
-        "verdict": "STILL ABSENT -- not producible on the tier-300 run by any instrument on this machine. Reported as absent with its reason, not as a zero and not as a tier-40 number.",
+        "consequence": "H3's R6 floor at tier 300 -- 'the guarded invariants are the floor; regression is a hard reject' (constraints_from_the_plan.R6) -- remains UNMEASURED at this tier. The four probes do pass at tier 40 on the selection pipeline (battery_guarded_pass 4/4 in MP-E8's and MP-E9's battery artifacts), and that is NOT reported here as tier 300's result.",
+        "escalated_as": "D-MPE10-09",
         "measured_evidence": {
+          "curriculum_contains_none_of_the_four_asks": true,
+          "per_probe_verbatim_ask_tests": [
+            {
+              "all_content_words_in_tier300": false,
+              "ask": "have i mentioned the moon to you?",
+              "probe": "R-count-moon",
+              "verbatim_in_tier300": false
+            },
+            {
+              "all_content_words_in_tier300": false,
+              "ask": "of the lantern and the kettle which one came first?",
+              "probe": "R-order-ofthe",
+              "verbatim_in_tier300": false
+            },
+            {
+              "all_content_words_in_tier300": false,
+              "ask": "is the coat wet or is it dry?",
+              "probe": "R-disj-reversed",
+              "verbatim_in_tier300": false
+            },
+            {
+              "all_content_words_in_tier300": false,
+              "ask": "the bell turns how often?",
+              "probe": "P-numeral-final",
+              "verbatim_in_tier300": false
+            }
+          ],
+          "rows_carry_a_pass_field": false,
+          "rows_carry_a_probe_field": false,
+          "run_generation_has_no_curriculum_axis": "--tier takes frozen/probe/open, which are BATTERY tiers (which script set to ask), not MP-E8 curriculum tiers (how many items the pool holds). The two axes share a name and nothing else.",
           "tier300_row_vocabulary": [
             "answered",
             "ask",
@@ -2287,63 +2412,61 @@
             "shape",
             "src",
             "taught"
-          ],
-          "rows_carry_a_probe_field": false,
-          "rows_carry_a_pass_field": false,
-          "curriculum_contains_none_of_the_four_asks": true,
-          "per_probe_verbatim_ask_tests": [
-            {
-              "probe": "R-count-moon",
-              "ask": "have i mentioned the moon to you?",
-              "verbatim_in_tier300": false,
-              "all_content_words_in_tier300": false
-            },
-            {
-              "probe": "R-order-ofthe",
-              "ask": "of the lantern and the kettle which one came first?",
-              "verbatim_in_tier300": false,
-              "all_content_words_in_tier300": false
-            },
-            {
-              "probe": "R-disj-reversed",
-              "ask": "is the coat wet or is it dry?",
-              "verbatim_in_tier300": false,
-              "all_content_words_in_tier300": false
-            },
-            {
-              "probe": "P-numeral-final",
-              "ask": "the bell turns how often?",
-              "verbatim_in_tier300": false,
-              "all_content_words_in_tier300": false
-            }
-          ],
-          "run_generation_has_no_curriculum_axis": "--tier takes frozen/probe/open, which are BATTERY tiers (which script set to ask), not MP-E8 curriculum tiers (how many items the pool holds). The two axes share a name and nothing else."
+          ]
         },
-        "consequence": "H3's R6 floor at tier 300 -- 'the guarded invariants are the floor; regression is a hard reject' (constraints_from_the_plan.R6) -- remains UNMEASURED at this tier. The four probes do pass at tier 40 on the selection pipeline (battery_guarded_pass 4/4 in MP-E8's and MP-E9's battery artifacts), and that is NOT reported here as tier 300's result.",
-        "what_was_NOT_done": "both change a sealed instrument's identity or add a pipeline input. That is the PI's design step, and doing it silently to produce a number the ledger wants is the move D-MPE10-06/-07/-08 each refused.",
-        "escalated_as": "D-MPE10-09"
+        "verdict": "STILL ABSENT -- not producible on the tier-300 run by any instrument on this machine. Reported as absent with its reason, not as a zero and not as a tier-40 number.",
+        "what_was_NOT_done": "both change a sealed instrument's identity or add a pipeline input. That is the PI's design step, and doing it silently to produce a number the ledger wants is the move D-MPE10-06/-07/-08 each refused."
       },
+      "additive": "one entry appended to registration_amendments, one key added to open_decisions_for_PI; nothing removed or rewritten",
+      "amends": "results/replay_tier300_summary.json's four named-absent fields (r6_guarded_probes, read_direction, w_frobenius_norm_vs_tokens, replay_off_control) and AMD-MPE10-03's `what_remains_missing_at_tier_300`, by reference -- neither file was edited",
       "b_read_direction": {
-        "verdict": "MEASURED AND NAMED -- two different objects were involved and they are named apart.",
-        "two_objects_named_apart": {
-          "sequence_chain_replayed_by_B4_step2": "SUCCESSOR: chain[pre][post] = strength. learn_sequence writes row keyed by the LATER token against the EARLIER one and generate(first_word) runs the chain FORWARD, asking what comes after.",
-          "decayed_trace_characterised_by_the_sweep": "PREDECESSOR: state is outer(post, pre). Probing the LATER token recovers the EARLIER one. This is the TRANSPOSE of object 1."
-        },
+        "satisfies": "read_direction_discipline, and D-MPE10-08's requirement that no figure be a bare 'alignment', at tier 300's own stream rather than tier 40's",
         "trace_measured_at_tier_300": {
-          "probe_the_later_token_recovers_the_earlier_cosine": 0.981298,
-          "probe_the_earlier_token_recovers_the_later_cosine": 0.065568,
           "direction_asymmetry_pp": 91.573,
+          "probe_the_earlier_token_recovers_the_later_cosine": 0.065568,
+          "probe_the_later_token_recovers_the_earlier_cosine": 0.981298,
           "tier": 300,
-          "utterances": 417,
-          "tokens_total": 1951
+          "tokens_total": 1951,
+          "utterances": 417
         },
-        "satisfies": "read_direction_discipline, and D-MPE10-08's requirement that no figure be a bare 'alignment', at tier 300's own stream rather than tier 40's"
+        "two_objects_named_apart": {
+          "decayed_trace_characterised_by_the_sweep": "PREDECESSOR: state is outer(post, pre). Probing the LATER token recovers the EARLIER one. This is the TRANSPOSE of object 1.",
+          "sequence_chain_replayed_by_B4_step2": "SUCCESSOR: chain[pre][post] = strength. learn_sequence writes row keyed by the LATER token against the EARLIER one and generate(first_word) runs the chain FORWARD, asking what comes after."
+        },
+        "verdict": "MEASURED AND NAMED -- two different objects were involved and they are named apart."
       },
       "c_norm_vs_tokens_pushed": {
-        "verdict": "MEASURED at tier 300's own stream volume, on the same instrument as the sealed tier-40 sweep, whose driver was promoted out of _tmp/ into tools/mp_e10_ksweep.py (R10).",
+        "curve_at_k1": {
+          "1088": 140.0092,
+          "1344": 171.9719,
+          "16": 4.2767,
+          "1600": 203.9105,
+          "1856": 235.8832,
+          "1951": 247.7137,
+          "32": 6.7745,
+          "320": 43.6489,
+          "576": 75.7899,
+          "64": 11.2213,
+          "8": 2.7547,
+          "832": 107.9255
+        },
+        "curve_at_k2": {
+          "1088": 33.3673,
+          "1344": 37.2718,
+          "16": 3.8376,
+          "1600": 40.7355,
+          "1856": 43.9706,
+          "1951": 45.323,
+          "32": 5.477,
+          "320": 18.0022,
+          "576": 24.1689,
+          "64": 7.824,
+          "8": 2.6182,
+          "832": 29.163
+        },
+        "reading": "||w||_F keeps rising past the tier-40 checkpoint set: at tier 300's volume the curve is sampled to 1951 tokens, where the sealed tier-40 artifact stopped at 64. The quantity D-MPE10-06 requires is reported at the tier's own size instead of at the calibration tier's size.",
+        "tier40_curve_not_substituted": "to show the instrument is unchanged and the tier-300 curve extends it. It is not tier 300's number and may not be quoted as one.",
         "tier_300_stream": {
-          "utterances": 417,
-          "tokens_total_across_utterances": 1951,
           "checkpoints_sampled": [
             8,
             16,
@@ -2358,366 +2481,141 @@
             1856,
             1951
           ],
-          "stream_length_tokens": 1951
+          "stream_length_tokens": 1951,
+          "tokens_total_across_utterances": 1951,
+          "utterances": 417
         },
-        "curve_at_k2": {
-          "8": 2.6182,
-          "16": 3.8376,
-          "32": 5.477,
-          "64": 7.824,
-          "320": 18.0022,
-          "576": 24.1689,
-          "832": 29.163,
-          "1088": 33.3673,
-          "1344": 37.2718,
-          "1600": 40.7355,
-          "1856": 43.9706,
-          "1951": 45.323
-        },
-        "curve_at_k1": {
-          "8": 2.7547,
-          "16": 4.2767,
-          "32": 6.7745,
-          "64": 11.2213,
-          "320": 43.6489,
-          "576": 75.7899,
-          "832": 107.9255,
-          "1088": 140.0092,
-          "1344": 171.9719,
-          "1600": 203.9105,
-          "1856": 235.8832,
-          "1951": 247.7137
-        },
-        "reading": "||w||_F keeps rising past the tier-40 checkpoint set: at tier 300's volume the curve is sampled to 1951 tokens, where the sealed tier-40 artifact stopped at 64. The quantity D-MPE10-06 requires is reported at the tier's own size instead of at the calibration tier's size.",
-        "tier40_curve_not_substituted": "to show the instrument is unchanged and the tier-300 curve extends it. It is not tier 300's number and may not be quoted as one."
+        "verdict": "MEASURED at tier 300's own stream volume, on the same instrument as the sealed tier-40 sweep, whose driver was promoted out of _tmp/ into tools/mp_e10_ksweep.py (R10)."
       },
+      "class": "closure of a tier's own named-missing measurements. Changes no threshold, no ruling and no sealed number; three of the four items become MEASURED, the fourth becomes a registered decision (D-MPE10-09) instead of an implied gap.",
       "d_replay_off_control": {
-        "verdict": "MEASURED. The control ran at tier 300, replay OFF, same curriculum, same seed, same instrument bytes.",
         "artifact": "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
-        "matched_pair": {
-          "same_git_head": false,
-          "replay_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
-          "control_head": "9fd6272d219d4bf7b5aaa53567f0bb198ccfb5fc",
-          "instrument_bytes_identical": true,
-          "curriculum_identical": true,
-          "note": "the two runs are on different COMMITS -- the control was measured after the tier-300 verdict artifact and the ledger amendments landed. None of the 14 paths differing between those trees is an instrument file: the bench, the organs, the curriculum builder and run_generation are byte-identical, and the bench's own recorded harness_sha256 matches across the two artifacts. Recorded rather than assumed, because a migration count spanning a code change is not an effect of replay."
-        },
-        "wall_clock": {
-          "measured_minutes_externally": 26.2,
-          "measured_seconds_externally": 1572.0,
-          "bench_recorded_learn_arm_minutes": 21.95,
-          "replay_run_learn_arm_minutes_for_comparison": 1124.6,
-          "precedent_as_quoted": "53.65 min measured / 60.2 min projected",
-          "precedent_correction": "MP-E8's FULL THREE-ARM tier-300 run -- experiments/G0-prime/tier_protocol.json wall_clock_minutes_all_arms = 53.65 against wall_clock_projected_minutes_all_arms = 60.2. It is NOT a single-arm figure, and this control is one arm.",
-          "why_the_correction_matters": "quoting 53.65 as the cost of a learn-only control overstates it by roughly the number of arms not run. The cost the PI was asked to weigh is the measured one beside the all-arms precedent, both labelled for what they measure."
-        },
         "attribution": {
-          "rows_compared": 8199,
-          "moved_in_replay_vs_baseline": 251,
-          "moved_in_control_vs_baseline": 302,
-          "moved_in_BOTH": 235,
-          "moved_ONLY_in_replay_replay_attributable": 16,
-          "moved_ONLY_in_control": 67,
           "class_split_only_in_replay": {
-            "taught item": 12,
-            "distractor/unanswerable": 4
+            "distractor/unanswerable": 4,
+            "taught item": 12
           },
-          "reading": "rows that move with the flag OFF are not attributable to replay; they move with time, restart ordering and the run itself. Rows that move ONLY with the flag ON are the replay-attributable set, and that count, not the headline migration total, is what H3's interference clause has to answer for."
+          "moved_ONLY_in_control": 67,
+          "moved_ONLY_in_replay_replay_attributable": 16,
+          "moved_in_BOTH": 235,
+          "moved_in_control_vs_baseline": 302,
+          "moved_in_replay_vs_baseline": 251,
+          "reading": "rows that move with the flag OFF are not attributable to replay; they move with time, restart ordering and the run itself. Rows that move ONLY with the flag ON are the replay-attributable set, and that count, not the headline migration total, is what H3's interference clause has to answer for.",
+          "rows_compared": 8199
         },
         "interference_pp_with_the_control_as_reference": {
           "1/live": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "1/reasked": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "1/restarted": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "2/live": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "2/reasked": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "2/restarted": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "3/live": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "3/reasked": {
-            "replay_minus_baseline_pp": -0.0478,
-            "control_minus_baseline_pp": -0.0956,
             "attributable_to_replay_pp": 0.0478,
+            "control_minus_baseline_pp": -0.0956,
+            "replay_minus_baseline_pp": -0.0478,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           },
           "3/restarted": {
-            "replay_minus_baseline_pp": 0.0,
-            "control_minus_baseline_pp": 0.0,
             "attributable_to_replay_pp": 0.0,
+            "control_minus_baseline_pp": 0.0,
+            "replay_minus_baseline_pp": 0.0,
             "rows_in_denominator": 2092,
             "within_registered_margin_2pp": true
           }
+        },
+        "matched_pair": {
+          "control_head": "9fd6272d219d4bf7b5aaa53567f0bb198ccfb5fc",
+          "curriculum_identical": true,
+          "instrument_bytes_identical": true,
+          "note": "the two runs are on different COMMITS -- the control was measured after the tier-300 verdict artifact and the ledger amendments landed. None of the 14 paths differing between those trees is an instrument file: the bench, the organs, the curriculum builder and run_generation are byte-identical, and the bench's own recorded harness_sha256 matches across the two artifacts. Recorded rather than assumed, because a migration count spanning a code change is not an effect of replay.",
+          "replay_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
+          "same_git_head": false
         },
         "safety_property": {
           "invented_rows_control": 100,
           "invented_rows_replay": 92,
           "note": "the floor this program stands on: a house may not say a sentence nobody said. Both counts are reported so the control is not merely a diff but a check that the unreplayed run still holds it."
+        },
+        "verdict": "MEASURED. The control ran at tier 300, replay OFF, same curriculum, same seed, same instrument bytes.",
+        "wall_clock": {
+          "bench_recorded_learn_arm_minutes": 21.95,
+          "measured_minutes_externally": 26.2,
+          "measured_seconds_externally": 1572.0,
+          "precedent_as_quoted": "53.65 min measured / 60.2 min projected",
+          "precedent_correction": "MP-E8's FULL THREE-ARM tier-300 run -- experiments/G0-prime/tier_protocol.json wall_clock_minutes_all_arms = 53.65 against wall_clock_projected_minutes_all_arms = 60.2. It is NOT a single-arm figure, and this control is one arm.",
+          "replay_run_learn_arm_minutes_for_comparison": 1124.6,
+          "why_the_correction_matters": "quoting 53.65 as the cost of a learn-only control overstates it by roughly the number of arms not run. The cost the PI was asked to weigh is the measured one beside the all-arms precedent, both labelled for what they measure."
         }
       },
+      "date": "2026-11-04T18:57:38Z",
+      "id": "AMD-MPE10-04",
+      "instrument": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
       "two_instruments_promoted_under_R10": {
+        "both_promoted_tools_refuse_to_overwrite": "an existing --out exits 3 unless --overwrite is passed (R5): neither can clobber a sealed artifact",
         "rule": "a number the gate depends on cannot live in _tmp/, which is swept",
         "tools/mp_e10_ksweep.py": "promoted from _tmp/mp_e10_ksweep_t40.py; tests/test_mp_e10_ksweep_promotion.py re-runs it at tier 40 and requires all 14 fields across all 7 k rows, plus the boundedness curve at the sealed checkpoints, to come back identical",
         "tools/mp_e10_row_migration.py": "promoted from _tmp/row_migration.py, which had produced THREE sealed artifacts from a scratch file; tests/test_mp_e10_row_migration_promotion.py re-runs all three sealed pairs and requires the counts AND the migrated row SETS to match -- an equal count over a different 251 rows is a different claim",
-        "tools/mp_e10_tier300_closure.py": "new; reads runs, runs nothing",
-        "both_promoted_tools_refuse_to_overwrite": "an existing --out exits 3 unless --overwrite is passed (R5): neither can clobber a sealed artifact"
+        "tools/mp_e10_tier300_closure.py": "new; reads runs, runs nothing"
       },
-      "what_did_not_move": "H3's clause at tier 300 is still NOT satisfied as scored evidence: depths 2 and 3 remain VOID under the saturation guard, and the R6 floor has no tier-300 reading. The 0.0000 pp interval is unchanged. No sealed artifact was edited and no threshold was retyped.",
-      "additive": "one entry appended to registration_amendments, one key added to open_decisions_for_PI; nothing removed or rewritten"
+      "what_did_not_move": "H3's clause at tier 300 is still NOT satisfied as scored evidence: depths 2 and 3 remain VOID under the saturation guard, and the R6 floor has no tier-300 reading. The 0.0000 pp interval is unchanged. No sealed artifact was edited and no threshold was retyped."
     },
     {
-      "id": "AMD-MPE10-05",
-      "date": "2026-11-04T18:57:38Z",
+      "additive": "one entry appended to registration_amendments, one key added to open_decisions_for_PI",
+      "all_three_tier300_artifacts_agree_on_both_phases": true,
       "amends": "AMD-MPE10-03's `what_was_wrong` -- the stated GROUND for that correction -- and the meaning of results/replay_tier300_summary.json's 'corrected' triple. By reference; neither file was edited.",
       "class": "a correction to a correction. No number in this ledger changes. One published claim is withdrawn: that tier 300's prose triple matched no basis in either artifact.",
+      "consequence": "the ledger now carries two triples for one run, both correct, distinguished only by this amendment. Any future quote of tier 300's taught-set numbers must name its phase or it is ambiguous by construction. The interference verdict does not move: 0.0000 pp on the live basis and 0.0000 pp on the restarted basis, because replay and baseline read the same value on both.",
+      "date": "2026-11-04T18:57:38Z",
+      "escalated_as": "D-MPE10-10",
+      "how_it_was_found": "not by re-reading the prose. Building the tier-300 CONTROL's denominators required reading every phase of every tier-300 artifact, and the triple supposedly matched by nothing appeared three times.",
+      "id": "AMD-MPE10-05",
       "instrument": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
-      "what_was_claimed": "AMD-MPE10-03: '292/548/784 and kept 80/129/176 / lost 0/3/9 / part 20/68/115 matched no basis. Measured: 291/546/785 ... on all three bases, in both artifacts.'",
-      "what_is_true": "both triples are exact readings of the same runs. 292/548/784 with kept 80/129/176 / lost 0/3/9 / part 20/68/115 is the `restarted` phase; 291/546/785 with kept 79/129/176 / lost 0/4/8 / part 21/67/116 is the `live` phase. The prose quoted one phase and the correction quoted the other, and neither said which.",
       "measured_phase_table": {
-        "baseline_sealed_tier300": {
-          "live": {
-            "correct": [
-              291,
-              546,
-              785
-            ],
-            "kept": [
-              79,
-              129,
-              176
-            ],
-            "lost": [
-              0,
-              4,
-              8
-            ],
-            "part": [
-              21,
-              67,
-              116
-            ]
-          },
-          "restarted": {
-            "correct": [
-              292,
-              548,
-              784
-            ],
-            "kept": [
-              80,
-              129,
-              176
-            ],
-            "lost": [
-              0,
-              3,
-              9
-            ],
-            "part": [
-              20,
-              68,
-              115
-            ]
-          },
-          "reasked": {
-            "correct": [
-              283,
-              520,
-              758
-            ],
-            "kept": [
-              80,
-              129,
-              176
-            ],
-            "lost": [
-              1,
-              4,
-              11
-            ],
-            "part": [
-              19,
-              67,
-              113
-            ]
-          }
-        },
-        "replay_tier300": {
-          "live": {
-            "correct": [
-              291,
-              546,
-              785
-            ],
-            "kept": [
-              79,
-              129,
-              176
-            ],
-            "lost": [
-              0,
-              4,
-              8
-            ],
-            "part": [
-              21,
-              67,
-              116
-            ]
-          },
-          "restarted": {
-            "correct": [
-              292,
-              548,
-              784
-            ],
-            "kept": [
-              80,
-              129,
-              176
-            ],
-            "lost": [
-              0,
-              3,
-              9
-            ],
-            "part": [
-              20,
-              68,
-              115
-            ]
-          },
-          "reasked": {
-            "correct": [
-              283,
-              520,
-              757
-            ],
-            "kept": [
-              80,
-              129,
-              176
-            ],
-            "lost": [
-              1,
-              4,
-              11
-            ],
-            "part": [
-              19,
-              67,
-              113
-            ]
-          }
-        },
-        "control_tier300": {
-          "live": {
-            "correct": [
-              291,
-              546,
-              785
-            ],
-            "kept": [
-              79,
-              129,
-              176
-            ],
-            "lost": [
-              0,
-              4,
-              8
-            ],
-            "part": [
-              21,
-              67,
-              116
-            ]
-          },
-          "restarted": {
-            "correct": [
-              292,
-              548,
-              784
-            ],
-            "kept": [
-              80,
-              129,
-              176
-            ],
-            "lost": [
-              0,
-              3,
-              9
-            ],
-            "part": [
-              20,
-              68,
-              115
-            ]
-          },
-          "reasked": {
-            "correct": [
-              283,
-              520,
-              756
-            ],
-            "kept": [
-              80,
-              129,
-              176
-            ],
-            "lost": [
-              1,
-              4,
-              11
-            ],
-            "part": [
-              19,
-              67,
-              113
-            ]
-          }
-        },
         "baseline_sealed_tier120": {
           "live": {
             "correct": [
@@ -2741,11 +2639,11 @@
               24
             ]
           },
-          "restarted": {
+          "reasked": {
             "correct": [
               122,
-              239,
-              347
+              237,
+              344
             ],
             "kept": [
               37,
@@ -2763,11 +2661,11 @@
               24
             ]
           },
-          "reasked": {
+          "restarted": {
             "correct": [
               122,
-              237,
-              344
+              239,
+              347
             ],
             "kept": [
               37,
@@ -2786,71 +2684,71 @@
             ]
           }
         },
-        "replay_tier120": {
+        "baseline_sealed_tier300": {
           "live": {
             "correct": [
-              122,
-              239,
-              347
+              291,
+              546,
+              785
             ],
             "kept": [
-              37,
-              68,
-              93
+              79,
+              129,
+              176
             ],
             "lost": [
               0,
-              1,
-              3
+              4,
+              8
             ],
             "part": [
-              3,
-              11,
-              24
-            ]
-          },
-          "restarted": {
-            "correct": [
-              122,
-              239,
-              347
-            ],
-            "kept": [
-              37,
-              68,
-              93
-            ],
-            "lost": [
-              0,
-              1,
-              3
-            ],
-            "part": [
-              3,
-              11,
-              24
+              21,
+              67,
+              116
             ]
           },
           "reasked": {
             "correct": [
-              122,
-              237,
-              344
+              283,
+              520,
+              758
             ],
             "kept": [
-              37,
-              68,
-              93
+              80,
+              129,
+              176
+            ],
+            "lost": [
+              1,
+              4,
+              11
+            ],
+            "part": [
+              19,
+              67,
+              113
+            ]
+          },
+          "restarted": {
+            "correct": [
+              292,
+              548,
+              784
+            ],
+            "kept": [
+              80,
+              129,
+              176
             ],
             "lost": [
               0,
-              1,
-              3
+              3,
+              9
             ],
             "part": [
-              3,
-              11,
-              24
+              20,
+              68,
+              115
             ]
           }
         },
@@ -2877,7 +2775,121 @@
               24
             ]
           },
+          "reasked": {
+            "correct": [
+              122,
+              237,
+              344
+            ],
+            "kept": [
+              37,
+              68,
+              93
+            ],
+            "lost": [
+              0,
+              1,
+              3
+            ],
+            "part": [
+              3,
+              11,
+              24
+            ]
+          },
           "restarted": {
+            "correct": [
+              122,
+              239,
+              347
+            ],
+            "kept": [
+              37,
+              68,
+              93
+            ],
+            "lost": [
+              0,
+              1,
+              3
+            ],
+            "part": [
+              3,
+              11,
+              24
+            ]
+          }
+        },
+        "control_tier300": {
+          "live": {
+            "correct": [
+              291,
+              546,
+              785
+            ],
+            "kept": [
+              79,
+              129,
+              176
+            ],
+            "lost": [
+              0,
+              4,
+              8
+            ],
+            "part": [
+              21,
+              67,
+              116
+            ]
+          },
+          "reasked": {
+            "correct": [
+              283,
+              520,
+              756
+            ],
+            "kept": [
+              80,
+              129,
+              176
+            ],
+            "lost": [
+              1,
+              4,
+              11
+            ],
+            "part": [
+              19,
+              67,
+              113
+            ]
+          },
+          "restarted": {
+            "correct": [
+              292,
+              548,
+              784
+            ],
+            "kept": [
+              80,
+              129,
+              176
+            ],
+            "lost": [
+              0,
+              3,
+              9
+            ],
+            "part": [
+              20,
+              68,
+              115
+            ]
+          }
+        },
+        "replay_tier120": {
+          "live": {
             "correct": [
               122,
               239,
@@ -2920,16 +2932,103 @@
               11,
               24
             ]
+          },
+          "restarted": {
+            "correct": [
+              122,
+              239,
+              347
+            ],
+            "kept": [
+              37,
+              68,
+              93
+            ],
+            "lost": [
+              0,
+              1,
+              3
+            ],
+            "part": [
+              3,
+              11,
+              24
+            ]
+          }
+        },
+        "replay_tier300": {
+          "live": {
+            "correct": [
+              291,
+              546,
+              785
+            ],
+            "kept": [
+              79,
+              129,
+              176
+            ],
+            "lost": [
+              0,
+              4,
+              8
+            ],
+            "part": [
+              21,
+              67,
+              116
+            ]
+          },
+          "reasked": {
+            "correct": [
+              283,
+              520,
+              757
+            ],
+            "kept": [
+              80,
+              129,
+              176
+            ],
+            "lost": [
+              1,
+              4,
+              11
+            ],
+            "part": [
+              19,
+              67,
+              113
+            ]
+          },
+          "restarted": {
+            "correct": [
+              292,
+              548,
+              784
+            ],
+            "kept": [
+              80,
+              129,
+              176
+            ],
+            "lost": [
+              0,
+              3,
+              9
+            ],
+            "part": [
+              20,
+              68,
+              115
+            ]
           }
         }
       },
-      "all_three_tier300_artifacts_agree_on_both_phases": true,
-      "why_it_never_bit_before": "at tier 120 live and restarted are the same triple (122/239/347 in both, in all three tier-120 artifacts), so a quote that did not name its phase was harmless. At tier 300 the phases diverge by 1 row at depth 1, 2 at depth 2 and 1 at depth 3, and the same unqualified quote became a contradiction.",
-      "how_it_was_found": "not by re-reading the prose. Building the tier-300 CONTROL's denominators required reading every phase of every tier-300 artifact, and the triple supposedly matched by nothing appeared three times.",
-      "consequence": "the ledger now carries two triples for one run, both correct, distinguished only by this amendment. Any future quote of tier 300's taught-set numbers must name its phase or it is ambiguous by construction. The interference verdict does not move: 0.0000 pp on the live basis and 0.0000 pp on the restarted basis, because replay and baseline read the same value on both.",
+      "what_is_true": "both triples are exact readings of the same runs. 292/548/784 with kept 80/129/176 / lost 0/3/9 / part 20/68/115 is the `restarted` phase; 291/546/785 with kept 79/129/176 / lost 0/4/8 / part 21/67/116 is the `live` phase. The prose quoted one phase and the correction quoted the other, and neither said which.",
       "what_was_NOT_done": "replay_tier300_summary.json is not edited and AMD-MPE10-03's text is not rewritten. Its 'corrected' triple stands as the live-phase reading; its reason is superseded here, which is how a wrong statement gets retired in this program -- labelled and kept, not deleted (R5).",
-      "escalated_as": "D-MPE10-10",
-      "additive": "one entry appended to registration_amendments, one key added to open_decisions_for_PI"
+      "what_was_claimed": "AMD-MPE10-03: '292/548/784 and kept 80/129/176 / lost 0/3/9 / part 20/68/115 matched no basis. Measured: 291/546/785 ... on all three bases, in both artifacts.'",
+      "why_it_never_bit_before": "at tier 120 live and restarted are the same triple (122/239/347 in both, in all three tier-120 artifacts), so a quote that did not name its phase was harmless. At tier 300 the phases diverge by 1 row at depth 1, 2 at depth 2 and 1 at depth 3, and the same unqualified quote became a contradiction."
     }
   ],
   "replay_gain_ruling": {
