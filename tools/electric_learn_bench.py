@@ -415,6 +415,13 @@ def _curriculum_arg(argv):
 # 2 failures and 8 errors in tests/test_mp_e8_arm_b.py. An importing process must call
 # apply_curriculum() itself, explicitly, and know it did.
 if __name__ == "__main__":
+    if "--replay" in sys.argv[1:]:
+        # Set here, in the __main__ guard, so it can only ever be the person running the bench who asks for
+        # replay -- never an importer, never an argument a caller can pass by accident.
+        global REPLAY_REQUESTED
+        REPLAY_REQUESTED = True
+        print("[bench] --replay: episodic replay WILL run at each restart boundary, "
+              "gain = LEARN_LR by identity, passes = the registered schedule", flush=True)
     _cur_arg = _curriculum_arg(sys.argv[1:])
     if _cur_arg is not None:
         if not _cur_arg:
@@ -669,6 +676,21 @@ def mechanism(row, store_keys):
     return "refusal_silence"
 
 
+# ---------------------------------------------------------------------------
+# MP-E10 B.4 step 2: episodic replay at the restart boundary. DEFAULT OFF, and off is not a value that
+# happens to behave like the old code -- the flag is read at ONE place, inside run_arm, and when it is False
+# no line of the replay path executes at all. Same shape as --curriculum above (:264-269): "with no
+# --curriculum in sys.argv, nothing below executes".
+#
+# It is a module constant rather than an argument because tools/mp_e8_arm_b.py imports this bench and calls
+# run_arm() directly; an added keyword would let an importer pass replay=True by accident, and a sys.argv scan
+# inside run_arm is the exact bug documented at :411-413 (the bench once read the IMPORTER's command line).
+# An importer therefore gets the unwired path, which is what it has always got.
+# ---------------------------------------------------------------------------
+REPLAY_REQUESTED = False
+REPLAY_PASSES = None          # None -> the organ's registered REPLAY_PASSES_PER_TIER (2)
+
+
 def run_arm(mode, depths):
     """One arm, every depth, in a fresh house each time. Returns {depth: {phase: rows}} plus the
     wiring facts a reader needs to distrust or trust the numbers."""
@@ -693,6 +715,27 @@ def run_arm(mode, depths):
                 shutil.copy2(f, root / "state" / f.name)
         lang2 = boot(tag, mode, root)
         loaded = lang2.load_state() or {}
+        # ---- THE RESTART BOUNDARY. Registered as the place replay runs (interference_protocol_step2 /
+        # replay_gain_ruling.2): three sessions per tier with a real restart between them, replay at the
+        # boundaries, 2 passes, gain = LEARN_LR by identity, guard live per pass.
+        #
+        # This bench restarts ONCE per depth (save -> boot -> load), not twice, so the two registered passes
+        # run at the one boundary this instrument has. That discrepancy is recorded in the artifact rather
+        # than smoothed over, because "the schedule was executed as registered" is a claim about the
+        # instrument, not about the plan.
+        replay_report = None
+        if REPLAY_REQUESTED:
+            seq = getattr(lang2, "sequence", None)
+            if seq is None or not hasattr(seq, "replay_tier"):
+                # Loud, not silent: a run that skipped replay and still called itself a replay run is the
+                # substitution every ledger in this project was built to refuse.
+                raise SystemExit(f"--replay: the house at {tag} carries no replay entry on its sequence "
+                                 f"organ (sequence={seq!r}); refusing to report a replay run that replayed "
+                                 f"nothing")
+            replay_report = seq.replay_tier(passes=REPLAY_PASSES)
+            if replay_report["void_for_H3"]:
+                print(f"  [{mode:7}] depth {depth}: REPLAY CEILING-LIMITED -> void for H3 "
+                      f"({replay_report['reason_void']})", flush=True)
         restarted = probe(lang2, depth)     # clean: never asked anything
         reasked = probe(lang2, depth)       # same house, second pass, its own rows now in the pool
         # THE TEACHING CHANNEL, counted separately from the answering channel. A pair that never
@@ -721,6 +764,11 @@ def run_arm(mode, depths):
                                                        if a.lower().rstrip("?") in kept_keys),
                                 pair_only_lost=[a for a, _ in pair_only
                                                 if a.lower().rstrip("?") not in kept_keys]))
+        # Recorded only when replay was asked for. An always-present key would make the OFF path write a
+        # different artifact from the run it is being compared against, and "byte-identical when off" has to
+        # mean the artifact too, not just the answers.
+        if replay_report is not None:
+            res["runs"][-1]["replay"] = replay_report
         res["depths"][depth] = {"live": live, "restarted": restarted, "reasked": reasked}
         print(f"  [{mode:7}] depth {depth}: rows={res['runs'][-1]['rows']} "
               f"inv={res['runs'][-1]['inventory']} "

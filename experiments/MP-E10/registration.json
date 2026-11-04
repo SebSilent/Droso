@@ -1491,6 +1491,16 @@
       "reported_as": "measured interval alongside the verdict, never a bare pass/fail",
       "value_pp": 2.0
     },
+    "named_limit_on_what_H3_can_show": {
+      "also_recorded": "This bench restarts ONCE per depth, not twice, so the two registered passes run at the single restart boundary the instrument has. Recorded in the artifact of every replay run.",
+      "option_1": "Run B.4 step 2 exactly as registered, and accept this bound: H3 is scored as an interference/ceiling statement, and the write-up says so in the same sentence as the number.",
+      "option_2": "Treat an episode tape as a further ORGAN change (the organ keeps no per-episode list -- the stored pairs ARE the tape), re-register the pass definition so a pass can address one episode, and only then run the tiers.",
+      "registered_at": "2026-08-10",
+      "status": "OPEN QUESTION FOR THE PI -- NOT DECIDED IN CODE",
+      "the_limit": "As registered, one replay pass adds one gain increment to EVERY stored pair. It is a uniform translation of the whole chain, so it cannot strengthen one episode relative to another. Such a pass CAN demonstrate absence of interference (nothing falls below the absolute gates) and CAN demonstrate ceiling behaviour (the guard firing or not firing). It CANNOT demonstrate that consolidation works. Any H3 result must be read as 'replay neither helps nor hurts differentially', never as evidence that re-experience strengthens.",
+      "what_i_did_not_do": "I did not pick. The tier-120/300 numbers cannot be written up as though this question were settled, and a flag in the bench is not a ruling.",
+      "why_it_is_here": "The D-MPE10-05 ruling's rationale named selectivity as the reason to prefer option B over option A. The registered definition of a pass does not deliver selectivity: B's separate entry buys honest counters and a per-pass guard, not differential strengthening. The gap is between the ruling's reason and the ruling's mechanism, and it is not closable by an implementation choice."
+    },
     "quoting_guard": "No H3 figure exists. This block registers a protocol; it establishes nothing about retention, interference or consolidation.",
     "registered_at": "2026-08-10",
     "replay_mechanism": {
@@ -1499,7 +1509,7 @@
       "gain_registered_before_run": "FIXED 2026-08-10 at LEARN_LR by identity -- see replay_gain_ruling.1_gain. The value is read off the teaching constant rather than chosen, and replay_pass() refuses a gain argument.",
       "saturation_guard": "checked per pass, not per run: any entry at the ceiling marks the configuration ceiling-limited and voids its H3 number"
     },
-    "status": "PROTOCOL REGISTERED; REPLAY ENTRY IMPLEMENTED, TESTED AND PROVEN INERT (see replay_gain_ruling.4_implementation_and_inertness). NO TIMED RUN HAS HAPPENED: no caller in this repository invokes replay_tier() yet, so H3 still has no figure and the margin, though registered, has never been applied.",
+    "status": "PROTOCOL REGISTERED; REPLAY ENTRY IMPLEMENTED, TESTED, PROVEN INERT; BENCH WIRING ADDED FLAG-GATED DEFAULT OFF. NO TIMED TIER RUN HAS HAPPENED. H3 has no figure, and the selectivity limit above is an open question for the PI.",
     "tiers": [
       120,
       300
