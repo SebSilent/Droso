@@ -324,6 +324,10 @@ DEFAULT_MANIFEST = [
     # The suite run that caught the unstamped fourth ledger. Published, not overwritten -- R5 says the
     # record of a run that found a mistake stays in the ledger next to the run that fixed it.
     "experiments/MP-E8/results/suite_manifest_g2_closeout.json",
+    # The re-run at the stamped tree, which supersedes the above BY REFERENCE (AMD-MPE8-17): the failed
+    # record stays published, so both runs have to be under the seal or the ledger attests one version
+    # of a pair whose whole point is that neither was quietly replaced.
+    "experiments/MP-E8/results/suite_manifest_mpe10_open.json",
 ]
 
 

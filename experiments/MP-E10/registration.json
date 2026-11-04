@@ -1235,7 +1235,7 @@
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
     },
     "stamp_ordering": {
-      "checked_by": "registration_seal.py --check (anchor section) and tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files",
+      "checked_by": "registration_seal.py --check (anchor section) and tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files and tests/test_registration_seal_coverage.py::test_every_registration_seal_verifies (the counted version, which cannot go stale when an experiment opens)",
       "note": "git_dirty_sealed is the field to act on. A non-empty list means at least one file this seal hashes is not yet in the commit it names -- the seal is anchored to a commit that cannot reproduce it. Stamping a second registration right after the first is NOT that case, because registrations are excluded from every seal.",
       "procedure": [
         "1. commit the artifacts (tools/, tests/, results/)",
@@ -1391,5 +1391,33 @@
       "summary": ".......................                                                  [100%] | 23 passed in 0.19s"
     },
     "tests_in": "tests/test_mp_e10_working_memory.py"
+  },
+  "open_suite": {
+    "recorded_at": "2026-11-04T07:19:14Z",
+    "artifact": "experiments/MP-E8/results/suite_manifest_mpe10_open.json",
+    "measured": {
+      "collected": 1272,
+      "executed": 1272,
+      "collected_not_executed": 0,
+      "executed_not_collected": 0,
+      "files_missing_entirely": 0,
+      "files_partially_missing": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 5,
+      "pytest_returncode": 0,
+      "collect_returncode": 0,
+      "wall_seconds": 761.43,
+      "junit_time_seconds": 758.788,
+      "git_head": "7d2a84d9b38a7088945f6a43beb87e226b9b9be5",
+      "git_dirty_at_run": [],
+      "interpreter": "3.12.10",
+      "generated_at_utc": "2026-11-04T07:15:07Z"
+    },
+    "what_it_establishes": "The tree MP-E10's k-sweep runs on is a tree the whole suite passes on: 1272 collected, 1272 executed, 0 failures, 0 errors, clean at 7d2a84d9b.",
+    "what_it_does_not_establish": "Nothing about MP-E10 is scored by this run. The tests it adds are about seal coverage, not working memory. It is not evidence for H1 or H2.",
+    "quoting_guard_still_holds": "result_quoting_guard_while_blocked is active: while D-MPE10-01 and D-MPE10-02 are open, no working-memory or k-sweep figure may appear in a verdict sentence about H1 or H2.",
+    "supersedes_by_reference": "experiments/MP-E8/results/suite_manifest_g2_closeout.json",
+    "registered_in_MPE8_as": "AMD-MPE8-17"
   }
 }

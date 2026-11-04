@@ -1598,7 +1598,7 @@
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
     },
     "stamp_ordering": {
-      "checked_by": "registration_seal.py --check (anchor section) and tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files",
+      "checked_by": "registration_seal.py --check (anchor section) and tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files and tests/test_registration_seal_coverage.py::test_every_registration_seal_verifies (the counted version, which cannot go stale when an experiment opens)",
       "note": "git_dirty_sealed is the field to act on. A non-empty list means at least one file this seal hashes is not yet in the commit it names -- the seal is anchored to a commit that cannot reproduce it. Stamping a second registration right after the first is NOT that case, because registrations are excluded from every seal.",
       "procedure": [
         "1. commit the artifacts (tools/, tests/, results/)",
@@ -3714,6 +3714,79 @@
         "suite_manifest_torch_json": "left intact as the published record",
         "thresholds_margins_tiers_tolerances": "none -- this amendment records coverage and absence"
       }
+    },
+    {
+      "id": "AMD-MPE8-17",
+      "class": "Supersession by reference of a suite record, plus the rule fix that makes the underlying mistake unrepeatable. Changes no threshold, no margin, no hypothesis text, no tier, no abort condition, and no gate outcome.",
+      "recorded_at": "2026-11-04T07:19:14Z",
+      "recorded_by": "agent, at MP-E10's opening (G3 steps 1-2)",
+      "supersession_by_reference": {
+        "superseded": "experiments/MP-E8/results/suite_manifest_g2_closeout.json",
+        "superseded_by": "experiments/MP-E8/results/suite_manifest_mpe10_open.json",
+        "how": "BY REFERENCE ONLY. The superseded artifact is not edited, renamed or deleted: its bytes are unchanged from what the tool wrote, it is committed under the seal, and this amendment is the pointer saying which run is current. Its 1,269/2-failure result stays published under R5.",
+        "why_keep_it": "It is the only record in the ledger of a suite run that caught a real defect in the close-out procedure. Overwriting it with a green run would remove the evidence that the guard was needed, which is the same mistake as deleting a failed verdict after re-rolling the dice."
+      },
+      "why_the_superseded_run_had_two_failures": "One cause, and it was this agent. The close-out instruction said 're-stamp all three registrations' while the repository had become four ledgers (G0-prime, MP-E8, MP-E9, MP-E10). MP-E9 was left unstamped, so its seal still hashed tools/registration_seal.py at blob 1d4eeeda69 while the tree carried 7851274f07 -- the DEFAULT_MANIFEST lines added for MP-E10's organ, its tests and the battery artifacts. Both failures were the seal tests in tests/test_g0_prime_instruments.py (test_registration_seal_verifies_against_the_registration, test_index_cross_check_is_not_vacuous). No house behaviour, arm test or numerics failed.",
+      "measured": {
+        "suite_manifest_g2_closeout": {
+          "collected": 1269,
+          "executed": 1269,
+          "collected_not_executed": 0,
+          "executed_not_collected": 0,
+          "files_missing_entirely": 0,
+          "files_partially_missing": 0,
+          "failures": 2,
+          "errors": 0,
+          "skipped": 5,
+          "pytest_returncode": 1,
+          "collect_returncode": 0,
+          "wall_seconds": 702.42,
+          "junit_time_seconds": 699.793,
+          "git_head": "28d0106c54d6eea396782a97c2d9dc27bf3548a0",
+          "git_dirty_at_run": [],
+          "interpreter": "3.12.10",
+          "generated_at_utc": "2026-11-04T06:43:11Z"
+        },
+        "suite_manifest_mpe10_open": {
+          "collected": 1272,
+          "executed": 1272,
+          "collected_not_executed": 0,
+          "executed_not_collected": 0,
+          "files_missing_entirely": 0,
+          "files_partially_missing": 0,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 5,
+          "pytest_returncode": 0,
+          "collect_returncode": 0,
+          "wall_seconds": 761.43,
+          "junit_time_seconds": 758.788,
+          "git_head": "7d2a84d9b38a7088945f6a43beb87e226b9b9be5",
+          "git_dirty_at_run": [],
+          "interpreter": "3.12.10",
+          "generated_at_utc": "2026-11-04T07:15:07Z"
+        }
+      },
+      "difference_between_the_two_runs_explained": "collected 1269 -> 1272: the +3 is tests/test_registration_seal_coverage.py, which did not exist for the first run. failures 2 -> 0, pytest returncode 1 -> 0. Both runs were taken on a clean tree (git_dirty == []) and neither had any collected-but-not-executed test, so the two records are comparable as coverage claims, not just as pass counts.",
+      "rule_that_broke_and_what_was_done_to_it": {
+        "the_rule": "Every registration under experiments/ must be sealed and anchored at a commit that contains what it hashes.",
+        "why_it_broke": "It was expressed as an instruction naming a COUNT ('all three'), and the count went stale mid-close-out when MP-E10 was registered. Nothing in the repository enumerated the ledgers, so the omission was invisible to the three files that were stamped -- each registration checks only its own list.",
+        "the_fix": "tests/test_registration_seal_coverage.py enumerates experiments/*/registration.json and asserts (a) that the enumeration is non-empty, so a glob matching nothing cannot pass on emptiness, (b) registration_seal.check() returns 0 for each, and (c) each registration's own git_head holds each of its sealed blobs. A count, not a list of names: naming four would fail again the next time an experiment opens.",
+        "the_fix_is_not_just_a_test": "registration_seal.py gained --all, which discovers the same set through the same registrations() helper, so 'stamp every ledger' no longer depends on having counted them. The CLI and the test agree because they share one discovery path, not because two lists were kept in step.",
+        "what_it_cost": "The coverage test is 3 tests and ~51s: four ledgers x (ls-files + cat-file batch + ls-tree). Slow on purpose; the thing it checks broke once and was caught only by a full-suite run."
+      },
+      "files_touched_by_this_amendment": [
+        "experiments/MP-E8/results/suite_manifest_mpe10_open.json (new artifact: the current run)",
+        "experiments/MP-E8/registration.json (this amendment)",
+        "experiments/MP-E10/registration.json (open_suite block; stamp_ordering.checked_by now names the coverage test as well as the MP-E9-specific one)",
+        "tools/registration_seal.py (DEFAULT_MANIFEST gains the new manifest path)"
+      ],
+      "what_did_not_change": [
+        "G2's outcome: MP-E8 still DOES NOT PASS G2. A green suite is not a gate.",
+        "No threshold, margin, tolerance cell, tier, hypothesis text or abort condition.",
+        "The superseded artifact's bytes, and the 2-failure record inside them.",
+        "MP-E10's open decisions: D-MPE10-01 and D-MPE10-02 still block H1 and H2, and result_quoting_guard_while_blocked is unchanged."
+      ]
     }
   ],
   "schema": "droso.registration.v1",
