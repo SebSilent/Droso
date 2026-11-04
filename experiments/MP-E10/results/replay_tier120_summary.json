@@ -1,0 +1,208 @@
+{
+  "H3_interference_by_depth": {
+    "1": {
+      "correct_baseline": 122,
+      "correct_replayed": 122,
+      "divided_by_rows": 416,
+      "percentage_points": 0.0,
+      "within_registered_margin_2pp": true
+    },
+    "2": {
+      "correct_baseline": 239,
+      "correct_replayed": 239,
+      "divided_by_rows": 416,
+      "percentage_points": 0.0,
+      "within_registered_margin_2pp": true
+    },
+    "3": {
+      "correct_baseline": 347,
+      "correct_replayed": 347,
+      "divided_by_rows": 416,
+      "percentage_points": 0.0,
+      "within_registered_margin_2pp": true
+    }
+  },
+  "artifact": "replay_tier120_armA.json",
+  "baseline": {
+    "1": {
+      "correct": 122,
+      "invented": null,
+      "refused": 283,
+      "retention": {
+        "items": 40,
+        "kept": 37,
+        "lost": 0,
+        "part": 3,
+        "probes": 125,
+        "probes_correct": 122
+      },
+      "rows": 416
+    },
+    "2": {
+      "correct": 239,
+      "invented": 2,
+      "refused": 160,
+      "retention": {
+        "items": 80,
+        "kept": 68,
+        "lost": 1,
+        "part": 11,
+        "probes": 252,
+        "probes_correct": 239
+      },
+      "rows": 416
+    },
+    "3": {
+      "correct": 347,
+      "invented": 3,
+      "refused": 52,
+      "retention": {
+        "items": 120,
+        "kept": 93,
+        "lost": 3,
+        "part": 24,
+        "probes": 380,
+        "probes_correct": 347
+      },
+      "rows": 416
+    }
+  },
+  "baseline_artifact": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+  "bench_rc_note": "the bench returns rc=1 when its own gate list is non-empty; the UNREPLAYED tier-120 baseline carries the same 13 distractor-gate failures, so rc=1 here is a pre-existing property of tier 120, not replay damage",
+  "ceiling_prediction": {
+    "any_entry_at_ceiling": false,
+    "registered": "max accumulation 0.70 over 2 passes against a 4.0 ceiling at gain 0.35, so no configuration should be ceiling-limited"
+  },
+  "condition_3_unspent": "the tier-300 clone set was declined for cost; the 2.0 pp margin still rests on tier-40-derived clone noise (11 of 3,672 = 0.2996 pp)",
+  "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+  "gate_failures_baseline": 13,
+  "gate_failures_this_run": 12,
+  "interpretation_bound": "H3 is an INTERFERENCE claim, not a strengthening claim. A pass that is a uniform translation of every stored pair can show absence of interference and can show ceiling behaviour; it cannot show that consolidation works, and no write-up may read these numbers as evidence that re-experience strengthens.",
+  "per_pass_guard": {
+    "1": [
+      {
+        "ceiling_limited": false,
+        "entries_at_ceiling_before": 0,
+        "entries_pushed_to_ceiling_this_pass": 0,
+        "gain_used": 0.35,
+        "pairs_advanced": 6156,
+        "pairs_on_tape": 6156,
+        "pass": 1,
+        "sequences_learned_after": 56,
+        "transitions_after": 207
+      },
+      {
+        "ceiling_limited": false,
+        "entries_at_ceiling_before": 0,
+        "entries_pushed_to_ceiling_this_pass": 0,
+        "gain_used": 0.35,
+        "pairs_advanced": 6156,
+        "pairs_on_tape": 6156,
+        "pass": 2,
+        "sequences_learned_after": 56,
+        "transitions_after": 207
+      }
+    ],
+    "2": [
+      {
+        "ceiling_limited": false,
+        "entries_at_ceiling_before": 0,
+        "entries_pushed_to_ceiling_this_pass": 0,
+        "gain_used": 0.35,
+        "pairs_advanced": 11010,
+        "pairs_on_tape": 11010,
+        "pass": 1,
+        "sequences_learned_after": 112,
+        "transitions_after": 415
+      },
+      {
+        "ceiling_limited": false,
+        "entries_at_ceiling_before": 0,
+        "entries_pushed_to_ceiling_this_pass": 0,
+        "gain_used": 0.35,
+        "pairs_advanced": 11010,
+        "pairs_on_tape": 11010,
+        "pass": 2,
+        "sequences_learned_after": 112,
+        "transitions_after": 415
+      }
+    ],
+    "3": [
+      {
+        "ceiling_limited": false,
+        "entries_at_ceiling_before": 0,
+        "entries_pushed_to_ceiling_this_pass": 0,
+        "gain_used": 0.35,
+        "pairs_advanced": 15684,
+        "pairs_on_tape": 15684,
+        "pass": 1,
+        "sequences_learned_after": 167,
+        "transitions_after": 616
+      },
+      {
+        "ceiling_limited": false,
+        "entries_at_ceiling_before": 0,
+        "entries_pushed_to_ceiling_this_pass": 0,
+        "gain_used": 0.35,
+        "pairs_advanced": 15684,
+        "pairs_on_tape": 15684,
+        "pass": 2,
+        "sequences_learned_after": 167,
+        "transitions_after": 616
+      }
+    ]
+  },
+  "replay_ran_at_every_depth": true,
+  "replayed": {
+    "1": {
+      "correct": 122,
+      "invented": null,
+      "refused": 280,
+      "retention": {
+        "items": 40,
+        "kept": 37,
+        "lost": 0,
+        "part": 3,
+        "probes": 125,
+        "probes_correct": 122
+      },
+      "rows": 416
+    },
+    "2": {
+      "correct": 239,
+      "invented": 2,
+      "refused": 153,
+      "retention": {
+        "items": 80,
+        "kept": 68,
+        "lost": 1,
+        "part": 11,
+        "probes": 252,
+        "probes_correct": 239
+      },
+      "rows": 416
+    },
+    "3": {
+      "correct": 347,
+      "invented": 3,
+      "refused": 38,
+      "retention": {
+        "items": 120,
+        "kept": 93,
+        "lost": 3,
+        "part": 24,
+        "probes": 380,
+        "probes_correct": 347
+      },
+      "rows": 416
+    }
+  },
+  "row_count_used": 416,
+  "single_restart_boundary": "electric_learn_bench restarts once per depth (save -> boot -> load), not twice, so the two registered passes ran at the one boundary this instrument has",
+  "tier": 120,
+  "void_for_H3_by_depth": {
+    "1": false,
+    "2": false,
+    "3": false
+  }
+}
