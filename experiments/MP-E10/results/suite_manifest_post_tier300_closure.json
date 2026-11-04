@@ -1,0 +1,34 @@
+{
+  "collect_returncode": 0,
+  "collected": 1348,
+  "collected_not_executed": 0,
+  "collected_not_executed_by_file": {},
+  "command": "python.exe -m pytest tests -q -p no:cacheprovider --junit-xml=_tmp/suite_manifest.xml",
+  "executed": 1348,
+  "executed_not_collected": [],
+  "files_missing_entirely": [],
+  "files_partially_missing": [],
+  "generated_at_utc": "2026-11-04T19:26:00Z",
+  "generated_by": "tools/suite_manifest.py",
+  "git_dirty": [
+    " M experiments/G0-prime/registration.json",
+    " M experiments/MP-E10/registration.json",
+    " M experiments/MP-E12/registration.json",
+    " M experiments/MP-E8/registration.json",
+    " M experiments/MP-E9/registration.json"
+  ],
+  "git_head": "cb61fc00e008f3bf609383ab350b41644948a423",
+  "interpreter": "3.12.10",
+  "junit_counters": {
+    "errors": "0",
+    "failures": "4",
+    "skipped": "6",
+    "tests": "1348",
+    "time": "800.982"
+  },
+  "junit_xml_kept_in_scratch": "_tmp/suite_manifest.xml",
+  "note": "The XML stays in _tmp/ because .gitignore sweeps it and organs/tempstore.py declares the area non-normative; this JSON summary is the tracked artifact. A test counts as executed if it appears as a <testcase>, including skips -- skipped means reached and deliberately not run, which is not the same fault as never being reached at all.",
+  "pytest_returncode": 1,
+  "schema": "droso.suite_manifest.v1",
+  "wall_seconds": 802.51
+}

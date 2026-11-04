@@ -440,12 +440,19 @@ DEFAULT_MANIFEST = [
 # by the same anchor as the ruling that authorised it -- the inertness proof compares a run against THIS
 # file's pre-edit blob, so the sealed blob is part of the evidence, not incidental to it.
     "organs/sequence_organ.py",
-# The covering suite run for THIS tree. Sealed before it is produced, which is the house ordering: edit
-# the manifest, re-stamp, THEN run the suite whose manifest you intend to seal -- running first leaves the
-# suite's own seal test failing on an unstamped tree and records a defect that is really a stamp.
-# The published 1,333/0 manifest (suite_manifest_post_intermittence_record.json) describes 8b1e8d0 and
-# cannot be read as covering the promoted drivers, the closure tool or the two new promotion test files;
-# it stays published under R5, superseded by reference rather than overwritten.
+# The covering suite run for THIS tree: 1,348 collected / 1,348 executed / 4 failures / 0 errors / 6 skipped,
+# rc 1, 802.51 s at git_head cb61fc0. The published 1,333/0 manifest
+# (suite_manifest_post_intermittence_record.json) describes 8b1e8d0 and cannot be read as covering the
+# promoted drivers, the closure tool or the two new promotion test files; it stays published under R5.
+# ORDERING, CORRECTED BY ITS OWN EVIDENCE (AMD-MPE10-07). The rule first written here -- "edit this list,
+# re-stamp, THEN run the suite whose manifest you intend to seal" -- is self-blocking: it seals a path that
+# does not exist yet, and test_index_cross_check_is_not_vacuous (in_index == total) plus
+# test_registration_head_contains_its_sealed_files (every sealed path present in the registration's own
+# git_head) both reject that by construction. All four failures in the run above name this one path and
+# nothing else; 1,344 of 1,348 passed. The rule that works is the one the failing test's own docstring
+# already states: commit the tree, re-stamp and COMMIT THE STAMP, run the suite ONCE to a new path, commit
+# the artifact, THEN seal its path here and re-stamp, and prove freshness by re-running the seal tests alone.
+# A manifest is sealed after it is produced, never before. The suite is never run twice to chase a total.
     "experiments/MP-E10/results/suite_manifest_post_tier300_closure.json",
 ]
 
