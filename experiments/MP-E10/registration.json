@@ -1387,12 +1387,12 @@
       },
       "tests/test_mp_e10_row_migration_promotion.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 4507,
-        "bytes_worktree": 4599,
-        "git_blob_sha1": "38759626959b976dc5b25cdd0e246f71ed9ad4d2",
+        "bytes_blob": 10715,
+        "bytes_worktree": 10906,
+        "git_blob_sha1": "34ec83898d39f145ab3847344f45f224b60c983d",
         "line_endings": "CRLF",
-        "sha256_lf": "22f7dd000a976c23235091366a016a21bfd6ebbd04a7ec50d5cda101d8d759bb",
-        "sha256_of_git_blob": "22f7dd000a976c23235091366a016a21bfd6ebbd04a7ec50d5cda101d8d759bb"
+        "sha256_lf": "9d7818135e6e612eb799db8b5507968a1083f44c130c14a8e1d13323fcd8f9b0",
+        "sha256_of_git_blob": "9d7818135e6e612eb799db8b5507968a1083f44c130c14a8e1d13323fcd8f9b0"
       },
       "tests/test_mp_e10_working_memory.py": {
         "blob_equals_lf_normalised": true,
@@ -1549,12 +1549,12 @@
       },
       "tools/mp_e10_row_migration.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 13216,
-        "bytes_worktree": 13472,
-        "git_blob_sha1": "b0748100327b84bc6961133b7373acaf0665057d",
+        "bytes_blob": 17903,
+        "bytes_worktree": 18224,
+        "git_blob_sha1": "10c2b4d4eb573cad328f7a312af632f0c99d9bc6",
         "line_endings": "CRLF",
-        "sha256_lf": "5571a543916cd4f772feeb1bc172bfea6b65855e00da14f1125ef1d4fe795eb7",
-        "sha256_of_git_blob": "5571a543916cd4f772feeb1bc172bfea6b65855e00da14f1125ef1d4fe795eb7"
+        "sha256_lf": "4e88a9f989f311eae084ab9610e92fe282023ef0e4b1b8f4b5723e6fbfb8d6dc",
+        "sha256_of_git_blob": "4e88a9f989f311eae084ab9610e92fe282023ef0e4b1b8f4b5723e6fbfb8d6dc"
       },
       "tools/mp_e10_tier300_closure.py": {
         "blob_equals_lf_normalised": true,
@@ -1694,7 +1694,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "5c0d4401e78cb2b311fee73c57af40e47b15e5ca",
+    "git_head": "a372e90ae7d72cc7709341297d07c733a1c6c71e",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -1721,7 +1721,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T19:34:27Z",
+    "sealed_at_utc": "2026-11-04T20:04:24Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -3204,47 +3204,53 @@
         "as_written": "edit DEFAULT_MANIFEST, re-stamp, THEN run the suite whose manifest you intend to seal.",
         "corrected_rule": "1) commit the tree the run will measure; 2) re-stamp so the seal is fresh at that commit and COMMIT THE STAMP; 3) run the suite ONCE to a new path; 4) commit the artifact; 5) add its path to DEFAULT_MANIFEST and re-stamp; 6) prove freshness by re-running the seal tests ALONE, never the whole suite again. The manifest is sealed after it is produced, not before.",
         "the_defect": "the rule seals a path BEFORE the artifact exists. tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous asserts in_index == total for every sealed path, and ::test_registration_head_contains_its_sealed_files asserts every sealed path is present in the registration's own git_head. A sealed-but-unproduced manifest fails both by construction, so the rule guarantees the run it mandates will report failures.",
-        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md §7.'",
+        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md \u00a77.'",
         "why_it_was_written": "to stop a run on an unstamped tree, which the seal tool's own comments record as producing an artifact that 'records a failure that is really a stamp'."
       },
       "what_was_NOT_done": "no test was edited, weakened or skipped to turn the run green; the suite was not run a second time to chase a total; the RED manifest is published at its own path and the earlier 1,333/0 record at 8b1e8d0 stays published (R5); no sealed number in this ledger moved."
     },
     {
-      "id": "AMD-MPE10-08",
-      "date": "2026-11-04T19:46:13Z",
       "amends": "the denominator on which every MP-E10 row-migration figure is stated, by reference. No sealed artifact was edited and no migration count was changed.",
       "class": "a measured defect in an instrument this program published, with the scope of its effect computed. Not a verdict on any result.",
-      "question_that_started_it": "the migration artifacts report rows_compared = 8,199 while the same runs hold 9,414 graded asks (1,046 x 9 phases). 1,215 rows were unaccounted.",
-      "mechanism_measured": {
-        "row_key": "(depth, phase, ask) -- tools/mp_e10_row_migration.py:96",
-        "rows_compared_definition": "len(set(baseline_keys) & set(replayed_keys)) -- line 220, a SET INTERSECTION, so a key held more than once contributes ONE row",
-        "why_keys_repeat": "ask STRINGS REPEAT ACROSS ITEMS in the extended pool. Measured example, tier 300, depth 1, phase live, ask 'what bites the latch': three rows, carrying item 'tell0.0', 'pair0.0' and 'pair0.0'. The curriculum was extended under D-MPE8-03's ruling by reusing ask templates over new items, so (depth, phase, ask) stopped being a unique row identity -- and `item`, one of the nine compared fields, is exactly what varies under it.",
-        "tier_300": {
-          "rows": 9414,
-          "distinct_keys": 8199,
-          "collapsed": 1215,
-          "duplicate_keys": 1080,
-          "rows_inside_those_keys": 2295,
-          "multiplicity": "135 keys held 3 rows, 945 held 2 (135*3 + 945*2 = 2,295; the surviving 1,080 leave 1,215 dropped)",
-          "share_of_graded_asks_never_compared": "1215 / 9414 = 12.91%"
-        },
-        "tier_120": {
-          "rows": 3744,
-          "distinct_keys": 3222,
-          "collapsed": 522,
-          "duplicate_keys": 432,
-          "share_of_graded_asks_never_compared": "522 / 3744 = 13.94%",
-          "note": "tier 120's artifacts do not report this themselves -- they were written before duplicate_keys_within_either_index existed in the tool -- so the figures above are computed from the source artifacts, not read off the migration file"
-        }
-      },
-      "is_the_collapse_loss_free": {
-        "answer": "NO. It drops real signal, in every one of the affected keys.",
-        "measured": "at tier 300 all 1,080 duplicate keys contain rows whose nine-field vector differs: shape differs in 1,080, item in 171, mech in 78, cls in 55, taught in 51, own in 45, and said/src/answered in 4 each. At tier 120 all 432 differ (shape 432, item 126, mech 34, cls 16, taught 12, said/src/answered 4). So the surviving representative is not interchangeable with the rows it stands for."
-      },
+      "date": "2026-11-04T19:46:13Z",
       "does_it_manufacture_a_migration": {
         "answer": "no evidence that it does -- the counts look understated rather than corrupted",
         "measured": "in both artifacts that report the split, the fields that moved are answered, cls, mech, said and src ONLY. `item` and `shape`, the two fields the collapse varies, never appear in fields_moved_split: tier300_replay_vs_control moves on {answered:107, cls:108, mech:111, said:108, src:107} and control_tier300 on {answered:270, cls:271, mech:302, said:271, src:270}. Both sides of every pair share one curriculum hash and are walked in one order, so the same representative survives on each side and the collapse cannot show up as a spurious item or shape change."
       },
+      "figures_that_do_NOT_depend_on_it": "the tallies. correct, refused and invented come from summary.learn[depth][phase], which counts all 1,046 x 9 = 9,414 graded asks and never touches the row index. So the invention figures registered in AMD-MPE10-06 -- control 100, replay 92, baseline 91, on 9,414, giving 1.06% / 0.98% / 0.97% -- are unaffected and stand as published. The same holds for the tier-120 phase triples (live 122 / restarted 122 / reasked 122 at depth 1) used in AMD-MPE10-05.",
+      "how_they_must_be_read_from_here": "each n_rows_moved is a count of migrated KEYS out of the 8,199 (tier 300) or 3,222 (tier 120) keys the instrument could address, not out of the 9,414 or 3,744 graded asks the run contains. Any migration RATE must name which of the two denominators it uses, and must state that 12.91% (tier 300) and 13.94% (tier 120) of graded asks were never compared at all. The counts themselves are not withdrawn: they are a lower bound on migration, measured on a sample the instrument selected by ordering rather than by design.",
+      "id": "AMD-MPE10-08",
+      "is_the_collapse_loss_free": {
+        "answer": "NO. It drops real signal, in every one of the affected keys.",
+        "measured": "at tier 300 all 1,080 duplicate keys contain rows whose nine-field vector differs: shape differs in 1,080, item in 171, mech in 78, cls in 55, taught in 51, own in 45, and said/src/answered in 4 each. At tier 120 all 432 differ (shape 432, item 126, mech 34, cls 16, taught 12, said/src/answered 4). So the surviving representative is not interchangeable with the rows it stands for."
+      },
+      "mechanism_measured": {
+        "row_key": "(depth, phase, ask) -- tools/mp_e10_row_migration.py:96",
+        "rows_compared_definition": "len(set(baseline_keys) & set(replayed_keys)) -- line 220, a SET INTERSECTION, so a key held more than once contributes ONE row",
+        "tier_120": {
+          "collapsed": 522,
+          "distinct_keys": 3222,
+          "duplicate_keys": 432,
+          "note": "tier 120's artifacts do not report this themselves -- they were written before duplicate_keys_within_either_index existed in the tool -- so the figures above are computed from the source artifacts, not read off the migration file",
+          "rows": 3744,
+          "share_of_graded_asks_never_compared": "522 / 3744 = 13.94%"
+        },
+        "tier_300": {
+          "collapsed": 1215,
+          "distinct_keys": 8199,
+          "duplicate_keys": 1080,
+          "multiplicity": "135 keys held 3 rows, 945 held 2 (135*3 + 945*2 = 2,295; the surviving 1,080 leave 1,215 dropped)",
+          "rows": 9414,
+          "rows_inside_those_keys": 2295,
+          "share_of_graded_asks_never_compared": "1215 / 9414 = 12.91%"
+        },
+        "why_keys_repeat": "ask STRINGS REPEAT ACROSS ITEMS in the extended pool. Measured example, tier 300, depth 1, phase live, ask 'what bites the latch': three rows, carrying item 'tell0.0', 'pair0.0' and 'pair0.0'. The curriculum was extended under D-MPE8-03's ruling by reusing ask templates over new items, so (depth, phase, ask) stopped being a unique row identity -- and `item`, one of the nine compared fields, is exactly what varies under it."
+      },
+      "probes": [
+        "_tmp/denom_gap2.py",
+        "_tmp/denom_gap3.py",
+        "_tmp/denom_gap4.py"
+      ],
       "published_figures_that_sit_on_the_wrong_denominator": [
         "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json: rows_compared 8,199, n_rows_moved 111",
         "experiments/MP-E10/results/replay_tier300_row_migration.json: rows_compared 8,199, n_rows_moved 251",
@@ -3253,15 +3259,9 @@
         "experiments/MP-E10/results/control_tier120_no_replay_row_migration.json: rows_compared 3,222, n_rows_moved 58",
         "experiments/MP-E10/results/tier300_named_measurements_closure.json at d_replay_off_control_and_attribution.primary_attribution_same_instrument.rows_compared = 8,199, and at row_attribution.rows_compared_replay_vs_baseline and .rows_compared_control_vs_baseline = 8,199"
       ],
-      "how_they_must_be_read_from_here": "each n_rows_moved is a count of migrated KEYS out of the 8,199 (tier 300) or 3,222 (tier 120) keys the instrument could address, not out of the 9,414 or 3,744 graded asks the run contains. Any migration RATE must name which of the two denominators it uses, and must state that 12.91% (tier 300) and 13.94% (tier 120) of graded asks were never compared at all. The counts themselves are not withdrawn: they are a lower bound on migration, measured on a sample the instrument selected by ordering rather than by design.",
-      "figures_that_do_NOT_depend_on_it": "the tallies. correct, refused and invented come from summary.learn[depth][phase], which counts all 1,046 x 9 = 9,414 graded asks and never touches the row index. So the invention figures registered in AMD-MPE10-06 -- control 100, replay 92, baseline 91, on 9,414, giving 1.06% / 0.98% / 0.97% -- are unaffected and stand as published. The same holds for the tier-120 phase triples (live 122 / restarted 122 / reasked 122 at depth 1) used in AMD-MPE10-05.",
-      "verdict_stated_plainly": "YES, it is an instrument bug: the row identity (depth, phase, ask) is not unique in the tier-120 and tier-300 curricula, and a set intersection over a non-unique key silently drops 1,215 and 522 graded asks respectively. YES, published migration figures depend on the wrong denominator, and they are named above. NO published figure is withdrawn: the collapse does not manufacture migrations on the fields it varies, so the counts read as lower bounds on a stated subset.",
+      "question_that_started_it": "the migration artifacts report rows_compared = 8,199 while the same runs hold 9,414 graded asks (1,046 x 9 phases). 1,215 rows were unaccounted.",
       "remedy_named_not_taken": "key the index on (depth, phase, ask, item) -- or on the row's ordinal -- and re-issue the five migration artifacts plus the closure artifact at NEW paths, leaving the present ones published and labelled superseded under R5. Not done here: tools/mp_e10_row_migration.py and tools/mp_e10_tier300_closure.py are both sealed in all five ledgers, so editing them would leave the artifacts they already produced without a seal over the bytes that made them. That trade belongs to the PI.",
-      "probes": [
-        "_tmp/denom_gap2.py",
-        "_tmp/denom_gap3.py",
-        "_tmp/denom_gap4.py"
-      ]
+      "verdict_stated_plainly": "YES, it is an instrument bug: the row identity (depth, phase, ask) is not unique in the tier-120 and tier-300 curricula, and a set intersection over a non-unique key silently drops 1,215 and 522 graded asks respectively. YES, published migration figures depend on the wrong denominator, and they are named above. NO published figure is withdrawn: the collapse does not manufacture migrations on the fields it varies, so the counts read as lower bounds on a stated subset."
     }
   ],
   "replay_gain_ruling": {
