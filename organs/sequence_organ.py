@@ -216,6 +216,103 @@ class SequenceOrgan:
         return {"learned": written, "words": len(toks)}
 
     # ------------------------------------------------------------------
+    # consolidation: re-experience of what is already stored  (MP-E10 B.4 step 2)
+    # ------------------------------------------------------------------
+    # Registered in experiments/MP-E10/registration.json -> replay_gain_ruling, from the PI's
+    # D-MPE10-05 ruling of 2026-08-10. Three things are load-bearing and are stated here rather than left to
+    # the caller:
+    #
+    #   gain = LEARN_LR BY IDENTITY. `REPLAY_GAIN = LEARN_LR` below, not a copy of 0.35. Replay is
+    #   re-experience of a stored episode, so it uses the increment the organ already uses to lay experience
+    #   down. Any other value would make consolidation a free parameter tunable against an interference
+    #   figure, which is the R2 event the -05 ruling exists to prevent; binding it to the constant makes the
+    #   value unread-off rather than chosen, and makes drift impossible without also changing teaching.
+    #
+    #   IT ADVANCES NEITHER COUNTER. `transitions` (:213) and `sequences_learned` (:214) are untouched,
+    #   because the probe in tools/mp_e10_replay_rule_probe.py measured option A moving sequences_learned
+    #   +1,590 while transitions moved only +1,908 of 6,360 -- the counter that would reveal the drift is
+    #   itself the one that saturates, so replay under A hid itself in state that published evidence quotes.
+    #
+    #   THE GUARD RUNS PER PASS AND VOIDS, IT DOES NOT WARN. A saturated store cannot be read: SUCCESSOR_FLOOR
+    #   (.12) and SUCCESSOR_MARGIN (.35) are ABSOLUTE gates, so once entries pile at the ceiling the ranking
+    #   readout depends on is gone. A ceiling-limited configuration has no H3 number.
+    REPLAY_GAIN = LEARN_LR          # by identity, per D-MPE10-05 -- do not retype 0.35 here
+    REPLAY_CEILING = 4.0            # the same value learn_sequence clamps to at :206, named for the guard
+    REPLAY_PASSES_PER_TIER = 2      # three sessions per tier, a real restart between: two boundaries
+
+    def stored_pairs(self) -> int:
+        """How many (pre, post) links the chain holds -- the replay tape, which is the chain itself."""
+        return sum(len(row) for ch in self.chain for row in ch.values())
+
+    def replay_pass(self, *, ceiling: float | None = None) -> dict:
+        """ONE registered replay pass: every stored pair advanced by exactly one gain increment.
+
+        `gain` is not a parameter on purpose. A caller that could set it could tune consolidation against an
+        interference figure, and the whole point of the ruling is that this number is read off the teaching
+        constant instead.
+
+        WHAT THIS IS NOT: it is not selective consolidation. The organ keeps no per-episode tape -- the
+        stored pairs ARE the tape -- so one pass translates the whole chain by one increment, exactly the
+        uniform motion that disqualified option A. Option B's separate entry buys honest counters and a
+        per-pass guard, NOT selectivity; if the PI wants one episode strengthened ahead of another, the
+        organ needs an episode tape first, and that is a further organ change rather than a flag here.
+        """
+        ceil_v = float(self.REPLAY_CEILING if ceiling is None else ceiling)
+        gain = float(self.REPLAY_GAIN)
+        touched = advanced = at_ceiling_before = at_ceiling_after = 0
+        for ch in self.chain:
+            for row in ch.values():
+                for key, old in row.items():
+                    touched += 1
+                    if old >= ceil_v - 1e-12:
+                        at_ceiling_before += 1
+                        continue
+                    new = old + gain
+                    row[key] = ceil_v if new > ceil_v else new
+                    advanced += 1
+                    if row[key] >= ceil_v - 1e-12:
+                        at_ceiling_after += 1
+        saturated = (at_ceiling_before + at_ceiling_after) > 0
+        return {"pairs_on_tape": touched, "pairs_advanced": advanced,
+                "gain_used": round(gain, 6), "ceiling": ceil_v,
+                "entries_at_ceiling_before": at_ceiling_before,
+                "entries_pushed_to_ceiling_this_pass": at_ceiling_after,
+                "ceiling_limited": saturated,
+                "void_for_H3": saturated,
+                "counters_advanced": False,
+                "transitions_after": self.transitions,
+                "sequences_learned_after": self.sequences_learned}
+
+    def replay_tier(self, passes: int | None = None) -> dict:
+        """The registered schedule: replay at each restart boundary, guarded per pass, stopping on saturation.
+
+        `passes` defaults to REPLAY_PASSES_PER_TIER (2), which is what the plan's three-sessions-per-tier
+        structure with a real restart between them means. Overriding it is allowed for a probe, not for a
+        scored run, and the artifact records which was used.
+        """
+        n = self.REPLAY_PASSES_PER_TIER if passes is None else int(passes)
+        rows, void = [], False
+        for i in range(n):
+            r = self.replay_pass()
+            rows.append({**r, "pass": i + 1})
+            if r["ceiling_limited"]:
+                void = True
+                break                     # continuing would deepen the very saturation that voids the run
+        return {"passes_registered": n, "passes_run": len(rows),
+                "schedule": "two restart boundaries per tier (three sessions, real restart between)",
+                "gain": round(float(self.REPLAY_GAIN), 6),
+                "predicted_max_accumulation_this_tier": round(float(self.REPLAY_GAIN) * len(rows), 6),
+                "ceiling_limited": void,
+                "void_for_H3": void,
+                "reason_void": ("an entry reached the ceiling during a replay pass; SUCCESSOR_FLOOR and "
+                                "SUCCESSOR_MARGIN are absolute gates, so the readout cannot be trusted"
+                                if void else "no entry reached the ceiling"),
+                "per_pass": rows,
+                "stored_pairs_after": self.stored_pairs(),
+                "transitions_after": self.transitions,
+                "sequences_learned_after": self.sequences_learned}
+
+    # ------------------------------------------------------------------
     # generation: what he says
     # ------------------------------------------------------------------
     def generate(self, first_word: str, max_len: int = 8,

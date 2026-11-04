@@ -1,0 +1,47 @@
+{
+  "claim": "a run that never calls replay is bit-identical to the same run before the method existed",
+  "leg1_diff_additive": {
+    "added_lines": 97,
+    "hunks": 1,
+    "lines_removed_or_modified": 0,
+    "removed_content": []
+  },
+  "leg2_untouched_path_identity": {
+    "counters": {
+      "post": [
+        636,
+        159
+      ],
+      "pre": [
+        636,
+        159
+      ]
+    },
+    "identical": true,
+    "max_chain_weight_post": 1.0499999999999998,
+    "max_chain_weight_pre": 1.0499999999999998,
+    "pre_edit_digest": "dcee0146ca2471d2f2e8cfc42d0d51459d49cbeac8610ccb754c9dbd430cad22",
+    "pre_edit_module_has_replay": false,
+    "stats_equal": true,
+    "stored_pairs": [
+      "n/a (new method)",
+      7632
+    ],
+    "working_tree_digest": "dcee0146ca2471d2f2e8cfc42d0d51459d49cbeac8610ccb754c9dbd430cad22"
+  },
+  "leg3_replay_not_reachable_from_teaching": {
+    "gain_identity": {
+      "LEARN_LR": 0.35,
+      "REPLAY_GAIN": 0.35,
+      "same_object": true
+    },
+    "learn_sequence_calls_replay": false,
+    "note": "the teaching path contains no reference to the replay entry; replay only happens when a caller asks for it, and no caller in this repository does yet"
+  },
+  "not_covered_here": [
+    "guard batteries (frozen 19/24, guarded 4/4, paraphrase 0/14, ELECTRIC=off)",
+    "the three-clone noise floor at 11 rows of 3,672",
+    "any H3 figure -- replay has not been run against a curriculum tier"
+  ],
+  "verdict": "PASS"
+}

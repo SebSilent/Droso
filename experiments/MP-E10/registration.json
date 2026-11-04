@@ -1455,6 +1455,7 @@
   "interference_protocol_step2": {
     "checklist_step": "B.4 step 2: 'Implement episodic replay at tiers 120 and 300 with the registered interference protocol; do not re-prove consolidation at 40 items.'",
     "cost_stated": "arm A at tier 120 ~23.5 min and tier 300 ~53.7 min as measured for MP-E8, plus the replay passes on top, serial and alone; the clone re-measurement condition (-04 condition 3) adds 3 x tier-300 if the tier-300 clone set is run",
+    "explicit_next_gate": "harness wiring: call replay_tier() at the two restart boundaries of the bench's session loop, then prove the wired path inert against the same baseline.",
     "explicitly_not_at_40": "the plan forbids re-proving consolidation at 40 items; tier 40 stays the sealed baseline and the source of the derivation's zero-event observation, not a new measurement target",
     "inertness_required_of_the_replay_entry": "a run that never calls the replay entry must be bit-identical to the same run before the method existed (fingerprint, chain, counters, batteries, noise floor) -- the same shape as docs/h4_updates_counter_design.md section 5, and for the same reason: an instrument that changes the quantity it measures is not an instrument",
     "margin": {
@@ -1468,10 +1469,10 @@
     "replay_mechanism": {
       "basis": "D-MPE10-05, option B",
       "entry": "a dedicated replay method on organs/sequence_organ.py applying the same delta rule (new = old + gain, ceiling 4.0 at :206) with a REGISTERED replay gain, advancing neither transitions (:213) nor sequences_learned (:214)",
-      "gain_registered_before_run": "the gain value must be fixed before the first replay run; it cannot be tuned against an interference figure, which is the R2 event every one of these rulings has been built to prevent",
+      "gain_registered_before_run": "FIXED 2026-08-10 at LEARN_LR by identity -- see replay_gain_ruling.1_gain. The value is read off the teaching constant rather than chosen, and replay_pass() refuses a gain argument.",
       "saturation_guard": "checked per pass, not per run: any entry at the ceiling marks the configuration ceiling-limited and voids its H3 number"
     },
-    "status": "PROTOCOL REGISTERED, CODE NOT IMPLEMENTED, NO RUN. Registering it is what the -04 ruling made possible; building it is the next work item and is the only path to H3.",
+    "status": "PROTOCOL REGISTERED; REPLAY ENTRY IMPLEMENTED, TESTED AND PROVEN INERT (see replay_gain_ruling.4_implementation_and_inertness). NO TIMED RUN HAS HAPPENED: no caller in this repository invokes replay_tier() yet, so H3 still has no figure and the margin, though registered, has never been applied.",
     "tiers": [
       120,
       300
@@ -1841,6 +1842,39 @@
       "on_PI_ruling": "D-MPE10-07"
     }
   ],
+  "replay_gain_ruling": {
+    "1_gain": {
+      "fixed_before_the_first_run": true,
+      "how_it_was_obtained": "READ OFF, not chosen. The implementation binds `REPLAY_GAIN = LEARN_LR` (organs/sequence_organ.py:76) by IDENTITY, so the number cannot drift from the teaching increment without also changing teaching, and it cannot be passed by a caller -- replay_pass(gain=...) raises TypeError, which is a test.",
+      "identity_measured": "REPLAY_GAIN is LEARN_LR -> True (replay_entry_inertness_proof.json leg3)",
+      "reason_registered": "replay is re-experience of a stored episode, so it must use the increment the organ already uses to lay experience down. Any other value would make consolidation a free parameter that could be tuned against an interference figure -- the R2 event the -05 ruling exists to prevent.",
+      "value": 0.35
+    },
+    "2_what_one_pass_is": {
+      "definition": "one full replay of the replay tape: every stored pair advanced by exactly ONE gain increment. The tape IS the chain -- the organ keeps no per-episode list -- so a pass touches each existing (pre, post) link once and creates no new links.",
+      "limitation_stated_not_hidden": "this is NOT selective consolidation. The stored pairs are the tape, so a pass translates the whole chain by one increment -- the same uniform motion that disqualified option A. Option B's separate entry buys honest counters and a per-pass guard, not selectivity. If one episode is to be strengthened ahead of another the organ needs an episode tape first, and that is a further organ change, not a flag here.",
+      "registered_before_the_run": true,
+      "schedule": "three sessions per tier with a real restart between them, so replay runs at the TWO restart boundaries per tier: 2 passes (REPLAY_PASSES_PER_TIER = 2)."
+    },
+    "3_saturation_arithmetic_as_prediction": {
+      "guard_still_runs_per_pass": true,
+      "guard_viods": "any configuration that does saturate is reported ceiling_limited and void_for_H3, and replay_tier STOPS at that pass rather than accumulating further into a void measurement.",
+      "prediction": "ceiling 4.0 / gain 0.35 saturates an entry replayed every pass at 12 increments from an empty store; at the registered 2 passes the maximum a replay entry can accumulate is 0.70, so NO configuration should be ceiling-limited.",
+      "units_of_the_number_stated": "12 is increments from an empty store. One increment is the teaching call itself, so a store with one teaching increment saturates on its ELEVENTH replay pass -- pinned by a test, because getting this off by one the other way would mean the ruling's own arithmetic is wrong about its own units.",
+      "why_the_probe_said_9": "the sealed probe (replay_rule_saturation_probe.json, passes_until_every_entry_at_ceiling = 9, share_at_ceiling 1.0 from pass 10) measured OPTION A: it re-called learn_sequence, whose entries started at 1.05 after three cycles and moved by the full teaching increment each pass with the counters moving too. Option B's separate entry is why the registered prediction is stated in increments from empty (12) rather than passes from the taught state (9): the two count different things."
+    },
+    "4_implementation_and_inertness": {
+      "advances_neither_counter": "transitions (:213) and sequences_learned (:214) untouched; asserted per pass in the report and by test",
+      "entry": "organs/sequence_organ.py -- replay_pass(), replay_tier(), stored_pairs(), REPLAY_GAIN / REPLAY_CEILING / REPLAY_PASSES_PER_TIER",
+      "inertness_proof": "experiments/MP-E10/results/replay_entry_inertness_proof.json -- verdict PASS. Diff additive (97 lines added, 1 hunk, 0 removed or modified); the untouched path is byte-identical between the pre-edit module extracted from git and the working tree (digest dcee0146ca2471d2..., counters 636/159 both, stats() equal, max chain weight equal); the pre-edit module has no replay entry; the teaching path contains no reference to it.",
+      "not_covered_by_that_proof": "the guard batteries and the three-clone noise floor. They are bench runs and belong with the timed tiers; the baseline they need is the pre-method module, which is what leg 2 already used.",
+      "tests": "tests/test_mp_e10_replay.py -- 15 passed; the 16 existing sequence-organ tests still pass"
+    },
+    "5_timed_runs_status": "NOT STARTED, and blocked on one thing that is not measurement: no caller runs replay yet. The bench's session loop must call replay_tier() at the two restart boundaries before tier 120 means anything, and that wiring is a harness change with its own inertness question -- the same timed path H4 measured. Once it exists, tiers 120 (~23.5 min + replay) and 300 (~53.7 min + replay) run serial and alone, H3 is reported as a measured interval with its row count, and -04 condition 3 applies to any tier-300 clone set.",
+    "basis": "D-MPE10-05 ruling and the three items that followed it",
+    "ruled_at": "2026-08-10",
+    "ruled_by": "PI"
+  },
   "result_quoting_guard_while_blocked": {
     "D-MPE10-04_interference_margin.snapshot_is_historical": "The open_decisions_at_install block records what was open when the quoting guard was INSTALLED (2026-11-04), including the 5.0 pp figure. It is a dated snapshot and is deliberately not rewritten. D-MPE10-04 was RULED on 2026-08-10 at 2.0 pp derived; the guard's blocking condition that named -02 and -04 is therefore discharged, and what still binds the guard is the absence of any scored run, not the absence of a definition.",
     "installed_at_utc": "2026-11-04T06:25:05Z",

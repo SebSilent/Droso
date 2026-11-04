@@ -376,6 +376,16 @@ DEFAULT_MANIFEST = [
     # 1313 collected / 1313 executed / 0 missing / 0 failures / returncode 0. The 3-failure record above it
     # stays published under R5: it is the run that caught the seal tool drifting against its own manifest.
     "experiments/MP-E10/results/suite_manifest_post_stamp_mpe12.json",
+# The inertness proof itself: additive diff, and byte-identity between the pre-edit module pulled from
+# git and the working tree on the untouched path. Sealed because 'nothing else changed' is a claim.
+    "experiments/MP-E10/results/replay_entry_inertness_proof.json",
+# The ruling, expressed as assertions: gain unread-off and un-passable, counters unmoved, guard voids
+# rather than warns, and the 12-increments-from-empty arithmetic pinned with its units stated.
+    "tests/test_mp_e10_replay.py",
+# The organ the replay entry was added to. It is listed because a ruled organ change has to be attested
+# by the same anchor as the ruling that authorised it -- the inertness proof compares a run against THIS
+# file's pre-edit blob, so the sealed blob is part of the evidence, not incidental to it.
+    "organs/sequence_organ.py",
 ]
 
 
