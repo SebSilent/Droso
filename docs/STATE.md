@@ -1,6 +1,6 @@
 # Repository state
 
-[![Tests: 1,348 collected · 4 failures · 6 skipped · rc 1](https://img.shields.io/badge/Tests-1%2C348%20collected%20%C2%B7%204%20failures%20%C2%B7%206%20skipped%20%C2%B7%20rc%201-bf8700?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Tests: 1,364 collected · 0 failures · 6 skipped · rc 0](https://img.shields.io/badge/Tests-1%2C364%20collected%20%C2%B7%200%20failures%20%C2%B7%206%20skipped%20%C2%B7%20rc%200-44cc11?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
@@ -37,12 +37,14 @@ records, 743 at `04e4d4d`) are left in place as history, each with the tree it w
 what "the badge is stale by nine tests" meant, and that sentence was correct when written. This `8b1e8d0`
 line stays as history with its tree named; it is superseded below, not deleted.
 
-**Suite run at `cb61fc0` -- the covering run for this phase.** **1,348 collected, 1,348 executed, 0 missing,
-4 failures, 0 errors, 6 skipped**, exit code **1**, **802.51 s**, Python 3.12.10, pytest 9.1.1, recorded in
+**Suite run at `cb61fc0` -- HISTORY, the covering run for the tier-300 closure phase, tree
+`cb61fc00e008f3bf609383ab350b41644948a423`.** **1,348 collected, 1,348 executed, 0 missing, 4 failures,
+0 errors, 6 skipped**, exit code **1**, **802.51 s**, Python 3.12.10, pytest 9.1.1, recorded in
 `experiments/MP-E10/results/suite_manifest_post_tier300_closure.json` with `git_head` `cb61fc00e008f3bf609383ab350b41644948a423`.
-1,348 is the 1,333 collected at `8b1e8d0` plus the 15 tests in the two promotion files this phase added. The
-badge above reads this run; it is deliberately amber, not green, because this run exited 1 and no greener
-total is being claimed for it.
+1,348 is the 1,333 collected at `8b1e8d0` plus the 15 tests in the two promotion files that phase added. The
+badge read this run while it was the newest covering run, deliberately amber and not green, because this run
+exited 1 and no greener total was claimed for it. It is kept here as history, with its tree named, and the
+manifest is neither edited nor overwritten; the badge now reads the `4e12b91` run below.
 
 **Which four tests failed, and the one path they all name:**
 `tests/test_g0_prime_instruments.py::test_registration_seal_verifies_against_the_registration`,
@@ -72,6 +74,36 @@ re-measured away. Registered as AMD-MPE10-07 with the corrected ordering.
 The sentence "there is no suite run at HEAD" was removed because it became false, not because it was
 awkward: `cb61fc0` is now a run on a tree that contains the promoted drivers, the closure tool and the two
 new test files. 1,333 remains true of `8b1e8d0`.
+
+**Suite run at `4e12b91` -- the covering run for the row-key work, and the counters the badge above reads.**
+**1,364 collected, 1,364 executed, 0 missing, 0 failures, 0 errors, 6 skipped**, exit code **0**,
+**843.47 s** wall (`junit_counters.time` 841.181 s), Python 3.12.10, pytest 9.1.1, recorded in
+`experiments/MP-E10/results/suite_manifest_uniquekey.json` with `git_head`
+`4e12b913ea2753a4d331ed6a8449f87d17b094cb` and `git_dirty` `[]`. 1,364 is the 1,348 collected at `cb61fc0`
+plus the **16 tests this pass added** to `tests/test_mp_e10_row_migration_promotion.py`, which went from 8 to
+24 when the row-key defect was fixed: uniqueness per curriculum across 7 artifacts, the pinned collapse counts
+(522 and 1,215), shape-is-authored, item-alone-insufficient, and corrected-key-compares-every-graded-ask.
+`collected_not_executed` is 0 and `executed_not_collected` is empty, so nothing was collected and never
+reached, and nothing ran that was not collected.
+
+**How this run was produced, because the method is the claim.** The suite ran **ONCE**, at the tree committed
+as `4e12b91` -- the stamp commit carrying the fixed migration instrument, its 24 tests and the fixed closure
+instrument. It was not run a second time to chase a total, and no manifest was copied out of `_tmp/` to
+manufacture a green record: `tools/suite_manifest.py` wrote this JSON directly to its tracked path, and the
+JUnit XML it parsed stays in `_tmp/` by design (`.gitignore` sweeps it and `organs/tempstore.py` declares the
+area non-normative -- the manifest's own `note` and `junit_xml_kept_in_scratch` fields say so). The counters
+above are read back from the sealed artifact, not from the tool's stdout.
+
+**The path this run took is the corrected ordering, and that is the point.** The four seal tests that failed at
+`cb61fc0` all named the manifest the run was itself producing -- sealed-before-produced. Here the manifest was
+produced first, committed, and only then added to `DEFAULT_MANIFEST` and sealed by the stamp that follows. A
+manifest is sealed after it is produced, never before (AMD-MPE10-07).
+
+**The four seal tests, which now pass.** `test_registration_seal_verifies_against_the_registration` and
+`test_index_cross_check_is_not_vacuous` and `test_registration_head_contains_its_sealed_files` (all three in
+`tests/test_g0_prime_instruments.py`) plus
+`tests/test_registration_seal_coverage.py::test_every_registration_seal_verifies`.
+ALONE-RESULT-PENDING
 
 Held-out and guard numbers in the tables below are still the **`f2e1748`** measurements and have not been
 re-run; the badge's other three chips point at them.

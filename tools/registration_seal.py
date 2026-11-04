@@ -473,6 +473,12 @@ DEFAULT_MANIFEST = [
 # the artifact, THEN seal its path here and re-stamp, and prove freshness by re-running the seal tests alone.
 # A manifest is sealed after it is produced, never before. The suite is never run twice to chase a total.
     "experiments/MP-E10/results/suite_manifest_post_tier300_closure.json",
+# The covering run for the row-key work, and the first manifest sealed by the CORRECTED rule: the suite ran
+# ONCE at 4e12b91 (the stamp commit that carries the fixed migration instrument, the 24 migration tests and the
+# fixed closure instrument), the manifest was written to a new path, committed, and only THEN sealed here. The
+# path above is kept as the record of the run that exposed sealed-before-produced; it is not overwritten.
+# 1,364 collected / 1,364 executed / 0 failures / 0 errors / 6 skipped / rc 0 / 843.47 s, git_dirty empty.
+    "experiments/MP-E10/results/suite_manifest_uniquekey.json",
 ]
 
 
