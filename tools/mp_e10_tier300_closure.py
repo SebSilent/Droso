@@ -6,6 +6,13 @@ at this tier, and a replay-OFF control to attribute the migrated rows. This tool
 measured from committed artifacts and from the instruments on disk, and for what cannot, says so with the
 evidence rather than leaving the gap implied.
 
+ROW KEY, and why this tool does not define one. It used to keep its own private index of learn rows keyed
+(depth, phase, ask) -- the same non-unique key AMD-MPE10-08 named as a defect in the migration instrument --
+so its sealed row_attribution and primary_attribution_same_instrument.rows_compared read 8,199 while the
+governing migration artifacts read 9,414. It now IMPORTS the key from tools/mp_e10_row_migration.py, so there
+is one definition of a row identity in this program and the two records cannot drift apart again. The inputs
+are the five *_row_migration_keyfix.json artifacts, not the superseded un-suffixed ones.
+
 Nothing here runs the bench. It reads runs that already happened and computes what they mean. Where a
 number exists only at another tier, it is NOT copied in: a tier-40 or tier-120 figure standing in for a
 tier-300 one is the substitution this program's rulings exist to prevent, so the tier-40 k-sweep is cited
@@ -25,9 +32,22 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "tools"))
+
+# One definition of a row identity in this program. Imported, not copied: a private copy is how this tool came
+# to publish 8,199 while the migration instrument published 9,414 for the same three runs.
+from mp_e10_row_migration import ROW_KEY_MODES, key_uniqueness  # noqa: E402
+from mp_e10_row_migration import learn_rows as _learn_rows_index  # noqa: E402
 
 R13 = ("cls", "said", "src", "item", "shape", "mech", "taught", "own", "answered")
 GUARDED = ["P-numeral-final", "R-count-moon", "R-disj-reversed", "R-order-ofthe"]
+ROW_KEY = "probe"
+
+
+def learn_rows(art, mode=ROW_KEY):
+    """The learn arm's rows, indexed by the migration instrument's key. Dict, as every call site expects."""
+    index, _dupes = _learn_rows_index(art, mode)
+    return index
 
 
 def _rel(p):
@@ -47,9 +67,12 @@ P = {
     "replay": "experiments/MP-E10/results/replay_tier300_armA.json",
     "control": "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
     "baseline": "experiments/MP-E8/results/armA_tier300_curriculum.json",
-    "mig_replay": "experiments/MP-E10/results/replay_tier300_row_migration.json",
-    "mig_control": "experiments/MP-E10/results/control_tier300_no_replay_row_migration.json",
-    "mig_vs": "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json",
+    # The GOVERNING migration artifacts (AMD-MPE10-09), keyed (depth, phase, ask, item, shape) and comparing
+    # all 9,414 graded asks. The un-suffixed three below them are superseded, still sealed, and read 8,199 --
+    # pointing this tool at those is what made the closure record and the migration record disagree.
+    "mig_replay": "experiments/MP-E10/results/300_row_migration_keyfix.json",
+    "mig_control": "experiments/MP-E10/results/300ctl_row_migration_keyfix.json",
+    "mig_vs": "experiments/MP-E10/results/300_replay_vs_control_row_migration_keyfix.json",
     "ksweep300": "experiments/MP-E10/results/ksweep_tier300_organ_characterisation.json",
     "ksweep40": "experiments/MP-E10/results/ksweep_tier40_calibration_post_rulings.json",
     "summary": "experiments/MP-E10/results/replay_tier300_summary.json",
@@ -67,13 +90,10 @@ def load(key):
     return json.loads((ROOT / P[key]).read_text(encoding="utf-8", errors="replace"))
 
 
-def learn_rows(art):
-    out = {}
-    for depth, phases in ((art.get("arms", {}).get("learn", {}) or {}).get("probes", {}) or {}).items():
-        for phase, rows in (phases or {}).items():
-            for r in rows or []:
-                out[(str(depth), phase, str(r.get("ask")))] = r
-    return out
+# The private copy of the row index was removed here on 2026-11-05 (AMD-MPE10-10). It keyed learn rows on
+# (depth, phase, ask) and overwrote duplicates, which is the defect AMD-MPE10-08 named and AMD-MPE10-09 fixed
+# in the migration instrument. Leaving a second definition here would have shadowed the import above and put
+# the collapsed key back into the closure record without any edit looking like a key change.
 
 
 # --------------------------------------------------------------------------- (a)
@@ -326,6 +346,7 @@ def same_instrument_attribution():
                                                "carry a harness change, so they bound the total movement "
                                                "but cannot attribute it."),
         "matched_pair": mv["matched_pair"],
+        "row_key": mv.get("row_key", {"mode": "legacy (superseded artifact)", "fields": ["depth", "phase", "ask"]}),
         "rows_compared": mv["rows_compared"],
         "n_rows_moved": mv["n_rows_moved"],
         "class_split": mv["class_split"],
@@ -390,9 +411,16 @@ def attribution(control_wall_seconds):
             "within_registered_margin_2pp": abs(round(r["pct"] - b["pct"], 4)) <= 2.0,
         }
 
-    kr = {tuple(m["moved_keys"][i]) for i in range(len(mr["moved_keys"]))} if mr.get("moved_keys") else \
-        {(m["depth"], m["phase"], m["ask"]) for m in mr["moved_rows"]}
-    kc = {(m["depth"], m["phase"], m["ask"]) for m in mc["moved_rows"]}
+    # Identity is taken the SAME way from both artifacts, from moved_rows only. The keyfix artifacts record a
+    # five-field moved_keys entry and the superseded ones a triple; intersecting a 5-tuple set against a
+    # 3-tuple set returns the empty set, which would have been published as "the two runs share no migrated
+    # row" -- a finding manufactured by a projection mismatch rather than measured.
+    def ident(m):
+        return (m["depth"], m["phase"], m["ask"],
+                str(m.get("item") or m.get("item_baseline")), str(m.get("shape")))
+
+    kr = {ident(m) for m in mr["moved_rows"]}
+    kc = {ident(m) for m in mc["moved_rows"]}
     both = kr & kc
     only_rep = kr - kc
     only_ctl = kc - kr
@@ -400,7 +428,7 @@ def attribution(control_wall_seconds):
     cls_of = {}
     for src in (mr, mc):
         for m in src["moved_rows"]:
-            cls_of[(m["depth"], m["phase"], m["ask"])] = m["class"]
+            cls_of[ident(m)] = m["class"]
 
     def split(keys):
         out = {"taught item": 0, "distractor/unanswerable": 0}
@@ -615,6 +643,18 @@ def main() -> int:
         "e_phase_basis_of_the_published_triples": phase_basis(),
         "provenance": {
             "driver": "tools/mp_e10_tier300_closure.py",
+            "row_key": {
+                "mode": ROW_KEY,
+                "fields": list(ROW_KEY_MODES[ROW_KEY]),
+                "defined_by": "tools/mp_e10_row_migration.py (imported here, not copied)",
+                "uniqueness_of_the_three_runs_read": {
+                    k: key_uniqueness(load(k), ROW_KEY) for k in ("replay", "control", "baseline")},
+                "migration_inputs": [P["mig_replay"], P["mig_control"], P["mig_vs"]],
+                "superseded_migration_inputs": [
+                    "experiments/MP-E10/results/replay_tier300_row_migration.json",
+                    "experiments/MP-E10/results/control_tier300_no_replay_row_migration.json",
+                    "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json"],
+            },
             "git_head": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT,
                                        capture_output=True, text=True).stdout.strip(),
             "git_dirty_tracked": subprocess.run(["git", "status", "--porcelain=v1", "-uno"], cwd=ROOT,

@@ -432,6 +432,12 @@ DEFAULT_MANIFEST = [
 # its evidence. Sealed because "the guarded probes are not instrumentable at this tier" is itself a
 # claim about the record, and a claim about the record without an artifact behind it is prose.
     "experiments/MP-E10/results/tier300_named_measurements_closure.json",
+# The same closure re-issued after the SECOND instrument carrying the collapsed key was fixed (AMD-MPE10-10):
+# tools/mp_e10_tier300_closure.py now imports the row key instead of keeping a private copy, and reads the
+# keyfix migration artifacts. Its rows_compared fields move 8,199 -> 9,414 while every count it reports --
+# 251, 302, 111, 235 in both, 16 only-in-replay, 67 only-in-control -- is unchanged, and sections a/b/c/e are
+# byte-identical. The sealed one above stays on the record, superseded by reference.
+    "experiments/MP-E10/results/tier300_named_measurements_closure_keyfix.json",
 # The three instruments behind those artifacts. The k-sweep and the row-migration drivers were promoted
 # out of _tmp/ under R10 -- a number a gate depends on cannot live in a directory that gets swept, and
 # both of them were producing SEALED artifacts from scratch files. The tests below are what makes each
