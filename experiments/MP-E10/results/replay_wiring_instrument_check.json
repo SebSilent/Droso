@@ -1,0 +1,98 @@
+{
+  "attempt": 2,
+  "outcomes_leg": {
+    "digest_flag_off": "f450b2d9dd5890e91582e18a824cc65903cc48ef015a92a12c266a2fc8813d0f",
+    "digest_flag_on": "f450b2d9dd5890e91582e18a824cc65903cc48ef015a92a12c266a2fc8813d0f",
+    "digest_pre_edit": "f450b2d9dd5890e91582e18a824cc65903cc48ef015a92a12c266a2fc8813d0f",
+    "flag_off_wrote_a_replay_key": false,
+    "flag_on_vs_flag_off_differences": [],
+    "flag_on_vs_flag_off_identical": true,
+    "flag_on_wrote_a_replay_key": true,
+    "identity_fields_used": [
+      "cls",
+      "said",
+      "src",
+      "item",
+      "shape",
+      "mech",
+      "taught",
+      "own",
+      "answered"
+    ],
+    "pre_edit_vs_flag_off_differences": [],
+    "pre_edit_vs_flag_off_identical": true,
+    "pre_edit_vs_flag_off_row_count": [
+      408,
+      408
+    ],
+    "replay_report_when_on": {
+      "ceiling_limited": false,
+      "gain": 0.35,
+      "passes_registered": 2,
+      "passes_run": 2,
+      "per_pass": [
+        {
+          "ceiling": 4.0,
+          "ceiling_limited": false,
+          "counters_advanced": false,
+          "entries_at_ceiling_before": 0,
+          "entries_pushed_to_ceiling_this_pass": 0,
+          "gain_used": 0.35,
+          "pairs_advanced": 5040,
+          "pairs_on_tape": 5040,
+          "pass": 1,
+          "sequences_learned_after": 55,
+          "transitions_after": 204,
+          "void_for_H3": false
+        },
+        {
+          "ceiling": 4.0,
+          "ceiling_limited": false,
+          "counters_advanced": false,
+          "entries_at_ceiling_before": 0,
+          "entries_pushed_to_ceiling_this_pass": 0,
+          "gain_used": 0.35,
+          "pairs_advanced": 5040,
+          "pairs_on_tape": 5040,
+          "pass": 2,
+          "sequences_learned_after": 55,
+          "transitions_after": 204,
+          "void_for_H3": false
+        }
+      ],
+      "predicted_max_accumulation_this_tier": 0.7,
+      "reason_void": "no entry reached the ceiling",
+      "schedule": "two restart boundaries per tier (three sessions, real restart between)",
+      "sequences_learned_after": 55,
+      "stored_pairs_after": 5040,
+      "transitions_after": 204,
+      "void_for_H3": false
+    },
+    "single_restart_boundary_note": "this bench restarts once per depth, not twice, so the two registered passes ran at the one boundary the instrument has"
+  },
+  "pre_edit_baseline": {
+    "has_replay_requested": false,
+    "note": "resolved by searching the file's history, not assumed from HEAD",
+    "rev": "37759d0e0a",
+    "subject": "MP-E8: re-verify arm A and N in the torch environment; arm B manifest self-consistency; ti"
+  },
+  "pre_edit_module_has_replay": true,
+  "previous_attempt": {
+    "aborted_on_its_own_bug": "TypeError in rows_digest(): `.encode()` bound to the join, not the concatenation",
+    "it_was_a_bug_not_a_result": true,
+    "what_it_cost": "three completed bench runs (~10 min machine) discarded with no verdict; their timing was contaminated by concurrent git and seal work and is quoted nowhere"
+  },
+  "timing_leg": {
+    "no_pass_fail_claimed": true,
+    "off_minus_pre": -1.22,
+    "on_minus_off": -0.22,
+    "wall_seconds": {
+      "flag_off": 51.97,
+      "flag_on": 51.75,
+      "pre_edit": 53.19
+    },
+    "why": "no registered run-level seconds tolerance exists. R13 is a ROW-FIELD identity rule; the registered noise tolerance gates two named cells (learn/1/reasked, learn/1/restarted) on wall-clock, which is a per-cell allowance, not a bar for a whole run. Choosing a number after seeing these three would be the R2 event."
+  },
+  "verdict": "PASS: the flag-off bench is byte-identical to the pre-edit bench on every R13 identity field, and the flag reaches the replay entry",
+  "what_this_is": "AN INSTRUMENT CHECK, NOT A RE-PROOF OF CONSOLIDATION AT 40 ITEMS. B.4 step 2 is a tier-120/300 measurement and the plan forbids re-proving consolidation at tier 40. This shows only that the flag-off bench is the bench that was here before, and that the flag-on bench actually reaches the replay entry."
+}

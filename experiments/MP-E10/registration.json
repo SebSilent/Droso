@@ -58,6 +58,20 @@
     "R6": "the guarded invariants are the floor; regression is a hard reject",
     "R9": "word-level grading; an untraceable word in output aborts"
   },
+  "episode_tape_for_selective_replay": {
+    "belongs_to": [
+      "MP-E10 consolidation ambition",
+      "MP-E12b compiler"
+    ],
+    "not_authorised_by_this_ruling": [
+      "any H3 sentence that says replay strengthens",
+      "any tier-120/300 figure written up as though selectivity were settled"
+    ],
+    "registered_at": "2026-08-10",
+    "status": "OPEN FOLLOW-ON, NOT A BLOCKER ON H3",
+    "the_rationale_gap_named_in_this_entry": "D-MPE10-05 preferred option B over option A partly because A 'cannot express selective consolidation'. The mechanism B registered does not deliver selectivity either: B's separate entry buys honest counters and a per-pass guard, not differential strengthening. That is a gap between the ruling's REASON and the ruling's MECHANISM. It is recorded here rather than resolved by re-reading the ruling, because a reason quietly widened to fit a mechanism is how a ledger stops being evidence.",
+    "what_it_would_be": "The organ keeps no per-episode list today -- the stored pairs ARE the tape -- so a pass translates the whole chain. Selective replay needs an episode tape (which pairs belong to which episode) and a pass definition that addresses one episode, then a re-registered pass definition before any strengthening claim is made."
+  },
   "experiment": "MP-E10",
   "gate": "G3",
   "gate_G3": {
@@ -1492,11 +1506,12 @@
       "value_pp": 2.0
     },
     "named_limit_on_what_H3_can_show": {
+      "_as_asked_before_the_ruling": "OPEN QUESTION FOR THE PI -- NOT DECIDED IN CODE",
       "also_recorded": "This bench restarts ONCE per depth, not twice, so the two registered passes run at the single restart boundary the instrument has. Recorded in the artifact of every replay run.",
       "option_1": "Run B.4 step 2 exactly as registered, and accept this bound: H3 is scored as an interference/ceiling statement, and the write-up says so in the same sentence as the number.",
       "option_2": "Treat an episode tape as a further ORGAN change (the organ keeps no per-episode list -- the stored pairs ARE the tape), re-register the pass definition so a pass can address one episode, and only then run the tiers.",
       "registered_at": "2026-08-10",
-      "status": "OPEN QUESTION FOR THE PI -- NOT DECIDED IN CODE",
+      "status": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['selectivity_limit']",
       "the_limit": "As registered, one replay pass adds one gain increment to EVERY stored pair. It is a uniform translation of the whole chain, so it cannot strengthen one episode relative to another. Such a pass CAN demonstrate absence of interference (nothing falls below the absolute gates) and CAN demonstrate ceiling behaviour (the guard firing or not firing). It CANNOT demonstrate that consolidation works. Any H3 result must be read as 'replay neither helps nor hurts differentially', never as evidence that re-experience strengthens.",
       "what_i_did_not_do": "I did not pick. The tier-120/300 numbers cannot be written up as though this question were settled, and a flag in the bench is not a ruling.",
       "why_it_is_here": "The D-MPE10-05 ruling's rationale named selectivity as the reason to prefer option B over option A. The registered definition of a pass does not deliver selectivity: B's separate entry buys honest counters and a per-pass guard, not differential strengthening. The gap is between the ruling's reason and the ruling's mechanism, and it is not closable by an implementation choice."
@@ -1509,7 +1524,7 @@
       "gain_registered_before_run": "FIXED 2026-08-10 at LEARN_LR by identity -- see replay_gain_ruling.1_gain. The value is read off the teaching constant rather than chosen, and replay_pass() refuses a gain argument.",
       "saturation_guard": "checked per pass, not per run: any entry at the ceiling marks the configuration ceiling-limited and voids its H3 number"
     },
-    "status": "PROTOCOL REGISTERED; REPLAY ENTRY IMPLEMENTED, TESTED, PROVEN INERT; BENCH WIRING ADDED FLAG-GATED DEFAULT OFF. NO TIMED TIER RUN HAS HAPPENED. H3 has no figure, and the selectivity limit above is an open question for the PI.",
+    "status": "PROTOCOL REGISTERED; REPLAY ENTRY IMPLEMENTED, TESTED, PROVEN INERT; BENCH WIRING ADDED FLAG-GATED DEFAULT OFF; SELECTIVITY LIMIT RULED -- RUN AS REGISTERED. Tiers 120 and 300 are the remaining work. H3 still has no figure until they report.",
     "tiers": [
       120,
       300
@@ -1847,6 +1862,16 @@
     "recorded_by": "agent, in the working set that received it",
     "ruled_at": "2026-08-10",
     "ruled_by": "PI",
+    "selectivity_limit": {
+      "interpretation_bound_that_travels_with_any_H3_figure": "replay neither helps nor hurts differentially -- not evidence that consolidation works",
+      "question": "A registered replay pass is a uniform translation of every stored pair, so it cannot strengthen one episode relative to another. Does that block B.4 step 2?",
+      "reasoning": "H3 as registered is an INTERFERENCE claim, not a strengthening claim. G3's wording is 'replay at tier 300 within the registered interference margin', and D-MPE10-04 set that margin at 2.0 pp with the interval-reporting condition. A uniform translation can genuinely test that clause: it asks whether re-experience damages retention or trips the absolute gates, and the named limit already conceded that a pass CAN demonstrate absence of interference. The mechanism therefore matches the gate clause as written.",
+      "registered_follow_on": "episode_tape_for_selective_replay",
+      "ruled_at": "2026-08-10",
+      "ruled_by": "PI",
+      "ruling": "NO. Run B.4 step 2 as registered, with the named limit on interpretation attached to the result.",
+      "what_option_2_is": "An episode tape so a pass can address one episode is a real and SEPARATE organ change. It is NOT a blocker on H3. It belongs to MP-E10's consolidation ambition and to MP-E12b's compiler."
+    },
     "supersedes": "pi_decisions.on['D-MPE10-02'] (DEFERRED, 2026-11-04, on the ground that no fluency metric was named). The earlier record is left in place untouched -- R5, historical rows are never back-edited -- and this block is the later ruling that replaces it."
   },
   "plan_source": {

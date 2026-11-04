@@ -376,6 +376,11 @@ DEFAULT_MANIFEST = [
     # 1313 collected / 1313 executed / 0 missing / 0 failures / returncode 0. The 3-failure record above it
     # stays published under R5: it is the run that caught the seal tool drifting against its own manifest.
     "experiments/MP-E10/results/suite_manifest_post_stamp_mpe12.json",
+    # The instrument check for the bench wiring (flag-off vs pre-edit, R13 identity fields)
+    # and the covering suite run that post-dates BOTH the organ edit and the bench edit.
+    "experiments/MP-E10/results/replay_wiring_instrument_check.json",
+    "experiments/MP-E10/results/suite_manifest_post_replay_wiring.json",
+
 # The inertness proof itself: additive diff, and byte-identity between the pre-edit module pulled from
 # git and the working tree on the untouched path. Sealed because 'nothing else changed' is a claim.
     "experiments/MP-E10/results/replay_entry_inertness_proof.json",
