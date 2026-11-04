@@ -10,7 +10,22 @@ WHY A ROW DIFF AND NOT A TALLY. The tallies can agree while rows move: `correct`
 identical at every depth, yet `refused` dropped by 3, 7 and 14. A tally cannot show WHICH rows moved or
 WHERE they went, and the registered H3 quantity is a tally. This diffs the row sets directly.
 
-KEYING. (depth, phase, ask). Rows are classified by the item label the bench itself uses: `distNN` is a
+KEYING, and the defect that changed it. The key shipped as (depth, phase, ask) and that key is NOT UNIQUE in
+the tier-120 and tier-300 curricula: ask STRINGS REPEAT ACROSS ITEMS because the pool was extended under
+D-MPE8-03 by reusing ask templates over new items. `rows_compared` is a set intersection, so a key held more
+than once contributed ONE row -- tier 300 compared 8,199 keys out of 9,414 graded asks (1,215 silently
+dropped, 12.91%) and tier 120 3,222 out of 3,744 (522, 13.94%). Measured, and registered as AMD-MPE10-08.
+The key is now (depth, phase, ask, item, shape), which is unique at 9,414 and 3,744 with zero collapse.
+`item` alone does NOT close it (8,370 distinct, 1,044 still dropped): the same ask+item is posed in two
+morphological presentations, `pair_exact` and `pair_fold`. `shape` closes it and is SAFE to key on because it
+is an authored probe property, not an output: measured across baseline, replay and control -- three runs with
+different model answers -- all 8,370 (tier 300) and 3,348 (tier 120) (ask,item) groups carry an IDENTICAL
+shape sequence, 0 differ, and matched on the five fields no row is one-sided (only_in_baseline=0,
+only_in_other=0). `shape` is one of the nine compared fields, so keying on an output would have hidden exactly
+the movement this instrument exists to catch; it is not one.
+`--row-key legacy` restores the old key so the superseded figures stay reproducible.
+
+Rows are classified by the item label the bench itself uses: `distNN` is a
 distractor -- future curriculum, asked about before it was told -- and anything else is a taught item.
 That distinction is the finding: a refusal that becomes an answer on a distractor is movement on the
 refusal axis, which is what R6 and C1/C2 care about, and it is invisible to an interval computed on
@@ -86,18 +101,45 @@ PAIRS = {
 }
 
 
-def learn_rows(art):
-    """Index the learn arm's rows by (depth, phase, ask). Returns (index, duplicate_keys)."""
+ROW_KEY_MODES = {
+    "probe": ("depth", "phase", "ask", "item", "shape"),
+    "legacy": ("depth", "phase", "ask"),
+}
+
+
+def row_key(depth, phase, r, mode="probe"):
+    """The row identity, per mode. `legacy` is kept so the superseded figures can be reproduced."""
+    if mode == "legacy":
+        return (str(depth), phase, str(r.get("ask")))
+    return (str(depth), phase, str(r.get("ask")), str(r.get("item")), str(r.get("shape")))
+
+
+def learn_rows(art, mode="probe"):
+    """Index the learn arm's rows. Returns (index, duplicate_keys).
+
+    A duplicate here is not noise: it is a row the key cannot address, and in `legacy` mode it is a row that
+    was silently dropped from every published figure. Both counts are reported into the artifact.
+    """
     out, dupes = {}, []
     probes = (art.get("arms", {}).get("learn", {}) or {}).get("probes", {}) or {}
     for depth, phases in probes.items():
         for phase, rows in (phases or {}).items():
             for r in rows or []:
-                key = (str(depth), phase, str(r.get("ask")))
+                key = row_key(depth, phase, r, mode)
                 if key in out:
                     dupes.append(list(key))
                 out[key] = r
     return out, dupes
+
+
+def key_uniqueness(art, mode):
+    """rows_total vs distinct_keys, so a collapsing key cannot hide again. Measured, not assumed."""
+    idx, dupes = learn_rows(art, mode)
+    probes = (art.get("arms", {}).get("learn", {}) or {}).get("probes", {}) or {}
+    total = sum(len(rlist or []) for phases in probes.values() for rlist in (phases or {}).values())
+    return {"mode": mode, "key_fields": list(ROW_KEY_MODES[mode]), "rows_total": total,
+            "distinct_keys": len(idx), "duplicate_keys": len(dupes),
+            "rows_collapsed_by_this_key": total - len(idx), "is_unique": not dupes}
 
 
 def is_distractor(item):
@@ -132,6 +174,9 @@ def main() -> int:
     ap.add_argument("--out", help="where to write; an existing file is refused without --overwrite")
     ap.add_argument("--label", default="")
     ap.add_argument("--overwrite", action="store_true")
+    ap.add_argument("--row-key", choices=sorted(ROW_KEY_MODES), default="probe",
+                    help="'probe' is the unique five-field key; 'legacy' reproduces the superseded "
+                         "(depth, phase, ask) figures exactly")
     a = ap.parse_args()
 
     if a.pair:
@@ -156,8 +201,10 @@ def main() -> int:
 
     rep = json.loads(rep_p.read_text(encoding="utf-8", errors="replace"))
     base = json.loads(base_p.read_text(encoding="utf-8", errors="replace"))
-    ri, r_dupes = learn_rows(rep)
-    bi, b_dupes = learn_rows(base)
+    ri, r_dupes = learn_rows(rep, a.row_key)
+    bi, b_dupes = learn_rows(base, a.row_key)
+    ku = {"replayed": key_uniqueness(rep, a.row_key), "baseline": key_uniqueness(base, a.row_key)}
+    ku["collapses_any_row"] = any(not ku[s]["is_unique"] for s in ku)
 
     moved, missing = [], []
     for key in sorted(set(bi) | set(ri)):
@@ -168,6 +215,8 @@ def main() -> int:
         diffs = {f: {"baseline": x.get(f), "replayed": y.get(f)} for f in R13 if x.get(f) != y.get(f)}
         if diffs:
             moved.append({"depth": key[0], "phase": key[1], "ask": key[2],
+                          "item": key[3] if len(key) > 3 else x.get("item"),
+                          "shape": key[4] if len(key) > 4 else x.get("shape"),
                           "item_baseline": x.get("item"), "item_replayed": y.get("item"),
                           "class": "distractor/unanswerable" if is_distractor(x.get("item"))
                           else "taught item",
@@ -203,8 +252,16 @@ def main() -> int:
         "label": label,
         "is_control": "CONTROL" in label.upper(),
         "generated_at_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "method": ("row-level diff on the nine R13 identity fields, keyed (depth, phase, ask); the same "
-                   "code path runs for every tier and for the control -- tools/mp_e10_row_migration.py"),
+        "method": (f"row-level diff on the nine R13 identity fields, keyed {ROW_KEY_MODES[a.row_key]}; the "
+                   "same code path runs for every tier and for the control -- "
+                   "tools/mp_e10_row_migration.py"),
+        "row_key": {"mode": a.row_key, "fields": list(ROW_KEY_MODES[a.row_key]),
+                    "modes_available": {k: list(v) for k, v in sorted(ROW_KEY_MODES.items())},
+                    "uniqueness": ku,
+                    "collapses_any_row": ku["collapses_any_row"],
+                    "note": ("'probe' is the corrected key, unique at every tier measured. 'legacy' is the "
+                             "key that produced the superseded figures and is kept so they can be "
+                             "reproduced; it silently drops rows wherever an ask repeats across items.")},
         "artifacts": {"replayed": _rel(rep_p), "baseline": _rel(base_p)},
         "matched_pair": {
             "replayed": idr, "baseline": idb,
@@ -218,11 +275,18 @@ def main() -> int:
         "duplicate_keys_within_either_index": {"replayed": r_dupes[:10], "baseline": b_dupes[:10],
                                                "replayed_n": len(r_dupes), "baseline_n": len(b_dupes)},
         "rows_compared": len(set(bi) & set(ri)),
+        "denominator": {"graded_asks_baseline": ku["baseline"]["rows_total"],
+                        "graded_asks_replayed": ku["replayed"]["rows_total"],
+                        "rows_compared_is_keys_not_asks": a.row_key == "legacy",
+                        "note": ("rows_compared counts keys the key could address; the graded asks the run "
+                                 "contains are the denominator field. Under 'probe' they are equal. Under "
+                                 "'legacy' the difference is rows the instrument never compared.")},
         "rows_only_in_one_set": missing[:20],
         "n_rows_only_in_one_set": len(missing),
         "n_rows_moved": len(moved),
         "moved_rows": moved,
-        "moved_keys": sorted([[m["depth"], m["phase"], m["ask"]] for m in moved]),
+        "moved_keys": sorted([[m["depth"], m["phase"], m["ask"], m["item"], m["shape"]] for m in moved]),
+        "moved_keys_fields": ["depth", "phase", "ask", "item", "shape"],
         "transitions_by_axis": {k: dict(v) for k, v in sorted(by_axis.items())},
         "refused_by_phase": refused_delta,
         "class_split": dict(Counter(m["class"] for m in moved)),
@@ -243,9 +307,10 @@ def main() -> int:
     }
     out_p.parent.mkdir(parents=True, exist_ok=True)
     out_p.write_text(json.dumps(out, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    print(f"{label}: {out['n_rows_moved']} rows moved of {out['rows_compared']} compared; "
-          f"class split {out['class_split']}; same tree={same_tree}; "
-          f"breaks={comparable or 'none'}")
+    print(f"{label}: {out['n_rows_moved']} rows moved of {out['rows_compared']} compared "
+          f"(graded asks {out['denominator']['graded_asks_baseline']}/{out['denominator']['graded_asks_replayed']}), "
+          f"key={a.row_key}{'; THIS KEY DROPS ROWS' if ku['collapses_any_row'] else ''}; "
+          f"class split {out['class_split']}; same tree={same_tree}; breaks={comparable or 'none'}")
     for k, v in sorted(by_axis.items()):
         print("  ", k, dict(v))
     print("wrote", _rel(out_p))
