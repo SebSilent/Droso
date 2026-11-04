@@ -142,3 +142,24 @@ state/live_learner/staging/
 # Consolidation rollback backups: per-run copies of the live state, kept on
 # disk only (the rollback for tools/consolidate_live.py), never in git.
 state/backup_pre_consolidate_*/
+
+# MP-E8 arm B / arm C per-depth run state: the CHECKPOINTS are scratch, the RESULT ARTIFACTS are
+# tracked and sealed. Same convention as state/lineage and state/live_learner above -- audit records
+# stay in git, regenerable model state does not, and the contents are ignored rather than the directory
+# because git cannot re-include a file whose parent directory is excluded.
+#
+# Measured on disk today: each armB_state* directory holds three model_d<N>.pt files of 14,408,862
+# bytes (13.7 MB) plus three rows_d<N>.json of ~340 KB, and there are eleven such directories under
+# experiments/MP-E8/results/ -- roughly 430 MB of checkpoints sitting in the same tree as the sealed
+# evidence, one `git add -A` away from being public forever. The checkpoints are reproducible from the
+# registered seed and frozen config, which is exactly what D-MPE8-06 guarantees, so a committed one
+# would be a binary anyone can regenerate and no reviewer can diff. The rows are duplicated by the
+# merged artifacts (armB_tier120_seed<N>.json and friends), which ARE sealed, so ignoring the
+# per-chunk copies loses no evidence.
+#
+# The second line is the belt-and-braces version of the same rule: no torch checkpoint belongs in the
+# results tree at any depth, whatever directory wrote it. This tightens; nothing here loosens a rule,
+# and the `_tmp/` rule at the top of this file is untouched.
+experiments/MP-E8/results/armB_state*/*
+experiments/MP-E8/results/armC_state*/*
+experiments/**/*.pt
