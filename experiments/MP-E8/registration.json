@@ -26,10 +26,10 @@
     },
     "C3": {
       "action": "abort",
+      "executed_at": "2026-11-04T05:25:10Z",
       "measured_by": "restart phase rows vs live phase rows, per item, named not counted",
       "state_today": "*** FIRED AND EXECUTED *** Two taught items were correct live at depth 3 and refused after restart at tier 300 (0 rows at tier 40 and tier 120). The replication split them: 3/tell0.26/object REPRODUCES at the same seed and is a real loss of taught-item availability; 3/tell0.38/object does NOT reproduce and is registered as restart-phase instability (R13 not edited). The PI ruled D-MPE8-09 at 2026-11-04T05:25:10Z: the registered action abort is executed, and what it aborts is the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN. No artifact was destroyed and MP-E8 was not halted.",
       "trigger": "arm A loses any taught item across a restart",
-      "executed_at": "2026-11-04T05:25:10Z",
       "what_was_aborted": "the tier-300 arm-A taught-set-holds claim (H1's arm A clause at tier 300), withdrawn -- not the experiment, not the artifacts, and not the other tiers"
     },
     "C4": {
@@ -538,6 +538,15 @@
         "sha256_lf": "022686ab4c8a096ea49c4ef59284ebfd668710fa697b0c07c0c83437129aca35",
         "sha256_of_git_blob": "022686ab4c8a096ea49c4ef59284ebfd668710fa697b0c07c0c83437129aca35"
       },
+      "experiments/MP-E8/decision.md": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 20183,
+        "bytes_worktree": 20439,
+        "git_blob_sha1": "f1c9afae441cd19032c9b98f01ccfbb3cc199706",
+        "line_endings": "CRLF",
+        "sha256_lf": "7488305d61ddd47dd3ee5c8e14c2f1bef034d7bfad8f72c2863ef9750a880084",
+        "sha256_of_git_blob": "7488305d61ddd47dd3ee5c8e14c2f1bef034d7bfad8f72c2863ef9750a880084"
+      },
       "experiments/MP-E8/results/armA_tier120_curriculum.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 4204056,
@@ -582,6 +591,24 @@
         "line_endings": "LF",
         "sha256_lf": "3c16706d29f199fd649e8e7fbe7ae160fdb298d274b9592d633ef3abb30d2fa2",
         "sha256_of_git_blob": "3c16706d29f199fd649e8e7fbe7ae160fdb298d274b9592d633ef3abb30d2fa2"
+      },
+      "experiments/MP-E8/results/armA_tier300_rerun.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 10465852,
+        "bytes_worktree": 10838577,
+        "git_blob_sha1": "56d65e35eca0d51a4523d3415ad7c28c8ce43324",
+        "line_endings": "CRLF",
+        "sha256_lf": "be198cd5690885b46f98737aad1d0b5abf68d7636d3353fde963a9d6f93ef4db",
+        "sha256_of_git_blob": "be198cd5690885b46f98737aad1d0b5abf68d7636d3353fde963a9d6f93ef4db"
+      },
+      "experiments/MP-E8/results/armA_tier300_rerun_c3_diff.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 5571,
+        "bytes_worktree": 5571,
+        "git_blob_sha1": "d7d79881e021f5dce946d8ef4fba6f25d18a4420",
+        "line_endings": "LF",
+        "sha256_lf": "02b4129432483e79edfdbd4debe2582f9a888c3a4380b615217d2829ed7da913",
+        "sha256_of_git_blob": "02b4129432483e79edfdbd4debe2582f9a888c3a4380b615217d2829ed7da913"
       },
       "experiments/MP-E8/results/armA_tier40_inertness.json": {
         "blob_equals_lf_normalised": true,
@@ -691,6 +718,51 @@
         "sha256_lf": "34cf127db886b66d9c2b613f53d83689c5334aeb15882859e18d5de21a8a8a7b",
         "sha256_of_git_blob": "34cf127db886b66d9c2b613f53d83689c5334aeb15882859e18d5de21a8a8a7b"
       },
+      "experiments/MP-E8/results/armB_tier300_seed1.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 3823743,
+        "bytes_worktree": 3966785,
+        "git_blob_sha1": "90344c4fee8e6b536f10a704e5b2bb7921b47091",
+        "line_endings": "CRLF",
+        "sha256_lf": "cccc86f2f0262e17b0f9daa5ba1fa44fed2c2b710d47a6a19c7edf12cd940f3e",
+        "sha256_of_git_blob": "cccc86f2f0262e17b0f9daa5ba1fa44fed2c2b710d47a6a19c7edf12cd940f3e"
+      },
+      "experiments/MP-E8/results/armB_tier300_seed2.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 3776904,
+        "bytes_worktree": 3919946,
+        "git_blob_sha1": "d4ee3961fb258e0bc1aacbf3b2bd4d8f43582729",
+        "line_endings": "CRLF",
+        "sha256_lf": "d1a2e1c8288e2536a8598ab27909add921b2aa712dc7a8946cbacec5f89ea9fc",
+        "sha256_of_git_blob": "d1a2e1c8288e2536a8598ab27909add921b2aa712dc7a8946cbacec5f89ea9fc"
+      },
+      "experiments/MP-E8/results/armB_tier300_seed3.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 3803009,
+        "bytes_worktree": 3946051,
+        "git_blob_sha1": "9a2953bc3373b0a677735e73bea5e1f704701705",
+        "line_endings": "CRLF",
+        "sha256_lf": "363890eb9a06366f3e91c08cc5eb24f06d15de8e9d4aa0d7a62e9f415dc54408",
+        "sha256_of_git_blob": "363890eb9a06366f3e91c08cc5eb24f06d15de8e9d4aa0d7a62e9f415dc54408"
+      },
+      "experiments/MP-E8/results/armB_tier300_seeds_verdict.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 8261,
+        "bytes_worktree": 8261,
+        "git_blob_sha1": "174c7988b9bcbb6a8418fc42481ee4c43f5f342f",
+        "line_endings": "LF",
+        "sha256_lf": "b91dfefe78addcf84b8ee4db8c423db8f2c8ff3c0ed62e50098c1187ded1ed93",
+        "sha256_of_git_blob": "b91dfefe78addcf84b8ee4db8c423db8f2c8ff3c0ed62e50098c1187ded1ed93"
+      },
+      "experiments/MP-E8/results/armB_tier300_seeds_verdict_superseded_nearness_bug.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 7490,
+        "bytes_worktree": 7490,
+        "git_blob_sha1": "1557f8e8301cee21067ab171f6984b4810243330",
+        "line_endings": "LF",
+        "sha256_lf": "9c5112fbe7bb2501d89bcd3d9d2cd38889d108e0cf9d7c25e0c99ee3aa3ffa0f",
+        "sha256_of_git_blob": "9c5112fbe7bb2501d89bcd3d9d2cd38889d108e0cf9d7c25e0c99ee3aa3ffa0f"
+      },
       "experiments/MP-E8/results/armB_tier40_batteryfix.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 517471,
@@ -789,6 +861,69 @@
         "line_endings": "CRLF",
         "sha256_lf": "e2cf5987d806b733fcc374db2aaf55ab651f4b0e743adcb50be581ac9bc8a3c5",
         "sha256_of_git_blob": "e2cf5987d806b733fcc374db2aaf55ab651f4b0e743adcb50be581ac9bc8a3c5"
+      },
+      "experiments/MP-E8/results/armC_h2_clause2_and_retrieval_empty.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 28535,
+        "bytes_worktree": 28535,
+        "git_blob_sha1": "8d00831a5c4e000cfca88a49407edfb531a3969e",
+        "line_endings": "LF",
+        "sha256_lf": "9679851f930b407fa061c231d7b998dddab03ac6d7af414e25a96b72903971fb",
+        "sha256_of_git_blob": "9679851f930b407fa061c231d7b998dddab03ac6d7af414e25a96b72903971fb"
+      },
+      "experiments/MP-E8/results/armC_tier120_curriculum.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1879859,
+        "bytes_worktree": 1948733,
+        "git_blob_sha1": "3a23e5e7c52affed46bb84fc32f8923a6eeb359b",
+        "line_endings": "CRLF",
+        "sha256_lf": "03fab7affb7f4b3f637e1bb0b952f91ace56722dbf9ded0b4b19e088bd0bf8a4",
+        "sha256_of_git_blob": "03fab7affb7f4b3f637e1bb0b952f91ace56722dbf9ded0b4b19e088bd0bf8a4"
+      },
+      "experiments/MP-E8/results/armC_tier300_curriculum.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 4639662,
+        "bytes_worktree": 4810596,
+        "git_blob_sha1": "dd7e0e6f74096868cccd8b8d3c74880984c6f209",
+        "line_endings": "CRLF",
+        "sha256_lf": "1dd79182f6ed5ea74e2cfc902d73d870400c671f82448e70b786a0a5e6e147aa",
+        "sha256_of_git_blob": "1dd79182f6ed5ea74e2cfc902d73d870400c671f82448e70b786a0a5e6e147aa"
+      },
+      "experiments/MP-E8/results/armC_tier40_curriculum.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 639355,
+        "bytes_worktree": 662869,
+        "git_blob_sha1": "e731195b98a5217b629cc2e872048d4fcc4cf63b",
+        "line_endings": "CRLF",
+        "sha256_lf": "bcb55966e26b970f501ea0b057adb27378fd65fc20e1e961d102fcd07c8f1a20",
+        "sha256_of_git_blob": "bcb55966e26b970f501ea0b057adb27378fd65fc20e1e961d102fcd07c8f1a20"
+      },
+      "experiments/MP-E8/results/battery_guard_armB.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 5853,
+        "bytes_worktree": 5853,
+        "git_blob_sha1": "16f5e8163d34f4f8342e3bf196a267cd3d865f7d",
+        "line_endings": "LF",
+        "sha256_lf": "5886d64032de62259a580402a97e4c4490d5527e75aedc773c1d29fffbc7bd5b",
+        "sha256_of_git_blob": "5886d64032de62259a580402a97e4c4490d5527e75aedc773c1d29fffbc7bd5b"
+      },
+      "experiments/MP-E8/results/battery_guard_armC.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 5853,
+        "bytes_worktree": 5853,
+        "git_blob_sha1": "ec3ad2ca27043ad967e6c5d0a963074e19537b89",
+        "line_endings": "LF",
+        "sha256_lf": "564fadd29d216002d71e23199f073dad93edae5268899dcb886c49142fc47a18",
+        "sha256_of_git_blob": "564fadd29d216002d71e23199f073dad93edae5268899dcb886c49142fc47a18"
+      },
+      "experiments/MP-E8/results/curves_four_figures.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 17052,
+        "bytes_worktree": 17052,
+        "git_blob_sha1": "52a253ef68cc3cb92f3caac06d017ec40399171a",
+        "line_endings": "LF",
+        "sha256_lf": "6986684d850d244eb854d034ee6f9ac72799c0726fbdb9f56a44c4315337f83b",
+        "sha256_of_git_blob": "6986684d850d244eb854d034ee6f9ac72799c0726fbdb9f56a44c4315337f83b"
       },
       "experiments/MP-E8/results/guarded_absence_arm_attribution.json": {
         "blob_equals_lf_normalised": true,
@@ -1195,6 +1330,15 @@
         "sha256_lf": "347522547215e81695f2e9748e408667b74fe90e7b4a059c438495103fe0233e",
         "sha256_of_git_blob": "347522547215e81695f2e9748e408667b74fe90e7b4a059c438495103fe0233e"
       },
+      "tests/test_mp_e10_working_memory.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 5203,
+        "bytes_worktree": 5347,
+        "git_blob_sha1": "9d206623a0575c157c52a5bd9970a7544d2ae45f",
+        "line_endings": "CRLF",
+        "sha256_lf": "605e1e85e77b56e24ae4b86974baf52cae45f946f44564a67eb6720a1de741e8",
+        "sha256_of_git_blob": "605e1e85e77b56e24ae4b86974baf52cae45f946f44564a67eb6720a1de741e8"
+      },
       "tests/test_mp_e8_arm_b.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 12312,
@@ -1294,6 +1438,15 @@
         "sha256_lf": "64abef35352b56b164924ca313690324bb3b043f524bff23bd37fd2ff5f90c40",
         "sha256_of_git_blob": "64abef35352b56b164924ca313690324bb3b043f524bff23bd37fd2ff5f90c40"
       },
+      "tools/mp_e10_working_memory.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 9712,
+        "bytes_worktree": 9914,
+        "git_blob_sha1": "e895871466485cd56251ab4574d8a872ec9ff7be",
+        "line_endings": "CRLF",
+        "sha256_lf": "f38894cb13bded6f3ac949ee37db1f5c0c06c3e6e01d8d06dfb8680ed07e04e1",
+        "sha256_of_git_blob": "f38894cb13bded6f3ac949ee37db1f5c0c06c3e6e01d8d06dfb8680ed07e04e1"
+      },
       "tools/mp_e8_arm_b.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 35622,
@@ -1368,12 +1521,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 36623,
-        "bytes_worktree": 37194,
-        "git_blob_sha1": "1d4eeeda695748d65b72558cf0fe4b88dad43ef8",
+        "bytes_blob": 39513,
+        "bytes_worktree": 40122,
+        "git_blob_sha1": "7851274f07a989627eaa9905d291b25600ecf5a7",
         "line_endings": "CRLF",
-        "sha256_lf": "21009b9302e5c1a08b914eae8dafa0f01bb43e4bef02aec270f4b85a0fae7351",
-        "sha256_of_git_blob": "21009b9302e5c1a08b914eae8dafa0f01bb43e4bef02aec270f4b85a0fae7351"
+        "sha256_lf": "f3b104a8515241ac24272173e47d152a736ad2df95dd0734dba8e117426788e2",
+        "sha256_of_git_blob": "f3b104a8515241ac24272173e47d152a736ad2df95dd0734dba8e117426788e2"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -1394,13 +1547,14 @@
         "sha256_of_git_blob": "9f971d155b77f9fdf2dba14b31f62710e72fa7ec63c6b93d3a47b41daac24163"
       }
     },
-    "git_dirty": true,
+    "git_dirty": false,
     "git_dirty_sealed": [],
-    "git_head": "8e63885f5b52337b38667c7458ac534b5b155514",
+    "git_head": "dcf58f3cbe78746c790e67ef4398d130a4d1923a",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
         "experiments/G0-prime/registration.json",
+        "experiments/MP-E10/registration.json",
         "experiments/MP-E9/registration.json"
       ],
       "why": "registrations are ledgers, not evidence. Two registrations that seal each other form a cycle no stamp sequence can satisfy, so cross-registration entries are dropped and the fact is recorded here rather than left as a DRIFT that never clears."
@@ -1420,7 +1574,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T04:11:02Z",
+    "sealed_at_utc": "2026-11-04T06:29:08Z",
     "self_excluded": {
       "path": "experiments/MP-E8/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -1819,11 +1973,11 @@
         "see": "AMD-MPE8-13"
       },
       "question": "C3 is pre-registered with action 'abort' and it has fired: two taught items (tell0.26/object, tell0.38/object) were correct live at depth 3 and refused after restart, at tier 300 only, zero rows at tier 40 and tier 120. Does MP-E8 abort as written -- which stops G2 on this instrument -- or is the abort executed against a named remediation (re-run at the same seed, or a restart-phase tolerance registered as a dated amendment before any further tier-300 claim)? The agent has done neither.",
+      "ruled_at": "2026-11-04T05:25:10Z",
+      "ruling": "pi_decisions.rulings['D-MPE8-09']",
       "status": "RULED by the PI at 2026-11-04T05:25:10Z: C3's registered action ABORT is executed against the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN. See pi_decisions.rulings.['D-MPE8-09']. The artifacts stay published and the experiment continues; the plan's gate text and G2's 're-run the flawed arm only' fallback both cover that.",
       "what_is_already_true_regardless": "the tier-300 arm A measurement, its wall clock against the projection, and the cross-tier confabulation trend are recorded and stand on their own.",
-      "why_it_cannot_be_decided_by_the_agent": "a stopping rule exists precisely to remove the agent's discretion at the moment it is inconvenient. Choosing to continue, or choosing to re-run until it passes, are both the same fault in different clothes.",
-      "ruled_at": "2026-11-04T05:25:10Z",
-      "ruling": "pi_decisions.rulings['D-MPE8-09']"
+      "why_it_cannot_be_decided_by_the_agent": "a stopping rule exists precisely to remove the agent's discretion at the moment it is inconvenient. Choosing to continue, or choosing to re-run until it passes, are both the same fault in different clothes."
     },
     "D-MPE8-10_r13_cells_do_not_cover_the_observed_instability": {
       "agent_recommendation": "register the spread as a named quantity and quote tier-300 arm A aggregates with it, rather than widening R13's cell list -- widening R13 would excuse rows in cells whose disagreement has no mechanism behind it, while the spread is a measured property of the arithmetic. But this changes what counts as noise, which is the same class of decision as D-MPE8-05.",
@@ -1839,16 +1993,16 @@
       "why_it_cannot_be_decided_by_the_agent": "the tolerance list is part of the pre-registered contract. Editing it after seeing which cells disagree is selecting the tolerance on the data it will be used to excuse."
     },
     "D-MPE8-11_H2_clause_2_is_satisfiable_by_blanket_refusal": {
+      "agent_recommendation": "register a companion specificity floor before arm C is cited for anything, because the selectivity data already exists to set it honestly -- the gate passes taught asks 7.68 to 29.14 pp more often than never-taught ones, which is a measured discrimination and not a chosen threshold. The agent does not set the floor: clause 2's wording is the contract.",
       "asked_at": "2026-11-04T05:13:47Z",
       "asked_by": "agent",
-      "question": "H2's second clause requires arm C's refusal on never-taught rows to exceed arm A's, and sets no companion requirement on the taught rows. Arm C satisfies it at tiers 120 and 300 while producing zero correct answers at every tier. Is clause 2 to be read as satisfied by that, or is a specificity requirement (arm C must answer taught asks at some rate for its never-taught refusal to count) to be registered before any further arm C claim?",
       "measured_evidence": [
         "experiments/MP-E8/results/armC_h2_clause2_and_retrieval_empty.json",
         "experiments/MP-E8/results/armC_tier300_curriculum.json"
       ],
-      "agent_recommendation": "register a companion specificity floor before arm C is cited for anything, because the selectivity data already exists to set it honestly -- the gate passes taught asks 7.68 to 29.14 pp more often than never-taught ones, which is a measured discrimination and not a chosen threshold. The agent does not set the floor: clause 2's wording is the contract.",
-      "why_it_cannot_be_decided_by_the_agent": "adding a requirement to a registered hypothesis after its first measurement is exactly the move that turns a failed claim into a passed one. Here the claim PASSED, and writing a companion requirement now would be selecting a way to un-pass it -- the same fault in the other direction.",
-      "status": "OPEN. Clause 2 recorded as measured PASS at 120 and 300, with this limitation attached to the record rather than resolved inside it."
+      "question": "H2's second clause requires arm C's refusal on never-taught rows to exceed arm A's, and sets no companion requirement on the taught rows. Arm C satisfies it at tiers 120 and 300 while producing zero correct answers at every tier. Is clause 2 to be read as satisfied by that, or is a specificity requirement (arm C must answer taught asks at some rate for its never-taught refusal to count) to be registered before any further arm C claim?",
+      "status": "OPEN. Clause 2 recorded as measured PASS at 120 and 300, with this limitation attached to the record rather than resolved inside it.",
+      "why_it_cannot_be_decided_by_the_agent": "adding a requirement to a registered hypothesis after its first measurement is exactly the move that turns a failed claim into a passed one. Here the claim PASSED, and writing a companion requirement now would be selecting a way to un-pass it -- the same fault in the other direction."
     }
   },
   "pi_decisions": {
@@ -2010,15 +2164,14 @@
         }
       },
       "D-MPE8-09": {
+        "agent_note_on_who_ruled": "The agent did not choose this. C3 exists to remove agent discretion at the moment it is inconvenient, and the two available readings (abort vs waive) both favoured continuing. The PI ruled; the record shows the ruling, its date and the artifacts it names.",
+        "consequences_for_the_other_claims": {
+          "H1_arm_A_clause": "H1's arm A clause ('arm A holds its taught set across restarts', retention min 1.0) is falsified at tier 300 by the reproducing row and is now withdrawn at that tier rather than merely failed. Tier 40 and tier 120 arm A taught-set claims are untouched: zero restart rows moved at either tier.",
+          "g2": "G2's evidence is closed out with this withdrawal inside it. The withdrawal removes a claim from the table; it does not remove an artifact from the record."
+        },
         "decided_at": "2026-11-04T05:25:10Z",
         "decided_by": "PI",
         "decision": "EXECUTE C3's registered action. C3 says 'abort', so MP-E8 aborts at tier 300: the tier-300 arm-A taught-set-holds claim is WITHDRAWN. No further claim may be built on arm A holding its taught set at tier 300, in this experiment or in any downstream reading of it.",
-        "what_abort_means_here": {
-          "withdrawal_not_destruction": "The artifact stays published. Nothing is deleted and nothing is rewritten: armA_tier300_curriculum.json and armA_tier300_rerun.json both remain in the record, sealed, with the reproduced row named in both.",
-          "the_named_row": "3/tell0.26/object -- correct live at depth 3, refused after restart. It reproduced on a re-run at the same seed and is therefore a real loss of taught-item availability, not a fluke of one process.",
-          "the_second_row": "3/tell0.38/object -- named in the original C3 finding, did NOT reproduce. It is registered here as RESTART-PHASE INSTABILITY, and R13 is not edited to cover it. R13's cells were chosen before these runs and this ruling does not widen them; the gap it leaves is D-MPE8-10's to settle, not this one's.",
-          "not_a_halt": "Aborting this claim does not stop MP-E8. The plan's gate text is explicit: 'The experiment succeeds regardless of which arm wins, because both outcomes define paper 1' (DROSO_Master_Plan_v1_1.txt:691). And G2's own fallback action is 'Re-run the flawed arm only; no specification edits mid-run' (same source:902-903), which is what was done: the arm-A tier-300 run was re-run at the same seed and the row was traced, while no threshold, cell or tolerance moved."
-        },
         "measured_basis": {
           "original_finding": "experiments/MP-E8/results/armA_tier300_c3_finding.json",
           "replication_artifact": "experiments/MP-E8/results/armA_tier300_rerun.json",
@@ -2026,12 +2179,13 @@
           "ruling_that_ordered_the_replication": "D-MPE8-09 was opened at 2026-11-03T13:30:00Z and settled by arm A's tier-300 re-run under AMD-MPE8-13",
           "split_outcome": "PARTIALLY REPEATED: 1 of the 2 named rows reproduces"
         },
-        "consequences_for_the_other_claims": {
-          "H1_arm_A_clause": "H1's arm A clause ('arm A holds its taught set across restarts', retention min 1.0) is falsified at tier 300 by the reproducing row and is now withdrawn at that tier rather than merely failed. Tier 40 and tier 120 arm A taught-set claims are untouched: zero restart rows moved at either tier.",
-          "g2": "G2's evidence is closed out with this withdrawal inside it. The withdrawal removes a claim from the table; it does not remove an artifact from the record."
+        "what_abort_means_here": {
+          "not_a_halt": "Aborting this claim does not stop MP-E8. The plan's gate text is explicit: 'The experiment succeeds regardless of which arm wins, because both outcomes define paper 1' (DROSO_Master_Plan_v1_1.txt:691). And G2's own fallback action is 'Re-run the flawed arm only; no specification edits mid-run' (same source:902-903), which is what was done: the arm-A tier-300 run was re-run at the same seed and the row was traced, while no threshold, cell or tolerance moved.",
+          "the_named_row": "3/tell0.26/object -- correct live at depth 3, refused after restart. It reproduced on a re-run at the same seed and is therefore a real loss of taught-item availability, not a fluke of one process.",
+          "the_second_row": "3/tell0.38/object -- named in the original C3 finding, did NOT reproduce. It is registered here as RESTART-PHASE INSTABILITY, and R13 is not edited to cover it. R13's cells were chosen before these runs and this ruling does not widen them; the gap it leaves is D-MPE8-10's to settle, not this one's.",
+          "withdrawal_not_destruction": "The artifact stays published. Nothing is deleted and nothing is rewritten: armA_tier300_curriculum.json and armA_tier300_rerun.json both remain in the record, sealed, with the reproduced row named in both."
         },
-        "what_this_ruling_does_not_change": "hypotheses.H1/H2/H3/H4 text and thresholds, abort_conditions' triggers and actions, stopping_rules, metrics, gate, tiers, the armB seed protocol, and R13. All are byte-identical after this write and are asserted so below.",
-        "agent_note_on_who_ruled": "The agent did not choose this. C3 exists to remove agent discretion at the moment it is inconvenient, and the two available readings (abort vs waive) both favoured continuing. The PI ruled; the record shows the ruling, its date and the artifacts it names."
+        "what_this_ruling_does_not_change": "hypotheses.H1/H2/H3/H4 text and thresholds, abort_conditions' triggers and actions, stopping_rules, metrics, gate, tiers, the armB seed protocol, and R13. All are byte-identical after this write and are asserted so below."
       }
     }
   },
@@ -3157,125 +3311,127 @@
       }
     },
     {
-      "id": "AMD-MPE8-14",
-      "recorded_at": "2026-11-04T05:13:47Z",
-      "recorded_by": "agent, after arm C's first sealed runs at tiers 40, 120 and 300",
-      "class": "measurement record for arm C, graded as AMD-MPE8-12 directs. Changes no threshold.",
+      "H2_clause_2_verdict": "PASS at both required tiers (120 and 300)",
       "artifacts": {
-        "tier_40": "experiments/MP-E8/results/armC_tier40_curriculum.json",
         "tier_120": "experiments/MP-E8/results/armC_tier120_curriculum.json",
         "tier_300": "experiments/MP-E8/results/armC_tier300_curriculum.json",
+        "tier_40": "experiments/MP-E8/results/armC_tier40_curriculum.json",
         "verdict": "experiments/MP-E8/results/armC_h2_clause2_and_retrieval_empty.json"
       },
+      "class": "measurement record for arm C, graded as AMD-MPE8-12 directs. Changes no threshold.",
+      "correct_rate_still_carries_no_claim": "AMD-MPE8-12 is what makes the 0.0% figures above inadmissible as evidence against frozen-plus-retrieval as a class. They are reported because an artifact that hides its score is worse than one that reports it and says what it does not mean.",
+      "id": "AMD-MPE8-14",
+      "limitation_this_record_has_to carry": "H2's second clause compares REFUSAL on never-taught rows and requires nothing of the taught rows. A system that never answers anything scores 100% on it. Arm C's correct rate is 0 of every row at every tier, so clause 2 is satisfied by an arm that has demonstrated no knowledge at all, and the selectivity measurement above is what keeps that from being read as a calibration success. The clause text is not edited here; the gap is put to the PI as D-MPE8-11.",
       "measured": {
-        "40": {
-          "arm_C_refusal_on_never_taught_pct": 100.0,
-          "arm_A_refusal_on_same_rows_pct": 90.74,
-          "near_miss_rows": 0,
-          "retrieval_empty_rows": 54,
-          "correct_refusal_refused_AND_retrieval_empty": 54,
-          "correct_rate_pct_unweighted": 0.0,
-          "gate_through_taught_minus_never_pp": 21.7,
-          "youden_J_sim_floor_by_depth": {
-            "1": 0.1987,
-            "2": 0.3667,
-            "3": 0.2849
-          },
-          "clause_2": "EXCEEDS."
-        },
         "120": {
-          "arm_C_refusal_on_never_taught_pct": 94.44,
           "arm_A_refusal_on_same_rows_pct": 79.32,
+          "arm_C_refusal_on_never_taught_pct": 94.44,
+          "clause_2": "EXCEEDS.",
+          "correct_rate_pct_unweighted": 0.0,
+          "correct_refusal_refused_AND_retrieval_empty": 45,
+          "gate_through_taught_minus_never_pp": 29.14,
           "near_miss_rows": 18,
           "retrieval_empty_rows": 45,
-          "correct_refusal_refused_AND_retrieval_empty": 45,
-          "correct_rate_pct_unweighted": 0.0,
-          "gate_through_taught_minus_never_pp": 29.14,
           "youden_J_sim_floor_by_depth": {
             "1": 0.1384,
             "2": 0.0794,
             "3": 0.0743
-          },
-          "clause_2": "EXCEEDS."
+          }
         },
         "300": {
-          "arm_C_refusal_on_never_taught_pct": 80.37,
           "arm_A_refusal_on_same_rows_pct": 73.21,
+          "arm_C_refusal_on_never_taught_pct": 80.37,
+          "clause_2": "EXCEEDS.",
+          "correct_rate_pct_unweighted": 0.0,
+          "correct_refusal_refused_AND_retrieval_empty": 42,
+          "gate_through_taught_minus_never_pp": 7.68,
           "near_miss_rows": 159,
           "retrieval_empty_rows": 42,
-          "correct_refusal_refused_AND_retrieval_empty": 42,
-          "correct_rate_pct_unweighted": 0.0,
-          "gate_through_taught_minus_never_pp": 7.68,
           "youden_J_sim_floor_by_depth": {
             "1": 0.0446,
             "2": 0.0397,
             "3": 0.0361
-          },
-          "clause_2": "EXCEEDS."
-        }
-      },
-      "H2_clause_2_verdict": "PASS at both required tiers (120 and 300)",
-      "what_the_gate_measures_say": {
-        "abstention_is_not_blanket": {
-          "40": {
-            "refusal_on_never_taught_pct": 100.0,
-            "refusal_on_taught_at_depth_pct": 77.37,
-            "gate_passed_through_taught_pct": 63.37,
-            "gate_passed_through_never_taught_pct": 41.67
-          },
-          "120": {
-            "refusal_on_never_taught_pct": 94.44,
-            "refusal_on_taught_at_depth_pct": 61.29,
-            "gate_passed_through_taught_pct": 68.03,
-            "gate_passed_through_never_taught_pct": 38.89
-          },
-          "300": {
-            "refusal_on_never_taught_pct": 80.37,
-            "refusal_on_taught_at_depth_pct": 46.41,
-            "gate_passed_through_taught_pct": 93.98,
-            "gate_passed_through_never_taught_pct": 86.3
           }
         },
-        "reading": "the gate lets taught asks through more often than never-taught ones at every tier (+21.7, +29.14 and +7.68 pp), so arm C's refusal is not simply refusing everything. But the discrimination narrows as the tier grows while the Youden J of the similarity floor falls from 0.1987 to 0.0446 at depth 1 -- the fitted thresholds get weaker exactly where H2's clause is claimed.",
-        "near_miss_slice": {
-          "40": 0,
-          "120": 18,
-          "300": 159
-        },
-        "retrieval_empty_claim": {
-          "registered_form": "correct refusal = refused AND retrieval_empty",
-          "measured_n": {
-            "40": 54,
-            "120": 45,
-            "300": 42
-          },
-          "verdict": "supported by the measured rows named in the verdict artifact"
+        "40": {
+          "arm_A_refusal_on_same_rows_pct": 90.74,
+          "arm_C_refusal_on_never_taught_pct": 100.0,
+          "clause_2": "EXCEEDS.",
+          "correct_rate_pct_unweighted": 0.0,
+          "correct_refusal_refused_AND_retrieval_empty": 54,
+          "gate_through_taught_minus_never_pp": 21.7,
+          "near_miss_rows": 0,
+          "retrieval_empty_rows": 54,
+          "youden_J_sim_floor_by_depth": {
+            "1": 0.1987,
+            "2": 0.3667,
+            "3": 0.2849
+          }
         }
       },
-      "limitation_this_record_has_to carry": "H2's second clause compares REFUSAL on never-taught rows and requires nothing of the taught rows. A system that never answers anything scores 100% on it. Arm C's correct rate is 0 of every row at every tier, so clause 2 is satisfied by an arm that has demonstrated no knowledge at all, and the selectivity measurement above is what keeps that from being read as a calibration success. The clause text is not edited here; the gap is put to the PI as D-MPE8-11.",
-      "correct_rate_still_carries_no_claim": "AMD-MPE8-12 is what makes the 0.0% figures above inadmissible as evidence against frozen-plus-retrieval as a class. They are reported because an artifact that hides its score is worse than one that reports it and says what it does not mean.",
-      "scope": "arm C's measured status and how clause 2 is to be read against it. hypotheses.H2's text, abort_conditions, stopping rules, metrics, gate, tiers and pi_decisions are byte-identical."
+      "recorded_at": "2026-11-04T05:13:47Z",
+      "recorded_by": "agent, after arm C's first sealed runs at tiers 40, 120 and 300",
+      "scope": "arm C's measured status and how clause 2 is to be read against it. hypotheses.H2's text, abort_conditions, stopping rules, metrics, gate, tiers and pi_decisions are byte-identical.",
+      "what_the_gate_measures_say": {
+        "abstention_is_not_blanket": {
+          "120": {
+            "gate_passed_through_never_taught_pct": 38.89,
+            "gate_passed_through_taught_pct": 68.03,
+            "refusal_on_never_taught_pct": 94.44,
+            "refusal_on_taught_at_depth_pct": 61.29
+          },
+          "300": {
+            "gate_passed_through_never_taught_pct": 86.3,
+            "gate_passed_through_taught_pct": 93.98,
+            "refusal_on_never_taught_pct": 80.37,
+            "refusal_on_taught_at_depth_pct": 46.41
+          },
+          "40": {
+            "gate_passed_through_never_taught_pct": 41.67,
+            "gate_passed_through_taught_pct": 63.37,
+            "refusal_on_never_taught_pct": 100.0,
+            "refusal_on_taught_at_depth_pct": 77.37
+          }
+        },
+        "near_miss_slice": {
+          "120": 18,
+          "300": 159,
+          "40": 0
+        },
+        "reading": "the gate lets taught asks through more often than never-taught ones at every tier (+21.7, +29.14 and +7.68 pp), so arm C's refusal is not simply refusing everything. But the discrimination narrows as the tier grows while the Youden J of the similarity floor falls from 0.1987 to 0.0446 at depth 1 -- the fitted thresholds get weaker exactly where H2's clause is claimed.",
+        "retrieval_empty_claim": {
+          "measured_n": {
+            "120": 45,
+            "300": 42,
+            "40": 54
+          },
+          "registered_form": "correct refusal = refused AND retrieval_empty",
+          "verdict": "supported by the measured rows named in the verdict artifact"
+        }
+      }
     },
     {
-      "id": "AMD-MPE8-15",
-      "recorded_at": "2026-11-04T05:13:47Z",
-      "recorded_by": "agent, after arm B's three registered seeds at tier 300",
-      "class": "measurement record for H1's arm B clause at its second required tier. Margin untouched.",
+      "H1_overall": "H1 requires BOTH tiers [120, 300] for its arm B clause. Tier 120: FAIL at this tier (least favourable drop 1.6827 pp). Tier 300: FAIL at this tier (least favourable drop -2.6769 pp). H1's arm A clause is separately falsified at tier 300 by a reproduced restart row (AMD-MPE8-13). The margin was not moved and no tier was dropped.",
       "artifact": "experiments/MP-E8/results/armB_tier300_seeds_verdict.json",
-      "rule_applied": "D-MPE8-06: H1 is carried by the least favourable seed, and if the observed seed spread exceeds the registered margin the claim is NOT DECIDABLE at this tier rather than passed. The margin itself is not adjusted. Applied here exactly as at tier 120, including which end of the drop counts as unfavourable.",
+      "class": "measurement record for H1's arm B clause at its second required tier. Margin untouched.",
+      "id": "AMD-MPE8-15",
+      "interpretive_note_carried_from_tier_120": {
+        "as_asked": "carry the tier-120 note: if arm B's session-1 level at tier 300 is at or near its tier-120 level of 6-7 percent, say that a 5 pp margin cannot separate 'forgot' from 'never knew' at that level",
+        "as_measured": "Arm B's session-1 live rate at tier 300 is 1.15-1.63% of 1,046 asks, which is NOT at or near the 6.25-7.45% it reached at tier 120 -- it is roughly four to six times lower. The tier-120 note is therefore not transferred here as though it applied; it applies with greater force instead. H1's arm B clause asks arm B to drop BY at least 5.0 percentage points from a session-1 level of about 1.1%, and the measured drops are negative (-2.68, -2.39, -1.24 pp): the arm scores better at session 3 than at session 1. At an absolute level of 1-2% the margin cannot separate 'forgot' from 'never knew' -- there is almost nothing here to lose -- and a clause that requires a 5 pp fall cannot be satisfied by a curve that rises. H1's FAIL at tier 120 stands, the margin is left exactly as registered, and no tier was dropped.",
+        "note": "the premise did NOT hold -- tier 300's session-1 level is 1.15-1.63%, four to six times below tier 120's -- so the note is not transferred as if it applied unchanged. It applies with greater force at a lower baseline, and the sign of the drop makes the clause unreachable at all. This was checked against the tier-120 verdict artifact; the first version of this comparison used a hard-coded threshold and mislabelled 1.15% as 'at or near 6-7%'. That superseded artifact is kept on disk as armB_tier300_seeds_verdict_superseded_nearness_bug.json and is not committed.",
+        "premise_held": false
+      },
       "measured": {
+        "least_favourable_seed": "20261103",
+        "least_favourable_seed_drop_pp": -2.6769,
+        "margin_pp": 5.0,
         "per_seed_drop_pp": {
           "20261103": -2.6769,
           "20261104": -2.3901,
           "20261105": -1.2429
         },
-        "least_favourable_seed": "20261103",
-        "least_favourable_seed_drop_pp": -2.6769,
         "seed_spread_drop_pp": 1.434,
         "seed_spread_session1_score_pp": 0.478,
-        "margin_pp": 5.0,
-        "undecidable_rule_fired": false,
-        "verdict": "FAIL at this tier",
         "session1_live_pct_range": {
           "all": [
             1.6252,
@@ -3288,8 +3444,14 @@
         "session1_live_pct_range_tier_120": {
           "max": 7.4519,
           "min": 6.25
-        }
+        },
+        "undecidable_rule_fired": false,
+        "verdict": "FAIL at this tier"
       },
+      "recorded_at": "2026-11-04T05:13:47Z",
+      "recorded_by": "agent, after arm B's three registered seeds at tier 300",
+      "rule_applied": "D-MPE8-06: H1 is carried by the least favourable seed, and if the observed seed spread exceeds the registered margin the claim is NOT DECIDABLE at this tier rather than passed. The margin itself is not adjusted. Applied here exactly as at tier 120, including which end of the drop counts as unfavourable.",
+      "scope": "H1's arm B clause at tier 300. hypotheses.H1's text and every threshold are byte-identical.",
       "the_sign_is_reversed": {
         "per_seed_drop_pp": {
           "20261103": -2.6769,
@@ -3298,212 +3460,20 @@
         },
         "reading": "every seed scores HIGHER at session 3 than at session 1 (+1.24 to +2.68 pp). Arm B does not forget at tier 300; it accumulates. H1's arm B clause asks for a drop of at least 5.0 pp, and the measured quantity has the opposite sign, so the clause fails at this tier for a different reason than it failed at tier 120 -- there, the drop was positive but too small."
       },
-      "interpretive_note_carried_from_tier_120": {
-        "as_asked": "carry the tier-120 note: if arm B's session-1 level at tier 300 is at or near its tier-120 level of 6-7 percent, say that a 5 pp margin cannot separate 'forgot' from 'never knew' at that level",
-        "as_measured": "Arm B's session-1 live rate at tier 300 is 1.15-1.63% of 1,046 asks, which is NOT at or near the 6.25-7.45% it reached at tier 120 -- it is roughly four to six times lower. The tier-120 note is therefore not transferred here as though it applied; it applies with greater force instead. H1's arm B clause asks arm B to drop BY at least 5.0 percentage points from a session-1 level of about 1.1%, and the measured drops are negative (-2.68, -2.39, -1.24 pp): the arm scores better at session 3 than at session 1. At an absolute level of 1-2% the margin cannot separate 'forgot' from 'never knew' -- there is almost nothing here to lose -- and a clause that requires a 5 pp fall cannot be satisfied by a curve that rises. H1's FAIL at tier 120 stands, the margin is left exactly as registered, and no tier was dropped.",
-        "premise_held": false,
-        "note": "the premise did NOT hold -- tier 300's session-1 level is 1.15-1.63%, four to six times below tier 120's -- so the note is not transferred as if it applied unchanged. It applies with greater force at a lower baseline, and the sign of the drop makes the clause unreachable at all. This was checked against the tier-120 verdict artifact; the first version of this comparison used a hard-coded threshold and mislabelled 1.15% as 'at or near 6-7%'. That superseded artifact is kept on disk as armB_tier300_seeds_verdict_superseded_nearness_bug.json and is not committed."
-      },
-      "H1_overall": "H1 requires BOTH tiers [120, 300] for its arm B clause. Tier 120: FAIL at this tier (least favourable drop 1.6827 pp). Tier 300: FAIL at this tier (least favourable drop -2.6769 pp). H1's arm A clause is separately falsified at tier 300 by a reproduced restart row (AMD-MPE8-13). The margin was not moved and no tier was dropped.",
-      "what_did_not_change": "the registered 5.0 pp minimum drop, the three-seed protocol, the least-favourable-seed rule and the NOT DECIDABLE trigger. No tier was dropped and H1's FAIL at tier 120 is not softened by anything in this record.",
-      "scope": "H1's arm B clause at tier 300. hypotheses.H1's text and every threshold are byte-identical."
+      "what_did_not_change": "the registered 5.0 pp minimum drop, the three-seed protocol, the least-favourable-seed rule and the NOT DECIDABLE trigger. No tier was dropped and H1's FAIL at tier 120 is not softened by anything in this record."
     },
     {
-      "id": "AMD-MPE8-16",
-      "recorded_at": "2026-11-04T06:24:58Z",
-      "recorded_by": "agent, at G2 close-out (decision.md written)",
-      "class": "Instrument-coverage and close-out record: what H4 could not be measured and why, the four curve figures, and the battery regression guard run once per arm. Changes no threshold, no margin, no tier, no tolerance cell, no abort condition.",
-      "h4_updates_half": {
-        "status": "NOT MEASURED",
-        "registered_quantity": "synapse update events per taught fact for arm A -- H4's comparison is registered 'in both updates and wall-clock', so both halves are required",
-        "why_not": "The organ exposes no counter for update events. Plastic-synapse counts (2,983 at build) are a STATE, not a rate. Counting events would mean instrumenting the write path, which is a Droso internal, and MP-E8's brief forbids modifying Droso internals during the run.",
-        "proxy_considered_and_rejected": {
-          "proxy": "diff plastic weights before and after a session",
-          "rejected_because": "It counts synapses whose VALUE differs, not UPDATE EVENTS: it cannot see an update that cancelled out, or three writes to one synapse, so it is not the registered quantity. Registered as considered-and-rejected rather than used, so the substitution is visible instead of silent."
-        },
-        "consequence_for_h4": "H4 CANNOT CLOSE. Wall-clock is measured for all three arms at all three tiers; the updates half is absent for arm A, so the registered 'both halves' comparison is not satisfiable with the instruments that exist. No wall-clock-only figure in decision.md implies this half was measured.",
-        "instrument_needed": "A per-taught-fact update-event counter on arm A's write path. That is a harness-side instrument request for the PI, not a mid-run code change."
-      },
-      "wall_clock_measured": {
-        "arm_A": {
-          "40": "481.3 s for 40 items -- quoted from the registration; the tier-40 artifact carries no timing block",
-          "120": {
-            "measured_minutes": 23.47,
-            "registered_projection_minutes": 24.1,
-            "error_vs_projection_pct": -2.6,
-            "projection_checked_not_reused": true
-          },
-          "300": {
-            "measured_minutes": 53.65,
-            "registered_projection_minutes": 60.2,
-            "error_vs_projection_pct": -10.88,
-            "projection_checked_not_reused": true,
-            "second_contact": "tier 120 measured -2.6% against its projection; this is the second data point for the item-linear scaling rule. Two points are a trend, not a proof, and the rule is still registered as a projection."
-          }
-        },
-        "arm_B": {
-          "120": {
-            "total_train_wall_clock_s": 35.1,
-            "total_optimizer_steps": 900,
-            "source_artifact_present": true
-          },
-          "300": {
-            "total_train_wall_clock_s": 165.731,
-            "total_optimizer_steps": 2340,
-            "source_artifact_present": true
-          },
-          "40": {
-            "total_train_wall_clock_s": 15.549,
-            "total_optimizer_steps": 360,
-            "source_artifact_present": true
-          }
-        },
-        "arm_C": {
-          "120": {
-            "total_train_wall_clock_s": 85.152,
-            "total_optimizer_steps": 900,
-            "source_artifact_present": true
-          },
-          "300": {
-            "total_train_wall_clock_s": 208.653,
-            "total_optimizer_steps": 2340,
-            "source_artifact_present": true
-          },
-          "40": {
-            "total_train_wall_clock_s": 36.738,
-            "total_optimizer_steps": 360,
-            "source_artifact_present": true
-          }
-        },
-        "comparability_limit": "Arm A's figure is a whole three-arm, three-depth bench run and arms B/C's are training loops, so the cost curve is reported PER ARM and not as a single ratio. Stated in decision.md section 7."
-      },
-      "four_curve_figures": {
-        "artifact": "experiments/MP-E8/results/curves_four_figures.json",
-        "produced_by": "_tmp/mp_e8_curves.py, reading the nine arm x tier artifacts",
-        "figures": [
-          "forgetting",
-          "interference",
-          "exposure",
-          "cost"
-        ],
-        "cross_tier_limit": "120->300 comparable; 40->120 CONFOUNDED by the regime break in confounds.cross_tier_comparability_regime_break -- tier 40 does not satisfy constraint (b) (8 asks use untaught content words) and 120/300 do. Nothing plots across that break as one line.",
-        "figures_that_cannot_be_drawn": {
-          "cost_updates_per_taught_fact_for_arm_A": {
-            "consequence": "H4's registered comparison is 'A_total < B_total at each tier, in BOTH updates and wall-clock'. Half of it has no instrument, so H4 is PARTIAL and cannot be closed by anything in this file.",
-            "status": "NOT MEASURED",
-            "what_was_done_instead": "No proxy is substituted. A before/after diff of plastic weights counts synapses whose VALUE differs, not UPDATE EVENTS, and cannot see an update that cancelled out or three writes to one synapse -- so it is not the registered quantity. Counting update events means instrumenting the write path, which is a Droso internal and the brief says do not modify Droso internals during the run.",
-            "why": "INSTRUMENT NEEDED: the organ exposes no counter for synapse updates per taught fact. Plastic synapses at build are 2,983 (battery provenance), which is a state, not a cost rate."
-          },
-          "interference_curve_for_arm_B_never_taught_slice": {
-            "status": "NOT SEPARABLE IN THE ARTIFACT",
-            "why": "arm B's artifact carries no distractor-population breakdown -- its summary is by_shape over the whole battery, and arm B has no abstention gate, so 'answered a never-taught row' and 'answered a taught row wrong' are the same event to it. Its whole-battery confabulation fields are reported above; the never-taught slice is not."
-          }
-        },
-        "headline_finding": "Arm B's restart retention is 100.0% at every tier and depth -- a restart changes its answer set not at all, because there is nothing there to lose. That is the capacity finding (session-1 live rate 1.15-7.45% at tiers 120/300) showing up inside the forgetting figure, not a separate result."
-      },
       "battery_regression_guard": {
-        "plan_step": "B.4 step 7 of MP-E8's checklist: 'run the frozen battery once per arm as the regression guard, ELECTRIC off'",
-        "what_once_per_arm_means_and_why": "0 of the 24 frozen ask rows carry a non-null `taught` context, so an arm cannot answer the battery without the house. The guard is therefore the HOUSE battery executed IN THE SAME PROCESS AS the arm's harness -- which is the risk it exists to catch, because arms B and C brought torch into this environment and torch can move house numerics without any test of the arm itself noticing.",
-        "first_attempt_failed_and_is_recorded": "The invocation recorded in MP-E9's sealed artifact reads --only {count-frequency,order-first-last,...}, which is bash BRACE EXPANSION. This machine has none, and run_generation.py:546 filters with `only in script['name']` -- a substring test. The comma-joined string matched 0 asks, the run built nothing, and publish() died on a journal that was never written. Kept in the record rather than quietly retried; the fix is chunking, one generation number per script family, merged by the grader -- which is what MP-E9's generations [9001..9006] actually were.",
-        "grader": "tools/mp_e9_battery.py, merging the six chunk journals and aborting if the chunks disagree on genome; ELECTRIC read from the journal's own provenance.code_flags, not asserted",
-        "registered_clause": "frozen 19/24, guarded 4/4 (MP-E9's H4 battery clause)",
-        "per_arm": {
-          "arm_B": {
-            "artifact": "experiments/MP-E8/results/battery_guard_armB.json",
-            "frozen": "19/24",
-            "guarded": "4/4",
-            "paraphrase": "0/14",
-            "asked_rows": 42,
-            "electric_off_verified": {
-              "measured": "off",
-              "pass": true
-            },
-            "code_flags": {
-              "electric_answer": false,
-              "electric_teach": false
-            },
-            "genome_id": "abffa2b7f101",
-            "frozen_lost_vs_baseline": [],
-            "frozen_gained_vs_baseline": [],
-            "h4_battery_clause_pass": true,
-            "arm_harness_imported_in_process": "tools.mp_e8_arm_b",
-            "provenance_of_the_run": {
-              "chunks": [
-                "state/selection/generation_9101_asks.jsonl",
-                "state/selection/generation_9102_asks.jsonl",
-                "state/selection/generation_9103_asks.jsonl",
-                "state/selection/generation_9104_asks.jsonl",
-                "state/selection/generation_9105_asks.jsonl",
-                "state/selection/generation_9106_asks.jsonl"
-              ],
-              "per_chunk_records": [
-                "_tmp/batt_chunk_9104.json",
-                "_tmp/batt_chunk_9105.json",
-                "_tmp/batt_chunk_9106.json"
-              ],
-              "first_three_B_chunks": "logged only in _tmp/batt_B.log; the loop that ran them died at chunk 4 when the agent's process was recycled at 2026-11-04T02:38:35Z, so no per-chunk JSON exists for 9101-9103",
-              "resumed_as": "one chunk per command, each writing its own provenance file before it exits",
-              "tree": "HEAD 8200abb for every chunk of both arms; the only modified tracked files were experiments/MP-E8/registration.json and tools/registration_seal.py, neither of which the battery's house path reads -- so the six chunks are one measurement by the grader's own criterion (it aborts if chunks disagree on genome) but not six calls inside one process"
-            }
-          },
-          "arm_C": {
-            "artifact": "experiments/MP-E8/results/battery_guard_armC.json",
-            "frozen": "19/24",
-            "guarded": "4/4",
-            "paraphrase": "0/14",
-            "asked_rows": 42,
-            "electric_off_verified": {
-              "measured": "off",
-              "pass": true
-            },
-            "code_flags": {
-              "electric_answer": false,
-              "electric_teach": false
-            },
-            "genome_id": "abffa2b7f101",
-            "frozen_lost_vs_baseline": [],
-            "frozen_gained_vs_baseline": [],
-            "h4_battery_clause_pass": true,
-            "arm_harness_imported_in_process": "tools.mp_e8_arm_c",
-            "provenance_of_the_run": {
-              "chunks": [
-                "state/selection/generation_9107_asks.jsonl",
-                "state/selection/generation_9108_asks.jsonl",
-                "state/selection/generation_9109_asks.jsonl",
-                "state/selection/generation_9110_asks.jsonl",
-                "state/selection/generation_9111_asks.jsonl",
-                "state/selection/generation_9112_asks.jsonl"
-              ],
-              "per_chunk_records": [
-                "_tmp/batt_chunk_9107.json",
-                "_tmp/batt_chunk_9108.json",
-                "_tmp/batt_chunk_9109.json",
-                "_tmp/batt_chunk_9110.json",
-                "_tmp/batt_chunk_9111.json",
-                "_tmp/batt_chunk_9112.json"
-              ],
-              "first_three_B_chunks": "logged only in _tmp/batt_B.log; the loop that ran them died at chunk 4 when the agent's process was recycled at 2026-11-04T02:38:35Z, so no per-chunk JSON exists for 9101-9103",
-              "resumed_as": "one chunk per command, each writing its own provenance file before it exits",
-              "tree": "HEAD 8200abb for every chunk of both arms; the only modified tracked files were experiments/MP-E8/registration.json and tools/registration_seal.py, neither of which the battery's house path reads -- so the six chunks are one measurement by the grader's own criterion (it aborts if chunks disagree on genome) but not six calls inside one process"
-            }
-          }
-        },
         "arm_A": {
           "artifact": "experiments/MP-E9/results/battery_pre_flag.json",
+          "electric": "off",
           "frozen": "19/24",
           "guarded": "4/4",
-          "electric": "off",
           "limitation": "MP-E9's sealed pre-flag artifact, measured on tree 5e1e663 BEFORE torch entered the environment. Arm A's reproducibility in the CURRENT environment is carried instead by noise_floor_reverification_newenv.json (0 and 0 rows differ outside R13's gated cell, 1 inside). The gap is named, not papered over."
         },
+        "first_attempt_failed_and_is_recorded": "The invocation recorded in MP-E9's sealed artifact reads --only {count-frequency,order-first-last,...}, which is bash BRACE EXPANSION. This machine has none, and run_generation.py:546 filters with `only in script['name']` -- a substring test. The comma-joined string matched 0 asks, the run built nothing, and publish() died on a journal that was never written. Kept in the record rather than quietly retried; the fix is chunking, one generation number per script family, merged by the grader -- which is what MP-E9's generations [9001..9006] actually were.",
+        "grader": "tools/mp_e9_battery.py, merging the six chunk journals and aborting if the chunks disagree on genome; ELECTRIC read from the journal's own provenance.code_flags, not asserted",
         "inertness_signal_measured": {
-          "baseline_sizes_from_mp_e9_provenance": {
-            "9001": 5341,
-            "9002": 6774,
-            "9003": 6563,
-            "9004": 7459,
-            "9005": 8697,
-            "9006": 4366
-          },
           "arm_B_sizes_measured": {
             "9101": 5341,
             "9102": 6776,
@@ -3520,27 +3490,211 @@
             "9111": 8697,
             "9112": 4366
           },
+          "baseline_sizes_from_mp_e9_provenance": {
+            "9001": 5341,
+            "9002": 6774,
+            "9003": 6563,
+            "9004": 7459,
+            "9005": 8697,
+            "9006": 4366
+          },
           "reading": "Arm B matches the sealed baseline on five of six chunks and differs by +2 bytes on order-first-last (6,776 vs 6,774); arm C matches on five of six and differs by -2 bytes on exact-repeat (7,457 vs 7,459). The differences are on different families and in opposite directions, so they are not a systematic shift -- and the journals cannot be diffed against the baseline at all, because MP-E9 deleted its own as scratch (journals_deleted_scratch_not_for_recheck), leaving only the recorded sizes.",
           "what_the_verdict_is_written_from": "NOT the byte sizes. The grader's frozen_lost_vs_baseline and frozen_gained_vs_baseline sets, empty for both arms, plus the 19/24 and 4/4 clause match. A size hint is reported at its strength."
-        }
+        },
+        "per_arm": {
+          "arm_B": {
+            "arm_harness_imported_in_process": "tools.mp_e8_arm_b",
+            "artifact": "experiments/MP-E8/results/battery_guard_armB.json",
+            "asked_rows": 42,
+            "code_flags": {
+              "electric_answer": false,
+              "electric_teach": false
+            },
+            "electric_off_verified": {
+              "measured": "off",
+              "pass": true
+            },
+            "frozen": "19/24",
+            "frozen_gained_vs_baseline": [],
+            "frozen_lost_vs_baseline": [],
+            "genome_id": "abffa2b7f101",
+            "guarded": "4/4",
+            "h4_battery_clause_pass": true,
+            "paraphrase": "0/14",
+            "provenance_of_the_run": {
+              "chunks": [
+                "state/selection/generation_9101_asks.jsonl",
+                "state/selection/generation_9102_asks.jsonl",
+                "state/selection/generation_9103_asks.jsonl",
+                "state/selection/generation_9104_asks.jsonl",
+                "state/selection/generation_9105_asks.jsonl",
+                "state/selection/generation_9106_asks.jsonl"
+              ],
+              "first_three_B_chunks": "logged only in _tmp/batt_B.log; the loop that ran them died at chunk 4 when the agent's process was recycled at 2026-11-04T02:38:35Z, so no per-chunk JSON exists for 9101-9103",
+              "per_chunk_records": [
+                "_tmp/batt_chunk_9104.json",
+                "_tmp/batt_chunk_9105.json",
+                "_tmp/batt_chunk_9106.json"
+              ],
+              "resumed_as": "one chunk per command, each writing its own provenance file before it exits",
+              "tree": "HEAD 8200abb for every chunk of both arms; the only modified tracked files were experiments/MP-E8/registration.json and tools/registration_seal.py, neither of which the battery's house path reads -- so the six chunks are one measurement by the grader's own criterion (it aborts if chunks disagree on genome) but not six calls inside one process"
+            }
+          },
+          "arm_C": {
+            "arm_harness_imported_in_process": "tools.mp_e8_arm_c",
+            "artifact": "experiments/MP-E8/results/battery_guard_armC.json",
+            "asked_rows": 42,
+            "code_flags": {
+              "electric_answer": false,
+              "electric_teach": false
+            },
+            "electric_off_verified": {
+              "measured": "off",
+              "pass": true
+            },
+            "frozen": "19/24",
+            "frozen_gained_vs_baseline": [],
+            "frozen_lost_vs_baseline": [],
+            "genome_id": "abffa2b7f101",
+            "guarded": "4/4",
+            "h4_battery_clause_pass": true,
+            "paraphrase": "0/14",
+            "provenance_of_the_run": {
+              "chunks": [
+                "state/selection/generation_9107_asks.jsonl",
+                "state/selection/generation_9108_asks.jsonl",
+                "state/selection/generation_9109_asks.jsonl",
+                "state/selection/generation_9110_asks.jsonl",
+                "state/selection/generation_9111_asks.jsonl",
+                "state/selection/generation_9112_asks.jsonl"
+              ],
+              "first_three_B_chunks": "logged only in _tmp/batt_B.log; the loop that ran them died at chunk 4 when the agent's process was recycled at 2026-11-04T02:38:35Z, so no per-chunk JSON exists for 9101-9103",
+              "per_chunk_records": [
+                "_tmp/batt_chunk_9107.json",
+                "_tmp/batt_chunk_9108.json",
+                "_tmp/batt_chunk_9109.json",
+                "_tmp/batt_chunk_9110.json",
+                "_tmp/batt_chunk_9111.json",
+                "_tmp/batt_chunk_9112.json"
+              ],
+              "resumed_as": "one chunk per command, each writing its own provenance file before it exits",
+              "tree": "HEAD 8200abb for every chunk of both arms; the only modified tracked files were experiments/MP-E8/registration.json and tools/registration_seal.py, neither of which the battery's house path reads -- so the six chunks are one measurement by the grader's own criterion (it aborts if chunks disagree on genome) but not six calls inside one process"
+            }
+          }
+        },
+        "plan_step": "B.4 step 7 of MP-E8's checklist: 'run the frozen battery once per arm as the regression guard, ELECTRIC off'",
+        "registered_clause": "frozen 19/24, guarded 4/4 (MP-E9's H4 battery clause)",
+        "what_once_per_arm_means_and_why": "0 of the 24 frozen ask rows carry a non-null `taught` context, so an arm cannot answer the battery without the house. The guard is therefore the HOUSE battery executed IN THE SAME PROCESS AS the arm's harness -- which is the risk it exists to catch, because arms B and C brought torch into this environment and torch can move house numerics without any test of the arm itself noticing."
       },
-      "t_and_n_at_tiers_120_and_300": {
-        "status": "NOT RUN, and named missing rather than glossed",
-        "what_exists": "arms.T and arms.N are registered and measured at tier 40 only",
-        "cost_if_bought": "Roughly 2.7 hours of exclusive wall-clock for three noise-floor clones at tier 300 (each clone is a full three-arm, three-depth bench run at ~54 min). Tier 120 adds about 1.2 h. The plan's step 5 asks for these controls and G2's wording names them.",
-        "why_not_run_here": "It cannot change H1's or H2's measured outcome: H1's arm B clause already fails on the least favourable seed at both required tiers, and H2's clauses are settled by attribution and by the clause-2 comparison. Buying 3.9 h of exclusive machine time for a control that cannot move a verdict is the PI's call, not an agent's.",
-        "registered_as": "a named-missing item in decision.md section 9"
-      },
+      "class": "Instrument-coverage and close-out record: what H4 could not be measured and why, the four curve figures, and the battery regression guard run once per arm. Changes no threshold, no margin, no tier, no tolerance cell, no abort condition.",
       "decision_md": {
         "path": "experiments/MP-E8/decision.md",
-        "what_it_verdicts": "H1 FAILS at both tiers differently; H1's arm A taught-set clause WITHDRAWN at tier 300 under D-MPE8-09; H2 clause 1 INSTRUMENTALLY UNDEFINED, clause 2 PASSES with the blanket-refusal limitation on its face; H3 NOT YET MEASURABLE; H4 PARTIAL; G2 does not pass and MP-E8 is not stalled.",
-        "status_line_and_table_agree": "The headline and the battery rows are filled from the same artifacts, so the document cannot claim a complete guard above a placeholder."
+        "status_line_and_table_agree": "The headline and the battery rows are filled from the same artifacts, so the document cannot claim a complete guard above a placeholder.",
+        "what_it_verdicts": "H1 FAILS at both tiers differently; H1's arm A taught-set clause WITHDRAWN at tier 300 under D-MPE8-09; H2 clause 1 INSTRUMENTALLY UNDEFINED, clause 2 PASSES with the blanket-refusal limitation on its face; H3 NOT YET MEASURABLE; H4 PARTIAL; G2 does not pass and MP-E8 is not stalled."
+      },
+      "four_curve_figures": {
+        "artifact": "experiments/MP-E8/results/curves_four_figures.json",
+        "cross_tier_limit": "120->300 comparable; 40->120 CONFOUNDED by the regime break in confounds.cross_tier_comparability_regime_break -- tier 40 does not satisfy constraint (b) (8 asks use untaught content words) and 120/300 do. Nothing plots across that break as one line.",
+        "figures": [
+          "forgetting",
+          "interference",
+          "exposure",
+          "cost"
+        ],
+        "figures_that_cannot_be_drawn": {
+          "cost_updates_per_taught_fact_for_arm_A": {
+            "consequence": "H4's registered comparison is 'A_total < B_total at each tier, in BOTH updates and wall-clock'. Half of it has no instrument, so H4 is PARTIAL and cannot be closed by anything in this file.",
+            "status": "NOT MEASURED",
+            "what_was_done_instead": "No proxy is substituted. A before/after diff of plastic weights counts synapses whose VALUE differs, not UPDATE EVENTS, and cannot see an update that cancelled out or three writes to one synapse -- so it is not the registered quantity. Counting update events means instrumenting the write path, which is a Droso internal and the brief says do not modify Droso internals during the run.",
+            "why": "INSTRUMENT NEEDED: the organ exposes no counter for synapse updates per taught fact. Plastic synapses at build are 2,983 (battery provenance), which is a state, not a cost rate."
+          },
+          "interference_curve_for_arm_B_never_taught_slice": {
+            "status": "NOT SEPARABLE IN THE ARTIFACT",
+            "why": "arm B's artifact carries no distractor-population breakdown -- its summary is by_shape over the whole battery, and arm B has no abstention gate, so 'answered a never-taught row' and 'answered a taught row wrong' are the same event to it. Its whole-battery confabulation fields are reported above; the never-taught slice is not."
+          }
+        },
+        "headline_finding": "Arm B's restart retention is 100.0% at every tier and depth -- a restart changes its answer set not at all, because there is nothing there to lose. That is the capacity finding (session-1 live rate 1.15-7.45% at tiers 120/300) showing up inside the forgetting figure, not a separate result.",
+        "produced_by": "_tmp/mp_e8_curves.py, reading the nine arm x tier artifacts"
+      },
+      "h4_updates_half": {
+        "consequence_for_h4": "H4 CANNOT CLOSE. Wall-clock is measured for all three arms at all three tiers; the updates half is absent for arm A, so the registered 'both halves' comparison is not satisfiable with the instruments that exist. No wall-clock-only figure in decision.md implies this half was measured.",
+        "instrument_needed": "A per-taught-fact update-event counter on arm A's write path. That is a harness-side instrument request for the PI, not a mid-run code change.",
+        "proxy_considered_and_rejected": {
+          "proxy": "diff plastic weights before and after a session",
+          "rejected_because": "It counts synapses whose VALUE differs, not UPDATE EVENTS: it cannot see an update that cancelled out, or three writes to one synapse, so it is not the registered quantity. Registered as considered-and-rejected rather than used, so the substitution is visible instead of silent."
+        },
+        "registered_quantity": "synapse update events per taught fact for arm A -- H4's comparison is registered 'in both updates and wall-clock', so both halves are required",
+        "status": "NOT MEASURED",
+        "why_not": "The organ exposes no counter for update events. Plastic-synapse counts (2,983 at build) are a STATE, not a rate. Counting events would mean instrumenting the write path, which is a Droso internal, and MP-E8's brief forbids modifying Droso internals during the run."
+      },
+      "id": "AMD-MPE8-16",
+      "recorded_at": "2026-11-04T06:24:58Z",
+      "recorded_by": "agent, at G2 close-out (decision.md written)",
+      "t_and_n_at_tiers_120_and_300": {
+        "cost_if_bought": "Roughly 2.7 hours of exclusive wall-clock for three noise-floor clones at tier 300 (each clone is a full three-arm, three-depth bench run at ~54 min). Tier 120 adds about 1.2 h. The plan's step 5 asks for these controls and G2's wording names them.",
+        "registered_as": "a named-missing item in decision.md section 9",
+        "status": "NOT RUN, and named missing rather than glossed",
+        "what_exists": "arms.T and arms.N are registered and measured at tier 40 only",
+        "why_not_run_here": "It cannot change H1's or H2's measured outcome: H1's arm B clause already fails on the least favourable seed at both required tiers, and H2's clauses are settled by attribution and by the clause-2 comparison. Buying 3.9 h of exclusive machine time for a control that cannot move a verdict is the PI's call, not an agent's."
+      },
+      "wall_clock_measured": {
+        "arm_A": {
+          "120": {
+            "error_vs_projection_pct": -2.6,
+            "measured_minutes": 23.47,
+            "projection_checked_not_reused": true,
+            "registered_projection_minutes": 24.1
+          },
+          "300": {
+            "error_vs_projection_pct": -10.88,
+            "measured_minutes": 53.65,
+            "projection_checked_not_reused": true,
+            "registered_projection_minutes": 60.2,
+            "second_contact": "tier 120 measured -2.6% against its projection; this is the second data point for the item-linear scaling rule. Two points are a trend, not a proof, and the rule is still registered as a projection."
+          },
+          "40": "481.3 s for 40 items -- quoted from the registration; the tier-40 artifact carries no timing block"
+        },
+        "arm_B": {
+          "120": {
+            "source_artifact_present": true,
+            "total_optimizer_steps": 900,
+            "total_train_wall_clock_s": 35.1
+          },
+          "300": {
+            "source_artifact_present": true,
+            "total_optimizer_steps": 2340,
+            "total_train_wall_clock_s": 165.731
+          },
+          "40": {
+            "source_artifact_present": true,
+            "total_optimizer_steps": 360,
+            "total_train_wall_clock_s": 15.549
+          }
+        },
+        "arm_C": {
+          "120": {
+            "source_artifact_present": true,
+            "total_optimizer_steps": 900,
+            "total_train_wall_clock_s": 85.152
+          },
+          "300": {
+            "source_artifact_present": true,
+            "total_optimizer_steps": 2340,
+            "total_train_wall_clock_s": 208.653
+          },
+          "40": {
+            "source_artifact_present": true,
+            "total_optimizer_steps": 360,
+            "total_train_wall_clock_s": 36.738
+          }
+        },
+        "comparability_limit": "Arm A's figure is a whole three-arm, three-depth bench run and arms B/C's are training loops, so the cost curve is reported PER ARM and not as a single ratio. Stated in decision.md section 7."
       },
       "what_did_not_change": {
-        "thresholds_margins_tiers_tolerances": "none -- this amendment records coverage and absence",
         "r13": "not edited; the non-reproducing C3 row is registered as restart-phase instability, the gap is D-MPE8-10",
         "seal_file_list": "tools/registration_seal.py DEFAULT_MANIFEST gained 17 entries including the two guard artifacts. Adding a line edits the sealing tool, so the suite's seal test reports one failure until the seal is re-stamped -- stamp ordering, not a defect (AMD-MPE8-10 precedent).",
-        "suite_manifest_torch_json": "left intact as the published record"
+        "suite_manifest_torch_json": "left intact as the published record",
+        "thresholds_margins_tiers_tolerances": "none -- this amendment records coverage and absence"
       }
     }
   ],
