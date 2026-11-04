@@ -365,6 +365,10 @@ DEFAULT_MANIFEST = [
     "docs/mp_e10_g3_decision_brief.md",
     "tools/mp_e10_replay_rule_probe.py",
     "experiments/MP-E10/results/replay_rule_saturation_probe.json",
+    # The consolidated PI brief, sealed for the same reason its predecessor was: a document that states costs
+    # and measured states gets quoted as evidence later. Every figure in it is read off an artifact on disk,
+    # and where a cost is not measured the brief says so rather than estimating one.
+    "docs/mp_e10_pi_decision_brief_consolidated.md",
     # MP-E12b as a DESIGN STEP only, under R4: stage b is not disjoint from Droso organs, so the parallel
     # track does not authorise building it. Sealed unimplemented, same reason as the H4 design step.
     "docs/mp_e12b_compiler_design_step.md",
