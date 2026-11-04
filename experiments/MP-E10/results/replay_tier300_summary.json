@@ -1,0 +1,232 @@
+{
+  "R6_guarded_probes": {
+    "measured_in_this_run": false,
+    "names": [
+      "P-numeral-final",
+      "R-count-moon",
+      "R-disj-reversed",
+      "R-order-ofthe"
+    ],
+    "status": "NOT MEASURED AT TIER 300. The replay run's argv is --arms learn --curriculum <tier300> --replay; the guarded battery is not part of that path, and the four names appear in this artifact nowhere. They are recorded in the ledger as names only. H3's clause says retention holds AT the invariant, so this cell is required and empty."
+  },
+  "bench_gate_failures": {
+    "baseline": 101,
+    "replayed": 92
+  },
+  "configurations_void_for_H3": [
+    "2",
+    "3"
+  ],
+  "consequence_of_the_guard": "H3 at tier 300 is VOID at depths 2 and 3 and scoreable only at depth 1. The 0.0000 pp interval may NOT be quoted as satisfying the clause: the guard fired because 72 entries were pushed to the 4.0 ceiling on the first pass at depth 2 and 252 at depth 3, and SUCCESSOR_FLOOR / SUCCESSOR_MARGIN are absolute gates, so the readout cannot be trusted. An unchanged tally from a run whose gates are saturated is not a null result; it is a result that was not obtainable.",
+  "hypothesis": "H3",
+  "margin_applied_pp": 2.0,
+  "margin_as_first_registered_pp": 5.0,
+  "margin_governance": "2.0 pp per PI ruling D-MPE10-04, made operative in this ledger by AMD-MPE10-02. Both values are reported per depth because for most of today the ledger carried the stale one in the block a scorer reads.",
+  "per_pass_ceiling_guard": {
+    "1": {
+      "ceiling_limited": false,
+      "passes_registered": 2,
+      "passes_run": 2,
+      "per_pass": [
+        {
+          "ceiling": 4.0,
+          "ceiling_limited": false,
+          "counters_advanced": false,
+          "entries_at_ceiling_before": 0,
+          "entries_pushed_to_ceiling_this_pass": 0,
+          "gain_used": 0.35,
+          "pairs_advanced": 13878,
+          "pairs_on_tape": 13878,
+          "pass": 1,
+          "sequences_learned_after": 140,
+          "transitions_after": 517,
+          "void_for_H3": false
+        },
+        {
+          "ceiling": 4.0,
+          "ceiling_limited": false,
+          "counters_advanced": false,
+          "entries_at_ceiling_before": 0,
+          "entries_pushed_to_ceiling_this_pass": 0,
+          "gain_used": 0.35,
+          "pairs_advanced": 13878,
+          "pairs_on_tape": 13878,
+          "pass": 2,
+          "sequences_learned_after": 140,
+          "transitions_after": 517,
+          "void_for_H3": false
+        }
+      ],
+      "predicted_max_accumulation_this_tier": 0.7,
+      "reason_void": "no entry reached the ceiling",
+      "void_for_H3": false
+    },
+    "2": {
+      "ceiling_limited": true,
+      "passes_registered": 2,
+      "passes_run": 1,
+      "per_pass": [
+        {
+          "ceiling": 4.0,
+          "ceiling_limited": true,
+          "counters_advanced": false,
+          "entries_at_ceiling_before": 0,
+          "entries_pushed_to_ceiling_this_pass": 72,
+          "gain_used": 0.35,
+          "pairs_advanced": 21162,
+          "pairs_on_tape": 21162,
+          "pass": 1,
+          "sequences_learned_after": 280,
+          "transitions_after": 1031,
+          "void_for_H3": true
+        }
+      ],
+      "predicted_max_accumulation_this_tier": 0.35,
+      "reason_void": "an entry reached the ceiling during a replay pass; SUCCESSOR_FLOOR and SUCCESSOR_MARGIN are absolute gates, so the readout cannot be trusted",
+      "void_for_H3": true
+    },
+    "3": {
+      "ceiling_limited": true,
+      "passes_registered": 2,
+      "passes_run": 1,
+      "per_pass": [
+        {
+          "ceiling": 4.0,
+          "ceiling_limited": true,
+          "counters_advanced": false,
+          "entries_at_ceiling_before": 156,
+          "entries_pushed_to_ceiling_this_pass": 252,
+          "gain_used": 0.35,
+          "pairs_advanced": 27732,
+          "pairs_on_tape": 27888,
+          "pass": 1,
+          "sequences_learned_after": 419,
+          "transitions_after": 1541,
+          "void_for_H3": true
+        }
+      ],
+      "predicted_max_accumulation_this_tier": 0.35,
+      "reason_void": "an entry reached the ceiling during a replay pass; SUCCESSOR_FLOOR and SUCCESSOR_MARGIN are absolute gates, so the readout cannot be trusted",
+      "void_for_H3": true
+    }
+  },
+  "provenance": {
+    "baseline_artifact": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+    "baseline_git_head": "73b6ade14f6271dbdc55fdd57046461b59be9619",
+    "baseline_started_utc": "2026-11-03T16:11:52Z",
+    "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+    "migration_artifact": "experiments/MP-E10/results/replay_tier300_row_migration.json",
+    "replayed_artifact": "experiments/MP-E10/results/replay_tier300_armA.json",
+    "replayed_git_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
+    "replayed_started_utc": "2026-11-04T12:39:45Z",
+    "same_curriculum_sha": true
+  },
+  "quantity_1_interference_interval": {
+    "as_a_range": "0.0000 to 0.0000 pp",
+    "baseline_triple_as_measured": [
+      291,
+      546,
+      785
+    ],
+    "by_depth": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 0.0
+    },
+    "condition_2_satisfied": "yes -- the interval is reported beside the verdict rather than collapsed into pass/fail, and it is 0.0000 pp at every depth",
+    "correct_triple_as_measured": [
+      291,
+      546,
+      785
+    ],
+    "identical_row_for_row_on_the_correct_count": true,
+    "rows_divided_by": 1046
+  },
+  "quantity_2_row_migration": {
+    "class_split": {
+      "distractor/unanswerable": 9,
+      "taught item": 242
+    },
+    "control_at_this_tier": "NOT RUN -- the replay-OFF control exists only at tier 120 (58 of 3222 rows moved there with no replay pass), so tier-300 migration cannot yet be separated from sealed-baseline drift",
+    "method": "row-level diff on the nine R13 identity fields, keyed (depth, phase, ask); the same code path runs for both tiers",
+    "n_rows_moved": 251,
+    "refused_by_phase": {
+      "1/live": {
+        "baseline": 721,
+        "delta": -7,
+        "replayed": 714
+      },
+      "1/reasked": {
+        "baseline": 652,
+        "delta": -8,
+        "replayed": 644
+      },
+      "1/restarted": {
+        "baseline": 720,
+        "delta": -11,
+        "replayed": 709
+      },
+      "2/live": {
+        "baseline": 451,
+        "delta": -18,
+        "replayed": 433
+      },
+      "2/reasked": {
+        "baseline": 438,
+        "delta": -23,
+        "replayed": 415
+      },
+      "2/restarted": {
+        "baseline": 443,
+        "delta": -30,
+        "replayed": 413
+      },
+      "3/live": {
+        "baseline": 215,
+        "delta": -25,
+        "replayed": 190
+      },
+      "3/reasked": {
+        "baseline": 202,
+        "delta": -49,
+        "replayed": 153
+      },
+      "3/restarted": {
+        "baseline": 211,
+        "delta": -52,
+        "replayed": 159
+      }
+    },
+    "rows_compared": 8199
+  },
+  "read_direction_D_MPE10_08": {
+    "measured_in_this_run": false,
+    "status": "NOT RECORDED IN THE TIER-300 ARTIFACT. The direction probe (earlier token recovers later: cosine -0.015555; later recovers earlier: 0.98591) exists only in ksweep_tier40_calibration_post_rulings.json -- tier 40, k-sweep. D-MPE10-08 requires every artifact to name the direction it read; this one does not, so the requirement is unmet for tier 300 rather than satisfied by tier 40's number.",
+    "tier_40_measurement_for_reference": "cosine earlier->later -0.015555, later->earlier 0.98591"
+  },
+  "tier": 300,
+  "verdict": "NOT ESTABLISHED AT TIER 300. Interference measured 0.0000-0.0000 pp against the operative 2.0 pp margin -- inside it, and also inside the stale 5.0 pp, so the margin ambiguity changed nothing here. But the saturation guard voided depths 2 and 3, the R6 invariant cell is empty at this tier, the read direction and ||w||_F required by D-MPE10-08 and D-MPE10-06 are absent from the artifact, and no tier-300 replay-OFF control exists to attribute the 251 moved rows. H3's tier is 300 by registration; the clause is unmet, and it is unmet on named missing measurements rather than on an adverse number.",
+  "void_for_H3_by_depth": {
+    "1": false,
+    "2": true,
+    "3": true
+  },
+  "weight_norm_D_MPE10_06": {
+    "measured_in_this_run": false,
+    "status": "NOT RECORDED AT TIER 300. ||w||_F against tokens pushed exists only at tier 40 (k=8: 2.7547, k=16: 4.2767, k=32: 6.7745, k=64: 11.2213 on a 64-token stream). D-MPE10-06 makes it a reported quantity in every artifact; this artifact has no such field, so the ruling is not yet honoured at this tier.",
+    "tier_40_reference": {
+      "16": 4.2767,
+      "32": 6.7745,
+      "64": 11.2213,
+      "8": 2.7547
+    }
+  },
+  "what_would_close_it": [
+    "re-run tier 300 with the ceiling guard satisfied (a gain or ceiling that keeps entries below 4.0), or accept depth 1 only and register that H3 is scored on a single depth",
+    "the four R6 guarded probes measured on the tier-300 organism",
+    "read direction named in the artifact, and ||w||_F against tokens pushed at tier 300",
+    "a replay-OFF control at tier 300, so migration is not read as treatment",
+    "D-MPE10-04 condition 3: clone noise re-measured at tier 300 and the margin re-derived by amendment, or the margin's tier-40 basis stated wherever the number is quoted"
+  ],
+  "written_at": "2026-11-04T18:01:46Z"
+}

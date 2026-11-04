@@ -105,8 +105,11 @@
     },
     "tier_300": {
       "consequence": "By the D-MPE10-05 saturation rule, a ceiling-limited configuration has no H3 number. H3 at tier 300 is therefore VOID at depths 2 and 3 and unmeasured-as-scoreable at depth 1 only. The 0.00 pp interval at this tier may NOT be quoted as satisfying the clause.",
+      "figures_corrected_at": "2026-11-04T18:01:46Z",
+      "figures_correction_reason": "the text retained in interference_interval_as_first_written quoted correct 292/548/784 and retention kept 80/129/176 / lost 0/3/9 / part 20/68/115. Neither triple matches any basis in either artifact: sum of by_shape, the 'correct' field, and a row-level count of cls==correct all give 291/546/785 for both the replayed run and the sealed baseline, with kept 79/129/176, lost 0/4/8, part 21/67/116. The identity claim itself was right -- replayed and baseline are equal -- so the verdict did not depend on the error; the quoted figures did. Retained under a superseded key rather than deleted (R5).",
       "guard": "THE GUARD FIRED AND VOIDED. Depth 1 clean (13,878 pairs advanced, no entry at ceiling). Depth 2: pass 1 pushed 72 entries to the 4.0 ceiling -> ceiling_limited, void_for_H3 TRUE, passes_run 1 (it stopped rather than accumulating into a void measurement). Depth 3: pass 1 pushed 252 entries to the ceiling -> void_for_H3 TRUE, passes_run 1.",
-      "interference_interval": "0.0000 pp at depths 1/2/3, divided by 1,046 rows compared (956 taught probes at depth 3); correct 292/548/784 identical to the same-tier unreplayed baseline; item-level retention identical (kept 80/129/176, lost 0/3/9, part 20/68/115).",
+      "interference_interval": "0.0000 pp at depths 1/2/3, divided by 1,046 rows compared (956 taught probes at depth 3); correct 291/546/785 identical to the same-tier unreplayed baseline 291/546/785; item-level retention identical (kept 79/129/176, lost 0/4/8, part 21/67/116).",
+      "interference_interval_as_first_written": "0.0000 pp at depths 1/2/3, divided by 1,046 rows compared (956 taught probes at depth 3); correct 292/548/784 identical to the same-tier unreplayed baseline; item-level retention identical (kept 80/129/176, lost 0/3/9, part 20/68/115).",
       "row_migration": "251 rows moved of 8199 compared: {'distractor/unanswerable': 9, 'taught item': 242}. refused -> partial dominates (11/30/53 at the restarted phase). Unlike tier 120, the distractor axis moved BOTH ways at depth 3: invented -> refused (2 restarted, 1 live) and refused -> invented (1 restarted, 4 reasked) -- the latter is the direction R6 and C1/C2 care about. Also 1 refused -> correct and 2 correct -> refused on taught rows at d3/reasked."
     },
     "why_two": "The registered H3 quantity is a tally of `correct` over rows at the clean restarted phase. A tally cannot see rows changing class without changing that count, so the protocol was run against a row-level diff on the nine R13 identity fields as well. Neither is adjusted to fit the other."
@@ -1868,10 +1871,26 @@
     },
     "H3": {
       "basis_for_the_5_0_pp": "the same margin MP-E8 registered for retention (metrics.H1), so the two gates are commensurable and one organism is not being judged by two different tolerances for the same kind of drift. It is NOT derived from any MP-E10 measurement, of which there are none. The PI may revise it, but only before a run is scored.",
-      "interference_margin_pp": 5.0,
+      "basis_key_retained_at_its_original_path": "the key name still says which value it belongs to, and the text was never edited: the 5.0 pp figure was a legitimate pre-registration on 2026-11-04 morning, derived from MP-E8's retention margin, and was superseded by a DERIVED ruling rather than found to be wrong. It is kept readable at its original path so a removal-diff stays empty.",
+      "consequence_of_the_two_values_having_been_live": "an interference result between 2.0 and 5.0 pp -- say 3.x pp -- PASSES the stale 5.0 and FAILS the ruling. While both values sat in this ledger, a scorer that read numeric_thresholds would have accepted a result the PI had already rejected, and the acceptance would have looked like a measurement, not a choice. No H3 result in the current record is in that band -- both tiers measured 0.0000 pp -- so no published verdict changes today. The exposure was prospective, and prospective exposure is exactly what a pre-registration is for.",
+      "derivation_of_the_operative_value": "clone disagreement 11 rows of 3,672 = 0.2996 pp (registered in MP-E8 arms.N, re-verified on the current tree as [0, 1, 0] rows with the single movement inside the R13 time-dependent cell); tier-40 interference 0 regressions over 3 cycles x 53 items = 159 exposures; rule of three gives a 95% upper bound of 3/159 = 1.887 pp on a zero-event rate; 2.0 pp is that bound rounded up, and is 6.7x the measured clone noise. Row equivalent at tier 40: 2.7 rows of the 136-row probe matrix.",
+      "interference_margin_pp": 2.0,
+      "margin_as_first_registered": 5.0,
+      "margin_audit_which_artifact_applied_what": {
+        "experiments/MP-E10/decision.md": "2.0 pp, in prose ('within 2.0 pp').",
+        "experiments/MP-E10/registration.json": "BOTH, before this amendment: numeric_thresholds.H3.interference_margin_pp = 5.0 and interference_protocol_step2.margin.value_pp = 2.0, plus the ruling at 2.0. A single ledger carrying two margins for one clause is the defect this amendment closes.",
+        "experiments/MP-E10/results/control_tier120_no_replay_armA.json": "NEITHER. No margin field; the '2.0' strings in it are item ids (tell2.0), not a threshold.",
+        "experiments/MP-E10/results/replay_tier120_armA.json": "NEITHER. Same: '2.0' occurrences are item ids, and the only 'margin' token in the tree-wide search that is not the interference margin is SUCCESSOR_MARGIN = 0.35, a ranking margin in replay_rule_saturation_probe.json -- a different quantity and not to be conflated.",
+        "experiments/MP-E10/results/replay_tier120_summary.json": "2.0 pp, applied and named in the key itself: H3_interference_by_depth.{1,2,3}.within_registered_margin_2pp, all true at 0.0 pp divided by 416 rows.",
+        "experiments/MP-E10/results/replay_tier300_armA.json": "NEITHER. It carries no margin field at all -- only the per-pass ceiling guard and void_for_H3. Its interference had to be computed from the sealed baseline, which is why the tier-300 verdict artifact is being written now.",
+        "tools/ and tests/": "no reader exists. findstr over tools/, tests/ and organs/ for interference_margin / within_registered_margin / value_pp returns nothing; the only numeric_thresholds readers are tools/mp_e9_battery.py and tools/mp_e9_gate.py, which read MP-E9's hypotheses.H*.numeric_thresholds, not this file. So the stale 5.0 was never executable -- but it was readable, and a future scorer would have read the wrong block."
+      },
+      "margin_condition_3_still_unspent": "D-MPE10-04 condition 3 requires the clone-noise input to be re-measured AT THE TIER BEING JUDGED and the margin re-derived BY AMENDMENT. The tier-300 clone set was declined for cost, so the 2.0 pp still rests on tier-40 data while judging a tier-300 claim. See d_mpe10_04_condition_3_unspent.",
       "retention_must_hold_at": "the R6 guarded battery, all four named probes still passing: P-numeral-final, R-count-moon, R-disj-reversed, R-order-ofthe. These are named rows, not a percentage; a 0.95/0.90 style threshold is NOT what R6 registers and was removed from this draft when the source was checked",
       "source": "section 6.3 defers to 'the pre-registered margin'; this registration is where it is pre-registered",
-      "tier_required": 300
+      "superseded_by": "AMD-MPE10-02, 2026-11-04T18:00:15Z, implementing PI ruling D-MPE10-04 (pi_rulings_2026_08_10['D-MPE10-04']). The 5.0 pp value is retained here under its old name and is NOT deleted (R5).",
+      "tier_required": 300,
+      "which_value_governs": "2.0 pp governs. It is the ruled value, it is DERIVED (clone disagreement 11 rows of 3,672 = 0.2996 pp; 0 regressions in 159 tier-40 exposures; rule-of-three 95% upper bound 3/159 = 1.887 pp, rounded up to 2.0), and it is the MORE demanding of the two. numeric_thresholds.H3 is the block a scorer reads, so the operative value is the one that must appear under the operative key."
     },
     "H4": {
       "invariants": {
@@ -2078,6 +2097,36 @@
       "evidence": "experiments/MP-E10/results/ksweep_tier40_calibration.json -- w_diagonal_mass_mean 3.679 at k=1 against -0.039 at every other k, measured on the tier-40 curriculum (sha 4b2ae5fa), 53 utterances, 7 k values, 0.237s",
       "id": "AMD-MPE10-01",
       "on_PI_ruling": "D-MPE10-07"
+    },
+    {
+      "additivity_proved_by": "_tmp/amend_h3_margin.py asserts every other top-level block byte-equal before writing, and the file is read back after",
+      "amends": "numeric_thresholds.H3.interference_margin_pp (5.0 -> 2.0, with 5.0 retained as margin_as_first_registered)",
+      "class": "reconciliation of two live values in one ledger; changes no threshold of its own",
+      "consequence_stated_plainly": "a 3.x pp interference result passes the stale 5.0 and fails the ruling's 2.0. Both tiers measured 0.0000 pp, so no verdict moves today.",
+      "date": "2026-11-04T18:00:15Z",
+      "id": "AMD-MPE10-02",
+      "margin_audit": {
+        "experiments/MP-E10/decision.md": "2.0 pp, in prose ('within 2.0 pp').",
+        "experiments/MP-E10/registration.json": "BOTH, before this amendment: numeric_thresholds.H3.interference_margin_pp = 5.0 and interference_protocol_step2.margin.value_pp = 2.0, plus the ruling at 2.0. A single ledger carrying two margins for one clause is the defect this amendment closes.",
+        "experiments/MP-E10/results/control_tier120_no_replay_armA.json": "NEITHER. No margin field; the '2.0' strings in it are item ids (tell2.0), not a threshold.",
+        "experiments/MP-E10/results/replay_tier120_armA.json": "NEITHER. Same: '2.0' occurrences are item ids, and the only 'margin' token in the tree-wide search that is not the interference margin is SUCCESSOR_MARGIN = 0.35, a ranking margin in replay_rule_saturation_probe.json -- a different quantity and not to be conflated.",
+        "experiments/MP-E10/results/replay_tier120_summary.json": "2.0 pp, applied and named in the key itself: H3_interference_by_depth.{1,2,3}.within_registered_margin_2pp, all true at 0.0 pp divided by 416 rows.",
+        "experiments/MP-E10/results/replay_tier300_armA.json": "NEITHER. It carries no margin field at all -- only the per-pass ceiling guard and void_for_H3. Its interference had to be computed from the sealed baseline, which is why the tier-300 verdict artifact is being written now.",
+        "tools/ and tests/": "no reader exists. findstr over tools/, tests/ and organs/ for interference_margin / within_registered_margin / value_pp returns nothing; the only numeric_thresholds readers are tools/mp_e9_battery.py and tools/mp_e9_gate.py, which read MP-E9's hypotheses.H*.numeric_thresholds, not this file. So the stale 5.0 was never executable -- but it was readable, and a future scorer would have read the wrong block."
+      },
+      "what_was_NOT_touched": "pi_rulings_2026_08_10['D-MPE10-04'] (a ruling is not edited to make a ledger consistent); the 5.0 value, retained under margin_as_first_registered with its basis text; open_decisions_at_install; interference_protocol_step2, which already said 2.0; every hypothesis and abort condition.",
+      "which_value_governs": "2.0 pp, per PI ruling D-MPE10-04",
+      "why_the_existing_disclaimer_did_not_cover_this": "the disclaimer is the key 'D-MPE10-04_interference_margin.snapshot_is_historical' inside result_quoting_guard_while_blocked, and its own text limits it to open_decisions_at_install -- 'a dated snapshot, deliberately not rewritten'. It says nothing about numeric_thresholds, which is the block a scorer reads. A disclaimer attached to a snapshot cannot shelter a live field."
+    },
+    {
+      "amends": "h3_two_quantities.tier_300.interference_interval (figures), and the creation of results/replay_tier300_summary.json as tier 300's own verdict artifact",
+      "class": "a quoted figure corrected against the artifacts it cites; no threshold changed",
+      "date": "2026-11-04T18:01:46Z",
+      "id": "AMD-MPE10-03",
+      "what_did_not_change": "the interference verdict (0.0000 pp), the identity claim, the void status at depths 2 and 3, and every threshold.",
+      "what_remains_missing_at_tier_300": "R6 guarded probes not measured on this run; read direction not named in the artifact; ||w||_F vs tokens pushed absent at this tier; no replay-OFF control at tier 300; D-MPE10-04 condition 3 unspent.",
+      "what_was_wrong": "292/548/784 and kept 80/129/176 / lost 0/3/9 / part 20/68/115 matched no basis. Measured: 291/546/785 and kept 79/129/176 / lost 0/4/8 / part 21/67/116, on all three bases, in both artifacts.",
+      "why_a_verdict_artifact_was_needed": "tier 120's H3 numbers live as fields in replay_tier120_summary.json; tier 300's lived only as prose in the ledger, and prose is what turned out to be wrong. The correction is that the numbers become fields computed from the artifacts by a script that asserts all three bases agree before writing."
     }
   ],
   "replay_gain_ruling": {

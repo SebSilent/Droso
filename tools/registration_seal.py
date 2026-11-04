@@ -395,6 +395,10 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E10/results/replay_tier300_row_migration.json",
     "experiments/MP-E10/results/control_tier120_no_replay_row_migration.json",
     "experiments/MP-E10/results/replay_tier300_armA.json",
+# Tier 300's own H3 verdict. It exists because tier 300 had no summary artifact and its numbers lived
+# only as ledger prose -- prose which quoted 292/548/784 against artifacts that say 291/546/785 on all
+# three bases. Fields computed from the artifacts, with the absent measurements named as absent.
+    "experiments/MP-E10/results/replay_tier300_summary.json",
     "experiments/MP-E10/results/control_tier120_no_replay_armA.json",
 
 # The inertness proof itself: additive diff, and byte-identity between the pre-edit module pulled from
