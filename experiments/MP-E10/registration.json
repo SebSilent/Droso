@@ -1505,6 +1505,13 @@
     "H4": "the invariants hold; regression on either is a hard reject under R6"
   },
   "identifier_collision_recorded": {
+    "amendment_proposal_2026_08_10": {
+      "history_untouched": "No existing row is renumbered in place: the 2026-11-04 rulings, the 2026-08-10 rulings and every quotation of 'D-MPE10-05' stay exactly as written (R5). The disambiguation text at each path is what a reader sees until the amendment is accepted, and the two allowlisted open-decision fields keep their current keys.",
+      "if_accepted": "Add a cross-reference row 'D-MPE10-09 = formerly D-MPE10-05_G2_is_not_closed' rather than editing the old keys.",
+      "proposed": "Renumber the G2-ORDERING question to D-MPE10-09 at the next amendment. The replay write path keeps D-MPE10-05, which is what the 2026-08-10 ruling answered.",
+      "status": "PROPOSED -- awaiting PI acceptance. NOT applied.",
+      "why": "Two questions have been carried under one number since the -05 ruling round. Every reader now has to re-derive which -05 a given sentence means, and last turn the ambiguity came within one careless edit of recording a ruling the PI never gave."
+    },
     "not_silently_merged": true,
     "recorded_at": "2026-08-10",
     "resolution_offered": "Renumber the G2-ordering question as D-MPE10-09 at the next amendment rather than re-labelling history now; the historical rows keep their numbers under R5, and the pointer text above is what a reader needs in the meantime.",
@@ -1546,7 +1553,8 @@
     "tiers": [
       120,
       300
-    ]
+    ],
+    "timed_tiers_gate": "BLOCKED on licensed_absence_intermittence, not on any definition. The protocol, the gain, the guard, the entry and the bench wiring are all landed; the tiers wait because the answer path they measure has an uncharacterised intermittent."
   },
   "k_sweep": {
     "anchored_on": {
@@ -1675,6 +1683,23 @@
     "what_it_establishes": "The trace behaves as a bounded activation record: fully-held fraction rises 0% -> 33.96% -> 100% across k=1,4,8 and saturates at the longest taught utterance (7 tokens); the oldest slot's weight is exactly decay**(k-1); and the state separates an utterance from its reversal (order_separation falls from 1.018 at k=1 to 0.571 once the window holds the sentence) while the bag-of-words comparator it replaces scores 0.0 separation by construction.",
     "what_the_sweep_actually_costs": "0.237s for the entire registered grid at tier 40. Calibration was never the expensive part of G3: the curriculum runs are. So the cost of running this sweep again after any organ decision is settled is negligible, and there is no reason to run 120/300 on an organ whose k semantics are still unresolved.",
     "what_was_not_done": "The sealed module was not edited. tools/mp_e10_working_memory.py is hashed in all four registrations' harness_hashes, and each finding changes what a registered quantity MEANS -- which is the class of change this repository has consistently routed to the PI rather than absorbing quietly (the sim_floor cells, the nearness bug, the H2 clause-2 basis)."
+  },
+  "licensed_absence_intermittence": {
+    "blast_radius": [
+      "any sealed evidence that quotes a `reason` string from the answer path",
+      "the trustworthiness of any '0 failures' manifest over the full suite",
+      "H1/H2/H3 scored runs, which all read this path"
+    ],
+    "hypothesis_1_refuted": "Ordering. There is no ordering plugin: pytest 9.1.1 with no pytest-randomly and no pytest-order, and my new test file sorts AFTER tests/test_electric_* alphabetically, so it cannot have changed what ran before the failing test.",
+    "hypothesis_2_refuted": "PYTHONHASHSEED alone. A direct pytest run at seed 6 failed once (and seeds 0-5,7 passed), but the IDENTICAL command failed to reproduce on the next attempt, and a bare-interpreter child under all eight seeds named the correct absence every time. So the flip is not a function of the seed.",
+    "registered_at": "2026-08-10",
+    "status": "OPEN -- NAMED, NOT CLOSED. Tiers 120/300 stay stopped on this.",
+    "test_pinned": "tests/test_licensed_absence_seed_dependence.py -- the safety property (never spoken, never from the arbiter head) is asserted under eight seeds unconditionally. The reproduction test is SKIPPED with this reason recorded, because a test that asserts a reproduction which does not hold manufactures a red or a green on demand.",
+    "the_failure": "tests/test_electric_fragment_guard.py::test_the_guard_returns_the_licensed_absence_instead_of_the_fragment, assert at line 89: `assert \"asking\" in str(out.get(\"reason\"))` -- got 'nothing he remembers has that shape'. One failing testcase in the pristine 1,331-test run at 88e6f8d (returncode 1). The fragment was still silenced (spoken=False, source != 'arbiter head') in every observation: the guard's SAFETY property held; only which licensed absence he NAMES moved.",
+    "tiers_gate": "Per the standing instruction -- do not run tier 120 on a tree whose covering suite has a failure. The covering manifest at 47a0e69 reports 0 failures but was taken while this defect was undiagnosed, so a green run here is necessary and not sufficient.",
+    "what_closing_it_needs": "A targeted hunt: run the file N times under varied seeds and contexts to estimate the flip rate, then make hit construction order-independent. The fix edits the answer path, which published evidence quotes, so it needs a PI ruling and a re-baseline, not an agent's unilateral edit.",
+    "what_is_left": "A genuine intermittent dependence on process context that I have not characterised. It is rare enough that two of my three probes missed it, which is exactly why a single green suite run is weak evidence here.",
+    "where_it_lives": "organs/neural_language.py:5401 emits 'nothing he remembers has that shape'; :5439 is the ask-licensed-absence branch. _arbitrate_shape (:4129) iterates `hits`, a LIST, so the flip is upstream of the arbiter, in how the candidate hits are built (`hits = kept`, :5387). Not located further this session."
   },
   "numeric_thresholds": {
     "H1": {
