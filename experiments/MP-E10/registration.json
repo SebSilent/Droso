@@ -539,6 +539,15 @@
         "sha256_lf": "7e62ec9830e55f22c35f47734d357e0dc71af5b65def5145bb8b436733ca3d4d",
         "sha256_of_git_blob": "7e62ec9830e55f22c35f47734d357e0dc71af5b65def5145bb8b436733ca3d4d"
       },
+      "experiments/MP-E10/results/tier300_named_measurements_closure_keyfix.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 55319,
+        "bytes_worktree": 55319,
+        "git_blob_sha1": "060b75fd916def9aeb712e26eafc710f50cd3c28",
+        "line_endings": "LF",
+        "sha256_lf": "56139860e70ec6756a12992931a94ecd06c5e6e7fef86858e07b421e6caf1507",
+        "sha256_of_git_blob": "56139860e70ec6756a12992931a94ecd06c5e6e7fef86858e07b421e6caf1507"
+      },
       "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 127745,
@@ -1612,12 +1621,12 @@
       },
       "tools/mp_e10_tier300_closure.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 39464,
-        "bytes_worktree": 40102,
-        "git_blob_sha1": "5f31a4239a578f0ac7cc90001cd072ee4090c599",
+        "bytes_blob": 42424,
+        "bytes_worktree": 43102,
+        "git_blob_sha1": "19ee2f9b7041dcd07d76ad022c66a22bd5d1da64",
         "line_endings": "CRLF",
-        "sha256_lf": "5c6e3550e12fb3ac5cc2cb619b19beaf74bc73755cd6c9d4a940d764214cbec2",
-        "sha256_of_git_blob": "5c6e3550e12fb3ac5cc2cb619b19beaf74bc73755cd6c9d4a940d764214cbec2"
+        "sha256_lf": "12cb6edeab741d6a758e1f8815f777d2426ef3483c789c89ffd9d301ef68971b",
+        "sha256_of_git_blob": "12cb6edeab741d6a758e1f8815f777d2426ef3483c789c89ffd9d301ef68971b"
       },
       "tools/mp_e10_working_memory.py": {
         "blob_equals_lf_normalised": true,
@@ -1720,12 +1729,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 53116,
-        "bytes_worktree": 53892,
-        "git_blob_sha1": "86d24f9addca4b987f202c442c4804de52877665",
+        "bytes_blob": 53716,
+        "bytes_worktree": 54498,
+        "git_blob_sha1": "af9e80a9cb4c4ae1284816029586e2fe407b8d45",
         "line_endings": "CRLF",
-        "sha256_lf": "2e80463f5a4b9fd866c15023d81d5f9b972e3d861c0a881f79a325c0f2bd09b3",
-        "sha256_of_git_blob": "2e80463f5a4b9fd866c15023d81d5f9b972e3d861c0a881f79a325c0f2bd09b3"
+        "sha256_lf": "0427b752d51715db04c095821a9510ab39f2f674cc05c15bc5022b250baeed7b",
+        "sha256_of_git_blob": "0427b752d51715db04c095821a9510ab39f2f674cc05c15bc5022b250baeed7b"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -1748,7 +1757,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "9c32029fab1c470c5c2b598124ee9766b8a7dce1",
+    "git_head": "cf5794b95aeb1943073ffb2040dcae9ce839d2e4",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -1775,7 +1784,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T20:22:04Z",
+    "sealed_at_utc": "2026-11-04T20:37:50Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -2352,18 +2361,18 @@
       "option_C_noted": "Replay through the plastic three-factor path (rate_core.py:580/:620, writing at :592/:629) is a DIFFERENT engram system and does not satisfy the plan's 'the same local rule that wrote the engrams' for sequence material. Not adopted.",
       "ruling": "Option A is DISQUALIFIED by the project's own measurement. Adopt B: a dedicated replay entry with a registered replay gain that advances NEITHER transitions NOR sequences_learned, so the teaching counters stay honest.",
       "saturation_guard_pre_registered": "REQUIRED, before any replay run. If ANY entry reaches the ceiling during a replay pass, that configuration is reported as CEILING-LIMITED and H3's interference number is VOID for it -- because SUCCESSOR_FLOOR 0.12 (sequence_organ.py:77) and SUCCESSOR_MARGIN 0.35 (:83) are ABSOLUTE gates that cannot survive a saturated store. The guard is a reporting rule, not a warning: a ceiling-limited run may not be scored.",
-      "status": "RULED.",
-      "the_counters_asymmetry_recorded_as_the_reason": "30 replay passes move sequences_learned +1,590 but transitions only +1,908 of the 6,360 an honest count would give -- because once nothing grows, `grew` is False and written stops accumulating. The counter that would reveal the drift is itself the one that saturates, so replay under A is not merely mis-counted: it is self-concealing.",
-      "what_this_unblocks": "B.4 step 2 now has an implementable form. It is an organ change on a live organ, so it carries the same inertness discipline as the H4 counter design step: the replay entry must not alter what a NON-replay run does, and `transitions` / `sequences_learned` must be provably untouched by replay.",
-      "why_A_is_disqualified": "A uniform translation that saturates at the 4.0 ceiling after 9 passes from the 3-cycle state (11 from a single cycle) and leaves distinct_weight_values = 1 at every pass, destroying exactly the ranking the readout needs. Measured in experiments/MP-E10/results/replay_rule_saturation_probe.json via tools/mp_e10_replay_rule_probe.py.",
       "scope_of_ruling": {
         "added": "2026-11-04T20:36:22Z",
-        "why": "A ruling block keyed 'D-MPE10-05' reading 'RULED.' is correct about ONE question and silent about the other, and this ledger has used that number for two questions. Read alone, the block makes the G2-ordering question look settled. It is not, and no summary is allowed to make a ledger say so.",
+        "status_of_the_ordering_question": "OPEN",
         "this_ruling_covers": "D-MPE10-05_replay_write_path ONLY -- which mechanism replay uses. Option A disqualified by measurement, option B adopted, saturation guard pre-registered.",
         "this_ruling_does_NOT_cover": "D-MPE10-05_G2_is_not_closed -- may MP-E10 run at all before G2 closes. NO PI RULING ON THAT QUESTION EXISTS AS OF THIS WRITE.",
         "verified_by": "grep of every tracked file for a ruling on the ordering question: the only two live statements of it are open_decisions_for_PI.D-MPE10-05_G2_is_not_closed and pi_decisions.decisions_left_open.D-MPE10-05_G2_is_not_closed, both reading 'STILL OPEN ... the PI has not ruled it'. identifier_collision_recorded names the same split. No tracked file asserts the ordering question is ruled.",
-        "status_of_the_ordering_question": "OPEN"
-      }
+        "why": "A ruling block keyed 'D-MPE10-05' reading 'RULED.' is correct about ONE question and silent about the other, and this ledger has used that number for two questions. Read alone, the block makes the G2-ordering question look settled. It is not, and no summary is allowed to make a ledger say so."
+      },
+      "status": "RULED.",
+      "the_counters_asymmetry_recorded_as_the_reason": "30 replay passes move sequences_learned +1,590 but transitions only +1,908 of the 6,360 an honest count would give -- because once nothing grows, `grew` is False and written stops accumulating. The counter that would reveal the drift is itself the one that saturates, so replay under A is not merely mis-counted: it is self-concealing.",
+      "what_this_unblocks": "B.4 step 2 now has an implementable form. It is an organ change on a live organ, so it carries the same inertness discipline as the H4 counter design step: the replay entry must not alter what a NON-replay run does, and `transitions` / `sequences_learned` must be provably untouched by replay.",
+      "why_A_is_disqualified": "A uniform translation that saturates at the 4.0 ceiling after 9 passes from the 3-cycle state (11 from a single cycle) and leaves distinct_weight_values = 1 at every pass, destroying exactly the ranking the readout needs. Measured in experiments/MP-E10/results/replay_rule_saturation_probe.json via tools/mp_e10_replay_rule_probe.py."
     },
     "basis_for_all_three": "docs/mp_e10_g3_decision_brief.md, and the sealed probe experiments/MP-E10/results/replay_rule_saturation_probe.json it cites. The brief was written to be ruled on: options, cost, the measured evidence that exists, and the gate clause that stays uncloseable while each decision is open.",
     "decision_brief_delivered": {
@@ -3266,7 +3275,7 @@
         "as_written": "edit DEFAULT_MANIFEST, re-stamp, THEN run the suite whose manifest you intend to seal.",
         "corrected_rule": "1) commit the tree the run will measure; 2) re-stamp so the seal is fresh at that commit and COMMIT THE STAMP; 3) run the suite ONCE to a new path; 4) commit the artifact; 5) add its path to DEFAULT_MANIFEST and re-stamp; 6) prove freshness by re-running the seal tests ALONE, never the whole suite again. The manifest is sealed after it is produced, not before.",
         "the_defect": "the rule seals a path BEFORE the artifact exists. tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous asserts in_index == total for every sealed path, and ::test_registration_head_contains_its_sealed_files asserts every sealed path is present in the registration's own git_head. A sealed-but-unproduced manifest fails both by construction, so the rule guarantees the run it mandates will report failures.",
-        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md §7.'",
+        "the_house_procedure_that_actually_governs": "quoted from the failing test's own docstring: 'run the suite once, write the result into the decision record, re-stamp, then re-run THIS test alone to prove the seal is fresh. The suite is never run twice to chase a total -- see decision.md \u00a77.'",
         "why_it_was_written": "to stop a run on an unstamped tree, which the seal tool's own comments record as producing an artifact that 'records a failure that is really a stamp'."
       },
       "what_was_NOT_done": "no test was edited, weakened or skipped to turn the run green; the suite was not run a second time to chase a total; the RED manifest is published at its own path and the earlier 1,333/0 record at 8b1e8d0 stays published (R5); no sealed number in this ledger moved."
@@ -3486,69 +3495,69 @@
       }
     },
     {
-      "id": "AMD-MPE10-10",
-      "date": "2026-11-04T20:36:22Z",
-      "class": "a named-not-fixed defect CLOSED by fixing the second instrument, re-issuing its artifact to a new path, and recording which artifact the attribution conclusion is taken from.",
       "amends": "AMD-MPE10-09's 'named_not_fixed' field, which recorded that tools/mp_e10_tier300_closure.py kept its own private copy of the collapsed key and left its sealed row_attribution reading 8,199. That entry named the gap and did not close it. This one closes it.",
+      "attribution_provenance": "The attribution conclusion -- that more rows move with replay OFF than ON, and that the matched pair's transitions are near-symmetric -- was taken from the five *_row_migration_keyfix.json artifacts (AMD-MPE10-09), NOT from the sealed closure artifact. The re-issued closure now agrees with those artifacts on one denominator, 9,414, and reproduces their counts exactly: 251, 302, 111 moved, 235 in both, 16 only-in-replay, 67 only-in-control.",
+      "class": "a named-not-fixed defect CLOSED by fixing the second instrument, re-issuing its artifact to a new path, and recording which artifact the attribution conclusion is taken from.",
+      "date": "2026-11-04T20:36:22Z",
+      "id": "AMD-MPE10-10",
+      "path_correction_recorded_here_too": "A path was stated in delivered prose as experiments/MP-E10/results_tier300_uniquekey/. No such path exists and no tracked file ever contained that string: grep of the whole repository for 'results_tier300_uniquekey', 'uniquekey', 'unique_key' and 'tier300_unique' returns zero matches. The real, sealed paths are the five *_row_migration_keyfix.json files named in AMD-MPE10-09's governing_path fields, and this program's record was never wrong -- only the prose describing it was. Recorded here rather than left as a chat correction so the next reader can check it.",
+      "re_issue": {
+        "control_wall_seconds_input": 1572.0,
+        "new_path": "experiments/MP-E10/results/tier300_named_measurements_closure_keyfix.json",
+        "sections_untouched": "a_r6_guarded_probes, b_read_direction, c_norm_vs_tokens_pushed and e_phase_basis_of_the_published_triples are byte-identical to the sealed artifact. Only section d changed. Verified by direct comparison, not assumed.",
+        "superseded_artifact_status": "SEALED, UNMODIFIED, superseded by reference under R5",
+        "superseded_path": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
+        "uniqueness_measured_in_the_re_issue": {
+          "baseline": "9414 / 9414",
+          "control": "9414 / 9414",
+          "replay": "9414 rows / 9414 keys"
+        },
+        "wall_clock_carried_forward": "26.2 min measured externally / 21.95 min bench-recorded learn arm -- the same measured inputs as the sealed artifact, not a re-measurement. The 53.65 min figure is MP-E8's FULL THREE-ARM tier-300 run and this control is one arm; the sealed artifact already says so and this one repeats it.",
+        "what_changed": {
+          "matched_pair_rows_compared": "8199 -> 9414",
+          "rows_compared_control_vs_baseline": "8199 -> 9414",
+          "rows_compared_replay_vs_baseline": "8199 -> 9414"
+        },
+        "what_did_NOT_change": {
+          "class_split_moved_in_both": {
+            "distractor/unanswerable": 5,
+            "taught item": 230
+          },
+          "class_split_moved_only_in_control": {
+            "distractor/unanswerable": 30,
+            "taught item": 37
+          },
+          "class_split_moved_only_in_replay": {
+            "distractor/unanswerable": 4,
+            "taught item": 12
+          },
+          "matched_pair_n_rows_moved": 111,
+          "moved_ONLY_in_control": 67,
+          "moved_ONLY_in_replay": 16,
+          "moved_in_BOTH": 235,
+          "moved_in_control_vs_baseline": 302,
+          "moved_in_replay_vs_baseline": 251
+        }
+      },
+      "seal": {
+        "manifest": "the re-issued closure path was added to DEFAULT_MANIFEST before the stamp that seals it",
+        "stamped_at": "see the stamp commit that follows; all five ledgers"
+      },
       "the_defect": {
-        "where": "tools/mp_e10_tier300_closure.py:75 (before this fix)",
+        "consequence": "primary_attribution_same_instrument.rows_compared and both row_attribution rows_compared fields read 8,199 while the governing migration artifacts read 9,414 -- two records of the same three runs disagreeing on the denominator, which is exactly the failure AMD-MPE10-08 was about.",
         "what": "a private learn_rows() keyed (depth, phase, ask) with last-write-wins, plus a P dict whose mig_replay / mig_control / mig_vs entries pointed at the three SUPERSEDED un-suffixed migration artifacts. So the closure record inherited the collapsed denominator twice over: from its own index and from its inputs.",
-        "consequence": "primary_attribution_same_instrument.rows_compared and both row_attribution rows_compared fields read 8,199 while the governing migration artifacts read 9,414 -- two records of the same three runs disagreeing on the denominator, which is exactly the failure AMD-MPE10-08 was about."
+        "where": "tools/mp_e10_tier300_closure.py:75 (before this fix)"
       },
       "the_fix": {
-        "instrument": "tools/mp_e10_tier300_closure.py",
-        "key_now": "IMPORTED from tools/mp_e10_row_migration.py (learn_rows, key_uniqueness, ROW_KEY_MODES), not copied. One definition of a row identity in this program, so the two records cannot drift apart again. The private copy was deleted rather than left as a fallback, because a second definition later in the file would have shadowed the import and restored the collapsed key with no edit that looked like a key change.",
+        "artifact_records_its_own_basis": "provenance.row_key carries mode, fields, key_uniqueness of all three runs it indexes, the migration inputs used and the superseded ones it no longer uses.",
         "inputs_now": [
           "experiments/MP-E10/results/300_row_migration_keyfix.json",
           "experiments/MP-E10/results/300ctl_row_migration_keyfix.json",
           "experiments/MP-E10/results/300_replay_vs_control_row_migration_keyfix.json"
         ],
-        "second_bug_found_and_fixed": "the overlap sets were built from mr['moved_keys'] on one side and from (depth, phase, ask) triples on the other. The keyfix artifacts record FIVE-field moved_keys, so intersecting a 5-tuple set against a 3-tuple set returns the empty set -- the closure would have published 'the two runs share no migrated row' as a finding, manufactured by a projection mismatch. Both sides now derive one canonical identity from moved_rows.",
-        "artifact_records_its_own_basis": "provenance.row_key carries mode, fields, key_uniqueness of all three runs it indexes, the migration inputs used and the superseded ones it no longer uses."
-      },
-      "re_issue": {
-        "new_path": "experiments/MP-E10/results/tier300_named_measurements_closure_keyfix.json",
-        "superseded_path": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
-        "superseded_artifact_status": "SEALED, UNMODIFIED, superseded by reference under R5",
-        "control_wall_seconds_input": 1572.0,
-        "wall_clock_carried_forward": "26.2 min measured externally / 21.95 min bench-recorded learn arm -- the same measured inputs as the sealed artifact, not a re-measurement. The 53.65 min figure is MP-E8's FULL THREE-ARM tier-300 run and this control is one arm; the sealed artifact already says so and this one repeats it.",
-        "what_changed": {
-          "matched_pair_rows_compared": "8199 -> 9414",
-          "rows_compared_replay_vs_baseline": "8199 -> 9414",
-          "rows_compared_control_vs_baseline": "8199 -> 9414"
-        },
-        "what_did_NOT_change": {
-          "matched_pair_n_rows_moved": 111,
-          "moved_in_replay_vs_baseline": 251,
-          "moved_in_control_vs_baseline": 302,
-          "moved_in_BOTH": 235,
-          "moved_ONLY_in_replay": 16,
-          "moved_ONLY_in_control": 67,
-          "class_split_moved_in_both": {
-            "taught item": 230,
-            "distractor/unanswerable": 5
-          },
-          "class_split_moved_only_in_control": {
-            "taught item": 37,
-            "distractor/unanswerable": 30
-          },
-          "class_split_moved_only_in_replay": {
-            "taught item": 12,
-            "distractor/unanswerable": 4
-          }
-        },
-        "sections_untouched": "a_r6_guarded_probes, b_read_direction, c_norm_vs_tokens_pushed and e_phase_basis_of_the_published_triples are byte-identical to the sealed artifact. Only section d changed. Verified by direct comparison, not assumed.",
-        "uniqueness_measured_in_the_re_issue": {
-          "replay": "9414 rows / 9414 keys",
-          "control": "9414 / 9414",
-          "baseline": "9414 / 9414"
-        }
-      },
-      "attribution_provenance": "The attribution conclusion -- that more rows move with replay OFF than ON, and that the matched pair's transitions are near-symmetric -- was taken from the five *_row_migration_keyfix.json artifacts (AMD-MPE10-09), NOT from the sealed closure artifact. The re-issued closure now agrees with those artifacts on one denominator, 9,414, and reproduces their counts exactly: 251, 302, 111 moved, 235 in both, 16 only-in-replay, 67 only-in-control.",
-      "path_correction_recorded_here_too": "A path was stated in delivered prose as experiments/MP-E10/results_tier300_uniquekey/. No such path exists and no tracked file ever contained that string: grep of the whole repository for 'results_tier300_uniquekey', 'uniquekey', 'unique_key' and 'tier300_unique' returns zero matches. The real, sealed paths are the five *_row_migration_keyfix.json files named in AMD-MPE10-09's governing_path fields, and this program's record was never wrong -- only the prose describing it was. Recorded here rather than left as a chat correction so the next reader can check it.",
-      "seal": {
-        "stamped_at": "see the stamp commit that follows; all five ledgers",
-        "manifest": "the re-issued closure path was added to DEFAULT_MANIFEST before the stamp that seals it"
+        "instrument": "tools/mp_e10_tier300_closure.py",
+        "key_now": "IMPORTED from tools/mp_e10_row_migration.py (learn_rows, key_uniqueness, ROW_KEY_MODES), not copied. One definition of a row identity in this program, so the two records cannot drift apart again. The private copy was deleted rather than left as a fallback, because a second definition later in the file would have shadowed the import and restored the collapsed key with no edit that looked like a key change.",
+        "second_bug_found_and_fixed": "the overlap sets were built from mr['moved_keys'] on one side and from (depth, phase, ask) triples on the other. The keyfix artifacts record FIVE-field moved_keys, so intersecting a 5-tuple set against a 3-tuple set returns the empty set -- the closure would have published 'the two runs share no migrated row' as a finding, manufactured by a projection mismatch. Both sides now derive one canonical identity from moved_rows."
       }
     }
   ],
