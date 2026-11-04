@@ -1343,7 +1343,10 @@
     "D-MPE10-02_name_the_fluency_scalar": "H2 says 'fluency improves' without a measure. Name the scalar.",
     "D-MPE10-03_confirm_primary_routing_variant": "variant (ii) carve/allowed_pools is registered primary on the plan's own words; confirm or swap before the first scored run.",
     "D-MPE10-04_interference_margin": "5.0 pp registered here by derivation from MP-E8's retention margin. Confirm or set another number before any replay is scored.",
-    "D-MPE10-05_G2_is_not_closed": "G3 opens while G2's evidence is incomplete. Whether MP-E10 may run before G2 closes is the PI's call; the plan's own ordering says 'the duel precedes the mouth because its tiers define the scale the mouth must consolidate'."
+    "D-MPE10-05_G2_is_not_closed": "G3 opens while G2's evidence is incomplete. Whether MP-E10 may run before G2 closes is the PI's call; the plan's own ordering says 'the duel precedes the mouth because its tiers define the scale the mouth must consolidate'.",
+    "D-MPE10-06_k_does_not_bound_the_fast_weight_store": "The registered k is the capacity of a working memory, but the organ's associative state w accumulates every adjacent pair until clear() and its norm is identical at k=2, k=8 and k=22. Either k is meant to bound only the activation trace -- in which case H1/H2's 'capacity k' needs restating -- or the organ must decay/trim w with the window. This is a design decision, not a tolerance, and it is a candidate additional blocker on scoring H1/H2 alongside D-MPE10-01/02.",
+    "D-MPE10-07_k1_in_the_registered_grid_measures_self_links": "push() reads prev as a numpy view of ring[(head-1) % k] and then writes ring[head]; at k=1 those are the same slot, so the recorded 'pair' is outer(v_i, v_i). Measured: diagonal mass 3.679 at k=1 against -0.039 (i.e. zero) at every other k. The grid's baseline point is therefore a different object from the rest of the grid. Options: drop k=1 from the grid, or copy prev before the write. Registered as an instrument defect, not fixed unilaterally.",
+    "D-MPE10-08_predecessor_or_successor_links": "outer(post, pre) means probing the later token recovers the earlier one (cosine 0.982) and probing the earlier does not recover the later (0.056). A working memory feeding next-token behaviour needs the other transpose. The registration does not say which direction H1/H2 assume; settling it before any scored run is cheaper than discovering it in a curve."
   },
   "open_suite": {
     "artifact": "experiments/MP-E8/results/suite_manifest_mpe10_open.json",
@@ -1400,7 +1403,7 @@
     "what_this_does_not_do": "It does not stop step 1's implementation or its unit tests, and it does not stop the k-sweep measurement itself -- the grid was registered before any treatment, so measuring it is not a post-hoc choice. It stops the QUOTING of a result as a hypothesis verdict.",
     "why": "H1's denominator (which four mouth stages) is D-MPE10-01 and H2's scalar (what 'fluency' means) is D-MPE10-02. Both are open. A working-memory result measured while those are undecided can be reported as an organ characterisation, but it cannot be quoted as evidence for or against H1 or H2, because the quantity it would be quoted on has no definition yet."
   },
-  "status": "OPEN. Checklist step 1 implemented and unit-tested (see working_memory_step1); the decayed trace, its k parameter, its bounded decay and its restart clearing exist as code with tests that pass. Nothing scored: no curriculum run, no tier, no hypothesis evaluated. H1 and H2 remain unscoreable while D-MPE10-01 and D-MPE10-02 are open, and result_quoting_guard_while_blocked stops any working-memory figure being quoted as their evidence. G2's evidence is closed out and G2 does not pass -- see experiments/MP-E8/decision.md -- and this registration does not imply otherwise about G3.",
+  "status": "OPEN. Checklist step 1 implemented and unit-tested (see working_memory_step1); the decayed trace, its k parameter, its bounded decay and its restart clearing exist as code with tests that pass. Nothing scored: no curriculum run, no tier, no hypothesis evaluated. H1 and H2 remain unscoreable while D-MPE10-01 and D-MPE10-02 are open, and result_quoting_guard_while_blocked stops any working-memory figure being quoted as their evidence. G2's evidence is closed out and G2 does not pass -- see experiments/MP-E8/decision.md -- and this registration does not imply otherwise about G3. G3 step 2 run: the registered k grid was swept at tier 40 as calibration (0.237s, artifact ksweep_tier40_calibration.json) and it found three properties of the sealed organ that were never registered -- D-MPE10-06, -07, -08. Still nothing scored; tiers 120 and 300 deliberately unrun until those are settled.",
   "stopping_rules": [
     "any C-condition fires: stop, report, do not re-run the same configuration and call the second run independent",
     "a threshold is found to be unscoreable after a run: record it as a defect, do not move it"
@@ -1428,5 +1431,80 @@
       "summary": ".......................                                                  [100%] | 23 passed in 0.19s"
     },
     "tests_in": "tests/test_mp_e10_working_memory.py"
+  },
+  "k_sweep_calibration_tier40": {
+    "recorded_at": "2026-11-04T07:28:30Z",
+    "artifact": "experiments/MP-E10/results/ksweep_tier40_calibration.json",
+    "checklist_step": "G3 step 2, run in the registered order: tests first (23 passed in 0.16s), then the sweep, alone, with nothing else timed on the machine.",
+    "measured": {
+      "wall_seconds_for_the_whole_sweep": 0.237,
+      "k_values": [
+        1,
+        2,
+        4,
+        8,
+        14,
+        16,
+        22
+      ],
+      "utterances": 53,
+      "tokens_total": 248,
+      "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
+      "tokens_per_utterance": {
+        "min": 3,
+        "max": 6,
+        "mean": 4.679
+      },
+      "fully_held_pct_by_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "4": 33.96,
+        "8": 100.0,
+        "14": 100.0,
+        "16": 100.0,
+        "22": 100.0
+      },
+      "oldest_weight_by_k": {
+        "1": 1.0,
+        "2": 0.5,
+        "4": 0.125,
+        "8": 0.0078125,
+        "14": 0.00012207,
+        "16": 3.052e-05,
+        "22": 4.8e-07
+      },
+      "w_diagonal_mass_by_k": {
+        "1": 3.679245,
+        "2": -0.039014,
+        "4": -0.039014,
+        "8": -0.039014,
+        "14": -0.039014,
+        "16": -0.039014,
+        "22": -0.039014
+      },
+      "order_separation_by_k": {
+        "1": 1.018078,
+        "2": 0.805563,
+        "4": 0.62513,
+        "8": 0.571263,
+        "14": 0.571263,
+        "16": 0.571263,
+        "22": 0.571263
+      },
+      "bag_of_words_order_separation": 0.0,
+      "git_head_at_sweep": "e2761e0609957905644a28851385766f2b975e00"
+    },
+    "what_the_sweep_actually_costs": "0.237s for the entire registered grid at tier 40. Calibration was never the expensive part of G3: the curriculum runs are. So the cost of running this sweep again after any organ decision is settled is negligible, and there is no reason to run 120/300 on an organ whose k semantics are still unresolved.",
+    "what_it_establishes": "The trace behaves as a bounded activation record: fully-held fraction rises 0% -> 33.96% -> 100% across k=1,4,8 and saturates at the longest taught utterance (7 tokens); the oldest slot's weight is exactly decay**(k-1); and the state separates an utterance from its reversal (order_separation falls from 1.018 at k=1 to 0.571 once the window holds the sentence) while the bag-of-words comparator it replaces scores 0.0 separation by construction.",
+    "what_it_does_not_establish": "Nothing about H1 or H2. The alignment columns are k-invariant for k>=2 by construction -- read() consults only the fast-weight state, which does not depend on k -- so they are one number printed seven times, not a sweep result, and the artifact says so in the row itself. And the token vectors are a deterministic hash stand-in, not Droso's SAN projections, so every figure is a property of the trace.",
+    "quoting_guard_still_holds": "No figure in this file may be quoted as evidence for or against H1 or H2 while those decisions are unresolved: H1's denominator and H2's scalar do not exist yet. This sweep does not resolve them either -- it says what the organ is, not how well Droso does.",
+    "three_findings_that_were_not_registered_properties_of_the_organ": {
+      "how_found": "By running the calibration the registration asked for. None of the 23 unit tests looked at any of these: they test decay bounds, restart clearing and the ring, and all three findings live in the part of the organ the tests do not probe.",
+      "1": "The fast-weight store is not bounded by k. The ring is bounded -- slots in use never exceeds k -- but ||w||_F is the same at k=2, k=8 and k=22 and grows with the NUMBER OF TOKENS PUSHED, not with k. The fast-weight state therefore has no capacity limit tied to k: it holds every adjacent pair the organ has ever seen until a restart. k bounds the activation trace, not the working memory as a whole.",
+      "2": "k=1, the first point of the registered grid, degenerates into self-links. No. At k=1 the state is exactly the sum of self-links and its diagonal mass is nonzero, while at k=2 and k=3 the diagonal mass is 0.0 and the state is the sum of adjacent pair-links. k=1 is the FIRST POINT OF THE REGISTERED GRID, so the grid's baseline is not a smaller version of the other points -- it is a different object.",
+      "3": "The store is a predecessor map, not a successor map. The store is a PREDECESSOR map: probing the later token returns the earlier one strongly, probing the earlier token does not return the later one. That is a coherent object, but it is the transpose of what a language-model working memory is normally asked to supply, and the registration does not say which one H1/H2 assume."
+    },
+    "what_was_not_done": "The sealed module was not edited. tools/mp_e10_working_memory.py is hashed in all four registrations' harness_hashes, and each finding changes what a registered quantity MEANS -- which is the class of change this repository has consistently routed to the PI rather than absorbing quietly (the sim_floor cells, the nearness bug, the H2 clause-2 basis).",
+    "next_step_is_not_120_or_300": "Tier 120 and tier 300 stay unrun. Not because of cost -- the sweep costs a quarter of a second -- but because a 'capacity-k arm' whose capacity bound does not apply to its own associative store is not the treatment the hypotheses name, and running the expensive tiers on it would produce numbers that cannot be attributed to anything."
   }
 }

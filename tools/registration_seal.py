@@ -328,6 +328,10 @@ DEFAULT_MANIFEST = [
     # record stays published, so both runs have to be under the seal or the ledger attests one version
     # of a pair whose whole point is that neither was quietly replaced.
     "experiments/MP-E8/results/suite_manifest_mpe10_open.json",
+    # G3 step 2's output. It is an ORGAN CHARACTERISATION rather than a scored run, and it is sealed all
+    # the same: three findings about the sealed module came out of it, and a record that changes what the
+    # next experiment should do is exactly the kind of thing that must not be editable after the fact.
+    "experiments/MP-E10/results/ksweep_tier40_calibration.json",
 ]
 
 

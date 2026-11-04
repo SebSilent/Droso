@@ -1,0 +1,282 @@
+{
+  "experiment": "MP-E10",
+  "artifact": "ksweep_tier40_calibration",
+  "schema": 2,
+  "kind": "ORGAN CHARACTERISATION. Not a scored run, not a hypothesis verdict. No curriculum session was taught to any arm, no bench was run, no tier-120 or tier-300 number appears.",
+  "generated_at_utc": "2026-11-04T07:27:27Z",
+  "quoting_guard_attached": {
+    "rule_source": "experiments/MP-E10/registration.json -> result_quoting_guard_while_blocked",
+    "blocking_decisions_open": [
+      "D-MPE10-01_name_the_four_mouth_stages",
+      "D-MPE10-02_name_the_fluency_scalar",
+      "D-MPE10-03_confirm_primary_routing_variant",
+      "D-MPE10-04_interference_margin",
+      "D-MPE10-05_G2_is_not_closed"
+    ],
+    "meaning": "No figure in this file may be quoted as evidence for or against H1 or H2 while those decisions are unresolved: H1's denominator and H2's scalar do not exist yet. This sweep does not resolve them either -- it says what the organ is, not how well Droso does."
+  },
+  "input": {
+    "curriculum": "experiments/MP-E8/curriculum_tier40.json",
+    "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
+    "n_items": 40,
+    "utterances_parsed": 53,
+    "by_kind": {
+      "qa_answer": 16,
+      "qa_question": 16,
+      "tell_frame": 21
+    },
+    "tokens_per_utterance": {
+      "min": 3,
+      "max": 6,
+      "mean": 4.679
+    },
+    "why_this_is_the_calibration_tier": "Tier 40 is the only tier whose regime matches MP-E9's sealed baseline, and 40->120 is confounded by the regime break in MP-E8's confounds, so nothing here is a curve point."
+  },
+  "token_vectors_are_a_stand_in": "Deterministic sha256-seeded unit vectors, dim 64. Every figure is a property of the trace, not of Droso's SAN. To make it a property of Droso the same sweep must run over the organ's real projections.",
+  "registered_grid": [
+    1,
+    2,
+    4,
+    8,
+    14,
+    16,
+    22
+  ],
+  "sweep": [
+    {
+      "k": 1,
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 1.0,
+      "oldest_weight_measured_mean": 1.0,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 0,
+      "utterances_fully_held_pct": 0.0,
+      "tokens_dropped_beyond_window": 195,
+      "state_norm_mean": 1.0,
+      "probe_earlier_recovers_later_cosine_mean": -0.022588,
+      "probe_later_recovers_earlier_cosine_mean": -0.017912,
+      "direction_asymmetry_pp": 0.4676,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": 3.679245,
+      "w_frobenius_norm_mean": 1.953747,
+      "order_separation_vs_reversed_utterance_mean": 1.018078,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 2,
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.5,
+      "oldest_weight_measured_mean": 0.5,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 0,
+      "utterances_fully_held_pct": 0.0,
+      "tokens_dropped_beyond_window": 142,
+      "state_norm_mean": 1.105221,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.805563,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 4,
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.125,
+      "oldest_weight_measured_mean": 0.127358,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 18,
+      "utterances_fully_held_pct": 33.96,
+      "tokens_dropped_beyond_window": 37,
+      "state_norm_mean": 1.133097,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.62513,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 8,
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.0078125,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 14,
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 0.00012207,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 16,
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 3.052e-05,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    },
+    {
+      "k": 22,
+      "decay_per_step": 0.5,
+      "oldest_weight_at_this_k": 4.8e-07,
+      "oldest_weight_measured_mean": 0.084906,
+      "utterances": 53,
+      "tokens_total": 248,
+      "utterances_fully_held": 53,
+      "utterances_fully_held_pct": 100.0,
+      "tokens_dropped_beyond_window": 0,
+      "state_norm_mean": 1.147509,
+      "probe_earlier_recovers_later_cosine_mean": 0.055756,
+      "probe_later_recovers_earlier_cosine_mean": 0.9817,
+      "direction_asymmetry_pp": 92.5944,
+      "these_two_columns_are_k_invariant_for_k_ge_2_by_construction": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see boundedness_probe. They are NOT a k-sweep result; they are one number printed seven times, and saying so is the difference between a measurement and a table.",
+      "w_diagonal_mass_mean": -0.039014,
+      "w_frobenius_norm_mean": 1.903436,
+      "order_separation_vs_reversed_utterance_mean": 0.571263,
+      "bag_of_words_order_separation_mean": 0.0
+    }
+  ],
+  "defects_found_by_this_sweep": {
+    "summary": "Three properties of the sealed organ, each measured rather than argued. None is fixed in this run; all three are registered as open decisions for the PI, because each changes what a registered quantity means.",
+    "1_fast_weight_store_is_not_bounded_by_k": {
+      "question": "Is the associative store bounded by k, or does it accumulate every adjacency ever pushed until clear()?",
+      "same_stream_64_tokens_at_four_values_of_k": [
+        {
+          "k": 1,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 1,
+          "n_pushed": 64,
+          "w_frobenius_norm": 11.2213,
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        },
+        {
+          "k": 2,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 2,
+          "n_pushed": 64,
+          "w_frobenius_norm": 7.824,
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        },
+        {
+          "k": 8,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 8,
+          "n_pushed": 64,
+          "w_frobenius_norm": 7.824,
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        },
+        {
+          "k": 22,
+          "tokens_pushed": 64,
+          "ring_slots_in_use": 22,
+          "n_pushed": 64,
+          "w_frobenius_norm": 7.824,
+          "w_nonzero_rows": 64,
+          "adjacent_pairs_in_stream": 63
+        }
+      ],
+      "answer_as_measured": "The ring is bounded -- slots in use never exceeds k -- but ||w||_F is the same at k=2, k=8 and k=22 and grows with the NUMBER OF TOKENS PUSHED, not with k. The fast-weight state therefore has no capacity limit tied to k: it holds every adjacent pair the organ has ever seen until a restart. k bounds the activation trace, not the working memory as a whole.",
+      "why_this_matters_for_the_registered_hypotheses": "MP-E10's k is registered as the capacity of a working memory. If the associative store is unbounded, a 'capacity-k' arm is not a capacity-k arm, and H1/H2 would be scored against a treatment that does not match its name. This is a design question for the PI, not a tolerance to widen."
+    },
+    "2_registered_grid_point_k1_degenerates_to_self_links": {
+      "question": "The module's docstring says self-links are excluded by construction, because the state is outer(post, pre). Is that true at k=1?",
+      "mechanism": "push() takes `prev = self.ring[(head-1) % k]` -- a numpy VIEW -- and then writes `self.ring[head] = v`. At k=1, (head-1) % 1 == head, so prev aliases the slot being overwritten and is the NEW vector by the time outer(v, prev) is evaluated. The 'pair' recorded at k=1 is outer(v_i, v_i), a self-link.",
+      "measured": {
+        "1": {
+          "w_equals_sum_of_self_links": true,
+          "w_equals_sum_of_adjacent_pair_links": false,
+          "diagonal_mass": 5.0,
+          "offdiag_frobenius": 2.1396
+        },
+        "2": {
+          "w_equals_sum_of_self_links": false,
+          "w_equals_sum_of_adjacent_pair_links": true,
+          "diagonal_mass": -0.3827,
+          "offdiag_frobenius": 2.229
+        },
+        "3": {
+          "w_equals_sum_of_self_links": false,
+          "w_equals_sum_of_adjacent_pair_links": true,
+          "diagonal_mass": -0.3827,
+          "offdiag_frobenius": 2.229
+        }
+      },
+      "answer_as_measured": "No. At k=1 the state is exactly the sum of self-links and its diagonal mass is nonzero, while at k=2 and k=3 the diagonal mass is 0.0 and the state is the sum of adjacent pair-links. k=1 is the FIRST POINT OF THE REGISTERED GRID, so the grid's baseline is not a smaller version of the other points -- it is a different object.",
+      "what_was_NOT_done_about_it": "The module was not edited. It is a sealed instrument, hashed in every registration's harness_hashes, and a fix that changes what k=1 means is a design change, not a typo repair. It is registered as an open decision for the PI."
+    },
+    "3_the_store_is_a_predecessor_map_not_a_successor_map": {
+      "question": "outer(post, pre) maps which way? A next-token predictor needs the forward link.",
+      "measured": {
+        "probe_the_earlier_token_recovers_the_later_cosine": -0.015555,
+        "probe_the_later_token_recovers_the_earlier_cosine": 0.98591
+      },
+      "answer_as_measured": "The store is a PREDECESSOR map: probing the later token returns the earlier one strongly, probing the earlier token does not return the later one. That is a coherent object, but it is the transpose of what a language-model working memory is normally asked to supply, and the registration does not say which one H1/H2 assume."
+    }
+  },
+  "reading": {
+    "what_to_look_for": "utterances_fully_held_pct rises with k and saturates at the longest utterance (7 tokens), which is the only genuinely k-dependent capacity number in the table; w_diagonal_mass_mean is the detector for the k=1 degeneracy; direction_asymmetry_pp is the point of the organ -- a link that does not run backwards, which a bag of words cannot have at all.",
+    "bag_of_words_order_separation_mean_is_zero_by_construction": "unigram_context is a mean over tokens, so an utterance and its reverse give the identical vector. That is the thing being replaced, measured.",
+    "what_is_NOT_established": "No claim that this organ helps a language model. The alignment columns say the trace has directional links; whether those links improve anything is H1/H2 territory and is blocked by the two open decisions."
+  },
+  "provenance": {
+    "module": "tools/mp_e10_working_memory.py",
+    "driver": "_tmp/mp_e10_ksweep_t40.py",
+    "git_head": "e2761e0609957905644a28851385766f2b975e00",
+    "python": "3.12.10",
+    "numpy": "2.5.4",
+    "decay_per_step": 0.5,
+    "dim": 64,
+    "wall_seconds": 0.237
+  }
+}
