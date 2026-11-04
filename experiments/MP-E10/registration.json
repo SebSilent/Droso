@@ -147,6 +147,15 @@
         "sha256_lf": "09e1647b2c66d96e2f2fefa4bdf84dc99f4a133f894dd742411e17a969389e48",
         "sha256_of_git_blob": "09e1647b2c66d96e2f2fefa4bdf84dc99f4a133f894dd742411e17a969389e48"
       },
+      "experiments/MP-E10/results/ksweep_tier40_calibration.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 15034,
+        "bytes_worktree": 15034,
+        "git_blob_sha1": "862c9ef17ca0b12645489081c41ae4a5b5564b5d",
+        "line_endings": "LF",
+        "sha256_lf": "bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876",
+        "sha256_of_git_blob": "bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876"
+      },
       "experiments/MP-E8/curriculum_tier120.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 18049,
@@ -1184,12 +1193,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 41481,
-        "bytes_worktree": 42118,
-        "git_blob_sha1": "4b93a491a40cfc850c16d3e631ef049b0bbea66b",
+        "bytes_blob": 41860,
+        "bytes_worktree": 42501,
+        "git_blob_sha1": "eeafa16fb55136c1084abf28acce4ec2c0c1a450",
         "line_endings": "CRLF",
-        "sha256_lf": "7fc8a4876e2203626ea143b237819d4a46f750f05f4da61aac7ccacecd498992",
-        "sha256_of_git_blob": "7fc8a4876e2203626ea143b237819d4a46f750f05f4da61aac7ccacecd498992"
+        "sha256_lf": "0359428f1e858add3327d28e87b79989f05651b6cc4395e2fe414de0aea54b6a",
+        "sha256_of_git_blob": "0359428f1e858add3327d28e87b79989f05651b6cc4395e2fe414de0aea54b6a"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -1212,7 +1221,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "64977b62bc36441d45c63ea650c94fcf7733268d",
+    "git_head": "46ecca75459ce27328b381cb69c91c8473742f5c",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -1238,7 +1247,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T07:20:27Z",
+    "sealed_at_utc": "2026-11-04T07:29:35Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -1296,6 +1305,81 @@
       16,
       22
     ]
+  },
+  "k_sweep_calibration_tier40": {
+    "artifact": "experiments/MP-E10/results/ksweep_tier40_calibration.json",
+    "checklist_step": "G3 step 2, run in the registered order: tests first (23 passed in 0.16s), then the sweep, alone, with nothing else timed on the machine.",
+    "measured": {
+      "bag_of_words_order_separation": 0.0,
+      "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
+      "fully_held_pct_by_k": {
+        "1": 0.0,
+        "14": 100.0,
+        "16": 100.0,
+        "2": 0.0,
+        "22": 100.0,
+        "4": 33.96,
+        "8": 100.0
+      },
+      "git_head_at_sweep": "e2761e0609957905644a28851385766f2b975e00",
+      "k_values": [
+        1,
+        2,
+        4,
+        8,
+        14,
+        16,
+        22
+      ],
+      "oldest_weight_by_k": {
+        "1": 1.0,
+        "14": 0.00012207,
+        "16": 3.052e-05,
+        "2": 0.5,
+        "22": 4.8e-07,
+        "4": 0.125,
+        "8": 0.0078125
+      },
+      "order_separation_by_k": {
+        "1": 1.018078,
+        "14": 0.571263,
+        "16": 0.571263,
+        "2": 0.805563,
+        "22": 0.571263,
+        "4": 0.62513,
+        "8": 0.571263
+      },
+      "tokens_per_utterance": {
+        "max": 6,
+        "mean": 4.679,
+        "min": 3
+      },
+      "tokens_total": 248,
+      "utterances": 53,
+      "w_diagonal_mass_by_k": {
+        "1": 3.679245,
+        "14": -0.039014,
+        "16": -0.039014,
+        "2": -0.039014,
+        "22": -0.039014,
+        "4": -0.039014,
+        "8": -0.039014
+      },
+      "wall_seconds_for_the_whole_sweep": 0.237
+    },
+    "next_step_is_not_120_or_300": "Tier 120 and tier 300 stay unrun. Not because of cost -- the sweep costs a quarter of a second -- but because a 'capacity-k arm' whose capacity bound does not apply to its own associative store is not the treatment the hypotheses name, and running the expensive tiers on it would produce numbers that cannot be attributed to anything.",
+    "quoting_guard_still_holds": "No figure in this file may be quoted as evidence for or against H1 or H2 while those decisions are unresolved: H1's denominator and H2's scalar do not exist yet. This sweep does not resolve them either -- it says what the organ is, not how well Droso does.",
+    "recorded_at": "2026-11-04T07:28:30Z",
+    "three_findings_that_were_not_registered_properties_of_the_organ": {
+      "1": "The fast-weight store is not bounded by k. The ring is bounded -- slots in use never exceeds k -- but ||w||_F is the same at k=2, k=8 and k=22 and grows with the NUMBER OF TOKENS PUSHED, not with k. The fast-weight state therefore has no capacity limit tied to k: it holds every adjacent pair the organ has ever seen until a restart. k bounds the activation trace, not the working memory as a whole.",
+      "2": "k=1, the first point of the registered grid, degenerates into self-links. No. At k=1 the state is exactly the sum of self-links and its diagonal mass is nonzero, while at k=2 and k=3 the diagonal mass is 0.0 and the state is the sum of adjacent pair-links. k=1 is the FIRST POINT OF THE REGISTERED GRID, so the grid's baseline is not a smaller version of the other points -- it is a different object.",
+      "3": "The store is a predecessor map, not a successor map. The store is a PREDECESSOR map: probing the later token returns the earlier one strongly, probing the earlier token does not return the later one. That is a coherent object, but it is the transpose of what a language-model working memory is normally asked to supply, and the registration does not say which one H1/H2 assume.",
+      "how_found": "By running the calibration the registration asked for. None of the 23 unit tests looked at any of these: they test decay bounds, restart clearing and the ring, and all three findings live in the part of the organ the tests do not probe."
+    },
+    "what_it_does_not_establish": "Nothing about H1 or H2. The alignment columns are k-invariant for k>=2 by construction -- read() consults only the fast-weight state, which does not depend on k -- so they are one number printed seven times, not a sweep result, and the artifact says so in the row itself. And the token vectors are a deterministic hash stand-in, not Droso's SAN projections, so every figure is a property of the trace.",
+    "what_it_establishes": "The trace behaves as a bounded activation record: fully-held fraction rises 0% -> 33.96% -> 100% across k=1,4,8 and saturates at the longest taught utterance (7 tokens); the oldest slot's weight is exactly decay**(k-1); and the state separates an utterance from its reversal (order_separation falls from 1.018 at k=1 to 0.571 once the window holds the sentence) while the bag-of-words comparator it replaces scores 0.0 separation by construction.",
+    "what_the_sweep_actually_costs": "0.237s for the entire registered grid at tier 40. Calibration was never the expensive part of G3: the curriculum runs are. So the cost of running this sweep again after any organ decision is settled is negligible, and there is no reason to run 120/300 on an organ whose k semantics are still unresolved.",
+    "what_was_not_done": "The sealed module was not edited. tools/mp_e10_working_memory.py is hashed in all four registrations' harness_hashes, and each finding changes what a registered quantity MEANS -- which is the class of change this repository has consistently routed to the PI rather than absorbing quietly (the sim_floor cells, the nearness bug, the H2 clause-2 basis)."
   },
   "numeric_thresholds": {
     "H1": {
@@ -1431,80 +1515,5 @@
       "summary": ".......................                                                  [100%] | 23 passed in 0.19s"
     },
     "tests_in": "tests/test_mp_e10_working_memory.py"
-  },
-  "k_sweep_calibration_tier40": {
-    "recorded_at": "2026-11-04T07:28:30Z",
-    "artifact": "experiments/MP-E10/results/ksweep_tier40_calibration.json",
-    "checklist_step": "G3 step 2, run in the registered order: tests first (23 passed in 0.16s), then the sweep, alone, with nothing else timed on the machine.",
-    "measured": {
-      "wall_seconds_for_the_whole_sweep": 0.237,
-      "k_values": [
-        1,
-        2,
-        4,
-        8,
-        14,
-        16,
-        22
-      ],
-      "utterances": 53,
-      "tokens_total": 248,
-      "curriculum_sha256": "4b2ae5fa16f95923d2459af0039805fc9e913bacc427feac901f32f4797b81b6",
-      "tokens_per_utterance": {
-        "min": 3,
-        "max": 6,
-        "mean": 4.679
-      },
-      "fully_held_pct_by_k": {
-        "1": 0.0,
-        "2": 0.0,
-        "4": 33.96,
-        "8": 100.0,
-        "14": 100.0,
-        "16": 100.0,
-        "22": 100.0
-      },
-      "oldest_weight_by_k": {
-        "1": 1.0,
-        "2": 0.5,
-        "4": 0.125,
-        "8": 0.0078125,
-        "14": 0.00012207,
-        "16": 3.052e-05,
-        "22": 4.8e-07
-      },
-      "w_diagonal_mass_by_k": {
-        "1": 3.679245,
-        "2": -0.039014,
-        "4": -0.039014,
-        "8": -0.039014,
-        "14": -0.039014,
-        "16": -0.039014,
-        "22": -0.039014
-      },
-      "order_separation_by_k": {
-        "1": 1.018078,
-        "2": 0.805563,
-        "4": 0.62513,
-        "8": 0.571263,
-        "14": 0.571263,
-        "16": 0.571263,
-        "22": 0.571263
-      },
-      "bag_of_words_order_separation": 0.0,
-      "git_head_at_sweep": "e2761e0609957905644a28851385766f2b975e00"
-    },
-    "what_the_sweep_actually_costs": "0.237s for the entire registered grid at tier 40. Calibration was never the expensive part of G3: the curriculum runs are. So the cost of running this sweep again after any organ decision is settled is negligible, and there is no reason to run 120/300 on an organ whose k semantics are still unresolved.",
-    "what_it_establishes": "The trace behaves as a bounded activation record: fully-held fraction rises 0% -> 33.96% -> 100% across k=1,4,8 and saturates at the longest taught utterance (7 tokens); the oldest slot's weight is exactly decay**(k-1); and the state separates an utterance from its reversal (order_separation falls from 1.018 at k=1 to 0.571 once the window holds the sentence) while the bag-of-words comparator it replaces scores 0.0 separation by construction.",
-    "what_it_does_not_establish": "Nothing about H1 or H2. The alignment columns are k-invariant for k>=2 by construction -- read() consults only the fast-weight state, which does not depend on k -- so they are one number printed seven times, not a sweep result, and the artifact says so in the row itself. And the token vectors are a deterministic hash stand-in, not Droso's SAN projections, so every figure is a property of the trace.",
-    "quoting_guard_still_holds": "No figure in this file may be quoted as evidence for or against H1 or H2 while those decisions are unresolved: H1's denominator and H2's scalar do not exist yet. This sweep does not resolve them either -- it says what the organ is, not how well Droso does.",
-    "three_findings_that_were_not_registered_properties_of_the_organ": {
-      "how_found": "By running the calibration the registration asked for. None of the 23 unit tests looked at any of these: they test decay bounds, restart clearing and the ring, and all three findings live in the part of the organ the tests do not probe.",
-      "1": "The fast-weight store is not bounded by k. The ring is bounded -- slots in use never exceeds k -- but ||w||_F is the same at k=2, k=8 and k=22 and grows with the NUMBER OF TOKENS PUSHED, not with k. The fast-weight state therefore has no capacity limit tied to k: it holds every adjacent pair the organ has ever seen until a restart. k bounds the activation trace, not the working memory as a whole.",
-      "2": "k=1, the first point of the registered grid, degenerates into self-links. No. At k=1 the state is exactly the sum of self-links and its diagonal mass is nonzero, while at k=2 and k=3 the diagonal mass is 0.0 and the state is the sum of adjacent pair-links. k=1 is the FIRST POINT OF THE REGISTERED GRID, so the grid's baseline is not a smaller version of the other points -- it is a different object.",
-      "3": "The store is a predecessor map, not a successor map. The store is a PREDECESSOR map: probing the later token returns the earlier one strongly, probing the earlier token does not return the later one. That is a coherent object, but it is the transpose of what a language-model working memory is normally asked to supply, and the registration does not say which one H1/H2 assume."
-    },
-    "what_was_not_done": "The sealed module was not edited. tools/mp_e10_working_memory.py is hashed in all four registrations' harness_hashes, and each finding changes what a registered quantity MEANS -- which is the class of change this repository has consistently routed to the PI rather than absorbing quietly (the sim_floor cells, the nearness bug, the H2 clause-2 basis).",
-    "next_step_is_not_120_or_300": "Tier 120 and tier 300 stay unrun. Not because of cost -- the sweep costs a quarter of a second -- but because a 'capacity-k arm' whose capacity bound does not apply to its own associative store is not the treatment the hypotheses name, and running the expensive tiers on it would produce numbers that cannot be attributed to anything."
   }
 }
