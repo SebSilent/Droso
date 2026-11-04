@@ -400,6 +400,35 @@ DEFAULT_MANIFEST = [
 # three bases. Fields computed from the artifacts, with the absent measurements named as absent.
     "experiments/MP-E10/results/replay_tier300_summary.json",
     "experiments/MP-E10/results/control_tier120_no_replay_armA.json",
+# Tier 300's own replay-OFF control and its migration. Without the control the 251 migrated rows at
+# tier 300 cannot be attributed to replay rather than to time, restart ordering or the run itself --
+# the tier-120 control showed most of that tier's migration was not the treatment, and tier 300 had
+# no equivalent until now.
+    "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
+    "experiments/MP-E10/results/control_tier300_no_replay_row_migration.json",
+# replay ON vs replay OFF on IDENTICAL instrument bytes. Diffing either run against MP-E8's sealed
+# baseline also drags in a harness change (baseline build 6e09171a, both MP-E10 tier-300 runs 5cf038c2),
+# so those pairs bound the total movement but cannot attribute it. This pair differs by one flag.
+    "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json",
+# ||w||_F against tokens pushed at each tier's OWN stream volume (D-MPE10-06's obligation). The sealed
+# tier-40 sweep stopped at 64 tokens because tier 40 is 248 tokens; a tier-300 stream is 1,951 tokens
+# and a curve that truncates at 64 reports a growing quantity as a stable one.
+    "experiments/MP-E10/results/ksweep_tier300_organ_characterisation.json",
+    "experiments/MP-E10/results/ksweep_tier120_organ_characterisation.json",
+# The closure of tier 300's four named-missing measurements, each reported MEASURED or STILL ABSENT with
+# its evidence. Sealed because "the guarded probes are not instrumentable at this tier" is itself a
+# claim about the record, and a claim about the record without an artifact behind it is prose.
+    "experiments/MP-E10/results/tier300_named_measurements_closure.json",
+# The three instruments behind those artifacts. The k-sweep and the row-migration drivers were promoted
+# out of _tmp/ under R10 -- a number a gate depends on cannot live in a directory that gets swept, and
+# both of them were producing SEALED artifacts from scratch files. The tests below are what makes each
+# promotion demonstrably a promotion rather than a new instrument wearing an old name: each re-runs the
+# promoted driver against the sealed artifact's own pair and requires the published numbers back.
+    "tools/mp_e10_ksweep.py",
+    "tools/mp_e10_row_migration.py",
+    "tools/mp_e10_tier300_closure.py",
+    "tests/test_mp_e10_ksweep_promotion.py",
+    "tests/test_mp_e10_row_migration_promotion.py",
 
 # The inertness proof itself: additive diff, and byte-identity between the pre-edit module pulled from
 # git and the working tree on the untouched path. Sealed because 'nothing else changed' is a claim.

@@ -1,0 +1,1685 @@
+{
+  "experiment": "MP-E10",
+  "artifact": "tier300_named_measurements_closure",
+  "tier": 300,
+  "generated_at_utc": "2026-11-04T18:56:33Z",
+  "purpose": "the four measurements replay_tier300_summary.json named as absent, each reported MEASURED or STILL ABSENT with its evidence. No tier-40 or tier-120 figure stands in for a tier-300 one anywhere in this file.",
+  "supersedes_by_reference_these_fields_of_the_sealed_summary": {
+    "artifact": "experiments/MP-E10/results/replay_tier300_summary.json",
+    "sealed_at_anchor": null,
+    "fields_now_addressed": [
+      "r6_guarded_probes",
+      "read_direction",
+      "w_frobenius_norm_vs_tokens",
+      "replay_off_control"
+    ],
+    "how": "the summary is NOT edited -- it is sealed and its statements were true of the artifacts that existed when it was written. This artifact is published beside it and named in registration amendment AMD-MPE10-04, which is how this repository closes a gap without rewriting the record that reported it (R5, amendments by reference)."
+  },
+  "a_r6_guarded_probes": {
+    "asked": "the four R6 guarded probes (P-numeral-final, R-count-moon, R-disj-reversed, R-order-ofthe) scored on the tier-300 run",
+    "verdict": "STILL ABSENT -- not producible on the tier-300 run by any instrument on this machine. Reported as absent with its reason, not as a zero and not as a tier-40 number.",
+    "what_the_four_probes_are": [
+      {
+        "probe": "R-count-moon",
+        "defined_at": "tools/scripts_selection.json scripts[0].turns[5]",
+        "script": "sel-count-frequency",
+        "ask": "have i mentioned the moon to you?",
+        "expect": {
+          "answer": [
+            "no"
+          ],
+          "forbid": [
+            "moon",
+            "yes"
+          ]
+        },
+        "ask_appears_verbatim_in_tier300_curriculum": false,
+        "every_content_word_of_the_ask_in_tier300": null,
+        "content_words_checked": [
+          "mentioned",
+          "moon"
+        ],
+        "every_content_word_in_tier300": false
+      },
+      {
+        "probe": "R-order-ofthe",
+        "defined_at": "tools/scripts_selection.json scripts[1].turns[5]",
+        "script": "sel-order-first-last",
+        "ask": "of the lantern and the kettle which one came first?",
+        "expect": {
+          "answer": [
+            "lantern"
+          ],
+          "forbid": [
+            "kettle",
+            "gate"
+          ]
+        },
+        "ask_appears_verbatim_in_tier300_curriculum": false,
+        "every_content_word_of_the_ask_in_tier300": null,
+        "content_words_checked": [
+          "lantern",
+          "kettle",
+          "one",
+          "first"
+        ],
+        "every_content_word_in_tier300": false
+      },
+      {
+        "probe": "R-disj-reversed",
+        "defined_at": "tools/scripts_selection.json scripts[2].turns[5]",
+        "script": "sel-conjunction-and-absence",
+        "ask": "is the coat wet or is it dry?",
+        "expect": {
+          "answer": [
+            "wet"
+          ],
+          "forbid": [
+            "dry"
+          ]
+        },
+        "ask_appears_verbatim_in_tier300_curriculum": false,
+        "every_content_word_of_the_ask_in_tier300": null,
+        "content_words_checked": [
+          "coat",
+          "wet",
+          "dry"
+        ],
+        "every_content_word_in_tier300": false
+      },
+      {
+        "probe": "P-numeral-final",
+        "defined_at": "tools/scripts_selection.json scripts[3].turns[2]",
+        "script": "sel-exact-repeat",
+        "ask": "the bell turns how often?",
+        "expect": {
+          "answer": [
+            "twice",
+            "two"
+          ],
+          "forbid": [
+            "three",
+            "once"
+          ]
+        },
+        "ask_appears_verbatim_in_tier300_curriculum": false,
+        "every_content_word_of_the_ask_in_tier300": null,
+        "content_words_checked": [
+          "bell",
+          "turns",
+          "often"
+        ],
+        "every_content_word_in_tier300": false
+      }
+    ],
+    "tier300_row_vocabulary_measured": [
+      "answered",
+      "ask",
+      "cls",
+      "item",
+      "mech",
+      "own",
+      "reason",
+      "said",
+      "shape",
+      "src",
+      "taught"
+    ],
+    "tier300_rows_carry_a_probe_field": false,
+    "tier300_rows_carry_a_pass_field": false,
+    "the_only_scorer_of_these_probes": {
+      "tool": "tools/mp_e9_battery.py",
+      "its_cli": [
+        "--baseline",
+        "--invocation",
+        "--journal",
+        "--out",
+        "--registration",
+        "--rows"
+      ],
+      "requires": "--journal, a comma-separated list of run_generation journal files",
+      "emits": "measured.guarded_pass / measured.guarded_total / verdict.battery_guarded_pass",
+      "graded_against": "tools/selection_baseline.json regression_pass_set, matched on full ask ids, not on the short probe names"
+    },
+    "why_the_tier300_run_cannot_feed_it": {
+      "bench_flag_surface_measured": [
+        "--arms",
+        "--depth",
+        "--flag-on",
+        "--out",
+        "--workdir"
+      ],
+      "no_external_probe_input": "the bench takes no probe list; PROBES is built from the curriculum at import (tools/electric_learn_bench.py)",
+      "bench_writes_no_selection_journal": true,
+      "run_generation_has_no_curriculum_axis": {
+        "its_flags": [
+          "--absence-inventory",
+          "--binder-attribution",
+          "--coverage-exclude",
+          "--dry-run",
+          "--electric",
+          "--episode",
+          "--freeze-baseline",
+          "--generation",
+          "--genome-file",
+          "--isolate",
+          "--limit",
+          "--line-no",
+          "--lines",
+          "--mut-seed",
+          "--mutants",
+          "--mutate",
+          "--only",
+          "--open-batch",
+          "--recall-fallback",
+          "--recompute",
+          "--report",
+          "--resonance-content",
+          "--resonance-scope",
+          "--shape-determiner",
+          "--shape-extra",
+          "--shape-passive",
+          "--snapshot",
+          "--state-root",
+          "--tier",
+          "--worker",
+          "--worker-out"
+        ],
+        "what_its_tier_means": "--tier takes frozen/probe/open, which are BATTERY tiers (which script set to ask), not MP-E8 curriculum tiers (how many items the pool holds). The two axes share a name and nothing else."
+      },
+      "curriculum_contains_none_of_the_four_asks": true,
+      "and_the_probes_need_their_script_context": "each guarded probe is turn 5 (or 2) of a multi-turn selection script; its expected answer depends on earlier turns of that script (the lantern was told first, the coat is wet, the moon was never mentioned). A curriculum of qa pairs and svo frames cannot supply that context even if the words were present."
+    },
+    "what_would_close_it_two_routes_both_design_steps": {
+      "route_1_teach_the_tier_then_ask_the_battery": "run the tier-300 curriculum through tools/run_generation.py as additional material and grade the resulting journal with tools/mp_e9_battery.py. Needs a curriculum input on run_generation, which does not exist; that is an organ/pipeline change, not a flag.",
+      "route_2_add_the_four_probes_to_the_tier300_curriculum": "changes curriculum_sha256, which is the identity every sealed tier-300 artifact is keyed to -- it would break the comparison with the baseline the verdict is computed against. Under R2 that is a re-registration, and under tiers.curriculum the manifests are read unedited.",
+      "why_neither_was_done_here": "both change a sealed instrument's identity or add a pipeline input. That is the PI's design step, and doing it silently to produce a number the ledger wants is the move D-MPE10-06/-07/-08 each refused."
+    },
+    "consequence_stated": "H3's R6 floor at tier 300 -- 'the guarded invariants are the floor; regression is a hard reject' (constraints_from_the_plan.R6) -- remains UNMEASURED at this tier. The four probes do pass at tier 40 on the selection pipeline (battery_guarded_pass 4/4 in MP-E8's and MP-E9's battery artifacts), and that is NOT reported here as tier 300's result."
+  },
+  "b_read_direction": {
+    "asked": "the read direction named in the artifact (D-MPE10-08: no figure may be reported as a bare 'alignment'; name the token probed and the token recovered)",
+    "verdict": "MEASURED AND NAMED -- two different objects were involved and they are named apart.",
+    "ruling_text": {
+      "discipline_precedent": "MP-E8's nearness bug was measured, costed and ruled before it was fixed; the sim_floor cells were named rather than tolerated. This ruling keeps that shape.",
+      "reasoning": "The mouth produces, which needs the successor direction; outer(post, pre) supplies the predecessor direction (measured 0.982 later-recovers-earlier against 0.056 earlier-recovers-later). Silently transposing the store would change what every previous measurement means, and it is the same class of move as quietly absorbing the sim_floor cells or the nearness bug: a fix that is really a redesign has to be seen to be a redesign.",
+      "ruled": "The organ is not transposed. Every MP-E10 artifact must NAME WHICH DIRECTION it read -- the token probed and the token recovered -- and no figure may be reported as a bare 'alignment'. If a scored run requires the successor map, that is a registered organ change with its own design step."
+    },
+    "object_1_the_replay_run_actually_touched": {
+      "name": "organs/sequence_organ.py -- the sequence chain",
+      "direction": "SUCCESSOR: chain[pre][post] = strength. learn_sequence writes row keyed by the LATER token against the EARLIER one and generate(first_word) runs the chain FORWARD, asking what comes after.",
+      "what_replay_did_to_it": "replay_pass() advanced every stored pair by one increment of REPLAY_GAIN; this run recorded pairs_on_tape=13878 per pass and the guard voided depths 2 and 3",
+      "clamped_at": [
+        "4.0"
+      ],
+      "gain": [
+        "LEARN_LR"
+      ],
+      "ceiling_in_learn_sequence": [
+        "4.0"
+      ]
+    },
+    "object_2_the_k_sweep_characterises": {
+      "name": "tools/mp_e10_working_memory.py DecayedTrace -- the fast-weight trace",
+      "direction": "PREDECESSOR: state is outer(post, pre). Probing the LATER token recovers the EARLIER one. This is the TRANSPOSE of object 1.",
+      "measured_at_tier_300": {
+        "probe_the_later_token_recovers_the_earlier_cosine": 0.981298,
+        "probe_the_earlier_token_recovers_the_later_cosine": 0.065568,
+        "direction_asymmetry_pp": 91.573,
+        "tier": 300,
+        "utterances": 417,
+        "tokens_total": 1951
+      },
+      "k_invariance": "read() uses only the fast-weight state, and the state accumulates every adjacent pair regardless of k -- see the boundedness probe. They are NOT a k-sweep result; they are one number printed once per k, and saying so is the difference between a measurement and a table."
+    },
+    "the_distinction_that_matters": "MP-E10 B.4 step 2 replayed object 1. The D-MPE10-08 ruling was written about object 2, the trace, whose predecessor direction the tier-40 sweep measured at 0.982 against 0.056. Both are now named with the direction each reads, so no figure in this tier's record is a bare 'alignment', and neither object's number is quoted for the other.",
+    "declared_in": [
+      "experiments/MP-E10/results/ksweep_tier300_organ_characterisation.json",
+      "experiments/MP-E10/results/replay_tier300_summary.json",
+      "this artifact"
+    ]
+  },
+  "c_norm_vs_tokens_pushed": {
+    "asked": "||w||_F against tokens pushed at tier 300 (D-MPE10-06), not just the tier-40 k-sweep",
+    "verdict": "MEASURED at tier 300's own stream volume, on the same instrument as the sealed tier-40 sweep, whose driver was promoted out of _tmp/ into tools/mp_e10_ksweep.py (R10).",
+    "instrument": "tools/mp_e10_ksweep.py --curriculum experiments/MP-E8/curriculum_tier300.json",
+    "artifact": "experiments/MP-E10/results/ksweep_tier300_organ_characterisation.json",
+    "tier300_stream": {
+      "utterances": 417,
+      "tokens_total_across_utterances": 1951,
+      "checkpoints_sampled": [
+        8,
+        16,
+        32,
+        64,
+        320,
+        576,
+        832,
+        1088,
+        1344,
+        1600,
+        1856,
+        1951
+      ],
+      "stream_length_tokens": 1951
+    },
+    "w_frobenius_norm_vs_tokens_pushed_k2": {
+      "8": 2.6182,
+      "16": 3.8376,
+      "32": 5.477,
+      "64": 7.824,
+      "320": 18.0022,
+      "576": 24.1689,
+      "832": 29.163,
+      "1088": 33.3673,
+      "1344": 37.2718,
+      "1600": 40.7355,
+      "1856": 43.9706,
+      "1951": 45.323
+    },
+    "w_frobenius_norm_vs_tokens_pushed_k1": {
+      "8": 2.7547,
+      "16": 4.2767,
+      "32": 6.7745,
+      "64": 11.2213,
+      "320": 43.6489,
+      "576": 75.7899,
+      "832": 107.9255,
+      "1088": 140.0092,
+      "1344": 171.9719,
+      "1600": 203.9105,
+      "1856": 235.8832,
+      "1951": 247.7137
+    },
+    "growth_reading": {
+      "from_first_to_last_checkpoint_k2": [
+        "8",
+        2.6182,
+        "1951",
+        45.323
+      ],
+      "statement": "||w||_F keeps rising past the tier-40 checkpoint set: at tier 300's volume the curve is sampled to 1951 tokens, where the sealed tier-40 artifact stopped at 64. The quantity D-MPE10-06 requires is reported at the tier's own size instead of at the calibration tier's size."
+    },
+    "tier40_sealed_curve_for_provenance_only_NOT_a_tier300_value": {
+      "k2": {
+        "8": 2.6182,
+        "16": 3.8376,
+        "32": 5.477,
+        "64": 7.824
+      },
+      "k1": {
+        "8": 2.7547,
+        "16": 4.2767,
+        "32": 6.7745,
+        "64": 11.2213
+      },
+      "why_it_is_here": "to show the instrument is unchanged and the tier-300 curve extends it. It is not tier 300's number and may not be quoted as one."
+    },
+    "per_utterance_norms_from_the_sweep": {
+      "k2_w_frobenius_norm_mean": 1.908806,
+      "k2_state_norm_mean": 1.112922,
+      "utterances_fully_held_pct_by_k": {
+        "1": 0.0,
+        "2": 0.0,
+        "4": 32.37,
+        "8": 100.0,
+        "14": 100.0,
+        "16": 100.0,
+        "22": 100.0
+      }
+    },
+    "the_object_the_replay_run_moved_instead": "the sequence chain, whose state is not a matrix and has no ||w||_F; its comparable quantity is the number of stored pairs on the tape and how many sit at the 4.0 ceiling, both recorded in the replay artifact and reproduced in replay_tier300_summary.json"
+  },
+  "d_replay_off_control_and_attribution": {
+    "asked": "a replay-OFF control at tier 300, so the migrated rows can be attributed to the treatment rather than to time",
+    "verdict": "MEASURED. The control ran at tier 300, replay OFF, same curriculum, same seed, same instrument bytes.",
+    "artifact": "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
+    "migration_artifact": "experiments/MP-E10/results/control_tier300_no_replay_row_migration.json",
+    "matched_pair": {
+      "same_git_head": false,
+      "replay_run_git_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
+      "control_run_git_head": "9fd6272d219d4bf7b5aaa53567f0bb198ccfb5fc",
+      "harness_sha256_replay": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+      "harness_sha256_control": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+      "instrument_identical": true,
+      "curriculum_sha256_both": true,
+      "seed_both": 20261103,
+      "argv_replay": [
+        "--arms",
+        "learn",
+        "--curriculum",
+        "experiments/MP-E8/curriculum_tier300.json",
+        "--replay",
+        "--out",
+        "experiments/MP-E10/results/replay_tier300_armA.json",
+        "--workdir",
+        "_tmp/wd_tier300"
+      ],
+      "argv_control": [
+        "--arms",
+        "learn",
+        "--curriculum",
+        "experiments/MP-E8/curriculum_tier300.json",
+        "--out",
+        "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
+        "--workdir",
+        "_tmp/wd_ctl300"
+      ],
+      "note": "the two runs are on different COMMITS -- the control was measured after the tier-300 verdict artifact and the ledger amendments landed. None of the 14 paths differing between those trees is an instrument file: the bench, the organs, the curriculum builder and run_generation are byte-identical, and the bench's own recorded harness_sha256 matches across the two artifacts. Recorded rather than assumed, because a migration count spanning a code change is not an effect of replay."
+    },
+    "wall_clock": {
+      "control_run": {
+        "started_utc": "2026-11-04T18:47:55Z",
+        "wall_seconds_measured_externally": 1572.0,
+        "wall_minutes_measured_externally": 26.2,
+        "bench_recorded_learn_arm_seconds": 1317.1,
+        "bench_recorded_learn_arm_minutes": 21.95,
+        "replay_arm_seconds": 1124.6
+      },
+      "precedent_quoted_by_the_pi": {
+        "figure": "53.65 min measured / 60.2 min projected",
+        "what_it_actually_measures": "MP-E8's FULL THREE-ARM tier-300 run -- experiments/G0-prime/tier_protocol.json wall_clock_minutes_all_arms = 53.65 against wall_clock_projected_minutes_all_arms = 60.2. It is NOT a single-arm figure, and this control is one arm.",
+        "single_arm_precedent_from_this_very_tier": {
+          "replay_run_learn_arm_minutes": 18.74,
+          "source": "experiments/MP-E10/results/replay_tier300_armA.json"
+        },
+        "why_the_difference_matters": "quoting 53.65 as the cost of a learn-only control overstates it by roughly the number of arms not run. The cost the PI was asked to weigh is the measured one beside the all-arms precedent, both labelled for what they measure."
+      }
+    },
+    "interference_with_the_control_as_the_reference": {
+      "1/live": {
+        "baseline_pct": 13.9101,
+        "replay_pct": 13.9101,
+        "control_pct": 13.9101,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "1/reasked": {
+        "baseline_pct": 13.5277,
+        "replay_pct": 13.5277,
+        "control_pct": 13.5277,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "1/restarted": {
+        "baseline_pct": 13.9579,
+        "replay_pct": 13.9579,
+        "control_pct": 13.9579,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "2/live": {
+        "baseline_pct": 26.0994,
+        "replay_pct": 26.0994,
+        "control_pct": 26.0994,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "2/reasked": {
+        "baseline_pct": 24.8566,
+        "replay_pct": 24.8566,
+        "control_pct": 24.8566,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "2/restarted": {
+        "baseline_pct": 26.195,
+        "replay_pct": 26.195,
+        "control_pct": 26.195,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "3/live": {
+        "baseline_pct": 37.5239,
+        "replay_pct": 37.5239,
+        "control_pct": 37.5239,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "3/reasked": {
+        "baseline_pct": 36.2333,
+        "replay_pct": 36.1855,
+        "control_pct": 36.1377,
+        "replay_minus_baseline_pp": -0.0478,
+        "control_minus_baseline_pp": -0.0956,
+        "attributable_to_replay_pp": 0.0478,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      },
+      "3/restarted": {
+        "baseline_pct": 37.4761,
+        "replay_pct": 37.4761,
+        "control_pct": 37.4761,
+        "replay_minus_baseline_pp": 0.0,
+        "control_minus_baseline_pp": 0.0,
+        "attributable_to_replay_pp": 0.0,
+        "rows_in_denominator": 2092,
+        "within_registered_margin_2pp": true
+      }
+    },
+    "primary_attribution_same_instrument": {
+      "artifact": "experiments/MP-E10/results/tier300_replay_vs_control_row_migration.json",
+      "why_this_is_the_primary_instrument": "replay ON vs replay OFF on identical harness_sha256 (5cf038c2 on both sides), identical curriculum hash and identical seed. The baseline-anchored pairs additionally carry a harness change, so they bound the total movement but cannot attribute it.",
+      "matched_pair": {
+        "baseline": {
+          "argv": [
+            "--arms",
+            "learn",
+            "--curriculum",
+            "experiments/MP-E8/curriculum_tier300.json",
+            "--out",
+            "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
+            "--workdir",
+            "_tmp/wd_ctl300"
+          ],
+          "artifact": "baseline",
+          "curriculum_path": "experiments/MP-E8/curriculum_tier300.json",
+          "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+          "git_head": "9fd6272d219d4bf7b5aaa53567f0bb198ccfb5fc",
+          "harness": "tools/electric_learn_bench.py",
+          "harness_sha256": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+          "replay_requested_in_argv": false,
+          "seed": 20261103,
+          "started_utc": "2026-11-04T18:47:55Z",
+          "tier": 300
+        },
+        "differences_that_break_the_comparison": [],
+        "reading": "the two runs differ by more than the treatment; see the fields above. A migration count spanning a code change or a different curriculum hash cannot be read as an effect of replay.",
+        "replayed": {
+          "argv": [
+            "--arms",
+            "learn",
+            "--curriculum",
+            "experiments/MP-E8/curriculum_tier300.json",
+            "--replay",
+            "--out",
+            "experiments/MP-E10/results/replay_tier300_armA.json",
+            "--workdir",
+            "_tmp/wd_tier300"
+          ],
+          "artifact": "replayed",
+          "curriculum_path": "experiments/MP-E8/curriculum_tier300.json",
+          "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+          "git_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
+          "harness": "tools/electric_learn_bench.py",
+          "harness_sha256": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+          "replay_requested_in_argv": true,
+          "seed": 20261103,
+          "started_utc": "2026-11-04T12:39:45Z",
+          "tier": 300
+        },
+        "same_git_head": false
+      },
+      "rows_compared": 8199,
+      "n_rows_moved": 111,
+      "class_split": {
+        "distractor/unanswerable": 34,
+        "taught item": 77
+      },
+      "fields_moved_split": {
+        "answered": 107,
+        "cls": 108,
+        "mech": 111,
+        "said": 108,
+        "src": 107
+      },
+      "opposing_pairs": [
+        {
+          "axis": "1/live",
+          "forward": "partial -> refused [taught item]",
+          "forward_n": 4,
+          "reverse": "refused -> partial [taught item]",
+          "reverse_n": 2,
+          "net": 2
+        },
+        {
+          "axis": "1/reasked",
+          "forward": "partial -> refused [taught item]",
+          "forward_n": 2,
+          "reverse": "refused -> partial [taught item]",
+          "reverse_n": 2,
+          "net": 0
+        },
+        {
+          "axis": "2/reasked",
+          "forward": "invented -> refused [distractor/unanswerable]",
+          "forward_n": 7,
+          "reverse": "refused -> invented [distractor/unanswerable]",
+          "reverse_n": 3,
+          "net": 4
+        },
+        {
+          "axis": "2/reasked",
+          "forward": "partial -> refused [taught item]",
+          "forward_n": 7,
+          "reverse": "refused -> partial [taught item]",
+          "reverse_n": 3,
+          "net": 4
+        },
+        {
+          "axis": "2/restarted",
+          "forward": "invented -> refused [distractor/unanswerable]",
+          "forward_n": 3,
+          "reverse": "refused -> invented [distractor/unanswerable]",
+          "reverse_n": 3,
+          "net": 0
+        },
+        {
+          "axis": "2/restarted",
+          "forward": "partial -> refused [taught item]",
+          "forward_n": 7,
+          "reverse": "refused -> partial [taught item]",
+          "reverse_n": 7,
+          "net": 0
+        },
+        {
+          "axis": "3/reasked",
+          "forward": "invented -> refused [distractor/unanswerable]",
+          "forward_n": 3,
+          "reverse": "refused -> invented [distractor/unanswerable]",
+          "reverse_n": 3,
+          "net": 0
+        },
+        {
+          "axis": "3/reasked",
+          "forward": "partial -> refused [taught item]",
+          "forward_n": 9,
+          "reverse": "refused -> partial [taught item]",
+          "reverse_n": 6,
+          "net": 3
+        },
+        {
+          "axis": "3/restarted",
+          "forward": "invented -> refused [distractor/unanswerable]",
+          "forward_n": 5,
+          "reverse": "refused -> invented [distractor/unanswerable]",
+          "reverse_n": 4,
+          "net": 1
+        },
+        {
+          "axis": "3/restarted",
+          "forward": "partial -> refused [taught item]",
+          "forward_n": 12,
+          "reverse": "refused -> partial [taught item]",
+          "reverse_n": 12,
+          "net": 0
+        }
+      ],
+      "flow": {
+        "sum_of_forward_transitions_in_pairs": 59,
+        "sum_of_their_reverses": 45,
+        "imbalance_pp_of_the_moved_set": 12.61,
+        "unpaired_transitions": [
+          {
+            "axis": "1/live",
+            "transition": "invented -> cross_echo [distractor/unanswerable]",
+            "n": 1
+          },
+          {
+            "axis": "1/live",
+            "transition": "invented -> refused [distractor/unanswerable]",
+            "n": 1
+          },
+          {
+            "axis": "1/reasked",
+            "transition": "invented -> refused [distractor/unanswerable]",
+            "n": 1
+          },
+          {
+            "axis": "2/reasked",
+            "transition": "refused -> refused [taught item]",
+            "n": 3
+          },
+          {
+            "axis": "3/reasked",
+            "transition": "refused -> correct [taught item]",
+            "n": 1
+          }
+        ]
+      },
+      "reading": "the movement between the two runs is close to balanced: for every class a row moves INTO, roughly the same number moves OUT of it on the same axis. A treatment that helped retention would push the refusal axis one way; this is run-to-run noise, and the control is what proves it, because the same 111-row scale of movement appears with the flag off against the sealed baseline (302 rows, on a pair that also differs by a harness build).",
+      "what_this_does_not_claim": "it does not say replay has no effect -- it says THIS run shows no directional effect at tier 300, on a single seed, at a tier where the guard voided depths 2 and 3. One seed cannot separate an effect smaller than the run-to-run spread, which is the sealed_baseline_reproducibility finding in this registration."
+    },
+    "row_attribution": {
+      "rows_compared_replay_vs_baseline": 8199,
+      "rows_compared_control_vs_baseline": 8199,
+      "moved_in_replay_vs_baseline": 251,
+      "moved_in_control_vs_baseline": 302,
+      "moved_in_BOTH": 235,
+      "moved_ONLY_in_replay": 16,
+      "moved_ONLY_in_control": 67,
+      "class_split_moved_only_in_replay": {
+        "taught item": 12,
+        "distractor/unanswerable": 4
+      },
+      "class_split_moved_in_both": {
+        "taught item": 230,
+        "distractor/unanswerable": 5
+      },
+      "class_split_moved_only_in_control": {
+        "taught item": 37,
+        "distractor/unanswerable": 30
+      },
+      "reading": "rows that move with the flag OFF are not attributable to replay; they move with time, restart ordering and the run itself. Rows that move ONLY with the flag ON are the replay-attributable set, and that count, not the headline migration total, is what H3's interference clause has to answer for.",
+      "denominator_rule": "the artifact states the row count it divided by (interference_protocol_step2.margin.denominator_rule)"
+    },
+    "safety_property_on_the_control": {
+      "invented_rows_control": 100,
+      "invented_rows_replay": 92,
+      "note": "the floor this program stands on: a house may not say a sentence nobody said. Both counts are reported so the control is not merely a diff but a check that the unreplayed run still holds it."
+    }
+  },
+  "e_phase_basis_of_the_published_triples": {
+    "asked": "not asked. Found while computing the control's denominators, and it contradicts a statement already published in this ledger, so it is reported rather than left.",
+    "verdict": "AMD-MPE10-03's stated ground is wrong. tier 300's prose triple 292/548/784 and its retention triple kept 80/129/176 / lost 0/3/9 / part 20/68/115 are the `restarted` phase, and they match that phase EXACTLY in the sealed baseline, in the replayed run and in the new control. The corrected triple 291/546/785 with kept 79/129/176 / lost 0/4/8 / part 21/67/116 is the `live` phase, and it also matches exactly. Neither was a wrong number: the prose quoted one phase and the correction quoted the other, without saying which.",
+    "measured_table": {
+      "baseline_sealed_tier300": {
+        "live": {
+          "correct_by_depth": [
+            291,
+            546,
+            785
+          ],
+          "kept_by_depth": [
+            79,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            0,
+            4,
+            8
+          ],
+          "part_by_depth": [
+            21,
+            67,
+            116
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 291,
+              "n": 2092,
+              "kept": 79,
+              "lost": 0,
+              "part": 21
+            },
+            {
+              "depth": "2",
+              "correct": 546,
+              "n": 2092,
+              "kept": 129,
+              "lost": 4,
+              "part": 67
+            },
+            {
+              "depth": "3",
+              "correct": 785,
+              "n": 2092,
+              "kept": 176,
+              "lost": 8,
+              "part": 116
+            }
+          ]
+        },
+        "restarted": {
+          "correct_by_depth": [
+            292,
+            548,
+            784
+          ],
+          "kept_by_depth": [
+            80,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            0,
+            3,
+            9
+          ],
+          "part_by_depth": [
+            20,
+            68,
+            115
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 292,
+              "n": 2092,
+              "kept": 80,
+              "lost": 0,
+              "part": 20
+            },
+            {
+              "depth": "2",
+              "correct": 548,
+              "n": 2092,
+              "kept": 129,
+              "lost": 3,
+              "part": 68
+            },
+            {
+              "depth": "3",
+              "correct": 784,
+              "n": 2092,
+              "kept": 176,
+              "lost": 9,
+              "part": 115
+            }
+          ]
+        },
+        "reasked": {
+          "correct_by_depth": [
+            283,
+            520,
+            758
+          ],
+          "kept_by_depth": [
+            80,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            1,
+            4,
+            11
+          ],
+          "part_by_depth": [
+            19,
+            67,
+            113
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 283,
+              "n": 2092,
+              "kept": 80,
+              "lost": 1,
+              "part": 19
+            },
+            {
+              "depth": "2",
+              "correct": 520,
+              "n": 2092,
+              "kept": 129,
+              "lost": 4,
+              "part": 67
+            },
+            {
+              "depth": "3",
+              "correct": 758,
+              "n": 2092,
+              "kept": 176,
+              "lost": 11,
+              "part": 113
+            }
+          ]
+        }
+      },
+      "replay_tier300": {
+        "live": {
+          "correct_by_depth": [
+            291,
+            546,
+            785
+          ],
+          "kept_by_depth": [
+            79,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            0,
+            4,
+            8
+          ],
+          "part_by_depth": [
+            21,
+            67,
+            116
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 291,
+              "n": 2092,
+              "kept": 79,
+              "lost": 0,
+              "part": 21
+            },
+            {
+              "depth": "2",
+              "correct": 546,
+              "n": 2092,
+              "kept": 129,
+              "lost": 4,
+              "part": 67
+            },
+            {
+              "depth": "3",
+              "correct": 785,
+              "n": 2092,
+              "kept": 176,
+              "lost": 8,
+              "part": 116
+            }
+          ]
+        },
+        "restarted": {
+          "correct_by_depth": [
+            292,
+            548,
+            784
+          ],
+          "kept_by_depth": [
+            80,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            0,
+            3,
+            9
+          ],
+          "part_by_depth": [
+            20,
+            68,
+            115
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 292,
+              "n": 2092,
+              "kept": 80,
+              "lost": 0,
+              "part": 20
+            },
+            {
+              "depth": "2",
+              "correct": 548,
+              "n": 2092,
+              "kept": 129,
+              "lost": 3,
+              "part": 68
+            },
+            {
+              "depth": "3",
+              "correct": 784,
+              "n": 2092,
+              "kept": 176,
+              "lost": 9,
+              "part": 115
+            }
+          ]
+        },
+        "reasked": {
+          "correct_by_depth": [
+            283,
+            520,
+            757
+          ],
+          "kept_by_depth": [
+            80,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            1,
+            4,
+            11
+          ],
+          "part_by_depth": [
+            19,
+            67,
+            113
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 283,
+              "n": 2092,
+              "kept": 80,
+              "lost": 1,
+              "part": 19
+            },
+            {
+              "depth": "2",
+              "correct": 520,
+              "n": 2092,
+              "kept": 129,
+              "lost": 4,
+              "part": 67
+            },
+            {
+              "depth": "3",
+              "correct": 757,
+              "n": 2092,
+              "kept": 176,
+              "lost": 11,
+              "part": 113
+            }
+          ]
+        }
+      },
+      "control_tier300": {
+        "live": {
+          "correct_by_depth": [
+            291,
+            546,
+            785
+          ],
+          "kept_by_depth": [
+            79,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            0,
+            4,
+            8
+          ],
+          "part_by_depth": [
+            21,
+            67,
+            116
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 291,
+              "n": 2092,
+              "kept": 79,
+              "lost": 0,
+              "part": 21
+            },
+            {
+              "depth": "2",
+              "correct": 546,
+              "n": 2092,
+              "kept": 129,
+              "lost": 4,
+              "part": 67
+            },
+            {
+              "depth": "3",
+              "correct": 785,
+              "n": 2092,
+              "kept": 176,
+              "lost": 8,
+              "part": 116
+            }
+          ]
+        },
+        "restarted": {
+          "correct_by_depth": [
+            292,
+            548,
+            784
+          ],
+          "kept_by_depth": [
+            80,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            0,
+            3,
+            9
+          ],
+          "part_by_depth": [
+            20,
+            68,
+            115
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 292,
+              "n": 2092,
+              "kept": 80,
+              "lost": 0,
+              "part": 20
+            },
+            {
+              "depth": "2",
+              "correct": 548,
+              "n": 2092,
+              "kept": 129,
+              "lost": 3,
+              "part": 68
+            },
+            {
+              "depth": "3",
+              "correct": 784,
+              "n": 2092,
+              "kept": 176,
+              "lost": 9,
+              "part": 115
+            }
+          ]
+        },
+        "reasked": {
+          "correct_by_depth": [
+            283,
+            520,
+            756
+          ],
+          "kept_by_depth": [
+            80,
+            129,
+            176
+          ],
+          "lost_by_depth": [
+            1,
+            4,
+            11
+          ],
+          "part_by_depth": [
+            19,
+            67,
+            113
+          ],
+          "n_by_depth": [
+            2092,
+            2092,
+            2092
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 283,
+              "n": 2092,
+              "kept": 80,
+              "lost": 1,
+              "part": 19
+            },
+            {
+              "depth": "2",
+              "correct": 520,
+              "n": 2092,
+              "kept": 129,
+              "lost": 4,
+              "part": 67
+            },
+            {
+              "depth": "3",
+              "correct": 756,
+              "n": 2092,
+              "kept": 176,
+              "lost": 11,
+              "part": 113
+            }
+          ]
+        }
+      },
+      "baseline_sealed_tier120": {
+        "live": {
+          "correct_by_depth": [
+            122,
+            239,
+            347
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 239,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 347,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        },
+        "restarted": {
+          "correct_by_depth": [
+            122,
+            239,
+            347
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 239,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 347,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        },
+        "reasked": {
+          "correct_by_depth": [
+            122,
+            237,
+            344
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 237,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 344,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        }
+      },
+      "replay_tier120": {
+        "live": {
+          "correct_by_depth": [
+            122,
+            239,
+            347
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 239,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 347,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        },
+        "restarted": {
+          "correct_by_depth": [
+            122,
+            239,
+            347
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 239,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 347,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        },
+        "reasked": {
+          "correct_by_depth": [
+            122,
+            237,
+            344
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 237,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 344,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        }
+      },
+      "control_tier120": {
+        "live": {
+          "correct_by_depth": [
+            122,
+            239,
+            347
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 239,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 347,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        },
+        "restarted": {
+          "correct_by_depth": [
+            122,
+            239,
+            347
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 239,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 347,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        },
+        "reasked": {
+          "correct_by_depth": [
+            122,
+            237,
+            344
+          ],
+          "kept_by_depth": [
+            37,
+            68,
+            93
+          ],
+          "lost_by_depth": [
+            0,
+            1,
+            3
+          ],
+          "part_by_depth": [
+            3,
+            11,
+            24
+          ],
+          "n_by_depth": [
+            832,
+            832,
+            832
+          ],
+          "detail": [
+            {
+              "depth": "1",
+              "correct": 122,
+              "n": 832,
+              "kept": 37,
+              "lost": 0,
+              "part": 3
+            },
+            {
+              "depth": "2",
+              "correct": 237,
+              "n": 832,
+              "kept": 68,
+              "lost": 1,
+              "part": 11
+            },
+            {
+              "depth": "3",
+              "correct": 344,
+              "n": 832,
+              "kept": 93,
+              "lost": 3,
+              "part": 24
+            }
+          ]
+        }
+      }
+    },
+    "all_three_tier300_artifacts_agree_on_both_phases": true,
+    "why_it_never_bit_before": "at tier 120 live and restarted are the same triple (122/239/347 in both, in all three tier-120 artifacts), so a quote that did not name its phase was harmless. At tier 300 the phases diverge by 1 row at depth 1, 2 at depth 2 and 1 at depth 3, and the same unqualified quote became a contradiction.",
+    "which_basis_is_the_right_one_for_the_claim": "not decided here. H3 is a claim about retention ACROSS A RESTART, which points at `restarted`; the tier-120 ledger row quotes a triple that is phase-insensitive at that tier, so it settled nothing. Naming the phase in every quote is the fix; choosing one phase as the registered basis is a protocol decision for the PI, and it is the same class of question as the refusal-axis quantity already parked in h3_two_quantities.named_limitation_of_the_registered_protocol.",
+    "what_was_NOT_done": "replay_tier300_summary.json is not edited -- it is sealed. Its 'corrected' triple stands as the live-phase reading, and AMD-MPE10-05 records that the reason given for the correction was wrong. R5: the bad claim stays on record, labelled, rather than being deleted."
+  },
+  "provenance": {
+    "driver": "tools/mp_e10_tier300_closure.py",
+    "git_head": "9fd6272d219d4bf7b5aaa53567f0bb198ccfb5fc",
+    "git_dirty_tracked": "M tools/registration_seal.py",
+    "python": "3.12.10",
+    "read_only_over_the_runs": [
+      "experiments/MP-E10/results/replay_tier300_armA.json",
+      "experiments/MP-E10/results/control_tier300_no_replay_armA.json",
+      "experiments/MP-E8/results/armA_tier300_curriculum.json",
+      "experiments/MP-E10/results/replay_tier300_row_migration.json",
+      "experiments/MP-E10/results/control_tier300_no_replay_row_migration.json",
+      "experiments/MP-E10/results/ksweep_tier300_organ_characterisation.json",
+      "experiments/MP-E10/results/ksweep_tier40_calibration_post_rulings.json",
+      "experiments/MP-E10/results/replay_tier300_summary.json"
+    ]
+  }
+}
