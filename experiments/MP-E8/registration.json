@@ -1586,6 +1586,61 @@
     ]
   },
   "name": "The three-arm duel on the live bench",
+  "named_measured_quantities": {
+    "distractor_answer_rate": {
+      "definition": "of rows whose ask has no taught answer -- the manifest's distractor items, item id beginning 'dist' -- the share that carry a non-empty surface answer. Counted over all three depths and all three phases of the learn arm.",
+      "is_a_gate_criterion": false,
+      "is_an_abort_condition": false,
+      "measured": {
+        "120": {
+          "answered_by_cls": {
+            "invented": 13,
+            "misattrib": 54
+          },
+          "answered_over_rows": "67/324",
+          "answered_pct": 20.68,
+          "artifact": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+          "live_phase_only_pct": 19.44,
+          "n_distractors": 36
+        },
+        "300": {
+          "answered_by_cls": {
+            "cross_echo": 15,
+            "invented": 91,
+            "misattrib": 111
+          },
+          "answered_over_rows": "217/810",
+          "answered_pct": 26.79,
+          "artifact": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+          "live_phase_only_pct": 23.33,
+          "n_distractors": 90
+        },
+        "40": {
+          "answered_by_cls": {
+            "cross_echo": 1,
+            "misattrib": 9
+          },
+          "answered_over_rows": "10/108",
+          "answered_pct": 9.26,
+          "artifact": "experiments/MP-E8/results/armA_tier40_inertness.json",
+          "live_phase_only_pct": 8.33,
+          "n_distractors": 12
+        }
+      },
+      "the_trend_that_matters": {
+        "invented_rows_by_tier": {
+          "120": 13,
+          "300": 91,
+          "40": 0
+        },
+        "reading": "the rate rises 9.26 -> 20.68 -> 26.79 percent with curriculum size, but the composition changes more sharply: rows graded invented go 0 -> 13 -> 91, while misattribution goes 9 -> 54 -> 111. At tier 40 arm A never fabricates an answer to an unanswerable ask; at tier 300 it does 91 times. That is a different failure from refusing too little, and it is the number a future refusal-fairness condition would have to be written against -- registered before the run, not after it."
+      },
+      "why_this_is_recorded_and_not_enforced": "the population is already measured at three tiers. Making it the abort basis now would mean selecting the trigger with the outcome in view, which is the R2 event D-MPE8-05 refused for R13's cells and D-MPE8-06 refused for H1's margin."
+    },
+    "purpose": "measurements that are recorded because they are real, and are explicitly NOT gate conditions. Anything here may become a condition only by a registration that predates the run it would judge.",
+    "registered_at": "2026-11-03T19:25:00Z",
+    "registered_by": "agent on PI ruling D-MPE8-07"
+  },
   "objective": "Measure the true gap between the live connectome agent and parameter-matched frozen and sequential neural language models on all nine axes, under the deployment conditions that define the program: teaching in natural language, real restarts, and probes in words the teacher never used. Produce the program's core figures: forgetting curves and interference curves under identical curricula.",
   "observed_wall_clock_gated_cells": {
     "added_by_mechanism": "R16 / D-MPE8-05: a newly discovered gated cell is added here, dated, with the artifact that revealed it. This block is NOT R13's registered list and editing it does not change any tolerance.",
@@ -1731,7 +1786,7 @@
       "measured": "experiments/MP-E8/results/guarded_absence_arm_attribution.json",
       "question": "H2's registered threshold arm_A_guarded_absence_refusal_min = 24, and C1's 'NOT FIRING -- 24/24 refuse' state, are both written as arm A claims. Measured on four trees including the sealed 3.10 baseline: all 24 src==electric_absence rows are TEACH-arm rows, the learn arm has none, and on those same rows arm A answers 'the bell hangs on the wall' from electric_qa_store and is graded correct. Which arm does the threshold refer to -- and is C1's measurement basis to be re-expressed in an observable that exists for arm A (e.g. rows whose ask has no taught answer, regardless of src), or is the guarded-absence claim moved to the teach arm where the evidence lives?",
       "second_defect_in_the_same_sentence": "C1's measured_by reads 'bench rows with src == electric_absence that carry an answer'. In the arm that has such rows, EVERY one of them carries an answer, because a licensed absence admission ('i don't know, bell was told but no place was ever told for bell') is a spoken answer. Read literally the criterion fires 24/24 on the very rows the registration records as the passing case. The intent is plainly 'answered with something other than the licensed admission', but that is not what is registered.",
-      "status": "OPEN. Nothing registered was edited; the evidence is in the artifact named above.",
+      "status": "RULED by the PI at 2026-11-03T19:25:00Z. C1's registered trigger stands exactly as written and is recorded NOT EVALUABLE for arm A; the distractor population is registered as a named measured quantity and NOT as an abort condition; H2's first clause stays labelled instrumentally undefined for arm A. See pi_decisions.rulings['D-MPE8-07'] and AMD-MPE8-11.",
       "trees_measured": [
         "current_tree_tier40",
         "sealed_3.10_tier40",
@@ -1888,6 +1943,24 @@
         "same_discipline_as": "H3/C4, where a claim the instrument could not measure was named as unmeasurable rather than renumbered into measurability.",
         "status": "RESOLVED by ruling.",
         "undecidable_rule": "If the observed seed spread at a tier exceeds the registered margin, H1 is reported as NOT DECIDABLE at that tier -- not passed, not re-thresholded, not quietly averaged away. The instrument's own instability is then the finding, and it is published as the finding."
+      },
+      "D-MPE8-07": {
+        "decided_at": "2026-11-03T19:25:00Z",
+        "decided_by": "PI",
+        "decision": "C1's registered trigger stays exactly as written -- 'any guarded row answered by arm A', measured by rows with src == electric_absence carrying an answer -- and is recorded NOT EVALUABLE for arm A, because the 24 guarded-absence rows belong to the teach arm and arm A has none. Do NOT re-base C1 onto the distractor / unanswerable population now: that population is already measured, and turning it into an abort condition after seeing those numbers is exactly the R2 event this experiment has refused repeatedly. Register the distractor-answer rate as a named measured quantity, explicitly not an abort condition. If the PI later wants a refusal-fairness abort for arm A it must be registered BEFORE any further arm-A run is scored. H2's first clause stays labelled instrumentally undefined for arm A rather than being passed on the teach arm's number.",
+        "status": "RESOLVED by ruling. Trigger unchanged; basis recorded as not evaluable; the measured quantity is named and demarcated from any abort condition.",
+        "the_finding_behind_the_ruling": {
+          "artifact": "experiments/MP-E8/results/guarded_absence_arm_attribution.json",
+          "consequence_for_h2_clause_1": "H2's first clause ('arm A refusal accuracy exceeds both baselines on the guarded-absence rows') has no arm A numerator on this instrument. It is recorded as INSTRUMENTALLY UNDEFINED for arm A. It is not passed by borrowing teach's 24/24, and it is not failed either -- there is nothing to compare until a measurement basis exists for arm A.",
+          "measured": "all 24 src==electric_absence rows are teach-arm rows in every tree measured, including the sealed 3.10 baseline; arm A has none, and on those same 24 keys arm A answers 'the bell hangs on the wall' from electric_qa_store and is graded correct",
+          "second_defect": "read literally, C1's measured_by fires on all 24 teach rows, because a licensed absence admission IS a spoken answer. The registration records the same rows as the passing case, so the criterion as written cannot distinguish a refusal from a fabrication."
+        },
+        "what_the_PI_must_decide_next": "whether to register a refusal-fairness abort condition for arm A -- most plausibly over the manifest's never-taught asks, which the tier files carry per tier and which would have been fixed in advance of any further scoring. Until that is registered before a run, no arm A run at any tier can be scored against a refusal-based abort.",
+        "what_was_refused": {
+          "count_of_refusals": "this is the eighth refusal of a post-hoc threshold or tolerance change in MP-E8: R13's cell list, H1's 5 pp margin, H2's 24/24 attribution, the near-miss slice, the C2 flag default, the H3 loss threshold, the repetition-as-seed substitution and now C1's basis.",
+          "re_basing_C1_now": "refused. The candidate basis is already measured: {'40': 9.26, '120': 20.68, '300': 26.79} percent of distractor rows answered. Choosing that population as the trigger after seeing those numbers is picking the abort condition by its predicted outcome.",
+          "silently_editing_C1s_text": "refused as well. C1's registered wording is left untouched and its status is recorded as NOT EVALUABLE, which is a statement about the measurement, not a rewrite of the claim."
+        }
       }
     }
   },
@@ -2823,6 +2896,28 @@
         "why_it_failed": "at that tree tools/registration_seal.py had been edited -- DEFAULT_MANIFEST gained the arm C, seed-artifact and attribution entries -- but the seal had not been re-stamped since, so the test correctly reported DRIFT on the sealing tool itself (blob 02d3b9ce1e -> 6c7c8095cb). It is the instrument saying 'my own definition changed and nobody re-attested it'. That is the test working, not a defect."
       },
       "what_this_does_not_change": "H1's FAIL at tier 120, the 5.0 pp margin, C3's registered trigger, D-MPE8-07 and D-MPE8-09's open status, and every published artifact."
+    },
+    {
+      "class": "ruling that changes no registered threshold and adds one named quantity",
+      "condition_for_any_future_refusal_abort": "it must be registered before any further arm-A run is scored. An abort condition written after a run has been measured is a description of that run, not a gate.",
+      "decision": "C1 stays as written and is recorded NOT EVALUABLE for arm A; the distractor-answer rate is registered as a measured quantity and explicitly not an abort condition; H2's first clause stays instrumentally undefined for arm A.",
+      "figures_read_from_artifacts": {
+        "distractor_answer_pct": {
+          "120": 20.68,
+          "300": 26.79,
+          "40": 9.26
+        },
+        "invented_rows": {
+          "120": 13,
+          "300": 91,
+          "40": 0
+        }
+      },
+      "id": "AMD-MPE8-11",
+      "measured_evidence": "experiments/MP-E8/results/guarded_absence_arm_attribution.json",
+      "recorded_at": "2026-11-03T19:25:00Z",
+      "recorded_by": "agent on PI ruling D-MPE8-07",
+      "scope": "C1's status, H2 clause 1's status, and a new named_measured_quantities block. abort_conditions.C1's text and hypotheses.H2's text are byte-identical to before."
     }
   ],
   "schema": "droso.registration.v1",
