@@ -1,5 +1,23 @@
 # Decision brief: D-MPE10-03, D-MPE10-04, D-MPE10-05
 
+## OUTCOME -- all three ruled on 2026-08-10 (recorded in `experiments/MP-E10/registration.json`, `pi_rulings_2026_08_10`)
+
+Everything below this line is the brief **as delivered**, preserved unaltered because it is the basis the
+rulings cite. The status lines inside it ("Uncloseable while open") describe the state at delivery, not now.
+
+| decision | ruled | what was adopted | what the brief got right, and what it did not know |
+|---|---|---|---|
+| D-MPE10-03 | 2026-08-10 | variant (ii) primary; variant (i) registered as **the ablation measuring what re-weighting alone would give**; option (c) rejected outright | The brief's mask-subsumes-drive finding became the ruling's reason. The live question it named -- may the organ make a word illegal -- was answered **yes**, on the ground that hard admissibility is already the organ's discipline. C5 is retained explicitly: a (ii) win does **not** show the drive worthless, it is unmeasurable while the mask is on. |
+| D-MPE10-04 | 2026-08-10 | **(a), 2.0 pp derived** -- the more demanding option -- with three conditions: the row count travels with the figure, interference is reported as a measured interval, and the clone-noise input is re-measured at the tier being judged with the margin re-derived by amendment | The derivation below is the one adopted. (b) was rejected as a round number inherited from a different experiment's noise floor, and (c) as a plan amendment dressed as a ruling. |
+| D-MPE10-05 | 2026-08-10 | **option A disqualified by our own measurement; option B adopted** -- a dedicated replay entry with a registered gain, advancing neither `transitions` nor `sequences_learned` -- plus a pre-registered saturation guard | The probe's numbers were the disqualification: uniform translation, `distinct_weight_values = 1` at every pass, ceiling after 9 passes, and counters that hide the drift because the counter that would reveal it is the one that saturates. The guard now makes a ceiling-limited configuration **void for H3**, not merely flagged. |
+
+**One correction the brief did not have.** It treated `D-MPE10-05` as a single question. The ledger carries that
+number twice: `-05_G2_is_not_closed` (may MP-E10 run before G2 closes) and `-05_replay_write_path` (which
+mechanism replay uses). Only the write path is ruled; the G2-ordering question is **still open**, and the
+collision is recorded in `identifier_collision_recorded` rather than merged away.
+
+---
+
 One page, for the PI to rule on. Every number below is measured and named; nothing here recommends a choice
 on evidence that does not exist, and the evidence that does exist is marked as such.
 

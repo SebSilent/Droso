@@ -1505,7 +1505,8 @@
     "D-MPE12-02": "How the energy estimate is produced. The plan names wall-clock, operation count AND energy estimate; this repository has no energy instrument, so on both the synthetic and the real run energy is NOT MEASURED rather than modelled. Whether a modelled estimate is acceptable, and from what basis, is the PI's call.",
     "D-MPE12-03": "The probe list for the real donor (which tokens, how many, chosen how). It cannot be fixed against an absent model and must not be chosen after the weights arrive; the PI may fix it now, or authorise a rule for fixing it later.",
     "D-MPE12-04": "Whether MP-E12b (the compiler) may be built against the synthetic graph before the real graph exists. Not started here: stage b mutates connectome objects, which is not disjoint from Droso organs, and so is NOT covered by R4's parallel-track authorisation. Building it now would be the one kind of licence this registration does not have.",
-    "D-MPE12-05": "How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibration measured that the pre-registered 10x threshold is crossed at 5 generated tokens on operation count and at 9 on MACs, and is NOT reached on wall-clock at any registered length (a factor of 5.8 at nine tokens, and under 2.0 at one). The plan says 'at least ten times cheaper per association than inference' and never fixes the association's length, so the verdict is a property of an unstated definition rather than of weight-reading. Raised by the measurement, not by reading ahead -- see experiments/MP-E12/results/probes_synthetic_calibration.json calibration_findings.1."
+    "D-MPE12-05": "RULED 2026-08-10 by PI -- see pi_rulings['D-MPE12-05']. H2's claim is UNDER-SPECIFIED and that is the finding: the read-versus-inference ratio must be reported as a CURVE against generated-token count (minimum 1, 5, 9 and the donor's measured mean answer length), with the verdict stated at each point, and the claim registered as conditional on that definition. Choosing the length after seeing which lengths pass is the R2 event refused here in advance.",
+    "D-MPE12-05_as_registered_before_the_ruling": "How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibration measured that the pre-registered 10x threshold is crossed at 5 generated tokens on operation count and at 9 on MACs, and is NOT reached on wall-clock at any registered length (a factor of 5.8 at nine tokens, and under 2.0 at one). The plan says 'at least ten times cheaper per association than inference' and never fixes the association's length, so the verdict is a property of an unstated definition rather than of weight-reading. Raised by the measurement, not by reading ahead -- see experiments/MP-E12/results/probes_synthetic_calibration.json calibration_findings.1."
   },
   "pi_rulings": {
     "D-MPE12-05": {
@@ -1612,6 +1613,13 @@
       "D-MPE12-03",
       "D-MPE12-04",
       "D-MPE12-05"
+    ],
+    "open_decisions_at_generation.snapshot_is_historical": "This list records what was open when the guard was WRITTEN (before any run), and D-MPE12-05 has since been RULED on 2026-08-10 -- see pi_rulings['D-MPE12-05'] and open_decisions['D-MPE12-05']. The list is kept as a dated snapshot per R5, not corrected.",
+    "open_decisions_still_open_2026_08_10": [
+      "D-MPE12-01",
+      "D-MPE12-02",
+      "D-MPE12-03",
+      "D-MPE12-04"
     ],
     "rule_source": "This registration, and the plan's own What MP-E12 is not. Established practice in this repository: MP-E10's sweep and G2's H4 clause both attach a guard naming what the artifact is and is not evidence of.",
     "still_blocking_a_scored_run_after_this_registration": "the donor itself, which is a physical absence, not a decision. Nothing in the open list above prevents the code path from being built and tested; the absence prevents it from being pointed at anything real."
