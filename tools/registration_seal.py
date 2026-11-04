@@ -318,6 +318,12 @@ DEFAULT_MANIFEST = [
     # abort whose only real guard is the test file next to it.
     "tools/mp_e10_working_memory.py",
     "tests/test_mp_e10_working_memory.py",
+    # The coverage test is itself an instrument: it is the thing that stops "re-stamp all three" from
+    # silently meaning two, so it belongs under the seal alongside the seal it checks.
+    "tests/test_registration_seal_coverage.py",
+    # The suite run that caught the unstamped fourth ledger. Published, not overwritten -- R5 says the
+    # record of a run that found a mistake stays in the ledger next to the run that fixed it.
+    "experiments/MP-E8/results/suite_manifest_g2_closeout.json",
 ]
 
 
