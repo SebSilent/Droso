@@ -414,14 +414,16 @@ def _curriculum_arg(argv):
 # was applied inside the bench, by the bench's rules, before arm B could validate it -- measured as
 # 2 failures and 8 errors in tests/test_mp_e8_arm_b.py. An importing process must call
 # apply_curriculum() itself, explicitly, and know it did.
+# Declared at module scope, OUTSIDE the __main__ guard, so an importing process never hits a NameError when the
+# constant below adopts it; the guard only ever turns it on. The flag is DECIDED at the definition site, not
+# here -- see the comment there for why setting it here alone silently did nothing.
+REPLAY_REQUESTED_AT_MAIN = False
+
 if __name__ == "__main__":
     if "--replay" in sys.argv[1:]:
-        # Set here, in the __main__ guard, so it can only ever be the person running the bench who asks for
-        # replay -- never an importer, never an argument a caller can pass by accident.
-        global REPLAY_REQUESTED
-        REPLAY_REQUESTED = True
-        print("[bench] --replay: episodic replay WILL run at each restart boundary, "
-              "gain = LEARN_LR by identity, passes = the registered schedule", flush=True)
+        REPLAY_REQUESTED_AT_MAIN = True
+        print("[bench] --replay: recorded at the __main__ guard; the replay entry is decided where "
+              "REPLAY_REQUESTED is defined, below this block", flush=True)
     _cur_arg = _curriculum_arg(sys.argv[1:])
     if _cur_arg is not None:
         if not _cur_arg:
@@ -687,7 +689,13 @@ def mechanism(row, store_keys):
 # inside run_arm is the exact bug documented at :411-413 (the bench once read the IMPORTER's command line).
 # An importer therefore gets the unwired path, which is what it has always got.
 # ---------------------------------------------------------------------------
-REPLAY_REQUESTED = False
+# THIS IS WHERE THE FLAG IS DECIDED, and it is the only place that may decide it. The __main__ guard further
+# up (near :417) runs BEFORE this line during module execution, so setting the flag there and reading it here
+# silently loses it: the tier-120 run measured with the flag on argv produced a byte-identical copy of the
+# unreplayed baseline and reported replay_present=False. An artifact that says "replay" and replayed nothing is
+# exactly what this project's ledgers exist to make impossible, so the parse lives at the definition, after it,
+# and the earlier block only records the request.
+REPLAY_REQUESTED = bool(REPLAY_REQUESTED_AT_MAIN)
 REPLAY_PASSES = None          # None -> the organ's registered REPLAY_PASSES_PER_TIER (2)
 
 
