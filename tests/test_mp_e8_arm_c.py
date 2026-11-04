@@ -130,7 +130,19 @@ def test_cli_tier40_smoke_run_is_labelled_as_nothing_more():
             assert all("cls" in row and "retr_sim" in row for row in rows)
         assert a["calibration"][d]["populations"]["never_told_asks"] > 0
         assert "retrieval_empty_among_never_told" in a["calibration"][d]["populations"]
-    assert "TIER 40 ONLY" in a["claim_status"]
+    # The first version of claim_status said "MEASURED AT TIER 40 ONLY" whatever tier had actually been
+    # run, so a tier-300 artifact arrived carrying a sentence that contradicted its own tier field. It now
+    # reads the tier out of the manifest. The assertion follows the contract: the text must name THIS
+    # run's tier and must not present itself as a claim about any other tier. AMD-MPE8-12 is the ruling
+    # that says why the correct rate in here is not the hypothesis-bearing quantity, and the artifact has
+    # to say so too, because an artifact that a reader can open without the registration still has to
+    # tell them what it does not support.
+    claim = " ".join(a["claim_status"].split())          # collapse the source's line-wrapping
+    assert f"MEASURED AT TIER {a['tier']} BY THIS ARTIFACT" in claim
+    assert "TIER 40 ONLY" not in claim
+    assert "carries no hypothesis claim at these parameter counts" in claim
+    assert "not evidence against frozen-plus-retrieval as a class" in claim
+    assert "similarity and confidence distributions" in claim
     assert a["training"]["frozen_after_training_each_depth"] is True
 
 

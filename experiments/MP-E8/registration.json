@@ -1613,7 +1613,19 @@
           "answered_pct": 26.79,
           "artifact": "experiments/MP-E8/results/armA_tier300_curriculum.json",
           "live_phase_only_pct": 23.33,
-          "n_distractors": 90
+          "n_distractors": 90,
+          "second_measurement": {
+            "artifact": "experiments/MP-E8/results/armA_tier300_rerun.json",
+            "answered_over_rows": "231/810",
+            "answered_pct": 28.52,
+            "answered_by_cls": {
+              "cross_echo": 13,
+              "invented": 107,
+              "misattrib": 111
+            }
+          },
+          "run_to_run_spread_pp": 1.73,
+          "quote_with_spread": true
         },
         "40": {
           "answered_by_cls": {
@@ -1801,7 +1813,26 @@
       "question": "C3 is pre-registered with action 'abort' and it has fired: two taught items (tell0.26/object, tell0.38/object) were correct live at depth 3 and refused after restart, at tier 300 only, zero rows at tier 40 and tier 120. Does MP-E8 abort as written -- which stops G2 on this instrument -- or is the abort executed against a named remediation (re-run at the same seed, or a restart-phase tolerance registered as a dated amendment before any further tier-300 claim)? The agent has done neither.",
       "status": "OPEN. C3 recorded as FIRING; nothing aborted, nothing waived.",
       "what_is_already_true_regardless": "the tier-300 arm A measurement, its wall clock against the projection, and the cross-tier confabulation trend are recorded and stand on their own.",
-      "why_it_cannot_be_decided_by_the_agent": "a stopping rule exists precisely to remove the agent's discretion at the moment it is inconvenient. Choosing to continue, or choosing to re-run until it passes, are both the same fault in different clothes."
+      "why_it_cannot_be_decided_by_the_agent": "a stopping rule exists precisely to remove the agent's discretion at the moment it is inconvenient. Choosing to continue, or choosing to re-run until it passes, are both the same fault in different clothes.",
+      "measurement_at": {
+        "at": "2026-11-04T04:09:41Z",
+        "artifact": "experiments/MP-E8/results/armA_tier300_rerun_c3_diff.json",
+        "see": "AMD-MPE8-13",
+        "result": "PARTIALLY REPEATED: one of the two named rows reproduces (3/tell0.26/object), the other does not (3/tell0.38/object). The reproducing row is a real loss of taught-item availability; the non-reproducing one is restart-phase instability. The abort/waive choice remains the PI's."
+      }
+    },
+    "D-MPE8-10_r13_cells_do_not_cover_the_observed_instability": {
+      "asked_at": "2026-11-04T04:09:41Z",
+      "asked_by": "agent",
+      "question": "R13 tolerates disagreement in learn/1/reasked and learn/1/restarted for the 2.0 s speech-act gate. Two runs of the same program at tier 300 show ZERO disagreement in those cells and 208 field differences elsewhere, concentrated at depths 2 and 3 and present in the live phase too. Is the instrument's tier-300 nondeterminism to be tolerated, registered as a named quantity with its own spread, or is tier 300 to be run as replicates like arm B?",
+      "measured_evidence": [
+        "experiments/MP-E8/results/armA_tier300_rerun_c3_diff.json",
+        "experiments/MP-E8/results/armA_tier300_curriculum.json",
+        "experiments/MP-E8/results/armA_tier300_rerun.json"
+      ],
+      "agent_recommendation": "register the spread as a named quantity and quote tier-300 arm A aggregates with it, rather than widening R13's cell list -- widening R13 would excuse rows in cells whose disagreement has no mechanism behind it, while the spread is a measured property of the arithmetic. But this changes what counts as noise, which is the same class of decision as D-MPE8-05.",
+      "why_it_cannot_be_decided_by_the_agent": "the tolerance list is part of the pre-registered contract. Editing it after seeing which cells disagree is selecting the tolerance on the data it will be used to excuse.",
+      "status": "OPEN. Nothing widened. AMD-MPE8-13 names both artifacts."
     }
   },
   "pi_decisions": {
@@ -2918,10 +2949,176 @@
       "recorded_at": "2026-11-03T19:25:00Z",
       "recorded_by": "agent on PI ruling D-MPE8-07",
       "scope": "C1's status, H2 clause 1's status, and a new named_measured_quantities block. abort_conditions.C1's text and hypotheses.H2's text are byte-identical to before."
+    },
+    {
+      "id": "AMD-MPE8-12",
+      "recorded_at": "2026-11-04T04:09:41Z",
+      "recorded_by": "agent, on PI instruction of 2026-11-04 before any arm C run",
+      "class": "ruling on what arm C is graded on; changes no threshold and no hypothesis text",
+      "decision": "Arm C's hypothesis-bearing quantities are the ABSTENTION/CALIBRATION measures and the NEAR-MISS SLICE: the similarity and confidence distributions, the two Youden thresholds, the retrieval-empty populations, and what each gate did. Its correct rate is REPORTED and carries NO hypothesis claim at these parameter counts. A 0 correct rate in arm C is not evidence against frozen-plus-retrieval as a class; it is a finding about a 3.6M-parameter verbalizer.",
+      "why": "Arm C's verbalizer is the same Net that arm B trains -- identical by object import, and the same size that scores 6-7 percent live in arm B at tier 120. Grading arm C on its correct rate therefore measures the verbalizer's capacity, not the architecture's, and a zero would be read as a claim about frozen-plus-retrieval systems in general. H2's second clause is about abstention being poorly calibrated when retrieval returns a near-miss, and the retrieval-empty claim is about gate behaviour: both are properties of the retrieval side and are measurable whatever the verbalizer says.",
+      "figures_read_from_artifacts": {
+        "arm_c_verbalizer_parameters": 3599797,
+        "same_net_as_arm_B": "tools/mp_e8_arm_c.py imports b.Net from tools/mp_e8_arm_b.py by object identity",
+        "arm_B_tier120_session1_pct": {
+          "20261103": 6.9712,
+          "20261104": 7.4519,
+          "20261105": 6.25
+        },
+        "arm_c_smoke_run_correct_of_rows": "0/1224",
+        "arm_c_smoke_run_cls_distribution": {
+          "partial": 279,
+          "invented": 189,
+          "refused": 756
+        },
+        "arm_c_smoke_run_source": "_tmp/armC_smoke.json (3-epoch test run, unsealed, NOT a measurement of the tiers H2 names -- it is cited only to show what the arm produces at this capacity)",
+        "retrieval_side_quantities_present_in_that_same_run": {
+          "d1_live": {
+            "n_exact_retrieval": 36,
+            "n_near_miss": 32,
+            "n_retrieval_empty": 33,
+            "n_rows": 136,
+            "near_miss_definition": "the registered slice (D-MPE8-04, arm_C_near_miss_slice_definition): the row answered, retrieval cleared the floor, and the item surfaced is not the item the ask should be answered with"
+          },
+          "d1_calibration": {
+            "similarity_floor": {
+              "n_neg": 12,
+              "n_pos": 39,
+              "threshold": 0.4375,
+              "youden_j": 0.1987
+            },
+            "confidence_threshold": {
+              "n_neg": 9,
+              "n_pos": 37,
+              "threshold": -4.3684,
+              "youden_j": 0.2883
+            },
+            "populations": {
+              "never_told_asks": 12,
+              "retrieval_empty_among_never_told": 3,
+              "retrieval_empty_among_taught": 2,
+              "taught_asks": 39
+            }
+          }
+        },
+        "arm_c_phase_identity_in_that_same_run": {
+          "1": {
+            "live_equals_reasked": true,
+            "live_equals_restarted": true,
+            "n_rows": 136
+          },
+          "2": {
+            "live_equals_reasked": true,
+            "live_equals_restarted": true,
+            "n_rows": 136
+          },
+          "3": {
+            "live_equals_reasked": true,
+            "live_equals_restarted": true,
+            "n_rows": 136
+          }
+        }
+      },
+      "consequence_for_reading_the_runs": "Arm C runs are executed in the order tier 40 (calibration of a tool that has never produced a sealed artifact), then 120, then 300. Their sealed numbers are the gate and slice measures. Where a correct rate appears in an arm C artifact it is reported with this sentence attached, and it is not admissible as evidence for or against H2's second clause.",
+      "code_changed_to_match": {
+        "tools/mp_e8_arm_c.py": "claim_status was a hard-coded sentence saying 'MEASURED AT TIER 40 ONLY' whatever tier had been run, so a tier-120 or tier-300 artifact would have contradicted its own tier field. It now reads the tier from the manifest and states this ruling. tests/test_mp_e8_arm_c.py's smoke assertion follows the new contract.",
+        "consequence": "the harness hash changes, so all three registrations are re-stamped in the same commit; no gate number moves"
+      },
+      "scope": "arms.C's graded quantities and how arm C artifacts are to be read. hypotheses.H2's text, abort_conditions' text and every registered threshold are byte-identical to before."
+    },
+    {
+      "id": "AMD-MPE8-13",
+      "recorded_at": "2026-11-04T04:09:41Z",
+      "recorded_by": "agent, on PI instruction to settle D-MPE8-09 by re-running arm A at tier 300",
+      "class": "measurement outcome; falsifies one hypothesis clause at one tier and reports an instrument defect. Widens no tolerance cell.",
+      "question_settled": "Does the tier-300 restart loss reproduce, or is the restart phase unstable?",
+      "verdict": "PARTIALLY REPEATED -- some rows reproduce and some do not. Report both halves; a partial reproduction is the strongest evidence that the restart phase itself carries instability on top of the loss.",
+      "artifacts_named": {
+        "published": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+        "rerun": "experiments/MP-E8/results/armA_tier300_rerun.json",
+        "diff": "experiments/MP-E8/results/armA_tier300_rerun_c3_diff.json"
+      },
+      "the_two_halves": {
+        "reproducible_loss": [
+          "3/tell0.26/object"
+        ],
+        "did_not_reproduce": [
+          "3/tell0.38/object"
+        ],
+        "reading": "3/tell0.26/object lost its live-correct answer across restart in BOTH runs: that row is a real loss of taught-item availability, and it falsifies H1's arm A clause as registered -- 'arm A holds its taught set across restarts', minimum 1.0 -- at tier 300. 3/tell0.38/object lost in the published run and not in the re-run: that row is restart-phase instability, not a property of the organism. C3's two named rows are therefore one finding and one artifact of the instrument, and the abort question D-MPE8-09 asks is now answerable with that split in view. The agent does not answer it: a stopping rule exists to remove the agent's discretion."
+      },
+      "instrument_finding": {
+        "statement": "At tier 300, arm A is not reproducible run-to-run OUTSIDE the cells R13 tolerates. Two runs of the same program on the same input disagree on 208 row fields, and NONE of that disagreement falls in learn/1/reasked or learn/1/restarted -- the two cells R13 registered -- which show zero differences.",
+        "same_program_proof": {
+          "curriculum_sha256_equal": true,
+          "flags_equal": true,
+          "git_head_published": "73b6ade14f6271dbdc55fdd57046461b59be9619",
+          "git_head_rerun": "de2fd286f3bfbe775e963bb215e3447dea4a8742",
+          "harness_sha256_equal": true,
+          "interpreter_equal": true,
+          "packages_equal": true,
+          "reading": "every input that could move a row is equal, and none of the files that produce rows changed between the two recorded git heads. The disagreement is therefore run-to-run nondeterminism in one program on one input, not a code change. Same seed, same arithmetic, torch.set_num_threads(6) on Windows: the float reduction order is not guaranteed, and at tier 300 that is enough to move grades.",
+          "row_producing_files_changed_between_those_heads": {
+            "tools/banc_bridge.py": [],
+            "tools/bench_noise_floor.py": [],
+            "tools/electric_learn_bench.py": [],
+            "tools/electric_teach_mode.py": []
+          },
+          "seed": 20261103,
+          "seed_equal": true,
+          "torch_build_equal": true
+        },
+        "by_cell": {
+          "learn/1/live": 6,
+          "learn/1/reasked": 0,
+          "learn/1/restarted": 0,
+          "learn/2/live": 23,
+          "learn/2/reasked": 36,
+          "learn/2/restarted": 33,
+          "learn/3/live": 27,
+          "learn/3/reasked": 51,
+          "learn/3/restarted": 32
+        },
+        "aggregate_survives": {
+          "live_correct_by_depth": {
+            "1": {
+              "published": "291/1046",
+              "rerun": "291/1046"
+            },
+            "2": {
+              "published": "546/1046",
+              "rerun": "546/1046"
+            },
+            "3": {
+              "published": "785/1046",
+              "rerun": "784/1046"
+            }
+          },
+          "reading": "the headline numbers are stable where the claim is read (291/1046 and 546/1046 identical in both runs; 785 vs 784 at depth 3) while individual rows move. An aggregate that reproduces does not make the rows reproducible, and C3 is written about named rows."
+        },
+        "r13_not_widened": "R13A_EXCLUDED_CELLS is untouched. The cells that would excuse this disagreement are not registered, and adding them would be a change to what counts as noise, which is the PI's call. Raised as D-MPE8-10."
+      },
+      "named_quantity_gets_a_spread": {
+        "distractor_answer_rate_tier300": {
+          "note": "the quantity registered under D-MPE8-07 at tier 300 was a single measurement. This is the second measurement of the same quantity by the same program, so the registered figure now has an observed run-to-run spread and must be quoted with it.",
+          "published_pct": 26.79,
+          "rerun_pct": 28.52,
+          "spread_pp": 1.73
+        },
+        "reading": "the figure registered under D-MPE8-07 (26.79%) was a single measurement of a quantity that is now known to move 1.73 pp between runs of the same program. Quoted onward with that spread, or not quoted at all."
+      },
+      "wall_clock": {
+        "published_workdir_files": 108,
+        "published_workdir_span_minutes": 53.41,
+        "rerun_artifact_utc": "2026-11-04T04:00:29Z",
+        "rerun_minutes": 63.49,
+        "rerun_start_local": "2026-11-03T23:56:59.503668-03:00"
+      },
+      "scope": "D-MPE8-09's factual basis, H1's arm A clause at tier 300 (recorded as falsified by measurement, its text unchanged), and a new open decision. No threshold, tolerance cell, stopping rule or hypothesis string is altered."
     }
   ],
   "schema": "droso.registration.v1",
-  "status": "OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed.",
+  "status": "OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed. UPDATED 2026-11-04: arm A has now been run TWICE at tier 300 (published and armA_tier300_rerun.json). C3's two rows split -- 3/tell0.26/object reproduces and is a real restart loss, which falsifies H1's arm A clause at tier 300 as measured; 3/tell0.38/object did not reproduce and is instrument instability (AMD-MPE8-13). Arm C's graded quantities were re-registered before its first run: gate and near-miss measures carry its claims, its correct rate does not (AMD-MPE8-12). Arm C has still produced no sealed artifact; arm B has still never run at tier 300.",
   "status_facts": {
     "arm_A_measured_tiers": {
       "120": {
@@ -2970,22 +3167,12 @@
       "tier_300": "NOT RUN -- no armB_tier300_seed*.json exists",
       "tier_40": "calibration only; carries no H1 claim (tiers_required_for_H1 = [120, 300])"
     },
-    "arm_C": {
-      "built": "tools/mp_e8_arm_c.py, sealed",
-      "measured_at_any_tier": "NO. The only execution is a 3-epoch smoke run in _tmp, deliberately unsealed. No arm C artifact is in the seal manifest: []",
-      "tests": "tests/test_mp_e8_arm_c.py, sealed, 6 pass"
-    },
+    "arm_C": "Built and tested; no sealed artifact at any tier as at this stamp. Graded on gate and near-miss measures per AMD-MPE8-12, correct rate reported without hypothesis weight. Run order registered: tier 40 calibration, then 120, then 300.",
     "c1": {
       "state": "NOT EVALUABLE for arm A as registered -- ruled by the PI as D-MPE8-07. The 24 guarded-absence rows are teach-arm rows in every tree measured (['current_tree_tier40', 'sealed_3.10_tier40', 'tier120', 'tier300']); arm A has none and answers all 24 correct from electric_qa_store."
     },
-    "c3": {
-      "rows": [
-        "3/tell0.26/object",
-        "3/tell0.38/object"
-      ],
-      "state": "FIRED at tier 300 (2 named rows), NOT EXECUTED -- the registered action is abort and the PI has not ruled (D-MPE8-09 open)"
-    },
-    "g2": "NOT CLOSABLE. H1's arm B clause fails at tier 120 and tier 300 is unrun; H2's first clause is instrumentally undefined for arm A; H2's second clause and the retrieval-empty claim depend on arm C, which has never produced a sealed artifact; C3 has fired and stands unexecuted pending the PI."
+    "c3": "FIRED at tier 300 with two named rows; now split by replication. 3/tell0.26/object lost in both runs (real), 3/tell0.38/object lost in one (instability). Action still UNEXECUTED -- D-MPE8-09 remains the PI's call, with AMD-MPE8-13 as its factual basis.",
+    "g2": "NOT CLOSABLE. H1's arm A clause is falsified at tier 300 by a reproduced row (AMD-MPE8-13); H1's arm B clause fails at tier 120 and tier 300 is unrun; H2's first clause is instrumentally undefined for arm A; H2's second clause and the retrieval-empty claim await arm C's first sealed artifact at any tier."
   },
   "status_previous_text": "OPEN. Registered before any run (R2). No arm has been scored. Arm A and the T control are reproducible at tier 40 on the current tree and the N noise floor was re-verified against the committed clones; arms B and C are not built, tiers 120 and 300 are AUTHORED as registered data under D-MPE8-03 and are not yet runnable by arm A, which still reads its curriculum from module literals. C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01.",
   "status_rewrite_reason": "the field contradicted artifacts in the same file, and the file is published on main. A status line that says 'no arm has been scored' above a sealed tier-120 verdict is not conservatism, it is a wrong record; and the correction is additive -- the old text is retained verbatim in status_previous_text so the error stays auditable.",

@@ -1,0 +1,161 @@
+{
+  "artifacts": {
+    "published": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+    "rerun": "experiments/MP-E8/results/armA_tier300_rerun.json"
+  },
+  "bench_failures": {
+    "published": 101,
+    "rerun": 118
+  },
+  "c3_loss_rows_published": [
+    "3/tell0.26/object",
+    "3/tell0.38/object"
+  ],
+  "c3_loss_rows_rerun": [
+    "3/tell0.26/object"
+  ],
+  "distractor_answer_rate": {
+    "published": {
+      "answered_flag": {
+        "by_cls": {
+          "cross_echo": 15,
+          "invented": 91,
+          "misattrib": 111
+        },
+        "n": 217,
+        "pct": 26.79
+      },
+      "matches_registered_217_of_810": true,
+      "rows": 810,
+      "said_nonempty": {
+        "n": 217,
+        "pct": 26.79
+      }
+    },
+    "rerun": {
+      "answered_flag": {
+        "by_cls": {
+          "cross_echo": 13,
+          "invented": 107,
+          "misattrib": 111
+        },
+        "n": 231,
+        "pct": 28.52
+      },
+      "matches_registered_217_of_810": false,
+      "rows": 810,
+      "said_nonempty": {
+        "n": 231,
+        "pct": 28.52
+      }
+    }
+  },
+  "lost_in_both": [
+    "3/tell0.26/object"
+  ],
+  "lost_only_in_published": [
+    "3/tell0.38/object"
+  ],
+  "lost_only_in_rerun": [],
+  "provenance": {
+    "published_git_head": "73b6ade14f6271dbdc55fdd57046461b59be9619",
+    "published_started": "2026-11-03T16:11:52Z",
+    "rerun_git_head": "de2fd286f3bfbe775e963bb215e3447dea4a8742",
+    "rerun_started": "2026-11-04T04:00:29Z",
+    "same_curriculum_sha": true,
+    "same_flags": true
+  },
+  "question": "Does the tier-300 restart loss reproduce, or is the restart phase unstable?",
+  "reproducibility": {
+    "are_the_two_runs_the_same_program": {
+      "curriculum_sha256_equal": true,
+      "flags_equal": true,
+      "git_head_published": "73b6ade14f6271dbdc55fdd57046461b59be9619",
+      "git_head_rerun": "de2fd286f3bfbe775e963bb215e3447dea4a8742",
+      "harness_sha256_equal": true,
+      "interpreter_equal": true,
+      "packages_equal": true,
+      "reading": "every input that could move a row is equal, and none of the files that produce rows changed between the two recorded git heads. The disagreement is therefore run-to-run nondeterminism in one program on one input, not a code change. Same seed, same arithmetic, torch.set_num_threads(6) on Windows: the float reduction order is not guaranteed, and at tier 300 that is enough to move grades.",
+      "row_producing_files_changed_between_those_heads": {
+        "tools/banc_bridge.py": [],
+        "tools/bench_noise_floor.py": [],
+        "tools/electric_learn_bench.py": [],
+        "tools/electric_teach_mode.py": []
+      },
+      "seed": 20261103,
+      "seed_equal": true,
+      "torch_build_equal": true
+    },
+    "bench_failure_list": {
+      "published": 101,
+      "rerun": 118
+    },
+    "cells_with_zero_differences": [
+      "learn/1/reasked",
+      "learn/1/restarted"
+    ],
+    "distractor_answer_rate_second_measurement": {
+      "note": "the quantity registered under D-MPE8-07 at tier 300 was a single measurement. This is the second measurement of the same quantity by the same program, so the registered figure now has an observed run-to-run spread and must be quoted with it.",
+      "published_pct": 26.79,
+      "rerun_pct": 28.52,
+      "spread_pp": 1.73
+    },
+    "field_differences_by_cell": {
+      "learn/1/live": 6,
+      "learn/1/reasked": 0,
+      "learn/1/restarted": 0,
+      "learn/2/live": 23,
+      "learn/2/reasked": 36,
+      "learn/2/restarted": 33,
+      "learn/3/live": 27,
+      "learn/3/reasked": 51,
+      "learn/3/restarted": 32
+    },
+    "live_correct_by_depth": {
+      "1": {
+        "published": "291/1046",
+        "rerun": "291/1046"
+      },
+      "2": {
+        "published": "546/1046",
+        "rerun": "546/1046"
+      },
+      "3": {
+        "published": "785/1046",
+        "rerun": "784/1046"
+      }
+    },
+    "r13_registered_cells_differences": {
+      "learn/1/reasked": 0,
+      "learn/1/restarted": 0
+    },
+    "wall_clock_observed": {
+      "published_workdir_files": 108,
+      "published_workdir_span_minutes": 53.41,
+      "rerun_artifact_utc": "2026-11-04T04:00:29Z",
+      "rerun_minutes": 63.49,
+      "rerun_start_local": "2026-11-03T23:56:59.503668-03:00"
+    }
+  },
+  "row_level_disagreement": {
+    "inside_R13_registered_cells": {},
+    "note": "disagreement inside learn/1/reasked or learn/1/restarted is the cell R13 already tolerates for the 2.0 s speech-act gate. Disagreement OUTSIDE those cells is not excused by anything registered, and is reported as measured. R13's list is not widened here: if new gated cells are revealed, that goes to the PI as an amendment naming this artifact, per the rule D-MPE8-05 established.",
+    "outside_R13_registered_cells": {
+      "cls": 70,
+      "said": 70,
+      "src": 68
+    },
+    "total_field_differences": 208
+  },
+  "verdict": "PARTIALLY REPEATED -- some rows reproduce and some do not. Report both halves; a partial reproduction is the strongest evidence that the restart phase itself carries instability on top of the loss.",
+  "wall_clock": {
+    "artifact_mtime_utc": "2026-11-04T04:00:29Z",
+    "bench_minutes": 0.01,
+    "bench_started_utc": "2026-11-04T04:00:29Z",
+    "note": "the first relaunch driver died at the session boundary; this run was started detached and its timing is read back from the bench artifact itself",
+    "observed_start_local": "2026-11-03T23:56:59.5036688-03:00",
+    "published_bench_minutes": 0.01,
+    "published_workdir_files": 108,
+    "published_workdir_span_minutes": 53.41
+  }
+}

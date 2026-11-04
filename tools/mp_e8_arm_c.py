@@ -429,8 +429,22 @@ def merge(sd: Path, man_path: Path, man: dict, seed: int, depths: list[int]) -> 
         "gift_rule": ARM_C_GIFT_RULE,
         "single_process_measurement": False,
         "measured_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-        "claim_status": ("BUILT AND MEASURED AT TIER 40 ONLY. Arm C has never run at tier 120 or 300, "
-                         "so no H2 figure from this artifact is quotable at the tiers H2 names."),
+        # The first version of this field said "MEASURED AT TIER 40 ONLY" unconditionally, which is a
+        # string the tool wrote about itself rather than a fact it observed: run it at tier 300 and it
+        # produced an artifact whose claim_status contradicted its own tier field. It now reads the tier
+        # from the manifest it just consumed. The second half is the registered ruling (AMD-MPE8-12):
+        # this arm's correct rate is capacity-bound at these parameter counts, so the hypothesis-bearing
+        # quantities are the gate and calibration measures, not the score.
+        "claim_status": (
+            f"MEASURED AT TIER {man['tier']} BY THIS ARTIFACT. Other tiers are measured only by their own "
+            f"artifacts; nothing here is quotable at a tier it does not name. "
+            "Per AMD-MPE8-12, this arm's correct rate is reported and carries no hypothesis claim at these "
+            "parameter counts: the verbalizer is the same 3.6M-parameter LM that scores 6-7% in arm B, so a "
+            "0 correct rate is a finding about a small LM, not evidence against frozen-plus-retrieval as a "
+            "class. H2's second clause and the retrieval-empty claim are carried by the abstention and "
+            "calibration measures -- similarity and confidence distributions, the two Youden thresholds, "
+            "the near-miss slice, and what each gate did -- all of which are measurable whatever the "
+            "verbalizer produces."),
     }
 
 
