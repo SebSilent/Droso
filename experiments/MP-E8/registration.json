@@ -2826,7 +2826,75 @@
     }
   ],
   "schema": "droso.registration.v1",
-  "status": "OPEN. Registered before any run (R2). No arm has been scored. Arm A and the T control are reproducible at tier 40 on the current tree and the N noise floor was re-verified against the committed clones; arms B and C are not built, tiers 120 and 300 are AUTHORED as registered data under D-MPE8-03 and are not yet runnable by arm A, which still reads its curriculum from module literals. C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01.",
+  "status": "OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed.",
+  "status_facts": {
+    "arm_A_measured_tiers": {
+      "120": {
+        "artifact": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+        "bench_failures": 13,
+        "items": 120,
+        "live_correct_d1": [
+          122,
+          416
+        ],
+        "probes_built": 416
+      },
+      "300": {
+        "artifact": "experiments/MP-E8/results/armA_tier300_curriculum.json",
+        "bench_failures": 101,
+        "items": 300,
+        "live_correct_d1": [
+          291,
+          1046
+        ],
+        "probes_built": 1046
+      },
+      "40": {
+        "artifact": "experiments/MP-E8/results/armA_tier40_inertness.json",
+        "items": 40,
+        "live_correct_d1": [
+          38,
+          136
+        ],
+        "probes_built": 136
+      }
+    },
+    "arm_B_measured": {
+      "tier_120": {
+        "battery_probes": 416,
+        "least_favourable_drop_pp": 1.6827,
+        "margin_pp": 5.0,
+        "seed_spread_drop_pp": 2.1635,
+        "seeds": {
+          "20261103": 3.8462,
+          "20261104": 2.1634,
+          "20261105": 1.6827
+        },
+        "verdict": "FAIL at this tier"
+      },
+      "tier_300": "NOT RUN -- no armB_tier300_seed*.json exists",
+      "tier_40": "calibration only; carries no H1 claim (tiers_required_for_H1 = [120, 300])"
+    },
+    "arm_C": {
+      "built": "tools/mp_e8_arm_c.py, sealed",
+      "measured_at_any_tier": "NO. The only execution is a 3-epoch smoke run in _tmp, deliberately unsealed. No arm C artifact is in the seal manifest: []",
+      "tests": "tests/test_mp_e8_arm_c.py, sealed, 6 pass"
+    },
+    "c1": {
+      "state": "NOT EVALUABLE for arm A as registered -- ruled by the PI as D-MPE8-07. The 24 guarded-absence rows are teach-arm rows in every tree measured (['current_tree_tier40', 'sealed_3.10_tier40', 'tier120', 'tier300']); arm A has none and answers all 24 correct from electric_qa_store."
+    },
+    "c3": {
+      "rows": [
+        "3/tell0.26/object",
+        "3/tell0.38/object"
+      ],
+      "state": "FIRED at tier 300 (2 named rows), NOT EXECUTED -- the registered action is abort and the PI has not ruled (D-MPE8-09 open)"
+    },
+    "g2": "NOT CLOSABLE. H1's arm B clause fails at tier 120 and tier 300 is unrun; H2's first clause is instrumentally undefined for arm A; H2's second clause and the retrieval-empty claim depend on arm C, which has never produced a sealed artifact; C3 has fired and stands unexecuted pending the PI."
+  },
+  "status_previous_text": "OPEN. Registered before any run (R2). No arm has been scored. Arm A and the T control are reproducible at tier 40 on the current tree and the N noise floor was re-verified against the committed clones; arms B and C are not built, tiers 120 and 300 are AUTHORED as registered data under D-MPE8-03 and are not yet runnable by arm A, which still reads its curriculum from module literals. C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01.",
+  "status_rewrite_reason": "the field contradicted artifacts in the same file, and the file is published on main. A status line that says 'no arm has been scored' above a sealed tier-120 verdict is not conservatism, it is a wrong record; and the correction is additive -- the old text is retained verbatim in status_previous_text so the error stays auditable.",
+  "status_rewritten_at": "2026-11-03T19:05:00Z",
   "stopping_rules": {
     "bad_numbers_stay_on_record": "R5, labelled superseded with what replaced them.",
     "experiment_succeeds_regardless_of_winner": "Gate G2: 'the experiment succeeds regardless of which arm wins, because both outcomes define paper 1.' A null or an arm-A loss is a result, not a reason to re-scope.",
