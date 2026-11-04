@@ -1769,7 +1769,7 @@
     },
     "git_dirty": false,
     "git_dirty_sealed": [],
-    "git_head": "ac3d42b16b16a28c90bdcfc3c9edac39e6fc8ed2",
+    "git_head": "7b92ba8aa30306401db9fa7384756f0f8534598a",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -1795,7 +1795,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-04T20:58:28Z",
+    "sealed_at_utc": "2026-11-04T21:13:18Z",
     "self_excluded": {
       "path": "experiments/G0-prime/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
