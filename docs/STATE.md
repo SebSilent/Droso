@@ -1,6 +1,6 @@
 # Repository state
 
-[![Tests: 1,327 passed · 6 skipped](https://img.shields.io/badge/Tests-1%2C327%20passed%20%C2%B7%206%20skipped-1a7f37?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Tests: 1,348 collected · 4 failures · 6 skipped · rc 1](https://img.shields.io/badge/Tests-1%2C348%20collected%20%C2%B7%204%20failures%20%C2%B7%206%20skipped%20%C2%B7%20rc%201-bf8700?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
@@ -30,16 +30,48 @@ still reads 734 and is stale by nine tests.
 Suite re-run at **`8b1e8d0`**: **1,333 collected, 1,333 executed, 0 missing, 0 failures, 6 skipped, 0
 errors**, exit 0, `git_dirty` empty, 811.33 s --
 `experiments/MP-E10/results/suite_manifest_post_intermittence_record.json`, sealed in all five ledgers.
-The badge above now reads **1,327 passed · 6 skipped**, which is 1,333 minus the 6 skips: the manifest
+The badge read **1,327 passed · 6 skipped** at that moment, which is 1,333 minus the 6 skips: the manifest
 records junit counters and has no pass field, so the pass count is arithmetic on its own numbers and is
 labelled as such rather than presented as a measured field. The two figures above (734 at `0abd505`+
 records, 743 at `04e4d4d`) are left in place as history, each with the tree it was true of -- they are
-what "the badge is stale by nine tests" meant, and that sentence was correct when written.
+what "the badge is stale by nine tests" meant, and that sentence was correct when written. This `8b1e8d0`
+line stays as history with its tree named; it is superseded below, not deleted.
 
-**Caveat on currency, stated rather than implied:** the tree has moved since `8b1e8d0` -- the `--replay`
-flag fix at `d9258ec` touched `tools/electric_learn_bench.py`, and artifact and ledger commits followed --
-while **no file under `tests/` changed**, so the test set is identical but the measured tree is not. There
-is no suite run at HEAD. 1,333 is true of `8b1e8d0`.
+**Suite run at `cb61fc0` -- the covering run for this phase.** **1,348 collected, 1,348 executed, 0 missing,
+4 failures, 0 errors, 6 skipped**, exit code **1**, **802.51 s**, Python 3.12.10, pytest 9.1.1, recorded in
+`experiments/MP-E10/results/suite_manifest_post_tier300_closure.json` with `git_head` `cb61fc00e008f3bf609383ab350b41644948a423`.
+1,348 is the 1,333 collected at `8b1e8d0` plus the 15 tests in the two promotion files this phase added. The
+badge above reads this run; it is deliberately amber, not green, because this run exited 1 and no greener
+total is being claimed for it.
+
+**Which four tests failed, and the one path they all name:**
+`tests/test_g0_prime_instruments.py::test_registration_seal_verifies_against_the_registration`,
+`tests/test_g0_prime_instruments.py::test_index_cross_check_is_not_vacuous`,
+`tests/test_g0_prime_instruments.py::test_registration_head_contains_its_sealed_files`, and
+`tests/test_registration_seal_coverage.py::test_every_registration_seal_verifies`. All four name
+`experiments/MP-E10/results/suite_manifest_post_tier300_closure.json` -- the manifest the run was itself
+producing. The seal tool's own words: `DRIFT ... missing | 174/175 files match the registration on the git
+blob | 174 of 175 are in the git index | HEAD-MISSING ... absent from cb61fc00e: stamped before it was
+committed`. That is **sealed-before-produced**: the ordering rule this phase registered sealed a path before
+the run that creates it, and those two tests assert every sealed path is in the index and present in the
+registration's own anchor, so the rule guaranteed the failures it caused. 1,344 of 1,348 passed; the 6 skips
+are the standing registered skips, including the licensed-absence seed-dependence defect. The run's
+`git_dirty` also listed the five registrations -- the same ordering mistake in its second form, the re-stamp
+not yet committed when the run started. No test was edited, weakened or skipped, and the suite was not run a
+second time to chase a greener total.
+
+**The four pass alone at the post-stamp tree.** Once the artifact was committed (`5c0d440`) and all five
+ledgers re-stamped at it (`2fc3dad`), `--check` reports for every ledger 175/175 files matching on the git
+blob, 175 of 175 in the git index, and 175/175 sealed blobs present byte for byte in `git_head 5c0d4401e`;
+`git_dirty_sealed` is `[]` in all five, read back from the committed bytes rather than from the tool's
+summary. Re-running those four tests alone at `2fc3dad`: **4 passed in 156.25 s**. That is the governing
+procedure -- run the suite once, write the result into the record, re-stamp, then re-run the seal test alone
+to prove freshness -- and it is why the covering run's 4 failures stay on the record instead of being
+re-measured away. Registered as AMD-MPE10-07 with the corrected ordering.
+
+The sentence "there is no suite run at HEAD" was removed because it became false, not because it was
+awkward: `cb61fc0` is now a run on a tree that contains the promoted drivers, the closure tool and the two
+new test files. 1,333 remains true of `8b1e8d0`.
 
 Held-out and guard numbers in the tables below are still the **`f2e1748`** measurements and have not been
 re-run; the badge's other three chips point at them.
