@@ -1389,6 +1389,31 @@
     "H3": "replay at tier 300 holds retention at the invariant with interference bounded by the pre-registered margin",
     "H4": "the invariants hold; regression on either is a hard reject under R6"
   },
+  "interference_protocol_step2": {
+    "checklist_step": "B.4 step 2: 'Implement episodic replay at tiers 120 and 300 with the registered interference protocol; do not re-prove consolidation at 40 items.'",
+    "cost_stated": "arm A at tier 120 ~23.5 min and tier 300 ~53.7 min as measured for MP-E8, plus the replay passes on top, serial and alone; the clone re-measurement condition (-04 condition 3) adds 3 x tier-300 if the tier-300 clone set is run",
+    "explicitly_not_at_40": "the plan forbids re-proving consolidation at 40 items; tier 40 stays the sealed baseline and the source of the derivation's zero-event observation, not a new measurement target",
+    "inertness_required_of_the_replay_entry": "a run that never calls the replay entry must be bit-identical to the same run before the method existed (fingerprint, chain, counters, batteries, noise floor) -- the same shape as docs/h4_updates_counter_design.md section 5, and for the same reason: an instrument that changes the quantity it measures is not an instrument",
+    "margin": {
+      "basis": "D-MPE10-04, derived in the ruling block",
+      "denominator_rule": "the artifact states the row count it divided by",
+      "reported_as": "measured interval alongside the verdict, never a bare pass/fail",
+      "value_pp": 2.0
+    },
+    "quoting_guard": "No H3 figure exists. This block registers a protocol; it establishes nothing about retention, interference or consolidation.",
+    "registered_at": "2026-08-10",
+    "replay_mechanism": {
+      "basis": "D-MPE10-05, option B",
+      "entry": "a dedicated replay method on organs/sequence_organ.py applying the same delta rule (new = old + gain, ceiling 4.0 at :206) with a REGISTERED replay gain, advancing neither transitions (:213) nor sequences_learned (:214)",
+      "gain_registered_before_run": "the gain value must be fixed before the first replay run; it cannot be tuned against an interference figure, which is the R2 event every one of these rulings has been built to prevent",
+      "saturation_guard": "checked per pass, not per run: any entry at the ceiling marks the configuration ceiling-limited and voids its H3 number"
+    },
+    "status": "PROTOCOL REGISTERED, CODE NOT IMPLEMENTED, NO RUN. Registering it is what the -04 ruling made possible; building it is the next work item and is the only path to H3.",
+    "tiers": [
+      120,
+      300
+    ]
+  },
   "k_sweep": {
     "anchored_on": {
       "longest_taught_utterance_tokens": 14,
@@ -1669,6 +1694,38 @@
       "the_scalar": "H2's fluency scalar is the MEAN NUMBER OF CONTENT WORDS PER EMITTED ANSWER over the bench's live phase at that tier.",
       "what_this_unblocks_and_what_it_does_not": "It makes H2 scoreable in principle, which it was not, and it removes the D-MPE10-02 half of the 'nothing in flight' blocker. It does not open step 2 or H3: those wait on D-MPE10-04 and D-MPE10-05. It also does not by itself produce a number -- the content-word count must be computed by the bench's existing word-level grader (R9) rather than by a new counter, and that is an implementation step with its own inertness question, the same shape as the H4 counter's."
     },
+    "D-MPE10-03": {
+      "c5_consequence": "A (ii) win is an ABLATION RESULT under C5 and does NOT demonstrate that the drive is worthless -- it is unmeasurable while the mask is on. Any scored run must state the (i)-alone figure alongside the (ii) figure rather than reporting the primary alone.",
+      "option_rejected": "(c) 'register the compound as primary' is REJECTED outright: the brief is right that the `both` condition is variant_ii with dead arithmetic attached -- it returned variant_ii's winner on every one of 6 probes.",
+      "reason_recorded": "(i) only re-weights among candidates that all remain legal, which is what spread already does, so it adds no new mechanism; and since the mask excludes candidates before the drive can rank them, (ii) determines the outcome whenever both are on. The choice is therefore really the design question the brief names -- MAY THE SEQUENCE ORGAN EVER MAKE A WORD ILLEGAL -- and the ruling is yes: hard admissibility is the organ's own existing discipline (allowed_pools, floored at 3 legal pools), and a re-weighting-only selection would be the same instrument the registration already criticises.",
+      "ruling": "Variant (ii) -- carve allowed_pools masking -- stays primary, exactly as the plan designates it. Variant (i) -- spread-scored selection -- is registered as the ABLATION that measures what re-weighting alone would have given.",
+      "status": "RULED.",
+      "still_open": "The house-side wiring is NOT authorised by this ruling: engine.decide / speak_sentence changes are an organ change with their own design step, named-missing in candidate_routing_step3.",
+      "what_this_unblocks": "B.4 step 4 (the four mouth-stage evaluations, the nine-axis suite, and the state-only / spread-only / state-plus-spread ablations) becomes scoreable, and G3's `go_if` can begin. Step 3 was already built and sealed."
+    },
+    "D-MPE10-04": {
+      "conditions_three": {
+        "1_row_count_travels_with_the_figure": "every artifact carries the row count it divided by. A percentage-point claim without its denominator is the kind of number this program has had to un-buy twice (the 0.035 pp case, the 1.56x case).",
+        "2_report_an_interval_not_a_binary": "interference is reported as a measured INTERVAL alongside the verdict, so a near-miss is visible rather than collapsed into pass/fail. A 1.9 pp result and a 0.1 pp result both clear 2.0 pp and are not the same finding.",
+        "3_re_measure_the_noise_input_at_the_tier_being_judged": "if the tier-300 clone set is ever run, the clone-noise input is re-measured AT THAT TIER and the margin re-derived BY AMENDMENT rather than carried over from tier-40 data. The derivation above is a statement about what tier-40 can show; carrying it to tier 300 silently would be borrowing a tolerance from a regime that was never measured."
+      },
+      "derivation_of_record": "clone disagreement 11 rows of 3,672 = 0.2996 pp (registered in MP-E8 arms.N, re-verified on the current tree as [0, 1, 0] rows with the single movement inside the R13 time-dependent cell); tier-40 interference 0 regressions over 3 cycles x 53 items = 159 exposures; rule of three gives a 95% upper bound of 3/159 = 1.887 pp on a zero-event rate; 2.0 pp is that bound rounded up, and is 6.7x the measured clone noise. Row equivalent at tier 40: 2.7 rows of the 136-row probe matrix.",
+      "options_rejected": "(b) 5 pp is rejected as a round number inherited from a DIFFERENT experiment's noise floor (MP-E8's duel margin, chosen there against a different denominator); (c) refusing a margin and reporting H3 as an interval is rejected because it turns a go-criterion into a description, which is a plan amendment and not a ruling.",
+      "ruling": "Adopt (a): the interference margin is 2.0 percentage points, DERIVED, because it is the MORE demanding option and the derivation is shown.",
+      "status": "RULED.",
+      "still_open": "Nothing in this ruling scores H3. Step 2 is still unimplemented, and the replay mechanism it needs is ruled at -05 below but not yet built.",
+      "what_this_unblocks": "H3 becomes closeable in principle, and B.4 step 2's protocol becomes registrable (registered now, below, as interference_protocol_step2)."
+    },
+    "D-MPE10-05": {
+      "option_C_noted": "Replay through the plastic three-factor path (rate_core.py:580/:620, writing at :592/:629) is a DIFFERENT engram system and does not satisfy the plan's 'the same local rule that wrote the engrams' for sequence material. Not adopted.",
+      "ruling": "Option A is DISQUALIFIED by the project's own measurement. Adopt B: a dedicated replay entry with a registered replay gain that advances NEITHER transitions NOR sequences_learned, so the teaching counters stay honest.",
+      "saturation_guard_pre_registered": "REQUIRED, before any replay run. If ANY entry reaches the ceiling during a replay pass, that configuration is reported as CEILING-LIMITED and H3's interference number is VOID for it -- because SUCCESSOR_FLOOR 0.12 (sequence_organ.py:77) and SUCCESSOR_MARGIN 0.35 (:83) are ABSOLUTE gates that cannot survive a saturated store. The guard is a reporting rule, not a warning: a ceiling-limited run may not be scored.",
+      "status": "RULED.",
+      "the_counters_asymmetry_recorded_as_the_reason": "30 replay passes move sequences_learned +1,590 but transitions only +1,908 of the 6,360 an honest count would give -- because once nothing grows, `grew` is False and written stops accumulating. The counter that would reveal the drift is itself the one that saturates, so replay under A is not merely mis-counted: it is self-concealing.",
+      "what_this_unblocks": "B.4 step 2 now has an implementable form. It is an organ change on a live organ, so it carries the same inertness discipline as the H4 counter design step: the replay entry must not alter what a NON-replay run does, and `transitions` / `sequences_learned` must be provably untouched by replay.",
+      "why_A_is_disqualified": "A uniform translation that saturates at the 4.0 ceiling after 9 passes from the 3-cycle state (11 from a single cycle) and leaves distinct_weight_values = 1 at every pass, destroying exactly the ranking the readout needs. Measured in experiments/MP-E10/results/replay_rule_saturation_probe.json via tools/mp_e10_replay_rule_probe.py."
+    },
+    "basis_for_all_three": "docs/mp_e10_g3_decision_brief.md, and the sealed probe experiments/MP-E10/results/replay_rule_saturation_probe.json it cites. The brief was written to be ruled on: options, cost, the measured evidence that exists, and the gate clause that stays uncloseable while each decision is open.",
     "decision_brief_delivered": {
       "covers": [
         "D-MPE10-03",
@@ -1684,6 +1741,7 @@
     },
     "note_on_the_older_status_list": "pi_decisions.decisions_left_open still reads [02, 03, 04, 05] because it was written by the 2026-11-04 ruling round and R5 forbids back-editing a historical record. As of this block, 02 is RULED and 03, 04, 05 are open pending the brief above.",
     "recorded_by": "agent, in the working set that received it",
+    "ruled_at": "2026-08-10",
     "ruled_by": "PI",
     "supersedes": "pi_decisions.on['D-MPE10-02'] (DEFERRED, 2026-11-04, on the ground that no fluency metric was named). The earlier record is left in place untouched -- R5, historical rows are never back-edited -- and this block is the later ruling that replaces it."
   },
