@@ -1,0 +1,88 @@
+{
+  "absent_at_this_revision": [
+    {
+      "consequence": "none for the BPE rule: the merges are in merges.txt and the token-id table is in vocab.json. vocab.bpe is an alternate serialisation of the same merge list, and this program does not need a second copy of a fact when it can hold one. Recorded so a later session does not re-derive the 404.",
+      "file": "vocab.bpe",
+      "measured": "HTTP 404 from https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/vocab.bpe",
+      "why_it_was_asked_for": "named in the order among the tokenizer files, 'as available'"
+    }
+  ],
+  "disk_note": "the tokenizer bytes sit beside the weights and are deliberately NOT committed, on the same rule as the weights: .gitignore excludes the donor directory, the sealed set carries the provenance and the hashes, and R10's alternative to committing is re-derivability -- which a pinned revision URL and a sha256 provide. Sealing the bytes would add ~2.9 MB of data to every future anchor for no gain in proof.",
+  "experiment": "MP-E12a",
+  "files": [
+    {
+      "bytes": 1042301,
+      "file": "vocab.json",
+      "how_verified": "hashlib.sha256 over the bytes read from disk",
+      "matches_the_weights_provenance_record": true,
+      "prior_sha256_from_weights_provenance": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783",
+      "provenance_of_this_byte_string": "already on disk from the weights landing at the same pinned revision; NOT re-fetched -- re-hashed from disk instead",
+      "sha256": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/vocab.json",
+      "verified_at_utc": "2026-11-05T17:20:02Z"
+    },
+    {
+      "bytes": 456318,
+      "file": "merges.txt",
+      "how_verified": "hashlib.sha256 over the bytes read from disk",
+      "matches_the_weights_provenance_record": true,
+      "prior_sha256_from_weights_provenance": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+      "provenance_of_this_byte_string": "already on disk from the weights landing at the same pinned revision; NOT re-fetched -- re-hashed from disk instead",
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/merges.txt",
+      "verified_at_utc": "2026-11-05T17:20:02Z"
+    },
+    {
+      "bytes": 1355256,
+      "file": "tokenizer.json",
+      "how_verified": "hashlib.sha256 over the bytes read from disk",
+      "matches_the_weights_provenance_record": true,
+      "prior_sha256_from_weights_provenance": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6",
+      "provenance_of_this_byte_string": "already on disk from the weights landing at the same pinned revision; NOT re-fetched -- re-hashed from disk instead",
+      "sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/tokenizer.json",
+      "verified_at_utc": "2026-11-05T17:20:02Z"
+    },
+    {
+      "bytes": 26,
+      "file": "tokenizer_config.json",
+      "how_verified": "hashlib.sha256 over the bytes read from disk",
+      "matches_the_weights_provenance_record": true,
+      "prior_sha256_from_weights_provenance": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f",
+      "provenance_of_this_byte_string": "already on disk from the weights landing at the same pinned revision; NOT re-fetched -- re-hashed from disk instead",
+      "sha256": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/tokenizer_config.json",
+      "verified_at_utc": "2026-11-05T17:20:02Z"
+    }
+  ],
+  "landed_at_utc": "2026-11-05T17:20:02Z",
+  "run_mode": "offline against the pinned revision; no donor runtime imported, no weight byte read",
+  "source": {
+    "api_license_field": "mit",
+    "licence_text_reference": "experiments/MP-E12/donor/gpt2/README.md (the repo card, fetched at the pinned revision; its License section is the text of record) and the API cardData.license = mit",
+    "repo": "openai-community/gpt2",
+    "resolve_base": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/",
+    "revision_pinned": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "same_revision_as_the_weights": true
+  },
+  "stage": "tokenizer present, hashes recomputed from disk, no extraction performed",
+  "step": "B.6 item 4 follow-on: the donor's tokenizer landed and provenanced at the weights' own revision, so the 17 deferred curriculum words become a rule with a table rather than a blocker with a name.",
+  "total_bytes_on_disk": 2853901,
+  "verification": {
+    "all_prior_records_agree": true,
+    "method": "each file re-read from disk and hashed with hashlib.sha256 in this run; where the weights landing had already recorded a sha256, the two are compared and a mismatch aborts the tool",
+    "what_was_not_imported": [
+      "tokenizers",
+      "transformers",
+      "torch",
+      "numpy"
+    ],
+    "why": "a tokenizer file is data. Checking its bytes with a runtime would put donor runtime on the path C4 audits, which is the thing R11 and the instrument tests exist to keep off it."
+  },
+  "what_this_does_not_do": {
+    "no_appended_to_sealed_artifacts": "the sealed class-1 graph is not re-emitted with sub-token rows",
+    "no_extraction": "no weight value was read by this tool, and none will be by the rule it enables",
+    "no_probe_list_rewritten": "v1 and its deferral list are untouched; the 24 registered probes remain the probes of record for every sealed figure",
+    "no_tokenizer_runtime": "the BPE applied in the v2 rule is arithmetic over merges.txt and vocab.json, written for this program, not a call into a library that also knows how to run a model"
+  }
+}

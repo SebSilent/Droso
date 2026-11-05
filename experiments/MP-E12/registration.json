@@ -4047,5 +4047,497 @@
     "what_it_is": "A randomly initialised tensor set with the SAME SHAPES as GPT-2 124M: wte (50257 x 768), wpe (1024 x 768 -- n_positions is 1024; a 1500-row wpe would be 356,736 parameters wrong and would not be the donor), and for each of 12 layers c_attn (768 x 2304) split into 12 heads of d_head 64, attn c_proj (768 x 768), mlp c_fc (768 x 3072), mlp c_proj (3072 x 768), plus the layer-norm vectors and ln_f. The unembedding is tied to wte, as in the real model. Total parameters 124,439,808, COMPUTED from the config by the generator and checked against GPT-2 small's published count rather than typed in from a model card.",
     "why_a_stand_in_and_not_a_wait": "the same discipline MP-E10 used. Its hash-projected token vectors were labelled a stand-in, and the calibration they made possible found three properties of the sealed organ that 23 unit tests had missed. A shape-correct donor makes the extraction path executable and testable now, so that when the weights arrive MP-E12a is a download rather than a build."
   },
-  "title": "Frozen weights as a library -- the weight-reading probes (flagship stage A)"
+  "title": "Frozen weights as a library -- the weight-reading probes (flagship stage A)",
+  "tokenizer_landed_and_two_rules_registered_2026_11_05": {
+    "1_tokenizer_landed_as_data": {
+      "already_on_disk": "all four were landed by the weights tool at the same pinned revision. They were NOT re-fetched: the bytes are already provenance-recorded, and pulling 2.8 MB again to 'verify' them would replace one trust with another. What this step did is re-hash every file from disk with hashlib and compare against the recorded sha256, aborting on a mismatch -- all four agree.",
+      "bytes_not_committed": "the tokenizer files stay ignored, on the weights' precedent. The .gitignore now re-includes the PROVENANCE file only: a sealed file must be in the index or the anchor check reports it missing, so a provenance record that stays ignored proves nothing. R10's alternative to committing is re-derivability, and a pinned revision URL plus a sha256 is exactly that.",
+      "files": [
+        "vocab.json",
+        "merges.txt",
+        "tokenizer.json",
+        "tokenizer_config.json"
+      ],
+      "files_provenanced": 4,
+      "licence_reference": "carried from the weights provenance: the repo card's License section plus the API's cardData.license = mit",
+      "no_donor_runtime": "the tool imports urllib, hashlib, json, pathlib and datetime. `tokenizers` and `transformers` are not imported anywhere on this path, and a test fails if they ever are: the address space's rule is that tokenizer files are DATA, and a tool that reached for a runtime to check a byte string would put donor runtime on the path C4 audits.",
+      "provenance": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+      "revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e, the weights' own revision, asserted equal rather than assumed",
+      "tool": "tools/mp_e12_land_tokenizer.py",
+      "total_bytes": 2853901,
+      "vocab_bpe": "ABSENT at this revision: HTTP 404 measured against the resolve URL and recorded with the measurement, exactly as special_tokens_map.json was. The merges are in merges.txt and the id table in vocab.json, so nothing needed a second serialisation of the same fact."
+    },
+    "2_sub_token_rule_registered_not_applied": {
+      "a_finding_the_check_produced": "the first cut encoded space+lowercase and disagreed with v1 on `nora`, whose registered form is the capitalised \"Nora\" -- a single token, because the merge ('\u0120nor','a') does not exist in merges.txt. The encoder was right and the check was wrong. Fixed by reading the field instead of re-deriving a form, and by inheriting v1's documented precedence for the 17 rather than inventing a second convention: two rules for choosing a form is how a hidden choice enters a registered instrument.",
+      "artifact": "experiments/MP-E12/results/probe_list_v2_rule.json",
+      "cost": "one read call per word under the conservative reading (every sequence here is at most 3 rows, inside MAX_ROWS_PER_READ=64), so the rule is nearly free -- and the artifact says so plainly, because a rule that costs nothing is the kind that gets adopted without anyone reading the paragraph above it",
+      "not_applied": "no extraction under v2 has been run, none of the 17 has been probed, and no sealed artifact was re-emitted. Using it needs authorisation, and the gather-accounting ruling first if the battery grows.",
+      "probes_of_record": "the 24 registered single-token probes, unchanged. Every sealed figure in this experiment is theirs.",
+      "self_check": "the encoder reproduces 24/24 of the ids v1 recorded, encoding v1's own registered vocab_form. Without that the table would be a new instrument nobody had tested.",
+      "the_17": "all 17 resolve to 2 or 3 tokens under the donor's own BPE; 36 rows in total; none has a single-token form under any of v1's four candidate forms, which confirms v1's deferral was correct rather than timid",
+      "the_rule_in_one_line": "a sub-token probe is a SEQUENCE of ids, and its address is an ordered list of rows -- a word that resolves to two tokens is not one row of wte, and no mean of two rows is the word's row, because the model never sees that vector at that address",
+      "tool": "tools/mp_e12_bpe_probe_rule.py",
+      "v1_integrity": {
+        "deferral_list_modified": false,
+        "modified": false,
+        "proved_by": "the seal's own sha256 for probe_list_v1.json, compared on disk by the writing script and by a test -- not by this sentence"
+      },
+      "what_it_can_support": "facts about the tokenizer's segmentation; cosines between means of named row sets; the fact that a word occupies k rows",
+      "what_it_cannot_support": "that the word has a row; that the pieces mean the word; a like-for-like comparison against a single-token probe (a mean's norm shrinks when pieces disagree, so the two measurements are not the same measurement); any behavioural or latency claim, the same R11/R17 boundary as the sealed graph"
+    },
+    "3_clustering_registered_as_an_instrument_limitation": {
+      "artifact": "experiments/MP-E12/results/clustering_limitation_v1.json",
+      "caps_untouched": "MAX_ROWS_PER_READ=64, MAX_READS_PER_PROBE=256, READ_BUDGET_OPS=24, POOL_CAP=63, K_NEIGHBOURS=10 -- unchanged, and asserted at those values by a test",
+      "consequence": "pool_clusters in the sealed graph carries no information beyond k. Edges, cosines and the operation tallies come from the similarity search and are unaffected, so the sealed figures stand and only this derived field is empty of content.",
+      "measured": "24 items, one component each, every component exactly 10 members -- the same degeneracy appears in the sealed SYNTHETIC calibration, which is how it was known to be about the instrument before there was any real result to blame",
+      "mechanism": "clustering runs over the k neighbours already read, so with k=10 the graph has 10 nodes and mutual linking over a 63-row pool connects them every time. A step that returns one component at every item is echoing k, not measuring structure.",
+      "prohibition": "neither may be chosen after seeing a result. Stated in the artifact, and tested.",
+      "question_for_the_PI": "is the feature-pool claim worth buying? It is the only claim in MP-E12a the current budget cannot support against the real donor, and it is the one the plan's superposition risk names. If yes: pool 1,023 is the cheapest option that could plausibly separate, 19 of 24 conservative ops per item, 456 for a 24-item run. If no: the step should be reported as retired rather than left in artifacts that look like results. This step does not pick.",
+      "tool": "tools/mp_e12_register_clustering_limitation.py",
+      "way_A": "a pool large enough for k to bind. Cost per item under the conservative reading: pool 255 -> 7 ops, 511 -> 11, 1,023 -> 19 (still inside the budget of 24), 2,047 -> 35 (does not fit), global 50,257 -> 789 ops and 787 calls (does not fit, and 16,384 rows is where MAX_READS_PER_PROBE binds first).",
+      "way_B": "k as a fraction of the pool. Costs no extra reads at all -- 4 ops per item, 96 for a run -- and carries a worse problem: the fraction cannot be chosen by measurement without running an extraction to see which value separates, which is tuning the instrument on results and the same act as raising a cap after seeing the need. It must be fixed by argument before the next read."
+    },
+    "4_claims_tally_as_measured": {
+      "MP_E12b": "STILL BARRED (D-MPE12-04) and untouched.",
+      "behavioural_claims": "NONE, and R17 binds none of this: no prompt, no text, no forward pass, nothing reaching an answer path, so no fresh-vs-fresh floor is required for any figure in this amendment.",
+      "class_1_embedding_geometry": "MEASURED against the real donor: 24 items, 48 registered / 96 conservative / 1,584 per-row operations, 48 read calls, 1,536 rows, 1,179,648 values, 1,536 journal records, one tensor touched (wte.weight), zero mask-buffer records, deterministic on re-run",
+      "class_2_association_edges": "UNRUN against the real donor. Honest charging puts it at 57 conservative operations against a budget of 24. It aborted on the plan with zero reads.",
+      "class_3_circuit_motifs": "UNRUN against the real donor. 234 conservative operations against 24.",
+      "energy": "STILL UNINSTRUMENTED (D-MPE12-02). Every artifact keeps the non-measurement string.",
+      "feature_pool_clustering": "RUN AND DEGENERATE: registered as an instrument limitation above",
+      "latency_and_10x": "STILL UN-RE-BASED on the real donor. No latency figure exists for the real path and none was produced here.",
+      "the_17_deferred_words": "BLOCKER CONVERTED TO A READY STATE: tokenizer present and provenanced, rule registered with a table, no probe run",
+      "the_single_decision_that_unblocks_classes_2_and_3": "the gather-accounting ruling. Under the registered rule both classes fit at 5 and 16 operations; under honest charging they cost 57 and 234 and cannot run at all. Nothing else stands between them and a measurement."
+    },
+    "machine_time_spent": {
+      "bench_runs": 0,
+      "donor_reads_issued": 0,
+      "extractions_run": 0,
+      "latency_benchmarks": 0,
+      "network": "one HTTP GET attempt for vocab.bpe, which returned 404; no file was re-downloaded",
+      "test_wall_clock": "87 passed in 7.33 s across the tokenizer rule, real source, probes, address space, access journal and stale-status guard"
+    },
+    "pointer_discipline": "ledger-internal citations are made at unique content lines and the script refuses any needle matching more than once, because a previous amendment cited two decisions by key name and its own self_pointer keys then shadowed them. Line numbers in this file are measurements at an anchor: the file stood at 4051 lines before this write and a seal will move anything below its files block again.",
+    "registered_at_utc": "2026-11-05T17:27:15Z",
+    "self_pointers": {
+      "dmpe12_02": {
+        "line_reads": "\"decision_id\": \"D-MPE12-02\",",
+        "post_write_line": 3802,
+        "pre_write_line": 3802,
+        "shifted": false
+      },
+      "dmpe12_04": {
+        "line_reads": "\"decision_id\": \"D-MPE12-04\",",
+        "post_write_line": 3819,
+        "pre_write_line": 3819,
+        "shifted": false
+      },
+      "previous_amendment": {
+        "line_reads": "\"first_real_use_of_the_instruments_2026_11_05_B6_item_4\": {",
+        "post_write_line": 610,
+        "pre_write_line": 610,
+        "shifted": false
+      },
+      "this_amendment": {
+        "line_reads": "\"tokenizer_landed_and_two_rules_registered_2026_11_05\": {",
+        "post_write_line": 4051,
+        "pre_write_line": 4052,
+        "shifted": true
+      }
+    },
+    "step": "B.6 follow-on at the PI's direction: land the donor's tokenizer and register the probe-list revision rule. One cheap, no-run step. No extraction was performed against the real donor in this step, and none is enabled by it without authorisation.",
+    "verified_pointers": {
+      "bp_bpe": {
+        "as_claimed": "the encoder, forty lines over merges.txt",
+        "file": "tools/mp_e12_bpe_probe_rule.py",
+        "line": 47,
+        "line_reads": "def bpe(piece: str, ranks, cache={}) -> list[str]:",
+        "pointer": "tools/mp_e12_bpe_probe_rule.py:47"
+      },
+      "bp_candidates": {
+        "as_claimed": "v1's precedence inherited, not a second convention",
+        "file": "tools/mp_e12_bpe_probe_rule.py",
+        "line": 68,
+        "line_reads": "def candidates(word: str) -> list[str]:",
+        "pointer": "tools/mp_e12_bpe_probe_rule.py:68"
+      },
+      "bp_form_not_word": {
+        "as_claimed": "the nora fix, in the code",
+        "file": "tools/mp_e12_bpe_probe_rule.py",
+        "line": 96,
+        "line_reads": "# encode the form v1 RECORDS, not a form this tool assumes. The first cut encoded space+lowercase and",
+        "pointer": "tools/mp_e12_bpe_probe_rule.py:96"
+      },
+      "cl_also_synthetic": {
+        "as_claimed": "the degeneracy is the instrument's, not the donor's",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 120,
+        "line_reads": "\"also_true_of_the_synthetic_calibration\": {",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:120"
+      },
+      "cl_b_rule_not_pilot": {
+        "as_claimed": "why B cannot be tuned by measurement",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 220,
+        "line_reads": "\"the_problem_this_one_has\": \"f cannot be chosen by measurement without running an extraction to see which f separates. That is tuning the instrument on results, which is the same act as raising a cap after seeing the nee",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:220"
+      },
+      "cl_components": {
+        "as_claimed": "one component per item, measured from the sealed graph",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 130,
+        "line_reads": "\"components_per_item\": {",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:130"
+      },
+      "cl_consequence": {
+        "as_claimed": "what survives the finding and what does not",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 133,
+        "line_reads": "\"consequence_for_the_sealed_graph\": \"the pool_clusters field in the sealed class-1 artifact carries no information beyond k. The edges and cosines are unaffected -- they come from the similarity search, not from the link",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:133"
+      },
+      "cl_cost_current": {
+        "as_claimed": "the pool-63 row that reproduces the sealed tallies",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 2,
+        "line_reads": "\"cost_of_the_current_registration\": {",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:2"
+      },
+      "cl_no_cap_raised": {
+        "as_claimed": "the caps are unchanged by this document",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 225,
+        "line_reads": "\"no_cap_raised_here\": \"MAX_ROWS_PER_READ, MAX_READS_PER_PROBE, READ_BUDGET_OPS and POOL_CAP are unchanged by this file. Nothing in the cost table was obtained by editing them.\",",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:225"
+      },
+      "cl_no_choice_after": {
+        "as_claimed": "the prohibition the order asked for",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 226,
+        "line_reads": "\"no_choice_after_a_result\": \"neither A nor B may be picked by looking at what a pilot run returns. The PI chooses on the argument, or the program runs a registered pilot whose purpose and cost are written down first -- a",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:226"
+      },
+      "cl_option_a": {
+        "as_claimed": "way out A, with its cost table",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 139,
+        "line_reads": "\"A_pool_large_enough_for_k_to_bind\": {",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:139"
+      },
+      "cl_option_b": {
+        "as_claimed": "way out B, with the problem it carries",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 217,
+        "line_reads": "\"B_k_as_a_fraction_of_the_pool\": {",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:217"
+      },
+      "cl_proposal": {
+        "as_claimed": "the one question put to the PI",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 113,
+        "line_reads": "\"single_question\": \"is the feature-pool claim worth buying? It is the only claim in MP-E12a that the current budget cannot support against the real donor, and it is the one the plan's superposition risk names.\",",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:113"
+      },
+      "cl_sizes": {
+        "as_claimed": "every component has exactly 10 members",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 121,
+        "line_reads": "\"cluster_size_histogram\": {",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:121"
+      },
+      "cl_status": {
+        "as_claimed": "registered with a proposal, applied to nothing",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 118,
+        "line_reads": "\"status\": \"LIMITATION REGISTERED WITH A PROPOSAL. Nothing here is applied: the pool rule and K_NEIGHBOURS stand as registered, the sealed class-1 graph is untouched, and no extraction was run to tune any of it.\",",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:118"
+      },
+      "cl_tool_cost": {
+        "as_claimed": "the cost arithmetic, as code",
+        "file": "tools/mp_e12_register_clustering_limitation.py",
+        "line": 42,
+        "line_reads": "def cost(pool, items=ITEMS):",
+        "pointer": "tools/mp_e12_register_clustering_limitation.py:42"
+      },
+      "cl_tool_no_reads": {
+        "as_claimed": "the limitation was written without touching the donor",
+        "file": "tools/mp_e12_register_clustering_limitation.py",
+        "line": 3,
+        "line_reads": "No donor read in this file. The measured part comes from the sealed class-1 graph; the cost part is arithmetic",
+        "pointer": "tools/mp_e12_register_clustering_limitation.py:3"
+      },
+      "cl_why": {
+        "as_claimed": "the mechanism, stated rather than inferred by the reader",
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 136,
+        "line_reads": "\"why_it_happens\": \"clustering runs over the k neighbours already read, so with k=10 the graph has 10 nodes and mutual linking over a 63-row pool connects them densely enough that they land in one component every time. A ",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:136"
+      },
+      "ledger_dmpe12_02": {
+        "as_claimed": "the open energy question",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 3802,
+        "line_reads": "\"decision_id\": \"D-MPE12-02\",",
+        "pointer": "experiments/MP-E12/registration.json:3802"
+      },
+      "ledger_dmpe12_04": {
+        "as_claimed": "the decision that still bars MP-E12b",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 3819,
+        "line_reads": "\"decision_id\": \"D-MPE12-04\",",
+        "pointer": "experiments/MP-E12/registration.json:3819"
+      },
+      "ledger_donor_arrival_block": {
+        "as_claimed": "the block that recorded the weights arriving, which this amendment follows for the tokenizer",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 74,
+        "line_reads": "\"donor_arrived_2026_11_05_B6_step1\": {",
+        "pointer": "experiments/MP-E12/registration.json:74"
+      },
+      "ledger_first_real_use": {
+        "as_claimed": "the previous step's amendment",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 610,
+        "line_reads": "\"first_real_use_of_the_instruments_2026_11_05_B6_item_4\": {",
+        "pointer": "experiments/MP-E12/registration.json:610"
+      },
+      "ledger_seal_v1_entry": {
+        "as_claimed": "the seal entry that proves v1 is untouched",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 1882,
+        "line_reads": "\"experiments/MP-E12/results/probe_list_v1.json\": {",
+        "pointer": "experiments/MP-E12/registration.json:1882"
+      },
+      "lt_no_runtime": {
+        "as_claimed": "the rule that tokenizer files are data",
+        "file": "tools/mp_e12_land_tokenizer.py",
+        "line": 3,
+        "line_reads": "STDONLY, AND THAT IS THE POINT. This tool reads bytes and hashes them. It does not import `tokenizers`,",
+        "pointer": "tools/mp_e12_land_tokenizer.py:3"
+      },
+      "lt_refuse_on_mismatch": {
+        "as_claimed": "a mismatch aborts",
+        "file": "tools/mp_e12_land_tokenizer.py",
+        "line": 86,
+        "line_reads": "raise SystemExit(f\"REFUSED: {name} on disk does not match the sha256 the weights landing recorded\")",
+        "pointer": "tools/mp_e12_land_tokenizer.py:86"
+      },
+      "lt_sha": {
+        "as_claimed": "hashes recomputed from disk",
+        "file": "tools/mp_e12_land_tokenizer.py",
+        "line": 38,
+        "line_reads": "def sha256_of(path: Path) -> str:",
+        "pointer": "tools/mp_e12_land_tokenizer.py:38"
+      },
+      "pb_k_neighbours": {
+        "as_claimed": "the k that the limitation is about, as registered",
+        "file": "tools/mp_e12_probes.py",
+        "line": 57,
+        "line_reads": "K_NEIGHBOURS, K_SUCCESSORS, K_NEURONS = 10, 5, 5",
+        "pointer": "tools/mp_e12_probes.py:57"
+      },
+      "tp_404_measured": {
+        "as_claimed": "the 404 is a measurement with a URL beside it",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+        "line": 6,
+        "line_reads": "\"measured\": \"HTTP 404 from https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/vocab.bpe\",",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json:6"
+      },
+      "tp_bytes_total": {
+        "as_claimed": "the tokenizer's own byte count",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+        "line": 70,
+        "line_reads": "\"total_bytes_on_disk\": 2853901,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json:70"
+      },
+      "tp_disk_note": {
+        "as_claimed": "why the bytes stay out of git and the record does not",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+        "line": 10,
+        "line_reads": "\"disk_note\": \"the tokenizer bytes sit beside the weights and are deliberately NOT committed, on the same rule as the weights: .gitignore excludes the donor directory, the sealed set carries the provenance and the hashes,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json:10"
+      },
+      "tp_no_runtime_imported": {
+        "as_claimed": "no tokenizers, no transformers, no torch",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+        "line": 74,
+        "line_reads": "\"what_was_not_imported\": [",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json:74"
+      },
+      "tp_revision": {
+        "as_claimed": "the tokenizer is pinned to the weights' own revision",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+        "line": 65,
+        "line_reads": "\"revision_pinned\": \"607a30d783dfa663caf39e06633721c8d4cfcd7e\",",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json:65"
+      },
+      "tp_same_revision_true": {
+        "as_claimed": "measured, not assumed",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+        "line": 66,
+        "line_reads": "\"same_revision_as_the_weights\": true",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json:66"
+      },
+      "tp_vocab_bpe_absent": {
+        "as_claimed": "the file the order named first, measured absent",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+        "line": 5,
+        "line_reads": "\"file\": \"vocab.bpe\",",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json:5"
+      },
+      "tt_cost_reproduces": {
+        "as_claimed": "the advising arithmetic is the measuring arithmetic",
+        "file": "tests/test_mp_e12_tokenizer_rule.py",
+        "line": 161,
+        "line_reads": "def test_the_cost_table_reproduces_the_sealed_run_tallies():",
+        "pointer": "tests/test_mp_e12_tokenizer_rule.py:161"
+      },
+      "tt_degeneracy": {
+        "as_claimed": "the finding is recomputed from the artifacts",
+        "file": "tests/test_mp_e12_tokenizer_rule.py",
+        "line": 149,
+        "line_reads": "def test_the_degeneracy_is_measured_from_the_sealed_artifacts_not_asserted():",
+        "pointer": "tests/test_mp_e12_tokenizer_rule.py:149"
+      },
+      "tt_graph_untouched": {
+        "as_claimed": "the sealed graph is byte-identical after this step",
+        "file": "tests/test_mp_e12_tokenizer_rule.py",
+        "line": 191,
+        "line_reads": "def test_the_limitation_does_not_rewrite_the_sealed_graph():",
+        "pointer": "tests/test_mp_e12_tokenizer_rule.py:191"
+      },
+      "tt_no_caps": {
+        "as_claimed": "the caps asserted at their registered values",
+        "file": "tests/test_mp_e12_tokenizer_rule.py",
+        "line": 181,
+        "line_reads": "def test_no_cap_was_raised_to_make_any_option_fit():",
+        "pointer": "tests/test_mp_e12_tokenizer_rule.py:181"
+      },
+      "tt_v1_hash": {
+        "as_claimed": "v1's integrity proved against the seal, not against memory",
+        "file": "tests/test_mp_e12_tokenizer_rule.py",
+        "line": 101,
+        "line_reads": "def test_probe_list_v1_is_byte_identical_to_its_sealed_hash():",
+        "pointer": "tests/test_mp_e12_tokenizer_rule.py:101"
+      },
+      "v1_deferred_list": {
+        "as_claimed": "the 17, named, still there and still untouched",
+        "file": "experiments/MP-E12/results/probe_list_v1.json",
+        "line": 18,
+        "line_reads": "\"deferred_words\": [",
+        "pointer": "experiments/MP-E12/results/probe_list_v1.json:18"
+      },
+      "v1_why_deferred": {
+        "as_claimed": "v1's own words on the deferral, which is the sentence this step answers",
+        "file": "experiments/MP-E12/results/probe_list_v1.json",
+        "line": 374,
+        "line_reads": "\"why_deferred\": \"these words have no unique single-token id in the donor's vocabulary; probing them means encoding them with the donor's BPE and taking a sub-token, which is a different probe object. The BPE encoder is n",
+        "pointer": "experiments/MP-E12/results/probe_list_v1.json:374"
+      },
+      "v2_address_meaning": {
+        "as_claimed": "what the address of a sub-token probe means",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 1308,
+        "line_reads": "\"address\": \"each id is a row of wte.weight at byte_offset = base + id*768*4, and the probe's address is the ORDERED LIST of those rows. The address of a two-token word is not a place in the file; it is a path through it.",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:1308"
+      },
+      "v2_cannot_support": {
+        "as_claimed": "the claims the rule forecloses",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 1345,
+        "line_reads": "\"what_a_sub_token_result_cannot_support\": [",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:1345"
+      },
+      "v2_caveat_free": {
+        "as_claimed": "the honest caveat: a rule that costs nothing is a rule that gets adopted unread",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 14,
+        "line_reads": "\"honest_caveat\": \"the cost barely changes, which makes this rule look free. The thing that changes is the meaning of a probe, and a rule that costs nothing to adopt is exactly the kind that gets adopted without anyone re",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:14"
+      },
+      "v2_cost_conservative": {
+        "as_claimed": "what the rule costs under the strict reading",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 9,
+        "line_reads": "\"conservative_reading\": {",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:9"
+      },
+      "v2_counts": {
+        "as_claimed": "none of the 17 has a single-token form",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 33,
+        "line_reads": "\"resolve_to_one_token_under_bpe\": 0,",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:33"
+      },
+      "v2_nora_finding": {
+        "as_claimed": "the check disagreed, and the check was the wrong part",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 2,
+        "line_reads": "\"a_finding_the_self_check_produced\": {",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:2"
+      },
+      "v2_not_one_row": {
+        "as_claimed": "the sentence the order asked for, in the rule",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 1346,
+        "line_reads": "\"that the word has a row in wte. It does not. A word that resolves to two tokens is not one row, and no average of two rows is the word's row -- the model never sees that vector at that address.\",",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:1346"
+      },
+      "v2_probe_object": {
+        "as_claimed": "a sub-token probe is a SEQUENCE of ids, not an id",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 1332,
+        "line_reads": "\"probe_object\": \"a SEQUENCE of token ids, not an id. (t1, t2, ...) with t1 first.\"",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:1332"
+      },
+      "v2_probes_of_record": {
+        "as_claimed": "the 24 stay the probes of record",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 40,
+        "line_reads": "\"probes_of_record\": [",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:40"
+      },
+      "v2_self_check": {
+        "as_claimed": "the encoder reproduces all 24 ids v1 recorded",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 74,
+        "line_reads": "\"reproduced\": 24,",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:74"
+      },
+      "v2_status_not_applied": {
+        "as_claimed": "the rule is registered, not used",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 78,
+        "line_reads": "\"status\": \"RULE REGISTERED, NOT APPLIED. No extraction has been run under it and none may be run under it until the PI authorises it, because a rule written to be applied silently is how a probe list stops being a regist",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:78"
+      },
+      "v2_v1_unmodified": {
+        "as_claimed": "v1 untouched, and proved below against the seal",
+        "file": "experiments/MP-E12/results/probe_list_v2_rule.json",
+        "line": 67,
+        "line_reads": "\"v1_modified\": false,",
+        "pointer": "experiments/MP-E12/results/probe_list_v2_rule.json:67"
+      }
+    },
+    "what_this_step_did_not_do": {
+      "no_answer_path_edit": true,
+      "no_budget_changed": true,
+      "no_cap_raised": true,
+      "no_donor_byte_read": true,
+      "no_extraction": true,
+      "no_floor_pair": true,
+      "no_k_changed": true,
+      "no_latency_benchmark": true,
+      "no_mp_e11": true,
+      "no_mp_e12b": true,
+      "no_sealed_artifact_rewritten": true,
+      "no_status_field_moved": true,
+      "no_step5": true,
+      "no_t_and_n": true,
+      "no_tokenizer_runtime_imported": true,
+      "no_v1_edit": true,
+      "no_verdict_changed": true
+    },
+    "what_was_asked": "convert a named blocker (the 17 deferred curriculum words and their BPE encoder) into a ready state, without performing the extraction that state would make possible"
+  }
 }

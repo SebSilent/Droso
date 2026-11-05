@@ -179,3 +179,7 @@ experiments/**/*.pt
 # file whose parent directory is excluded, which is the same trap the checkpoint block above documents.
 experiments/MP-E12/donor/gpt2/*
 !experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json
+# The tokenizer's provenance joins the weights' own, on the same rule: donor BYTES stay out, the RECORD of
+# those bytes is what gets sealed. A sealed file has to be in the git index or the anchor check reports it
+# missing, so a provenance record that stays ignored is a provenance record that proves nothing.
+!experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json

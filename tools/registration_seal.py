@@ -596,6 +596,20 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E12/results/access_journal_extraction_e12a_class1.jsonl",
     "experiments/MP-E12/results/access_journal_extraction_e12a_three_class_preflight.jsonl",
     "experiments/MP-E12/results/ORPHAN_access_journal_attempt1_no_artifact.jsonl",
+# B.6 follow-on: the tokenizer landed as data, the sub-token rule registered but NOT applied, and the clustering
+# degeneracy registered as an instrument limitation with the cost of each way out. Sealed because each one is a
+# decision a later reader must be able to check rather than re-derive: the probe list v1 hash is what proves the
+# 17 deferrals were not quietly reversed, the BPE self-check is what proves the rule extends the same arithmetic
+# that produced the probes of record, and the limitation's cost table is only trustworthy because its pool-63 row
+# reproduces the sealed run's 48 / 96 / 1,584. The tokenizer provenance is sealed; the tokenizer BYTES are not,
+# on the same rule as the weights -- a pinned revision URL plus a sha256 is R10's re-derivable alternative.
+    "tools/mp_e12_land_tokenizer.py",
+    "tools/mp_e12_bpe_probe_rule.py",
+    "tools/mp_e12_register_clustering_limitation.py",
+    "tests/test_mp_e12_tokenizer_rule.py",
+    "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+    "experiments/MP-E12/results/probe_list_v2_rule.json",
+    "experiments/MP-E12/results/clustering_limitation_v1.json",
 # THE COVERING RUN, produced only after the tree was clean and the stamp was in it. 1370 collected, 1370
 # executed, 0 failures, 0 errors, 6 skipped, rc 0, 879.19 s at git_head 39a0e3241, git_dirty []. The +6 tests
 # against the previous baseline of 1364 are the A10 unit tests from STEP 3, so the count moved because the

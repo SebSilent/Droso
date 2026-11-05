@@ -1,0 +1,1365 @@
+{
+  "a_finding_the_self_check_produced": {
+    "fix": "the check now encodes the form v1 RECORDS instead of re-deriving a form, and the candidate-form table for the 17 is built from v1's own documented precedence rather than a second convention invented here",
+    "what_happened": "the first cut of this check encoded space+lowercase and got two tokens where v1 records one id, 32561. The encoder was right and the check was wrong: v1's registered vocab_form for `nora` is the capitalised \"Nora\", which IS a single token (the merge path ('\u0120nor','a') does not exist in merges.txt, so space+lowercase is genuinely two tokens).",
+    "why_it_matters": "a probe list is a set of (form, id) pairs, not of words. Two rules for choosing a form is how a hidden choice gets into a registered instrument, and this would have been found by a later reader as an unexplained disagreement between two artifacts.",
+    "word": "nora"
+  },
+  "cost_under_both_readings": {
+    "conservative_reading": {
+      "operations_per_word": "2 for the probe row plus pool, as in class 1 -- the sub-token case adds ROWS, not calls",
+      "read_calls_per_word": 1,
+      "why_one_call": "the whole sequence fits inside MAX_ROWS_PER_READ=64 for every word here (max 3 tokens), so the rows are one bounded gather"
+    },
+    "honest_caveat": "the cost barely changes, which makes this rule look free. The thing that changes is the meaning of a probe, and a rule that costs nothing to adopt is exactly the kind that gets adopted without anyone reading the sentence above it.",
+    "max_tokens_for_one_word": 3,
+    "n_words": 17,
+    "no_cap_would_need_raising": true,
+    "per_row_reading": {
+      "conservative_ops_if_the_17_were_added": "the 17 words would add 36 rows to a battery that already charges 1,536 of them; under the per-row reading that is the number that moves, and it is the one the ruling decides",
+      "rows_added_by_the_17": 36
+    },
+    "registered_rule": {
+      "note": "the registered rule prices gathers at zero, so sub-token probing is free. That is the loophole again, and it is why this table is not a reason to prefer the cheap reading.",
+      "operations_per_word": "unchanged: one similarity search over the pool, plus the element-wise mean, which is not an operation",
+      "read_calls_per_word": 1
+    },
+    "rows_total": 36
+  },
+  "counts": {
+    "max_tokens": 3,
+    "n_deferred": 17,
+    "need_more_than_one": 17,
+    "resolve_to_one_token_under_bpe": 0,
+    "total_rows": 36
+  },
+  "registered_at_utc": "2026-11-05T17:22:49Z",
+  "relation_to_v1": {
+    "meaning": "the 24 single-token probes stay the probes of record for every sealed figure. This document does not extend them, does not re-decide them, and does not retroactively make the 17 deferrals look like a mistake in v1: v1 deferred them because it required a unique single-token id, and that requirement is the reason the sealed graph is a clean claim.",
+    "n_probes_of_record": 24,
+    "probes_of_record": [
+      26081,
+      43140,
+      3290,
+      10732,
+      41207,
+      32561,
+      13917,
+      10580,
+      15317,
+      8966,
+      5594,
+      14448,
+      9808,
+      3420,
+      1994,
+      37354,
+      17379,
+      14088,
+      41066,
+      1051,
+      8849,
+      5046,
+      15299,
+      23016
+    ],
+    "v1_deferral_list_modified": false,
+    "v1_modified": false,
+    "v1_path": "experiments/MP-E12/results/probe_list_v1.json"
+  },
+  "schema": "droso.probe_list.v2_rule",
+  "self_check": {
+    "mismatches": [],
+    "of": 24,
+    "reproduced": 24,
+    "what": "the encoder reproduces the 24 token ids v1 recorded from vocab.json alone, encoding v1's own registered vocab_form",
+    "why_it_matters": "without this the table would be a new instrument nobody had tested. With it, the same arithmetic that produced the sealed probe list is being extended, and the extension is checkable by anyone holding merges.txt."
+  },
+  "status": "RULE REGISTERED, NOT APPLIED. No extraction has been run under it and none may be run under it until the PI authorises it, because a rule written to be applied silently is how a probe list stops being a registration and starts being a selection.",
+  "table_of_the_17": [
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120mir",
+            "a"
+          ],
+          "form": "\u0120mira",
+          "ids_if_not": [
+            5720,
+            64
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "m",
+            "ira"
+          ],
+          "form": "mira",
+          "ids_if_not": [
+            76,
+            8704
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Mir",
+            "a"
+          ],
+          "form": "\u0120Mira",
+          "ids_if_not": [
+            7381,
+            64
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "M",
+            "ira"
+          ],
+          "form": "Mira",
+          "ids_if_not": [
+            44,
+            8704
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120mira",
+      "single_row_probe": false,
+      "token_ids": [
+        5720,
+        64
+      ],
+      "tokens": [
+        "\u0120mir",
+        "a"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "mira"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120ke",
+            "g"
+          ],
+          "form": "\u0120keg",
+          "ids_if_not": [
+            885,
+            70
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "ke",
+            "g"
+          ],
+          "form": "keg",
+          "ids_if_not": [
+            365,
+            70
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120K",
+            "eg"
+          ],
+          "form": "\u0120Keg",
+          "ids_if_not": [
+            509,
+            1533
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "K",
+            "eg"
+          ],
+          "form": "Keg",
+          "ids_if_not": [
+            42,
+            1533
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120keg",
+      "single_row_probe": false,
+      "token_ids": [
+        885,
+        70
+      ],
+      "tokens": [
+        "\u0120ke",
+        "g"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "keg"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120sh",
+            "ackle"
+          ],
+          "form": "\u0120shackle",
+          "ids_if_not": [
+            427,
+            20523
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "sh",
+            "ackle"
+          ],
+          "form": "shackle",
+          "ids_if_not": [
+            1477,
+            20523
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Sh",
+            "ackle"
+          ],
+          "form": "\u0120Shackle",
+          "ids_if_not": [
+            911,
+            20523
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "Sh",
+            "ackle"
+          ],
+          "form": "Shackle",
+          "ids_if_not": [
+            2484,
+            20523
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120shackle",
+      "single_row_probe": false,
+      "token_ids": [
+        427,
+        20523
+      ],
+      "tokens": [
+        "\u0120sh",
+        "ackle"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "shackle"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120cool",
+            "s"
+          ],
+          "form": "\u0120cools",
+          "ids_if_not": [
+            3608,
+            82
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "c",
+            "ools"
+          ],
+          "form": "cools",
+          "ids_if_not": [
+            66,
+            10141
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120C",
+            "ools"
+          ],
+          "form": "\u0120Cools",
+          "ids_if_not": [
+            327,
+            10141
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "C",
+            "ools"
+          ],
+          "form": "Cools",
+          "ids_if_not": [
+            34,
+            10141
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120cools",
+      "single_row_probe": false,
+      "token_ids": [
+        3608,
+        82
+      ],
+      "tokens": [
+        "\u0120cool",
+        "s"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "cools"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120gard",
+            "ener"
+          ],
+          "form": "\u0120gardener",
+          "ids_if_not": [
+            16985,
+            877
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "gard",
+            "ener"
+          ],
+          "form": "gardener",
+          "ids_if_not": [
+            19977,
+            877
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Gard",
+            "ener"
+          ],
+          "form": "\u0120Gardener",
+          "ids_if_not": [
+            12790,
+            877
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "G",
+            "ard",
+            "ener"
+          ],
+          "form": "Gardener",
+          "ids_if_not": [
+            38,
+            446,
+            877
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120gardener",
+      "single_row_probe": false,
+      "token_ids": [
+        16985,
+        877
+      ],
+      "tokens": [
+        "\u0120gard",
+        "ener"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "gardener"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120smooth",
+            "s"
+          ],
+          "form": "\u0120smooths",
+          "ids_if_not": [
+            7209,
+            82
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "sm",
+            "ooth",
+            "s"
+          ],
+          "form": "smooths",
+          "ids_if_not": [
+            5796,
+            5226,
+            82
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Smooth",
+            "s"
+          ],
+          "form": "\u0120Smooths",
+          "ids_if_not": [
+            37002,
+            82
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "Sm",
+            "ooth",
+            "s"
+          ],
+          "form": "Smooths",
+          "ids_if_not": [
+            7556,
+            5226,
+            82
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120smooths",
+      "single_row_probe": false,
+      "token_ids": [
+        7209,
+        82
+      ],
+      "tokens": [
+        "\u0120smooth",
+        "s"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "smooths"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120v",
+            "ase"
+          ],
+          "form": "\u0120vase",
+          "ids_if_not": [
+            410,
+            589
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "v",
+            "ase"
+          ],
+          "form": "vase",
+          "ids_if_not": [
+            85,
+            589
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120V",
+            "ase"
+          ],
+          "form": "\u0120Vase",
+          "ids_if_not": [
+            569,
+            589
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "V",
+            "ase"
+          ],
+          "form": "Vase",
+          "ids_if_not": [
+            53,
+            589
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120vase",
+      "single_row_probe": false,
+      "token_ids": [
+        410,
+        589
+      ],
+      "tokens": [
+        "\u0120v",
+        "ase"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "vase"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120cr",
+            "anks"
+          ],
+          "form": "\u0120cranks",
+          "ids_if_not": [
+            1067,
+            2283
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "cr",
+            "anks"
+          ],
+          "form": "cranks",
+          "ids_if_not": [
+            6098,
+            2283
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Cr",
+            "anks"
+          ],
+          "form": "\u0120Cranks",
+          "ids_if_not": [
+            3864,
+            2283
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "Cr",
+            "anks"
+          ],
+          "form": "Cranks",
+          "ids_if_not": [
+            13916,
+            2283
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120cranks",
+      "single_row_probe": false,
+      "token_ids": [
+        1067,
+        2283
+      ],
+      "tokens": [
+        "\u0120cr",
+        "anks"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "cranks"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120lo",
+            "om"
+          ],
+          "form": "\u0120loom",
+          "ids_if_not": [
+            2376,
+            296
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "l",
+            "oom"
+          ],
+          "form": "loom",
+          "ids_if_not": [
+            75,
+            4207
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120L",
+            "oom"
+          ],
+          "form": "\u0120Loom",
+          "ids_if_not": [
+            406,
+            4207
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "L",
+            "oom"
+          ],
+          "form": "Loom",
+          "ids_if_not": [
+            43,
+            4207
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120loom",
+      "single_row_probe": false,
+      "token_ids": [
+        2376,
+        296
+      ],
+      "tokens": [
+        "\u0120lo",
+        "om"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "loom"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120war",
+            "ms"
+          ],
+          "form": "\u0120warms",
+          "ids_if_not": [
+            1175,
+            907
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "war",
+            "ms"
+          ],
+          "form": "warms",
+          "ids_if_not": [
+            5767,
+            907
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120War",
+            "ms"
+          ],
+          "form": "\u0120Warms",
+          "ids_if_not": [
+            1810,
+            907
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "W",
+            "arms"
+          ],
+          "form": "Warms",
+          "ids_if_not": [
+            54,
+            8357
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120warms",
+      "single_row_probe": false,
+      "token_ids": [
+        1175,
+        907
+      ],
+      "tokens": [
+        "\u0120war",
+        "ms"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "warms"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120f",
+            "auc",
+            "et"
+          ],
+          "form": "\u0120faucet",
+          "ids_if_not": [
+            277,
+            14272,
+            316
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "f",
+            "auc",
+            "et"
+          ],
+          "form": "faucet",
+          "ids_if_not": [
+            69,
+            14272,
+            316
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120F",
+            "auc",
+            "et"
+          ],
+          "form": "\u0120Faucet",
+          "ids_if_not": [
+            376,
+            14272,
+            316
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "F",
+            "auc",
+            "et"
+          ],
+          "form": "Faucet",
+          "ids_if_not": [
+            37,
+            14272,
+            316
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 3,
+      "probe_form": "\u0120faucet",
+      "single_row_probe": false,
+      "token_ids": [
+        277,
+        14272,
+        316
+      ],
+      "tokens": [
+        "\u0120f",
+        "auc",
+        "et"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "faucet"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120pul",
+            "ley"
+          ],
+          "form": "\u0120pulley",
+          "ids_if_not": [
+            17472,
+            1636
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "p",
+            "ul",
+            "ley"
+          ],
+          "form": "pulley",
+          "ids_if_not": [
+            79,
+            377,
+            1636
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Pul",
+            "ley"
+          ],
+          "form": "\u0120Pulley",
+          "ids_if_not": [
+            21624,
+            1636
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "P",
+            "ul",
+            "ley"
+          ],
+          "form": "Pulley",
+          "ids_if_not": [
+            47,
+            377,
+            1636
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120pulley",
+      "single_row_probe": false,
+      "token_ids": [
+        17472,
+        1636
+      ],
+      "tokens": [
+        "\u0120pul",
+        "ley"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "pulley"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120g",
+            "ird",
+            "le"
+          ],
+          "form": "\u0120girdle",
+          "ids_if_not": [
+            308,
+            1447,
+            293
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "g",
+            "ird",
+            "le"
+          ],
+          "form": "girdle",
+          "ids_if_not": [
+            70,
+            1447,
+            293
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120G",
+            "ird",
+            "le"
+          ],
+          "form": "\u0120Girdle",
+          "ids_if_not": [
+            402,
+            1447,
+            293
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "G",
+            "ird",
+            "le"
+          ],
+          "form": "Girdle",
+          "ids_if_not": [
+            38,
+            1447,
+            293
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 3,
+      "probe_form": "\u0120girdle",
+      "single_row_probe": false,
+      "token_ids": [
+        308,
+        1447,
+        293
+      ],
+      "tokens": [
+        "\u0120g",
+        "ird",
+        "le"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "girdle"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120sp",
+            "ool"
+          ],
+          "form": "\u0120spool",
+          "ids_if_not": [
+            599,
+            970
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "sp",
+            "ool"
+          ],
+          "form": "spool",
+          "ids_if_not": [
+            2777,
+            970
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Sp",
+            "ool"
+          ],
+          "form": "\u0120Spool",
+          "ids_if_not": [
+            1338,
+            970
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "Sp",
+            "ool"
+          ],
+          "form": "Spool",
+          "ids_if_not": [
+            4561,
+            970
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120spool",
+      "single_row_probe": false,
+      "token_ids": [
+        599,
+        970
+      ],
+      "tokens": [
+        "\u0120sp",
+        "ool"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "spool"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120toll",
+            "s"
+          ],
+          "form": "\u0120tolls",
+          "ids_if_not": [
+            13592,
+            82
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "t",
+            "olls"
+          ],
+          "form": "tolls",
+          "ids_if_not": [
+            83,
+            33421
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120T",
+            "olls"
+          ],
+          "form": "\u0120Tolls",
+          "ids_if_not": [
+            309,
+            33421
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "T",
+            "olls"
+          ],
+          "form": "Tolls",
+          "ids_if_not": [
+            51,
+            33421
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120tolls",
+      "single_row_probe": false,
+      "token_ids": [
+        13592,
+        82
+      ],
+      "tokens": [
+        "\u0120toll",
+        "s"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "tolls"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120unve",
+            "ils"
+          ],
+          "form": "\u0120unveils",
+          "ids_if_not": [
+            13581,
+            4487
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "un",
+            "ve",
+            "ils"
+          ],
+          "form": "unveils",
+          "ids_if_not": [
+            403,
+            303,
+            4487
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120Un",
+            "ve",
+            "ils"
+          ],
+          "form": "\u0120Unveils",
+          "ids_if_not": [
+            791,
+            303,
+            4487
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "Un",
+            "ve",
+            "ils"
+          ],
+          "form": "Unveils",
+          "ids_if_not": [
+            3118,
+            303,
+            4487
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120unveils",
+      "single_row_probe": false,
+      "token_ids": [
+        13581,
+        4487
+      ],
+      "tokens": [
+        "\u0120unve",
+        "ils"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "unveils"
+    },
+    {
+      "any_candidate_is_a_single_token": false,
+      "candidate_forms_under_v1_precedence": [
+        {
+          "bpe_if_not": [
+            "\u0120saw",
+            "s"
+          ],
+          "form": "\u0120saws",
+          "ids_if_not": [
+            2497,
+            82
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "s",
+            "aws"
+          ],
+          "form": "saws",
+          "ids_if_not": [
+            82,
+            8356
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "\u0120S",
+            "aws"
+          ],
+          "form": "\u0120Saws",
+          "ids_if_not": [
+            311,
+            8356
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        },
+        {
+          "bpe_if_not": [
+            "S",
+            "aws"
+          ],
+          "form": "Saws",
+          "ids_if_not": [
+            50,
+            8356
+          ],
+          "in_vocab_as_one_token": false,
+          "single_id_if_in_vocab": null
+        }
+      ],
+      "n_tokens": 2,
+      "probe_form": "\u0120saws",
+      "single_row_probe": false,
+      "token_ids": [
+        2497,
+        82
+      ],
+      "tokens": [
+        "\u0120saw",
+        "s"
+      ],
+      "v1_resolution": "unresolved",
+      "word": "saws"
+    }
+  ],
+  "the_rule": {
+    "address": "each id is a row of wte.weight at byte_offset = base + id*768*4, and the probe's address is the ORDERED LIST of those rows. The address of a two-token word is not a place in the file; it is a path through it.",
+    "applies_to": "a curriculum word whose space-prefixed form is not a single entry of vocab.json",
+    "default_option": "mean of the sub-token rows, because it is the only one that keeps the extraction's arithmetic unchanged -- and that is a reason to be suspicious of it, recorded below.",
+    "derived_probe_vector_options": [
+      {
+        "cost": "no extra read calls; element-wise work is not an operation under either reading",
+        "option": "mean of the sub-token rows",
+        "what_it_is": "one 768-vector, element-wise over rows already read"
+      },
+      {
+        "cost": "no extra reads, but the similarity is no longer a cosine between two rows of one matrix",
+        "option": "the sequence itself, compared as a set of rows",
+        "what_it_is": "no derived vector; the claim is about the tokens the word splits into"
+      },
+      {
+        "cost": "one row",
+        "option": "first sub-token only",
+        "what_it_is": "a prefix probe, which is a different word's row",
+        "why_it_is_named_here": "it is the tempting shortcut, because it makes a 17-word gap disappear with no new machinery. It is NOT this rule: '\u0120gua' is not 'guard' and a figure built on it would be about a prefix."
+      }
+    ],
+    "encoder": "tools/mp_e12_bpe_probe_rule.py -- arithmetic over merges.txt and vocab.json. No tokenizers, no transformers, no torch, no numpy.",
+    "name": "sub-token probing by byte-level BPE",
+    "pre_tokenizer_scope": "the 17 words are pure ASCII letters, so the space-prefixed form is ONE pre-token under GPT-2's split pattern and no regex is needed. A word with a digit, a hyphen or an apostrophe would need the pattern itself, and this rule does not claim to cover that case: it would be a separate registration.",
+    "probe_object": "a SEQUENCE of token ids, not an id. (t1, t2, ...) with t1 first."
+  },
+  "tokenizer_provenance": {
+    "path": "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
+    "revision_pinned": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "same_revision_as_the_weights": true,
+    "vocab_bpe": "absent at this revision, HTTP 404 measured -- the merges are in merges.txt and the id table in vocab.json, so nothing here needed a second serialisation of the same fact"
+  },
+  "what_a_sub_token_result_can_support": [
+    "that the donor's tokenizer splits this word this way, which is a property of the tokenizer and is already true before any row is read",
+    "that the MEAN of these specific rows sits at this cosine distance from the mean of those specific rows",
+    "that a word needing k rows occupies k rows, which is a real fact about the vocabulary and is why sub-word blending exists at all"
+  ],
+  "what_a_sub_token_result_cannot_support": [
+    "that the word has a row in wte. It does not. A word that resolves to two tokens is not one row, and no average of two rows is the word's row -- the model never sees that vector at that address.",
+    "that the sub-token rows mean the word. They mean their own pieces; '\u0120gua' + 'rd' is a spelling.",
+    "a comparison against a single-token probe on equal footing. A mean of two rows has different statistics from one row: its norm shrinks as pieces disagree, so a cosine between a mean and a row is not the same measurement in two places. Any figure that mixes the two must say which is which.",
+    "any behavioural claim, and no latency claim. The same R11 and R17 boundaries that bind the sealed class-1 graph bind this: no forward pass, no sampling, nothing reaching an answer path."
+  ],
+  "what_must_be_decided_before_this_is_used": [
+    "whether a mean-of-rows probe is admissible at all, given that the model never sees that vector at that address -- this is a claim question, not a cost question",
+    "whether the 17 join the battery as a separate class with its own schema field, or stay out",
+    "the gather-accounting ruling, which decides what any of it costs"
+  ],
+  "what_this_step_did_not_do": {
+    "no_extraction": true,
+    "no_new_probe_authorized": true,
+    "no_probe_list_v1_edit": true,
+    "no_sealed_artifact_rewritten": true,
+    "no_tokenizer_runtime_imported": true,
+    "no_weight_byte_read": true
+  },
+  "why_the_17_were_deferred": "these words have no unique single-token id in the donor's vocabulary; probing them means encoding them with the donor's BPE and taking a sub-token, which is a different probe object. The BPE encoder is not implemented in this step and is a named follow-on. They are not silently dropped, and they were not selected for or against on anything seen in the weight bytes."
+}
