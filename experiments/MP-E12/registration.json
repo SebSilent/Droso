@@ -657,7 +657,7 @@
       "reads_issued_in_total": "3 x 1,536 plus a 129-record three-item dry run: the committed run, the attempt that died on the schema syntax error, and the determinism re-run whose scratch journal was deleted after the comparison",
       "step_5": 0
     },
-    "pointer_rule_applied": "cited at its decision_id line: the amendment that cites this decision also carries a key of the same name in its own self_pointers block, so a search for the key text now finds the citation before it finds the decision. Shadowing of one's own pointers is a new failure mode this ledger has not shown before, and it is a reason to cite unique content rather than a key name. The file stands at 3925 lines; this patch changes values only and is asserted below to add none, so every coordinate recorded in this amendment is true against the file as it stands. The writing script's own stability check was wrong once and is on record: it compared a cached pre-amendment line count against a fresh post-patch count and reported 594 phantom lines.",
+    "pointer_rule_applied": "cited at its decision_id line: the amendment that cites this decision also carries a key of the same name in its own self_pointers block, so a search for the key text now finds the citation before it finds the decision. Shadowing of one's own pointers is a new failure mode this ledger has not shown before, and it is a reason to cite unique content rather than a key name. The file stands at 3925 lines; this patch changes values only and is asserted below to add none, so every coordinate recorded in this amendment is true against the file as it stands. The writing script's own stability check was wrong once and is on record: it compared a cached pre-amendment line count against a fresh post-patch count and reported 594 phantom lines. | Re-checked after the seal was taken: the three ledger-internal coordinates were re-resolved to their post-stamp lines by a values-only patch, and the file stands at 4051 lines before it and after it. The 50 citations into other files resolve unchanged -- a stamp rewrites a ledger, not a plan extract, a tool or an artifact.",
     "pre_registration_under_count_as_measured": {
       "as_implemented_total": 295,
       "difference": 16,
@@ -671,20 +671,20 @@
     "registered_at_utc": "2026-11-05T16:55:15Z",
     "self_pointers": {
       "D-MPE12-02": {
-        "line_reads": "cited at its decision_id line: the amendment that cites this decision also carries a key of the same name in its own self_pointers block, so a search for the key text now finds the citation before it finds the decision. ",
-        "post_write_line": 3676,
+        "line_reads": "post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other f",
+        "post_write_line": 3802,
         "pre_write_line": 3010,
         "shifted": true
       },
       "D-MPE12-04": {
-        "line_reads": "cited at its decision_id line: the amendment that cites this decision also carries a key of the same name in its own self_pointers block, so a search for the key text now finds the citation before it finds the decision. ",
-        "post_write_line": 3693,
+        "line_reads": "post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other f",
+        "post_write_line": 3819,
         "pre_write_line": 3036,
         "shifted": true
       },
       "the_B6_items_2_3_registration": {
-        "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
-        "post_write_line": 3208,
+        "line_reads": "post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other f",
+        "post_write_line": 3334,
         "pre_write_line": 2614,
         "shifted": true
       },
@@ -889,25 +889,25 @@
         "pointer": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json:5"
       },
       "ledger_dmpe12_02": {
-        "as_claimed": "the open decision cited as a standing blocker",
+        "as_claimed": "the open decision cited as a standing blocker | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3676, now 3802",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3676,
+        "line": 3802,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:3676"
+        "pointer": "experiments/MP-E12/registration.json:3802"
       },
       "ledger_dmpe12_04": {
-        "as_claimed": "the open decision cited as a standing blocker",
+        "as_claimed": "the open decision cited as a standing blocker | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3693, now 3819",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3693,
+        "line": 3819,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:3693"
+        "pointer": "experiments/MP-E12/registration.json:3819"
       },
       "ledger_instruments_key": {
-        "as_claimed": "the B.6 items 2-3 registration this amendment follows",
+        "as_claimed": "the B.6 items 2-3 registration this amendment follows | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3208, now 3334",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3208,
+        "line": 3334,
         "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
-        "pointer": "experiments/MP-E12/registration.json:3208"
+        "pointer": "experiments/MP-E12/registration.json:3334"
       },
       "pb_conservative_prop": {
         "as_claimed": "the tally that charges a gather",
