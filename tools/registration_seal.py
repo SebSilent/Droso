@@ -479,6 +479,24 @@ DEFAULT_MANIFEST = [
 # path above is kept as the record of the run that exposed sealed-before-produced; it is not overwritten.
 # 1,364 collected / 1,364 executed / 0 failures / 0 errors / 6 skipped / rc 0 / 843.47 s, git_dirty empty.
     "experiments/MP-E10/results/suite_manifest_uniquekey.json",
+# ITEM 1, purchased by PI release 2026-11-05: the fresh-vs-fresh separation the ledger named and left
+# unpurchased at sealed_baseline_reproducibility (registration.json:4154, status "OPEN -- MEASURED, NOT YET
+# PRICED"). Two pairs of UNREPLAYED tier-120 runs, each pair produced inside one Python process, diffed by the
+# registered migration instrument. Measured: 17 of 3,744 rows (0.4541%) in pair 1 and 4 of 3,744 (0.1068%) in
+# pair 2 move on identical code, identical curriculum, identical seed -- so run-to-run nondeterminism is real.
+# And in both pairs the `correct` count and the reasked `retention` block are identical: the movement is
+# confined to refused/partial/invented at depth 3. That is the boundary of what a single run can carry, and it
+# is why the raw runs are sealed here rather than only their summary -- a claim about which fields move has to
+# be re-checkable against the rows, not just against a count. Pair 1's pid was never sampled (the invocation
+# that produced it died in assembly), and the artifact says so rather than laundering it.
+    "tools/mp_e10_fresh_vs_fresh.py",
+    "experiments/MP-E10/results/fresh_vs_fresh_tier120.json",
+    "experiments/MP-E10/results/fresh120_pair1_a_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair1_b_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair1_a_vs_b_row_migration.json",
+    "experiments/MP-E10/results/fresh120_pair2_a_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair2_b_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair2_a_vs_b_row_migration.json",
 ]
 
 
