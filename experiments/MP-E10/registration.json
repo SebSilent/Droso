@@ -3306,6 +3306,42 @@
         "floor_registered": 33,
         "rows_moved": 42
       },
+      "artifact_lines_dated_note_2026_11_05": {
+        "correction_to_the_reading_in_the_order": "the order described 42 as 'a print at line 34'. Line 34 is `\"diff_artifact\": \"experiments/MP-E10/results/floor300_a_vs_b_row_migration.json\"` -- the path of the diff artifact, not a print of any count. Recorded because the reading is wrong even though the concern (that the block could be misread) is right.",
+        "governing_count": 44,
+        "no_value_of_42_exists_in_the_artifact": "searching the file for a value 42 returns nothing; every line matching `: 42` is a line number in a citation, not a measurement. Verified by scanning all 203 lines.",
+        "note_at_utc": "2026-11-05T15:05:31Z",
+        "other_rows_moved_values_in_the_same_file_and_what_they_are": {
+          "121": "the 111-row replay effect, quoted into the attribution table from its own artifact",
+          "138": "the 251-row migration count, same",
+          "155": "the 302-row migration count, same",
+          "42": "the floor, governing"
+        },
+        "pointers_left_untouched_because": "they index a sealed artifact; R5 keeps history and the seal pins bytes, so the fix is a dated note beside the fields, not an edit of them.",
+        "practice_note": "this note's timestamp is datetime.now(timezone.utc) inside the writing script, per the practice change recorded in timestamp_amendment_2026_11_05.",
+        "reason_44_governs": [
+          "it is the diff artifact's OWN count, not a transcription: experiments/MP-E10/results/floor300_a_vs_b_row_migration.json:2146 reads `\"n_rows_moved\": 44`",
+          "it is the value on the line the pointer 42 names: experiments/MP-E10/results/floor_tier300.json:42 reads `\"rows_moved\": 44`",
+          "it re-echoes in the attribution table's own floor copy at experiments/MP-E10/results/floor_tier300.json:1",
+          "the registered rate is arithmetically consistent with it: 44 / 9,414 = 0.4674%, and experiments/MP-E10/results/floor_tier300.json:38 reads `\"movement_rate_percent\": 0.4674`"
+        ],
+        "what_line_33_actually_holds": "the opener of the block, `\"floor_registered\": {` -- a key, not a quantity. The pointer says where the floor block begins, which is what it was computed to say.",
+        "what_line_42_actually_holds": "`\"rows_moved\": 44` -- the floor count itself, 44.",
+        "which_line_holds_which_quantity": {
+          "33": "\"floor_registered\": {",
+          "34": "\"diff_artifact\": \"experiments/MP-E10/results/floor300_a_vs_b_row_migration.json\"",
+          "35": "\"diff_line_rows_moved\": 2146",
+          "36": "\"harness_sha256\": \"47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af\"",
+          "38": "\"movement_rate_percent\": 0.4674",
+          "39": "\"pid\": 4820",
+          "40": "\"registered_at_utc\": \"2026-11-05T14:03:58Z\"",
+          "41": "\"rows_compared\": 9414",
+          "42": "\"rows_moved\": 44",
+          "43": "\"same_process_observed\": true",
+          "44": "\"tier\": 300"
+        },
+        "why_this_note_exists": "`artifact_lines` was cited as {floor_registered: 33, rows_moved: 42} inside a block that also registers `rows_moved: 44`. A reader who takes 42 for a count sees two different floor counts in one block. The pointers are correct and the quantity is correct; the RENDERING is what was unreadable-wrong, and it is resolved here rather than by editing the pointers, because they index a sealed artifact."
+      },
       "diff_artifact": "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json",
       "diff_line": 2146,
       "instrument_bytes": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
