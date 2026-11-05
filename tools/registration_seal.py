@@ -625,6 +625,15 @@ DEFAULT_MANIFEST = [
 # suite legitimately grew -- not because a cell went missing. This is the number STEP 5's wall-clock gate is
 # priced against; the red run above is not.
     "experiments/MP-E10/results/suite_manifest_floor_tier300_clean.json",
+# THE PROSE-COORDINATE CHECKER, and the enforcement it now carries. WHAT IT IS: a Tier B reporter that requires
+# every prose coordinate to carry a recorded content needle and asserts that needle sits at the cited line, and a
+# stamp-path gate that refuses to seal a ledger whose NEW-SINCE-HEAD coordinates do not resolve. WHAT IT IS NOT: it
+# does not authorise repairing any citation, and it does not repair anything itself -- the 24 content_false and 121
+# no_needle it measures stay in the ledgers exactly as written, registered as a class. Sealed because it is now part
+# of the write path: an enforcement whose own code is unpinnable is a rule with no recorded referent, and this is the
+# file that decided whether a stamp was legal at any given commit.
+    "tools/prose_coordinate_audit.py",
+    "tests/test_prose_coordinate_audit.py",
 ]
 
 
@@ -903,6 +912,37 @@ def check(reg_path: pathlib.Path) -> int:
     return 1
 
 
+def _load_pca():
+    """Load the prose-coordinate checker BY PATH, not by import name.
+
+    `import prose_coordinate_audit` only works when tools/ happens to be sys.path[0], which is true of the CLI and
+    false of any test that loads this file with importlib. A gate whose availability depends on how the process was
+    started is a gate that silently stops running, so the loader names the file it means.
+    """
+    import importlib.util
+    f = HERE / "tools" / "prose_coordinate_audit.py"     # HERE is the repo root, not tools/
+    spec = importlib.util.spec_from_file_location("prose_coordinate_audit", f)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {f}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def _pca_gate(pca, p: pathlib.Path) -> tuple[int, list[dict]]:
+    """Run the prose-coordinate gate against a ledger, with the comparison state taken from HEAD.
+
+    A ledger not yet in git has no comparison state, so every coordinate in it counts as new and every one must
+    carry a needle. That is deliberate: the forward-only concession exists to avoid a backfill of 345 historical
+    citations, not to exempt a freshly written ledger, which is the one place the rule could have been free.
+    """
+    rel = p.resolve().relative_to(HERE).as_posix()
+    head = subprocess.run(["git", "show", f"HEAD:{rel}"], cwd=str(HERE),
+                          capture_output=True, text=True, encoding="utf-8")
+    before = head.stdout if head.returncode == 0 else ""
+    return pca.gate(p, before_text=before)
+
+
 def registrations() -> list[pathlib.Path]:
     """Every ledger under experiments/, counted rather than named."""
     return sorted((HERE / "experiments").glob("*/registration.json"))
@@ -930,6 +970,32 @@ def main() -> int:
             p = HERE / p
         if a.check:
             rc |= check(p)
+            continue
+        # FORWARD ENFORCEMENT OF THE PROSE-COORDINATE RULE. The stamp is the step every ledger write already
+        # passes through, so it is the step that can refuse: a coordinate NEW SINCE HEAD must carry a recorded
+        # content needle that resolves, or there is no seal. Coordinates already at HEAD are grandfathered and
+        # merely reported -- this rule binds writes from now on, not the 345 historical citations, and it does
+        # not authorise repairing any of them (see tools/prose_coordinate_audit.py).
+        try:
+            _pca = _load_pca()
+        except Exception as e:                      # noqa: BLE001 - a missing checker must not look like a clean pass
+            print(f"[seal] REFUSING to stamp {p.name}: the prose-coordinate checker did not load ({e})",
+                  file=sys.stderr)
+            rc = 1
+            continue
+        n_bad, bad = _pca_gate(_pca, p)
+        if n_bad:
+            print(f"[seal] REFUSING to stamp {p.relative_to(HERE).as_posix()}: "
+                  f"{n_bad} prose coordinate(s) written by this step carry no needle that resolves.",
+                  file=sys.stderr)
+            for b in bad:
+                print(f"        {b['coord']}  verdict={b['verdict']}  ledger line {b['ledger_line']}",
+                      file=sys.stderr)
+                print(f"        citing: {b['citing_text'].strip()[:150]}", file=sys.stderr)
+            print("        repair is to write the claim the citation makes -- `line_reads` on the pointer, or the "
+                  "quoted text inline -- and read the line back before writing. Not to shift the number.",
+                  file=sys.stderr)
+            rc = 1
             continue
         sealed = seal(p)
         for f, m in sorted(sealed.items()):
