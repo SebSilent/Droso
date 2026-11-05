@@ -610,6 +610,15 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E12/donor/gpt2/PROVENANCE_tokenizer.json",
     "experiments/MP-E12/results/probe_list_v2_rule.json",
     "experiments/MP-E12/results/clustering_limitation_v1.json",
+# B.6 ITEM 5, PRE-REGISTERED AND UNEXECUTED. The methodology of the latency benchmark, written before any clock
+# was started: the 24 sealed probes as the query set, 25 repetitions with 5 warm-up discarded, median + MAD + a
+# two-sided pass rule, access class 1 with the journal append inside the timed region, greedy batch-1 inference at
+# the curve D-MPE12-05 fixed, the machine and interpreter identity read from CIM rather than described, and the
+# R11 question (D-MPE12-09) named and argued both ways without being answered. It contains no duration -- every
+# field that would hold one is null, and a test walks the structure to prove it rather than trusting the claim.
+    "tools/mp_e12_preregister_latency_benchmark.py",
+    "tests/test_mp_e12_latency_preregistration.py",
+    "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
 # THE COVERING RUN, produced only after the tree was clean and the stamp was in it. 1370 collected, 1370
 # executed, 0 failures, 0 errors, 6 skipped, rc 0, 879.19 s at git_head 39a0e3241, git_dirty []. The +6 tests
 # against the previous baseline of 1364 are the A10 unit tests from STEP 3, so the count moved because the
