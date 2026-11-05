@@ -3346,6 +3346,64 @@
       "diff_line": 2146,
       "instrument_bytes": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
       "pid": 4820,
+      "pointer_correction_2026_11_05": {
+        "corrected_at_utc": "2026-11-05T15:14:46Z",
+        "resolved_pointers_below": [
+          {
+            "line_reads": "\"it re-echoes in the attribution table's own floor copy at experiments/MP-E10/results/floor_tier300.json:1\",",
+            "pointer": "experiments/MP-E10/registration.json:3325",
+            "why_cited": "the wrong pointer, as it stands in the ledger"
+          },
+          {
+            "line_reads": "{",
+            "pointer": "experiments/MP-E10/results/floor_tier300.json:1",
+            "why_cited": "what line 1 of the artifact actually is"
+          },
+          {
+            "line_reads": "\"rows_moved\": 44,",
+            "pointer": "experiments/MP-E10/results/floor_tier300.json:167",
+            "why_cited": "the attribution table's floor re-echo"
+          },
+          {
+            "line_reads": "\"rows_moved\": 44,",
+            "pointer": "experiments/MP-E10/results/floor_tier300.json:42",
+            "why_cited": "the floor block's own count"
+          },
+          {
+            "line_reads": "\"movement_rate_percent\": 0.4674,",
+            "pointer": "experiments/MP-E10/results/floor_tier300.json:38",
+            "why_cited": "the registered rate"
+          },
+          {
+            "line_reads": "\"n_rows_moved\": 44,",
+            "pointer": "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json:2146",
+            "why_cited": "the diff artifact's own count"
+          },
+          {
+            "line_reads": "+ str([i for i, x in enumerate(al, 1) if '\"rows_moved\": 44' in x][1])[0],",
+            "pointer": "_tmp/disambiguate_floor_lines.py:48",
+            "why_cited": "the code that produced the truncation"
+          }
+        ],
+        "sealed_note_text_untouched": "the wrong pointer remains on experiments/MP-E10/registration.json:3325 exactly as written, because the note is a record and R5 keeps history; this dated correction sits beside it rather than editing it.",
+        "the_pointer_that_was_wrong": {
+          "as_written": "it re-echoes in the attribution table's own floor copy at experiments/MP-E10/results/floor_tier300.json:1",
+          "first_line_of_that_value_in_the_file": "experiments/MP-E10/results/floor_tier300.json:42",
+          "note_on_the_two": "the value 44 appears on exactly two lines of the artifact: the floor block's own count and the attribution table's re-echo. The second is the one the note meant.",
+          "second_line_of_that_value_in_the_file": "experiments/MP-E10/results/floor_tier300.json:167",
+          "the_right_pointer": "experiments/MP-E10/results/floor_tier300.json:167",
+          "the_right_pointer_reads": "\"rows_moved\": 44,",
+          "what_it_pointed_at": "line 1 of the artifact, which reads `{` -- the opening brace of the JSON, not a count and not the attribution table",
+          "where_it_sits": "experiments/MP-E10/registration.json:3325"
+        },
+        "the_rule_stated_for_future_writes": "EVERY file:line pointer written into a ledger is read back from the file in the same step that writes it: grep the line, quote what is there, and refuse to write if the quote does not match the claim. This correction was produced under that rule -- each pointer in resolved_pointers_below was asserted before the key was built.",
+        "why_it_happened_as_measured_not_as_guessed": {
+          "the_class_it_belongs_to": "third pointer defect in two days, all three of the same shape: a citation written without resolving it in the same step. The other two, evidenced: (a) artifact_lines rendering line numbers under a key that also carries a quantity (experiments/MP-E10/registration.json:3305-3308 beside :3315); (b) the plan's section-5 source pointers, which still resolve for G0-prime:118 and MP-E8:4427 but now land on unrelated lines for MP-E9:2631/:2613, MP-E8:4388/:4027, MP-E10:4255/:2359 and MP-E12:2060/:1990, because the ledgers grew under re-stamps.",
+          "the_diagnosis_in_the_order": "a truncated citation typed from memory rather than read back",
+          "what_the_code_actually_did": "the pointer was machine-produced and truncated by a slicing bug: _tmp/disambiguate_floor_lines.py:48 reads `+ str([i for i, x in enumerate(al, 1) if '\"rows_moved\": 44' in x][1])[0],`, so str(...) applied [0] to the STRING \"167\" and returned \"1\". The correct sub-expression was the element, not its first character.",
+          "why_the_distinction_matters": "memory and a bug produce the same artifact defect -- a pointer that was never read back -- and the same fix. Recorded precisely because the rule is about the step that was skipped, not about the excuse."
+        }
+      },
       "rate_percent": 0.4674,
       "rows_compared": 9414,
       "rows_moved": 44,
