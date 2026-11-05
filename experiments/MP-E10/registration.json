@@ -1862,6 +1862,15 @@
         "sha256_lf": "675f661caa82b14fd9020c96a36bc76a5018509fdedf7e186545e1fbdb16aa12",
         "sha256_of_git_blob": "675f661caa82b14fd9020c96a36bc76a5018509fdedf7e186545e1fbdb16aa12"
       },
+      "tests/test_prose_coordinate_audit.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 15146,
+        "bytes_worktree": 15450,
+        "git_blob_sha1": "aca0ab83055088e3974a66b604f489522df75954",
+        "line_endings": "CRLF",
+        "sha256_lf": "3e19f77933602e8781854f841ff76f9ceead0c19382b0be0c8c6d3a5d1e7089e",
+        "sha256_of_git_blob": "3e19f77933602e8781854f841ff76f9ceead0c19382b0be0c8c6d3a5d1e7089e"
+      },
       "tests/test_registration_seal_coverage.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 5560,
@@ -2249,14 +2258,23 @@
         "sha256_lf": "b418382d166b27c7a957386ebd7b7aae4b91eca5bbd115ca2c380d41833c3295",
         "sha256_of_git_blob": "b418382d166b27c7a957386ebd7b7aae4b91eca5bbd115ca2c380d41833c3295"
       },
+      "tools/prose_coordinate_audit.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 26441,
+        "bytes_worktree": 26942,
+        "git_blob_sha1": "a11477e578c01a638e422bc98382ee640881f6f6",
+        "line_endings": "CRLF",
+        "sha256_lf": "a08554051b6d0b204ee55cfd531af13859845b893ed70a42481d269eb2837cec",
+        "sha256_of_git_blob": "a08554051b6d0b204ee55cfd531af13859845b893ed70a42481d269eb2837cec"
+      },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 67442,
-        "bytes_worktree": 68385,
-        "git_blob_sha1": "85cf0cfe8c07d37b0cbda8e9d8d3cae408bf9f59",
+        "bytes_blob": 71598,
+        "bytes_worktree": 72607,
+        "git_blob_sha1": "658e113ae9dc37716f65f8a2725cdd3fab558c40",
         "line_endings": "CRLF",
-        "sha256_lf": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2",
-        "sha256_of_git_blob": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2"
+        "sha256_lf": "22db08e565eda0d5348468b440800fc9be36682a045cc6eeb17c9c0c8d3f90e5",
+        "sha256_of_git_blob": "22db08e565eda0d5348468b440800fc9be36682a045cc6eeb17c9c0c8d3f90e5"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -2279,7 +2297,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "5565d5476ca966b5684ee2cf387c501525d8d7e5",
+    "git_head": "10732cd0e2969b9981c7b7e420744ed494557d03",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -2306,7 +2324,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T20:05:00Z",
+    "sealed_at_utc": "2026-11-05T21:00:06Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -5672,5 +5690,68 @@
       "summary": ".......................                                                  [100%] | 23 passed in 0.19s"
     },
     "tests_in": "tests/test_mp_e10_working_memory.py"
+  },
+  "write_path_prose_coordinate_enforcement_2026_11_05": {
+    "does_not_authorise_repairing_the_historical_345": "Registered as a class, left exactly as written. Shifting a false citation by the insertion size yields a DIFFERENT false citation, and the original ceases to exist, so the repaired one can no longer be checked against the state it was written into.",
+    "enforcement_is_forward_only": {
+      "gate_function": "tools/prose_coordinate_audit.py, function gate(path, before_text) -- cited BY NAME, with no line number, on purpose: this file is still being edited, and a line citation into a moving file goes stale by construction. The block that documents +27 drift must not itself create new drift, which it did once before this sentence replaced the number.",
+      "rule": "a prose coordinate NEW SINCE HEAD must carry a needle that resolves, or the seal refuses to stamp. Coordinates already at HEAD are grandfathered and only reported, because retroactively blocking the stamp would freeze the tree at a state nobody can repair without authorisation",
+      "test_that_history_is_grandfathered": {
+        "line_reads": "def test_gate_grandfathers_coordinates_already_present_in_the_comparison_state(sandbox):",
+        "pointer": "tests/test_prose_coordinate_audit.py:187"
+      },
+      "test_that_the_gate_is_consulted_at_all": {
+        "line_reads": "def test_the_stamp_still_runs_the_gate_through_the_real_path(monkeypatch):",
+        "pointer": "tests/test_prose_coordinate_audit.py:269"
+      },
+      "test_that_the_stamp_refuses_and_writes_nothing": {
+        "line_reads": "def test_the_stamp_refuses_when_the_gate_fails_and_writes_nothing(monkeypatch, capsys):",
+        "pointer": "tests/test_prose_coordinate_audit.py:250"
+      },
+      "wired_into": "tools/registration_seal.py, in main() on the stamp path -- the step every ledger write already passes through"
+    },
+    "measured_split_2026_11_05": {
+      "by_ledger": {
+        "G0-prime": 10,
+        "MP-E10": 117,
+        "MP-E12": 227,
+        "MP-E8": 15,
+        "MP-E9": 9
+      },
+      "by_resolution_mode": {
+        "as_written": 346,
+        "not_resolved": 14,
+        "relative_to_citing_ledger": 8,
+        "unique_basename": 3,
+        "unresolved(2_basename_matches)": 7
+      },
+      "by_verdict": {
+        "ambiguous_basename": 7,
+        "content_false": 24,
+        "content_partial": 2,
+        "no_needle": 121,
+        "non_pointer": 14,
+        "resolves_true": 210
+      },
+      "measured_after_both_blocks_landed": "378 includes the 21 coordinates today's two blocks added to the pre-landing 357: 16 of them carry needles that resolve at the cited line and 5 are declared non-pointers under the quoted-AS-EXAMPLES marker, because they name a defect rather than routing anywhere. The historical population is untouched -- no citation was repaired. content_false is 24 here against 25 in the intermediate run because the block originally cited gate() by line number, that number went stale when allowlist lines were inserted above it, and replacing the number with a name deleted the coordinate instead of leaving it false. no_needle stays 121 and ambiguous_basename stays 7: the two blocks added neither, which is the point of running the checker on new text before stamping it.",
+      "nothing_written_verified_by_hashing": true,
+      "total_prose_coordinates": 378
+    },
+    "one_allowlist_edit_found_wrong_by_testing_it": "Three entries were added to shield the plan row's coordinates. Two of them named the row's second and third pointers in their full form, but the row writes those as bare continuations with no file name, so the checker never collects them and the entries could not fire. They were removed: an allowlist line that looks like it shields a coordinate but cannot is worse than no line, because it advertises coverage that does not exist.",
+    "priced_against_the_six_defects_this_week": "6 of 6 would have been BLOCKED at write time, but only 1 of the 6 carried a needle this tool could content-check. The enforcement value is the REQUIREMENT to record a claim, not the claim's truth: a citation written with nothing to check is refused at the step that writes it. That is the only mechanism that would have stopped all six, and it is weaker than the Tier B claim as sold.",
+    "reconciliation_with_the_previous_measurement": "The previous step measured 345 and this tool measured 357 before today's two blocks landed. The difference is 12 coordinates written in ledger shorthand -- quoted AS EXAMPLES: `MP-E10:2538`, `G0-prime:118` -- which this tool's SECOND pattern (SHORT, for ledger names with no file extension) collects and the previous audit's single extension-requiring pattern could not. Per-ledger counts otherwise agree exactly: G0-prime 10, MP-E12 214, MP-E8 15, MP-E9 9, MP-E10 109. Same population, two patterns, and the 12 are named rather than absorbed. Note the asymmetry that is easy to state wrong: the plan row's own `:1990` and `:1936-1939` are bare continuations with no ledger name in front of them, so NEITHER pattern collects them -- this tool sees one coordinate in that row, not three.",
+    "registered_at_utc": "2026-11-05T20:51:16Z",
+    "the_class_that_was_invisible_before_this_step": "content_false coordinates whose claim exists a fixed number of lines away. Measured offsets: +27 twelve times, +23 three times, then +2, +9, +149, +388, +694 and one -1222. A constant offset across many citations is the signature of ONE insertion moving a block, not of many independent mistakes. It means the previous turn's '6 already false at HEAD' was a FLOOR, not a count: 6 of 357 had ever been needle-checked by hand.",
+    "the_docstring_states_it_does_not_authorise_repair": {
+      "line_reads": "IT DOES NOT AUTHORISE REPAIRING ANYTHING. This is a reporter. It writes no file in report mode -- that is",
+      "pointer": "tools/prose_coordinate_audit.py:20"
+    },
+    "the_refusal_rule": {
+      "line_reads": "WHY IT REFUSES INSTEAD OF GUESSING. A coordinate with no recorded needle gets the verdict `no_needle` and nothing",
+      "pointer": "tools/prose_coordinate_audit.py:26"
+    },
+    "the_tool": "tools/prose_coordinate_audit.py",
+    "three_bugs_found_in_the_tool_by_running_it": "(1) a coordinate was allowed to supply its own needle -- quoted AS EXAMPLES: `MP-E10:3163` yielded `E10=3163` and was scored content_false by a fragment of itself. (2) spacing was treated as a claim, so `LEARN_LR=0.35` against a line reading `LEARN_LR = 0.35` counted as a citation defect. (3) a double `.parent` moved the relative-resolution root one directory up and reported 8 resolvable basename citations as 'ambiguous_basename'. All three inflated or inverted verdicts, and all three were caught by disbelieving the output rather than by reading the code.",
+    "what_it_is": "A Tier B prose-coordinate checker running as a REPORTER. It requires a recorded content needle for every prose coordinate and asserts the needle sits at the cited line. It rewrites nothing, and it refuses a coordinate that carries no claim instead of guessing a referent."
   }
 }

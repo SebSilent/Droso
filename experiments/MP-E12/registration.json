@@ -3322,6 +3322,15 @@
         "sha256_lf": "675f661caa82b14fd9020c96a36bc76a5018509fdedf7e186545e1fbdb16aa12",
         "sha256_of_git_blob": "675f661caa82b14fd9020c96a36bc76a5018509fdedf7e186545e1fbdb16aa12"
       },
+      "tests/test_prose_coordinate_audit.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 15146,
+        "bytes_worktree": 15450,
+        "git_blob_sha1": "aca0ab83055088e3974a66b604f489522df75954",
+        "line_endings": "CRLF",
+        "sha256_lf": "3e19f77933602e8781854f841ff76f9ceead0c19382b0be0c8c6d3a5d1e7089e",
+        "sha256_of_git_blob": "3e19f77933602e8781854f841ff76f9ceead0c19382b0be0c8c6d3a5d1e7089e"
+      },
       "tests/test_registration_seal_coverage.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 5560,
@@ -3709,14 +3718,23 @@
         "sha256_lf": "b418382d166b27c7a957386ebd7b7aae4b91eca5bbd115ca2c380d41833c3295",
         "sha256_of_git_blob": "b418382d166b27c7a957386ebd7b7aae4b91eca5bbd115ca2c380d41833c3295"
       },
+      "tools/prose_coordinate_audit.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 26441,
+        "bytes_worktree": 26942,
+        "git_blob_sha1": "a11477e578c01a638e422bc98382ee640881f6f6",
+        "line_endings": "CRLF",
+        "sha256_lf": "a08554051b6d0b204ee55cfd531af13859845b893ed70a42481d269eb2837cec",
+        "sha256_of_git_blob": "a08554051b6d0b204ee55cfd531af13859845b893ed70a42481d269eb2837cec"
+      },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 67442,
-        "bytes_worktree": 68385,
-        "git_blob_sha1": "85cf0cfe8c07d37b0cbda8e9d8d3cae408bf9f59",
+        "bytes_blob": 71598,
+        "bytes_worktree": 72607,
+        "git_blob_sha1": "658e113ae9dc37716f65f8a2725cdd3fab558c40",
         "line_endings": "CRLF",
-        "sha256_lf": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2",
-        "sha256_of_git_blob": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2"
+        "sha256_lf": "22db08e565eda0d5348468b440800fc9be36682a045cc6eeb17c9c0c8d3f90e5",
+        "sha256_of_git_blob": "22db08e565eda0d5348468b440800fc9be36682a045cc6eeb17c9c0c8d3f90e5"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -3739,7 +3757,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "5565d5476ca966b5684ee2cf387c501525d8d7e5",
+    "git_head": "10732cd0e2969b9981c7b7e420744ed494557d03",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -3765,7 +3783,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T20:05:24Z",
+    "sealed_at_utc": "2026-11-05T21:00:31Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -4992,5 +5010,61 @@
       "no_verdict_changed": true
     },
     "what_was_asked": "convert a named blocker (the 17 deferred curriculum words and their BPE encoder) into a ready state, without performing the extraction that state would make possible"
+  },
+  "weights_present_but_plan_still_reads_blocked_2026_11_05": {
+    "a_third_discrepancy_inside_this_ledger_alone": "The top-level `status` field still reads 'The weights are not on this machine' while the blocker note in the same file reads 'weights present, hashed, sealed by provenance -- and not yet read'. Both are quoted above with their lines, so the contradiction is visible rather than argued. The stale-status guard cannot catch it: that guard compares a status against this file's own RULINGS, and whether weights are on a disk is not a ruling. Nothing in the current test surface sees this class.",
+    "discrepancy_one_the_verdict_row_is_stale": "The plan records G5 as BLOCKED on an external input, quoting 'The weights are not on this machine' as the reason, and names the download of GPT-2 124M as the thing that opens E12a. That was true when the plan was promoted and is false now: the weights arrived on 2026-11-05, are hashed by PROVENANCE_gpt2.json, and have never been read by an extraction. The plan and this ledger circulate as two accounts of one gate and only one of them is current.",
+    "discrepancy_two_the_evidence_column_is_stale_too": {
+      "and_two_of_the_three_are_invisible_to_the_checker": "`:1990` and `:1936-1939` are bare continuations with no file name, so the coordinate pattern does not collect them at all. The reporter sees one coordinate in that row, not three. This is the same shorthand blind spot that accounts for the 12-coordinate difference between the 345 and 357 counts, and it is registered here rather than fixed by adding allowlist entries that could never fire.",
+      "as_written_in_the_plan": "quoted AS EXAMPLES of the plan's own pointer style, not as routes from this ledger -- the evidence column of that row reads: `MP-E12/registration.json:2060`, `:1990`, `:1936-1939`",
+      "measured": "All three land inside the harness-hash block: a git_blob_sha1 and two sha256_lf values, plus a range closing on a results-file key. None of them carries a G5 verdict, a blocker statement, or anything about weights being absent. The row's verdict column and its evidence column are stale in DIFFERENT ways -- the verdict was once true and is now false, the evidence was probably never right -- and a reader who followed the pointers would have found hashes and concluded the ledger said nothing.",
+      "what_those_lines_actually_hold": [
+        {
+          "line_reads": "\"git_blob_sha1\": \"f1157fc62435375eb61c3a2b4375a8fe3299db24\",",
+          "pointer": "experiments/MP-E12/registration.json:2060"
+        },
+        {
+          "line_reads": "\"sha256_lf\": \"0f8593dada6690d78ae2c5f39016ac4b0d9d80c5fcb4b9152b1ab0437842fc91\",",
+          "pointer": "experiments/MP-E12/registration.json:1990"
+        },
+        {
+          "line_reads": "\"sha256_lf\": \"bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876\",",
+          "pointer": "experiments/MP-E12/registration.json:1936"
+        },
+        {
+          "line_reads": "\"sha256_of_git_blob\": \"bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876\"",
+          "pointer": "experiments/MP-E12/registration.json:1937"
+        },
+        {
+          "line_reads": "},",
+          "pointer": "experiments/MP-E12/registration.json:1938"
+        },
+        {
+          "line_reads": "\"experiments/MP-E10/results/ksweep_tier40_calibration_post_rulings.json\": {",
+          "pointer": "experiments/MP-E12/registration.json:1939"
+        }
+      ]
+    },
+    "plan_line_verbatim": "| **G5 / MP-E12** | H1\u2013H3 hold or a pre-registered partial with the text-distillation control done; guarded rows and source dimension verified post-transplant | **BLOCKED on an external input** \u2014 \"The weights are not on this machine\"; four open decisions (D-MPE12-01\u202604) | Download GPT-2 124M (~500 MB, \u00a77.2 step 2) \u2192 E12a opens; rule the four decisions in the batch; E12c registration pins Qwen3.8-27B | `MP-E12/registration.json:2060`, `:1990`, `:1936-1939` |",
+    "plan_text_left_unedited": true,
+    "registered_at_utc": "2026-11-05T20:51:16Z",
+    "what_the_owning_ledger_records_instead": {
+      "blocker_moved_to": {
+        "line_reads": "\"to\": \"weights present, hashed, sealed by provenance -- and not yet read\",",
+        "pointer": "experiments/MP-E12/registration.json:443"
+      },
+      "gate_field_of_this_ledger": {
+        "line_reads": "\"gate\": \"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\",",
+        "pointer": "experiments/MP-E12/registration.json:1567"
+      },
+      "top_level_status_field": {
+        "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\",",
+        "pointer": "experiments/MP-E12/registration.json:4494"
+      }
+    },
+    "what_the_plan_still_records": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164",
+    "what_this_note_does_not_do": "It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.",
+    "which_account_is_the_record": "THIS ledger, for the gate's state. The plan extract is sealed and stays unedited; the correction is a dated note pointing at experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164, the same handling as the brief's line 54, the v1.2:126 queue sentence and the 802.51 s figure. The plan remains the record of INTENT; the owning ledger is the record of STATE; this note is what says so, because two unlabelled accounts of one gate is the failure mode, not the fix.",
+    "written_by": "B.6 item 3, on the PI's instruction, after the discrepancy was reported rather than silently harmonised"
   }
 }
