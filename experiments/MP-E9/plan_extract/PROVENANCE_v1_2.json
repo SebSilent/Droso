@@ -1,0 +1,25 @@
+{
+  "bytes_identical_after_lf_normalisation": true,
+  "cited_anchors_verified": {
+    "134": "the assertion that R11 is unused and R17 is next free -- the claim STEP 1 verifies",
+    "304": "A10 Resource cost, recorded as not yet measured on any registered run",
+    "396": "section B.R, the ruling batch header",
+    "400": "B.R item 1, D-MPE10-12",
+    "409": "B.R item 11, D-MPE12-01...04"
+  },
+  "cited_line_numbering_identical_source_vs_copy": true,
+  "document": "DROSO Master Plan v1.2 - The Live Brain Protocol (plan of record, dated 2026-11-05)",
+  "normalisation_note": "The stored copy is LF-normalised because this machine runs core.autocrlf=true with no .gitattributes, so a worktree file and the blob it came from do not have the same bytes; the v1.1 convention (PROVENANCE.json) hashes normalised content for the same reason. Line numbering is unaffected by the substitution.",
+  "promotion_tool": "tools/promote_plan_extract_v1_2.py",
+  "source_bytes_as_delivered": 81709,
+  "source_line_count": 466,
+  "source_of_truth_path": "C:/Shared/DROSO_Master_Plan_v1.2.md",
+  "source_sha256_as_delivered": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+  "stored_bytes": 81709,
+  "stored_line_count": 466,
+  "stored_path": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+  "stored_sha256_lf_normalised": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+  "supersedes": "DROSO_Master_Plan_v1_1.txt (retained in this directory, unmodified, as history under R5)",
+  "why_tracked_here": "R10: a normative input to the gates. v1.2 is the plan of record, and B.R (v1.2:396-409) is the ruling source the ledgers must quote verbatim rather than paraphrase. It cannot live in _tmp/, which .gitignore sweeps and organs/tempstore.py declares non-normative.",
+  "words": 12477
+}

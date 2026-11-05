@@ -1954,6 +1954,68 @@
     "ruled_at": "2026-08-10",
     "ruled_by": "PI"
   },
+  "plan_of_record_v1_2_2026_11_05": {
+    "added_under": "STEP 0 of the PI's v1.2 order, 2026-11-05",
+    "added_utc": "2026-11-05T12:32:36Z",
+    "anchors_cited_by_this_window": {
+      "v1.2:134": "the R11/R17 assertion, verified before adoption (see rule_number_verification)",
+      "v1.2:146": "R11, the addressed-library rule",
+      "v1.2:147": "R17, the floor doctrine",
+      "v1.2:304": "A10 Resource cost -- not yet measured on any registered run",
+      "v1.2:390": "gate-closing step 4: the resource ledger must have run",
+      "v1.2:396-409": "B.R ruling batch"
+    },
+    "form": "reference by path and line only; no plan prose is restated as ledger fact in this entry",
+    "plan_of_record": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+    "plan_of_record_bytes": 81709,
+    "plan_of_record_lines": 466,
+    "plan_of_record_sha256_lf_normalised": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+    "plan_of_record_source_of_truth": "C:/Shared/DROSO_Master_Plan_v1.2.md",
+    "promotion_tool": "tools/promote_plan_extract_v1_2.py",
+    "provenance_record": "experiments/MP-E9/plan_extract/PROVENANCE_v1_2.json",
+    "rule_number_verification": {
+      "R11": "UNUSED -- 0 hits across 576 tracked text sources at HEAD ee7416c",
+      "R17": "UNUSED -- 0 hits across 576 tracked text sources at HEAD ee7416c",
+      "checked_before_written_down": true,
+      "collision": false,
+      "governing_rule": "AMD-MPE10-11 -- a proposed identifier is checked against the live key set BEFORE it is written down",
+      "occupied_R_set_as_measured": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "occupied_risk_ids_in_G0_prime_risk_register_additions": [
+        "R12",
+        "R13",
+        "R14",
+        "R15",
+        "R16"
+      ],
+      "proposed_by": "v1.2:134 (R11 'the number is unused by the repository'; R17 'the repository's risk register has already assigned R12-R16 in experiments/G0-prime/registration.json')",
+      "scope_note": "experiments/MP-E9/plan_extract/* was excluded from the token scan: the plan's own numbering is not the repository's registry",
+      "verdict": "both numbers adopted as proposed; no silent renumbering"
+    },
+    "ruling_batch": {
+      "header": "B.R The 2026-11 Ruling Batch (PI, one sitting, zero machine time)",
+      "ingest_rule": "each ruling is quoted VERBATIM into the owning ledger entry with its source line and the plan date; it is never paraphrased into ledger text",
+      "ingest_step": "STEP 2 of the same order",
+      "ingested_utc": null,
+      "location": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:396-409"
+    },
+    "source_of_truth_moved": "v1.2 supersedes v1.1 as the plan of record governing this ledger",
+    "v1_1_status": "retained in the same directory, unmodified, as history under R5; its own record is experiments/MP-E9/plan_extract/PROVENANCE.json"
+  },
   "plan_text_transcribed_verbatim": {
     "B_6_item_1_divergence_recorded": "Item 1 says 'against the GPT-2 124M weights'. This registration implements the extractions against a synthetic donor of the same shape and says so in every field of every artifact. The divergence is not a substitution of the claim: the real donor run remains item 1 and is blocked by the named external blocker below. What is delivered now is the code path, the operation counts and the schema, so that the run against real weights is a download rather than a build.",
     "B_6_items_this_registration_covers": "Items 1, 2 and 3, and only against a SYNTHETIC donor of the registered shape (see synthetic_donor). Items 4, 5, 6 and 7 belong to MP-E12b and MP-E12c, are not implemented here, and are not opened by this registration.",

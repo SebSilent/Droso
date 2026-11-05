@@ -512,6 +512,14 @@ DEFAULT_MANIFEST = [
     "tools/mp_e10_licensed_absence_hunt.py",
     "experiments/MP-E10/results/licensed_absence_flip_hunt.json",
     "experiments/MP-E10/results/suite_manifest_licensed_absence_hunt.json",
+# Master Plan v1.2, promoted by STEP 0 of the PI's 2026-11-05 order. Sealed because it is now the plan of
+# record: B.R (v1.2:396-409) is the ruling source the ledgers must quote verbatim, and R11/R17 (v1.2:134,
+# :146-:147) govern what a run may claim. A normative input that is not hashed is a normative input whose
+# text can change under the citations -- the same reason v1.1's extract carries PROVENANCE.json. The v1.1
+# extract is NOT touched: it stays as history under R5, and its provenance record stays as written.
+    "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+    "experiments/MP-E9/plan_extract/PROVENANCE_v1_2.json",
+    "tools/promote_plan_extract_v1_2.py",
 ]
 
 
