@@ -5,8 +5,10 @@ pre-registration is not a wrong number, it is a number that arrives in a shape n
 threshold quietly re-based by whoever ran the clock, or a proposed identifier that collides with one written in a
 document nobody re-read. Each test guards one of those, and none of them requires a timing to exist.
 """
+import hashlib
 import json
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -139,16 +141,37 @@ def test_identity_is_measured_fields_not_a_description():
 
 
 def test_seal_identity_quoted_from_the_ledger_not_invented():
+    """Verify the quote against the commit it NAMES, not against whatever the ledger is stamped at today.
+
+    `seal_identity_at_registration` is a historical record: the anchor, file count and blob hashes as they were when
+    the pre-registration was written. The first version of this test compared it to the LIVE seal, so it failed on
+    every re-stamp by construction -- and the only way to make that version pass was to edit the quote to chase the
+    present, which would turn a historical record into a rolling one and destroy the thing it records. A test that
+    can only be satisfied by falsifying the artifact is the defect, not the artifact.
+
+    What is actually checkable, and stronger than equality-with-the-present: the named commit must exist, each
+    recorded git_blob_sha1 must equal the blob that commit holds at that path, each recorded sha256 must equal the
+    sha256 of those exact bytes, and the named anchor must be an ancestor of the live anchor -- so the quote cannot
+    have been invented and cannot name a commit that was later discarded.
+    """
     a = art()
     sec = a["3_hardware_and_interpreter_identity_R15"]["seal_identity_at_registration"]
+    anchor = sec["git_head"]
     live = json.loads(LEDGER.read_text(encoding="utf-8"))["harness_hashes"]
-    assert sec["git_head"] == live["git_head"]
-    assert sec["n_files_sealed"] == len(live["files"])
-    assert sec["git_dirty_sealed"] == []
+
+    assert sec["git_dirty_sealed"] == [], "a seal with uncommitted hashes cannot be quoted as an identity"
+    assert subprocess.run(["git", "cat-file", "-t", anchor], capture_output=True, text=True).stdout.strip() == "commit", \
+        f"the quoted anchor {anchor[:12]} is not a commit that exists"
+    assert subprocess.run(["git", "merge-base", "--is-ancestor", anchor, live["git_head"]]).returncode == 0, \
+        "the quoted anchor must be an ancestor of the live anchor, not a dangling commit"
+
     assert sec["the_read_path_tools_and_their_sealed_hashes"], "the read path must have sealed identities"
-    for k, v in sec["the_read_path_tools_and_their_sealed_hashes"].items():
-        assert v["git_blob_sha1"] == live["files"][k]["git_blob_sha1"]
-        assert v["sha256_of_git_blob"] == live["files"][k]["sha256_of_git_blob"]
+    for path, v in sec["the_read_path_tools_and_their_sealed_hashes"].items():
+        got = subprocess.run(["git", "rev-parse", f"{anchor}:{path}"], capture_output=True, text=True).stdout.strip()
+        assert got == v["git_blob_sha1"], f"{path}: anchor {anchor[:9]} holds {got[:12]}, quote says {v['git_blob_sha1'][:12]}"
+        raw = subprocess.run(["git", "cat-file", "blob", f"{anchor}:{path}"], capture_output=True).stdout
+        assert hashlib.sha256(raw).hexdigest() == v["sha256_of_git_blob"], f"{path}: sha256 does not match the blob bytes"
+
     whole = a["3_hardware_and_interpreter_identity_R15"]
     assert "not yet" in whole["consequence_for_the_benchmark_tool_itself"]
     assert "re-bases the figure" in whole["re_baseline_rule"]
