@@ -4088,7 +4088,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "a582ba8f7e4e4384c764c1fdffffde6c6b912d9a",
+    "git_head": "06ac3a20d9609fb71e8c900b35682f92018aee5f",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -4114,7 +4114,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T22:10:29Z",
+    "sealed_at_utc": "2026-11-05T22:27:52Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -4840,6 +4840,65 @@
     "still_blocking_a_scored_run_after_this_registration": "the donor itself, which is a physical absence, not a decision. Nothing in the open list above prevents the code path from being built and tested; the absence prevents it from being pointed at anything real."
   },
   "registered_at": "2026-08-10T00:00:00Z",
+  "reported_versus_recorded_landing_report_2026_11_05": {
+    "discipline": "Reported-versus-recorded, applied to a delivered report instead of to an artifact. A report that names a coordinate is making a claim the tree can contradict; the contradiction is recorded with the read-back values beside the lines they came from.",
+    "five_citations_this_turn_superseded_in_the_earlier_block": {
+      "attribution_measured": "5 pointers broken by this turn, 31 already stale at a582ba8, measured by testing each needle against the file as it stood at the start of this turn. The 31 are not this turn's damage and none of them was repaired.",
+      "the_mechanism_that_was_not_understood_before": "the stamp re-serialises each ledger with sorted top-level keys, so it does not merely shift lines below harness_hashes -- it MOVES WHOLE BLOCKS. c4_reconciliation_2026_11_05 went from line 5267 to line 594 under this turn's stamp. Any line-number citation into a ledger is therefore unsafe across a stamp, wherever it sits; only key-path citations survive.",
+      "what_follows_for_this_agent": "write ledger citations by key path, or write them after the final stamp. This turn's two blocks were written after stamping and their 23 pointers all resolve with zero defects, which is the evidence for the rule, not an assertion of it.",
+      "what_they_quote": "the five git_head lines at the anchor 07119c9d6b5066d3a099f509b1c188c018090af7",
+      "where_they_live": "c4_reconciliation_2026_11_05.premise_1_anchor_split_not_confirmed.as_read_from[0..4]",
+      "why_they_now_read_false": "this step re-stamped, which replaced that anchor with a582ba8f7e4e on all five lines. The five citations were true when written and recorded the reconciliation of a split that did not exist; they are left as they are rather than rewritten, because rewriting a measurement to match a later state destroys the measurement."
+    },
+    "registered_at_utc": "2026-11-05T22:11:17Z",
+    "the_anchor_the_landing_report_read_is_now_superseded": {
+      "cause": "this step stamped twice: the first pass wrote three ledgers and then REFUSED on the other two because of coordinates this step had just written, which left the five ledgers on two different anchors mid-run. The refusal was correct and the split was the agent's doing.",
+      "sealed_file_count_both_times": 245,
+      "value_after_this_steps_own_re_stamp": "06ac3a20d9609fb71e8c900b35682f92018aee5f",
+      "the_anchor_immediately_before_this_one": "a582ba8f7e4e4384c764c1fdffffde6c6b912d9a",
+      "chain_of_anchors_across_this_session": ["07119c9d6b5066d3a099f509b1c188c018090af7", "a582ba8f7e4e4384c764c1fdffffde6c6b912d9a", "06ac3a20d9609fb71e8c900b35682f92018aee5f"],
+      "why_a_chain_and_not_a_single_replacement": "three anchors moved in one session, each by a stamp this agent ran. A note that only shows the last substitution hides that the value has moved twice since the landing report, which is the fact a reader needs in order to trust any anchor citation older than today.",
+      "value_at_the_time": "07119c9d6b5066d3a099f509b1c188c018090af7",
+      "why_the_citations_above_quote_the_second": "the five read_from entries are live citations, so they quote the anchor each line actually holds. The first value is kept here as the historical reading rather than left as a quote that has silently moved. The count never changed; only the anchor did, and only because this step stamped."
+    },
+    "the_recorded_values_as_read_back": {
+      "anchor_read_now": "06ac3a20d9609fb71e8c900b35682f92018aee5f",
+      "count_field": "harness_hashes.files, one entry per sealed path: 245 keys in each of the five ledgers",
+      "line_reads": "\"bytes_worktree\": 74001,",
+      "read_from": [
+        {
+          "line_reads": "\"git_head\": \"06ac3a20d9609fb71e8c900b35682f92018aee5f\",",
+          "pointer": "experiments/G0-prime/registration.json:2330"
+        },
+        {
+          "line_reads": "\"git_head\": \"06ac3a20d9609fb71e8c900b35682f92018aee5f\",",
+          "pointer": "experiments/MP-E8/registration.json:2623"
+        },
+        {
+          "line_reads": "\"git_head\": \"06ac3a20d9609fb71e8c900b35682f92018aee5f\",",
+          "pointer": "experiments/MP-E9/registration.json:2263"
+        },
+        {
+          "line_reads": "\"git_head\": \"06ac3a20d9609fb71e8c900b35682f92018aee5f\",",
+          "pointer": "experiments/MP-E10/registration.json:2327"
+        },
+        {
+          "line_reads": "\"git_head\": \"06ac3a20d9609fb71e8c900b35682f92018aee5f\",",
+          "pointer": "experiments/MP-E12/registration.json:4091"
+        }
+      ],
+      "sealed_file_count": 245,
+      "the_line_that_was_mistaken_for_a_seal_field": "experiments/MP-E10/registration.json:2300 holds the per-file field bytes_worktree = 74001, an entry inside harness_hashes.files -- not a seal field. MP-E10's live seal anchor sits at the line listed above."
+    },
+    "the_reported_values": {
+      "anchor_named": "418d917",
+      "attribution": "The two values were put to this agent as numbers it had reported. The landing report delivered in the same session named 07119c9d6b50 and 245, which are the values the tree held. Neither 418d917 nor 244 occurs anywhere, in any ledger, artifact or ref. Recorded as a fact about the exchange, not as a defect in the seal.",
+      "file_count_named": "244",
+      "how_checked": "whole-project grep for both strings; no match in any tracked or untracked file",
+      "occurrences_of_either_in_the_tree": 0
+    },
+    "what_this_changes": "Nothing in the record's content. It fixes no pre-existing citation and restates no value belonging to another step. What it establishes is the rule: a number in a report is checked against the tree before it is repeated, and when the report and the tree disagree the tree is quoted with its line."
+  },
   "status": "REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.",
   "synthetic_donor": {
     "how_it_is_made": "tools/mp_e12_synthetic_donor.py, deterministic from a registered seed (1249), float32, standard normal scaled by 0.02 the way a GPT-2 checkpoint is initialised. The donor's own shape manifest is sealed so that a later reader can check that the stand-in had the shape the budget was sized against.",
@@ -4848,6 +4907,146 @@
     "what_it_cannot_prove": "anything about GPT-2's associations, pools, motifs, confidences or the ten-times claim in the world. Random matrices have no library to read. A number from this donor that appears in a sentence about the flagship result is a reporting error, and this file is the place that would have been violated.",
     "what_it_is": "A randomly initialised tensor set with the SAME SHAPES as GPT-2 124M: wte (50257 x 768), wpe (1024 x 768 -- n_positions is 1024; a 1500-row wpe would be 356,736 parameters wrong and would not be the donor), and for each of 12 layers c_attn (768 x 2304) split into 12 heads of d_head 64, attn c_proj (768 x 768), mlp c_fc (768 x 3072), mlp c_proj (3072 x 768), plus the layer-norm vectors and ln_f. The unembedding is tied to wte, as in the real model. Total parameters 124,439,808, COMPUTED from the config by the generator and checked against GPT-2 small's published count rather than typed in from a model card.",
     "why_a_stand_in_and_not_a_wait": "the same discipline MP-E10 used. Its hash-projected token vectors were labelled a stand-in, and the calibration they made possible found three properties of the sealed organ that 23 unit tests had missed. A shape-correct donor makes the extraction path executable and testable now, so that when the weights arrive MP-E12a is a download rather than a build."
+  },
+  "three_process_audit_decisions_2026_11_05": {
+    "D-MPE12-10": {
+      "consequence_if_unruled": "The audit keeps emitting verdicts about ten processes while the conversational entry points -- electric_chat.py, run_generation.py -- are unmeasured. A reader who takes 'the answer path is clean' from its output is reading a claim the artifact does not support: it shows the ten listed processes are clean. The gate stays a record, and the gap is invisible in the report because the report counts what it audited, not what it was never told about.",
+      "measured_state": {
+        "audited_entries": 10,
+        "files_that_import_the_organ": 66,
+        "named_unaudited_entry_points": [
+          "tools/electric_chat.py",
+          "tools/run_generation.py",
+          "tools/book_qa_learn_audit.py",
+          "tools/book_qa_store_audit.py"
+        ],
+        "organ_importers_reachable_from_no_audited_process": 62,
+        "the_audit_is_not_wired_into_any_write_path": {
+          "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
+          "pointer": "tools/registration_seal.py:1000"
+        },
+        "the_entry_list_is_hand_typed": {
+          "line_reads": "default_entries = {",
+          "pointer": "tools/mp_e12_process_audit.py:298"
+        },
+        "what_the_report_says_today": {
+          "line_reads": "\"audit_verdict\": \"EXPOSURE\"",
+          "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:393"
+        }
+      },
+      "options": [
+        "(a) house entry path only -- run it on run_house.py and its closure. Cheap, and the only reading of 'deployment loop' that names one real file.",
+        "(b) the answer path enumerated FROM THE TREE -- discover entry points by reachability over the organ's importers instead of accepting a typed list, which is the only option that closes the measured 62-of-66 gap.",
+        "(c) report-only -- what it is today: honest, and it stops nothing."
+      ],
+      "overlap_with_D-MPE12-12": "Option (b) here and option (c) there are the same act seen from two directions; ruling one largely rules the other. The overlap is noted, not resolved.",
+      "status": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
+      "title": "Where the process audit runs."
+    },
+    "D-MPE12-11": {
+      "consequence_if_unruled": "The classification stays hostage to an unrelated import. 'generate' is in EXEC_DIRECTIONS and the only thing keeping it from firing is that the organ imports no runtime module; the first person to add torch to the organ for any reason -- a thread count, a device query -- flips run_house.py to BREACH for a cause that has nothing to do with the donor. Meanwhile the program cannot say whether R11 is satisfiable as written, which is the question option (b) answers no.",
+      "line_reads": "gen = self.sequence.generate(seed, max_len=int(max_words),",
+      "measured_consequence_if_it_does_count": "The deployment loop is in breach today and R11 was never satisfiable as written. Stated as measured, not argued: the call exists at organs/neural_language.py:6270, inside speak_sentence, on the path that produces every reply.",
+      "measured_state": {
+        "also_called_at": "the same method is reached from two more places in the organ, at the lines named in this file's C4 reconciliation block",
+        "called_from_inside_the_answer_path": {
+          "line_reads": "gen = self.sequence.generate(seed, max_len=int(max_words),",
+          "pointer": "organs/neural_language.py:6270"
+        },
+        "how_it_is_classified_today": "NOT as an act. exec_calls is empty for both files, measured directly, so run_house.py reads CLEAR.",
+        "the_deployment_edge": {
+          "line_reads": "from world.connectome_house import (CAPABILITIES, ConnectomeHouse,",
+          "pointer": "run_house.py:27"
+        },
+        "the_gate_that_produces_the_emptiness": {
+          "line_reads": "EXEC_DIRECTIONS = (\"forward\", \"generate\", \"sample\", \"autoregress\", \"inference\", \"__call__\", \"step\", \"predict\")",
+          "pointer": "tools/mp_e12_process_audit.py:65"
+        },
+        "the_mouth_is_defined_here": {
+          "line_reads": "def generate(self, first_word: str, max_len: int = 8,",
+          "pointer": "organs/sequence_organ.py:318"
+        }
+      },
+      "options": [
+        "(a) Droso's mouth is not an act -- R11's prohibition is donor-scoped. Then the gate must say so structurally: name the executor, not the import that happens to sit near it.",
+        "(b) It IS an act -- 'no forward pass, no autoregressive loop, no sampling' read literally, of any model. Then the deployment loop is in breach TODAY, before any donor work at all, and R11 as written was never satisfiable: the organ speaks by generating, and the answer path would have to stop generating to comply.",
+        "(c) R11's wording is amended to state the donor scope it has always been read with, so the rule stops claiming a prohibition the program does not observe."
+      ],
+      "status": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
+      "title": "Whether Droso's own generate() is an act under R11."
+    },
+    "D-MPE12-12": {
+      "consequence_if_unruled": "A gate whose input is a hand-typed list can be satisfied by omission, and nobody has to declare the omission. '10 processes, 0 breach' will be read as a property of the program when it is a property of a dictionary in a tool -- which is precisely how the chat entry points went unaudited without anybody deciding to skip them.",
+      "measured_state": {
+        "omissions_are_invisible_in_the_output": "the report prints counts over audited processes; the 62 unaudited organ-importers appear nowhere in it",
+        "the_exposure_it_did_catch": {
+          "line_reads": "\"exposure_processes\": [",
+          "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:365"
+        },
+        "the_list_lives_in_the_tool_as_a_literal": {
+          "line_reads": "default_entries = {",
+          "pointer": "tools/mp_e12_process_audit.py:298"
+        },
+        "what_the_counts_claim": {
+          "line_reads": "\"processes_audited\": 10,",
+          "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:357"
+        }
+      },
+      "options": [
+        "(a) Evidence -- the list is sealed, reviewed like any artifact, and its omissions are enumerated in the report, so a reader sees what was not looked at.",
+        "(b) Configuration -- anyone running the tool may edit it, and the verdict is explicitly scoped to 'these N processes' rather than to the program.",
+        "(c) No list -- derived from the tree at run time, which makes this decision and D-MPE12-10(b) the same ruling."
+      ],
+      "status": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
+      "title": "Whose registry the entry list is."
+    },
+    "identifier_assignment_as_measured": {
+      "AMD-MPE12_namespace": "EMPTY as measured. The AMD- sequences are per-experiment: AMD-G0P holds 1; AMD-MPE10 holds 1-11; AMD-MPE8 holds 1-17. No AMD-MPE12 identifier exists in any ledger, so the next amendment in this experiment would be AMD-MPE12-01.",
+      "assigned": [
+        "D-MPE12-10",
+        "D-MPE12-11",
+        "D-MPE12-12"
+      ],
+      "collision_check": "none of 10, 11, 12 appears as a key or an id-value in any ledger, measured by walking the parsed JSON rather than by grepping a string",
+      "governing_rule": {
+        "line_reads": "\"governing_rule\": \"AMD-MPE10-11 -- a proposed identifier is checked against the live key set BEFORE it is written down\",",
+        "pointer": "experiments/G0-prime/registration.json:2736"
+      },
+      "live_key_set_read_first": {
+        "D-MPE12_numbers_occupied": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9
+        ],
+        "evidence_06_to_08": {
+          "line_reads": "\"D-MPE12-08\": \"Whether stage b may be exercised on a scratch organ before the live one, and what would make a scratch result admissible.\",",
+          "pointer": "experiments/MP-E12/registration.json:4511"
+        },
+        "evidence_09_is_occupied": {
+          "line_reads": "\"question_id\": \"D-MPE12-09\",",
+          "pointer": "experiments/MP-E12/registration.json:98"
+        },
+        "evidence_low_end": {
+          "line_reads": "\"decision_id\": \"D-MPE12-01\",",
+          "pointer": "experiments/MP-E12/registration.json:4596"
+        },
+        "highest_occupied": 9
+      },
+      "next_three_free": [
+        10,
+        11,
+        12
+      ]
+    },
+    "registered_at_utc": "2026-11-05T22:11:17Z",
+    "what_this_block_does_not_do": "It rules nothing, closes nothing, adds no capability, raises no cap, runs nothing, and repairs no seam. It assigns identifiers only after reading the live key set, per AMD-MPE10-11. The three decisions are carried in experiments/MP-E10/registration.json -> pi_queue_2026_11_05 with status read from THIS file.",
+    "what_this_block_is": "Three open decisions surfaced by the C4 process audit, given identifiers and registered here so the PI queue can carry them. The agent chose none of the options."
   },
   "title": "Frozen weights as a library -- the weight-reading probes (flagship stage A)",
   "tokenizer_landed_and_two_rules_registered_2026_11_05": {
@@ -5397,201 +5596,5 @@
     "what_this_note_does_not_do": "It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.",
     "which_account_is_the_record": "THIS ledger, for the gate's state. The plan extract is sealed and stays unedited; the correction is a dated note pointing at experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164, the same handling as the brief's line 54, the v1.2:126 queue sentence and the 802.51 s figure. The plan remains the record of INTENT; the owning ledger is the record of STATE; this note is what says so, because two unlabelled accounts of one gate is the failure mode, not the fix.",
     "written_by": "B.6 item 3, on the PI's instruction, after the discrepancy was reported rather than silently harmonised"
-  },
-  "three_process_audit_decisions_2026_11_05": {
-    "registered_at_utc": "2026-11-05T22:11:17Z",
-    "what_this_block_is": "Three open decisions surfaced by the C4 process audit, given identifiers and registered here so the PI queue can carry them. The agent chose none of the options.",
-    "identifier_assignment_as_measured": {
-      "governing_rule": {
-        "pointer": "experiments/G0-prime/registration.json:2736",
-        "line_reads": "\"governing_rule\": \"AMD-MPE10-11 -- a proposed identifier is checked against the live key set BEFORE it is written down\","
-      },
-      "live_key_set_read_first": {
-        "D-MPE12_numbers_occupied": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9
-        ],
-        "highest_occupied": 9,
-        "evidence_low_end": {
-          "pointer": "experiments/MP-E12/registration.json:4596",
-          "line_reads": "\"decision_id\": \"D-MPE12-01\","
-        },
-        "evidence_06_to_08": {
-          "pointer": "experiments/MP-E12/registration.json:4511",
-          "line_reads": "\"D-MPE12-08\": \"Whether stage b may be exercised on a scratch organ before the live one, and what would make a scratch result admissible.\","
-        },
-        "evidence_09_is_occupied": {
-          "pointer": "experiments/MP-E12/registration.json:98",
-          "line_reads": "\"question_id\": \"D-MPE12-09\","
-        }
-      },
-      "AMD-MPE12_namespace": "EMPTY as measured. The AMD- sequences are per-experiment: AMD-G0P holds 1; AMD-MPE10 holds 1-11; AMD-MPE8 holds 1-17. No AMD-MPE12 identifier exists in any ledger, so the next amendment in this experiment would be AMD-MPE12-01.",
-      "next_three_free": [
-        10,
-        11,
-        12
-      ],
-      "assigned": [
-        "D-MPE12-10",
-        "D-MPE12-11",
-        "D-MPE12-12"
-      ],
-      "collision_check": "none of 10, 11, 12 appears as a key or an id-value in any ledger, measured by walking the parsed JSON rather than by grepping a string"
-    },
-    "D-MPE12-10": {
-      "title": "Where the process audit runs.",
-      "status": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
-      "measured_state": {
-        "the_entry_list_is_hand_typed": {
-          "pointer": "tools/mp_e12_process_audit.py:298",
-          "line_reads": "default_entries = {"
-        },
-        "audited_entries": 10,
-        "files_that_import_the_organ": 66,
-        "organ_importers_reachable_from_no_audited_process": 62,
-        "named_unaudited_entry_points": [
-          "tools/electric_chat.py",
-          "tools/run_generation.py",
-          "tools/book_qa_learn_audit.py",
-          "tools/book_qa_store_audit.py"
-        ],
-        "the_audit_is_not_wired_into_any_write_path": {
-          "pointer": "tools/registration_seal.py:1000",
-          "line_reads": "n_bad, bad = _pca_gate(_pca, p)"
-        },
-        "what_the_report_says_today": {
-          "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:393",
-          "line_reads": "\"audit_verdict\": \"EXPOSURE\""
-        }
-      },
-      "options": [
-        "(a) house entry path only -- run it on run_house.py and its closure. Cheap, and the only reading of 'deployment loop' that names one real file.",
-        "(b) the answer path enumerated FROM THE TREE -- discover entry points by reachability over the organ's importers instead of accepting a typed list, which is the only option that closes the measured 62-of-66 gap.",
-        "(c) report-only -- what it is today: honest, and it stops nothing."
-      ],
-      "consequence_if_unruled": "The audit keeps emitting verdicts about ten processes while the conversational entry points -- electric_chat.py, run_generation.py -- are unmeasured. A reader who takes 'the answer path is clean' from its output is reading a claim the artifact does not support: it shows the ten listed processes are clean. The gate stays a record, and the gap is invisible in the report because the report counts what it audited, not what it was never told about.",
-      "overlap_with_D-MPE12-12": "Option (b) here and option (c) there are the same act seen from two directions; ruling one largely rules the other. The overlap is noted, not resolved."
-    },
-    "D-MPE12-11": {
-      "title": "Whether Droso's own generate() is an act under R11.",
-      "status": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
-      "measured_state": {
-        "the_mouth_is_defined_here": {
-          "pointer": "organs/sequence_organ.py:318",
-          "line_reads": "def generate(self, first_word: str, max_len: int = 8,"
-        },
-        "called_from_inside_the_answer_path": {
-          "pointer": "organs/neural_language.py:6270",
-          "line_reads": "gen = self.sequence.generate(seed, max_len=int(max_words),"
-        },
-        "also_called_at": "the same method is reached from two more places in the organ, at the lines named in this file's C4 reconciliation block",
-        "how_it_is_classified_today": "NOT as an act. exec_calls is empty for both files, measured directly, so run_house.py reads CLEAR.",
-        "the_gate_that_produces_the_emptiness": {
-          "pointer": "tools/mp_e12_process_audit.py:65",
-          "line_reads": "EXEC_DIRECTIONS = (\"forward\", \"generate\", \"sample\", \"autoregress\", \"inference\", \"__call__\", \"step\", \"predict\")"
-        },
-        "the_deployment_edge": {
-          "pointer": "run_house.py:27",
-          "line_reads": "from world.connectome_house import (CAPABILITIES, ConnectomeHouse,"
-        }
-      },
-      "options": [
-        "(a) Droso's mouth is not an act -- R11's prohibition is donor-scoped. Then the gate must say so structurally: name the executor, not the import that happens to sit near it.",
-        "(b) It IS an act -- 'no forward pass, no autoregressive loop, no sampling' read literally, of any model. Then the deployment loop is in breach TODAY, before any donor work at all, and R11 as written was never satisfiable: the organ speaks by generating, and the answer path would have to stop generating to comply.",
-        "(c) R11's wording is amended to state the donor scope it has always been read with, so the rule stops claiming a prohibition the program does not observe."
-      ],
-      "consequence_if_unruled": "The classification stays hostage to an unrelated import. 'generate' is in EXEC_DIRECTIONS and the only thing keeping it from firing is that the organ imports no runtime module; the first person to add torch to the organ for any reason -- a thread count, a device query -- flips run_house.py to BREACH for a cause that has nothing to do with the donor. Meanwhile the program cannot say whether R11 is satisfiable as written, which is the question option (b) answers no.",
-      "measured_consequence_if_it_does_count": "The deployment loop is in breach today and R11 was never satisfiable as written. Stated as measured, not argued: the call exists at organs/neural_language.py:6270, inside speak_sentence, on the path that produces every reply.",
-      "line_reads": "gen = self.sequence.generate(seed, max_len=int(max_words),"
-    },
-    "D-MPE12-12": {
-      "title": "Whose registry the entry list is.",
-      "status": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
-      "measured_state": {
-        "the_list_lives_in_the_tool_as_a_literal": {
-          "pointer": "tools/mp_e12_process_audit.py:298",
-          "line_reads": "default_entries = {"
-        },
-        "omissions_are_invisible_in_the_output": "the report prints counts over audited processes; the 62 unaudited organ-importers appear nowhere in it",
-        "what_the_counts_claim": {
-          "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:357",
-          "line_reads": "\"processes_audited\": 10,"
-        },
-        "the_exposure_it_did_catch": {
-          "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:365",
-          "line_reads": "\"exposure_processes\": ["
-        }
-      },
-      "options": [
-        "(a) Evidence -- the list is sealed, reviewed like any artifact, and its omissions are enumerated in the report, so a reader sees what was not looked at.",
-        "(b) Configuration -- anyone running the tool may edit it, and the verdict is explicitly scoped to 'these N processes' rather than to the program.",
-        "(c) No list -- derived from the tree at run time, which makes this decision and D-MPE12-10(b) the same ruling."
-      ],
-      "consequence_if_unruled": "A gate whose input is a hand-typed list can be satisfied by omission, and nobody has to declare the omission. '10 processes, 0 breach' will be read as a property of the program when it is a property of a dictionary in a tool -- which is precisely how the chat entry points went unaudited without anybody deciding to skip them."
-    },
-    "what_this_block_does_not_do": "It rules nothing, closes nothing, adds no capability, raises no cap, runs nothing, and repairs no seam. It assigns identifiers only after reading the live key set, per AMD-MPE10-11. The three decisions are carried in experiments/MP-E10/registration.json -> pi_queue_2026_11_05 with status read from THIS file."
-  },
-  "reported_versus_recorded_landing_report_2026_11_05": {
-    "registered_at_utc": "2026-11-05T22:11:17Z",
-    "discipline": "Reported-versus-recorded, applied to a delivered report instead of to an artifact. A report that names a coordinate is making a claim the tree can contradict; the contradiction is recorded with the read-back values beside the lines they came from.",
-    "the_reported_values": {
-      "anchor_named": "418d917",
-      "file_count_named": "244",
-      "occurrences_of_either_in_the_tree": 0,
-      "how_checked": "whole-project grep for both strings; no match in any tracked or untracked file",
-      "attribution": "The two values were put to this agent as numbers it had reported. The landing report delivered in the same session named 07119c9d6b50 and 245, which are the values the tree held. Neither 418d917 nor 244 occurs anywhere, in any ledger, artifact or ref. Recorded as a fact about the exchange, not as a defect in the seal."
-    },
-    "the_recorded_values_as_read_back": {
-      "anchor_read_now": "a582ba8f7e4e4384c764c1fdffffde6c6b912d9a",
-      "sealed_file_count": 245,
-      "read_from": [
-        {
-          "pointer": "experiments/G0-prime/registration.json:2330",
-          "line_reads": "\"git_head\": \"a582ba8f7e4e4384c764c1fdffffde6c6b912d9a\","
-        },
-        {
-          "pointer": "experiments/MP-E8/registration.json:2623",
-          "line_reads": "\"git_head\": \"a582ba8f7e4e4384c764c1fdffffde6c6b912d9a\","
-        },
-        {
-          "pointer": "experiments/MP-E9/registration.json:2263",
-          "line_reads": "\"git_head\": \"a582ba8f7e4e4384c764c1fdffffde6c6b912d9a\","
-        },
-        {
-          "pointer": "experiments/MP-E10/registration.json:2327",
-          "line_reads": "\"git_head\": \"a582ba8f7e4e4384c764c1fdffffde6c6b912d9a\","
-        },
-        {
-          "pointer": "experiments/MP-E12/registration.json:4091",
-          "line_reads": "\"git_head\": \"a582ba8f7e4e4384c764c1fdffffde6c6b912d9a\","
-        }
-      ],
-      "count_field": "harness_hashes.files, one entry per sealed path: 245 keys in each of the five ledgers",
-      "the_line_that_was_mistaken_for_a_seal_field": "experiments/MP-E10/registration.json:2300 holds the per-file field bytes_worktree = 74001, an entry inside harness_hashes.files -- not a seal field. MP-E10's live seal anchor sits at the line listed above.",
-      "line_reads": "\"bytes_worktree\": 74001,"
-    },
-    "the_anchor_the_landing_report_read_is_now_superseded": {
-      "value_at_the_time": "07119c9d6b5066d3a099f509b1c188c018090af7",
-      "value_after_this_steps_own_re_stamp": "a582ba8f7e4e4384c764c1fdffffde6c6b912d9a",
-      "sealed_file_count_both_times": 245,
-      "why_the_citations_above_quote_the_second": "the five read_from entries are live citations, so they quote the anchor each line actually holds. The first value is kept here as the historical reading rather than left as a quote that has silently moved. The count never changed; only the anchor did, and only because this step stamped.",
-      "cause": "this step stamped twice: the first pass wrote three ledgers and then REFUSED on the other two because of coordinates this step had just written, which left the five ledgers on two different anchors mid-run. The refusal was correct and the split was the agent's doing."
-    },
-    "what_this_changes": "Nothing in the record's content. It fixes no pre-existing citation and restates no value belonging to another step. What it establishes is the rule: a number in a report is checked against the tree before it is repeated, and when the report and the tree disagree the tree is quoted with its line.",
-    "five_citations_this_turn_superseded_in_the_earlier_block": {
-      "where_they_live": "c4_reconciliation_2026_11_05.premise_1_anchor_split_not_confirmed.as_read_from[0..4]",
-      "what_they_quote": "the five git_head lines at the anchor 07119c9d6b5066d3a099f509b1c188c018090af7",
-      "why_they_now_read_false": "this step re-stamped, which replaced that anchor with a582ba8f7e4e on all five lines. The five citations were true when written and recorded the reconciliation of a split that did not exist; they are left as they are rather than rewritten, because rewriting a measurement to match a later state destroys the measurement.",
-      "attribution_measured": "5 pointers broken by this turn, 31 already stale at a582ba8, measured by testing each needle against the file as it stood at the start of this turn. The 31 are not this turn's damage and none of them was repaired.",
-      "the_mechanism_that_was_not_understood_before": "the stamp re-serialises each ledger with sorted top-level keys, so it does not merely shift lines below harness_hashes -- it MOVES WHOLE BLOCKS. c4_reconciliation_2026_11_05 went from line 5267 to line 594 under this turn's stamp. Any line-number citation into a ledger is therefore unsafe across a stamp, wherever it sits; only key-path citations survive.",
-      "what_follows_for_this_agent": "write ledger citations by key path, or write them after the final stamp. This turn's two blocks were written after stamping and their 23 pointers all resolve with zero defects, which is the evidence for the rule, not an assertion of it."
-    }
   }
 }

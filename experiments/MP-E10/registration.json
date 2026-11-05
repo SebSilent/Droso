@@ -2324,7 +2324,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "a582ba8f7e4e4384c764c1fdffffde6c6b912d9a",
+    "git_head": "06ac3a20d9609fb71e8c900b35682f92018aee5f",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -2351,7 +2351,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T22:10:04Z",
+    "sealed_at_utc": "2026-11-05T22:27:28Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -3055,83 +3055,6 @@
     }
   },
   "pi_queue_2026_11_05": {
-    "items_added_2026_11_05_three_process_audit_decisions": {
-      "added_at_utc": "2026-11-05T22:11:24Z",
-      "authority": "PI order 2026-11-05: number the three questions the process audit raised so the index does not understate itself for the fourth time",
-      "entries": [
-        {
-          "key": "D-MPE12-10",
-          "title": "Where the process audit runs: house entry path, answer path enumerated from the tree, or report-only.",
-          "ledger": "MP-E12",
-          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-10",
-          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
-          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
-          "has_status_field": true,
-          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
-          "status_read_from": {
-            "pointer": "experiments/MP-E12/registration.json:5450",
-            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\","
-          },
-          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
-          "agent_chose_no_option": true
-        },
-        {
-          "key": "D-MPE12-11",
-          "title": "Whether Droso's own generate() counts as an act under R11.",
-          "ledger": "MP-E12",
-          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-11",
-          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
-          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
-          "has_status_field": true,
-          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
-          "status_read_from": {
-            "pointer": "experiments/MP-E12/registration.json:5484",
-            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\","
-          },
-          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
-          "agent_chose_no_option": true
-        },
-        {
-          "key": "D-MPE12-12",
-          "title": "Whose registry the audit's entry list is: evidence, configuration, or no list at all.",
-          "ledger": "MP-E12",
-          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-12",
-          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
-          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
-          "has_status_field": true,
-          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
-          "status_read_from": {
-            "pointer": "experiments/MP-E12/registration.json:5516",
-            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\","
-          },
-          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
-          "agent_chose_no_option": true
-        }
-      ],
-      "n_items": 3,
-      "counting_rule_for_the_three": "These ARE decision blocks in the owning ledger, unlike the addition before them: each carries an assigned identifier, a status field, measured state, options and a consequence if unruled. They are indexed here and not duplicated into open_decision_entries, which would give the queue two records of one decision.",
-      "measured_state_that_motivates_them": {
-        "files_importing_the_organ": 66,
-        "audited_entries_handed_to_the_tool": 10,
-        "organ_importers_reachable_from_no_audited_process": 62,
-        "named_unaudited_entry_points": [
-          "tools/electric_chat.py",
-          "tools/run_generation.py"
-        ],
-        "the_audit_is_sealed_but_never_invoked": {
-          "claim": "tools/registration_seal.py:1000 calls _pca_gate and nothing calls the process audit",
-          "pointer": "tools/registration_seal.py:1000",
-          "line_reads": "n_bad, bad = _pca_gate(_pca, p)"
-        }
-      },
-      "what_this_addition_does_not_do": "It rules nothing, closes nothing, repairs no seam, adds no capability, raises no cap and runs nothing. It does not rewrite the counts block.",
-      "counts_did_not_move_2026_11_05": {
-        "as_published": "counts.entries_in_open_decision_blocks 34, with_a_status_field 11",
-        "measured_now": "34 and 11 -- unchanged by this addition",
-        "referent_of_each_published_number": "all four reproduce from the queue's own index list: 34 entries, 11 with has_status_field true, 18 bare strings, 5 dicts without a status. They are NOT a fresh scan of the ledgers' open-decision blocks, which measures 20 entries at top level.",
-        "why_they_did_not_move": "the counts block indexes ONE list, open_decision_entries. These three went into a fourth list, so the published numbers do not move while the queue now indexes 44 items and its own counts field says 34. That is the fourth understatement, recorded rather than silently corrected."
-      }
-    },
     "agent_side_queue_empty_2026_11_05": {
       "as_measured": "2026-11-05, from experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md and the five ledgers. Nothing here is a plan: it is a list of what each remaining step is blocked on.",
       "coordinates_of_this_note_after_the_write": {
@@ -3278,88 +3201,87 @@
       "without_a_status_field_bare_strings": 18,
       "without_a_status_field_dict_entries": 5
     },
-
-  "counts_re_measured_2026_11_05": {
-    "recorded_at": "2026-11-05T22:19:10Z",
-    "why_this_exists": "the counts field above is a 2026-11-04 snapshot and three entries have since been indexed into the queue. It was left exactly as it was and these numbers are written beside it, because overwriting a dated snapshot destroys the only evidence of what the index claimed at the time.",
-    "referent_A_the_queues_own_index_lists": {
-      "what_counts": "every list the queue carries: open_decision_entries (34), items_added_2026_11_05_three_process_audit_decisions.entries (3), items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry.entries (3), also_waiting (4), non_item_markers_in_decision_blocks (3)",
-      "total_indexed_items": 47,
-      "total_indexed_items_excluding_markers": 44,
-      "entries_in_open_decision_blocks": 37,
-      "waiting_outside_decision_blocks": 7,
-      "markers_excluded": 3,
-      "with_a_status_field": 14,
-      "without_a_status_field": 23,
-      "distinct_ledger_keys": 37,
-      "distinct_ledgers": 5,
-      "ledger_names": [
-        "G0-prime",
-        "MP-E8",
-        "MP-E9",
-        "MP-E10",
-        "MP-E12"
-      ],
-      "the_published_split_reproduces_and_my_first_reading_of_it_was_wrong": {
-        "published_split": "with_a_status_field 11 + without_a_status_field_bare_strings 18 + without_a_status_field_dict_entries 5 = 34",
-        "measured_by_the_recorded_form_labels": "18 rows labelled 'bare string' (all without a status) + 5 labelled 'dict' without a status + 11 labelled 'dict' with a status = 34. The published split reproduces EXACTLY, and a draft of this note claimed it no longer described the data because there are no bare strings. That claim was wrong and is retracted here: 'bare string' labels the shape of the SOURCE entry in the owning ledger, not the type of the index row.",
-        "measured_by_python_type": "all 34 index rows are dict objects; after this turn all 37 are. The 18 and the 5 are unchanged by this turn -- only 11 -> 14 moved, because each of the three additions declares a status.",
-        "what_this_means_for_the_counts_field": "the counts field is internally consistent with the list it indexes. It is stale in TOTAL, not in shape: 34 -> 37 rows, 38 -> 44 items, 4 -> 7 waiting outside. A guard written against it would read the right shape and the wrong number."
-      }
-    },
-    "referent_B_identifier_keys_that_exist_in_the_ledgers": {
-      "what_counts": "a recursive walk of all five ledgers for any object KEY matching D-MPE12-<n> or AMD-<ledger>-<n>, which is what 'a ledger key' means literally",
-      "key_occurrences": 15,
-      "distinct_identifiers": 12,
-      "distinct_ledgers_holding_them": 2,
-      "ledger_names": [
-        "MP-E8",
-        "MP-E12"
-      ],
-      "carrying_a_status_or_ruling_field": 8,
-      "per_ledger": {
-        "MP-E12": "14 occurrences, 11 distinct",
-        "MP-E8": "1 occurrence, 1 distinct"
+    "counts_re_measured_2026_11_05": {
+      "delta_caused_by_this_turns_three_additions": {
+        "distinct_ledger_keys": "34 -> 37",
+        "distinct_ledgers": "unchanged at 5",
+        "entries_in_open_decision_blocks": "34 -> 37",
+        "items": 3,
+        "total_indexed_items_excluding_markers": "41 -> 44",
+        "waiting_outside_decision_blocks": "unchanged by this turn at 4 -> 7; that +3 came from the earlier 2026-11-05 addition of the three MP-E12 questions, which the 11-04 snapshot also never counted",
+        "went_into": "open-decision lists, because all three ARE decision blocks with status fields",
+        "with_a_status_field": "11 -> 14"
       },
-      "why_it_is_smaller_than_referent_A": "the queue's entries are INDEX ROWS that name a ledger and a key; most of the 37 rows point at decision text that was never stored under an identifier key at all. 37 index rows and 12 real identifier keys are both true statements about two different things."
+      "recorded_at": "2026-11-05T22:19:10Z",
+      "referent_A_the_queues_own_index_lists": {
+        "distinct_ledger_keys": 37,
+        "distinct_ledgers": 5,
+        "entries_in_open_decision_blocks": 37,
+        "ledger_names": [
+          "G0-prime",
+          "MP-E8",
+          "MP-E9",
+          "MP-E10",
+          "MP-E12"
+        ],
+        "markers_excluded": 3,
+        "the_published_split_reproduces_and_my_first_reading_of_it_was_wrong": {
+          "measured_by_python_type": "all 34 index rows are dict objects; after this turn all 37 are. The 18 and the 5 are unchanged by this turn -- only 11 -> 14 moved, because each of the three additions declares a status.",
+          "measured_by_the_recorded_form_labels": "18 rows labelled 'bare string' (all without a status) + 5 labelled 'dict' without a status + 11 labelled 'dict' with a status = 34. The published split reproduces EXACTLY, and a draft of this note claimed it no longer described the data because there are no bare strings. That claim was wrong and is retracted here: 'bare string' labels the shape of the SOURCE entry in the owning ledger, not the type of the index row.",
+          "published_split": "with_a_status_field 11 + without_a_status_field_bare_strings 18 + without_a_status_field_dict_entries 5 = 34",
+          "what_this_means_for_the_counts_field": "the counts field is internally consistent with the list it indexes. It is stale in TOTAL, not in shape: 34 -> 37 rows, 38 -> 44 items, 4 -> 7 waiting outside. A guard written against it would read the right shape and the wrong number."
+        },
+        "total_indexed_items": 47,
+        "total_indexed_items_excluding_markers": 44,
+        "waiting_outside_decision_blocks": 7,
+        "what_counts": "every list the queue carries: open_decision_entries (34), items_added_2026_11_05_three_process_audit_decisions.entries (3), items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry.entries (3), also_waiting (4), non_item_markers_in_decision_blocks (3)",
+        "with_a_status_field": 14,
+        "without_a_status_field": 23
+      },
+      "referent_B_identifier_keys_that_exist_in_the_ledgers": {
+        "carrying_a_status_or_ruling_field": 8,
+        "distinct_identifiers": 12,
+        "distinct_ledgers_holding_them": 2,
+        "key_occurrences": 15,
+        "ledger_names": [
+          "MP-E8",
+          "MP-E12"
+        ],
+        "per_ledger": {
+          "MP-E12": "14 occurrences, 11 distinct",
+          "MP-E8": "1 occurrence, 1 distinct"
+        },
+        "what_counts": "a recursive walk of all five ledgers for any object KEY matching D-MPE12-<n> or AMD-<ledger>-<n>, which is what 'a ledger key' means literally",
+        "why_it_is_smaller_than_referent_A": "the queue's entries are INDEX ROWS that name a ledger and a key; most of the 37 rows point at decision text that was never stored under an identifier key at all. 37 index rows and 12 real identifier keys are both true statements about two different things."
+      },
+      "the_published_figures_move_and_it_is_said_plainly": {
+        "distinct_ledger_keys": "34 published, 37 measured on referent A, 12 on referent B -- it moved, and which number depends on the referent",
+        "distinct_ledgers": "5 published, 5 measured -- unchanged",
+        "entries_in_open_decision_blocks": "34 published, 37 measured -- it moved",
+        "total_indexed_items": "38 published, 44 measured excluding markers, 47 including them -- it moved",
+        "waiting_outside_decision_blocks": "4 published, 7 measured -- it moved",
+        "with_a_status_field": "11 published, 14 measured -- it moved"
+      },
+      "the_two_referents_are_not_reconciled_and_neither_is_the_right_one": "Earlier notes in this ledger quoted 34/11/38/4 for the lists and, separately, a scan figure for ledger keys. This note does not pick one: a count is only meaningful with its referent named, and the absence of that pairing is how the index kept looking correct while it drifted.",
+      "this_is_the_fifth_time_the_index_understated_itself": {
+        "claim": "fifth, measured as four prior dated corrections plus this one",
+        "mechanism_in_one_line_each": [
+          "the counts field indexes one list, and additions land in another list beside it",
+          "no test recomputes the counts from the contents, so nothing fails when they diverge",
+          "each addition is recorded as a dated note that itself cites line numbers, and a stamp moves those numbers by re-sorting every top-level key, so the correction goes stale on arrival",
+          "the published numbers reproduce from the list they were taken from, so a verification that re-reads the same list confirms the stale figure instead of catching it",
+          "and the two referents -- index rows versus real ledger keys -- were never separated, so a reader cannot tell which of the two a number is supposed to be"
+        ],
+        "the_test_that_would_stop_it_priced_not_built": {
+          "cost": "roughly 40 lines in one test file plus a fixture-free run; under a minute of wall time, zero bench time, no model, no donor read",
+          "what_it_would_break_on_arrival": "it would fail immediately on today's data -- 47 indexed against 34 published -- and would then require either rewriting the snapshot or scoping the counts field to one list. That failure is the point of the test, and it is also why the test is a decision and not a file.",
+          "what_it_would_do": "recompute both referents from the parsed queue and the parsed ledgers and fail if the stored counts field does not equal the recomputation, run as part of the existing suite",
+          "why_it_was_not_written": "it cannot be written until ONE referent is declared canonical, because a test that accepts either number asserts nothing. Declaring the canonical referent is a ruling on what the queue IS, which is not this agent's to make. Priced and left, per instruction."
+        }
+      },
+      "what_this_note_does_not_do": "It rules nothing, repairs no seam, overwrites no snapshot, adds no capability, raises no cap and runs nothing. It does not correct the four earlier dated notes that quote the old figures; they are history and are left as written.",
+      "why_this_exists": "the counts field above is a 2026-11-04 snapshot and three entries have since been indexed into the queue. It was left exactly as it was and these numbers are written beside it, because overwriting a dated snapshot destroys the only evidence of what the index claimed at the time."
     },
-    "the_two_referents_are_not_reconciled_and_neither_is_the_right_one": "Earlier notes in this ledger quoted 34/11/38/4 for the lists and, separately, a scan figure for ledger keys. This note does not pick one: a count is only meaningful with its referent named, and the absence of that pairing is how the index kept looking correct while it drifted.",
-    "delta_caused_by_this_turns_three_additions": {
-      "items": 3,
-      "went_into": "open-decision lists, because all three ARE decision blocks with status fields",
-      "entries_in_open_decision_blocks": "34 -> 37",
-      "total_indexed_items_excluding_markers": "41 -> 44",
-      "with_a_status_field": "11 -> 14",
-      "distinct_ledger_keys": "34 -> 37",
-      "waiting_outside_decision_blocks": "unchanged by this turn at 4 -> 7; that +3 came from the earlier 2026-11-05 addition of the three MP-E12 questions, which the 11-04 snapshot also never counted",
-      "distinct_ledgers": "unchanged at 5"
-    },
-    "the_published_figures_move_and_it_is_said_plainly": {
-      "entries_in_open_decision_blocks": "34 published, 37 measured -- it moved",
-      "with_a_status_field": "11 published, 14 measured -- it moved",
-      "total_indexed_items": "38 published, 44 measured excluding markers, 47 including them -- it moved",
-      "waiting_outside_decision_blocks": "4 published, 7 measured -- it moved",
-      "distinct_ledger_keys": "34 published, 37 measured on referent A, 12 on referent B -- it moved, and which number depends on the referent",
-      "distinct_ledgers": "5 published, 5 measured -- unchanged"
-    },
-    "this_is_the_fifth_time_the_index_understated_itself": {
-      "claim": "fifth, measured as four prior dated corrections plus this one",
-      "mechanism_in_one_line_each": [
-        "the counts field indexes one list, and additions land in another list beside it",
-        "no test recomputes the counts from the contents, so nothing fails when they diverge",
-        "each addition is recorded as a dated note that itself cites line numbers, and a stamp moves those numbers by re-sorting every top-level key, so the correction goes stale on arrival",
-        "the published numbers reproduce from the list they were taken from, so a verification that re-reads the same list confirms the stale figure instead of catching it",
-        "and the two referents -- index rows versus real ledger keys -- were never separated, so a reader cannot tell which of the two a number is supposed to be"
-      ],
-      "the_test_that_would_stop_it_priced_not_built": {
-        "what_it_would_do": "recompute both referents from the parsed queue and the parsed ledgers and fail if the stored counts field does not equal the recomputation, run as part of the existing suite",
-        "cost": "roughly 40 lines in one test file plus a fixture-free run; under a minute of wall time, zero bench time, no model, no donor read",
-        "why_it_was_not_written": "it cannot be written until ONE referent is declared canonical, because a test that accepts either number asserts nothing. Declaring the canonical referent is a ruling on what the queue IS, which is not this agent's to make. Priced and left, per instruction.",
-        "what_it_would_break_on_arrival": "it would fail immediately on today's data -- 47 indexed against 34 published -- and would then require either rewriting the snapshot or scoping the counts field to one list. That failure is the point of the test, and it is also why the test is a decision and not a file."
-      }
-    },
-    "what_this_note_does_not_do": "It rules nothing, repairs no seam, overwrites no snapshot, adds no capability, raises no cap and runs nothing. It does not correct the four earlier dated notes that quote the old figures; they are history and are left as written."
-  },
     "how_to_read_it": "`has_status_field` false means the ledger entry is a bare string or a field-set that never declared a status. That is a property of the record worth knowing: a stale-status guard can only correct entries that declare one, so an entry without a status cannot be caught going stale. It is reported, not invented.",
     "items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry": {
       "added_at_utc": "2026-11-05T00:00:00Z",
@@ -3637,6 +3559,83 @@
         }
       },
       "what_this_addition_does_not_do": "It adds no decision id to any open_decisions block, closes nothing, changes no cap, and runs nothing. The three items were already in MP-E12's ledger; this makes them visible from the index the PI reads."
+    },
+    "items_added_2026_11_05_three_process_audit_decisions": {
+      "added_at_utc": "2026-11-05T22:11:24Z",
+      "authority": "PI order 2026-11-05: number the three questions the process audit raised so the index does not understate itself for the fourth time",
+      "counting_rule_for_the_three": "These ARE decision blocks in the owning ledger, unlike the addition before them: each carries an assigned identifier, a status field, measured state, options and a consequence if unruled. They are indexed here and not duplicated into open_decision_entries, which would give the queue two records of one decision.",
+      "counts_did_not_move_2026_11_05": {
+        "as_published": "counts.entries_in_open_decision_blocks 34, with_a_status_field 11",
+        "measured_now": "34 and 11 -- unchanged by this addition",
+        "referent_of_each_published_number": "all four reproduce from the queue's own index list: 34 entries, 11 with has_status_field true, 18 bare strings, 5 dicts without a status. They are NOT a fresh scan of the ledgers' open-decision blocks, which measures 20 entries at top level.",
+        "why_they_did_not_move": "the counts block indexes ONE list, open_decision_entries. These three went into a fourth list, so the published numbers do not move while the queue now indexes 44 items and its own counts field says 34. That is the fourth understatement, recorded rather than silently corrected."
+      },
+      "entries": [
+        {
+          "agent_chose_no_option": true,
+          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-10",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
+          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
+          "has_status_field": true,
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
+          "key": "D-MPE12-10",
+          "ledger": "MP-E12",
+          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
+          "status_read_from": {
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\",",
+            "pointer": "experiments/MP-E12/registration.json:4943"
+          },
+          "title": "Where the process audit runs: house entry path, answer path enumerated from the tree, or report-only."
+        },
+        {
+          "agent_chose_no_option": true,
+          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-11",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
+          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
+          "has_status_field": true,
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
+          "key": "D-MPE12-11",
+          "ledger": "MP-E12",
+          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
+          "status_read_from": {
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\",",
+            "pointer": "experiments/MP-E12/registration.json:4975"
+          },
+          "title": "Whether Droso's own generate() counts as an act under R11."
+        },
+        {
+          "agent_chose_no_option": true,
+          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-12",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
+          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
+          "has_status_field": true,
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
+          "key": "D-MPE12-12",
+          "ledger": "MP-E12",
+          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
+          "status_read_from": {
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\",",
+            "pointer": "experiments/MP-E12/registration.json:5000"
+          },
+          "title": "Whose registry the audit's entry list is: evidence, configuration, or no list at all."
+        }
+      ],
+      "measured_state_that_motivates_them": {
+        "audited_entries_handed_to_the_tool": 10,
+        "files_importing_the_organ": 66,
+        "named_unaudited_entry_points": [
+          "tools/electric_chat.py",
+          "tools/run_generation.py"
+        ],
+        "organ_importers_reachable_from_no_audited_process": 62,
+        "the_audit_is_sealed_but_never_invoked": {
+          "claim": "tools/registration_seal.py:1000 calls _pca_gate and nothing calls the process audit",
+          "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
+          "pointer": "tools/registration_seal.py:1000"
+        }
+      },
+      "n_items": 3,
+      "what_this_addition_does_not_do": "It rules nothing, closes nothing, repairs no seam, adds no capability, raises no cap and runs nothing. It does not rewrite the counts block."
     },
     "non_item_markers_in_decision_blocks": [
       {
@@ -5939,5 +5938,274 @@
     "the_tool": "tools/prose_coordinate_audit.py",
     "three_bugs_found_in_the_tool_by_running_it": "(1) a coordinate was allowed to supply its own needle -- quoted AS EXAMPLES: `MP-E10:3163` yielded `E10=3163` and was scored content_false by a fragment of itself. (2) spacing was treated as a claim, so `LEARN_LR=0.35` against a line reading `LEARN_LR = 0.35` counted as a citation defect. (3) a double `.parent` moved the relative-resolution root one directory up and reported 8 resolvable basename citations as 'ambiguous_basename'. All three inflated or inverted verdicts, and all three were caught by disbelieving the output rather than by reading the code.",
     "what_it_is": "A Tier B prose-coordinate checker running as a REPORTER. It requires a recorded content needle for every prose coordinate and asserts the needle sits at the cited line. It rewrites nothing, and it refuses a coordinate that carries no claim instead of guessing a referent."
+  },
+  "gate_ledger_entries_G4_G6_2026_11_05": {
+    "registered_at_utc": "2026-11-05T22:29:05Z",
+    "why_these_two": "the gate ledger in the record carried verdicts for G0-prime, G1, G2, G3 and G5 only. G4 and G6 existed as plan lines and as a passing denial inside MP-E12's G5 gate sentence, and had no entry anywhere. This completes the ledger without starting either experiment.",
+    "no_ledger_owns_either_experiment_as_measured": {
+      "experiments_directory_contains": [
+        "G0-prime",
+        "MP-E10",
+        "MP-E12",
+        "MP-E8",
+        "MP-E9"
+      ],
+      "MP_E11_registration_exists": false,
+      "MP_E13_registration_exists": false,
+      "where_G4_and_G6_do_appear": [
+        {
+          "pointer": "experiments/MP-E12/registration.json:1871",
+          "line_reads": "\"gate\": \"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\","
+        },
+        {
+          "pointer": "experiments/MP-E12/registration.json:4512",
+          "line_reads": "\"gate_order\": \"Does stage b wait for G4 (MP-E11) to close as the plan's order implies, or is the parallel track extended? This is the decision that unblocks the work and it is not a technical one.\""
+        },
+        {
+          "pointer": "experiments/MP-E12/registration.json:5587",
+          "line_reads": "\"line_reads\": \"\\\"gate\\\": \\\"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\\\",\","
+        },
+        {
+          "pointer": "experiments/MP-E12/registration.json:5596",
+          "line_reads": "\"what_this_note_does_not_do\": \"It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.\","
+        }
+      ],
+      "the_plan_says_the_same": {
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:163",
+        "line_reads": "| **G4 / MP-E11** | wiring-matters curve at ≥3 tiers with seed CIs, branch decision recorded | **NOT STARTED** — no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12 | Registration after G2/G3 close; unchanged spec |"
+      },
+      "how_those_were_found": "git grep over the tracked ledgers for the strings G4 and G6, then each hit re-read from the file at the line it names so the mention carries its own text. Every one of them is a passing reference inside another experiment's prose; none is a gate field for G4 or G6."
+    },
+    "G4": {
+      "gate_id": "G4",
+      "owning_experiment": "MP-E11",
+      "ledger_owner": "NONE, measured. No experiments/MP-E11 directory and no MP-E11 registration.json exists; the strings 'G4' and 'G6' occur in none of the five ledgers except inside MP-E12's own G5 gate sentence, which says that gate does not open them.",
+      "status_as_the_plan_states_it": "**NOT STARTED** — no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12",
+      "status_as_any_ledger_states_it": "NO LEDGER STATES A VERDICT for G4. The nearest statement in the record is MP-E10's execution-order row for the MP-E11 step, which records what the step waits on and is not a gate status field.",
+      "plan_words": {
+        "section_5_gate_ledger_row": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:163",
+          "line_reads": "| **G4 / MP-E11** | wiring-matters curve at ≥3 tiers with seed CIs, branch decision recorded | **NOT STARTED** — no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12 | Registration after G2/G3 close; unchanged spec | plan `:912-918`; directory listing |"
+        },
+        "section_7_1_gate_criteria_row": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:259",
+          "line_reads": "| **G4** | Wiring-matters curve at ≥3 tiers with seed CIs; branch decision (functional or null) recorded. | The 50k tier stands alone; 200k deferred with cause. |"
+        },
+        "the_source_the_plan_itself_cites": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:912",
+          "line_reads": "G4 MP-E11 Wiring-matters curve at three or more",
+          "the_citation_the_plan_gives_is_a_span": "912-918",
+          "span_text": "G4 MP-E11 Wiring-matters curve at three or more tiers with seed confidence intervals; branch decision (functional or null) recorded The 50k tier stands alone; the 200k tier is deferred with cause",
+          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
+        },
+        "and_the_other_thing_the_plan_cites": "directory listing -- measured above, and it agrees with the plan"
+      },
+      "go_criteria_verbatim_from_the_plan_only": {
+        "closes_when": "Wiring-matters curve at ≥3 tiers with seed CIs; branch decision (functional or null) recorded.",
+        "on_fail": "The 50k tier stands alone; 200k deferred with cause.",
+        "note": "Quoted, not authored. Nothing here is a criterion this agent added."
+      },
+      "delta_between_plan_and_ledger": "Two deltas, neither resolved. (1) ABSENT versus STATED: the plan carries a verdict for G4 and no ledger does, so the gate ledger in the record is incomplete by two gates. (2) The plan's verdict is NOT STARTED -- no registration, no run, which the directory listing corroborates -- while MP-E10's own row for the same step says it waits on 'the PI's go, which has been withheld since it was opened'. 'Since it was opened' and 'NOT STARTED, no registration' describe different histories for MP-E11. Recorded as a wording conflict between the sealed plan and a live ledger, not settled.",
+      "not_done_here": "Not marked started, opened or closed. No go-criteria invented. No MP-E11 registration created."
+    },
+    "G6": {
+      "gate_id": "G6",
+      "owning_experiment": "MP-E13",
+      "ledger_owner": "NONE, measured. No experiments/MP-E13 directory and no MP-E13 registration.json exists.",
+      "status_as_the_plan_states_it": "**NOT STARTED** — no registration exists; \"MP-E13 requires everything\"",
+      "status_as_any_ledger_states_it": "NO LEDGER STATES A VERDICT for G6. The nearest statement is MP-E10's execution-order row for the MP-E13 step.",
+      "plan_words": {
+        "section_5_gate_ledger_row": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:165",
+          "line_reads": "| **G6 / MP-E13** | all four live axes beaten against both baselines over a 24-hour window, artifacts public | **NOT STARTED** — no registration exists; \"MP-E13 requires everything\" | Requires G2–G5; now also carries the A10 resource ledger | plan `:926-931`, `:942` |"
+        },
+        "section_7_1_gate_criteria_row": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:261",
+          "line_reads": "| **G6** | All four live axes **and A10** beaten against both baselines over the 24-hour window; artifacts public, including the access journal and the resource ledger. | One re-registered extension; then claims are re-scoped. |"
+        },
+        "the_source_the_plan_itself_cites": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:926",
+          "line_reads": "G6 MP-E13 All four live axes beaten against both",
+          "the_citation_the_plan_gives_is_a_span": "926-931",
+          "span_text": "G6 MP-E13 All four live axes beaten against both baselines over the 24-hour window; artifacts public: stream logs, synapse snapshots, replay tapes One re-registered extension; then claims are re-scoped",
+          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
+        },
+        "the_other_plan_line_it_cites": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:926",
+          "line_reads": "G6 MP-E13 All four live axes beaten against both",
+          "the_citation_the_plan_gives_is_a_span": "926-931",
+          "span_text": "G6 MP-E13 All four live axes beaten against both baselines over the 24-hour window; artifacts public: stream logs, synapse snapshots, replay tapes One re-registered extension; then claims are re-scoped",
+          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
+        }
+      },
+      "go_criteria_verbatim_from_the_plan_only": {
+        "closes_when": "All four live axes **and A10** beaten against both baselines over the 24-hour window; artifacts public, including the access journal and the resource ledger.",
+        "on_fail": "One re-registered extension; then claims are re-scoped.",
+        "note": "Quoted, not authored."
+      },
+      "delta_between_plan_and_ledger": "Two deltas, neither resolved. (1) ABSENT versus STATED, as for G4. (2) The plan says G6 REQUIRES G2-G5 and carries the A10 resource ledger; MP-E10's row for the same step says could_start_on_one_word_from_the_cleared_queue is true and the single thing it waits on is a 24-hour window -- no dependency on G2 through G5 is recorded there. The ledger treats MP-E13 as calendar time the PI controls; the plan treats it as gated behind four other gates.",
+      "not_done_here": "Not marked started, opened or closed. No go-criteria invented. No MP-E13 registration created."
+    }
+  },
+  "gate_status_disagreements_plan_versus_ledgers_2026_11_05": {
+    "registered_at_utc": "2026-11-05T22:29:05Z",
+    "handling": "The plan extract is sealed and stays unedited. Each disagreement is recorded here as a dated note pointing at the plan line, the way v1.2:126, v1.2:25 and the 802.51 s figure were handled. Nothing below fixes a status field or a verdict.",
+    "disagreements": [
+      {
+        "gate": "G2 / MP-E8",
+        "plan_says": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:161",
+          "line_reads": "| **G2 / MP-E8** | sealed artifacts for arms A/B/C at 40/120/300 plus teach-arm control and noise floor; forgetting/interference/exposure/cost valid | **FAIL (H1) / PARTIAL** — arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only | T & N at 120/300 (~3.85 h); tier-300 fresh-vs-fresh (~44 min); H2 specificity floor by dated amendment; then G2 closes on the re-aimed claim (Amendment B) |",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_verdict_clause": "**FAIL (H1) / PARTIAL** — arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only",
+        "ledger_says": {
+          "pointer": "experiments/MP-E8/registration.json:4969",
+          "line_reads": "\"status\": \"OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed. UPDATED 2026-11-04: arm A has now been run TWICE at tier 300 (published and armA_tier300_rerun.json). C3's two rows split -- 3/tell0.26/object reproduces and is a real restart loss, which falsifies H1's arm A clause at tier 300 as measured; 3/tell0.38/object did not reproduce and is instrument instability (AMD-MPE8-13). Arm C's graded quantities were re-registered before its first run: gate and near-miss measures carry its claims, its correct rate does not (AMD-MPE8-12). Arm C has still produced no sealed artifact; arm B has still never run at tier 300. UPDATED again at 2026-11-04T05:13:47Z: arm C has now produced sealed artifacts at tiers 40, 120 and 300 and arm B has run its three registered seeds at tier 300. H1's arm B clause fails at BOTH required tiers, at tier 300 with the drop's sign reversed; H2's clause 2 is recorded PASS at 120 and 300 with its blanket-refusal limitation on its face. G2 is still not closable. UPDATED again at 2026-11-04T05:25:10Z: D-MPE8-09 is RULED, not hanging. C3's registered action abort is executed against the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN; both artifacts stay published and MP-E8 continues under the plan's own gate text and G2's re-run-the-flawed-arm fallback.\","
+        },
+        "delta": "The plan records a FAIL on H1; the ledger's own status field does not carry the word FAIL, it reads OPEN, MEASURED PARTLY. Both may be true of the same measurement -- one is a verdict on a hypothesis, the other a state of the gate -- but a reader who takes the ledger's word for the gate will not meet the falsification the plan leads with.",
+        "also_the_plans_source_line_for_this_gate_does_not_hold_the_verdict": {
+          "pointer": "experiments/MP-E8/registration.json:4388",
+          "line_reads": "\"populations\": {",
+          "is_the_verdict": false
+        }
+      },
+      {
+        "gate": "G3 / MP-E10",
+        "plan_says": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:162",
+          "line_reads": "| **G3 / MP-E10** | mouth stages improve-or-hold, working memory live at seconds scale, replay at tier 300 within the registered interference margin, invariants hold | **UNMEASURABLE as registered** — H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree | One ruling (D-MPE10-12) → re-register H3 primary at tier 120; tier 300 becomes the capacity curve (Amendment D); ~2 h of re-registered runs |",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_verdict_clause": "**UNMEASURABLE as registered** — H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree",
+        "ledger_says": {
+          "pointer": "experiments/MP-E10/registration.json:5776",
+          "line_reads": "\"status\": \"RECONCILED 2026-08-10 by the stale-status guard (tests/test_stale_status_guard.py): D-MPE10-02 are RULED in this file's ruling blocks, so this field's claim that they were OPEN is no longer true -- the superseded wording is preserved at status_as_written_before_the_reconciliation. What the field still correctly records is the thing that has not changed: no MP-E10 figure has been scored on the current tree, so no number may be quoted as a hypothesis verdict. The guard's FORCE is intact; its stated REASON was stale.\","
+        },
+        "ledger_go_if": {
+          "pointer": "experiments/MP-E10/registration.json:86",
+          "line_reads": "\"gate_G3\": {"
+        },
+        "delta": "The plan's verdict is UNMEASURABLE as registered -- H3 void at depths 2/3 under the pre-registered saturation guard, 0.0000 pp not quotable as a pass. The ledger's status field reads RECONCILED, which is a bookkeeping state reached by the stale-status guard, not a measurement verdict. And the ledger's own go_if still says 'H1-H4 hold' while the plan says H3 cannot hold as registered. Three different things are being called the gate's status."
+      },
+      {
+        "gate": "G5 / MP-E12",
+        "plan_says_section_5": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164",
+          "line_reads": "| **G5 / MP-E12** | H1–H3 hold or a pre-registered partial with the text-distillation control done; guarded rows and source dimension verified post-transplant | **BLOCKED on an external input** — \"The weights are not on this machine\"; four open decisions (D-MPE12-01…04) | Download GPT-2 124M (~500 MB, §7.2 step 2) → E12a opens; rule the four decisions in the batch; E12c registration pins Qwen3.8-27B |",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_says_section_7_1": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:260",
+          "line_reads": "| **G5** | H1–H4 hold on both donors; text-distillation control completed; guarded rows and the source dimension verified post-transplant; access journal published. |",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "ledger_says": {
+          "pointer": "experiments/MP-E12/registration.json:4902",
+          "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\","
+        },
+        "ledger_gate_line": {
+          "pointer": "experiments/MP-E12/registration.json:1871",
+          "line_reads": "\"gate\": \"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\","
+        },
+        "delta": "(a) The plan calls G5 BLOCKED on an external input; the ledger's gate line says G5 'opens now as a PARALLEL track' while the same ledger's status field says the weights are not on this machine -- opening and blocked, in one file. (b) The plan disagrees with itself: section 5 requires 'H1-H3 hold or a pre-registered partial', section 7.1 requires 'H1-H4 hold on both donors'. Four hypotheses on two donors is not three on one. (c) The four open decisions the plan names are D-MPE12-01...04; the live queue has since moved on, and D-MPE12-01 is resolved."
+      },
+      {
+        "gate": "G1 / MP-E9",
+        "plan_says": {
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:160",
+          "line_reads": "| **G1 / MP-E9** | zero untraceable words, three routing rows back to refused, morphology class answered, invariants hold | **PARTIAL / FAIL on P2** — H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time | The named residual travels with the duel, measured (`residual_for_the_duel`); three rulings (§7.2 items 8–10) |",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_verdict_clause": "**PARTIAL / FAIL on P2** — H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time",
+        "ledger_says": {
+          "pointer": "experiments/MP-E9/registration.json:3230",
+          "line_reads": "\"status\": \"OPEN (B.2), treatment arms RUN and sealed. P1 (ELECTRIC_ARBITER_HEAD_BOUND) met its registered prediction: H1 and H2 pass, 16 rows moved, every protected population intact. P2 (ELECTRIC_QA_MORPH_NORMALIZE) moved 0 of 3,672 rows and its registered premise is falsified: H3 fails. H4 holds, measured. The flag-OFF arm reproduced the pre-treatment artifact row for row (0 differences), so both statements are controlled rather than observational. Registered fallback F1 (per-entry morphological aliases, the plan's own G1 fallback) is the next and last registered attempt at the morphology defect; a second failure documents the residual and the duel proceeds with it measured and named. Registered before any run (R2); every post-registration change is listed in registration_amendments with the result it followed, and no threshold or prediction value has been altered by any of them.\","
+        },
+        "delta": "Label only, substantively aligned: the plan leads with PARTIAL / FAIL on P2, the ledger leads with OPEN. Both record H1 and H2 passing, H3 failing and H4 holding."
+      },
+      {
+        "gate": "G4 / MP-E11 and G6 / MP-E13",
+        "delta": "The larger disagreement is an absence: the plan states a verdict for both and no ledger owns either experiment. Covered by the entries above rather than duplicated here."
+      }
+    ],
+    "the_plans_source_column_does_not_resolve_as_written": {
+      "what_was_tested": "every file:line the plan's section 5 source column cites, read against the ledgers as they stand after this step's stamp",
+      "G0_prime_cited_line_holds": {
+        "pointer": "experiments/G0-prime/registration.json:118",
+        "line_reads": "\"status\": \"CLOSED under R13(a) as ruled by the PI (D-G0P-02), with learn/1/reasked and learn/1/restarted EXCLUDED from the noise-floor claim. It is NOT closed as 'identical row for row': that wording remains falsified by measurement and both artifacts still record noise_floor_verdict = NOT REPRODUCIBLE beside the ruled verdict. Suite blocker closed by measurement, not inference: 1167 collected / 1167 reached / 0 collected-but-not-executed / returncode 0. Both registrations stamped and --check clean, every sealed blob sha256 confirmed against the object database.\"",
+        "is_the_verdict": true
+      },
+      "MP_E9_cited_line_holds": {
+        "pointer": "experiments/MP-E9/registration.json:2631",
+        "line_reads": "\"plan_sha256_lf\": \"b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711\",",
+        "is_the_verdict": false
+      },
+      "MP_E8_cited_line_holds": {
+        "pointer": "experiments/MP-E8/registration.json:4388",
+        "line_reads": "\"populations\": {",
+        "is_the_verdict": false
+      },
+      "MP_E12_cited_line_holds": {
+        "pointer": "experiments/MP-E12/registration.json:2060",
+        "line_reads": "\"sha256_lf\": \"899a624ca0933312aeae2fc79bcf659ea7e2cc66927f3d2fc510b003eb9ec663\",",
+        "is_the_verdict": false
+      },
+      "finding": "Five of the seven citations in the plan's own status-of-record column point at hash, payload or nested-echo lines rather than at the verdict they are cited for. The verdicts are real and reachable -- each was read for this note at its current line -- but they sit elsewhere now, because every stamp re-sorts the top-level keys and moves whole blocks, and the plan was sealed against a tree that has since been stamped again. The plan stays unedited; the tally is recorded here.",
+      "and_the_plan_line_citations_for_G4_and_G6": "section 5 cites plan :912-918 and :926-931, which do not exist in the v1.2 extract -- it has 466 lines. They resolve in v1.1, which has 1366. The version is not named in the citation; both readings were tested and v1.1 is where those lines are.",
+      "MP_E10_4255_cited_line_holds": {
+        "pointer": "experiments/MP-E10/registration.json:4255",
+        "line_reads": "\"line_reads\": \"{\",",
+        "is_the_verdict": false,
+        "why_it_was_missed_first_time": "the citation parser only matched '<ledger>/registration.json:<n>' and the plan writes this one as a bare 'registration.json:4255' inside a compound cell, so it was skipped silently and the tally was stated short"
+      },
+      "MP_E10_2359_cited_line_holds": {
+        "pointer": "experiments/MP-E10/registration.json:2359",
+        "line_reads": "\"stamp_ordering\": {",
+        "is_the_verdict": false,
+        "note": "the plan cites this line for D-MPE10-12; it holds stamp_ordering, a field of the seal itself"
+      },
+      "replay_summary_208_209_cited_line_holds": {
+        "pointer": "experiments/MP-E10/results/replay_tier300_summary.json:208",
+        "line_reads": "\"verdict\": \"NOT ESTABLISHED AT TIER 300. Interference measured 0.0000-0.0000 pp against the operative 2.0 pp margin -- inside it, and also inside the stale 5.0 pp, so the margin ambiguity changed nothing here. But the saturation guard voided depths 2 and 3, the R6 invariant cell is empty at this tier, the read direction and ||w||_F required by D-MPE10-08 and D-MPE10-06 are absent from the artifact, and no tier-300 replay-OFF control exists to attribute the 251 moved rows. H3's tier is 300 by registration; the clause is unmet, and it is unmet on named missing measurements rather than on an adverse number.\",",
+        "is_the_verdict": true,
+        "note": "this one resolves: it is the NOT ESTABLISHED AT TIER 300 verdict, and it is an artifact, not a ledger",
+        "the_citation_the_plan_gives_is_a_span": "208-209",
+        "span_text": "\"verdict\": \"NOT ESTABLISHED AT TIER 300. Interference measured 0.0000-0.0000 pp against the operative 2.0 pp margin -- inside it, and also inside the stale 5.0 pp, so the margin ambiguity changed nothing here. But the saturation guard voided depths 2 and 3, the R6 invariant cell is empty at this tier, the read direction and ||w||_F required by D-MPE10-08 and D-MPE10-06 are absent from the artifact, and no tier-300 replay-OFF control exists to attribute the 251 moved rows. H3's tier is 300 by registration; the clause is unmet, and it is unmet on named missing measurements rather than on an adverse number.\", | \"void_for_H3_by_depth\": {"
+      },
+      "tally": {
+        "citations_tested": 7,
+        "hold_the_verdict_they_are_cited_for": 2,
+        "do_not": 5
+      },
+      "the_two_that_hold": [
+        "G0-prime registration.json line 118 -- the CLOSED under R13(a) status",
+        "MP-E10 results/replay_tier300_summary.json line 208 -- the NOT ESTABLISHED AT TIER 300 verdict, an artifact rather than a ledger"
+      ],
+      "the_five_that_do_not": [
+        "MP-E9 line 2631 holds plan_sha256_lf",
+        "MP-E8 line 4388 holds a populations object opening",
+        "MP-E12 line 2060 holds sha256_lf",
+        "MP-E10 line 4255 holds a line_reads whose entire content is the single character open-brace, which is an echo of a previous citation rather than a verdict",
+        "MP-E10 line 2359 holds stamp_ordering"
+      ],
+      "correction_to_this_steps_own_earlier_wording": "A draft of this block said three of the FIVE ledger citations failed to resolve. That count came from a parser that silently skipped the G3 row because its citation format did not match the pattern -- a tool that drops what it cannot parse and still reports a total. The tally above is from the full seven-citation test, and the two missed rows are recorded individually with what they hold.",
+      "why_these_are_prose_not_pointers": "each of these seven is already a backed {pointer, line_reads} entry above, read from the file. Writing them again here in path:line form would create seven more coordinates with one needle each trying to cover a list, so they are named in words and resolved by the entries that carry them."
+    },
+    "gates_with_a_ledger_owner_versus_without": {
+      "with_an_owner": [
+        "G0-prime",
+        "G1",
+        "G2",
+        "G3",
+        "G5"
+      ],
+      "without_an_owner": [
+        "G4",
+        "G6"
+      ],
+      "as_measured": "5 of 7 gates have a gate field in a ledger; 2 have only a plan line"
+    },
+    "what_this_block_does_not_do": "It starts nothing, rules nothing, closes nothing, opens nothing, marks neither G4 nor G6 started, invents no go-criteria, edits no sealed plan line, and repairs no seam. It makes the gate ledger complete for G4 and G6 by recording what the plan says and that no ledger says anything."
   }
 }
