@@ -2048,7 +2048,8 @@
         "decision_id": "D-MPE12-02",
         "plan_date": "2026-11-05",
         "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5.",
-        "scope": "Left OPEN deliberately: marking this ruled would be exactly the 'beyond what B.R actually says' error.",
+        "scope": "Left OPEN deliberately: B.R item 11 does not address this question, and writing it as decided would be exactly the 'beyond what B.R actually says' error.",
+        "scope_wording_constraint": "this entry's values must not contain the guard's decision keyword -- the past participle of 'to rule', in either case -- because the guard counts an id as decided when ANY value inside its block entry matches that word. A negation that names the word therefore marks an OPEN item as decided by proximity, which is the defect CHECK B found on 2026-11-05. Describe the keyword here; never spell it.",
         "status_after": "OPEN -- not reached by B.R item 11. The ruling text at v1.2:409 does not address how the energy estimate is produced, and v1.2:224's registration pins name residency ceiling, disk budget, access-class latency budgets and the license record, but no energy instrument."
       },
       "open_decisions.D-MPE12-03": {
@@ -2077,6 +2078,7 @@
       "section_lines": "396-409",
       "sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711"
     },
+    "scope_wording_trap_found_by_check_B": "D-MPE12-02 was machine-visible as ruled before this correction, purely because its scope note said 'marking this ruled would be an error'. The human-readable status field always said OPEN, and the guard raised no violation because its violation check only fires when the field's own text names a decision id -- a status field describing itself does not have to. Both facts are recorded so the blind spot is known. Second pass, same day: after the scope was reworded the guard STILL reported D-MPE12-02 as ruled, because the constraint note added to explain the trap contained the very token it warned about. Fixed by describing the keyword instead of spelling it -- the note and the defect it documents must not share a string. Block-level prose is safe from this rule because ruled_ids() keys off the entry's KEY, and a sibling key with no decision id in it is never treated as a ruling for one. Third pass on the same day: the note written to forbid the keyword contained the keyword, so the guard still counted D-MPE12-02 as decided. The offender is now removed by rewriting the note in terms that do not spell it -- found by running the guard's own matcher over every value in the entry rather than by reading the prose and hoping.",
     "status_transitions": [
       "open_decisions.D-MPE12-01 -> string -> dict promotion",
       "open_decisions.D-MPE12-02 -> string -> dict promotion",

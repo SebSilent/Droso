@@ -3224,6 +3224,130 @@
     "unit-test decay bounds and restart clearing before any scored run, per checklist item 1",
     "C4's restart-leak test is a definitional abort and must exist as a test, not a narrative"
   ],
+  "re_registration_2026_11_05_v1_2_BR_item1": {
+    "C6": {
+      "relationship_to_the_pre_registered_guard": "the guard voids the configuration for H3; C6 says what the run still IS -- capacity evidence -- so a voided run is not thrown away",
+      "source": "v1.2:204",
+      "text": "any tier-300 saturation event during a scored interference run makes that run a capacity datum, not a score"
+    },
+    "a10_resource_ledger": {
+      "consequence_for_the_instrument_bytes": "emitting the phase marker changes tools/electric_learn_bench.py, so the floor measured after this point belongs to the amended instrument. R17 says the floor is re-measured whenever the instrument's bytes change, which is why STEP 4's pair runs on the amended bytes and why figures produced on the pre-amendment bytes are bounded by the pre-amendment floor and not silently by the new one.",
+      "declared_limitation": "if the marker file cannot be written by a phase inside the child, the ledger reports one peak RSS for the whole run and says so; it does not interpolate.",
+      "fields": {
+        "cost_per_retained_item": "peak RSS divided by the count of retained taught items for that phase",
+        "peak_rss_bytes_per_phase": "measured per phase window, not per run",
+        "vram_bytes": "asserted 0 on every run, not assumed"
+      },
+      "method": "a sampler process wraps the bench child, samples RSS on an interval from the child's pid, and attributes each sample to the phase window that the bench's own append-only phase marker file names. Phase boundaries come from the instrument, never from proportional allocation: an estimate of where a phase started is exactly the 'reported as measured, never estimated' line this registration is not allowed to cross.",
+      "source": "v1.2:304, v1.2:390",
+      "why_registered_here": "v1.2:304 records A10 as never measured on any registered run, and v1.2:390 makes a missing A10 dataset fail the gate from v1.2 onward. The next bench run is the one that must emit it, so the instrument is registered before that run, not after."
+    },
+    "configuration": {
+      "ceiling": 4.0,
+      "h3_primary_tier": 120,
+      "history_preserved_under_R5": {
+        "interference_0_0000_pp": "the 0.0000 pp reading at all three tier-300 depths stands as measured history (replay_tier300_summary.json:125, :142, :209); it is not restated as a pass and not deleted",
+        "margin_2_0_pp": "the 2.0 pp registered margin stands as it was ruled"
+      },
+      "margin": {
+        "basis": "D-MPE10-04 derived value, unchanged by this registration",
+        "value_pp": 2.0
+      },
+      "phase_basis": {
+        "chosen_under": "the standing tie-break at registration.json:2174 and restated at :2598 -- 'take the reading that is HARDER to pass'",
+        "every_quote_must_carry_its_phase_label": true,
+        "options_it_overrides": "the three options offered at registration.json:2273-2276 -- restarted, live, or both as a named pair. This takes option 3's pairing requirement (every phase reported, every quote labelled) and adds the harder single basis on top of it.",
+        "primary": "reasked",
+        "reported_alongside_every_figure": [
+          "live",
+          "restarted",
+          "reasked"
+        ],
+        "why_this_is_not_whichever_column_wins": "the choice is made on what each phase DEMANDS of the organ, which is knowable before any number exists: a reasked probe must survive the restart AND the rephrasing, so it cannot be easier to pass than either other phase. The sealed counts happen to agree (reasked is the lowest triple at tier 120, 122/237/344 against 122/239/347, and at tier 300, 283/520/757 against 291/546/785), and that agreement is recorded as corroboration only -- selecting a basis because its column flatters or because its column wins would be setting the tolerance after seeing the data, which is the R2 event the tie-break exists to block. The registration goes further than picking one column: the 2.0 pp margin must be met at EVERY phase, so no phase can be chosen for being the easy one."
+      },
+      "replay_gain": 0.35,
+      "replay_passes_per_tier": 2,
+      "tier_300_role": "capacity finding only -- the saturation curve. Never an interference measurement (v1.2:200, B.R item 1)."
+    },
+    "derivation_of_the_gain": {
+      "constants_read_from_sealed_probe": {
+        "LEARN_LR": 0.35,
+        "REPLAY_GAIN_identity_bound_to_LEARN_LR": true,
+        "SUCCESSOR_FLOOR": 0.12,
+        "SUCCESSOR_MARGIN": 0.35,
+        "ceiling": 4.0,
+        "source": "experiments/MP-E10/results/replay_rule_saturation_probe.json -> constants"
+      },
+      "formula_check_against_the_probes_own_pinned_numbers": {
+        "both_reproduced": true,
+        "from_0.35_first_saturating_pass": 11,
+        "from_1.05_first_saturating_pass": 9,
+        "probe_says": 9,
+        "probe_says_single_cycle": 11
+      },
+      "non_saturation_condition": "w + passes x gain < ceiling, with passes = 2 as registered (REPLAY_PASSES_PER_TIER = 2, registration.json:4426)",
+      "per_situation": {
+        "tier120_all_depths": {
+          "headroom_below_ceiling": 0.15,
+          "inference": "the guard ran silent at gain 0.35 over 2 passes on 6,156 / 11,010 / 15,684 pairs with 0 pushed to ceiling, so no tier-120 entry can have started at or above 4.0 - 2(0.35) = 3.30; by quantisation the highest start is 9 increments = 3.15.",
+          "inferred_bound_on_starting_weight": "9 increments = 3.15",
+          "max_accumulation_under_registered_schedule": 3.85,
+          "max_admissible_gain_for_2_passes_at_that_bound": 0.425,
+          "reading": "gain 0.35 is provably non-saturating at tier 120 under the registered 2 passes, with 0.15 of headroom, and the admissible ceiling for the gain is 0.425."
+        },
+        "tier300_depth2": {
+          "max_admissible_gain_for_2_passes": 0.075,
+          "pushed_to_ceiling_on_pass_1": 72,
+          "reading": "a gain below 0.075 would keep depth 2 below the ceiling -- below the identity-bound 0.35, so it would require decoupling replay from the teaching increment.",
+          "starting_weight": 3.8499999999999996
+        },
+        "tier300_depth3": {
+          "entries_at_ceiling_before_any_pass": 156,
+          "max_admissible_gain_for_2_passes": -0.09999999999999964,
+          "reading": "starting weight is already AT the ceiling, so the admissible gain is <= 0. NO positive replay gain can make this configuration non-saturating; the saturation is produced by teaching, not by replay.",
+          "starting_weight": 4.199999999999999
+        }
+      },
+      "prediction_committed_before_any_run": {
+        "tier_120": "0 entries pushed to the ceiling at every depth, on both passes; maximum accumulation <= 3.85 against the 4.0 ceiling",
+        "tier_300": "saturation is the EXPECTED outcome at depths 2 and 3 (156 already at ceiling, 72 pushed on pass 1 on the sealed instrument); under C6 such a run is a capacity datum, not a score",
+        "what_falsifies_it": "any entry pushed to the ceiling during a scored tier-120 interference run. The pre-registered guard then makes that configuration ceiling-limited and void for H3, and the consequence is that the inference w <= 3.15 is false for the current instrument bytes -- which is answered by re-deriving from sealed arithmetic under R16, NOT by re-tuning the gain after seeing the count."
+      },
+      "quantisation": {
+        "consequence": "every entry weight is an integer multiple of 0.35, so a starting weight can only be n x 0.35 and the ceiling condition is exact arithmetic, not an estimate",
+        "measured": "7,632 entries, min == max == mean == 1.05 after 3 cycles, distinct_weight_values == 1"
+      },
+      "the_gain_registered": {
+        "if_the_PI_intended_the_decoupling_instead": "that is a further ruling, not this one; it would also need its own pre-run arithmetic and its own floor",
+        "value": 0.35,
+        "where_it_is_non_saturating": "tier 120, the tier B.R item 1 makes H3's primary tier",
+        "where_no_gain_can_save_it": "tier 300 depth 3, where 156 entries sat at the ceiling before any replay pass ran -- recorded as a capacity finding, never as an interference measurement",
+        "why_not_a_smaller_decoupled_number": "REPLAY_GAIN is bound to LEARN_LR by identity (organs/sequence_organ.py:76; replay_pass(gain=...) raises TypeError, which is a test). Lowering the replay gain alone means decoupling it, which is the free parameter the -05 ruling exists to prevent: consolidation tuned against an interference figure is the R2 event. Lowering LEARN_LR instead changes TEACHING and would break comparability with every sealed baseline."
+      }
+    },
+    "hypotheses_re_registered": {
+      "C_conditions_carried_forward": "C1 untraceable word -- abort; C2 guarded rows answered -- abort; C3 retention/restart regression -- abort; C4 working memory leaking across a restart -- abort; C5 one routing variant winning only with the other disabled -- ablation, not a win (v1.2:204)",
+      "H1": "mouth stages improve on at least two, none regressed (v1.2:204)",
+      "H2": "fluency improves over the MP-E8 arm-A baseline at the same tier (v1.2:204)",
+      "H3": "replay at TIER 120 holds retention at the invariant with interference bounded by the pre-registered 2.0 pp margin, on an instrument whose tier-120 floor is measured, at every phase",
+      "H4": "invariants hold (v1.2:204)"
+    },
+    "registered_at_utc": "2026-11-05T13:05:00Z",
+    "registered_before_any_run": true,
+    "ruling_that_requires_it": {
+      "br_item": 1,
+      "decision": "D-MPE10-12",
+      "source": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:400",
+      "specification_referenced": "v1.2:200",
+      "verbatim": "1. **D-MPE10-12** (H3 void at its own tier). Rule option 1 as specified in \u00a76.3: new dated non-saturating replay configuration; H3 primary at tier 120; tier 300 = capacity finding; 2.0 pp margin and 0.0000 pp reading preserved under R5."
+    },
+    "saturation_curve_as_first_class_metric": {
+      "emitted_by_every_MP-E10_run": "ceiling-hit count by depth and pass, against curriculum tier",
+      "scaling_target_quoted_by_the_plan": "3,000 taught items at flat laptop cost (v1.2:202) -- plan text, referenced by line, not restated as a ledger claim",
+      "source": "v1.2:202"
+    },
+    "what_this_does_not_do": "no run, no new number, no organ edit, no status field moved beyond what B.R quoted, and no claim that the tier-300 capacity finding is anything else"
+  },
   "read_direction_discipline": {
     "applies_to": "every artifact this experiment or a later one writes from tools/mp_e10_working_memory.py",
     "rule": "No MP-E10 artifact may report a read() figure without naming the token probed and the token recovered. The store is a predecessor map (measured 0.982 later-recovers-earlier, 0.056 earlier-recovers-later); the mouth needs the successor direction, and transposing the organ to supply it is a registered organ change with its own design step, not a silent fix.",
@@ -4409,6 +4533,14 @@
         "rows_left_intact": "the proposal's own text, the 2026-08-10 rulings and every quotation of 'D-MPE10-05' stay exactly as they are. Nothing here renumbers history.",
         "text_withdrawn": "'Renumber the G2-ORDERING question to D-MPE10-09 at the next amendment.' -- NOT APPLIED and now WITHDRAWN as written."
       }
+    },
+    {
+      "amends": "the whole configuration of MP-E10's replay experiment: H3's primary tier, the phase basis, the admission of tier-300 figures, C6, the saturation curve's status, and the A10 instrument",
+      "class": "a dated re-registration under R16, required by B.R item 1 (v1.2:400) and specified at v1.2:200",
+      "created_key": "re_registration_2026_11_05_v1_2_BR_item1",
+      "dated": "2026-11-05T13:05:00Z",
+      "derivation_is_shown_not_asserted": "the gain's arithmetic, including the two probe facts it must reproduce (pass 9 from 1.05, pass 11 from 0.35), is inside the created key",
+      "no_result_was_seen_to_write_it": true
     }
   ],
   "replay_gain_ruling": {
@@ -4455,6 +4587,47 @@
       "D-MPE10-05_G2_is_not_closed": "G3 opens while G2's evidence is incomplete. Whether MP-E10 may run before G2 closes is the PI's call; the plan's own ordering says 'the duel precedes the mouth because its tiers define the scale the mouth must consolidate'."
     },
     "rule": "While open_decisions_for_PI contains an UNRESOLVED D-MPE10-01 or D-MPE10-02: no MP-E10 working-memory or k-sweep figure may appear in any verdict sentence about H1 or H2, in this registration, in decision.md, or in any downstream document. Such figures may appear only under a heading that names them as organ characterisation, with the blocking decision id attached.",
+    "snapshot_is_historical_as_a_block": {
+      "added_under": "CHECK A of the PI's v1.2 order, 2026-11-05",
+      "items_in_this_snapshot_and_where_their_live_status_now_lives": {
+        "D-MPE10-01_name_the_four_mouth_stages": {
+          "decision_id": "D-MPE10-01",
+          "live_status_as_of_the_marker": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-01_H1_denominator. Denominator is the five stages stage_of() reports (gating, mouth, recall, recall_untraced, shape_arbit...",
+          "live_status_location": "open_decisions_for_PI.D-MPE10-01_name_the_four_mouth_stages"
+        },
+        "D-MPE10-02_name_the_fluency_scalar": {
+          "decision_id": "D-MPE10-02",
+          "live_status_as_of_the_marker": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-02']. H2's fluency scalar is the mean number of content words per emitted answer over the bench's live phase at that ti...",
+          "live_status_location": "open_decisions_for_PI.D-MPE10-02_name_the_fluency_scalar"
+        },
+        "D-MPE10-03_confirm_primary_routing_variant": {
+          "decision_id": "D-MPE10-03",
+          "live_status_as_of_the_marker": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-03']. Variant (ii) carve/allowed_pools stays primary as the plan designates it; variant (i) is registered as the ablati...",
+          "live_status_location": "open_decisions_for_PI.D-MPE10-03_confirm_primary_routing_variant"
+        },
+        "D-MPE10-04_interference_margin": {
+          "decision_id": "D-MPE10-04",
+          "live_status_as_of_the_marker": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-04']. The margin is 2.0 pp, DERIVED (clone noise 0.2996 pp; 0 regressions in 159 tier-40 exposures; rule-of-three bound...",
+          "live_status_location": "open_decisions_for_PI.D-MPE10-04_interference_margin"
+        },
+        "D-MPE10-05_G2_is_not_closed": {
+          "decision_id": "D-MPE10-05",
+          "live_status_as_of_the_marker": "RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1.",
+          "live_status_location": "open_decisions_for_PI.D-MPE10-05_G2_is_not_closed.status"
+        }
+      },
+      "marker_added_utc": "2026-11-05T12:55:00Z",
+      "note_on_the_guard": "the stale-status guard does not scan this block: its path regex matches open_decisions_for_PI / decisions_left_open / *status*, and 'open_decisions_at_install' matches none of them. So the marker is documentation, not enforcement -- which is why the block-level disclaimer was requested rather than left to the test.",
+      "ruled_since_install": [
+        "D-MPE10-01",
+        "D-MPE10-02",
+        "D-MPE10-03",
+        "D-MPE10-04",
+        "D-MPE10-05"
+      ],
+      "what_this_block_is": "an install-time snapshot of what was open when the quoting guard was installed (installed_at_utc 2026-11-04T06:25:05Z). It is NOT a live status list, and its text is deliberately not rewritten (R5).",
+      "why_a_new_marker_rather_than_the_existing_one": "the existing disclaimer key 'D-MPE10-04_interference_margin.snapshot_is_historical' is scoped to D-MPE10-04 alone; registration_amendments records at MP-E10:3262 that 'a disclaimer attached to a snapshot cannot shelter a live field'. This key carries the same disclaimer for the WHOLE block."
+    },
     "status_after_rulings": "2026-08-10 reconciliation. D-MPE10-01 is RULED (five-stage denominator), D-MPE10-02 is RULED (H2's fluency scalar is mean content words per answer, with refusal rate and coverage as guardrails), D-MPE10-03 is RULED (variant (ii) primary, (i) the ablation), D-MPE10-04 is RULED (2.0 pp derived, three conditions), D-MPE10-05 is RULED as to the replay write path (option B) and the selectivity limit (H3 is an interference claim). The sentence preserved at status_after_rulings_as_written_before_the_reconciliation claimed D-MPE10-02 was still OPEN and H2 had no scalar; that was false when written into this block on 2026-11-04 by the later ruling, and it survived a grep-and-fix pass precisely because this block is a GUARD status, not a decision list. WHAT STILL BINDS THE GUARD is not an open definition: it is that no MP-E10 figure has been scored on the current tree. No MP-E10 number may be quoted as a hypothesis verdict until a scored run exists -- the guard's force is unchanged, its stated reason was wrong.",
     "status_after_rulings_as_written_before_the_reconciliation": "2026-11-04: D-MPE10-01 is RULED, so H1 has a denominator (five stages) and is scoreable in principle. D-MPE10-02 is still OPEN, so H2 has no scalar and the guard still binds: no MP-E10 figure may be quoted as a hypothesis verdict. The guard is not lifted by the rulings on -01/-06/-07/-08.",
     "what_this_does_not_do": "It does not stop step 1's implementation or its unit tests, and it does not stop the k-sweep measurement itself -- the grid was registered before any treatment, so measuring it is not a post-hoc choice. It stops the QUOTING of a result as a hypothesis verdict.",
