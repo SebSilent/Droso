@@ -3278,6 +3278,87 @@
       "without_a_status_field_bare_strings": 18,
       "without_a_status_field_dict_entries": 5
     },
+
+  "counts_re_measured_2026_11_05": {
+    "recorded_at": "2026-11-05T22:19:10Z",
+    "why_this_exists": "the counts field above is a 2026-11-04 snapshot and three entries have since been indexed into the queue. It was left exactly as it was and these numbers are written beside it, because overwriting a dated snapshot destroys the only evidence of what the index claimed at the time.",
+    "referent_A_the_queues_own_index_lists": {
+      "what_counts": "every list the queue carries: open_decision_entries (34), items_added_2026_11_05_three_process_audit_decisions.entries (3), items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry.entries (3), also_waiting (4), non_item_markers_in_decision_blocks (3)",
+      "total_indexed_items": 47,
+      "total_indexed_items_excluding_markers": 44,
+      "entries_in_open_decision_blocks": 37,
+      "waiting_outside_decision_blocks": 7,
+      "markers_excluded": 3,
+      "with_a_status_field": 14,
+      "without_a_status_field": 23,
+      "distinct_ledger_keys": 37,
+      "distinct_ledgers": 5,
+      "ledger_names": [
+        "G0-prime",
+        "MP-E8",
+        "MP-E9",
+        "MP-E10",
+        "MP-E12"
+      ],
+      "shape_change_the_published_split_no_longer_describes": {
+        "published_split": "with_a_status_field 11 + without_a_status_field_bare_strings 18 + without_a_status_field_dict_entries 5 = 34",
+        "measured_now": "34 items in open_decision_entries, ALL dicts, 0 bare strings; 11 with a status field, 23 without",
+        "what_that_means": "the arithmetic still closes at 34 and 11, but the two-way split into bare strings and dicts no longer describes the data -- there are no bare strings to split. A guard written against the published shape would be reading a shape that is not there."
+      }
+    },
+    "referent_B_identifier_keys_that_exist_in_the_ledgers": {
+      "what_counts": "a recursive walk of all five ledgers for any object KEY matching D-MPE12-<n> or AMD-<ledger>-<n>, which is what 'a ledger key' means literally",
+      "key_occurrences": 15,
+      "distinct_identifiers": 12,
+      "distinct_ledgers_holding_them": 2,
+      "ledger_names": [
+        "MP-E8",
+        "MP-E12"
+      ],
+      "carrying_a_status_or_ruling_field": 8,
+      "per_ledger": {
+        "MP-E12": "14 occurrences, 11 distinct",
+        "MP-E8": "1 occurrence, 1 distinct"
+      },
+      "why_it_is_smaller_than_referent_A": "the queue's entries are INDEX ROWS that name a ledger and a key; most of the 37 rows point at decision text that was never stored under an identifier key at all. 37 index rows and 12 real identifier keys are both true statements about two different things."
+    },
+    "the_two_referents_are_not_reconciled_and_neither_is_the_right_one": "Earlier notes in this ledger quoted 34/11/38/4 for the lists and, separately, a scan figure for ledger keys. This note does not pick one: a count is only meaningful with its referent named, and the absence of that pairing is how the index kept looking correct while it drifted.",
+    "delta_caused_by_this_turns_three_additions": {
+      "items": 3,
+      "went_into": "open-decision lists, because all three ARE decision blocks with status fields",
+      "entries_in_open_decision_blocks": "34 -> 37",
+      "total_indexed_items_excluding_markers": "41 -> 44",
+      "with_a_status_field": "11 -> 14",
+      "distinct_ledger_keys": "34 -> 37",
+      "waiting_outside_decision_blocks": "unchanged by this turn at 4 -> 7; that +3 came from the earlier 2026-11-05 addition of the three MP-E12 questions, which the 11-04 snapshot also never counted",
+      "distinct_ledgers": "unchanged at 5"
+    },
+    "the_published_figures_move_and_it_is_said_plainly": {
+      "entries_in_open_decision_blocks": "34 published, 37 measured -- it moved",
+      "with_a_status_field": "11 published, 14 measured -- it moved",
+      "total_indexed_items": "38 published, 44 measured excluding markers, 47 including them -- it moved",
+      "waiting_outside_decision_blocks": "4 published, 7 measured -- it moved",
+      "distinct_ledger_keys": "34 published, 37 measured on referent A, 12 on referent B -- it moved, and which number depends on the referent",
+      "distinct_ledgers": "5 published, 5 measured -- unchanged"
+    },
+    "this_is_the_fifth_time_the_index_understated_itself": {
+      "claim": "fifth, measured as four prior dated corrections plus this one",
+      "mechanism_in_one_line_each": [
+        "the counts field indexes one list, and additions land in another list beside it",
+        "no test recomputes the counts from the contents, so nothing fails when they diverge",
+        "each addition is recorded as a dated note that itself cites line numbers, and a stamp moves those numbers by re-sorting every top-level key, so the correction goes stale on arrival",
+        "the published numbers reproduce from the list they were taken from, so a verification that re-reads the same list confirms the stale figure instead of catching it",
+        "and the two referents -- index rows versus real ledger keys -- were never separated, so a reader cannot tell which of the two a number is supposed to be"
+      ],
+      "the_test_that_would_stop_it_priced_not_built": {
+        "what_it_would_do": "recompute both referents from the parsed queue and the parsed ledgers and fail if the stored counts field does not equal the recomputation, run as part of the existing suite",
+        "cost": "roughly 40 lines in one test file plus a fixture-free run; under a minute of wall time, zero bench time, no model, no donor read",
+        "why_it_was_not_written": "it cannot be written until ONE referent is declared canonical, because a test that accepts either number asserts nothing. Declaring the canonical referent is a ruling on what the queue IS, which is not this agent's to make. Priced and left, per instruction.",
+        "what_it_would_break_on_arrival": "it would fail immediately on today's data -- 47 indexed against 34 published -- and would then require either rewriting the snapshot or scoping the counts field to one list. That failure is the point of the test, and it is also why the test is a decision and not a file."
+      }
+    },
+    "what_this_note_does_not_do": "It rules nothing, repairs no seam, overwrites no snapshot, adds no capability, raises no cap and runs nothing. It does not correct the four earlier dated notes that quote the old figures; they are history and are left as written."
+  },
     "how_to_read_it": "`has_status_field` false means the ledger entry is a bare string or a field-set that never declared a status. That is a property of the record worth knowing: a stale-status guard can only correct entries that declare one, so an entry without a status cannot be caught going stale. It is reported, not invented.",
     "items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry": {
       "added_at_utc": "2026-11-05T00:00:00Z",
