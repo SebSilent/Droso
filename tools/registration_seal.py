@@ -497,6 +497,21 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E10/results/fresh120_pair2_a_fresh_vs_fresh_armA.json",
     "experiments/MP-E10/results/fresh120_pair2_b_fresh_vs_fresh_armA.json",
     "experiments/MP-E10/results/fresh120_pair2_a_vs_b_row_migration.json",
+# ITEM 2, purchased by PI release 2026-11-05 at exactly the price the brief set: 200 repetitions of
+# tests/test_electric_fragment_guard.py in separate processes, PYTHONHASHSEED rotated over 0-7, measured flip
+# rate 10/200 = 5.00% with Wilson 95% [2.7382%, 8.9579%], 190 passes, ZERO failures that are not the flip and
+# zero harness errors. Sealed because the safety claim now rests on n=200 rather than on a handful of
+# observations, and because the per-repetition records (seed, exit code, wall-clock, the reason string pytest
+# actually printed) are the evidence -- a rate without its rows is prose. The answer path was NOT edited: the
+# fix touches evidence published artifacts quote, and this release bought the rate, not the change.
+# The manifest beside it is the one covering re-baseline that run bought: 1,364 / 1,364 / 0 failures / 0 errors
+# / 6 skipped / rc 0 / 852.01 s at git_head 1ff00c3. Read it with the caveat sealed into it: the intermittence
+# reproduction test is one of those six skips, so a green rc here is fully compatible with the defect being
+# live at 5%, and must not be read as closure. New covering unit cost 852.01 s, replacing 843.47 s for
+# future pricing.
+    "tools/mp_e10_licensed_absence_hunt.py",
+    "experiments/MP-E10/results/licensed_absence_flip_hunt.json",
+    "experiments/MP-E10/results/suite_manifest_licensed_absence_hunt.json",
 ]
 
 
