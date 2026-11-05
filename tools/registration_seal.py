@@ -529,6 +529,26 @@ DEFAULT_MANIFEST = [
 # re_registration_2026_11_05_v1_2_BR_item1.a10_resource_ledger rather than left for a reader to discover.
     "tools/mp_e10_resource_ledger.py",
     "tests/test_mp_e10_resource_ledger.py",
+# STEP 4, the tier-300 floor R17 demands (v1.2:147) and the plan names the figures for (v1.2:188). Sealed
+# because a floor is the number every later tier-300 claim is measured against: 44 rows of 9,414 = 0.4674%
+# between two unreplayed runs of identical code in one process (pid 4820, four samples agreeing), movement on the
+# refusal axis at ALL THREE depths, `correct` identical across the pair. The raw runs and the migration diff go
+# in too, because a rate without its rows is prose -- and the byte condition is sealed with it: this pair ran
+# on harness 47f05c9c while the sealed tier-300 figures ran on 5cf038c2, so the artifact states plainly that it
+# bounds current-bytes claims and does not retroactively bound the older ones.
+# ONE PATH IS DELIBERATELY ABSENT, and it is absent because of a mistake worth recording rather than quietly
+# dropping: the covering run meant to sit beside these artifacts was launched while THIS edit was still
+# uncommitted, so the seal-coverage assert (tests/test_g0_prime_instruments.py:170) failed on the DRIFT between
+# this file's working bytes and its index blob. The red record is
+# experiments/MP-E10/results/suite_manifest_floor_tier300.json -- 1370 collected, 1370 executed, pytest rc 1,
+# 2 failures, 6 skipped, 852.24 s, git_head 5056308, git_dirty [" M tools/registration_seal.py"]. It is kept and
+# committed as evidence of the ordering, but it is NOT a covering run and must not be quoted as one, so it is
+# not sealed. The covering manifest enters this list only after it is produced at a clean tree.
+    "tools/mp_e10_floor_tier300.py",
+    "experiments/MP-E10/results/floor300_a_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/floor300_b_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json",
+    "experiments/MP-E10/results/floor_tier300.json",
 ]
 
 

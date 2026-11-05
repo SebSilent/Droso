@@ -1,0 +1,30 @@
+{
+  "collect_returncode": 0,
+  "collected": 1370,
+  "collected_not_executed": 0,
+  "collected_not_executed_by_file": {},
+  "command": "python.exe -m pytest tests -q -p no:cacheprovider --junit-xml=_tmp/suite_manifest.xml",
+  "executed": 1370,
+  "executed_not_collected": [],
+  "files_missing_entirely": [],
+  "files_partially_missing": [],
+  "generated_at_utc": "2026-11-05T14:24:02Z",
+  "generated_by": "tools/suite_manifest.py",
+  "git_dirty": [
+    " M tools/registration_seal.py"
+  ],
+  "git_head": "505630882124d47be685a8eec93746b110469b07",
+  "interpreter": "3.12.10",
+  "junit_counters": {
+    "errors": "0",
+    "failures": "2",
+    "skipped": "6",
+    "tests": "1370",
+    "time": "849.423"
+  },
+  "junit_xml_kept_in_scratch": "_tmp/suite_manifest.xml",
+  "note": "The XML stays in _tmp/ because .gitignore sweeps it and organs/tempstore.py declares the area non-normative; this JSON summary is the tracked artifact. A test counts as executed if it appears as a <testcase>, including skips -- skipped means reached and deliberately not run, which is not the same fault as never being reached at all.",
+  "pytest_returncode": 1,
+  "schema": "droso.suite_manifest.v1",
+  "wall_seconds": 852.24
+}
