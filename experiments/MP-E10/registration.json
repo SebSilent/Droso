@@ -3300,10 +3300,11 @@
         "MP-E10",
         "MP-E12"
       ],
-      "shape_change_the_published_split_no_longer_describes": {
+      "the_published_split_reproduces_and_my_first_reading_of_it_was_wrong": {
         "published_split": "with_a_status_field 11 + without_a_status_field_bare_strings 18 + without_a_status_field_dict_entries 5 = 34",
-        "measured_now": "34 items in open_decision_entries, ALL dicts, 0 bare strings; 11 with a status field, 23 without",
-        "what_that_means": "the arithmetic still closes at 34 and 11, but the two-way split into bare strings and dicts no longer describes the data -- there are no bare strings to split. A guard written against the published shape would be reading a shape that is not there."
+        "measured_by_the_recorded_form_labels": "18 rows labelled 'bare string' (all without a status) + 5 labelled 'dict' without a status + 11 labelled 'dict' with a status = 34. The published split reproduces EXACTLY, and a draft of this note claimed it no longer described the data because there are no bare strings. That claim was wrong and is retracted here: 'bare string' labels the shape of the SOURCE entry in the owning ledger, not the type of the index row.",
+        "measured_by_python_type": "all 34 index rows are dict objects; after this turn all 37 are. The 18 and the 5 are unchanged by this turn -- only 11 -> 14 moved, because each of the three additions declares a status.",
+        "what_this_means_for_the_counts_field": "the counts field is internally consistent with the list it indexes. It is stale in TOTAL, not in shape: 34 -> 37 rows, 38 -> 44 items, 4 -> 7 waiting outside. A guard written against it would read the right shape and the wrong number."
       }
     },
     "referent_B_identifier_keys_that_exist_in_the_ledgers": {
