@@ -3199,6 +3199,39 @@
     "section_6_5_MP-E12b_and_c": "Stage MP-E12b - the weight-to-connectome compiler. Compile the association graph through the existing primitives: grow_pool for discovered feature clusters; grow_plastic and wire_pool for association edges, gated by confidence. Every transplanted edge carries a provenance tag - source model, extraction method, confidence - compiled in the same discipline the repository already applies to measurement rows (git, interpreter, live-state). The coverage gate gains a source dimension: curriculum-learned and library-read knowledge become distinct classes, which is what protects refusal. Stage MP-E12c - verification, three falsifiable hypotheses. H1 (transfer): Droso bootstrapped from the library beats Droso trained on text alone - at equal corpus exposure - on paraphrase probes and on acquisition of new material. The binding control is the text-distillation arm: run the frozen donor once, offline, to emit text, and feed that text to Droso through its normal curriculum. Weight-reading must beat or match text-distillation at lower latency and energy; if it does not, the weights carried nothing beyond their own outputs, and that null result is itself the first controlled measurement of its kind. H2 (latency): per-association read cost is at least ten times lower than autoregressive inference for equivalent association queries, on identical hardware (matrix-operation count, wall-clock, energy). H3 (honesty preserved): retention stays at the invariant, the refusal suites are unchanged after transplantation, and the agent can refuse to ground library-sourced claims - the source dimension works. All three are graded under R9 at word level. C-conditions and gate G5. C1: any guarded row answered post-transplant - abort. C2: library-sourced knowledge silently promoted to curriculum class - abort. C3: read budget exceeded on any logged item - abort the extraction. Full go only if H1, H2 and H3 all hold: paper 3 headline. Partial go: the compiler ships as diagnostic tooling and the transfer result is reported exactly as measured. Null: a negative-results paper - the flag is still planted, because a controlled null on weight-reading into a non-backprop substrate does not exist yet. What MP-E12 is not. It never runs the donor for answers, never fine-tunes the donor, never wraps a transformer around Droso, and never leaves donor weights resident at deployment. Rule R1 holds: the library is read through native compilation, and the connectome remains the only thing that thinks. Known risk. Representational superposition: donor features share dimensions, so extracted edges can be noisy. Mitigations: breadth of the probe battery, confidence gating at compile time, and the text-distillation control that bounds expectations in advance.",
     "transcription_note": "Line-wrapping of the source is normalised to single spaces; no word is changed, added or dropped. Source: experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt, section 6.5 (lines 756-815), appendix A.2 (lines 1219-1226), checklist B.6 (lines 1341-1355)."
   },
+  "pointer_coordinates_after_the_restamp_2026_11_05": {
+    "coordinates_as_written_in_the_amendment": {
+      "blocker_record": 3138,
+      "instruments_key": 2533
+    },
+    "coordinates_now": {
+      "blocker_record": 3251,
+      "donor_arrival_block": 74,
+      "instruments_key": 2614
+    },
+    "measured_at_utc": "2026-11-05T16:16:47Z",
+    "mechanism_measured": {
+      "changed_lines_in_the_diff": 97,
+      "lines_after": 3298,
+      "lines_in_file_before_the_stamp": 3217,
+      "why": "9 newly sealed files x 9 lines per entry = 81 inserted lines, plus 2 values updated in place (git_head, sealed_at_utc). 81 is the shift."
+    },
+    "sealed_set_unchanged": {
+      "git_dirty_sealed": [],
+      "git_head": "e32510f5a0d0b388d74fbb481dfe780ed634e72d",
+      "n_sealed": 216,
+      "sealed_at_utc": "2026-11-05T16:08:52Z"
+    },
+    "self_reference_measured": "this note, inserted 2026-11-05T16:17:17Z after it had measured the coordinates, moved the blocker record itself from 3219 to 3251 -- the note reproduces the phenomenon it records. Its own line is 3202, and the instruments key at 2614 is unchanged because the note sorts below it. Recorded rather than hidden, because a correction that moves the thing it corrects is exactly why line numbers are the wrong unit.",
+    "shift": {
+      "blocker_record": 113,
+      "donor_arrival_block": 0,
+      "instruments_key": 81
+    },
+    "the_rule_this_leaves_behind": "a file:line pointer INTO a ledger is only true as of an anchor. Write it qualified -- key path plus the anchor it was measured under -- and treat the key path as the resolvable form, because it survives every re-stamp while a line number does not. Pointers into OTHER files (plan extract, provenance, tools, tests) are unaffected by a stamp, since those files are not rewritten by sealing; the 30 such pointers in this step's amendment all still resolve. The authoritative form here is the KEY PATH (top-level key -> sub-key), which survives every re-stamp and every amendment; the line numbers in this file are qualified as measurements at an anchor, not as addresses.",
+    "what_happened": "the re-stamp that sealed this step's instruments grew the seal's `files` block, and because that block sits ABOVE the amendment in sorted-key order, every line number below it moved. This is not a mistake in the amendment; it is a property of writing line numbers into a file that the seal itself rewrites.",
+    "why_no_further_stamp": "registrations are excluded from every seal, so editing this ledger cannot invalidate a sealed hash. The anchor for the instruments is e32510f5a and it still holds, byte for byte, at 216 files."
+  },
   "pre_registered_failure_modes": {
     "1_representational_superposition": {
       "how_it_will_be_seen": "a probe whose top-k neighbours and top-k successors disagree sharply, or whose neuron responses are dominated by a few high-variance directions, is superposition, not a wrong answer. The artifact reports the disagreement per probe rather than averaging it away.",
