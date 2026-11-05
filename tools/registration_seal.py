@@ -549,6 +549,17 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E10/results/floor300_b_fresh_vs_fresh_armA.json",
     "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json",
     "experiments/MP-E10/results/floor_tier300.json",
+# B.6 step 1: the donor lands. The WEIGHTS are deliberately NOT in this list -- 548,105,171 bytes of
+# third-party content cannot be pushed to github (the largest file this repository has ever tracked is
+# 29,164,674 bytes, measured over `git ls-files`) and should not sit inside an evidence seal even if they
+# could. What is sealed is the instrument that re-derives them from the pinned revision, and the provenance
+# record that hashes every byte that landed: shape verdict, sha256 per file, tensor inventory read from the
+# safetensors index without running the model, the disk-feasibility figure the plan asks for before any scale
+# donor, and the comparison against the SEALED synthetic donor that the read budget was calibrated on. That
+# last comparison is the reason this belongs in the seal: it is the check that says the calibration premise
+# still holds now that real bytes exist.
+    "tools/mp_e12_land_donor.py",
+    "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
 # THE COVERING RUN, produced only after the tree was clean and the stamp was in it. 1370 collected, 1370
 # executed, 0 failures, 0 errors, 6 skipped, rc 0, 879.19 s at git_head 39a0e3241, git_dirty []. The +6 tests
 # against the previous baseline of 1364 are the A10 unit tests from STEP 3, so the count moved because the

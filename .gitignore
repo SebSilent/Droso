@@ -163,3 +163,19 @@ state/backup_pre_consolidate_*/
 experiments/MP-E8/results/armB_state*/*
 experiments/MP-E8/results/armC_state*/*
 experiments/**/*.pt
+#
+# MP-E12a donor bytes (B.6 step 1, landed 2026-11-05). Same reasoning as the checkpoints above, with one
+# hard constraint added: model.safetensors is 548,105,171 bytes. The largest file this repository has ever
+# tracked is connectome/data/connections_princeton.csv.gz at 29,164,674 bytes -- measured by walking
+# `git ls-files`, not remembered -- and github.com rejects any push containing a file over 100 MB, so the
+# donor cannot be committed even if committing it were the right call. It is not the right call either: the
+# bytes are public, re-derivable from the pinned revision 607a30d783dfa663caf39e06633721c8d4cfcd7e by the
+# committed script tools/mp_e12_land_donor.py, and pinned by sha256 per file in the provenance record.
+# R10 asks that instruments be committed or re-derivable from committed scripts; a donor's weights are
+# neither an instrument nor a claim, and sealing 548 MB of them would put third-party content inside the
+# evidence seal.
+#
+# `donor/gpt2/*` and not `donor/gpt2/`, so the provenance record can be re-included: git cannot re-include a
+# file whose parent directory is excluded, which is the same trap the checkpoint block above documents.
+experiments/MP-E12/donor/gpt2/*
+!experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json

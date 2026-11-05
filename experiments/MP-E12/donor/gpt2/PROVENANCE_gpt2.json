@@ -1,0 +1,366 @@
+{
+  "absent_at_this_revision": [
+    {
+      "consequence": "none for the address space: the special-token map is a tokenizer convenience, not a tensor, and no extraction is registered against it. Recorded so a later session does not re-derive the 404.",
+      "file": "special_tokens_map.json",
+      "measured": "HTTP Error 404: Not Found from https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/special_tokens_map.json",
+      "why_it_was_asked_for": "it is in the API's file list, but under onnx/, not at the root; the listing was read as a flat set"
+    }
+  ],
+  "attempt_history": {
+    "attempt_1_at_utc": "2026-11-05T15:28:03Z",
+    "attempt_1_cause_measured": "the checker asked for `transformer.*` module paths; the index uses bare GPT2 names. No shape disagreed with the spec -- the names did.",
+    "attempt_1_failures_verbatim": [
+      "transformer.wte.weight",
+      "transformer.wpe.weight",
+      "transformer.wt.weight",
+      "transformer.ln_f.weight",
+      "transformer.h.0.attn.c_attn.weight",
+      "transformer.h.0.attn.c_proj.weight",
+      "transformer.h.0.mlp.c_fc.weight",
+      "transformer.h.0.mlp.c_proj.weight",
+      "layer count 0 != 12"
+    ],
+    "attempt_1_verdict": "MISMATCH on 8 tensors plus n_layer, every one of them found=None",
+    "attempt_2_checker_bug_measured": "the second attempt wrote a MISMATCH-free shape verdict but a wrong buffer/weight split: it selected mask buffers with endswith('attn.bias'), which also caught the 12 c_attn.bias trainable biases, reporting 24 mask buffers, 'all_match: false', and a weights-only count of 124,412,160 instead of 124,439,808. Fixed by exact-key matching on h.<N>.attn.bias. The provenance file it produced was uncommitted and unsealed, minutes old in the same step, so it was superseded rather than patched; this block is where its numbers survive.",
+    "special_tokens_map_404": "the first attempt died on an HTTP 404 for special_tokens_map.json, which is not at the root of this revision; see absent_at_this_revision.",
+    "what_was_done_with_it": "the wrong verdict was not left standing in the tree. The provenance file it wrote was uncommitted and unsealed, produced minutes earlier in the same step, so it was superseded by this one and its text is reproduced here rather than edited anywhere."
+  },
+  "disk": {
+    "consumed_GB": 0.0,
+    "free_after_GB": 119.82,
+    "free_after_bytes": 128650469376,
+    "free_before_GB": 119.82,
+    "free_before_bytes": 128650469376
+  },
+  "experiment": "MP-E12",
+  "files": [
+    {
+      "bytes": 548105171,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "model.safetensors",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/model.safetensors"
+    },
+    {
+      "bytes": 665,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "config.json",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "0daed7749b4f02b8f76240d5444551d7b08712dab4d0adb8239c56ba823bb7b4",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/config.json"
+    },
+    {
+      "bytes": 124,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "generation_config.json",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "ed0b32ac72c0f5f44a719abb2d7786ea5146c871f83717b7f2018065954de02b",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/generation_config.json"
+    },
+    {
+      "bytes": 1042301,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "vocab.json",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/vocab.json"
+    },
+    {
+      "bytes": 456318,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "merges.txt",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/merges.txt"
+    },
+    {
+      "bytes": 1355256,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "tokenizer.json",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/tokenizer.json"
+    },
+    {
+      "bytes": 26,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "tokenizer_config.json",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/tokenizer_config.json"
+    },
+    {
+      "bytes": 8092,
+      "downloaded_at_utc": "2026-11-05T15:33:39Z",
+      "file": "README.md",
+      "http_status": "kept-from-previous-attempt",
+      "note": "bytes landed in the first attempt at the same pinned revision 607a30d783df; re-hashed here rather than trusted",
+      "resumed": true,
+      "seconds": 0.0,
+      "sha256": "0fcd631078093c2aa1d93438b898320b8a1167784e2a1ab37b8016e9de8b3c2e",
+      "url": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/README.md"
+    }
+  ],
+  "landed_at_utc": "2026-11-05T15:33:39Z",
+  "run_mode": "resume (kept the bytes already landed at the same pinned revision, re-hashed them, fetched only what was missing)",
+  "shape_verification_against_the_pinned_spec": {
+    "checks": [
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          50257,
+          768
+        ],
+        "found_shape": [
+          50257,
+          768
+        ],
+        "match": true,
+        "tensor": "wte.weight",
+        "why_expected": "vocab 50257 x n_embd 768"
+      },
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          1024,
+          768
+        ],
+        "found_shape": [
+          1024,
+          768
+        ],
+        "match": true,
+        "tensor": "wpe.weight",
+        "why_expected": "n_positions 1024 x n_embd 768"
+      },
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          768
+        ],
+        "found_shape": [
+          768
+        ],
+        "match": true,
+        "tensor": "ln_f.weight",
+        "why_expected": "final layernorm, n_embd 768"
+      },
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          768,
+          2304
+        ],
+        "found_shape": [
+          768,
+          2304
+        ],
+        "match": true,
+        "tensor": "h.0.attn.c_attn.weight",
+        "why_expected": "Conv1D convention (in, out): 768 in, qkv = 3 x n_head 12 x d_head 64"
+      },
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          768,
+          768
+        ],
+        "found_shape": [
+          768,
+          768
+        ],
+        "match": true,
+        "tensor": "h.0.attn.c_proj.weight",
+        "why_expected": "attention output projection"
+      },
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          768,
+          3072
+        ],
+        "found_shape": [
+          768,
+          3072
+        ],
+        "match": true,
+        "tensor": "h.0.mlp.c_fc.weight",
+        "why_expected": "MLP inner 3072"
+      },
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          3072,
+          768
+        ],
+        "found_shape": [
+          3072,
+          768
+        ],
+        "match": true,
+        "tensor": "h.0.mlp.c_proj.weight",
+        "why_expected": "MLP down-projection"
+      },
+      {
+        "dtype": "F32",
+        "expected_shape": [
+          768,
+          2304
+        ],
+        "found_shape": [
+          768,
+          2304
+        ],
+        "match": true,
+        "tensor": "h.11.attn.c_attn.weight",
+        "why_expected": "last layer, to show the stack is 12 deep"
+      }
+    ],
+    "failures": [],
+    "layers_found": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11"
+    ],
+    "n_layer_expected": 12,
+    "n_layer_match": true,
+    "spec_sources": [
+      "experiments/MP-E12/registration.json:2261 (what_must_arrive)",
+      "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:359 (pinned donor)",
+      "plan :220 (stage E12a)"
+    ],
+    "verdict": "MATCH -- every pinned shape read from the index agrees with the spec"
+  },
+  "source": {
+    "api_license_field": "mit",
+    "api_observed_lastModified": "2024-02-19T10:57:45.000Z",
+    "egress_probe_at_utc": "2026-11-05T15:22:55Z",
+    "licence_text_reference": "experiments/MP-E12/donor/gpt2/README.md (the repo card, fetched at the pinned revision; its License section is the text of record) and the API cardData.license = mit",
+    "repo": "openai-community/gpt2",
+    "resolve_base": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/",
+    "revision_pinned": "607a30d783dfa663caf39e06633721c8d4cfcd7e"
+  },
+  "stage": "MP-E12a -- the address space and the calibration donor",
+  "state_this_leaves": {
+    "blocker_now": "weights present, sealed by hash, NOT YET READ",
+    "next_step_is_not_this_one": "B.6 items 2 and 3 -- the address space and the access journal must be registered as instruments (R10) before the first extraction.",
+    "no_extraction_run": true,
+    "no_forward_pass": true,
+    "no_probe_list_fixed": true
+  },
+  "step": "v1.2 B.6 item 1 (plan :447): confirm the GPT-2 124M weights are on the machine; if not, download and record the hash",
+  "structural_findings_read_from_the_index": {
+    "byte_accounting_of_the_file": {
+      "file_bytes": 548105171,
+      "header_json_bytes": 14283,
+      "length_prefix_bytes": 8,
+      "sum_matches_file": true,
+      "tensor_data_bytes": 548090880
+    },
+    "causal_mask_buffers": {
+      "all_match": true,
+      "floats_they_account_for": 12582912,
+      "keys": [
+        "h.0.attn.bias",
+        "h.1.attn.bias",
+        "..."
+      ],
+      "n_attn_bias_tensors": 12,
+      "n_masked_bias_tensors": 0,
+      "shape": [
+        1,
+        1,
+        1024,
+        1024
+      ],
+      "share_of_the_file_percent": 9.18,
+      "why_it_matters": "these are buffers, not weights: 12 tensors of [1,1,1024,1024] holding the causal mask. An extraction budget that counts them as parameters is wrong by 9.2%, and a feature pool that mines them as weight matrices would be reading a constant triangle."
+    },
+    "parameter_reconciliation": {
+      "donor_name_says": "124M",
+      "floats_in_index": 137022720,
+      "mask_buffer_floats": 12582912,
+      "note": "the 124M in the donor's name refers to the weight count, which is what weights_and_biases_only measures; the index total is larger because of the mask buffers. No external parameter constant is quoted here, because the only numbers in this block that can be checked are the ones read from the index.",
+      "tensor_count_reconciliation": {
+        "expected": "12 layers x 13 tensors + wte + wpe + ln_f.weight + ln_f.bias = 160",
+        "matches": true,
+        "total_tensors": 160
+      },
+      "weights_and_biases_only": 124439808,
+      "weights_only_over_124M_percent": 100.355
+    },
+    "tensor_namespace": "the file indexes tensors in the bare GPT2 namespace -- `wte.weight`, `h.0.attn.c_attn.weight` -- NOT the PyTorch module path `transformer.wte.weight`. The address space must expose what the index says; a later session that resolves module paths will find nothing and may read that as an absent weight rather than a wrong name.",
+    "tied_unembedding": {
+      "expected": "absent, because the pinned spec says wte is tied to the unembedding (MP-E12/registration.json:2261, plan :359)",
+      "finding": "CONFIRMED BY ABSENCE -- no wt.weight / lm_head.weight in the index, so the unembedding address range is wte's, read transposed",
+      "separate_unembedding_tensor_present": []
+    }
+  },
+  "tensor_inventory": {
+    "dtypes": [
+      "F32"
+    ],
+    "header_json_bytes": 14283,
+    "metadata": {
+      "format": "pt"
+    },
+    "n_tensors": 160,
+    "parameter_count_from_shapes": 137022720,
+    "read_by": "struct.unpack of the 8-byte length prefix then json.loads of the header -- no torch, no transformers, no forward pass (R11)"
+  },
+  "total_bytes_on_disk": 550967953,
+  "what_was_deliberately_not_downloaded": {
+    "recorded_from_the_api_file_list": [
+      "model.safetensors",
+      "config.json",
+      "generation_config.json",
+      "vocab.json",
+      "merges.txt",
+      "tokenizer.json",
+      "tokenizer_config.json",
+      "special_tokens_map.json",
+      "README.md"
+    ],
+    "variants": [
+      "tf_model.h5",
+      "flax_model.msgpack",
+      "rust_model.ot",
+      "64*.tflite",
+      "onnx/*",
+      "pytorch_model.bin"
+    ],
+    "why": "one canonical byte string per tensor. Four copies of the same weights in a library is an invitation to make a claim against whichever copy somebody opened. pytorch_model.bin is additionally pickle-format, which a read-only address space should not need."
+  }
+}

@@ -71,6 +71,500 @@
     "tests": "tests/test_mp_e12_probes.py",
     "tool": "tools/mp_e12_synthetic_donor.py, tools/mp_e12_probes.py"
   },
+  "donor_arrived_2026_11_05_B6_step1": {
+    "amended_at_utc": "2026-11-05T15:41:13Z",
+    "amends_by_reference": "the block above this one (named_external_blocker) is left byte-for-byte as written on 2026-08-10; R5 keeps history and the absence was true when it was recorded. This amendment records that the machine state changed today.",
+    "blocker_status_moved": {
+      "from": "weights not on this machine (a named external blocker)",
+      "gate_effect": "G5's first stage is no longer blocked on an external input. It is now blocked on registration work that costs zero machine time: the address space, the access journal schema, and the probe list. The plan predicted exactly this (section 7.2 step 2: 'MP-E12a opens immediately').",
+      "to": "weights present, hashed, sealed by provenance -- and not yet read",
+      "what_MP-E12a_can_claim_now": "that a calibration donor exists on this machine with a verified tensor inventory matching the pinned spec, at a recorded revision, under MIT, with every file hashed. That is a dependency statement, not a result.",
+      "what_still_needs_registration_first": "every association figure, the embedding-geometry feature pool, the circuit motifs, the operation counts, the latency benchmark and the >=10x threshold. All of them require the address space and the access journal as committed instruments, and a fixed probe list, before a single value is read."
+    },
+    "disk_feasibility_for_the_scale_donor": {
+      "asked_by": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:332 (risk register: compute or disk overrun, Qwen3.8-27B ~54 GB; the feasibility check runs BEFORE the scale download)",
+      "before_the_donor_landed": "120.3 GB free at 15:22:55Z; 119.82 GB after, the donor taking 550,967,953 B",
+      "measured_now": {
+        "drive": "C:/",
+        "free_GB": 119.82,
+        "free_bytes": 128650555392,
+        "needed_GB_for_54_GB_class": 54,
+        "verdict": "SPACE EXISTS"
+      },
+      "what_was_NOT_done": "no Qwen3.8-27B bytes were fetched. The feasibility line is answered, the download decision is E12c's and is registered separately (B.6 item 9)."
+    },
+    "pointer_rule_applied": "every pointer in verified_pointers was resolved by grep in the same step that wrote it, and the script aborts if a line does not hold what the citation claims. The line text is quoted alongside each pointer so a reader can check the check.",
+    "provenance_as_measured": {
+      "files_landed": [
+        {
+          "bytes": 548105171,
+          "file": "model.safetensors",
+          "sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707"
+        },
+        {
+          "bytes": 665,
+          "file": "config.json",
+          "sha256": "0daed7749b4f02b8f76240d5444551d7b08712dab4d0adb8239c56ba823bb7b4"
+        },
+        {
+          "bytes": 124,
+          "file": "generation_config.json",
+          "sha256": "ed0b32ac72c0f5f44a719abb2d7786ea5146c871f83717b7f2018065954de02b"
+        },
+        {
+          "bytes": 1042301,
+          "file": "vocab.json",
+          "sha256": "196139668be63f3b5d6574427317ae82f612a97c5d1cdaf36ed2256dbf636783"
+        },
+        {
+          "bytes": 456318,
+          "file": "merges.txt",
+          "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5"
+        },
+        {
+          "bytes": 1355256,
+          "file": "tokenizer.json",
+          "sha256": "8414cab924d8b9b33013f0d221c5862f365ee9be39c5c2bfae8a5a9e970478a6"
+        },
+        {
+          "bytes": 26,
+          "file": "tokenizer_config.json",
+          "sha256": "5e04eb606e3a1583530a42e36c2a6b6615c86f34fe77e44d9ddeb43ff940931f"
+        },
+        {
+          "bytes": 8092,
+          "file": "README.md",
+          "sha256": "0fcd631078093c2aa1d93438b898320b8a1167784e2a1ab37b8016e9de8b3c2e"
+        }
+      ],
+      "licence": {
+        "api_cardData_license": "mit",
+        "licence_text_of_record": "experiments/MP-E12/donor/gpt2/README.md:6 reads `license: mit` -- read from the fetched card, not from the model's reputation"
+      },
+      "model_safetensors_bytes": 548105171,
+      "model_safetensors_sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+      "n_files": 8,
+      "provenance_record": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+      "repo": "openai-community/gpt2",
+      "resolve_base": "https://huggingface.co/openai-community/gpt2/resolve/607a30d783dfa663caf39e06633721c8d4cfcd7e/",
+      "revision_pinned": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+      "total_bytes_on_disk": 550967953,
+      "variants_deliberately_not_downloaded": [
+        "tf_model.h5",
+        "flax_model.msgpack",
+        "rust_model.ot",
+        "64*.tflite",
+        "onnx/*",
+        "pytorch_model.bin"
+      ],
+      "why": "one canonical byte string per tensor. Four copies of the same weights in a library is an invitation to make a claim against whichever copy somebody opened. pytorch_model.bin is additionally pickle-format, which a read-only address space should not need."
+    },
+    "real_donor_versus_the_sealed_synthetic_donor": {
+      "global_tensors_agreeing": "wte [50257,768], wpe [1024,768], ln_f.weight [768] all agree",
+      "parameter_count": {
+        "equal": true,
+        "note": "the registered 124M constant in the sealed manifest is 124,439,808, and the real index reproduces it exactly. The index TOTAL is 137,022,720 because of the mask buffers below -- so the program's own 124M figure is the weight count, not the file count.",
+        "real_weights_and_biases_from_index": 124439808,
+        "sealed_synthetic": 124439808
+      },
+      "per_layer_classes_agreeing": 12,
+      "per_layer_classes_compared": 12,
+      "the_one_structural_difference": {
+        "real_per_layer_tensors": 13,
+        "synthetic_also_lacks": "an ln_f.bias entry in its global tensor list (3 globals vs the real 4); the real file has ln_f.bias [768].",
+        "synthetic_per_layer_classes": 12,
+        "the_extra": "h.<N>.attn.bias, 12 buffers of [1,1,1024,1024] holding the causal mask, 12,582,912 floats = 9.18% of the index",
+        "what_it_means_for_the_next_step": "the address space will enumerate 160 tensors where the synthetic calibration enumerated 147. Any extraction that 'takes all tensors' inherits 12 giant constant triangles it was never sized for, and any feature pool that mines them as weight matrices reads a mask as if it were learned. The address space must exclude them by name, and the exclusion must be registered, not left to the reader."
+      },
+      "tie_confirmed_on_both_sides": "the synthetic manifest asserts unembedding_tied_to_wte; the real index carries no wt.weight or lm_head.weight, so the tie holds in the bytes.",
+      "verdict": "PREMISE HOLDS for weights. The synthetic calibration and the real donor agree on every weight class and on the parameter count; they differ only in the mask buffers, which the address space has to name and exclude.",
+      "why_this_is_compared": "MP-E12a's read budget (24 operations) and the >=10x threshold were calibrated against a SYNTHETIC donor whose shapes were sealed in experiments/MP-E12/results/donor_shape_manifest.json. Now that the real bytes are here, the calibration's premise has to be checked class-by-class rather than assumed -- a budget sized against a different tensor layout is a number about the wrong library."
+    },
+    "self_pointers": {
+      "the_old_blocker": {
+        "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
+        "post_write_line": 2751,
+        "pre_write_line": 2257,
+        "shifted": true
+      },
+      "what_must_arrive": {
+        "line_reads": "\"what_must_arrive\": \"GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to ",
+        "post_write_line": 2755,
+        "pre_write_line": 2261,
+        "shifted": true
+      },
+      "where_it_must_be": {
+        "line_reads": "\"where_it_must_be\": \"experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.\"",
+        "post_write_line": 2756,
+        "pre_write_line": 2262,
+        "shifted": true
+      }
+    },
+    "tensor_shapes_verified_against_the_pinned_spec": {
+      "byte_accounting": {
+        "file_bytes": 548105171,
+        "header_json_bytes": 14283,
+        "length_prefix_bytes": 8,
+        "sum_matches_file": true,
+        "tensor_data_bytes": 548090880
+      },
+      "checks": [
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            50257,
+            768
+          ],
+          "found_shape": [
+            50257,
+            768
+          ],
+          "match": true,
+          "tensor": "wte.weight",
+          "why_expected": "vocab 50257 x n_embd 768"
+        },
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            1024,
+            768
+          ],
+          "found_shape": [
+            1024,
+            768
+          ],
+          "match": true,
+          "tensor": "wpe.weight",
+          "why_expected": "n_positions 1024 x n_embd 768"
+        },
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            768
+          ],
+          "found_shape": [
+            768
+          ],
+          "match": true,
+          "tensor": "ln_f.weight",
+          "why_expected": "final layernorm, n_embd 768"
+        },
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            768,
+            2304
+          ],
+          "found_shape": [
+            768,
+            2304
+          ],
+          "match": true,
+          "tensor": "h.0.attn.c_attn.weight",
+          "why_expected": "Conv1D convention (in, out): 768 in, qkv = 3 x n_head 12 x d_head 64"
+        },
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            768,
+            768
+          ],
+          "found_shape": [
+            768,
+            768
+          ],
+          "match": true,
+          "tensor": "h.0.attn.c_proj.weight",
+          "why_expected": "attention output projection"
+        },
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            768,
+            3072
+          ],
+          "found_shape": [
+            768,
+            3072
+          ],
+          "match": true,
+          "tensor": "h.0.mlp.c_fc.weight",
+          "why_expected": "MLP inner 3072"
+        },
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            3072,
+            768
+          ],
+          "found_shape": [
+            3072,
+            768
+          ],
+          "match": true,
+          "tensor": "h.0.mlp.c_proj.weight",
+          "why_expected": "MLP down-projection"
+        },
+        {
+          "dtype": "F32",
+          "expected_shape": [
+            768,
+            2304
+          ],
+          "found_shape": [
+            768,
+            2304
+          ],
+          "match": true,
+          "tensor": "h.11.attn.c_attn.weight",
+          "why_expected": "last layer, to show the stack is 12 deep"
+        }
+      ],
+      "d_head_64_and_n_head_12": "implied by c_attn [768,2304] = 3 x 12 x 64",
+      "mask_buffers": {
+        "all_match": true,
+        "floats_they_account_for": 12582912,
+        "keys": [
+          "h.0.attn.bias",
+          "h.1.attn.bias",
+          "..."
+        ],
+        "n_attn_bias_tensors": 12,
+        "n_masked_bias_tensors": 0,
+        "shape": [
+          1,
+          1,
+          1024,
+          1024
+        ],
+        "share_of_the_file_percent": 9.18,
+        "why_it_matters": "these are buffers, not weights: 12 tensors of [1,1,1024,1024] holding the causal mask. An extraction budget that counts them as parameters is wrong by 9.2%, and a feature pool that mines them as weight matrices would be reading a constant triangle."
+      },
+      "method": "the safetensors index was read directly -- 8-byte little-endian length prefix, then json.loads of the header. No torch, no transformers, no forward pass: R11 binds, and this is the same read-only address operation the library will use.",
+      "mlp_inner_3072": "c_fc [768,3072] and c_proj [3072,768], read from the index",
+      "n_layer": {
+        "expected": 12,
+        "found": 12
+      },
+      "namespace_warning": "the file indexes tensors in the bare GPT2 namespace -- `wte.weight`, `h.0.attn.c_attn.weight` -- NOT the PyTorch module path `transformer.wte.weight`. The address space must expose what the index says; a later session that resolves module paths will find nothing and may read that as an absent weight rather than a wrong name.",
+      "parameter_reconciliation": {
+        "donor_name_says": "124M",
+        "floats_in_index": 137022720,
+        "mask_buffer_floats": 12582912,
+        "note": "the 124M in the donor's name refers to the weight count, which is what weights_and_biases_only measures; the index total is larger because of the mask buffers. No external parameter constant is quoted here, because the only numbers in this block that can be checked are the ones read from the index.",
+        "tensor_count_reconciliation": {
+          "expected": "12 layers x 13 tensors + wte + wpe + ln_f.weight + ln_f.bias = 160",
+          "matches": true,
+          "total_tensors": 160
+        },
+        "weights_and_biases_only": 124439808,
+        "weights_only_over_124M_percent": 100.355
+      },
+      "tie": "CONFIRMED BY ABSENCE -- no wt.weight / lm_head.weight in the index, so the unembedding address range is wte's, read transposed",
+      "verdict": "MATCH -- every pinned shape read from the index agrees with the spec",
+      "why_this_was_read_not_trusted": "the plan names the failure mode this guards: a shape mismatch would silently invalidate every later extraction. It also caught a live defect in the checker itself -- the first attempt asked for `transformer.*` module paths and reported MISMATCH on all eight tensors with found=None, which was a naming error in my script, not a disagreement with the spec; the second attempt miscounted the mask buffers by catching c_attn.bias through endswith. Both are recorded in the provenance's attempt_history rather than smoothed, because a shape verification that has been wrong twice is worth reading a third time from the file.",
+      "wpe_1024x768": true,
+      "wte_50257x768": true
+    },
+    "verified_pointers": {
+      "provenance_attempt1": {
+        "as_claimed": "the checker's first, wrong verdict, kept",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 24,
+        "line_reads": "\"attempt_1_verdict\": \"MISMATCH on 8 tensors plus n_layer, every one of them found=None\",",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:24"
+      },
+      "provenance_free_after": {
+        "as_claimed": "free disk after landing",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 31,
+        "line_reads": "\"free_after_GB\": 119.82,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:31"
+      },
+      "provenance_masks": {
+        "as_claimed": "the mask-buffer count",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 300,
+        "line_reads": "\"n_attn_bias_tensors\": 12,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:300"
+      },
+      "provenance_revision": {
+        "as_claimed": "the pinned revision the bytes came from",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 273,
+        "line_reads": "\"revision_pinned\": \"607a30d783dfa663caf39e06633721c8d4cfcd7e\"",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:273"
+      },
+      "provenance_sha_gpt2": {
+        "as_claimed": "the donor's sha256",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 46,
+        "line_reads": "\"sha256\": \"248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707\",",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:46"
+      },
+      "provenance_tie": {
+        "as_claimed": "the tie, confirmed by absence",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 328,
+        "line_reads": "\"separate_unembedding_tensor_present\": []",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:328"
+      },
+      "provenance_total_bytes": {
+        "as_claimed": "bytes on disk, measured",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 343,
+        "line_reads": "\"total_bytes_on_disk\": 550967953,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:343"
+      },
+      "provenance_verdict": {
+        "as_claimed": "the shape verdict read from the index",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 264,
+        "line_reads": "\"verdict\": \"MATCH -- every pinned shape read from the index agrees with the spec\"",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:264"
+      },
+      "provenance_weights_only": {
+        "as_claimed": "the weight count behind the name 124M",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 321,
+        "line_reads": "\"weights_and_biases_only\": 124439808,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:321"
+      },
+      "registered_124M_constant": {
+        "as_claimed": "the registered 124M constant this program uses",
+        "file": "experiments/MP-E12/results/donor_shape_manifest.json",
+        "line": 58,
+        "line_reads": "\"registered_param_count_for_124M\": 124439808,",
+        "pointer": "experiments/MP-E12/results/donor_shape_manifest.json:58"
+      },
+      "sealed_synthetic_param_count": {
+        "as_claimed": "the SEALED synthetic donor's parameter count, which the real index reproduces exactly",
+        "file": "experiments/MP-E12/results/donor_shape_manifest.json",
+        "line": 14,
+        "line_reads": "\"param_count\": 124439808,",
+        "pointer": "experiments/MP-E12/results/donor_shape_manifest.json:14"
+      },
+      "synthetic_c_attn_class": {
+        "as_claimed": "a per-layer class the real donor must match",
+        "file": "experiments/MP-E12/results/donor_shape_manifest.json",
+        "line": 27,
+        "line_reads": "\"c_attn_weight\": [",
+        "pointer": "experiments/MP-E12/results/donor_shape_manifest.json:27"
+      },
+      "synthetic_tie_claim": {
+        "as_claimed": "the synthetic donor's tie claim",
+        "file": "experiments/MP-E12/results/donor_shape_manifest.json",
+        "line": 72,
+        "line_reads": "\"unembedding_tied_to_wte\": true",
+        "pointer": "experiments/MP-E12/results/donor_shape_manifest.json:72"
+      },
+      "the_disk_risk_line": {
+        "as_claimed": "the risk register's disk-feasibility clause",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 332,
+        "line_reads": "| Compute or disk overrun (200k tier; Qwen3.8-27B ~54 GB) | Medium | Low | Staged tiers; deferral with cause registered; disk-feasibility check before the scale download |",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:332"
+      },
+      "the_e12a_stage": {
+        "as_claimed": "what stage E12a is",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 220,
+        "line_reads": "**Stage MP-E12a \u2014 the address space and the calibration donor (opens now).** Donor: **GPT-2 124M** public weights (deliberately the same family as the program's reference opponent; confirmed specs pin",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:220"
+      },
+      "the_g5_row": {
+        "as_claimed": "the gate ledger's G5 row, whose verdict this amendment moves",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 164,
+        "line_reads": "| **G5 / MP-E12** | H1\u2013H3 hold or a pre-registered partial with the text-distillation control done; guarded rows and source dimension verified post-transplant | **BLOCKED on an external input** \u2014 \"The",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164"
+      },
+      "the_ignore_rule": {
+        "as_claimed": "the rule keeping donor bytes out of git",
+        "file": ".gitignore",
+        "line": 180,
+        "line_reads": "experiments/MP-E12/donor/gpt2/*",
+        "pointer": ".gitignore:180"
+      },
+      "the_instruments_before_extraction": {
+        "as_claimed": "the clause making instruments the NEXT step, not this one",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 409,
+        "line_reads": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B w",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:409"
+      },
+      "the_landing_tool": {
+        "as_claimed": "the committed script that re-derives these bytes",
+        "file": "tools/mp_e12_land_donor.py",
+        "line": 94,
+        "line_reads": "def download(name: str) -> dict:",
+        "pointer": "tools/mp_e12_land_donor.py:94"
+      },
+      "the_old_blocker": {
+        "as_claimed": "the 2026-08-10 absence record, left untouched",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 2257,
+        "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
+        "pointer": "experiments/MP-E12/registration.json:2257",
+        "post_write_line": 2751,
+        "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
+        "shifted_by_this_insertion": true
+      },
+      "the_pinned_donor_spec": {
+        "as_claimed": "the spec pinned in the plan: n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 359,
+        "line_reads": "**Calibration donor \u2014 GPT-2 124M.** Public weights; the same family as the program's reference opponent; small enough to validate every mechanism cheaply. Pinned in registration: n_embd 768, n_layer 1",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:359"
+      },
+      "the_priced_step": {
+        "as_claimed": "section 7.2 step 2: ~500 MB, ~10 min, opens E12a",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 269,
+        "line_reads": "| 2 | **Download GPT-2 124M** (~500 MB) | ~10 min | MP-E12a opens immediately (R4 parallelism); the flagship stops being blocked on \"weights not on this machine\" | G5 |",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:269"
+      },
+      "the_step_this_lands": {
+        "as_claimed": "v1.2 B.6 item 1: confirm the weights, else download and record the hash",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 447,
+        "line_reads": "1. **Open the track** (G0-prime is closed; R4 parallelism): confirm the GPT-2 124M weights are on the machine (\u00a77.2 step 2); if not, download and record the hash.",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:447"
+      },
+      "what_must_arrive": {
+        "as_claimed": "the tensor spec the donor had to satisfy",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 2261,
+        "line_reads": "\"what_must_arrive\": \"GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to ",
+        "pointer": "experiments/MP-E12/registration.json:2261",
+        "post_write_line": 2755,
+        "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
+        "shifted_by_this_insertion": true
+      },
+      "where_it_must_be": {
+        "as_claimed": "the path the plan required",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 2262,
+        "line_reads": "\"where_it_must_be\": \"experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.\"",
+        "pointer": "experiments/MP-E12/registration.json:2262",
+        "post_write_line": 2756,
+        "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
+        "shifted_by_this_insertion": true
+      }
+    },
+    "what_changed": {
+      "after": "GPT-2 124M public weights present at experiments/MP-E12/donor/gpt2/, hashed, and NOT YET READ by any extraction.",
+      "before_as_recorded": "no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present) -- experiments/MP-E12/registration.json:2257",
+      "re_measured_today": "the same search was re-run at 15:22:55Z over the project tree, the Hugging Face caches and five likely model roots: 0 candidate donor files, and the only *.safetensors on the machine was an unrelated sentence-transformer MiniLM (90,868,376 B). So the absence was STILL TRUE this morning; it was re-measured, not read from the ledger."
+    },
+    "what_this_step_does_not_do": {
+      "instruments_come_first": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B w -- the address space and the access journal are registered (R10) BEFORE the first extraction. That is B.6 items 2 and 3, the next step, not this one.",
+      "no_extraction": "not one tensor was read by a probe. The index read above is a file-format read, not a library access, and it is not journaled because no probe requested it.",
+      "no_forward_pass": "R11: no forward pass, no sampling, no inference anywhere in this step.",
+      "no_probe_list_fixed": "the probe list is the next step's instrument and is not fixed here.",
+      "no_runtime_touched": "no donor runtime exists yet; torch is importable on this machine but was not imported by the landing tool."
+    }
+  },
   "experiment": "MP-E12a",
   "extractions_registered": {
     "1_embedding_geometry_into_candidate_feature_pools": {
