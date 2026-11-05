@@ -421,6 +421,176 @@
       "the >=10x threshold has sat un-re-based since the calibration and every attempt to 'just run it' would have silently re-based it by choosing the conditions afterwards; this registration is the place where it would be re-based, and it is written before the run rather than around it"
     ]
   },
+  "c4_process_audit_landed_2026_11_05": {
+    "artefacts_and_tests_it_covers": {
+      "processes_audited_on_the_current_tree": [
+        "run_house.py (the deployment loop)",
+        "organs/neural_language.py (the organ and its speak/decide chain)",
+        "tools/mp_e12_probes.py, tools/mp_e12_address_space.py, tools/mp_e12_access_journal.py (the extraction instruments)",
+        "tools/mp_e12_preregister_latency_benchmark.py (the unexecuted benchmark methodology)",
+        "tools/mp_e8_arm_b.py, tools/mp_e8_arm_c.py (offline arms that DO execute, under torch)",
+        "tools/electric_learn_bench.py, tools/mp_e10_resource_ledger.py (torch-touching harnesses)"
+      ],
+      "result_artefact": "experiments/MP-E12/results/c4_process_audit_v1.json",
+      "tests_added": [
+        "tests/test_mp_e12_process_audit.py (16 tests)",
+        "tests/test_mp_e12_address_space.py::test_no_donor_runtime_on_the_address_path (pre-existing, untouched, still in force)"
+      ]
+    },
+    "authority": {
+      "queue_item_this_discharges": "the_R11_question_confronted_here_rather_than_at_the_bench.either_way__what_audit_distinguishes_a_benchmark_process_from_the_deployment_loop, cited by key for the same reason",
+      "risk_register_that_predicted_this": "pre_registered_failure_modes.Donor-execution leak, cited by key: it sits below harness_hashes in this file, so its line number is moved by every re-stamp and a line citation here would be false by the time it was read",
+      "rule_R11": {
+        "line_reads": "- **R11 \u2014 The library is addressed, never executed.** *(New in v1.2.)* A frozen donor's weights are used in exactly two ways: as a read-only address space (compile reads offline; live address reads at deployment), and never as a computed function. No forward pass, no autoregressive loop, no sampling, no inference of any kind may sit in the deployment loop or in any mechanism whose output reaches an answer. Every access is journaled. The only sanctioned execution of a donor in the entire program is the text-distillation control arm \u2014 offline, once per registration \u2014 because it is the rival hypothesis being tested, not the mechanism. Any pipeline that must run the model to answer is a different program.",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:146"
+      }
+    },
+    "blind_spots_it_reports_about_itself": {
+      "line_reads": "\"blind_spots\": [\"dynamic imports (importlib/__import__) are counted, not followed\",",
+      "pointer": "tools/mp_e12_process_audit.py:356"
+    },
+    "d_mpe12_09_answered_in_structure_not_in_decision": {
+      "category_under_R11_as_written": {
+        "line_reads": "\"category_as_written\": \"UNAUTHORISED BUT NOT BARRED -- outside the two sanctioned uses, outside the \"",
+        "pointer": "tools/mp_e12_process_audit.py:381"
+      },
+      "explicitly_NOT_resolved": "This block does not rule on D-MPE12-09 and does not authorise a benchmark run. It states where a benchmark falls under R11 as written and shows the audit can enforce either ruling.",
+      "structural_position_block": {
+        "line_reads": "\"d_mpe12_09_structural_position\": {",
+        "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:378"
+      },
+      "test_that_the_position_is_computed_not_written": {
+        "line_reads": "def test_the_audit_computes_the_position_that_makes_the_ruling_enforceable(tmp_path):",
+        "pointer": "tests/test_mp_e12_process_audit.py:251"
+      },
+      "the_10x_clause_has_no_executable_form_on_the_answer_path": {
+        "field": {
+          "line_reads": "\"answer_path_processes_able_to_host_the_denominator\": len(hosts),",
+          "pointer": "tools/mp_e12_process_audit.py:329"
+        },
+        "measured": {
+          "line_reads": "\"measured_no_answer_path_host\": true",
+          "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:391"
+        },
+        "why": "The >=10x ratio needs a read (numerator) and a donor execution (denominator) in one comparison. If the ruling is NO, no donor-executing act is permitted anywhere and the denominator cannot be produced at all. If the ruling is YES, the denominator may be produced only by a process that never joins an answer, so the ratio exists solely as an offline artifact. Either way the answer path can neither compute it nor carry it -- the only route would be the file-mediated join, which is why the audit checks for it."
+      },
+      "the_two_clauses_disagree": "Sentence 1 enumerates exactly two sanctioned uses (compile reads, live address reads) and a benchmark is neither, so the enumeration does not authorise it. Sentence 2 bars execution in the deployment loop or in any mechanism whose output reaches an answer, and a benchmark is neither, so the prohibition does not bar it. Unauthorised but not barred: R11 as written has no clause that decides it, which is the proof it is a ruling and not a reading."
+    },
+    "how_it_works": {
+      "answer_path_definition": {
+        "deployment_loop": {
+          "line_reads": "DEPLOYMENT_LOOP = \"run_house.py\"",
+          "pointer": "tools/mp_e12_process_audit.py:71"
+        },
+        "module_and_symbols": {
+          "line_reads": "ANSWER_MODULE = \"organs/neural_language.py\"",
+          "pointer": "tools/mp_e12_process_audit.py:69"
+        },
+        "symbols_named": [
+          "answer",
+          "respond",
+          "speak",
+          "speak_sentence",
+          "speak_plan"
+        ]
+      },
+      "donor_executing_definition": {
+        "named_symbols": {
+          "line_reads": "DONOR_EXEC_SYMBOLS = (\"reference_inference\", \"reference_inference_run\")",
+          "pointer": "tools/mp_e12_process_audit.py:61"
+        },
+        "runtime_modules": {
+          "line_reads": "DONOR_RUNTIME_MODULES = (\"torch\", \"transformers\", \"tensorflow\", \"tf\", \"flax\", \"jax\", \"onnx\", \"keras\",",
+          "pointer": "tools/mp_e12_process_audit.py:56"
+        }
+      },
+      "it_can_audit_any_tree_not_only_this_one": {
+        "line_reads": "class AuditConfig:",
+        "pointer": "tools/mp_e12_process_audit.py:74"
+      },
+      "numpy_is_excluded_deliberately": {
+        "line_reads": "\"numpy_excluded_reason\": (\"imported by 13 files under organs/ -- the answer \"",
+        "pointer": "tools/mp_e12_process_audit.py:353"
+      },
+      "output_travels_by_file_too": {
+        "line_reads": "def join_report(processes: list[dict]) -> list[dict]:",
+        "pointer": "tools/mp_e12_process_audit.py:278"
+      },
+      "three_states_and_why": "BREACH = an execution act on a path that reaches an answer (exit non-zero). EXPOSURE = a donor runtime reachable on such a path but no act found -- a review queue, exit zero. CLEAR = neither half holds. The split exists because the first version collapsed capability and act into one predicate and reported a breach on tools/electric_learn_bench.py, which imports torch inside torch_version() solely to read get_num_threads() and never runs anything: an audit that calls a thread count a donor execution is skipped inside a week, which is worse than no audit.",
+      "verdict_is_a_conjunction": {
+        "line_reads": "verdict = \"BREACH\"",
+        "pointer": "tools/mp_e12_process_audit.py:244"
+      }
+    },
+    "measured_on_the_current_tree": {
+      "audit_verdict": "EXPOSURE",
+      "counts": {
+        "breach": 0,
+        "clear": 9,
+        "declared_vs_derived_mismatches": 1,
+        "dynamic_imports_unfollowed": 0,
+        "exposure": 1,
+        "processes_audited": 10
+      },
+      "pointer_to_the_counts": {
+        "line_reads": "\"counts\": {",
+        "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:356"
+      },
+      "pointer_to_the_exposure_list": {
+        "line_reads": "\"exposure_processes\": [",
+        "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:365"
+      },
+      "pointer_to_the_verdict_field": {
+        "line_reads": "\"audit_verdict\": \"EXPOSURE\"",
+        "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:393"
+      },
+      "the_one_exposure": "tools/electric_learn_bench.py: declared offline_benchmark, derived answer_path. It imports the organ at line 101 and torch at line 957, in one process. No execution act was found, so it is EXPOSURE and a mismatch, not a breach -- and it predates MP-E12 entirely.",
+      "the_permitted_executors": {
+        "line_reads": "\"offline_executing_processes_audited\": [",
+        "pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:383"
+      }
+    },
+    "registered_at_utc": "2026-11-05T21:18:49Z",
+    "what_it_proves_by_construction": {
+      "a_label_does_not_grant_permission": {
+        "line_reads": "def test_a_label_does_not_grant_permission(tree, cfg):",
+        "pointer": "tests/test_mp_e12_process_audit.py:129"
+      },
+      "allowed_case": {
+        "line_reads": "def test_allowed_case_an_executing_process_that_never_joins_an_answer_is_permitted(tree, cfg):",
+        "pointer": "tests/test_mp_e12_process_audit.py:97"
+      },
+      "claim": "The audit can tell the two categories apart, demonstrated rather than asserted: two synthetic processes whose source differs by exactly ONE added import -- the answer module -- are called CLEAR and BREACH respectively, and every other reported field is identical between them. A verdict change with nowhere else to come from is the discrimination.",
+      "forbidden_case": {
+        "line_reads": "def test_forbidden_case_the_same_execution_joining_an_answer_is_a_breach(tree, cfg):",
+        "pointer": "tests/test_mp_e12_process_audit.py:107"
+      },
+      "the_audit_judges_itself": {
+        "line_reads": "def test_the_audit_judges_itself_and_passes():",
+        "pointer": "tests/test_mp_e12_process_audit.py:228"
+      },
+      "the_diff_assertion": {
+        "line_reads": "def test_the_two_cases_differ_only_in_the_join(tree, cfg):",
+        "pointer": "tests/test_mp_e12_process_audit.py:114"
+      },
+      "the_file_mediated_join_case": {
+        "line_reads": "def test_output_reaches_an_answer_through_a_file_not_only_through_an_import(tmp_path):",
+        "pointer": "tests/test_mp_e12_process_audit.py:137"
+      },
+      "the_real_permitted_executor": {
+        "line_reads": "def test_an_offline_arm_that_executes_is_permitted_on_the_real_tree():",
+        "pointer": "tests/test_mp_e12_process_audit.py:202"
+      },
+      "the_surface_check_is_shown_weaker": {
+        "line_reads": "def test_the_import_surface_check_would_miss_the_forbidden_case(tree, cfg):",
+        "pointer": "tests/test_mp_e12_process_audit.py:166"
+      }
+    },
+    "what_this_does_not_do": "No clock was started and no duration measured. No donor byte was read beyond the bytes already sealed: the audit reads SOURCE with ast and never touches the donor file. No cap was raised. MP-E12b was not built. STEP 5, T and N, both floor pairs and MP-E11 were not started. The answer-path fix was not attempted. The existing import-surface assertion was not replaced, weakened or moved. Nothing in this block resolves D-MPE12-04, D-MPE12-09, the gather-accounting ruling or D-MPE12-02 -- all four remain open decisions for the PI.",
+    "what_this_is": "The audit that the ledger's own queue asked for: 'either way: what audit distinguishes a benchmark process from the deployment loop, so that C4 is a test rather than a slogan?' It is a reachability audit over processes. Given an entry point it asks two independent questions of everything statically reachable from it -- does the reachable set contain a donor-executing ACT, and does it reach the ANSWER PATH -- and fails only on the conjunction. That is the shape of R11's prohibition, which constrains a process, not a module.",
+    "why_the_existing_check_was_not_enough": "tests/test_mp_e12_address_space.py::test_no_donor_runtime_on_the_address_path asserts that two instrument files name no torch, transformers or numpy in their import statements. It is true, cheap, and it stays in force untouched as the weaker second check. It cannot answer the rule it stands in for, because an import surface is a property of a module and R11 constrains a process: the same 'import torch' is a breach on one path and a sanctioned offline act on another, and a header-reading test has no vocabulary for the difference. It must either forbid torch everywhere -- failing on sight of tools/mp_e8_arm_b.py, a legitimate offline arm that runs real forward passes -- or allow it everywhere, missing the leak it was written to catch.",
+    "written_by": "agent, on the PI's instruction, as the one agent-side step needing no ruling and no machine time"
+  },
   "calibration_findings_recorded_after_the_first_run": {
     "findings": "five, in probes_synthetic_calibration.json under calibration_findings: (1) 10x depends on a query length the plan never gives -> D-MPE12-05; (2) the read is slower than generating one token on wall-clock, with unpriced work on BOTH sides in opposite directions; (3) 72.8% of the read's MACs are the two wte multiplies, so the operation budget does not see the cost that actually dominates; (4) the budget has one operation of headroom and already bound the design -- a dropped per-head nearest-token read costs 4 more and would abort every item; (5) weight tying is visible as a shape statistic the instrument reports, which is what a superposition probe needs to be able to say.",
     "status": "Written after the synthetic calibration ran. It adds no definition, changes no threshold and alters no budget; the numbers it quotes are the run's own, derived in the artifact.",
@@ -2233,6 +2403,15 @@
         "sha256_lf": "bfc852779d86f45a368fa5327fa1432022346c177bf09eb5e3f5aebc6c61a782",
         "sha256_of_git_blob": "bfc852779d86f45a368fa5327fa1432022346c177bf09eb5e3f5aebc6c61a782"
       },
+      "experiments/MP-E12/results/c4_process_audit_v1.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 15555,
+        "bytes_worktree": 15949,
+        "git_blob_sha1": "c879c0307a183f154c0a4d736cf511d560f3268c",
+        "line_endings": "CRLF",
+        "sha256_lf": "4e1a3a98d635793de3437ee5e14a3fd9df59aa569e6ba404eaa82fd07d637ece",
+        "sha256_of_git_blob": "4e1a3a98d635793de3437ee5e14a3fd9df59aa569e6ba404eaa82fd07d637ece"
+      },
       "experiments/MP-E12/results/clustering_limitation_v1.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 10646,
@@ -3259,6 +3438,15 @@
         "sha256_lf": "efb3241ab1149985248e50e96887f072713389c75d9eb501ffdc9c06c56a3f42",
         "sha256_of_git_blob": "efb3241ab1149985248e50e96887f072713389c75d9eb501ffdc9c06c56a3f42"
       },
+      "tests/test_mp_e12_process_audit.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 13346,
+        "bytes_worktree": 13628,
+        "git_blob_sha1": "538676cb991f5c6dac64726667845daed212f509",
+        "line_endings": "CRLF",
+        "sha256_lf": "8db6ddf13a8bc7a63ccf76fa7bbd90c6eb2993db5739e474fc5696860c1c0d22",
+        "sha256_of_git_blob": "8db6ddf13a8bc7a63ccf76fa7bbd90c6eb2993db5739e474fc5696860c1c0d22"
+      },
       "tests/test_mp_e12_real_source.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 18810,
@@ -3583,6 +3771,15 @@
         "sha256_lf": "a5aa481fdf32a725005648e1594cc157d5d14d2b135700e1454bffc89eb322ff",
         "sha256_of_git_blob": "a5aa481fdf32a725005648e1594cc157d5d14d2b135700e1454bffc89eb322ff"
       },
+      "tools/mp_e12_process_audit.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 22688,
+        "bytes_worktree": 23097,
+        "git_blob_sha1": "dc239440c9c91dc8125a0b781f926ff7b6514fea",
+        "line_endings": "CRLF",
+        "sha256_lf": "dbce9e20309b123b0e0ca63f9008eea289bede09d4bbefcf03709759585fe0ca",
+        "sha256_of_git_blob": "dbce9e20309b123b0e0ca63f9008eea289bede09d4bbefcf03709759585fe0ca"
+      },
       "tools/mp_e12_register_clustering_limitation.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 11226,
@@ -3729,12 +3926,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 71598,
-        "bytes_worktree": 72607,
-        "git_blob_sha1": "658e113ae9dc37716f65f8a2725cdd3fab558c40",
+        "bytes_blob": 72978,
+        "bytes_worktree": 74001,
+        "git_blob_sha1": "99f76eec93d067247b71091d971f20ab8f05fae8",
         "line_endings": "CRLF",
-        "sha256_lf": "22db08e565eda0d5348468b440800fc9be36682a045cc6eeb17c9c0c8d3f90e5",
-        "sha256_of_git_blob": "22db08e565eda0d5348468b440800fc9be36682a045cc6eeb17c9c0c8d3f90e5"
+        "sha256_lf": "75122ef32d656d83075595fdf7099faedcb08c120efa0d8a2f30296725038ed5",
+        "sha256_of_git_blob": "75122ef32d656d83075595fdf7099faedcb08c120efa0d8a2f30296725038ed5"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -3757,7 +3954,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "10732cd0e2969b9981c7b7e420744ed494557d03",
+    "git_head": "07119c9d6b5066d3a099f509b1c188c018090af7",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -3783,7 +3980,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T21:00:31Z",
+    "sealed_at_utc": "2026-11-05T21:22:47Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
