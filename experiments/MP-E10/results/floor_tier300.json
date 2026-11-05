@@ -1,0 +1,203 @@
+{
+  "artifacts_on_disk": {
+    "experiments/MP-E10/results/floor300_a_fresh_vs_fresh_armA.json": "1a2d7c9b30e70cb4161d99c9727fc8014611e8f6b616fe50532e6d37745f4743",
+    "experiments/MP-E10/results/floor300_b_fresh_vs_fresh_armA.json": "3468c682378c2782cffd8e3002004ad000ea6e046ffff6099c8edf43eb8fe7dc"
+  },
+  "augmentation_record": {
+    "added_before_first_commit_and_before_any_seal": true,
+    "added_key": "tier300_attribution_table_with_floor",
+    "added_utc": "2026-11-05T14:09:05Z",
+    "why": "the pair buys the floor; the table is what the floor is for. Keeping them in one artifact means a reader gets the bound and the bounded figures together."
+  },
+  "byte_condition": {
+    "consequence": "this floor bounds tier-300 claims made on these bytes. It does NOT retroactively bound figures produced on different instrument bytes; R17 re-measures a floor whenever the bytes change, so bounding the sealed figures would require a pair run on those bytes.",
+    "identical": false,
+    "the_sealed_tier300_figures_ran_on": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+    "this_pair_ran_on": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af"
+  },
+  "curriculum": {
+    "curriculum_sha256": "dc3a977190d982a243adcc158264179cca79cd4980241c92bf471b16c436083c",
+    "file_sha256_lf": "b048f7c71e65a1fdb2a43535dbb79db77b65a16d4ddb2c2190bd6001046a40a3",
+    "mode": "manifest",
+    "n_distractors": 90,
+    "n_items": 300,
+    "n_probes_built_by_this_bench": 1046,
+    "n_probes_registered_in_manifest": 1046,
+    "note": "frames rebuilt by this file's own svo/obl/intr from the recorded construction calls",
+    "path": "C:/Projects/HybridLLM/experiments/MP-E8/curriculum_tier300.json",
+    "seed": 20261103,
+    "tier": 300
+  },
+  "curriculum_applied_by": "this driver, explicitly, as an importing process must",
+  "experiment": "MP-E10",
+  "floor_registered": {
+    "diff_artifact": "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json",
+    "diff_line_rows_moved": 2146,
+    "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+    "instrument": "tools/mp_e10_row_migration.py (nine R13 identity fields)",
+    "movement_rate_percent": 0.4674,
+    "pid": 4820,
+    "registered_at_utc": "2026-11-05T14:03:58Z",
+    "rows_compared": 9414,
+    "rows_moved": 44,
+    "same_process_observed": true,
+    "tier": 300
+  },
+  "generated_at_utc": "2026-11-05T14:03:58Z",
+  "harness_sha256_of_the_sealed_tier300_figures": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+  "harness_sha256_of_this_pair": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+  "purpose": "the tier-300 identical-code floor required by R17 (v1.2:147)",
+  "replay_requested_in_this_process": false,
+  "run_A": {
+    "argv": [
+      "--arms",
+      "learn",
+      "--curriculum",
+      "experiments/MP-E8/curriculum_tier300.json",
+      "--out",
+      "experiments/MP-E10/results/floor300_a_fresh_vs_fresh_armA.json",
+      "--workdir",
+      "_tmp/wd_floor300_a"
+    ],
+    "driver_wall_seconds": 1112.38,
+    "pid_observed_after_call": 4820,
+    "pid_observed_before_call": 4820,
+    "rc": 1,
+    "started_utc": "2026-11-05T13:23:46Z"
+  },
+  "run_B": {
+    "argv": [
+      "--arms",
+      "learn",
+      "--curriculum",
+      "experiments/MP-E8/curriculum_tier300.json",
+      "--out",
+      "experiments/MP-E10/results/floor300_b_fresh_vs_fresh_armA.json",
+      "--workdir",
+      "_tmp/wd_floor300_b"
+    ],
+    "driver_wall_seconds": 1300.18,
+    "pid_observed_after_call": 4820,
+    "pid_observed_before_call": 4820,
+    "rc": 1,
+    "started_utc": "2026-11-05T13:42:18Z"
+  },
+  "same_bytes_as_the_sealed_figures": false,
+  "same_process_observed": true,
+  "same_process_statement": "the four pid samples agree, so both runs executed in one Python process",
+  "stage": "complete: pair context, diff, floor registration",
+  "tally_stability": {
+    "correct_count_identical_across_the_pair": true,
+    "moved_class_fields": [
+      "learn/d1/reasked:partial",
+      "learn/d1/reasked:refused",
+      "learn/d1/restarted:partial",
+      "learn/d1/restarted:refused",
+      "learn/d2/reasked:invented",
+      "learn/d2/reasked:refused",
+      "learn/d3/reasked:invented",
+      "learn/d3/reasked:partial",
+      "learn/d3/reasked:refused"
+    ],
+    "n_moved_class_fields": 9
+  },
+  "tier300_attribution_table_with_floor": {
+    "added_before_commit_or_seal": true,
+    "added_utc": "2026-11-05T14:09:05Z",
+    "figures": [
+      {
+        "bounded_by_this_floor": false,
+        "figure": "111-row replay effect",
+        "file_and_line_rows_compared": "experiments/MP-E10/results/300_replay_vs_control_row_migration_keyfix.json:5469",
+        "file_and_line_rows_moved": "experiments/MP-E10/results/300_replay_vs_control_row_migration_keyfix.json:5353",
+        "floor_measured_on_the_same_bytes": false,
+        "harness_bytes_either_side": {
+          "baseline": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+          "replayed": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+        },
+        "numeric_relation_to_the_floor": "figure 111 rows vs floor 44 rows of the same 9414-row denominator (1.1791% vs 0.4674%)",
+        "rate_percent": 1.1791,
+        "rows_compared": 9414,
+        "rows_moved": 111,
+        "spans_a_harness_change": false,
+        "what_it_compares": "replay ON vs replay OFF, same tree, same curriculum, same seed"
+      },
+      {
+        "bounded_by_this_floor": false,
+        "figure": "251-row baseline difference",
+        "file_and_line_rows_compared": "experiments/MP-E10/results/300_row_migration_keyfix.json:11943",
+        "file_and_line_rows_moved": "experiments/MP-E10/results/300_row_migration_keyfix.json:11827",
+        "floor_measured_on_the_same_bytes": false,
+        "harness_bytes_either_side": {
+          "baseline": "6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7",
+          "replayed": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+        },
+        "numeric_relation_to_the_floor": "figure 251 rows vs floor 44 rows of the same 9414-row denominator (2.6662% vs 0.4674%)",
+        "rate_percent": 2.6662,
+        "rows_compared": 9414,
+        "rows_moved": 251,
+        "spans_a_harness_change": true,
+        "what_it_compares": "replay ON vs MP-E8's sealed tier-300 baseline"
+      },
+      {
+        "bounded_by_this_floor": false,
+        "figure": "302-row control difference",
+        "file_and_line_rows_compared": "experiments/MP-E10/results/300ctl_row_migration_keyfix.json:14080",
+        "file_and_line_rows_moved": "experiments/MP-E10/results/300ctl_row_migration_keyfix.json:13964",
+        "floor_measured_on_the_same_bytes": false,
+        "harness_bytes_either_side": {
+          "baseline": "6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7",
+          "replayed": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+        },
+        "numeric_relation_to_the_floor": "figure 302 rows vs floor 44 rows of the same 9414-row denominator (3.208% vs 0.4674%)",
+        "rate_percent": 3.208,
+        "rows_compared": 9414,
+        "rows_moved": 302,
+        "spans_a_harness_change": true,
+        "what_it_compares": "CONTROL, replay OFF, vs the same sealed baseline"
+      }
+    ],
+    "floor": {
+      "correct_count_identical_across_the_pair": true,
+      "diff_artifact": "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json",
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "pid": 4820,
+      "rate_percent": 0.4674,
+      "rows_compared": 9414,
+      "rows_moved": 44,
+      "same_process_observed": true,
+      "tally_fields_moved_in_the_pair": [
+        "learn/d1/reasked:partial",
+        "learn/d1/reasked:refused",
+        "learn/d1/restarted:partial",
+        "learn/d1/restarted:refused",
+        "learn/d2/reasked:invented",
+        "learn/d2/reasked:refused",
+        "learn/d3/reasked:invented",
+        "learn/d3/reasked:partial",
+        "learn/d3/reasked:refused"
+      ]
+    },
+    "invention_breach_tallies": {
+      "/d_replay_off_control_and_attribution/safety_property_on_the_control/invented_rows_control": {
+        "line": 688,
+        "value": 100
+      },
+      "/d_replay_off_control_and_attribution/safety_property_on_the_control/invented_rows_replay": {
+        "line": 689,
+        "value": 92
+      }
+    },
+    "what_the_table_concludes": [
+      "1. The 251 and 302 figures span a harness change (6e09171a... on one side, 5cf038c2... on the other), so they were never run-to-run quantities and no run-to-run floor can bound them. They are differences between instruments, and the record already says so.",
+      "2. The 302-row CONTROL figure is LARGER than the 111-row replay figure: with replay OFF, more rows move against the same sealed baseline than the replay treatment itself appears to move. That is read off the sealed artifacts, not inferred from the new pair, and it is the reason the 111-row difference was never safe to attribute to replay.",
+      "3. Whether this floor bounds the 111-row figure depends on the byte test: the floor was measured on 47f05c9c... and the 111-row figure on 5cf038c2... -- different bytes, so under R17 this floor does NOT bound it; bounding it needs a pair run on the bytes the figure was made on (~44 min at tier 300).",
+      "4. The refusal-axis tallies (invented rows: invented_rows_control=100, invented_rows_replay=92) are exactly the class the pair showed moving, so they stay exposed regardless of the byte test."
+    ]
+  },
+  "wall_clock": {
+    "driver_total_seconds": 2412.99,
+    "run_A_seconds": 1112.38,
+    "run_B_seconds": 1300.18
+  }
+}
