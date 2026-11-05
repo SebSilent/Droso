@@ -2601,8 +2601,16 @@
         "experiments/MP-E8/results/armA_tier300_curriculum.json",
         "experiments/MP-E8/results/armA_tier300_rerun.json"
       ],
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:405",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "6. **D-MPE8-10** / 7. **D-MPE8-11**. Rule per R16: no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each."
+      },
       "question": "R13 tolerates disagreement in learn/1/reasked and learn/1/restarted for the 2.0 s speech-act gate. Two runs of the same program at tier 300 show ZERO disagreement in those cells and 208 field differences elsewhere, concentrated at depths 2 and 3 and present in the live phase too. Is the instrument's tier-300 nondeterminism to be tolerated, registered as a named quantity with its own spread, or is tier 300 to be run as replicates like arm B?",
-      "status": "OPEN. Nothing widened. AMD-MPE8-13 names both artifacts.",
+      "status": "RULED 2026-11-05 by B.R item 6: per R16, no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.",
+      "status_as_registered_before_the_ruling": "OPEN. Nothing widened. AMD-MPE8-13 names both artifacts.",
       "why_it_cannot_be_decided_by_the_agent": "the tolerance list is part of the pre-registered contract. Editing it after seeing which cells disagree is selecting the tolerance on the data it will be used to excuse."
     },
     "D-MPE8-11_H2_clause_2_is_satisfiable_by_blanket_refusal": {
@@ -2613,8 +2621,17 @@
         "experiments/MP-E8/results/armC_h2_clause2_and_retrieval_empty.json",
         "experiments/MP-E8/results/armC_tier300_curriculum.json"
       ],
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:405",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "6. **D-MPE8-10** / 7. **D-MPE8-11**. Rule per R16: no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each."
+      },
       "question": "H2's second clause requires arm C's refusal on never-taught rows to exceed arm A's, and sets no companion requirement on the taught rows. Arm C satisfies it at tiers 120 and 300 while producing zero correct answers at every tier. Is clause 2 to be read as satisfied by that, or is a specificity requirement (arm C must answer taught asks at some rate for its never-taught refusal to count) to be registered before any further arm C claim?",
-      "status": "OPEN. Clause 2 recorded as measured PASS at 120 and 300, with this limitation attached to the record rather than resolved inside it.",
+      "scope_of_this_ruling": "NOT ruled by B.R: whether a clause satisfied by blanket refusal counts as a pass. The measured PASS at 120 and 300 stands with the limitation attached to it, and the clause-2 specificity floor appears in v1.2 as remaining work (v1.2:190) and as the A8 re-score (v1.2:302) -- plan text, not a ruling.",
+      "status": "RULED IN PART 2026-11-05 by B.R item 7, which shares item 6's line: the R16 mechanism is ruled (no tolerance widening; newly gated cells enter the dated observed-wall-clock block naming their artifact; replicates priced 53.6 min each).",
+      "status_as_registered_before_the_ruling": "OPEN. Clause 2 recorded as measured PASS at 120 and 300, with this limitation attached to the record rather than resolved inside it.",
       "why_it_cannot_be_decided_by_the_agent": "adding a requirement to a registered hypothesis after its first measurement is exactly the move that turns a failed claim into a passed one. Here the claim PASSED, and writing a companion requirement now would be selecting a way to un-pass it -- the same fault in the other direction."
     }
   },
@@ -2801,6 +2818,49 @@
         "what_this_ruling_does_not_change": "hypotheses.H1/H2/H3/H4 text and thresholds, abort_conditions' triggers and actions, stopping_rules, metrics, gate, tiers, the armB seed protocol, and R13. All are byte-identical after this write and are asserted so below."
       }
     }
+  },
+  "pi_rulings_2026_11_05_BR": {
+    "block_shape_note": "items are keyed by container.decision-id so the stale-status guard's ruled_ids() can read this batch; a list here would make the batch invisible to the guard that exists to catch stale OPEN text",
+    "history_preserved_by": "keys named *_as_registered_before_the_ruling, which the stale-status guard recognises as preserved history",
+    "ingested_under": "STEP 2 of the PI's v1.2 order, 2026-11-05",
+    "ingested_utc": "2026-11-05T12:39:52Z",
+    "items_ingested_into_this_ledger": {
+      "open_decisions_for_pi.D-MPE8-10_r13_cells_do_not_cover_the_observed_instability": {
+        "br_line": 405,
+        "decision_id": "D-MPE8-10_r13_cells_do_not_cover_the_observed_instability",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "6. **D-MPE8-10** / 7. **D-MPE8-11**. Rule per R16: no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.",
+        "status_after": "RULED 2026-11-05 by B.R item 6: per R16, no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each."
+      },
+      "open_decisions_for_pi.D-MPE8-11_H2_clause_2_is_satisfiable_by_blanket_refusal": {
+        "br_line": 405,
+        "decision_id": "D-MPE8-11_H2_clause_2_is_satisfiable_by_blanket_refusal",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "6. **D-MPE8-10** / 7. **D-MPE8-11**. Rule per R16: no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.",
+        "scope": "NOT ruled by B.R: whether a clause satisfied by blanket refusal counts as a pass. The measured PASS at 120 and 300 stands with the limitation attached to it, and the clause-2 specificity floor appears in v1.2 as remaining work (v1.2:190) and as the A8 re-score (v1.2:302) -- plan text, not a ruling.",
+        "status_after": "RULED IN PART 2026-11-05 by B.R item 7, which shares item 6's line: the R16 mechanism is ruled (no tolerance widening; newly gated cells enter the dated observed-wall-clock block naming their artifact; replicates priced 53.6 min each)."
+      }
+    },
+    "ruling_source": {
+      "ingest_rule": "each ruling is quoted verbatim from the plan line named; no ruling is paraphrased into ledger prose, and no item is marked ruled beyond what its B.R line says",
+      "ordering_instruction_verbatim": "Rule in this order; each item names the ruling this plan recommends, all of them dated amendments under R16 \u2014 never edits to sealed lists.",
+      "path": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+      "plan_date": "2026-11-05",
+      "section": "B.R The 2026-11 Ruling Batch (PI, one sitting, zero machine time)",
+      "section_lines": "396-409",
+      "sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711"
+    },
+    "stale_status_caught_and_fixed_by_the_guard": {
+      "caught_by": "tests/test_stale_status_guard.py::test_every_ledger_status_field_agrees_with_its_own_rulings",
+      "field": "status_facts.arm_C",
+      "note": "the guard exists because a hand reconciliation missed a status path last time; it fired once on this batch and that was the whole list",
+      "prior_text_preserved_at": "status_facts.arm_C_as_registered_before_the_ruling",
+      "was": "asserted D-MPE8-11 open after B.R item 7 ruled it in part"
+    },
+    "status_transitions": [
+      "open_decisions_for_pi.D-MPE8-10_r13_cells_do_not_cover_the_observed_instability -> dict: status field set",
+      "open_decisions_for_pi.D-MPE8-11_H2_clause_2_is_satisfiable_by_blanket_refusal -> dict: status field set"
+    ]
   },
   "plan_of_record_v1_2_2026_11_05": {
     "added_under": "STEP 0 of the PI's v1.2 order, 2026-11-05",
@@ -4481,7 +4541,8 @@
       }
     },
     "arm_B_measured": "MEASURED at tiers 120 and 300, three registered seeds at each. Tier 120: FAIL, least favourable drop 1.6827 pp. Tier 300: FAIL, drops are NEGATIVE (-1.24 to -2.68 pp, i.e. arm B improves with exposure) from a session-1 level of 1.15-1.63% (AMD-MPE8-15). Margin untouched at 5.0 pp; the NOT DECIDABLE trigger did not fire (seed spread 1.434 pp).",
-    "arm_C": "MEASURED at tiers 40, 120 and 300 -- the first sealed arm C artifacts exist. Graded per AMD-MPE8-12: gate and near-miss measures carry its claims. H2's second clause is recorded PASS at 120 and 300 (AMD-MPE8-14) with the blanket-refusal limitation on its face and D-MPE8-11 open. Correct rate 0.0% at every tier, reported without hypothesis weight.",
+    "arm_C": "MEASURED at tiers 40, 120 and 300 -- the first sealed arm C artifacts exist. Graded per AMD-MPE8-12: gate and near-miss measures carry its claims. H2's second clause is recorded PASS at 120 and 300 (AMD-MPE8-14) with the blanket-refusal limitation on its face; D-MPE8-11 is RULED IN PART by B.R item 7 (experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:405, 2026-11-05) -- the R16 mechanism is decided (no tolerance widening; newly gated cells enter the dated observed-wall-clock block naming their artifact; replicates priced 53.6 min each), and what that line does not decide -- whether a clause satisfiable by blanket refusal counts as a pass -- stays open on the face of this record, with the specificity floor carried as remaining work at v1.2:190. Correct rate 0.0% at every tier, reported without hypothesis weight.",
+    "arm_C_as_registered_before_the_ruling": "MEASURED at tiers 40, 120 and 300 -- the first sealed arm C artifacts exist. Graded per AMD-MPE8-12: gate and near-miss measures carry its claims. H2's second clause is recorded PASS at 120 and 300 (AMD-MPE8-14) with the blanket-refusal limitation on its face and D-MPE8-11 open. Correct rate 0.0% at every tier, reported without hypothesis weight.",
     "c1": {
       "state": "NOT EVALUABLE for arm A as registered -- ruled by the PI as D-MPE8-07. The 24 guarded-absence rows are teach-arm rows in every tree measured (['current_tree_tier40', 'sealed_3.10_tier40', 'tier120', 'tier300']); arm A has none and answers all 24 correct from electric_qa_store."
     },

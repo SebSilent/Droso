@@ -1933,10 +1933,58 @@
     "why_a_design_step_and_not_a_build": "Stage b calls grow_pool (connectome/rate_core.py:498), grow_plastic (:238) and wire_pool (:305) and adds a class to the provenance machinery that protects refusal (organs/neural_language.py:3431 learn_qa, :3556 _qa_admissible, :4196 _provenance_vote). That is not disjoint from Droso organs, so rule R4's parallel-track authorisation does not cover it. The blocker is a gate-order ruling, not code."
   },
   "open_decisions": {
-    "D-MPE12-01": "Whether the sealed operation-count log from the synthetic donor satisfies B.6 item 1's 'log and seal operation counts', or whether the log must be regenerated against the real donor before item 1 can be called done. This registration's position: regenerated -- the counts will very likely be identical because they are a property of the code path and the shapes, but 'very likely identical' is not the same artifact and must not be filed as one.",
-    "D-MPE12-02": "How the energy estimate is produced. The plan names wall-clock, operation count AND energy estimate; this repository has no energy instrument, so on both the synthetic and the real run energy is NOT MEASURED rather than modelled. Whether a modelled estimate is acceptable, and from what basis, is the PI's call.",
-    "D-MPE12-03": "The probe list for the real donor (which tokens, how many, chosen how). It cannot be fixed against an absent model and must not be chosen after the weights arrive; the PI may fix it now, or authorise a rule for fixing it later.",
-    "D-MPE12-04": "Whether MP-E12b (the compiler) may be built against the synthetic graph before the real graph exists. Not started here: stage b mutates connectome objects, which is not disjoint from Droso organs, and so is NOT covered by R4's parallel-track authorisation. Building it now would be the one kind of licence this registration does not have.",
+    "D-MPE12-01": {
+      "entry_was_a_bare_string_before_this_ruling": true,
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:409",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5."
+      },
+      "question_as_registered_before_the_ruling": "Whether the sealed operation-count log from the synthetic donor satisfies B.6 item 1's 'log and seal operation counts', or whether the log must be regenerated against the real donor before item 1 can be called done. This registration's position: regenerated -- the counts will very likely be identical because they are a property of the code path and the shapes, but 'very likely identical' is not the same artifact and must not be filed as one.",
+      "scope_of_this_ruling": "NOT ruled by B.R: whether the synthetic donor's sealed operation-count log already satisfies B.6 item 1. The ruling reaches the instrument requirement going forward, not the adequacy of the sealed synthetic log.",
+      "status": "RULED IN PART 2026-11-05 by B.R item 11: E12a proceeds on GPT-2 124M now, and the address space and access journal are registered as instruments (R10) before the first extraction."
+    },
+    "D-MPE12-02": {
+      "entry_was_a_bare_string_before_this_ruling": true,
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:409",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5."
+      },
+      "question_as_registered_before_the_ruling": "How the energy estimate is produced. The plan names wall-clock, operation count AND energy estimate; this repository has no energy instrument, so on both the synthetic and the real run energy is NOT MEASURED rather than modelled. Whether a modelled estimate is acceptable, and from what basis, is the PI's call.",
+      "scope_of_this_ruling": "Left OPEN deliberately: marking this ruled would be exactly the 'beyond what B.R actually says' error.",
+      "status": "OPEN -- not reached by B.R item 11. The ruling text at v1.2:409 does not address how the energy estimate is produced, and v1.2:224's registration pins name residency ceiling, disk budget, access-class latency budgets and the license record, but no energy instrument."
+    },
+    "D-MPE12-03": {
+      "entry_was_a_bare_string_before_this_ruling": true,
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:409",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5."
+      },
+      "question_as_registered_before_the_ruling": "The probe list for the real donor (which tokens, how many, chosen how). It cannot be fixed against an absent model and must not be chosen after the weights arrive; the PI may fix it now, or authorise a rule for fixing it later.",
+      "scope_of_this_ruling": "NOT ruled by B.R: which tokens, how many, chosen how. The sequencing is decided; the contents are not.",
+      "status": "RULED IN PART 2026-11-05 by B.R item 11: the donor is named (GPT-2 124M) and the instruments are registered before the first extraction, so the probe list must be fixed in that registration and cannot be chosen after the weights arrive."
+    },
+    "D-MPE12-04": {
+      "entry_was_a_bare_string_before_this_ruling": true,
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:409",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5."
+      },
+      "question_as_registered_before_the_ruling": "Whether MP-E12b (the compiler) may be built against the synthetic graph before the real graph exists. Not started here: stage b mutates connectome objects, which is not disjoint from Droso organs, and so is NOT covered by R4's parallel-track authorisation. Building it now would be the one kind of licence this registration does not have.",
+      "scope_of_this_ruling": "Left OPEN deliberately.",
+      "status": "OPEN -- not reached by B.R item 11. Nothing in v1.2:409 rules whether MP-E12b may be built against the synthetic graph before the real graph exists; v1.2:222 describes stage b but does not decide this question."
+    },
     "D-MPE12-05": "RULED 2026-08-10 by PI -- see pi_rulings['D-MPE12-05']. H2's claim is UNDER-SPECIFIED and that is the finding: the read-versus-inference ratio must be reported as a CURVE against generated-token count (minimum 1, 5, 9 and the donor's measured mean answer length), with the verdict stated at each point, and the claim registered as conditional on that definition. Choosing the length after seeing which lengths pass is the R2 event refused here in advance.",
     "D-MPE12-05_as_registered_before_the_ruling": "How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibration measured that the pre-registered 10x threshold is crossed at 5 generated tokens on operation count and at 9 on MACs, and is NOT reached on wall-clock at any registered length (a factor of 5.8 at nine tokens, and under 2.0 at one). The plan says 'at least ten times cheaper per association than inference' and never fixes the association's length, so the verdict is a property of an unstated definition rather than of weight-reading. Raised by the measurement, not by reading ahead -- see experiments/MP-E12/results/probes_synthetic_calibration.json calibration_findings.1."
   },
@@ -1953,6 +2001,61 @@
     "recorded_by": "agent, in the working set that received it",
     "ruled_at": "2026-08-10",
     "ruled_by": "PI"
+  },
+  "pi_rulings_2026_11_05_BR": {
+    "block_shape_note": "items are keyed by container.decision-id so the stale-status guard's ruled_ids() can read this batch; a list here would make the batch invisible to the guard that exists to catch stale OPEN text",
+    "history_preserved_by": "keys named *_as_registered_before_the_ruling, which the stale-status guard recognises as preserved history",
+    "ingested_under": "STEP 2 of the PI's v1.2 order, 2026-11-05",
+    "ingested_utc": "2026-11-05T12:39:52Z",
+    "items_ingested_into_this_ledger": {
+      "open_decisions.D-MPE12-01": {
+        "br_line": 409,
+        "decision_id": "D-MPE12-01",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5.",
+        "scope": "NOT ruled by B.R: whether the synthetic donor's sealed operation-count log already satisfies B.6 item 1. The ruling reaches the instrument requirement going forward, not the adequacy of the sealed synthetic log.",
+        "status_after": "RULED IN PART 2026-11-05 by B.R item 11: E12a proceeds on GPT-2 124M now, and the address space and access journal are registered as instruments (R10) before the first extraction."
+      },
+      "open_decisions.D-MPE12-02": {
+        "br_line": 409,
+        "decision_id": "D-MPE12-02",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5.",
+        "scope": "Left OPEN deliberately: marking this ruled would be exactly the 'beyond what B.R actually says' error.",
+        "status_after": "OPEN -- not reached by B.R item 11. The ruling text at v1.2:409 does not address how the energy estimate is produced, and v1.2:224's registration pins name residency ceiling, disk budget, access-class latency budgets and the license record, but no energy instrument."
+      },
+      "open_decisions.D-MPE12-03": {
+        "br_line": 409,
+        "decision_id": "D-MPE12-03",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5.",
+        "scope": "NOT ruled by B.R: which tokens, how many, chosen how. The sequencing is decided; the contents are not.",
+        "status_after": "RULED IN PART 2026-11-05 by B.R item 11: the donor is named (GPT-2 124M) and the instruments are registered before the first extraction, so the probe list must be fixed in that registration and cannot be chosen after the weights arrive."
+      },
+      "open_decisions.D-MPE12-04": {
+        "br_line": 409,
+        "decision_id": "D-MPE12-04",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5.",
+        "scope": "Left OPEN deliberately.",
+        "status_after": "OPEN -- not reached by B.R item 11. Nothing in v1.2:409 rules whether MP-E12b may be built against the synthetic graph before the real graph exists; v1.2:222 describes stage b but does not decide this question."
+      }
+    },
+    "ruling_source": {
+      "ingest_rule": "each ruling is quoted verbatim from the plan line named; no ruling is paraphrased into ledger prose, and no item is marked ruled beyond what its B.R line says",
+      "ordering_instruction_verbatim": "Rule in this order; each item names the ruling this plan recommends, all of them dated amendments under R16 \u2014 never edits to sealed lists.",
+      "path": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+      "plan_date": "2026-11-05",
+      "section": "B.R The 2026-11 Ruling Batch (PI, one sitting, zero machine time)",
+      "section_lines": "396-409",
+      "sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711"
+    },
+    "status_transitions": [
+      "open_decisions.D-MPE12-01 -> string -> dict promotion",
+      "open_decisions.D-MPE12-02 -> string -> dict promotion",
+      "open_decisions.D-MPE12-03 -> string -> dict promotion",
+      "open_decisions.D-MPE12-04 -> string -> dict promotion"
+    ]
   },
   "plan_of_record_v1_2_2026_11_05": {
     "added_under": "STEP 0 of the PI's v1.2 order, 2026-11-05",

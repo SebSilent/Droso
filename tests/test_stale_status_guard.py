@@ -35,7 +35,12 @@ HISTORY_KEY_RE = re.compile(
 OPEN_RE = re.compile(r"\b(OPEN|unconfirmed|still open)\b", re.I)
 RULED_RE = re.compile(r"\b(RULED|ruled)\b")
 
-RULING_BLOCKS = ("pi_rulings", "pi_rulings_2026_08_10", "pi_decisions")
+# A new ruling batch is invisible to this guard until its block name is registered here -- the tuple is the
+# registry, not a filter that can be loosened. v1.2 B.R (experiments/MP-E9/plan_extract/
+# DROSO_Master_Plan_v1_2.md:396-409, ingested 2026-11-05) is added so the batch it rules is enforced, and
+# MP-E9/MP-E12 store their decisions under lowercase `open_decisions_for_pi` / `open_decisions`, which the
+# path regex below did not cover; widening it makes those two ledgers checkable for the first time.
+RULING_BLOCKS = ("pi_rulings", "pi_rulings_2026_08_10", "pi_rulings_2026_11_05_BR", "pi_decisions")
 
 
 def ruled_ids(node, path=""):

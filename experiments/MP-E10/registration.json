@@ -2202,7 +2202,18 @@
     "D-MPE10-02_name_the_fluency_scalar_as_registered_before_the_ruling": "OPEN as of 2026-11-04, stated as open. H2 says 'fluency improves' without a measure. Name the scalar.",
     "D-MPE10-03_confirm_primary_routing_variant": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-03']. Variant (ii) carve/allowed_pools stays primary as the plan designates it; variant (i) is registered as the ablation that measures what re-weighting alone would have given; the compound option is rejected outright. Basis: docs/mp_e10_g3_decision_brief.md.",
     "D-MPE10-04_interference_margin": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-04']. The margin is 2.0 pp, DERIVED (clone noise 0.2996 pp; 0 regressions in 159 tier-40 exposures; rule-of-three bound 1.887 pp), with three conditions attached. The 5.0 pp figure registered here before the ruling is SUPERSEDED, not deleted -- see the sibling key. Basis: docs/mp_e10_g3_decision_brief.md.",
-    "D-MPE10-05_G2_is_not_closed": "STILL OPEN as of 2026-08-10, and now disambiguated. This is the G2-ORDERING question (may MP-E10 run before G2 closes) and the PI has not ruled it. It is a DIFFERENT question from D-MPE10-05_replay_write_path, which WAS ruled on 2026-08-10 (pi_rulings_2026_08_10['D-MPE10-05'], option B). Two questions have been carried under one number in this ledger; that collision is recorded in identifier_collision_recorded rather than silently merged.",
+    "D-MPE10-05_G2_is_not_closed": {
+      "entry_was_a_bare_string_before_this_ruling": true,
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:402",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "3. **D-MPE10-05_G2_is_not_closed** (whether MP-E10 may run again). Rule yes, under the re-registration of item 1."
+      },
+      "question_as_registered_before_the_ruling": "STILL OPEN as of 2026-08-10, and now disambiguated. This is the G2-ORDERING question (may MP-E10 run before G2 closes) and the PI has not ruled it. It is a DIFFERENT question from D-MPE10-05_replay_write_path, which WAS ruled on 2026-08-10 (pi_rulings_2026_08_10['D-MPE10-05'], option B). Two questions have been carried under one number in this ledger; that collision is recorded in identifier_collision_recorded rather than silently merged.",
+      "status": "RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1."
+    },
     "D-MPE10-06_k_does_not_bound_the_fast_weight_store": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-06_k_and_the_fast_weight_store. Not a defect: the plan describes two objects and the module implements two objects. k bounds the activation trace only; ||w||_F against tokens pushed is reported as its own quantity in every artifact. Organ not edited. Original text kept: The registered k is the capacity of a working memory, but the organ's associative state w accumulates every adjacent pair until clear() and its norm is identical at k=2, k=8 and k=22. Either k is meant to bound only the activation trace -- in which case H1/H2's 'capacity k' needs restating -- or the organ must decay/trim w with the window. This is a design decision, not a tolerance, and it is a candidate additional blocker on scoring H1/H2 alongside D-MPE10-01/02.",
     "D-MPE10-07_k1_in_the_registered_grid_measures_self_links": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-07_k_equals_1. k=1 excluded from the SCORED grid by AMD-MPE10-01, not deleted; diagonal mass still printed; the module's 'excluded by construction' claim corrected as a docstring-only edit. Original text kept: push() reads prev as a numpy view of ring[(head-1) % k] and then writes ring[head]; at k=1 those are the same slot, so the recorded 'pair' is outer(v_i, v_i). Measured: diagonal mass 3.679 at k=1 against -0.039 (i.e. zero) at every other k. The grid's baseline point is therefore a different object from the rest of the grid. Options: drop k=1 from the grid, or copy prev before the write. Registered as an instrument defect, not fixed unilaterally.",
     "D-MPE10-08_predecessor_or_successor_links": "RULED 2026-11-04 by PI -- see pi_decisions.rulings.D-MPE10-08_read_direction. Organ not transposed; every artifact must name the direction it read; a successor map would be a registered organ change with its own design step. Original text kept: outer(post, pre) means probing the later token recovers the earlier one (cosine 0.982) and probing the earlier does not recover the later (0.056). A working memory feeding next-token behaviour needs the other transpose. The registration does not say which direction H1/H2 assume; settling it before any scored run is cheaper than discovering it in a curve.",
@@ -2213,9 +2224,17 @@
       "brief_reference": "docs/mp_e10_pi_decision_brief_consolidated.md:127",
       "consequence_if_neither": "H3's clause at tier 300 keeps an unmeasured floor. The interference interval, the ceiling guard and the row attribution are now measured, but R6's 'the guarded invariants are the floor; regression is a hard reject' has no tier-300 reading, and the write-up must say so in the same sentence as the 0.00 pp.",
       "measured": "experiments/MP-E10/results/tier300_named_measurements_closure.json",
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:403",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "4. **D-MPE10-09** (R6 at tier 300). Rule route 2 out (it breaks `curriculum_sha256`); the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve."
+      },
       "route_1": "give run_generation a curriculum input so tier-300 material can be taught through the selection pipeline and the battery graded on the resulting journal. New pipeline input.",
       "route_2": "add the four probes to the tier-300 curriculum manifest. Changes curriculum_sha256, the identity every sealed tier-300 artifact is keyed to, breaking the comparison the verdict is computed against.",
-      "status": "OPEN -- a design step for the PI, not an implementation choice for the agent",
+      "status": "RULED 2026-11-05 by B.R item 4: route 2 is ruled out because it breaks `curriculum_sha256`; the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve.",
+      "status_as_registered_before_the_ruling": "OPEN -- a design step for the PI, not an implementation choice for the agent",
       "the_fact": "the four R6 guarded probes cannot be scored on the tier-300 run by any instrument on this machine. They are turns inside selection scripts (tools/scripts_selection.json), graded only by tools/mp_e9_battery.py from a run_generation journal. The tier-300 run is the learn bench: its rows carry no probe field and no pass field, it writes no journal, its curriculum contains none of the four asks, and run_generation's --tier means frozen/probe/open -- a battery axis, not a curriculum axis."
     },
     "D-MPE10-10_which_phase_is_h3s_registered_basis": {
@@ -2229,7 +2248,16 @@
         "2": "register `live` and state that H3's retention claim is scored on the pre-restart round, which makes the word 'retention' in the hypothesis do work the measurement does not do.",
         "3": "register both as a named pair, which is the honest description of what has actually been measured, and require every quote to carry its phase label."
       },
-      "status": "OPEN -- a protocol decision about the registered quantity, not an implementation choice",
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:404",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "5. **D-MPE10-10** (H3 phase basis). Rule the phase basis fixed in the new registration before the first re-run."
+      },
+      "scope_of_this_ruling": "B.R does not NAME a basis; it rules where and when the basis is fixed. The basis itself is fixed in STEP 3's registration, chosen from the sealed saturation arithmetic already on disk, not from any new result (R2).",
+      "status": "RULED 2026-11-05 by B.R item 5: the phase basis is fixed in the new registration before the first re-run.",
+      "status_as_registered_before_the_ruling": "OPEN -- a protocol decision about the registered quantity, not an implementation choice",
       "the_fact": "H3's taught-set triple has three phase readings at tier 300 and the registration does not say which is the basis. In the replayed run they read `live` (291, 546, 785) / `restarted` (292, 548, 784) / `reasked` (283, 520, 757); the same run's three phases are three different triples. At tier 120 live and restarted are the same triple (122, 239, 347), so the protocol never had to choose.",
       "the_three_phase_triples_side_by_side": {
         "baseline_sealed_tier120": {
@@ -2352,7 +2380,16 @@
         "2": "rule tier 300 NOT admissible until the breach is understood, and spend a run on the 100 invented rows to classify them -- which shapes are involved and whether they are the distractor set speaking or the taught set.",
         "3": "re-scope tier 300's registered claims to the ones the breach cannot touch (organ-side measurements: ||w||_F, boundedness, read direction) and leave the behavioural claims at tier 120, where the floor holds."
       },
-      "status": "OPEN -- the agent does not decide admissibility of its own evidence",
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:401",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "2. **D-MPE10-11** (tier-300 admissibility). Rule tier-300 figures admissible *as capacity and instrument findings only* until the fresh-vs-fresh pair exists (R17)."
+      },
+      "scope_of_this_ruling": "The ruling is conditional and the condition is unmet: the tier-300 floor pair does not exist yet, so every tier-300 behavioural figure in this ledger is currently inadmissible as a treatment effect.",
+      "status": "RULED 2026-11-05 by B.R item 2: tier-300 figures are admissible as capacity and instrument findings only, until the fresh-vs-fresh floor pair at tier 300 exists (R17, v1.2:147).",
+      "status_as_registered_before_the_ruling": "OPEN -- the agent does not decide admissibility of its own evidence",
       "the_fact": "tier 300 breaches the invention floor in all three runs on disk, control included. The floor is the one thing this program's safety claim rests on: a house may not say a sentence nobody said. At tier 300 it does -- 100 of 9,414 graded asks (1.06%) with the flag off, 92 (0.98%) with it on, 91 (0.97%) in MP-E8's sealed baseline -- in every run, whether or not replay is on.",
       "why_it_matters": "MP-E10's tier-300 verdicts are H1/H2/H3 statements about retention and interference. If a tier cannot hold the refusal contract, evidence taken at it may not be admissible for a claim about what the house KNOWS -- and tier 300 is where the capacity headroom was supposed to be demonstrated, not where a known defect was supposed to live."
     },
@@ -2427,13 +2464,24 @@
           "option": "re-scope H3's registered tier to 120, where the guard does not fire"
         }
       },
+      "pi_ruling_2026_11_05_BR": {
+        "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:400",
+        "plan_date": "2026-11-05",
+        "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+        "quoted_verbatim_not_paraphrased": true,
+        "ruling_verbatim_from_plan": "1. **D-MPE10-12** (H3 void at its own tier). Rule option 1 as specified in \u00a76.3: new dated non-saturating replay configuration; H3 primary at tier 120; tier 300 = capacity finding; 2.0 pp margin and 0.0000 pp reading preserved under R5.",
+        "specification_referenced_by_the_ruling": {
+          "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:200": "**The ruling, specified.** D-MPE10-12 is ruled exactly as follows (Amendment D): the non-saturating replay gain is registered as a *new, dated configuration before any run* (R2, R16 mechanism); the 2.0 pp margin and the 0.0000 pp reading are preserved under R5 as history; **H3's primary tier is 120**, where the instrument is clean and the guard does not fire; **tier 300 is reported as a capacity finding** \u2014 the saturation curve \u2014 and never as an interference measurement. Companion rulings in the same batch: D-MPE10-11 (tier-300 admissibility), D-MPE10-05_G2 (whether MP-E10 may run again \u2014 ruled yes, under the re-registration), D-MPE10-09 (R6 at tier 300 \u2014 route 2 breaks `curriculum_sha256` and is therefore not a route), D-MPE10-10 (H3 phase basis)."
+        }
+      },
       "related_open_items": {
         "D-MPE10-04 condition 3": "the 2.0 pp margin applied here is derived from tier-40 noise; UNSPENT.",
         "D-MPE10-09_r6_guarded_battery_at_tier_300": "the R6 invariant cell is required and empty at tier 300; both this entry and that one mean H3's clause is incomplete there.",
         "D-MPE10-10_which_phase_is_h3s_registered_basis": "which phase triple is H3's basis is a separate unruled question; whichever way it goes, depths 2 and 3 stay void under this guard.",
         "D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run": "admissibility of tier 300 at all is unruled, and would supersede this question if ruled as inadmissible."
       },
-      "status": "OPEN -- a ruling on the registered guard, not an implementation choice. The agent does not decide whether its own pre-registered void condition may be worked around.",
+      "status": "RULED 2026-11-05 by B.R item 1. Option 1 as specified in v1.2:200: a new dated non-saturating replay configuration registered before any run; H3's primary tier is 120; tier 300 is reported as a capacity finding only and never as an interference measurement; the 2.0 pp margin and the 0.0000 pp reading are preserved under R5 as history.",
+      "status_as_registered_before_the_ruling": "OPEN -- a ruling on the registered guard, not an implementation choice. The agent does not decide whether its own pre-registered void condition may be worked around.",
       "supersedes_by_reference": {
         "sentence": "docs/mp_e10_pi_decision_brief_consolidated.md:54 -- 'This item is not yet a ledger decision entry.'",
         "status_of_that_sentence": "TRUE WHEN WRITTEN and now SUPERSEDED by this entry. The brief is a sealed artifact (in DEFAULT_MANIFEST since 9c32029) and is NOT edited: this program closes a gap by publishing beside the record that reported it and naming the reference, not by rewriting the sealed text (R5, same handling as experiments/G0-prime/decision.md).",
@@ -2491,7 +2539,19 @@
       "D-MPE10-02_name_the_fluency_scalar_as_registered_before_the_ruling": "OPEN, and it is the binding one: H2 says 'fluency improves' with no measure, so H2 cannot be scored and the gate's go_if 'H1-H4 hold' cannot be evaluated. Naming the denominator for H1 does not name a scalar for H2.",
       "D-MPE10-03_confirm_primary_routing_variant": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-03']. Variant (ii) carve/allowed_pools stays primary as the plan designates it; variant (i) is registered as the ablation that measures what re-weighting alone would have given; the compound option is rejected outright. Basis: docs/mp_e10_g3_decision_brief.md.",
       "D-MPE10-04_interference_margin": "RULED 2026-08-10 by PI -- see pi_rulings_2026_08_10['D-MPE10-04']. The margin is 2.0 pp, DERIVED (clone noise 0.2996 pp; 0 regressions in 159 tier-40 exposures; rule-of-three bound 1.887 pp), with three conditions attached. The 5.0 pp figure registered here before the ruling is SUPERSEDED, not deleted -- see the sibling key. Basis: docs/mp_e10_g3_decision_brief.md.",
-      "D-MPE10-05_G2_is_not_closed": "STILL OPEN as of 2026-08-10, and now disambiguated. This is the G2-ORDERING question (may MP-E10 run before G2 closes) and the PI has not ruled it. It is a DIFFERENT question from D-MPE10-05_replay_write_path, which WAS ruled on 2026-08-10 (pi_rulings_2026_08_10['D-MPE10-05'], option B). Two questions have been carried under one number in this ledger; that collision is recorded in identifier_collision_recorded rather than silently merged."
+      "D-MPE10-05_G2_is_not_closed": {
+        "entry_was_a_bare_string_before_this_ruling": true,
+        "pi_ruling_2026_11_05_BR": {
+          "br_item_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:402",
+          "plan_date": "2026-11-05",
+          "plan_sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711",
+          "quoted_verbatim_not_paraphrased": true,
+          "ruling_verbatim_from_plan": "3. **D-MPE10-05_G2_is_not_closed** (whether MP-E10 may run again). Rule yes, under the re-registration of item 1."
+        },
+        "question_as_registered_before_the_ruling": "STILL OPEN as of 2026-08-10, and now disambiguated. This is the G2-ORDERING question (may MP-E10 run before G2 closes) and the PI has not ruled it. It is a DIFFERENT question from D-MPE10-05_replay_write_path, which WAS ruled on 2026-08-10 (pi_rulings_2026_08_10['D-MPE10-05'], option B). Two questions have been carried under one number in this ledger; that collision is recorded in identifier_collision_recorded rather than silently merged.",
+        "scope_of_this_ruling": "Second copy of the same decision in the same file, updated so the two cannot disagree.",
+        "status": "RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1."
+      }
     },
     "how_each_ruling_was_reached": "Every ruling cites a measurement from experiments/MP-E10/results/ksweep_tier40_calibration.json or a line of the instrument it replaces a claim about. None cites a preference.",
     "on": "Four of MP-E10's eight open decisions, ruled after the tier-40 calibration sweep measured what the sealed organ does. The other four stay open below and are stated as open.",
@@ -2992,6 +3052,76 @@
       "what_option_2_is": "An episode tape so a pass can address one episode is a real and SEPARATE organ change. It is NOT a blocker on H3. It belongs to MP-E10's consolidation ambition and to MP-E12b's compiler."
     },
     "supersedes": "pi_decisions.on['D-MPE10-02'] (DEFERRED, 2026-11-04, on the ground that no fluency metric was named). The earlier record is left in place untouched -- R5, historical rows are never back-edited -- and this block is the later ruling that replaces it."
+  },
+  "pi_rulings_2026_11_05_BR": {
+    "block_shape_note": "items are keyed by container.decision-id so the stale-status guard's ruled_ids() can read this batch; a list here would make the batch invisible to the guard that exists to catch stale OPEN text",
+    "history_preserved_by": "keys named *_as_registered_before_the_ruling, which the stale-status guard recognises as preserved history",
+    "ingested_under": "STEP 2 of the PI's v1.2 order, 2026-11-05",
+    "ingested_utc": "2026-11-05T12:39:52Z",
+    "items_ingested_into_this_ledger": {
+      "open_decisions_for_PI.D-MPE10-05_G2_is_not_closed": {
+        "br_line": 402,
+        "decision_id": "D-MPE10-05_G2_is_not_closed",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "3. **D-MPE10-05_G2_is_not_closed** (whether MP-E10 may run again). Rule yes, under the re-registration of item 1.",
+        "status_after": "RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1."
+      },
+      "open_decisions_for_PI.D-MPE10-09_r6_guarded_battery_at_tier_300": {
+        "br_line": 403,
+        "decision_id": "D-MPE10-09_r6_guarded_battery_at_tier_300",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "4. **D-MPE10-09** (R6 at tier 300). Rule route 2 out (it breaks `curriculum_sha256`); the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve.",
+        "status_after": "RULED 2026-11-05 by B.R item 4: route 2 is ruled out because it breaks `curriculum_sha256`; the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve."
+      },
+      "open_decisions_for_PI.D-MPE10-10_which_phase_is_h3s_registered_basis": {
+        "br_line": 404,
+        "decision_id": "D-MPE10-10_which_phase_is_h3s_registered_basis",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "5. **D-MPE10-10** (H3 phase basis). Rule the phase basis fixed in the new registration before the first re-run.",
+        "scope": "B.R does not NAME a basis; it rules where and when the basis is fixed. The basis itself is fixed in STEP 3's registration, chosen from the sealed saturation arithmetic already on disk, not from any new result (R2).",
+        "status_after": "RULED 2026-11-05 by B.R item 5: the phase basis is fixed in the new registration before the first re-run."
+      },
+      "open_decisions_for_PI.D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run": {
+        "br_line": 401,
+        "decision_id": "D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "2. **D-MPE10-11** (tier-300 admissibility). Rule tier-300 figures admissible *as capacity and instrument findings only* until the fresh-vs-fresh pair exists (R17).",
+        "scope": "The ruling is conditional and the condition is unmet: the tier-300 floor pair does not exist yet, so every tier-300 behavioural figure in this ledger is currently inadmissible as a treatment effect.",
+        "status_after": "RULED 2026-11-05 by B.R item 2: tier-300 figures are admissible as capacity and instrument findings only, until the fresh-vs-fresh floor pair at tier 300 exists (R17, v1.2:147)."
+      },
+      "open_decisions_for_PI.D-MPE10-12_h3_saturation_guard_voids_its_own_tier": {
+        "br_line": 400,
+        "decision_id": "D-MPE10-12_h3_saturation_guard_voids_its_own_tier",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "1. **D-MPE10-12** (H3 void at its own tier). Rule option 1 as specified in \u00a76.3: new dated non-saturating replay configuration; H3 primary at tier 120; tier 300 = capacity finding; 2.0 pp margin and 0.0000 pp reading preserved under R5.",
+        "status_after": "RULED 2026-11-05 by B.R item 1. Option 1 as specified in v1.2:200: a new dated non-saturating replay configuration registered before any run; H3's primary tier is 120; tier 300 is reported as a capacity finding only and never as an interference measurement; the 2.0 pp margin and the 0.0000 pp reading are preserved under R5 as history."
+      },
+      "pi_decisions.decisions_left_open.D-MPE10-05_G2_is_not_closed": {
+        "br_line": 402,
+        "decision_id": "D-MPE10-05_G2_is_not_closed",
+        "plan_date": "2026-11-05",
+        "ruling_verbatim_from_plan": "3. **D-MPE10-05_G2_is_not_closed** (whether MP-E10 may run again). Rule yes, under the re-registration of item 1.",
+        "scope": "Second copy of the same decision in the same file, updated so the two cannot disagree.",
+        "status_after": "RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1."
+      }
+    },
+    "ruling_source": {
+      "ingest_rule": "each ruling is quoted verbatim from the plan line named; no ruling is paraphrased into ledger prose, and no item is marked ruled beyond what its B.R line says",
+      "ordering_instruction_verbatim": "Rule in this order; each item names the ruling this plan recommends, all of them dated amendments under R16 \u2014 never edits to sealed lists.",
+      "path": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+      "plan_date": "2026-11-05",
+      "section": "B.R The 2026-11 Ruling Batch (PI, one sitting, zero machine time)",
+      "section_lines": "396-409",
+      "sha256_lf": "b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711"
+    },
+    "status_transitions": [
+      "open_decisions_for_PI.D-MPE10-12_h3_saturation_guard_voids_its_own_tier -> dict: status field set",
+      "open_decisions_for_PI.D-MPE10-11_tier300_breaches_the_invention_floor_in_every_run -> dict: status field set",
+      "open_decisions_for_PI.D-MPE10-05_G2_is_not_closed -> string -> dict promotion",
+      "pi_decisions.decisions_left_open.D-MPE10-05_G2_is_not_closed -> string -> dict promotion",
+      "open_decisions_for_PI.D-MPE10-09_r6_guarded_battery_at_tier_300 -> dict: status field set",
+      "open_decisions_for_PI.D-MPE10-10_which_phase_is_h3s_registered_basis -> dict: status field set"
+    ]
   },
   "plan_of_record_v1_2_2026_11_05": {
     "added_under": "STEP 0 of the PI's v1.2 order, 2026-11-05",
