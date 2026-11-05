@@ -2324,7 +2324,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "07119c9d6b5066d3a099f509b1c188c018090af7",
+    "git_head": "a582ba8f7e4e4384c764c1fdffffde6c6b912d9a",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -2351,7 +2351,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T21:22:22Z",
+    "sealed_at_utc": "2026-11-05T22:10:04Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -3055,6 +3055,83 @@
     }
   },
   "pi_queue_2026_11_05": {
+    "items_added_2026_11_05_three_process_audit_decisions": {
+      "added_at_utc": "2026-11-05T22:11:24Z",
+      "authority": "PI order 2026-11-05: number the three questions the process audit raised so the index does not understate itself for the fourth time",
+      "entries": [
+        {
+          "key": "D-MPE12-10",
+          "title": "Where the process audit runs: house entry path, answer path enumerated from the tree, or report-only.",
+          "ledger": "MP-E12",
+          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-10",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
+          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
+          "has_status_field": true,
+          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
+          "status_read_from": {
+            "pointer": "experiments/MP-E12/registration.json:5450",
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\","
+          },
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
+          "agent_chose_no_option": true
+        },
+        {
+          "key": "D-MPE12-11",
+          "title": "Whether Droso's own generate() counts as an act under R11.",
+          "ledger": "MP-E12",
+          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-11",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
+          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
+          "has_status_field": true,
+          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
+          "status_read_from": {
+            "pointer": "experiments/MP-E12/registration.json:5484",
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\","
+          },
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
+          "agent_chose_no_option": true
+        },
+        {
+          "key": "D-MPE12-12",
+          "title": "Whose registry the audit's entry list is: evidence, configuration, or no list at all.",
+          "ledger": "MP-E12",
+          "block": "three_process_audit_decisions_2026_11_05.D-MPE12-12",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the process audit; these three ids did not exist when it was written",
+          "form": "dict (a decision block with measured state, options, and consequence if unruled)",
+          "has_status_field": true,
+          "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
+          "status_read_from": {
+            "pointer": "experiments/MP-E12/registration.json:5516",
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\","
+          },
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE12-01..09 occupied, 10/11/12 free, AMD-MPE12 namespace empty",
+          "agent_chose_no_option": true
+        }
+      ],
+      "n_items": 3,
+      "counting_rule_for_the_three": "These ARE decision blocks in the owning ledger, unlike the addition before them: each carries an assigned identifier, a status field, measured state, options and a consequence if unruled. They are indexed here and not duplicated into open_decision_entries, which would give the queue two records of one decision.",
+      "measured_state_that_motivates_them": {
+        "files_importing_the_organ": 66,
+        "audited_entries_handed_to_the_tool": 10,
+        "organ_importers_reachable_from_no_audited_process": 62,
+        "named_unaudited_entry_points": [
+          "tools/electric_chat.py",
+          "tools/run_generation.py"
+        ],
+        "the_audit_is_sealed_but_never_invoked": {
+          "claim": "tools/registration_seal.py:1000 calls _pca_gate and nothing calls the process audit",
+          "pointer": "tools/registration_seal.py:1000",
+          "line_reads": "n_bad, bad = _pca_gate(_pca, p)"
+        }
+      },
+      "what_this_addition_does_not_do": "It rules nothing, closes nothing, repairs no seam, adds no capability, raises no cap and runs nothing. It does not rewrite the counts block.",
+      "counts_did_not_move_2026_11_05": {
+        "as_published": "counts.entries_in_open_decision_blocks 34, with_a_status_field 11",
+        "measured_now": "34 and 11 -- unchanged by this addition",
+        "referent_of_each_published_number": "all four reproduce from the queue's own index list: 34 entries, 11 with has_status_field true, 18 bare strings, 5 dicts without a status. They are NOT a fresh scan of the ledgers' open-decision blocks, which measures 20 entries at top level.",
+        "why_they_did_not_move": "the counts block indexes ONE list, open_decision_entries. These three went into a fourth list, so the published numbers do not move while the queue now indexes 44 items and its own counts field says 34. That is the fourth understatement, recorded rather than silently corrected."
+      }
+    },
     "agent_side_queue_empty_2026_11_05": {
       "as_measured": "2026-11-05, from experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md and the five ledgers. Nothing here is a plan: it is a list of what each remaining step is blocked on.",
       "coordinates_of_this_note_after_the_write": {
