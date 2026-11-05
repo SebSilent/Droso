@@ -5263,5 +5263,94 @@
     "what_this_note_does_not_do": "It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.",
     "which_account_is_the_record": "THIS ledger, for the gate's state. The plan extract is sealed and stays unedited; the correction is a dated note pointing at experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164, the same handling as the brief's line 54, the v1.2:126 queue sentence and the 802.51 s figure. The plan remains the record of INTENT; the owning ledger is the record of STATE; this note is what says so, because two unlabelled accounts of one gate is the failure mode, not the fix.",
     "written_by": "B.6 item 3, on the PI's instruction, after the discrepancy was reported rather than silently harmonised"
+  },
+  "c4_reconciliation_2026_11_05": {
+    "registered_at_utc": "2026-11-05T21:50:33Z",
+    "why_this_block_exists": "The landing report was reconciled against the files before anything else, on the PI's instruction. Three of the premises put to me did not survive that read-back, so this block records the MEASURED state rather than the asserted one -- 'as measured' being the operative phrase in the instruction.",
+    "premise_1_anchor_split_not_confirmed": {
+      "claim_put_to_me": "MP-E8:2623, MP-E12:3957 and G0-prime:2330 read 07119c9d6b50 while MP-E10:2300 reads 10732cd0e296, so the five ledgers may sit on different anchors.",
+      "measured": "All five live seal blocks read the SAME anchor 07119c9d6b5066d3a099f509b1c188c018090af7, the same git_dirty_sealed [], and the same 245-entry file manifest.",
+      "as_read_from": [
+        {"pointer": "experiments/G0-prime/registration.json:2330", "line_reads": "\"git_head\": \"07119c9d6b5066d3a099f509b1c188c018090af7\","},
+        {"pointer": "experiments/MP-E8/registration.json:2623", "line_reads": "\"git_head\": \"07119c9d6b5066d3a099f509b1c188c018090af7\","},
+        {"pointer": "experiments/MP-E9/registration.json:2263", "line_reads": "\"git_head\": \"07119c9d6b5066d3a099f509b1c188c018090af7\","},
+        {"pointer": "experiments/MP-E10/registration.json:2327", "line_reads": "\"git_head\": \"07119c9d6b5066d3a099f509b1c188c018090af7\","},
+        {"pointer": "experiments/MP-E12/registration.json:3957", "line_reads": "\"git_head\": \"07119c9d6b5066d3a099f509b1c188c018090af7\","}
+      ],
+      "what_mp_e10_2300_actually_is": "Not a seal field. It is one entry inside harness_hashes.files -- the line holds \"bytes_worktree\": 74001 for a sealed artifact. The live seal for MP-E10 is at 2327.",
+      "the_field_that_proves_which_block_is_live": "The live seal is the unique object at JSON path $.harness_hashes carrying git_head, git_dirty_sealed, sealed_at_utc and files together. Every other git_head in a ledger sits at a different path and is a sibling of measurement content: $.registered_at (G0-prime:2871, MP-E9:2891), $.open_suite.measured (MP-E10:2979), $.registration_amendments[6].the_covering_run_as_measured (MP-E10:5159), $.registration_amendments[16].measured (MP-E8:4917, :4936). One block is genuinely treacherous: $.pointer_coordinates_after_the_restamp_2026_11_05 (MP-E12:4609, anchor e32510f5a0d0, n_sealed 216) carries ALL THREE seal siblings, so the field set alone does not discriminate -- the JSON path does. That is a superseded seal record, and it is the kind of block a reader can mistake for the live one.",
+      "re_stamp": "NOT performed. The condition attached to it ('if they are split') is not met, and it would have been unnecessary anyway: registrations are excluded from every manifest, so a ledger edit invalidates no seal."
+    },
+    "premise_2_418d917_and_244_not_found_anywhere": {
+      "measured": "Neither string occurs in any tracked file. The landing report said anchor 07119c9d6b50 and 245 sealed files; the count read back now is 245 in all five ledgers. 418d917 and 244 are not values this project has ever held, so there is no block to reconcile them against."
+    },
+    "refs_as_read": {
+      "method": "read from .git/HEAD, .git/refs/heads/main and .git/refs/remotes/origin/main as files, then cross-checked against git show-ref",
+      "HEAD": "b3a016d62a8bdf0eaa1bd125be3a52954414845b",
+      "refs_heads_main": "b3a016d62a8bdf0eaa1bd125be3a52954414845b",
+      "refs_remotes_origin_main": "b3a016d62a8bdf0eaa1bd125be3a52954414845b",
+      "equal": true,
+      "why_the_anchor_is_not_the_landing_commit": "The seal anchor is 07119c9d6, the PARENT of the landing commit b3a016d, by design rather than accident: the tool, tests and artifact are committed first so the stamp can resolve them against HEAD, and only then are the ledgers committed. One commit cannot be both the anchor and the holder of its own seal."
+    },
+    "test_state_as_measured_now": {
+      "the_audit_own_file": "tests/test_mp_e12_process_audit.py -- 16 passed",
+      "mp_e12_plus_prose_cluster": "138 passed, 1346 deselected",
+      "full_suite": "1 failed, 1477 passed, 4 skipped, 2 xfailed in 975.81s",
+      "the_one_failure": {
+        "test": "test_no_registration_seals_another_registration",
+        "where": "tests/test_g0_prime_instruments.py:201",
+        "assertion_that_fails": "assert not cross, f\"{reg.relative_to(ROOT)} seals another registration: {cross}\"",
+        "message": "experiments\\G0-prime\\registration.json seals another registration: ['experiments/MP-E12/results/real_run_preregistration.json']",
+        "why_it_is_a_false_positive": "The filter is f.endswith(\"registration.json\"). real_run_prereGISTRATION.json ends in that substring, so an EVIDENCE artifact is read as a registration ledger. The manifest entry that trips it is tools/registration_seal.py:593.",
+        "attribution": "Introduced at 18f1a8b, when that artifact entered DEFAULT_MANIFEST. Already failing at 7bb6226, so it predates the C4 audit and this turn's stamp entirely. It is not an R11 failure and no R11 assertion fails.",
+        "not_repaired": "Per instruction. Either narrowing the filter or moving the artifact changes a sealed file and re-opens the anchor question."
+      },
+      "no_r11_test_fails": "The instruction expected a failing R11 assertion findable from the report alone. The measured state contains none; the only failure is the seal-hygiene false positive above."
+    },
+    "the_audit_first_verdict_is_exposure_not_fail": {
+      "claim_put_to_me": "Register that the audit's first verdict is FAIL.",
+      "measured": "audit_verdict is EXPOSURE: breach 0, exposure 1, clear 9, over 10 processes. The CLI exits 0.",
+      "verdict_field": {"pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:393", "line_reads": "\"audit_verdict\": \"EXPOSURE\""},
+      "breach_count": {"pointer": "experiments/MP-E12/results/c4_process_audit_v1.json:358", "line_reads": "\"breach\": 0,"},
+      "why_no_FAIL_exists_in_the_vocabulary": "FAIL was the name in the first draft, before the capability/act split. That draft did emit a failure -- on tools/electric_learn_bench.py, for reading get_num_threads() -- and the false positive was removed BEFORE the file was committed, so FAIL never reached the shipped vocabulary or the sealed artifact. Registering 'the first verdict is FAIL' would put a state in the record that the sealed artifact contradicts on its face, so the measured verdict is registered instead and the disagreement is left visible here."
+    },
+    "seam_A_run_house_reaching_the_organ": {
+      "measured": "CONFIRMED. run_house.py imports the connectome house, the closure reaches organs/neural_language.py across 55 modules, answer_path_reached is true and the verdict is CLEAR.",
+      "the_edge": {"pointer": "run_house.py:27", "line_reads": "from world.connectome_house import (CAPABILITIES, ConnectomeHouse,"},
+      "predates_any_donor_work": true,
+      "what_CLEAR_means_here": "Reaching the organ is not a breach. R11's predicate is a conjunction and the second half -- a donor-executing act -- is absent, so CLEAR is the correct verdict, not a pass by omission."
+    },
+    "seam_B_the_named_file_is_absent_and_the_real_one_is_this": {
+      "claim_put_to_me": "_audit_answerable.py:46 calling generate(), a Droso mouth, not a donor.",
+      "measured_absence": "No file named _audit_answerable.py exists in the project in any form and the string occurs nowhere. The nearest real names are tools/book_qa_learn_audit.py and tools/book_qa_store_audit.py; neither calls generate() -- book_qa_learn_audit.py:176 calls org.answer(). Both are also outside the audit's registry, so if the seam was meant to be one of them, it is currently unmeasured rather than measured clean.",
+      "the_real_mouth": {
+        "definition": {"pointer": "organs/sequence_organ.py:318", "line_reads": "def generate(self, first_word: str, max_len: int = 8,"},
+        "called_from_inside_the_answer_path": {"pointer": "organs/neural_language.py:6270", "line_reads": "gen = self.sequence.generate(seed, max_len=int(max_words),"},
+        "also_called_at": "organs/neural_language.py:1641 and :5417. This is how Droso speaks; it is not the donor."
+      },
+      "how_the_audit_classifies_it_today": "NOT as an act. exec_calls is empty for both files, measured directly rather than inferred, so the mouth inside speak_sentence does not fire BREACH on the deployment loop.",
+      "the_actual_seam_is_a_fragility": "It is empty only because EXEC_DIRECTIONS is gated on node.imports_runtime, and 'generate' is in that list. So the moment anyone adds torch to the organ for any reason whatsoever, Droso's own mouth becomes a 'donor execution act' and run_house.py flips to BREACH -- for a reason that has nothing to do with the donor. The classification is hostage to an unrelated import.",
+      "the_gate_line": {"pointer": "tools/mp_e12_process_audit.py:65", "line_reads": "EXEC_DIRECTIONS = (\"forward\", \"generate\", \"sample\", \"autoregress\", \"inference\", \"__call__\", \"step\", \"predict\")"},
+      "predates_any_donor_work": true,
+      "not_repaired": "Per instruction."
+    },
+    "coverage_is_narrower_than_the_answer_path": {
+      "measured": "66 tracked files import the organ. The audit was handed 10 entries by hand. 62 of the 66 are reachable from no audited process.",
+      "the_ones_that_matter": ["tools/electric_chat.py", "tools/run_generation.py", "tools/book_qa_learn_audit.py", "tools/book_qa_store_audit.py", "tools/teach_episode.py", "tools/mp_e8_curriculum.py", "tools/fly_v2.py", "tools/word_provenance.py"],
+      "why_this_matters": "electric_chat.py and run_generation.py are conversational entry points and arguably sit closer to 'the deployment loop' than run_house.py does; the audit has never looked at either. So what the audit demonstrates is that the ten processes it was told about are clean -- not that the answer path is clean.",
+      "not_repaired": "Per instruction. Adding entries is a scope decision, not a defect fix."
+    },
+    "it_is_a_record_not_a_gate": {
+      "measured": "The stamp's only enforcement hook is the prose-coordinate gate; tools/registration_seal.py:1000 calls _pca_gate and nothing anywhere calls the process audit. It is sealed as a FILE and never invoked by a write path.",
+      "the_only_gate_call": {"pointer": "tools/registration_seal.py:1000", "line_reads": "n_bad, bad = _pca_gate(_pca, p)"},
+      "what_the_PI_would_have_to_decide_for_it_to_become_a_gate": [
+        "WHERE IT RUNS. (a) On the house entry path only -- cheap, and the only reading of 'deployment loop' that names a single real file. (b) On the answer path as a whole -- which requires enumerating entries FROM THE TREE instead of accepting a typed list, since today's enumeration misses 62 of 66 organ-importers. (c) As a report, which is what it is now: honest, but it stops nothing.",
+        "WHAT COUNTS AS AN ACT. Whether Droso's own sequence_organ.generate() is a donor execution. If it is, the deployment loop is in breach today and R11 was never satisfiable as written; if it is not, the runtime gate has to be replaced by something that tells a mouth from a donor without waiting for an unrelated import to decide for it.",
+        "WHOSE REGISTRY THE ENTRY LIST IS. Evidence -- sealed, reviewed, its omissions visible -- or configuration anyone may edit. A gate whose input is a hand-typed list can be satisfied by omission, which is the same defect that let the deployment loop's real chat entry points go unaudited."
+      ],
+      "the_agent_is_not_choosing": "None of the three is decided here. Each changes what a future PASS would mean, and that is the PI's call, not the agent's."
+    },
+    "what_was_not_done": "No new tooling. No run against the donor: the only executions were the audit's static AST walk and pytest. No citation repaired. No re-stamp. No cap raised. No clock started. D-MPE12-09, D-MPE12-04, D-MPE12-02, the gather-accounting ruling and the pool/clustering limitation remain open and unexercised.",
+    "written_by": "agent, reconciling its own landing report against the files on the PI's instruction"
   }
 }
