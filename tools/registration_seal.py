@@ -520,6 +520,15 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
     "experiments/MP-E9/plan_extract/PROVENANCE_v1_2.json",
     "tools/promote_plan_extract_v1_2.py",
+# STEP 3, registered before use: the A10 resource ledger. v1.2:304 records that peak RSS, the VRAM assertion
+# and cost per retained item had NEVER been measured on a registered run, and v1.2:390 makes a run without A10
+# data fail its gate from v1.2 onward -- so the instrument is sealed, and the wiring that changes the bench's
+# bytes is sealed with it. The amended harness is 47f05c9c against the 5cf038c2 that produced the sealed
+# tier-300 figures; under R17 that means a floor measured after this point bounds claims made after it, and
+# does not retroactively bound the figures made on the older bytes. That consequence is registered in
+# re_registration_2026_11_05_v1_2_BR_item1.a10_resource_ledger rather than left for a reader to discover.
+    "tools/mp_e10_resource_ledger.py",
+    "tests/test_mp_e10_resource_ledger.py",
 ]
 
 

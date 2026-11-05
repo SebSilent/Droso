@@ -698,6 +698,18 @@ def mechanism(row, store_keys):
 REPLAY_REQUESTED = bool(REPLAY_REQUESTED_AT_MAIN)
 REPLAY_PASSES = None          # None -> the organ's registered REPLAY_PASSES_PER_TIER (2)
 
+# A10, the resource ledger. Registered before it was used (experiments/MP-E10/registration.json ->
+# re_registration_2026_11_05_v1_2_BR_item1.a10_resource_ledger), because v1.2:304 records that peak RSS, the
+# VRAM assertion and cost per retained item had never been measured on a registered run, and v1.2:390 makes a
+# missing A10 dataset fail a gate from v1.2 onward. Phase boundaries are marked when they happen; a phase with
+# no sample in its window reports null rather than an interpolated number.
+try:
+    from mp_e10_resource_ledger import ResourceLedger as _ResourceLedger
+except Exception as _exc:  # the bench must still run if the instrument is unavailable, but it says so
+    _ResourceLedger = None
+    _LEDGER_IMPORT_ERROR = f"{type(_exc).__name__}: {_exc}"
+LEDGER = _ResourceLedger() if _ResourceLedger is not None else None
+
 
 def run_arm(mode, depths):
     """One arm, every depth, in a fresh house each time. Returns {depth: {phase: rows}} plus the
@@ -711,11 +723,15 @@ def run_arm(mode, depths):
             if p.exists():
                 shutil.rmtree(p, ignore_errors=True)
         (root / "state").mkdir(parents=True, exist_ok=True)
+        if LEDGER is not None:
+            LEDGER.mark(f"{mode}-d{depth}:teach")
         lang = boot(tag, mode, root)
         teach(lang, depth)
         # SAVE FIRST. Everything the live probe round writes after this line stays in RAM, so the
         # restarted house loads the taught state with no question rows in it.
         sv = lang.save_state(force=True)
+        if LEDGER is not None:
+            LEDGER.mark(f"{mode}-d{depth}:live")
         live = probe(lang, depth)
         sdir = TMP / "sess" / tag
         for f in sdir.iterdir():
@@ -740,11 +756,17 @@ def run_arm(mode, depths):
                 raise SystemExit(f"--replay: the house at {tag} carries no replay entry on its sequence "
                                  f"organ (sequence={seq!r}); refusing to report a replay run that replayed "
                                  f"nothing")
+            if LEDGER is not None:
+                LEDGER.mark(f"{mode}-d{depth}:replay")
             replay_report = seq.replay_tier(passes=REPLAY_PASSES)
             if replay_report["void_for_H3"]:
                 print(f"  [{mode:7}] depth {depth}: REPLAY CEILING-LIMITED -> void for H3 "
                       f"({replay_report['reason_void']})", flush=True)
+        if LEDGER is not None:
+            LEDGER.mark(f"{mode}-d{depth}:restarted")
         restarted = probe(lang2, depth)     # clean: never asked anything
+        if LEDGER is not None:
+            LEDGER.mark(f"{mode}-d{depth}:reasked")
         reasked = probe(lang2, depth)       # same house, second pass, its own rows now in the pool
         # THE TEACHING CHANNEL, counted separately from the answering channel. A pair that never
         # reaches the store was not forgotten by a restart -- it was never learned, and no widening
@@ -1166,6 +1188,15 @@ def main():
                summary={m: {str(d): s for d, s in sum_.items()} for m, sum_ in summary.items()},
                failures=fails,
                provenance=seals(args))
+    # A10 goes in after `out` is built, because the retained-item counts come from the graded rows in the
+    # artifact itself. When the instrument could not load, the artifact says which and why instead of
+    # silently omitting the axis.
+    out["resource_ledger_a10"] = (LEDGER.finish(out["arms"]) if LEDGER is not None else
+                                 {"available": False,
+                                  "reason": (_LEDGER_IMPORT_ERROR if "_LEDGER_IMPORT_ERROR" in globals()
+                                             else "instrument not importable"),
+                                  "consequence": "A10 not measured on this run; v1.2:390 makes a missing A10 "
+                                                 "dataset fail the gate rather than pass on the other axes"})
     if not write:
         print("[bench] --no-write: nothing written", flush=True)
         return 1 if fails else 0
