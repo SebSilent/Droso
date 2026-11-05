@@ -634,6 +634,20 @@ DEFAULT_MANIFEST = [
 # file that decided whether a stamp was legal at any given commit.
     "tools/prose_coordinate_audit.py",
     "tests/test_prose_coordinate_audit.py",
+# THE C4 PROCESS AUDIT. WHAT IT IS: a reachability audit that asks, of an ENTRY POINT, whether the reachable set
+# contains a donor-executing act AND reaches the answer path, failing only on the conjunction -- so torch in a
+# disconnected offline arm is permitted, and the same torch one import away from the organ is not. It also joins one
+# process's WRITTEN paths to another's READ paths, because "output reaches an answer" is true of a file edge with no
+# import anywhere. WHAT IT IS NOT: it is not the import-surface test relocated -- that test stays in force untouched
+# at tests/test_mp_e12_address_space.py:49 as the weaker second check, and tests/test_mp_e12_process_audit.py proves
+# it is weaker by showing a forbidden process whose own header names no runtime module. It does not decide
+# D-MPE12-09: it states the category a benchmark falls into under R11 as written (unauthorised by the enumeration,
+# unbarred by the prohibition) and measures that no answer-path process can host the >=10x denominator, so the clause
+# has no executable form there whichever way the ruling goes. It runs no clock, reads no donor byte, and reports its
+# own blind spots -- dynamic imports counted not followed, computed-name dispatch invisible.
+    "tools/mp_e12_process_audit.py",
+    "tests/test_mp_e12_process_audit.py",
+    "experiments/MP-E12/results/c4_process_audit_v1.json",
 ]
 
 

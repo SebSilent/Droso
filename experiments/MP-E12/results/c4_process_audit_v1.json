@@ -1,0 +1,394 @@
+{
+  "schema_version": "droso.c4_process_audit.v1",
+  "audited_at_utc": "2026-11-05T21:16:30Z",
+  "rule_under_audit": {
+    "id": "R11",
+    "plan_line": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:146"
+  },
+  "answer_path_definition": {
+    "module": "organs/neural_language.py",
+    "symbols": [
+      "answer",
+      "respond",
+      "speak",
+      "speak_sentence",
+      "speak_plan"
+    ],
+    "deployment_loop": "run_house.py"
+  },
+  "donor_executing_definition": {
+    "runtime_modules": [
+      "torch",
+      "transformers",
+      "tensorflow",
+      "tf",
+      "flax",
+      "jax",
+      "onnx",
+      "keras",
+      "accelerate",
+      "bitsandbytes"
+    ],
+    "named_symbols": [
+      "reference_inference",
+      "reference_inference_run"
+    ],
+    "execution_idioms_gated_on_runtime": [
+      "forward",
+      "generate",
+      "sample",
+      "autoregress",
+      "inference",
+      "__call__",
+      "step",
+      "predict"
+    ],
+    "numpy_excluded_reason": "imported by 13 files under organs/ -- the answer path's own substrate; treating it as donor-executing fails the audit on sight of the organ"
+  },
+  "blind_spots": [
+    "dynamic imports (importlib/__import__) are counted, not followed",
+    "dispatch by computed name is invisible; reaching the module that owns the answer is therefore treated as reaching the answer",
+    "cross-process flow through files is checked only for literal path strings"
+  ],
+  "processes": [
+    {
+      "entry_point": "organs/neural_language.py",
+      "declared_category": "answer_path",
+      "modules_reachable": 6,
+      "reaches_donor_runtime_module": [],
+      "reaches_donor_executing_symbol": [],
+      "donor_executing_capability": false,
+      "donor_execution_act_modules": [],
+      "answer_path_modules_reached": [
+        "organs/neural_language.py"
+      ],
+      "answer_path_reached": true,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "answer_path",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [],
+      "any_model_execution_scope_hits": [],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "run_house.py",
+      "declared_category": "answer_path",
+      "modules_reachable": 55,
+      "reaches_donor_runtime_module": [],
+      "reaches_donor_executing_symbol": [],
+      "donor_executing_capability": false,
+      "donor_execution_act_modules": [],
+      "answer_path_modules_reached": [
+        "organs/heartbeat.py",
+        "organs/neural_language.py",
+        "world/connectome_house.py"
+      ],
+      "answer_path_reached": true,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "answer_path",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [],
+      "any_model_execution_scope_hits": [],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/electric_learn_bench.py",
+      "declared_category": "offline_benchmark",
+      "modules_reachable": 57,
+      "reaches_donor_runtime_module": [
+        "torch"
+      ],
+      "reaches_donor_executing_symbol": [],
+      "donor_executing_capability": true,
+      "donor_execution_act_modules": [],
+      "answer_path_modules_reached": [
+        "organs/heartbeat.py",
+        "organs/neural_language.py",
+        "tools/converse.py",
+        "tools/electric_learn_bench.py",
+        "world/connectome_house.py"
+      ],
+      "answer_path_reached": true,
+      "verdict": "EXPOSURE",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "answer_path",
+      "declared_vs_derived_mismatch": true,
+      "donor_scoped_scope_hits": [],
+      "any_model_execution_scope_hits": [
+        "tools/electric_learn_bench.py"
+      ],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/mp_e10_resource_ledger.py",
+      "declared_category": "offline_control",
+      "modules_reachable": 1,
+      "reaches_donor_runtime_module": [
+        "torch"
+      ],
+      "reaches_donor_executing_symbol": [],
+      "donor_executing_capability": true,
+      "donor_execution_act_modules": [],
+      "answer_path_modules_reached": [],
+      "answer_path_reached": false,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "disconnected_from_answer",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [],
+      "any_model_execution_scope_hits": [
+        "tools/mp_e10_resource_ledger.py"
+      ],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/mp_e12_access_journal.py",
+      "declared_category": "offline_extraction",
+      "modules_reachable": 1,
+      "reaches_donor_runtime_module": [],
+      "reaches_donor_executing_symbol": [],
+      "donor_executing_capability": false,
+      "donor_execution_act_modules": [],
+      "answer_path_modules_reached": [],
+      "answer_path_reached": false,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "disconnected_from_answer",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [],
+      "any_model_execution_scope_hits": [],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/mp_e12_address_space.py",
+      "declared_category": "offline_extraction",
+      "modules_reachable": 1,
+      "reaches_donor_runtime_module": [],
+      "reaches_donor_executing_symbol": [],
+      "donor_executing_capability": false,
+      "donor_execution_act_modules": [],
+      "answer_path_modules_reached": [],
+      "answer_path_reached": false,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "disconnected_from_answer",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [],
+      "any_model_execution_scope_hits": [],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/mp_e12_preregister_latency_benchmark.py",
+      "declared_category": "offline_benchmark",
+      "modules_reachable": 1,
+      "reaches_donor_runtime_module": [],
+      "reaches_donor_executing_symbol": [],
+      "donor_executing_capability": false,
+      "donor_execution_act_modules": [],
+      "answer_path_modules_reached": [],
+      "answer_path_reached": false,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "disconnected_from_answer",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [],
+      "any_model_execution_scope_hits": [],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/mp_e12_probes.py",
+      "declared_category": "offline_extraction",
+      "modules_reachable": 5,
+      "reaches_donor_runtime_module": [],
+      "reaches_donor_executing_symbol": [
+        "reference_inference",
+        "reference_inference_run"
+      ],
+      "donor_executing_capability": true,
+      "donor_execution_act_modules": [
+        "tools/mp_e12_probes.py"
+      ],
+      "answer_path_modules_reached": [],
+      "answer_path_reached": false,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "disconnected_from_answer",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [
+        "tools/mp_e12_probes.py"
+      ],
+      "any_model_execution_scope_hits": [
+        "tools/mp_e12_probes.py"
+      ],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/mp_e8_arm_b.py",
+      "declared_category": "offline_control",
+      "modules_reachable": 1,
+      "reaches_donor_runtime_module": [
+        "torch"
+      ],
+      "reaches_donor_executing_symbol": [
+        "generate",
+        "step"
+      ],
+      "donor_executing_capability": true,
+      "donor_execution_act_modules": [
+        "tools/mp_e8_arm_b.py"
+      ],
+      "answer_path_modules_reached": [],
+      "answer_path_reached": false,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "disconnected_from_answer",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [
+        "tools/mp_e8_arm_b.py"
+      ],
+      "any_model_execution_scope_hits": [
+        "tools/mp_e8_arm_b.py"
+      ],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    },
+    {
+      "entry_point": "tools/mp_e8_arm_c.py",
+      "declared_category": "offline_control",
+      "modules_reachable": 1,
+      "reaches_donor_runtime_module": [
+        "torch"
+      ],
+      "reaches_donor_executing_symbol": [
+        "generate"
+      ],
+      "donor_executing_capability": true,
+      "donor_execution_act_modules": [
+        "tools/mp_e8_arm_c.py"
+      ],
+      "answer_path_modules_reached": [],
+      "answer_path_reached": false,
+      "verdict": "CLEAR",
+      "verdict_rule": {
+        "BREACH": "an execution act is reachable AND the answer path is reachable",
+        "EXPOSURE": "a donor runtime is reachable AND the answer path is reachable, but no execution act was found -- review, not stop",
+        "CLEAR": "neither half of R11's conjunction holds on this process"
+      },
+      "derived_category": "disconnected_from_answer",
+      "declared_vs_derived_mismatch": false,
+      "donor_scoped_scope_hits": [
+        "tools/mp_e8_arm_c.py"
+      ],
+      "any_model_execution_scope_hits": [
+        "tools/mp_e8_arm_c.py"
+      ],
+      "writes": [],
+      "reads": [],
+      "dynamic_imports_unfollowed": 0,
+      "unresolved_edges": []
+    }
+  ],
+  "cross_process_output_joins": [],
+  "counts": {
+    "processes_audited": 10,
+    "breach": 0,
+    "exposure": 1,
+    "clear": 9,
+    "declared_vs_derived_mismatches": 1,
+    "dynamic_imports_unfollowed": 0
+  },
+  "breach_processes": [],
+  "exposure_processes": [
+    "tools/electric_learn_bench.py"
+  ],
+  "join_exposures": [],
+  "benchmark_process_category_under_R11_as_written": {
+    "the_two_clauses_that_disagree": {
+      "enumeration": "R11 sentence 1: a donor's weights are used in EXACTLY TWO ways -- compile reads and live address reads. A benchmark is neither, so the enumeration does not authorise it.",
+      "prohibition": "R11 sentence 2: no forward pass, loop, sampling or inference may sit in the deployment loop or in any mechanism whose output reaches an answer. A benchmark sits in neither, so the prohibition does not bar it."
+    },
+    "category_as_written": "UNAUTHORISED BUT NOT BARRED -- outside the two sanctioned uses, outside the prohibited locations. R11 as written has no clause that decides it, which is why D-MPE12-09 is a ruling and not a reading.",
+    "what_the_audit_does_with_that": "the audit enforces the prohibition clause mechanically, whichever way the enumeration clause is ruled: if the ruling permits an offline benchmark, the audit is the thing that proves it stays off the answer path; if the ruling forbids it, the audit is the thing that catches it",
+    "sanctioned_control_arm_is_a_third_thing": "the text-distillation arm R11 names is sanctioned by the rule itself and is a different act (it emits text to train on); it is registered as offline_control and audited on the same graph, not exempted by its name"
+  },
+  "d_mpe12_09_structural_position": {
+    "clause": "H2 / the >=10x per-association read cost against autoregressive inference",
+    "denominator_requires": "a donor-executing act in the same process that reports it",
+    "answer_path_processes_audited": 3,
+    "answer_path_processes_able_to_host_the_denominator": 0,
+    "offline_executing_processes_audited": [
+      "tools/mp_e12_probes.py",
+      "tools/mp_e8_arm_b.py",
+      "tools/mp_e8_arm_c.py"
+    ],
+    "if_the_ruling_is_no": "no donor-executing act is permitted anywhere, so the denominator cannot be produced at all and the >=10x clause has no executable form in the program",
+    "if_the_ruling_is_yes": "the denominator may be produced only by a process that never joins an answer, so the ratio exists solely as an offline artifact; the answer path can never compute it or carry it",
+    "common_consequence": "under either ruling the >=10x claim has no executable form ON THE ANSWER PATH. The only way it could get there is the file-mediated join this audit also checks, which is why that check exists",
+    "measured_no_answer_path_host": true
+  },
+  "audit_verdict": "EXPOSURE"
+}
