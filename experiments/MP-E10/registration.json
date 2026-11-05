@@ -3287,6 +3287,72 @@
     "unit-test decay bounds and restart clearing before any scored run, per checklist item 1",
     "C4's restart-leak test is a definitional abort and must exist as a test, not a narrative"
   ],
+  "r17_floor_scope_2026_11_05": {
+    "clause_quoted": "R17, experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:147 -- \"Before any single-run behavioural claim is made at a tier -- treatment effect, migration count, breach tally, retention delta -- a fresh-vs-fresh pair on identical instrument bytes must exist at that tier, and the claim must survive the measured floor. A tier whose floor is unmeasured produces capacity findings and instrument findings, not treatment effects. The floor itself is registered per tier and re-measured whenever the instrument's bytes change.\"",
+    "registered_at_utc": "2026-11-05T14:52:44Z",
+    "the_consequence_under_r17_itself": "R17's second sentence is the operative one: \"A tier whose floor is unmeasured produces capacity findings and instrument findings, not treatment effects.\" No tier-300 floor exists on bytes 5cf038c211d6..., so the sealed tier-300 treatment claims are, by the clause's own wording, not currently admissible as treatment effects. They stay in the record exactly as they were written; this entry does not downgrade or delete any of them, it states what class of claim the existing evidence supports and what would change that.",
+    "the_floor_that_exists": {
+      "artifact": "experiments/MP-E10/results/floor_tier300.json",
+      "artifact_lines": {
+        "floor_registered": 33,
+        "rows_moved": 42
+      },
+      "diff_artifact": "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json",
+      "diff_line": 2146,
+      "instrument_bytes": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "pid": 4820,
+      "rate_percent": 0.4674,
+      "rows_compared": 9414,
+      "rows_moved": 44,
+      "same_process_observed": true,
+      "sealed": true,
+      "tier": 300
+    },
+    "what_it_bounds": [
+      "Any tier-300 claim made from this moment forward on instrument bytes 47f05c9c20dd... -- the current bench, A10 wiring included. Such a claim must exceed 44 rows of 9,414 (0.4674%) to count as movement, and must say which of the nine R13 identity fields moved.",
+      "The CLASS of what moves, independent of bytes: all nine moved fields are refusal-axis (`partial`, `refused`, `invented`) and at tier 300 they appear at depth 1, 2 AND 3 (tally_stability.moved_class_fields, 9 fields). `correct_count_identical_across_the_pair` = True, so the graded-correct axis held in both this pair and the tier-120 pair.",
+      "The tier-120 comparison is now a measured difference between tiers, not an extrapolation: tier 120 confined movement to depth 3 (fresh_vs_fresh_tier120.json:472, :559), tier 300 did not."
+    ],
+    "what_it_does_NOT_bound": [
+      {
+        "figure": "111-row replay effect",
+        "its_bytes": "both sides 5cf038c211d6...",
+        "verdict": "NOT bounded by this floor. The floor is on 47f05c9c20dd...; R17 ties a floor to identical instrument bytes, so a different-bytes floor is a comparison, not a bound.",
+        "where": "experiments/MP-E10/results/300_replay_vs_control_row_migration_keyfix.json:5353 (:5469 rows_compared)"
+      },
+      {
+        "figure": "251-row migration count",
+        "its_bytes": "5cf038c2... vs 6e09171a... -- the figure itself spans a harness change",
+        "verdict": "NOT bounded, and never a run-to-run quantity: it compares two instruments. No floor at any tier bounds it.",
+        "where": "experiments/MP-E10/results/300_row_migration_keyfix.json:11827 (:11943)"
+      },
+      {
+        "figure": "302-row migration count",
+        "its_bytes": "5cf038c2... vs 6e09171a... -- same span",
+        "verdict": "NOT bounded, same reason. Note the direction of the problem it exposes on its own: the replay-OFF control moves MORE rows against the sealed baseline (302) than the replay treatment moves (111).",
+        "where": "experiments/MP-E10/results/300ctl_row_migration_keyfix.json:13964 (:14080)"
+      },
+      {
+        "figure": "91/92/100 invention-breach tallies",
+        "its_bytes": "5cf038c211d6...",
+        "verdict": "NOT bounded by this floor on the byte test. They are additionally the most exposed class of figure in the register, because the class the pair showed moving is exactly the refusal axis these tallies count.",
+        "where": "experiments/MP-E10/results/tier300_named_measurements_closure.json:688 (invented_rows_control = 100), :689 (invented_rows_replay = 92)"
+      }
+    ],
+    "what_would_bound_them_priced_not_bought": {
+      "measurement_required": "one fresh-vs-fresh pair at tier 300 on the bytes the figures were made on, i.e. a run of tools/electric_learn_bench.py at git blob 5cf038c211d6... (checkout or worktree of 5cf038c2's commit), replay OFF, learn-only, same process, diffed by tools/mp_e10_row_migration.py",
+      "priced": "approximately 40-45 minutes of bench wall for the pair, plus ~15 minutes of assembly, seal and landing. Stated as 44 min at the measured unit cost, matching the PI's figure.",
+      "status": "NOT STARTED. Requires the PI's authorisation before any minute is spent.",
+      "unit_costs_measured_not_estimated": {
+        "migration_diff_included_in_driver_total": true,
+        "tier300_driver_total_seconds": 2412.99,
+        "tier300_job_wall_seconds_observed": 2682.1,
+        "tier300_run_A_seconds": 1112.38,
+        "tier300_run_B_seconds": 1300.18
+      }
+    },
+    "why_the_bytes_moved_and_why_that_is_the_rule_working": "The bytes moved because STEP 3 wired the A10 resource ledger into tools/electric_learn_bench.py -- a change the PI ordered, and a change to the instrument is exactly what R17's re-measurement clause is about. This is not an accident to smooth over: every future edit to the bench re-triggers the clause and re-prices a floor pair at the affected tier. The clause is doing work on the program's own instrument, which is the condition it was written for."
+  },
   "re_registration_2026_11_05_v1_2_BR_item1": {
     "C6": {
       "relationship_to_the_pre_registered_guard": "the guard voids the configuration for H3; C6 says what the run still IS -- capacity evidence -- so a voided run is not thrown away",
@@ -4721,6 +4787,29 @@
       "reason": "Same question as above, mirrored in the older status block; same disambiguation."
     }
   ],
+  "step5_priced_prerequisite_2026_11_05": {
+    "decision": "NOT STARTED, and it should not start until the PI authorises the 16-minute floor pair as part of STEP 5 rather than as a detour. The scored run without it produces numbers the register cannot admit as treatment effects.",
+    "full_STEP_5_priced": {
+      "covering_rebaseline_minutes": 14.7,
+      "landing_assembly_seal_and_push_minutes": 10,
+      "scored_run_hours": 2,
+      "tier120_floor_pair_on_current_bytes_minutes": 16,
+      "total_hours": 2.68,
+      "total_minutes": 160.7
+    },
+    "measured_unit_costs": {
+      "note": "the PI's estimate of 2 x ~475 s is borne out: measured 480.91 s and 462.37 s on the pre-A10 bench. The amended bytes add the A10 sampler, whose tier-300 overhead was ~5383 RSS samples over the run; treat 16 minutes as a floor, not a ceiling.",
+      "tier120_pair_minutes": 15.7,
+      "tier120_pair_run_A_seconds": 480.91,
+      "tier120_pair_run_B_seconds": 462.37,
+      "tier120_pair_total_seconds": 943.87
+    },
+    "priced_at_utc": "2026-11-05T14:52:44Z",
+    "question": "what STEP 5 actually requires before its first scored minute, and whether it fits",
+    "required_first": "one fresh-vs-fresh pair at tier 120 on the current bytes (two learn-only unreplayed runs, same process, diffed by the registered instrument)",
+    "the_prerequisite_nobody_asked_for": "STEP 5 scores tier-120 replay runs on the CURRENT bytes (47f05c9c20dd..., A10 wired). The tier-120 floor that exists -- 4 rows and 17 rows of 3,744 across two pairs -- was measured on 5cf038c211d6..., the pre-A10 bench. Under R17's re-measurement clause that floor does not transfer, so STEP 5 would be making tier-120 treatment claims at a tier whose floor is unmeasured on its own instrument: capacity and instrument findings only.",
+    "what_this_entry_does_not_do": "no verdict moved, no status field changed, no T and N, no answer-path edit, no MP-E11, no MP-E12b/c."
+  },
   "stopping_rules": [
     "any C-condition fires: stop, report, do not re-run the same configuration and call the second run independent",
     "a threshold is found to be unscoreable after a run: record it as a defect, do not move it"
@@ -4733,6 +4822,44 @@
     "curriculum": "the MP-E8 tier manifests, unedited",
     "explicitly_not_re_proved": "consolidation at 40 items -- ELECTRIC C2 and C3 cover it; the checklist says 'do not re-prove consolidation at 40 items'",
     "mouth_evaluations": "every tier the organ is run at; the comparison against arm A is per-tier"
+  },
+  "timestamp_amendment_2026_11_05": {
+    "amended_at_utc": "2026-11-05T14:52:44Z",
+    "amends_by_reference_not_by_editing": "R5: the record keeps its history. The two values below are NOT edited in place; this dated amendment names them as approximations and gives the measured commit time beside each.",
+    "items": [
+      {
+        "bracket_within_which_the_write_actually_happened": "after bb26579 (12:44:37Z) and at or before 2026-11-05T13:16:39Z",
+        "consequence": "none for ordering: the block demonstrably precedes the STEP 3 registration and the floor pair, and both of those carry measured times.",
+        "file": "experiments/MP-E10/registration.json",
+        "how_it_was_produced": "a literal typed into _tmp/check_ab_fix.py in place of datetime.now(). It is an approximation of when the block was written, not a measurement.",
+        "measured_commit": "49ea0a4 (the commit that carries the block)",
+        "measured_commit_time_raw": "2026-11-05T10:16:39-03:00",
+        "measured_commit_time_utc": "2026-11-05T13:16:39Z",
+        "recorded_key": "open_decisions_at_install.result_quoting_guard_while_blocked.added_at_utc",
+        "recorded_value_as_typed": "2026-11-05T12:55:00Z",
+        "signed_error_minutes": 21.6
+      },
+      {
+        "bracket_within_which_the_write_actually_happened": "after bb26579 (12:44:37Z) and at or before 2026-11-05T13:16:39Z",
+        "consequence": "the claim that matters -- re-registration BEFORE any run -- is unaffected and is independently evidenced: the first tier-300 run on the amended bytes started at 13:23:46Z (floor_tier300.json run_A.started_utc), which is measured.",
+        "file": "experiments/MP-E10/registration.json",
+        "how_it_was_produced": "the same habit in _tmp/step3_register.py -- a literal, not a measurement.",
+        "measured_commit": "3434379 for the tooling; the registration key itself was carried by 49ea0a4 at 2026-11-05T13:16:39Z, because the script ran before that commit -- the scoping slip already disclosed in 6768573's message.",
+        "measured_commit_time_raw": "2026-11-05T10:17:22-03:00",
+        "measured_commit_time_utc": "2026-11-05T13:17:22Z",
+        "recorded_key": "re_registration_2026_11_05_v1_2_BR_item1.registered_at_utc",
+        "recorded_value_as_typed": "2026-11-05T13:05:00Z",
+        "signed_error_minutes": 11.7
+      }
+    ],
+    "practice_changed": "from here on, every timestamp written into a ledger comes from datetime.now(timezone.utc) inside the writing script, never from a literal in a message or a comment.",
+    "values_that_WERE_measured_for_contrast": {
+      "attribution_table_added_utc": "2026-11-05T14:09:05Z",
+      "b_r_ingest_utc": "2026-11-05T12:39:52Z (datetime.now() in the ingest script)",
+      "floor_pair_run_A_start_utc": "2026-11-05T13:23:46Z",
+      "floor_pair_run_B_start_utc": "2026-11-05T13:42:18Z",
+      "seal_stamp_utc": "2026-11-05T14:31:38Z"
+    }
   },
   "title": "The Mouth and the Second Timescale",
   "working_memory_step1": {

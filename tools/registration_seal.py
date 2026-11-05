@@ -549,6 +549,12 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E10/results/floor300_b_fresh_vs_fresh_armA.json",
     "experiments/MP-E10/results/floor300_a_vs_b_row_migration.json",
     "experiments/MP-E10/results/floor_tier300.json",
+# THE COVERING RUN, produced only after the tree was clean and the stamp was in it. 1370 collected, 1370
+# executed, 0 failures, 0 errors, 6 skipped, rc 0, 879.19 s at git_head 39a0e3241, git_dirty []. The +6 tests
+# against the previous baseline of 1364 are the A10 unit tests from STEP 3, so the count moved because the
+# suite legitimately grew -- not because a cell went missing. This is the number STEP 5's wall-clock gate is
+# priced against; the red run above is not.
+    "experiments/MP-E10/results/suite_manifest_floor_tier300_clean.json",
 ]
 
 
