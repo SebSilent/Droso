@@ -2160,12 +2160,13 @@
         "sha256_of_git_blob": "b418382d166b27c7a957386ebd7b7aae4b91eca5bbd115ca2c380d41833c3295"
       },
       "tools/registration_seal.py": {
-        "blob_content_check": "PENDING: file is not in the object database (untracked); git_blob_sha1 is the predicted blob and remains valid; this field fills in after commit",
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 65443,
         "bytes_worktree": 66363,
         "git_blob_sha1": "09dccd51ed4104643e2ded9b11522edffdfd0510",
         "line_endings": "CRLF",
         "sha256_lf": "7e5479f306104ef7f83d60fe7213e56465c54b632ca64f71e8e6806bad68e913",
-        "sha256_of_git_blob": null
+        "sha256_of_git_blob": "7e5479f306104ef7f83d60fe7213e56465c54b632ca64f71e8e6806bad68e913"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -2187,10 +2188,8 @@
       }
     },
     "git_dirty": true,
-    "git_dirty_sealed": [
-      "tools/registration_seal.py"
-    ],
-    "git_head": "d07fb768fec1b6bc48f80b48f7d6216df0ae5333",
+    "git_dirty_sealed": [],
+    "git_head": "18f1a8bd950946176912d8539fb877f4d07cf677",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -2217,7 +2216,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T17:04:13Z",
+    "sealed_at_utc": "2026-11-05T17:08:24Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -2232,9 +2231,7 @@
         "4. registration_seal.py <registration.json> --check   # must be clean at that HEAD"
       ],
       "rule": "COMMIT FIRST, THEN STAMP, THEN COMMIT THE STAMP. Never stamp while a file this seal hashes is uncommitted -- that is what git_dirty_sealed reports, not mere tree dirt.",
-      "this_stamp_found_uncommitted_bytes_among_sealed_files": [
-        "tools/registration_seal.py"
-      ],
+      "this_stamp_found_uncommitted_bytes_among_sealed_files": [],
       "why": "git_head is the commit the seal claims to describe. If the sealed bytes are still uncommitted when the stamp is taken, git_head names a commit that does not contain them, and there is no checkout you can verify the seal against."
     },
     "updated_at_utc": "2026-11-04T06:25:05Z"
