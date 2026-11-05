@@ -800,6 +800,15 @@
         "sha256_lf": "0a2054728b2708521f108bb45eec6314aca3f855714aff51d44a8b6a2ffa2353",
         "sha256_of_git_blob": "0a2054728b2708521f108bb45eec6314aca3f855714aff51d44a8b6a2ffa2353"
       },
+      "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 34628,
+        "bytes_worktree": 34628,
+        "git_blob_sha1": "c9681cfd6cc4ce47fc0436bdc2fe1949932e8238",
+        "line_endings": "LF",
+        "sha256_lf": "aa087a02ce547a5249c9319e12d5c825f23bd52923908640efdc95db4c2dcf42",
+        "sha256_of_git_blob": "aa087a02ce547a5249c9319e12d5c825f23bd52923908640efdc95db4c2dcf42"
+      },
       "experiments/MP-E12/results/probe_list_v1.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 10328,
@@ -1772,6 +1781,15 @@
         "sha256_lf": "2a38c09cd9c9c570eb1a6ab7ea48e562331ea41ca25ca852249505edac16e970",
         "sha256_of_git_blob": "2a38c09cd9c9c570eb1a6ab7ea48e562331ea41ca25ca852249505edac16e970"
       },
+      "tests/test_mp_e12_latency_preregistration.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 19513,
+        "bytes_worktree": 19855,
+        "git_blob_sha1": "d6371d182c711d78e2a8372f953f5956c059b468",
+        "line_endings": "CRLF",
+        "sha256_lf": "78e13eca67d5d1dfdcbae673791e0c442deaf33881cd39e79a895bb7dcf0f2f3",
+        "sha256_of_git_blob": "78e13eca67d5d1dfdcbae673791e0c442deaf33881cd39e79a895bb7dcf0f2f3"
+      },
       "tests/test_mp_e12_probes.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 12906,
@@ -2069,6 +2087,15 @@
         "sha256_lf": "a03d3cb4253109156101da25d091bdfe71eb358aa592929eb833f4436c321cd9",
         "sha256_of_git_blob": "a03d3cb4253109156101da25d091bdfe71eb358aa592929eb833f4436c321cd9"
       },
+      "tools/mp_e12_preregister_latency_benchmark.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 40549,
+        "bytes_worktree": 41092,
+        "git_blob_sha1": "2b0e764bf83f0fd0146042278c4d746b093a217b",
+        "line_endings": "CRLF",
+        "sha256_lf": "18ef77ca4fbb4425695c223b4d4a77ed65a988400ba7ad70d806e7917aaf904a",
+        "sha256_of_git_blob": "18ef77ca4fbb4425695c223b4d4a77ed65a988400ba7ad70d806e7917aaf904a"
+      },
       "tools/mp_e12_preregister_real_run.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 13334,
@@ -2224,12 +2251,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 66586,
-        "bytes_worktree": 67520,
-        "git_blob_sha1": "f645da91489212bc473f0a015447d0469b5a2068",
+        "bytes_blob": 67442,
+        "bytes_worktree": 68385,
+        "git_blob_sha1": "85cf0cfe8c07d37b0cbda8e9d8d3cae408bf9f59",
         "line_endings": "CRLF",
-        "sha256_lf": "92c58a70d44a9836cd97c473f9a1daedf37cd0ec8dbc36f97d9a974a6376c0ba",
-        "sha256_of_git_blob": "92c58a70d44a9836cd97c473f9a1daedf37cd0ec8dbc36f97d9a974a6376c0ba"
+        "sha256_lf": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2",
+        "sha256_of_git_blob": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -2252,7 +2279,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "725f5a214cc600a99984421adde928f0a5d799c5",
+    "git_head": "5565d5476ca966b5684ee2cf387c501525d8d7e5",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -2279,7 +2306,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T17:28:50Z",
+    "sealed_at_utc": "2026-11-05T20:05:00Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -2983,6 +3010,108 @@
     }
   },
   "pi_queue_2026_11_05": {
+    "agent_side_queue_empty_2026_11_05": {
+      "as_measured": "2026-11-05, from experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md and the five ledgers. Nothing here is a plan: it is a list of what each remaining step is blocked on.",
+      "coordinates_of_this_note_after_the_write": {
+        "audit_block": "MP-E10:3163",
+        "queue_opener": "MP-E10:3012",
+        "this_prose_block": "MP-E10:3297",
+        "this_queue_block": "MP-E10:3013"
+      },
+      "needing_a_decision_that_does_not_exist": [
+        "B.6 item 5, the offline-vs-class-1 latency ratio",
+        "MP-E12 classes 2 and 3 (forward-pass reads)",
+        "energy estimate",
+        "MP-E12b, and E12c behind it",
+        "answer-path fix",
+        "MP-E11"
+      ],
+      "startable_on_one_word": [
+        "D-MPE10-12 re-run",
+        "tier-300 fresh-vs-fresh pair on the SEALED bytes 5cf038c2",
+        "T and N at tier 120 and tier 300",
+        "MP-E13"
+      ],
+      "statement": "There is no step left in v1.2 that this agent can start on its own initiative. Every one of them waits on exactly one thing, and that thing is not a file, not a tool, and not a measurement -- it is a decision, an authorisation of machine time, an input only the PI holds, or the calendar.",
+      "steps": [
+        {
+          "class_of_that_thing": "a PI decision that does not exist yet",
+          "could_start_on_one_word_from_the_cleared_queue": false,
+          "machine_time_if_granted": null,
+          "step": "B.6 item 5, the offline-vs-class-1 latency ratio",
+          "the_single_thing_it_waits_on": "D-MPE12-09: permission to spend the donor's single R11 execution on a timing run, or a dated exception granting a second one"
+        },
+        {
+          "class_of_that_thing": "a PI decision that does not exist yet",
+          "could_start_on_one_word_from_the_cleared_queue": false,
+          "machine_time_if_granted": null,
+          "step": "MP-E12 classes 2 and 3 (forward-pass reads)",
+          "the_single_thing_it_waits_on": "the gather-accounting ruling: whether a gathered read counts as one access or as n"
+        },
+        {
+          "class_of_that_thing": "a PI decision that does not exist yet",
+          "could_start_on_one_word_from_the_cleared_queue": false,
+          "machine_time_if_granted": null,
+          "step": "energy estimate",
+          "the_single_thing_it_waits_on": "D-MPE12-02"
+        },
+        {
+          "class_of_that_thing": "a PI decision that does not exist yet",
+          "could_start_on_one_word_from_the_cleared_queue": false,
+          "machine_time_if_granted": null,
+          "step": "MP-E12b, and E12c behind it",
+          "the_single_thing_it_waits_on": "D-MPE12-04, the Qwen3.8-27B decision"
+        },
+        {
+          "class_of_that_thing": "PI authorisation of machine time",
+          "could_start_on_one_word_from_the_cleared_queue": true,
+          "machine_time_if_granted": "~2 h + ~16 min",
+          "step": "D-MPE10-12 re-run",
+          "the_single_thing_it_waits_on": "authorisation for ~2 h of machine time, plus its ~16 min tier-120 prerequisite pair on the CURRENT bytes"
+        },
+        {
+          "class_of_that_thing": "PI authorisation of machine time",
+          "could_start_on_one_word_from_the_cleared_queue": true,
+          "machine_time_if_granted": "~44 min",
+          "step": "tier-300 fresh-vs-fresh pair on the SEALED bytes 5cf038c2",
+          "the_single_thing_it_waits_on": "authorisation for ~44 min of machine time"
+        },
+        {
+          "class_of_that_thing": "PI authorisation of machine time, plus an external input only the PI can supply",
+          "could_start_on_one_word_from_the_cleared_queue": true,
+          "machine_time_if_granted": "~3.85 h",
+          "step": "T and N at tier 120 and tier 300",
+          "the_single_thing_it_waits_on": "authorisation for ~3.85 h of machine time, and the key set D-MPE10-11 names, which only the PI holds"
+        },
+        {
+          "class_of_that_thing": "a PI scope ruling about ownership of a rebuild, not an asset this agent holds",
+          "could_start_on_one_word_from_the_cleared_queue": false,
+          "machine_time_if_granted": null,
+          "step": "answer-path fix",
+          "the_single_thing_it_waits_on": "a scope ruling: it supersedes the covering run and every artifact that quotes a reason string"
+        },
+        {
+          "class_of_that_thing": "held by the PI",
+          "could_start_on_one_word_from_the_cleared_queue": false,
+          "machine_time_if_granted": null,
+          "step": "MP-E11",
+          "the_single_thing_it_waits_on": "the PI's go, which has been withheld since it was opened"
+        },
+        {
+          "class_of_that_thing": "calendar time the PI controls",
+          "could_start_on_one_word_from_the_cleared_queue": true,
+          "machine_time_if_granted": "24 h window",
+          "step": "MP-E13",
+          "the_single_thing_it_waits_on": "a 24-hour window"
+        }
+      ],
+      "the_three_things_only_the_PI_can_supply": [
+        "the PI's answers to the four open decisions: D-MPE12-09, the gather-accounting ruling, D-MPE12-02, D-MPE12-04",
+        "machine-time authorisation for the two floor pairs (tier-120 on current bytes, tier-300 on sealed bytes 5cf038c2) and for T and N at 120/300",
+        "the Qwen3.8-27B decision, which D-MPE12-04 and E12c both sit behind"
+      ],
+      "what_this_block_does_not_do": "It closes nothing, adds no decision id to any open_decisions block, and starts nothing. It records that the queue of work this agent can do unilaterally is empty, which is a status, not an instruction."
+    },
     "also_waiting": [
       {
         "brief_section": "docs/mp_e10_pi_decision_brief_consolidated.md:258",
@@ -3028,6 +3157,283 @@
       "without_a_status_field_dict_entries": 5
     },
     "how_to_read_it": "`has_status_field` false means the ledger entry is a bare string or a field-set that never declared a status. That is a property of the record worth knowing: a stale-status guard can only correct entries that declare one, so an entry without a status cannot be caught going stale. It is reported, not invented.",
+    "items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry": {
+      "added_at_utc": "2026-11-05T00:00:00Z",
+      "authority": "PI order 2026-11-05: the pi_queue index is stale and the plan quotes it as the index; carry the three items that now live only in MP-E12's ledger, quoting each status from the owning file with its line, and add no status field where the source has none.",
+      "citation_audit_2026_11_05": {
+        "deliberate_non_pointers_excluded": [
+          "MP-E10:2538 -- the plan's verbatim sentence, quoted as evidence. Editing the quote would destroy the very thing this correction is about, so it is left exactly as the plan wrote it.",
+          "MP-E10:4255 and the other coordinates inside the note at :3789 -- quoted AS EXAMPLES of pointers that land on unrelated lines. The coordinate is the evidence there, not a pointer to follow."
+        ],
+        "finding_1_this_step_broke_nothing": "Each citation's referent was located by a CONTENT needle and compared with HEAD. Every one was already false at HEAD, before the 100-line insertion, so this step moved the landing line of an already-wrong citation rather than creating the error.",
+        "finding_2_the_mechanical_shift_test_is_vacuous": "A check that HEAD's line n equals NOW's line n+100 passes for EVERY line below an insertion, true citations and false ones alike. It measures the shift, not the pointer. Only a content needle can say whether a citation ever pointed at what it claims -- which is why this audit used needles and why the first version of this script, which did not, reported the opposite of the truth.",
+        "finding_3_the_defect_named_at_3789_is_still_live": "The ledger already records 'third pointer defect in two days, all three of the same shape: a citation written without resolving it in the same step'. Measured now: six such citations into this ledger's own lines are still false, and the note that diagnoses them is one of them.",
+        "measured_referents": [
+          {
+            "cited_as": "experiments/MP-E10/registration.json:3325",
+            "content_it_claims_to_name": "the line holding the deliberately-unchanged wrong pointer",
+            "every_line_that_matches_the_needle": [
+              3885
+            ],
+            "head_line_at_that_number": "\"form\": \"bare string\",",
+            "referent_lines_at_HEAD_by_content": [
+              3647
+            ],
+            "referent_lines_in_the_written_file_by_content": [
+              3885
+            ],
+            "was_true_at_HEAD": false
+          },
+          {
+            "cited_as": "experiments/MP-E10/registration.json:3305",
+            "content_it_claims_to_name": "the artifact_lines block that renders line numbers under a key that also carries a quantity",
+            "every_line_that_matches_the_needle": [
+              3831
+            ],
+            "head_line_at_that_number": "\"block\": \"open_decisions\",",
+            "referent_lines_at_HEAD_by_content": [
+              3593
+            ],
+            "referent_lines_in_the_written_file_by_content": [
+              3831
+            ],
+            "was_true_at_HEAD": false
+          },
+          {
+            "cited_as": "registration.json:4426",
+            "content_it_claims_to_name": "the registration of REPLAY_PASSES_PER_TIER = 2",
+            "every_line_that_matches_the_needle": [
+              3075,
+              4046,
+              5316
+            ],
+            "head_line_at_that_number": "129,",
+            "referent_lines_at_HEAD_by_content": [
+              3808,
+              5078
+            ],
+            "referent_lines_in_the_written_file_by_content": [
+              4046,
+              5316
+            ],
+            "was_true_at_HEAD": false
+          },
+          {
+            "cited_as": "MP-E10:3262",
+            "content_it_claims_to_name": "the record that a disclaimer attached to a snapshot cannot shelter a live field",
+            "every_line_that_matches_the_needle": [
+              3094,
+              4144,
+              5387
+            ],
+            "head_line_at_that_number": "\"form\": \"bare string\",",
+            "referent_lines_at_HEAD_by_content": [
+              3906,
+              5149
+            ],
+            "referent_lines_in_the_written_file_by_content": [
+              4144,
+              5387
+            ],
+            "was_true_at_HEAD": false
+          },
+          {
+            "cited_as": "registration.json:2174",
+            "content_it_claims_to_name": "the standing tie-break",
+            "every_line_that_matches_the_needle": [
+              2587,
+              3113,
+              4015,
+              4024
+            ],
+            "head_line_at_that_number": "\"bytes_worktree\": 5815,",
+            "referent_lines_at_HEAD_by_content": [
+              2587,
+              3777,
+              3786
+            ],
+            "referent_lines_in_the_written_file_by_content": [
+              2587,
+              4015,
+              4024
+            ],
+            "was_true_at_HEAD": false
+          },
+          {
+            "cited_as": "registration.json:2273",
+            "content_it_claims_to_name": "the three options offered: restarted, live, or both",
+            "every_line_that_matches_the_needle": [
+              2661,
+              2678,
+              2695,
+              2712,
+              2729,
+              2746,
+              4021,
+              4452
+            ],
+            "head_line_at_that_number": "\"canonical\": [",
+            "referent_lines_at_HEAD_by_content": [
+              2661,
+              2678,
+              2695,
+              2712,
+              2729,
+              2746
+            ],
+            "referent_lines_in_the_written_file_by_content": [
+              2661,
+              2678,
+              2695,
+              2712,
+              2729,
+              2746
+            ],
+            "was_true_at_HEAD": false
+          }
+        ],
+        "n_false_at_head": 6,
+        "n_referents_checked": 6,
+        "prose_coordinate_class_measured_2026_11_05": {
+          "checker_priced_not_built": {
+            "recommendation": "Tier B only, and only for coordinates written from now on -- enforce it in the same step that writes them, which is the rule the ledger already names and nothing enforces. Do not backfill prose that is already written: the 130 would be annotated by guesswork, and a guessed referent is a new false citation wearing a checkmark.",
+            "status": "NOT BUILT. Priced on the PI's instruction that a check catching prose coordinates should be costed before it is attempted.",
+            "tier_A_mechanical": "Extend the existing structural audit to parse <path>:<line> out of prose and assert each resolves inside its named file. ~1 tool file, ~120 lines, roughly 1 h including tests, seconds to run. Value: catches deleted files and out-of-range numbers. Measured worth here: 0 of 345, because that is not how these citations fail.",
+            "tier_B_content_with_a_needle": "Require every prose coordinate to carry a needle and assert the needle sits at the cited line. Catches the real defect. Measured reach: 215 of 345 citing lines already carry a key or quote to check against; 130 (38%) do not and cannot be checked without someone saying what they were supposed to name. Build ~2-3 h plus a backfill pass over 345 coordinates.",
+            "tier_C_backfill": "The 130 unverifiable coordinates need a human to state each one's intended referent. At the reading rate measured this phase, 2-4 min each: 4.3-8.7 h, and the cost recurs because prose grows faster than any checker is extended."
+          },
+          "content_false_measured_by_needle": 6,
+          "coordinates_of_this_note_after_the_write": {
+            "audit_block": "MP-E10:3163",
+            "queue_opener": "MP-E10:3012",
+            "this_prose_block": "MP-E10:3297",
+            "this_queue_block": "MP-E10:3013"
+          },
+          "coordinates_recorded_at_fixpoint": true,
+          "measured_at": "2026-11-05, by walking every experiments/*/registration.json for the pattern <path>:<line> and resolving each path three ways: as written, relative to the citing ledger's directory, then by unique basename.",
+          "mp_e10_self_coordinates": 13,
+          "n_prose_coordinates": 345,
+          "of_this_steps_making": 0,
+          "of_which_already_false_at_HEAD": 6,
+          "per_ledger": {
+            "G0-prime": 10,
+            "MP-E10": 97,
+            "MP-E12": 214,
+            "MP-E8": 15,
+            "MP-E9": 9
+          },
+          "provably_false_by_mechanical_check": 0,
+          "self_coordinates_that_cannot_be_checked_without_a_human": 7,
+          "self_coordinates_the_audit_could_content_check": 6,
+          "the_two_that_are_deliberately_NOT_pointers": [
+            "MP-E10:2538 -- the plan's verbatim sentence, quoted as the evidence the correction is about. Editing the quote would destroy the thing being corrected.",
+            "MP-E10:4255, and the coordinates inside the note at :3789 -- quoted AS EXAMPLES of pointers that land on unrelated lines. The coordinate is the evidence there, not a pointer to follow."
+          ],
+          "this_blocks_own_demonstration": "The insertion that adds this note sits above HEAD :3789 and :4255, so those two example coordinates move again as a result of writing the sentence that records them. That is the class, live: a record about stale pointers going stale by being written.",
+          "why_nothing_was_repaired": "Shifting a false citation by the insertion size produces a DIFFERENT false citation, not a true one. A shift moves content line-for-line and changes nothing about which line holds what, so the referent that was wrong at HEAD line n is the same wrong referent at line n+k. Measured on this file: HEAD:2174 and its shifted position HEAD+27 both hold `\"bytes_worktree\": 5815,` -- identical content, so the citation is exactly as wrong as it was. Worse, the original coordinate no longer exists, so the repaired citation cannot be checked against the state it was written into: it becomes unfalsifiable as well as false. The only safe repair is one that re-resolves by CONTENT, and where the content cannot be recovered the honest action is to leave the defect visible.",
+          "why_zero_is_the_finding": "Every one of the 345 names a file that exists and a line number within that file's length. A wrong line number is almost always still a VALID line number, because these files are thousands of lines long -- so a range check, or any check that only asks 'does this coordinate resolve', returns clean while the citations are wrong. That is why the rot has been silent, and why the structural audit's '201 pointers, 0 stale' result was never evidence about this class: it walked {file, line} objects, and MP-E10 has none."
+        },
+        "self_reference_note": "Each row's needle is also quoted inside this note, so a search over the file matches the note itself. Those matches are excluded from the recorded referent lines and listed in full under every_line_that_matches_the_needle: a coordinate that lands on the description of a fact instead of the fact misleads in the way this ledger's own artifact_lines warning describes. Excluded self-hits: registration.json:4426 at [3075]; MP-E10:3262 at [3094]; registration.json:2174 at [3113]. The block spans 3031-3268, derived from its own serialised length rather than by scanning for a closing brace -- the first attempt scanned, over-read the end by 400 lines, and got the right answer by luck, which is not a method.",
+        "why_nothing_was_shifted": "Shifting a false citation by 100 produces a different false citation and looks like a fix. What is recorded instead is each referent's real line, found by content, so the next step can locate the fact without trusting the coordinate.",
+        "why_these_coordinates_are_measured_against_the_written_text": "This block adds lines, and every referent sits below it, so measuring before writing would record coordinates that the write itself invalidates. They are measured at a fixpoint against the serialised text that is actually going to disk."
+      },
+      "counting_rule_for_the_three": "These are QUESTIONS, not decision-block entries. Two of the three have no decision id in any open_decisions block (D-MPE12-09 is a PROPOSED id awaiting the PI, and the gather ruling has no id at all), and none of the three has a brief section. They are therefore indexed in their own list and are NOT folded into counts.entries_in_open_decision_blocks, which stays a count of what its name says. Folding them in would make the count agree with the plan by changing what the count means.",
+      "entries": [
+        {
+          "block": "b6_item5_latency_benchmark_preregistered_unexecuted_2026_11_05.2_the_R11_question_confronted_here_rather_than_at_the_bench",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates this question; measured: the strings 'D-MPE12-09', 'R11' and 'latency' appear 0 times in its 407 lines",
+          "consequence_if_the_answer_is_no": "H2's >=10x claim cannot be measured AT ALL under R11 as written -- not 'unmeasured for now' but untestable, because its denominator is an act the doctrine forbids. The plan's flagship latency clause then becomes design rationale rather than a hypothesis, G5's 'H1-H4 hold' cannot be evaluated as written, and the honest report is that v1.2 carries an unfalsifiable clause in its flagship. That is a finding about the plan, and it is preferable to measuring the clause by violating the doctrine that makes the program distinctive.",
+          "form": "dict (an amendment field)",
+          "has_status_field": true,
+          "key": "D-MPE12-09",
+          "ledger": "MP-E12",
+          "owning_lines": [
+            163,
+            97,
+            74,
+            137
+          ],
+          "proposed_identifier_not_yet_a_decision": true,
+          "question_verbatim": "Is an offline, journaled, never-answers-producing execution of the donor for the purpose of timing it (a) inside R11's existing sanction for the control arm, sharing its 'once per registration' allowance, (b) a new exception needing its own dated rule, or (c) not permitted at all?",
+          "status_as_measured": "PRE-REGISTERED AND UNEXECUTED. No clock was started in this step and no donor was executed. The artifact this registers has no duration in it, structurally verified by tests/test_mp_e12_latency_preregistration.py::test_no_field_holds_a_duration.",
+          "the_measured_fact_that_changes_the_decision": "torch 2.15.0+cpu and numpy 2.5.4 are PRESENT in the project venv; transformers and safetensors are absent. The inference arm is therefore buildable on this laptop today with no new dependency, by loading the sealed safetensors through the existing address space and running a forward pass in torch."
+        },
+        {
+          "block": "tokenizer_landed_and_two_rules_registered_2026_11_05.4_claims_tally_as_measured.the_single_decision_that_unblocks_classes_2_and_3",
+          "brief_section": "NOT IN THE BRIEF -- measured: the strings 'gather' and 'accounting' appear 0 times in docs/mp_e10_pi_decision_brief_consolidated.md's 407 lines",
+          "form": "bare string (an amendment field, no status key)",
+          "has_status_field": false,
+          "key": "gather_accounting_ruling",
+          "ledger": "MP-E12",
+          "note_on_the_absence_of_a_status": "The queue reports this honestly: there is no status to read, so none is stated. A stale-status guard cannot correct an entry that declares no status, which is a property of the record worth knowing.",
+          "owning_lines": [
+            4536,
+            976,
+            4109
+          ],
+          "prices_that_settle_it": {
+            "budget_ops": 24,
+            "class_1_run_of_24_items_registered_conservative_per_row": "48 / 96 / 1584",
+            "class_2_and_class_3_under_honest_charging": "57 and 234 operations, against a budget of 24 -- neither can run at all",
+            "class_2_and_class_3_under_the_registered_rule": "5 and 16 operations -- both fit",
+            "one_full_three_class_item_registered_conservative_per_row": "23 / 295 / 54035"
+          },
+          "status_as_measured": "the gather-accounting ruling. Under the registered rule both classes fit at 5 and 16 operations; under honest charging they cost 57 and 234 and cannot run at all. Nothing else stands between them and a measurement.",
+          "tallies_as_recorded_in_the_owning_ledger": "the gather-accounting ruling, now backed by data: 48 / 96 / 1584 for one class-1 run of 24 items and 23 / 295 / 54035 for a single full three-class item"
+        },
+        {
+          "block": "tokenizer_landed_and_two_rules_registered_2026_11_05.3_clustering_registered_as_an_instrument_limitation",
+          "brief_section": "NOT IN THE BRIEF -- measured: the strings 'clustering' and 'pool' appear 0 times in docs/mp_e10_pi_decision_brief_consolidated.md's 407 lines",
+          "form": "dict (an amendment field, no status key)",
+          "has_status_field": false,
+          "key": "pool_clustering_limitation",
+          "ledger": "MP-E12",
+          "neither_option_chosen": "This step does not pick. The prohibition is registered in the source: neither may be chosen after seeing a result.",
+          "options_priced": {
+            "keep_the_feature_pool_claim": "pool 1,023 is the cheapest option that could plausibly separate: 19 conservative ops per item, 456 for a 24-item run -- against a budget of 24 per item, so the cap would have to move",
+            "retire_the_claim": "the step is reported as retired rather than left in artifacts that look like results; nothing moves and no cap changes"
+          },
+          "owning_lines": [
+            4514,
+            4518,
+            4521
+          ],
+          "question_verbatim": "is the feature-pool claim worth buying? It is the only claim in MP-E12a the current budget cannot support against the real donor, and it is the one the plan's superposition risk names. If yes: pool 1,023 is the cheapest option that could plausibly separate, 19 of 24 conservative ops per item, 456 for a 24-item run. If no: the step should be reported as retired rather than left in artifacts that look like results. This step does not pick.",
+          "status_as_measured": "24 items, one component each, every component exactly 10 members -- the same degeneracy appears in the sealed SYNTHETIC calibration, which is how it was known to be about the instrument before there was any real result to blame",
+          "what_it_costs_if_left_decided_later": "pool_clusters in the sealed graph carries no information beyond k. Edges, cosines and the operation tallies come from the similarity search and are unaffected, so the sealed figures stand and only this derived field is empty of content."
+        }
+      ],
+      "how_each_string_was_obtained": "Read from experiments/MP-E12/registration.json by a needle that had to match exactly one line, then asserted against the line it cites before the entry was built. No string here was typed from memory. | Verified after the write: all 10 `owning_lines` coordinates across the three entries resolve, each one against the unique line in experiments/MP-E12/registration.json holding the text its entry quotes. The verification is recorded here rather than as a key on each entry because a per-entry key adds a line, and an added line moves every coordinate below it -- including the ones being recorded.",
+      "n_items": 3,
+      "the_plan_citation_and_its_correction": {
+        "correction_lives_here_not_in_the_plan": "The plan extract is sealed. This dated note, pointing at the line, is the correction -- the same handling as the brief's line 54 (brief_line_54_now_superseded) and the 802.51 s figure.",
+        "delta_and_its_cause": "The queue's CONTENTS have not changed at all: measured against commit d3589b0, where the plan extract was promoted into the tree, 0 entries were added and 0 removed, and every recorded count is identical (34 / 4 / 11 / 18 / 5 / 3). So the sentence was never a count of the queue's items or keys -- its two numbers are real quantities wearing the wrong labels, and only its line pointer went stale.",
+        "measured_now": {
+          "distinct_ledger_keys": 34,
+          "distinct_ledgers": [
+            "G0-prime",
+            "MP-E10",
+            "MP-E12",
+            "MP-E8",
+            "MP-E9"
+          ],
+          "entries_in_open_decision_blocks": 34,
+          "queue_key_line": 2985,
+          "recorded_at": "2026-11-04T21:11:40Z",
+          "total_indexed_items": 38,
+          "waiting_outside_decision_blocks": 4
+        },
+        "plan_line_verbatim": "| **PI ruling queue** | The numbered list of open decisions awaiting the Principal Investigator (11 items, 14 ledger keys, indexed at `MP-E10:2538`). Zero machine time; batched (\u00a77.2, B.R). |",
+        "plan_text_left_unedited": true,
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:126",
+        "what_11_and_14_actually_are": {
+          "11": "counts.with_a_status_field = 11 -- entries that DECLARE a status, which is the queue's honesty metric, not its size. It coincides with MP-E8's contribution of 11 entries; the coincidence is reported, not resolved into a cause.",
+          "14": "MP-E10's own open_decisions_for_PI block holds 14 entries (13 decisions plus _brief_cross_reference). It is one ledger's block size, not a count of ledger keys across the queue. It also coincides with entries-with-a-status across both lists.",
+          "honest_conclusion": "Which reading the plan intended cannot be recovered from the record, so the note states both candidates and the measured truth rather than choosing one to fit."
+        }
+      },
+      "what_this_addition_does_not_do": "It adds no decision id to any open_decisions block, closes nothing, changes no cap, and runs nothing. The three items were already in MP-E12's ledger; this makes them visible from the index the PI reads."
+    },
     "non_item_markers_in_decision_blocks": [
       {
         "key": "_resolved",

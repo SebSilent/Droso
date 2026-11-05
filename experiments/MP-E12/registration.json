@@ -58,6 +58,369 @@
     "what_this_is": "The registration of MP-E12a, the only parallel track rule R4 sanctions. It is opened here because the plan opens it on a condition that is already true, not on a condition that is convenient.",
     "why_registration_is_not_blocked": "The missing thing is the donor's weights. A registration does not read them: it fixes, before any run, what will be extracted, how many operations each extraction may spend, what schema the output has, what threshold counts as the headline, and which failure modes will be reported. Every one of those is decidable now. Deferring the registration until the weights arrive would be the R2 failure this repository has already paid for once: a run whose thresholds were chosen after the shape of the data was known."
   },
+  "b6_item5_latency_benchmark_preregistered_unexecuted_2026_11_05": {
+    "1_the_methodology_registered": {
+      "artifact": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+      "budgeted_static_read_operationally": "access class 1 (compile read, v1.2:216), never class 2; through DonorAddressSpace.read_row/read_rows/read_tensor_slice only, mmap read-only, no torch/transformers/numpy on that path; journaled to the access journal (address, tensor, indices, values, probe id, timestamp) with the journal append INSIDE the timed region, because the journal is the mechanism's honesty guarantee and not overhead around it; cold and warm reads are two different quantities and a mixed figure is not reportable at all",
+      "hardware_and_interpreter_identity_R15": "measured fields, not a description: CPython 3.12.10 in the project venv, AMD Ryzen 5 4500U (6 cores/6 logical, 2375 MHz as reported), 11.36 GB RAM, HP Pavilion Laptop 15-eh0xxx, Windows 11 build 26200, AMD Radeon iGPU with no CUDA and no nvidia-smi, Balanced power scheme, battery 100%/status 2, C: 127.6 GB free. Plus the seal's own bytes: git_head, sealed_at_utc, the 237-file count, git_dirty_sealed [], and the git_blob_sha1 and sha256_of_git_blob of all 16 read-path tools. Re-measured on every regeneration, never copied, because a stale CPU string is indistinguishable from an invented one",
+      "query_set_named_before_any_timing": "the 24 registered probes of probe_list_v1.json, in their sealed order, vocab_form read from the file rather than re-derived; the 17 deferred words are excluded because admitting them would change the set after the graph was sealed on it",
+      "reference_inference_operationally": "the same GPT-2 124M bytes executed autoregressively; greedy, temperature 0, no sampling, no beam search, batch 1; decoding length is the curve D-MPE12-05 fixed -- 1, 5, 9 plus the donor's measured mean answer length -- never a single number; the inference arm's import surface must not be reachable from the read path or the C4 audit stops meaning anything",
+      "repetitions": "25 per (query, curve point, arm); 5 warm-up discarded by recorded index order; odd count so the median is an observed value rather than an interpolation; 1,800 timed measurements per arm at the three named points; repetitions interleaved across arms so drift loads on both",
+      "statistic": "median, with MAD and the 5th/95th percentiles; H2 passes at a point only if the ratio of medians is >= 10 AND the read arm's p95 is below the inference arm's p5 -- the second condition is what stops a 10x median from being an artefact of one slow inference repetition",
+      "the_threshold": "H2's >=10x (v1.2:228), carried as written, declared NEVER re-based on the real donor, with this registration named as the place where it would be. The only ratios that exist come from the synthetic calibration and its quoting guard forbids quoting them as evidence about GPT-2.",
+      "written_by": "tools/mp_e12_preregister_latency_benchmark.py"
+    },
+    "2_the_R11_question_confronted_here_rather_than_at_the_bench": {
+      "consequence_if_the_answer_is_no": "H2's >=10x claim cannot be measured AT ALL under R11 as written -- not 'unmeasured for now' but untestable, because its denominator is an act the doctrine forbids. The plan's flagship latency clause then becomes design rationale rather than a hypothesis, G5's 'H1-H4 hold' cannot be evaluated as written, and the honest report is that v1.2 carries an unfalsifiable clause in its flagship. That is a finding about the plan, and it is preferable to measuring the clause by violating the doctrine that makes the program distinctive.",
+      "identifier_checked_against_the_live_key_set_first": {
+        "collision": false,
+        "ids_found_in_use": [
+          "D-MPE12-01",
+          "D-MPE12-02",
+          "D-MPE12-03",
+          "D-MPE12-04",
+          "D-MPE12-05",
+          "D-MPE12-06",
+          "D-MPE12-07",
+          "D-MPE12-08"
+        ],
+        "rule": "AMD-MPE10-11: a proposed identifier is checked against the live key set BEFORE it is written down",
+        "where_06_07_08_live": [
+          "docs/mp_e12b_compiler_design_step.md:77",
+          "docs/mp_e12b_compiler_design_step.md:81",
+          "docs/mp_e12b_compiler_design_step.md:85",
+          "and the ledger's own open_decisions block"
+        ],
+        "why_it_mattered_here": "the obvious next number after the ledger's five decisions was 06, and 06 was already spoken for by a document. Had the id been proposed from memory it would have collided, and two questions would now share one name -- exactly the failure the rule exists to stop."
+      },
+      "plain_statement": "measuring a wall-clock ratio against autoregressive inference REQUIRES running the donor. The numerator is a read; the denominator is an execution; R11 forbids the execution except once, offline, for the control.",
+      "question": "Is an offline, journaled, never-answers-producing execution of the donor for the purpose of timing it (a) inside R11's existing sanction for the control arm, sharing its 'once per registration' allowance, (b) a new exception needing its own dated rule, or (c) not permitted at all?",
+      "question_id": "D-MPE12-09",
+      "sub_questions_the_answer_must_settle": [
+        "if (a): does the benchmark consume the control's one execution, and which registration is 'the registration'?",
+        "if (a): is a duration 'text' for the purposes of 'run once, offline, to emit text'?",
+        "if (b): is the allowance once per registration or once per instrument change? R15 requires re-measurement after an interpreter change, so (b) must answer how many executions a re-basing costs",
+        "either way: does the fourth curve point (the donor's measured mean answer length) count as an execution of its own, or is it derived from the same run? D-MPE12-05 fixed that point and obtaining it requires running the donor -- the ruling that fixes the curve's shape presupposes the act the doctrine bars",
+        "either way: what audit distinguishes a benchmark process from the deployment loop, so that C4 is a test rather than a slogan?"
+      ],
+      "the_case_that_it_is_a_new_exception": [
+        "R11's sanction is scoped to an arm 'run once, offline, to emit text' whose text is then trained on; a benchmark emits durations and trains on nothing -- different act, different output, different purpose",
+        "'once per registration' is a numeric allowance, and two acts cannot both be 'the once': if the benchmark is the same category it CONSUMES the control's single execution rather than getting its own",
+        "C4 aborts on a forward pass 'in the deployment loop'; a benchmark process is not that loop, but the audit that tells them apart does not exist yet -- the program asserts an import surface, which is not the same test",
+        "R11's closing sentence bars pipelines that run the model 'to answer'; a benchmark does not answer, so the sentence does not bar it -- but nothing authorises it either, and reading silence in a doctrine as permission is how doctrines decay"
+      ],
+      "the_case_that_it_is_the_same_category": [
+        "offline, outside the deployment loop, output reaches no answer: the three things R11 names as the danger are all absent",
+        "it emits durations, not content, so R9's word-level traceability is not exercised",
+        "the control's own clause prices the rival's cost -- 'must beat or match text-distillation at lower latency and energy' cannot be evaluated unless the rival's latency is measured, so a benchmark is arguably inside the control's remit rather than adjacent to it"
+      ],
+      "what_this_step_did_not_do": "the question is registered, not answered. No execution count proposed beyond the read arm's repetitions, which need no ruling. The read arm alone is fully measurable today; it is the RATIO that needs the answer, because a ratio has two arms and only one of them is permitted."
+    },
+    "3_the_R17_reading_registered_before_any_timing": {
+      "named_open_condition_not_assumed_settled": "OMP_NUM_THREADS and MKL_NUM_THREADS are both unset on this machine. torch defaults to a thread count derived from the CPU, so a multi-threaded inference arm against a single-threaded read arm compares two thread counts, not two access classes. Registered as a condition the run must pin, not as something this step settled.",
+      "quantity_to_rule_map": "registered in the artifact, section 8, four quantities each mapped to the rule that bounds it",
+      "reading": "R17's object is a BEHAVIOURAL claim about the organ -- treatment effect, migration count, breach tally, retention delta. A wall-clock ratio is none of those: it is a property of an access path and a machine, and no answer the organ gives depends on it. So R17 does NOT require a fresh-vs-fresh floor pair for a latency figure, and demanding one would be a category error that buys nothing.",
+      "the_risk_that_is_real_and_the_instrument_for_it": "a difference smaller than the noise reported as an effect. The right instrument is repeated-measurement dispersion INSIDE the same process -- which is why 25 repetitions, median+MAD, the 5th/95th percentiles and the two-sided pass rule are fixed here before any clock exists. A floor pair asks whether the instrument moves rows; dispersion asks whether the instrument can resolve the gap being claimed. For a duration, the second is the question.",
+      "the_rules_that_do_bound_a_latency_figure": "R15 (the interpreter is a seal component; a change re-bases the figure) and R16 (the set of wall-clock-gated conditions is an observed property of an environment, new ones added by dated amendment naming the revealing artifact). Not R17.",
+      "where_a_floor_would_come_back": "if a latency figure is ever used to support a behavioural claim -- 'the organ answers faster, therefore it retains differently' -- the behavioural half is back inside R17's scope and needs its own floor at its own tier. The ratio never crosses that boundary silently."
+    },
+    "4_the_machine_time_spent_in_this_step": {
+      "bench_runs": 0,
+      "donor_reads": 0,
+      "extractions": 0,
+      "network": "0 requests; the only network act in this step was none",
+      "note": "the machine identity block reads CIM and attempts module imports; neither is a measurement of latency and no duration from it is recorded anywhere",
+      "timed_measurements": 0,
+      "wall_clock_seconds": 0
+    },
+    "5_the_inconvenient_finding_this_registration_produced": {
+      "finding": "torch 2.15.0+cpu and numpy 2.5.4 are PRESENT in the project venv; transformers and safetensors are absent. The inference arm is therefore buildable on this laptop today with no new dependency, by loading the sealed safetensors through the existing address space and running a forward pass in torch.",
+      "why_it_is_registered": "the option of 'we cannot run the benchmark here' does not exist. Only a rule stands between this program and an executed donor, which makes D-MPE12-09 a decision that must be made deliberately rather than a gap that can be left to circumstance. It also makes the C4 import-surface assertions load-bearing rather than decorative: the forbidden module is installed."
+    },
+    "authorized_by": "the PI's order of 2026-11-05: 'One cheap, no-run step, and it is the last one available before you need authorisation: pre-register B.6 item 5 so it is ruleable and runnable the moment the PI answers, without ever being registered after seeing a result.'",
+    "pointer_note": "ledger-internal coordinates (file == this registration.json) are recorded against the file as it stood BEFORE this block was inserted and are re-resolved by content in the same step; citations into other files do not drift, because a stamp only edits the registrations. Key paths are the durable coordinate; line numbers are a measurement of one file at one moment. | test_r17 and test_stdlib were re-resolved after this session rewrote the collision test, which added 25 lines to the test file and left the two pointers sitting early -- the same drift class as as_read_vector: a pointer into a file another step edits is as fragile as a pointer into this ledger.",
+    "registered_at_utc": "2026-11-05T17:53:41Z",
+    "self_pointers": {
+      "the_R11_question": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"proposed_identifier\": \"D-MPE12-09\",",
+        "post_write_line": 318,
+        "shifted": false
+      },
+      "the_null_durations": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"median_s\": null,",
+        "post_write_line": 412,
+        "shifted": false
+      },
+      "this_amendment": {
+        "line_reads": "\"b6_item5_latency_benchmark_preregistered_unexecuted_2026_11_05\": {",
+        "post_write_line": 61,
+        "pre_write_line": null,
+        "shifted": false
+      }
+    },
+    "status": "PRE-REGISTERED AND UNEXECUTED. No clock was started in this step and no donor was executed. The artifact this registers has no duration in it, structurally verified by tests/test_mp_e12_latency_preregistration.py::test_no_field_holds_a_duration.",
+    "verified_pointers": {
+      "art_consequence_if_no": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 301,
+        "line_reads": "\"consequence_if_the_answer_is_no\": \"H2's >=10x claim cannot be measured AT ALL under R11 as written -- not 'is unmeasured for now', but untestable: its denominator is an act the doctrine forbids. The ",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:301"
+      },
+      "art_identity": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 62,
+        "line_reads": "\"measured_identity\": {",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:62"
+      },
+      "art_null_durations": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 412,
+        "line_reads": "\"median_s\": null,",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:412"
+      },
+      "art_proposed_id": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 318,
+        "line_reads": "\"proposed_identifier\": \"D-MPE12-09\",",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:318"
+      },
+      "art_query_set": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 3,
+        "line_reads": "\"n_queries\": 24,",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:3"
+      },
+      "art_r17_map": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 349,
+        "line_reads": "\"quantity_to_rule_map\": {",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:349"
+      },
+      "art_repeats": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 49,
+        "line_reads": "\"repetitions_per_query_per_point_per_arm\": 25,",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:49"
+      },
+      "art_status": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 427,
+        "line_reads": "\"status\": \"PRE-REGISTERED AND UNEXECUTED. No timing exists anywhere in this artifact.\",",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:427"
+      },
+      "art_threshold": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 291,
+        "line_reads": "\"never_re_based_on_the_real_donor\": true,",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:291"
+      },
+      "art_torch_present": {
+        "file": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json",
+        "line": 272,
+        "line_reads": "\"consequence\": \"torch is PRESENT (2.15.0+cpu) and transformers/safetensors are ABSENT. So the inference arm is buildable on this laptop today without any new dependency, by loading the sealed safetens",
+        "pointer": "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json:272"
+      },
+      "doc_06": {
+        "file": "docs/mp_e12b_compiler_design_step.md",
+        "line": 77,
+        "line_reads": "- **D-MPE12-06** the confidence threshold that gates an edge into `grow_plastic`/`wire_pool`. It must be fixed",
+        "pointer": "docs/mp_e12b_compiler_design_step.md:77"
+      },
+      "doc_07": {
+        "file": "docs/mp_e12b_compiler_design_step.md",
+        "line": 81,
+        "line_reads": "- **D-MPE12-07** whether the source dimension is a new key inside `prov` or a new admissibility class in",
+        "pointer": "docs/mp_e12b_compiler_design_step.md:81"
+      },
+      "doc_08": {
+        "file": "docs/mp_e12b_compiler_design_step.md",
+        "line": 85,
+        "line_reads": "- **D-MPE12-08** whether stage b may be exercised on a scratch organ before the live one, and what would make a",
+        "pointer": "docs/mp_e12b_compiler_design_step.md:85"
+      },
+      "ledger_d05_before": {
+        "file": "experiments/MP-E12/registration.json",
+        "line": 4196,
+        "line_reads": "\"D-MPE12-05_as_registered_before_the_ruling\": \"How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibra",
+        "pointer": "experiments/MP-E12/registration.json:4196"
+      },
+      "ledger_d06": {
+        "file": "experiments/MP-E12/registration.json",
+        "line": 4133,
+        "line_reads": "\"D-MPE12-06\": \"The confidence threshold that gates an edge into grow_plastic/wire_pool. Must be fixed before the first real graph is compiled; cannot be derived from the synthetic donor, whose confide",
+        "pointer": "experiments/MP-E12/registration.json:4133"
+      },
+      "ledger_first_real_use": {
+        "file": "experiments/MP-E12/registration.json",
+        "line": 973,
+        "line_reads": "\"first_real_use_of_the_instruments_2026_11_05_B6_item_4\": {",
+        "pointer": "experiments/MP-E12/registration.json:973"
+      },
+      "ledger_ruled_at": {
+        "file": "experiments/MP-E12/registration.json",
+        "line": 4209,
+        "line_reads": "\"ruled_at\": \"2026-08-10\",",
+        "pointer": "experiments/MP-E12/registration.json:4209"
+      },
+      "ledger_seal_head": {
+        "file": "experiments/MP-E12/registration.json",
+        "line": 3715,
+        "line_reads": "\"git_head\": \"725f5a214cc600a99984421adde928f0a5d799c5\",",
+        "pointer": "experiments/MP-E12/registration.json:3715"
+      },
+      "ledger_tokenizer": {
+        "file": "experiments/MP-E12/registration.json",
+        "line": 4477,
+        "line_reads": "\"tokenizer_landed_and_two_rules_registered_2026_11_05\": {",
+        "pointer": "experiments/MP-E12/registration.json:4477"
+      },
+      "plan_C_conditions": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 232,
+        "line_reads": "**C-conditions.** C1: any guarded row answered post-transplant \u2014 abort. C2: library-sourced knowledge silently promoted to curriculum class \u2014 abort. C3: read budget exceeded on any logged item \u2014 abort",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:232"
+      },
+      "plan_E12a_work": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 220,
+        "line_reads": "**Stage MP-E12a \u2014 the address space and the calibration donor (opens now).** Donor: **GPT-2 124M** public weights (deliberately the same family as the program's reference opponent; confirmed specs pin",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:220"
+      },
+      "plan_H2": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 228,
+        "line_reads": "- **H2 (latency).** Per-association read cost is at least ten times lower than autoregressive inference for equivalent association queries, on identical hardware \u2014 measured for both donors, with the a",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:228"
+      },
+      "plan_R11": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 146,
+        "line_reads": "- **R11 \u2014 The library is addressed, never executed.** *(New in v1.2.)* A frozen donor's weights are used in exactly two ways: as a read-only address space (compile reads offline; live address reads at",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:146"
+      },
+      "plan_R17": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 147,
+        "line_reads": "- **R17 \u2014 No behavioural claim without a floor.** *(New in v1.2.)* Before any single-run behavioural claim is made at a tier \u2014 treatment effect, migration count, breach tally, retention delta \u2014 a fres",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:147"
+      },
+      "plan_class1": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 216,
+        "line_reads": "1. **Compile reads (offline, MP-E12a/b).** Budgeted static extractions against the mapped library: embedding geometry (nearest-neighbour structure of the token-embedding matrix \u2192 candidate feature poo",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:216"
+      },
+      "plan_class2": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 217,
+        "line_reads": "2. **Live address reads (deployment, new in v1.2).** The library stays mapped \u2014 on disk, read-only \u2014 after compilation. At deployment the organ may resolve any address through native probes (spreading",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:217"
+      },
+      "plan_control_class": {
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 218,
+        "line_reads": "3. **The control (the rival hypothesis).** The text-distillation arm is the only sanctioned *execution* of the donor in the entire program: the frozen donor is run once, offline, to emit text, and Dro",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:218"
+      },
+      "sealed_bench_not_run": {
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 105,
+        "line_reads": "\"benchmark_not_run_reason\": \"the >=10x threshold has never been re-based on the real donor: reference_inference is a measurement against the synthetic shapes and the numpy path, not against the journa",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:105"
+      },
+      "sealed_pool63_block": {
+        "file": "experiments/MP-E12/results/clustering_limitation_v1.json",
+        "line": 2,
+        "line_reads": "\"cost_of_the_current_registration\": {",
+        "pointer": "experiments/MP-E12/results/clustering_limitation_v1.json:2"
+      },
+      "sealed_prereg_time": {
+        "file": "experiments/MP-E12/results/real_run_preregistration.json",
+        "line": 33,
+        "line_reads": "\"registered_at_utc\": \"2026-11-05T16:27:13Z\",",
+        "pointer": "experiments/MP-E12/results/real_run_preregistration.json:33"
+      },
+      "sealed_probe_fixed_first": {
+        "file": "experiments/MP-E12/results/probe_list_v1.json",
+        "line": 90,
+        "line_reads": "\"fixed_before_any_extraction\": true,",
+        "pointer": "experiments/MP-E12/results/probe_list_v1.json:90"
+      },
+      "test_collision": {
+        "file": "tests/test_mp_e12_latency_preregistration.py",
+        "line": 222,
+        "line_reads": "def test_proposed_identifier_does_not_collide_with_the_live_key_set():",
+        "pointer": "tests/test_mp_e12_latency_preregistration.py:222"
+      },
+      "test_no_duration": {
+        "file": "tests/test_mp_e12_latency_preregistration.py",
+        "line": 40,
+        "line_reads": "def test_no_field_holds_a_duration():",
+        "pointer": "tests/test_mp_e12_latency_preregistration.py:40"
+      },
+      "test_r17": {
+        "file": "tests/test_mp_e12_latency_preregistration.py",
+        "line": 266,
+        "line_reads": "def test_R17_reading_is_registered_and_names_the_right_rule_for_each_quantity():",
+        "pointer": "tests/test_mp_e12_latency_preregistration.py:266"
+      },
+      "test_stdlib": {
+        "file": "tests/test_mp_e12_latency_preregistration.py",
+        "line": 282,
+        "line_reads": "def test_the_tool_is_stdlib_only_and_reads_no_donor_bytes():",
+        "pointer": "tests/test_mp_e12_latency_preregistration.py:282"
+      },
+      "tool_crux": {
+        "file": "tools/mp_e12_preregister_latency_benchmark.py",
+        "line": 321,
+        "line_reads": "\"the_fourth_point_is_the_crux\": \"the donor's MEASURED mean answer length requires running the donor to \"",
+        "pointer": "tools/mp_e12_preregister_latency_benchmark.py:321"
+      },
+      "tool_curve_points": {
+        "file": "tools/mp_e12_preregister_latency_benchmark.py",
+        "line": 37,
+        "line_reads": "CURVE_POINTS = [1, 5, 9]           # fixed by D-MPE12-05, not chosen here",
+        "pointer": "tools/mp_e12_preregister_latency_benchmark.py:37"
+      },
+      "tool_pass_rule": {
+        "file": "tools/mp_e12_preregister_latency_benchmark.py",
+        "line": 50,
+        "line_reads": "PASS_RULE = (\"H2 passes at a point only if the ratio of medians is >= 10 AND the read arm's 95th percentile is \"",
+        "pointer": "tools/mp_e12_preregister_latency_benchmark.py:50"
+      },
+      "tool_repeats": {
+        "file": "tools/mp_e12_preregister_latency_benchmark.py",
+        "line": 41,
+        "line_reads": "REPEATS = 25                       # odd, so the median is an observed value rather than an interpolation",
+        "pointer": "tools/mp_e12_preregister_latency_benchmark.py:41"
+      },
+      "tool_timed_region": {
+        "file": "tools/mp_e12_preregister_latency_benchmark.py",
+        "line": 283,
+        "line_reads": "\"what_is_inside_the_timed_region\": \"the read call AND its journal append. The journal is not overhead \"",
+        "pointer": "tools/mp_e12_preregister_latency_benchmark.py:283"
+      }
+    },
+    "what_this_step_did_not_do": {
+      "no_answer_path_touched": true,
+      "no_cap_raised": "64 rows/read, 256 rows/probe, 24 ops/item, 63 pool, 10 neighbours -- quoted from the sealed artifacts and unchanged; a test asserts each value against the file it came from",
+      "no_decision_made_on_the_PI's_behalf": "D-MPE12-09 is named and argued both ways, not answered",
+      "no_donor_execution": "the donor was not run; not once, not offline, not to see",
+      "no_energy_proxy_invented": "D-MPE12-02 remains open and the energy clause stays untested",
+      "no_extraction_beyond_the_sealed": "no new graph, no new journal records, no probe of the 17 deferred words",
+      "no_mp_e12b": "the compiler was not built, not exercised, not touched; D-MPE12-04 still bars it",
+      "no_sealed_artifact_rewritten": "probe_list_v1, the class-1 graph, the pre-flight and the clustering artifact were read only",
+      "no_threshold_changed": ">=10x carried as written and declared un-re-based",
+      "no_timing": "nothing was measured in seconds anywhere; the artifact's duration fields are null by construction and a test walks the structure to prove it"
+    },
+    "why_pre_registration_was_the_only_honest_order_for_this_item": [
+      "item 5 is the one MP-E12a measurement gated by a decision rather than by machine time, and a decision can arrive at any moment; if the methodology were written when it arrives, the methodology would be written by someone who knows which answer is wanted",
+      "the numbers that decide a latency figure -- query set, repetitions, statistic, decoding strategy, thread pinning, cold-versus-warm -- are all choices that a person who has seen a number can justify after the fact; they are only honest as choices made blind",
+      "the >=10x threshold has sat un-re-based since the calibration and every attempt to 'just run it' would have silently re-based it by choosing the conditions afterwards; this registration is the place where it would be re-based, and it is written before the run rather than around it"
+    ]
+  },
   "calibration_findings_recorded_after_the_first_run": {
     "findings": "five, in probes_synthetic_calibration.json under calibration_findings: (1) 10x depends on a query length the plan never gives -> D-MPE12-05; (2) the read is slower than generating one token on wall-clock, with unpriced work on BOTH sides in opposite directions; (3) 72.8% of the read's MACs are the two wte multiplies, so the operation budget does not see the cost that actually dominates; (4) the budget has one operation of headroom and already bound the design -- a dropped per-head nearest-token read costs 4 more and would abort every item; (5) weight tying is visible as a shape statistic the instrument reports, which is what a superposition probe needs to be able to say.",
     "status": "Written after the synthetic calibration ran. It adds no definition, changes no threshold and alters no budget; the numbers it quotes are the run's own, derived in the artifact.",
@@ -183,19 +546,19 @@
     "self_pointers": {
       "the_old_blocker": {
         "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
-        "post_write_line": 2751,
+        "post_write_line": 4398,
         "pre_write_line": 2257,
         "shifted": true
       },
       "what_must_arrive": {
         "line_reads": "\"what_must_arrive\": \"GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to ",
-        "post_write_line": 2755,
+        "post_write_line": 4402,
         "pre_write_line": 2261,
         "shifted": true
       },
       "where_it_must_be": {
         "line_reads": "\"where_it_must_be\": \"experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.\"",
-        "post_write_line": 2756,
+        "post_write_line": 4403,
         "pre_write_line": 2262,
         "shifted": true
       }
@@ -503,9 +866,9 @@
       "the_old_blocker": {
         "as_claimed": "the 2026-08-10 absence record, left untouched",
         "file": "experiments/MP-E12/registration.json",
-        "line": 2257,
+        "line": 4398,
         "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
-        "pointer": "experiments/MP-E12/registration.json:2257",
+        "pointer": "experiments/MP-E12/registration.json:4398",
         "post_write_line": 2751,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -534,9 +897,9 @@
       "what_must_arrive": {
         "as_claimed": "the tensor spec the donor had to satisfy",
         "file": "experiments/MP-E12/registration.json",
-        "line": 2261,
+        "line": 4402,
         "line_reads": "\"what_must_arrive\": \"GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to ",
-        "pointer": "experiments/MP-E12/registration.json:2261",
+        "pointer": "experiments/MP-E12/registration.json:4402",
         "post_write_line": 2755,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -544,9 +907,9 @@
       "where_it_must_be": {
         "as_claimed": "the path the plan required",
         "file": "experiments/MP-E12/registration.json",
-        "line": 2262,
+        "line": 4403,
         "line_reads": "\"where_it_must_be\": \"experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.\"",
-        "pointer": "experiments/MP-E12/registration.json:2262",
+        "pointer": "experiments/MP-E12/registration.json:4403",
         "post_write_line": 2756,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -672,25 +1035,25 @@
     "self_pointers": {
       "D-MPE12-02": {
         "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"decision_id\": \"D-MPE12-02\",",
-        "post_write_line": 3865,
+        "post_write_line": 4228,
         "pre_write_line": 3010,
         "shifted": true
       },
       "D-MPE12-04": {
         "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"decision_id\": \"D-MPE12-04\",",
-        "post_write_line": 3882,
+        "post_write_line": 4245,
         "pre_write_line": 3036,
         "shifted": true
       },
       "the_B6_items_2_3_registration": {
         "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"instruments_registered_2026_11_05_B6_items_2_3\": {",
-        "post_write_line": 3397,
+        "post_write_line": 3760,
         "pre_write_line": 2614,
         "shifted": true
       },
       "this_amendment": {
         "line_reads": "\"first_real_use_of_the_instruments_2026_11_05_B6_item_4\": {",
-        "post_write_line": 610,
+        "post_write_line": 973,
         "pre_write_line": 3332,
         "shifted": true
       }
@@ -891,23 +1254,23 @@
       "ledger_dmpe12_02": {
         "as_claimed": "the open decision cited as a standing blocker | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3676, now 3802",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3865,
+        "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:3865"
+        "pointer": "experiments/MP-E12/registration.json:4228"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the open decision cited as a standing blocker | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3693, now 3819",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3882,
+        "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:3882"
+        "pointer": "experiments/MP-E12/registration.json:4245"
       },
       "ledger_instruments_key": {
         "as_claimed": "the B.6 items 2-3 registration this amendment follows | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3208, now 3334",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3397,
+        "line": 3760,
         "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
-        "pointer": "experiments/MP-E12/registration.json:3397"
+        "pointer": "experiments/MP-E12/registration.json:3760"
       },
       "pb_conservative_prop": {
         "as_claimed": "the tally that charges a gather",
@@ -1897,6 +2260,15 @@
         "sha256_lf": "0a2054728b2708521f108bb45eec6314aca3f855714aff51d44a8b6a2ffa2353",
         "sha256_of_git_blob": "0a2054728b2708521f108bb45eec6314aca3f855714aff51d44a8b6a2ffa2353"
       },
+      "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 34628,
+        "bytes_worktree": 34628,
+        "git_blob_sha1": "c9681cfd6cc4ce47fc0436bdc2fe1949932e8238",
+        "line_endings": "LF",
+        "sha256_lf": "aa087a02ce547a5249c9319e12d5c825f23bd52923908640efdc95db4c2dcf42",
+        "sha256_of_git_blob": "aa087a02ce547a5249c9319e12d5c825f23bd52923908640efdc95db4c2dcf42"
+      },
       "experiments/MP-E12/results/probe_list_v1.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 10328,
@@ -2869,6 +3241,15 @@
         "sha256_lf": "2a38c09cd9c9c570eb1a6ab7ea48e562331ea41ca25ca852249505edac16e970",
         "sha256_of_git_blob": "2a38c09cd9c9c570eb1a6ab7ea48e562331ea41ca25ca852249505edac16e970"
       },
+      "tests/test_mp_e12_latency_preregistration.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 19513,
+        "bytes_worktree": 19855,
+        "git_blob_sha1": "d6371d182c711d78e2a8372f953f5956c059b468",
+        "line_endings": "CRLF",
+        "sha256_lf": "78e13eca67d5d1dfdcbae673791e0c442deaf33881cd39e79a895bb7dcf0f2f3",
+        "sha256_of_git_blob": "78e13eca67d5d1dfdcbae673791e0c442deaf33881cd39e79a895bb7dcf0f2f3"
+      },
       "tests/test_mp_e12_probes.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 12906,
@@ -3166,6 +3547,15 @@
         "sha256_lf": "a03d3cb4253109156101da25d091bdfe71eb358aa592929eb833f4436c321cd9",
         "sha256_of_git_blob": "a03d3cb4253109156101da25d091bdfe71eb358aa592929eb833f4436c321cd9"
       },
+      "tools/mp_e12_preregister_latency_benchmark.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 40549,
+        "bytes_worktree": 41092,
+        "git_blob_sha1": "2b0e764bf83f0fd0146042278c4d746b093a217b",
+        "line_endings": "CRLF",
+        "sha256_lf": "18ef77ca4fbb4425695c223b4d4a77ed65a988400ba7ad70d806e7917aaf904a",
+        "sha256_of_git_blob": "18ef77ca4fbb4425695c223b4d4a77ed65a988400ba7ad70d806e7917aaf904a"
+      },
       "tools/mp_e12_preregister_real_run.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 13334,
@@ -3321,12 +3711,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 66586,
-        "bytes_worktree": 67520,
-        "git_blob_sha1": "f645da91489212bc473f0a015447d0469b5a2068",
+        "bytes_blob": 67442,
+        "bytes_worktree": 68385,
+        "git_blob_sha1": "85cf0cfe8c07d37b0cbda8e9d8d3cae408bf9f59",
         "line_endings": "CRLF",
-        "sha256_lf": "92c58a70d44a9836cd97c473f9a1daedf37cd0ec8dbc36f97d9a974a6376c0ba",
-        "sha256_of_git_blob": "92c58a70d44a9836cd97c473f9a1daedf37cd0ec8dbc36f97d9a974a6376c0ba"
+        "sha256_lf": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2",
+        "sha256_of_git_blob": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -3349,7 +3739,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "725f5a214cc600a99984421adde928f0a5d799c5",
+    "git_head": "5565d5476ca966b5684ee2cf387c501525d8d7e5",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -3375,7 +3765,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T17:29:14Z",
+    "sealed_at_utc": "2026-11-05T20:05:24Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -3479,7 +3869,7 @@
       "weights_only_param_count": 124439808,
       "why_excluded": "they are causal masks: constant by construction, identical in every layer, learned by nothing. A feature pool that mined them would learn a triangle and report it as donor structure; an operation budget that counted them would be spending against bytes that carry no information."
     },
-    "pointer_rule_applied": "every pointer was resolved by grep in the same step and its line quoted here; the script aborts if a line does not hold what the citation claims. Pointers into this ledger are re-resolved after the write and the file's line count is asserted unchanged by the value patch, so the numbers cannot be stale on arrival.",
+    "pointer_rule_applied": "every pointer was resolved by grep in the same step and its line quoted here; the script aborts if a line does not hold what the citation claims. Pointers into this ledger are re-resolved after the write and the file's line count is asserted unchanged by the value patch, so the numbers cannot be stale on arrival. | as_read_vector drifted silently between steps and was re-resolved from :190 to :218 by the b6_item5 audit: the cited tool grew when the address resolver and the sha256 helper landed, and this amendment's repair pass had only ever re-resolved its ledger-internal citations. The lesson taken: a pointer into a file another step edits is as fragile as a pointer into this ledger, and the audit must check every pointer against the file each one names, not only the pointers written in the current step.",
     "probe_list": {
       "a_rule_change_recorded_not_hidden": "the first cut required a UNIQUE candidate form and deferred 88 of 121 words, including `dog`. That was the rule's artifact, not the donor's; the precedence rule now in the tool decides by position (a content word in these frames follows a space). The change is recorded in the artifact's revision_note.",
       "budgets_registered": {
@@ -3519,13 +3909,13 @@
     "self_pointers": {
       "the_donor_arrival_block": {
         "line_reads": "\"donor_arrived_2026_11_05_B6_step1\": {",
-        "post_write_line": 74,
+        "post_write_line": 437,
         "pre_write_line": 74,
         "shifted": false
       },
       "the_old_blocker": {
         "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
-        "post_write_line": 3138,
+        "post_write_line": 4398,
         "pre_write_line": 2751,
         "shifted": true
       }
@@ -3563,9 +3953,9 @@
       "as_read_vector": {
         "as_claimed": "the 1-D read path added after the self-test found the gap",
         "file": "tools/mp_e12_address_space.py",
-        "line": 190,
+        "line": 218,
         "line_reads": "def read_vector(self, tensor: str, probe_id: str = \"unattributed\"):",
-        "pointer": "tools/mp_e12_address_space.py:190"
+        "pointer": "tools/mp_e12_address_space.py:218"
       },
       "jr_flush_per_record": {
         "as_claimed": "durability per record",
@@ -4185,25 +4575,25 @@
     "self_pointers": {
       "dmpe12_02": {
         "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"decision_id\": \"D-MPE12-02\",",
-        "post_write_line": 3865,
+        "post_write_line": 4228,
         "pre_write_line": 3802,
         "shifted": true
       },
       "dmpe12_04": {
         "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"decision_id\": \"D-MPE12-04\",",
-        "post_write_line": 3882,
+        "post_write_line": 4245,
         "pre_write_line": 3819,
         "shifted": true
       },
       "previous_amendment": {
         "line_reads": "\"first_real_use_of_the_instruments_2026_11_05_B6_item_4\": {",
-        "post_write_line": 610,
+        "post_write_line": 973,
         "pre_write_line": 610,
         "shifted": false
       },
       "this_amendment": {
         "line_reads": "post-stamp coordinate, re-resolved by content needle: the seal's files block grew and moved every line below it; citations into other files were unaffected. \"tokenizer_landed_and_two_rules_registered_2026_11_05\": {",
-        "post_write_line": 4114,
+        "post_write_line": 4477,
         "pre_write_line": 4052,
         "shifted": true
       }
@@ -4339,37 +4729,37 @@
       "ledger_dmpe12_02": {
         "as_claimed": "the open energy question",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3865,
+        "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:3865"
+        "pointer": "experiments/MP-E12/registration.json:4228"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the decision that still bars MP-E12b",
         "file": "experiments/MP-E12/registration.json",
-        "line": 3882,
+        "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:3882"
+        "pointer": "experiments/MP-E12/registration.json:4245"
       },
       "ledger_donor_arrival_block": {
         "as_claimed": "the block that recorded the weights arriving, which this amendment follows for the tokenizer",
         "file": "experiments/MP-E12/registration.json",
-        "line": 74,
+        "line": 437,
         "line_reads": "\"donor_arrived_2026_11_05_B6_step1\": {",
-        "pointer": "experiments/MP-E12/registration.json:74"
+        "pointer": "experiments/MP-E12/registration.json:437"
       },
       "ledger_first_real_use": {
         "as_claimed": "the previous step's amendment",
         "file": "experiments/MP-E12/registration.json",
-        "line": 610,
+        "line": 973,
         "line_reads": "\"first_real_use_of_the_instruments_2026_11_05_B6_item_4\": {",
-        "pointer": "experiments/MP-E12/registration.json:610"
+        "pointer": "experiments/MP-E12/registration.json:973"
       },
       "ledger_seal_v1_entry": {
         "as_claimed": "the seal entry that proves v1 is untouched",
         "file": "experiments/MP-E12/registration.json",
-        "line": 1900,
+        "line": 2263,
         "line_reads": "\"experiments/MP-E12/results/probe_list_v1.json\": {",
-        "pointer": "experiments/MP-E12/registration.json:1900"
+        "pointer": "experiments/MP-E12/registration.json:2263"
       },
       "lt_no_runtime": {
         "as_claimed": "the rule that tokenizer files are data",

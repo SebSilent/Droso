@@ -1096,6 +1096,15 @@
         "sha256_lf": "0a2054728b2708521f108bb45eec6314aca3f855714aff51d44a8b6a2ffa2353",
         "sha256_of_git_blob": "0a2054728b2708521f108bb45eec6314aca3f855714aff51d44a8b6a2ffa2353"
       },
+      "experiments/MP-E12/results/latency_benchmark_preregistration_v1.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 34628,
+        "bytes_worktree": 34628,
+        "git_blob_sha1": "c9681cfd6cc4ce47fc0436bdc2fe1949932e8238",
+        "line_endings": "LF",
+        "sha256_lf": "aa087a02ce547a5249c9319e12d5c825f23bd52923908640efdc95db4c2dcf42",
+        "sha256_of_git_blob": "aa087a02ce547a5249c9319e12d5c825f23bd52923908640efdc95db4c2dcf42"
+      },
       "experiments/MP-E12/results/probe_list_v1.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 10328,
@@ -2068,6 +2077,15 @@
         "sha256_lf": "2a38c09cd9c9c570eb1a6ab7ea48e562331ea41ca25ca852249505edac16e970",
         "sha256_of_git_blob": "2a38c09cd9c9c570eb1a6ab7ea48e562331ea41ca25ca852249505edac16e970"
       },
+      "tests/test_mp_e12_latency_preregistration.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 19513,
+        "bytes_worktree": 19855,
+        "git_blob_sha1": "d6371d182c711d78e2a8372f953f5956c059b468",
+        "line_endings": "CRLF",
+        "sha256_lf": "78e13eca67d5d1dfdcbae673791e0c442deaf33881cd39e79a895bb7dcf0f2f3",
+        "sha256_of_git_blob": "78e13eca67d5d1dfdcbae673791e0c442deaf33881cd39e79a895bb7dcf0f2f3"
+      },
       "tests/test_mp_e12_probes.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 12906,
@@ -2365,6 +2383,15 @@
         "sha256_lf": "a03d3cb4253109156101da25d091bdfe71eb358aa592929eb833f4436c321cd9",
         "sha256_of_git_blob": "a03d3cb4253109156101da25d091bdfe71eb358aa592929eb833f4436c321cd9"
       },
+      "tools/mp_e12_preregister_latency_benchmark.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 40549,
+        "bytes_worktree": 41092,
+        "git_blob_sha1": "2b0e764bf83f0fd0146042278c4d746b093a217b",
+        "line_endings": "CRLF",
+        "sha256_lf": "18ef77ca4fbb4425695c223b4d4a77ed65a988400ba7ad70d806e7917aaf904a",
+        "sha256_of_git_blob": "18ef77ca4fbb4425695c223b4d4a77ed65a988400ba7ad70d806e7917aaf904a"
+      },
       "tools/mp_e12_preregister_real_run.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 13334,
@@ -2520,12 +2547,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 66586,
-        "bytes_worktree": 67520,
-        "git_blob_sha1": "f645da91489212bc473f0a015447d0469b5a2068",
+        "bytes_blob": 67442,
+        "bytes_worktree": 68385,
+        "git_blob_sha1": "85cf0cfe8c07d37b0cbda8e9d8d3cae408bf9f59",
         "line_endings": "CRLF",
-        "sha256_lf": "92c58a70d44a9836cd97c473f9a1daedf37cd0ec8dbc36f97d9a974a6376c0ba",
-        "sha256_of_git_blob": "92c58a70d44a9836cd97c473f9a1daedf37cd0ec8dbc36f97d9a974a6376c0ba"
+        "sha256_lf": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2",
+        "sha256_of_git_blob": "3038165c38d458ec244a791a0e4424aa2598652eed6601f642e4bfcc06a16af2"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -2548,7 +2575,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "725f5a214cc600a99984421adde928f0a5d799c5",
+    "git_head": "5565d5476ca966b5684ee2cf387c501525d8d7e5",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -2574,7 +2601,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T17:29:37Z",
+    "sealed_at_utc": "2026-11-05T20:05:47Z",
     "self_excluded": {
       "path": "experiments/MP-E8/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
