@@ -575,6 +575,27 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E12/results/probe_list_v1.json",
     "experiments/MP-E12/results/access_journal_selftest.jsonl",
     "experiments/MP-E12/results/instrument_selftest_summary.json",
+# B.6 item 4: the instruments' first real use. Sealed as a set -- the rule, the registration written before the
+# first read, the rewired extractions, the schema they emit to, the validator, the two graphs, both journals and
+# the tests. Two things here are sealed because they are EVIDENCE ABOUT A FAILURE rather than results: the empty
+# pre-flight journal, which is the proof that a pre-flight budget abort costs zero reads, and the orphan journal
+# of the attempt that died on a schema syntax error after 1,536 reads, whose records turn out to be identical to
+# the committed run's except for their timestamps. A provenance chain that only keeps successful runs is a chain
+# with the interesting links cut out.
+    "tools/mp_e12_pool_rule.py",
+    "tools/mp_e12_preregister_real_run.py",
+    "tools/mp_e12_run_real_class1.py",
+    "tools/mp_e12_run_real_preflight.py",
+    "tools/mp_e12_verify_rerun.py",
+    "tools/mp_e12_validate_graph.py",
+    "tests/test_mp_e12_real_source.py",
+    "experiments/MP-E12/association_graph.schema.json",
+    "experiments/MP-E12/results/real_run_preregistration.json",
+    "experiments/MP-E12/results/association_graph_real_class1.json",
+    "experiments/MP-E12/results/association_graph_real_three_class_preflight.json",
+    "experiments/MP-E12/results/access_journal_extraction_e12a_class1.jsonl",
+    "experiments/MP-E12/results/access_journal_extraction_e12a_three_class_preflight.jsonl",
+    "experiments/MP-E12/results/ORPHAN_access_journal_attempt1_no_artifact.jsonl",
 # THE COVERING RUN, produced only after the tree was clean and the stamp was in it. 1370 collected, 1370
 # executed, 0 failures, 0 errors, 6 skipped, rc 0, 879.19 s at git_head 39a0e3241, git_dirty []. The +6 tests
 # against the previous baseline of 1364 are the A10 unit tests from STEP 3, so the count moved because the

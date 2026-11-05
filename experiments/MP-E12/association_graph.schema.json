@@ -1,0 +1,63 @@
+{
+  "$schema_note": "The versioned schema for an MP-E12a association graph. v1 is the shape of the sealed synthetic calibration (experiments/MP-E12/results/probes_synthetic_calibration.json) and is NOT rewritten by this revision. v2 is the shape both paths emit now: every v1 field survives, and the fields marked added carry the two operation tallies, the source kind, the candidate-pool rule and, on real nodes, the address a figure came from. A validator is tools/mp_e12_validate_graph.py; there is no jsonschema package in this environment, so the checks are explicit and they are tested.",
+  "schema_version": "droso.association_graph.v2",
+  "supersedes": "droso.association_graph.v1",
+  "type": "object",
+  "required": ["schema_version", "schema_revision", "source_kind", "accounting_used", "donor", "read_budget",
+               "extraction_classes_run", "extraction_classes_planned", "items", "items_probed",
+               "items_aborted", "operations_total", "macs_total", "operations_per_item_mean",
+               "accounting_tallies", "reads", "wall_clock_read_s", "energy_estimate", "quoting_guard"],
+  "added_by_v2": ["schema_revision", "source_kind", "accounting_used", "extraction_classes_run",
+                  "extraction_classes_planned", "accounting_tallies", "reads"],
+  "conditional": {
+    "source_kind=synthetic": ["benchmark_vs_reference_inference", "calibration_findings", "benchmark_caveats"],
+    "source_kind=real": ["access_journal", "candidate_pool_rule", "what_these_figures_are_NOT",
+                         "real_findings", "benchmark_not_run_reason"]
+  },
+  "properties": {
+    "schema_version": {"const": "droso.association_graph.v2"},
+    "source_kind": {"enum": ["synthetic", "real"]},
+    "accounting_used": {"enum": ["registered", "conservative"],
+                        "meaning": "which of the two tallies the per-item budget was checked against. The real run uses conservative, which charges every journaled read call; the sealed calibration used registered, where a gather of already-read rows is free."},
+    "donor": {"type": "object", "required": ["name", "is_synthetic", "config", "unembedding_tied_to_wte"],
+              "real_also": ["revision", "sha256", "journal", "tensors_consulted"]},
+    "read_budget": {"type": "object", "required": ["value", "unit", "enforcement", "accounting"],
+                    "value_const": 24},
+    "items": {"type": "array", "item": {
+      "required": ["item", "nodes", "edges", "detail", "registered_heads_used", "head_subset",
+                   "operations_spent", "macs_spent", "per_extraction", "budget", "aborted"],
+      "added_by_v2": ["conservative_operations_spent", "per_row_operations_if_charged", "read_calls",
+                      "rows_touched", "values_returned", "reads", "planned", "extraction_classes",
+                      "accounting"],
+      "invariants": [
+        "conservative_operations_spent == operations_spent + read_calls",
+        "per_row_operations_if_charged == operations_spent + rows_touched",
+        "operations_spent <= budget when aborted is false",
+        "every entry in reads names a tensor and a probe_id",
+        "no entry in reads names a tensor matching ^h\\.\\d+\\.attn\\.bias$"]}},
+    "items_aborted": {"type": "array", "item": {
+      "required": ["item", "planned_ops", "budget", "planned", "accounting", "source_kind"],
+      "meaning": "a budget event. On the real source the plan is arithmetic on tensor shapes and NO read was issued, so an abort costs zero values and zero journal records."}},
+    "accounting_tallies": {"type": "object",
+                           "required": ["registered_rule", "conservative_reading",
+                                        "per_row_reading_reported_not_run_under", "difference"],
+                           "note": "all three numbers are emitted for every run so the ruling on the counting rule can be made with data rather than argument"},
+    "reads": {"type": "object", "required": ["read_calls", "rows_touched", "values_returned"]},
+    "access_journal": {"type": "object", "required": ["path", "n_records", "verify_problems",
+                                                      "mask_buffer_records", "probe_ids"],
+                       "invariants": ["verify_problems == []", "mask_buffer_records == []"]},
+    "energy_estimate": {"const": "NOT MEASURED -- no energy instrument in this repository (D-MPE12-02)"},
+    "quoting_guard": {"type": "object", "required": ["meaning", "rule_source"]}
+  },
+  "node": {"required": ["node_id", "type", "source", "confidence"],
+           "type_enum": ["probe_token", "pool_candidate", "feature_detector", "successor_token"],
+           "added_by_v2": {"address": "present on the real path only: tensor, row, col, byte_offset, bytes_of_one_value, dtype, struct_code, tensor_base_offset, shape. It is what lets the access journal answer 'which address, for which probe' for every claim in the artifact."}},
+  "edge": {"required": ["src", "dst", "type", "confidence", "extraction", "provenance"],
+           "type_enum": ["co_clustered", "association", "directed_map", "detector_value"],
+           "provenance_required": ["source_model", "method"]},
+  "what_a_real_graph_is_not": {
+    "latency_or_10x": "no wall-clock ratio is emitted against the real donor; the threshold has never been re-based on these shapes",
+    "behaviour": "no text generated, no prompt run, the donor never executed, so R17 does not bind these figures and no fresh-vs-fresh floor is required for them",
+    "global_reach": "a real neighbour is nearest among the candidate pool, not among the vocabulary",
+    "MP-E12b": "barred by D-MPE12-04 and untouched here"}
+}

@@ -1,0 +1,787 @@
+{
+  "access_journal": {
+    "granularity_note": "the instrument writes one record per ROW read; the source issues one CALL per bounded gather. 0 records came from 0 calls, which is the difference between the two conservative readings, and the journal counts the stricter one.",
+    "mask_buffer_records": [],
+    "n_records": 0,
+    "path": "experiments/MP-E12/results/access_journal_extraction_e12a_three_class_preflight.jsonl",
+    "probe_ids": [],
+    "tensors_touched": [],
+    "verify": {
+      "clean": true,
+      "journal": "C:\\Projects\\HybridLLM\\experiments\\MP-E12\\results\\access_journal_extraction_e12a_three_class_preflight.jsonl",
+      "n_records": 0,
+      "probes_seen": [],
+      "problems": [],
+      "schema_version": "droso.access_journal.v1",
+      "tensors_touched": [],
+      "total_bytes_read": 0,
+      "total_charged_ops": 0,
+      "total_values_read": 0
+    },
+    "verify_problems": []
+  },
+  "accounting_tallies": {
+    "conservative_equals_registered_when": "the synthetic source, which performs no journaled calls because its donor is already in RAM. That coincidence is the loophole in miniature and it is named here rather than left for a reader to infer.",
+    "conservative_reading": {
+      "definition": "registered operations, plus one charged operation for every journaled read call, however many values it returns",
+      "operations": 0,
+      "read_calls": 0
+    },
+    "difference": {
+      "meaning": "this is the loophole's price tag: the operations the registered rule does not see",
+      "ops": 0,
+      "read_calls": 0
+    },
+    "journal_records": {
+      "n": 0,
+      "relation_to_the_tallies": "registered + records is a fourth number, and the one the journal itself can prove without trusting the source's bookkeeping"
+    },
+    "per_row_reading_reported_not_run_under": {
+      "definition": "registered operations, plus one per row touched. Stricter still, and not what this run used; emitted so the ruling has all three numbers.",
+      "operations": 0,
+      "rows_touched": 0
+    },
+    "registered_rule": {
+      "definition": "one operation = one vector-by-donor-matrix multiply or one similarity search against one donor matrix; a gather of already-read rows is not an operation",
+      "operations": 0,
+      "read_calls_priced_at_zero": 0
+    }
+  },
+  "accounting_used": "conservative",
+  "benchmark_not_run_reason": "the >=10x threshold has never been re-based on the real donor: reference_inference is a measurement against the synthetic shapes and the numpy path, not against the journaled address space. Emitting a ratio here would be a number about a machine that was not measured. Re-basing it is a separate item, and it is the one that would make a latency claim admissible.",
+  "benchmark_vs_reference_inference": [],
+  "candidate_pool_rule": {
+    "formula": "pool(T) = [other probe ids, in probe-list order] ++ [(T*7919 + j*104729 + 1) mod 50257 for j in 0..39], deduplicated in that order, T excluded, capped at 63",
+    "preregistration": "experiments/MP-E12/results/real_run_preregistration.json",
+    "registered_before_the_first_read": true,
+    "value_blind": true
+  },
+  "donor": {
+    "config": {
+      "d_head": 64,
+      "mlp_inner": 3072,
+      "n_embd": 768,
+      "n_head": 12,
+      "n_layer": 12,
+      "n_positions": 1024,
+      "n_vocab": 50257
+    },
+    "is_synthetic": false,
+    "journal": "experiments/MP-E12/results/access_journal_extraction_e12a_three_class_preflight.jsonl",
+    "name": "gpt2-124M-public",
+    "revision_pinned": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+    "sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+    "tensors_consulted": [],
+    "unembedding_tied_to_wte": true
+  },
+  "energy_estimate": "NOT MEASURED -- no energy instrument in this repository (D-MPE12-02)",
+  "extraction_classes_planned": [
+    "1_embedding_geometry",
+    "2_association_edges",
+    "3_circuit_motifs"
+  ],
+  "extraction_classes_run": [
+    "1_embedding_geometry",
+    "2_association_edges",
+    "3_circuit_motifs"
+  ],
+  "items": [],
+  "items_aborted": [
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 26081,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 43140,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 3290,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 10732,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 41207,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 32561,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 13917,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 10580,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 15317,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 8966,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 5594,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 14448,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 9808,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 3420,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 1994,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 37354,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 17379,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 14088,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 41066,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 1051,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 8849,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 5046,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 15299,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    },
+    {
+      "accounting": "conservative",
+      "budget": 24,
+      "item": 23016,
+      "planned": {
+        "1_embedding_geometry": {
+          "conservative_ops": 4,
+          "read_calls": 2,
+          "registered_ops": 2,
+          "rows_touched": 64
+        },
+        "2_association_edges": {
+          "conservative_ops": 57,
+          "read_calls": 52,
+          "registered_ops": 5,
+          "rows_touched": 4672
+        },
+        "3_circuit_motifs": {
+          "conservative_ops": 234,
+          "read_calls": 218,
+          "registered_ops": 16,
+          "rows_touched": 49276
+        }
+      },
+      "planned_ops": 295,
+      "source_kind": "real"
+    }
+  ],
+  "items_probed": 0,
+  "macs_total": 0,
+  "operations_per_item_mean": 0.0,
+  "operations_total": 0,
+  "quoting_guard": {
+    "meaning": "These are values read out of a public GPT-2 library at recorded addresses, and the arithmetic done on them. They are measurements of a file. They are not a behavioural finding, not a latency finding, and not evidence about MP-E12b.",
+    "rule_source": "experiments/MP-E12/registration.json"
+  },
+  "read_budget": {
+    "accounting": "conservative",
+    "enforcement": "plan C3: an item above budget aborts and writes nothing; on the real source the check is made on the plan, before any read",
+    "unit": "operations per probed association",
+    "value": 24
+  },
+  "reads": {
+    "read_calls": 0,
+    "rows_touched": 0,
+    "values_returned": 0
+  },
+  "real_findings": {
+    "1_the_budget_is_a_statement_about_gathers": {
+      "consequence": "the registered 24-operation budget and a free gather are the same decision spoken twice. Per item the difference here is 2 versus 4, which is small because class 1 was designed around one pool call; classes 2 and 3 are where it is not.",
+      "finding": "0 class-1 items cost 0 operations under the registered rule and 0 under the conservative one, on 0 read calls and 0 rows"
+    },
+    "2_two_of_three_classes_do_not_fit_when_reads_are_charged": {
+      "consequence": "no read was issued for an aborted class: the check is on the plan, from tensor shapes, which is why an abort costs zero values and zero journal records rather than 216 of each.",
+      "finding": "26081: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 26081: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 26081: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 43140: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 43140: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 43140: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 3290: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 3290: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 3290: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 10732: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 10732: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 10732: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 41207: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 41207: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 41207: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 32561: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 32561: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 32561: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 13917: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 13917: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 13917: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 10580: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 10580: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 10580: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 15317: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 15317: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 15317: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 8966: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 8966: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 8966: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 5594: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 5594: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 5594: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 14448: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 14448: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 14448: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 9808: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 9808: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 9808: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 3420: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 3420: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 3420: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 1994: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 1994: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 1994: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 37354: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 37354: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 37354: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 17379: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 17379: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 17379: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 14088: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 14088: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 14088: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 41066: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 41066: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 41066: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 1051: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 1051: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 1051: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 8849: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 8849: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 8849: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 5046: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 5046: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 5046: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 15299: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 15299: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 15299: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24; 23016: 1_embedding_geometry planned 4 conservative ops (2 reads) against a budget of 24; 23016: 2_association_edges planned 57 conservative ops (52 reads) against a budget of 24; 23016: 3_circuit_motifs planned 234 conservative ops (218 reads) against a budget of 24"
+    },
+    "3_the_replacement_of_a_global_claim_by_a_bounded_one": {
+      "consequence": "the synthetic graph could state the global version because the whole matrix was in RAM and the rule priced that as nothing. A reader who wants the global claim from the real donor has to buy it: 786 read calls per item, or a ruling that gathers stay free.",
+      "finding": "every neighbour here is nearest among 63 rows, not among 50257"
+    },
+    "4_what_is_absent_from_this_run": {
+      "finding": "no association edges, no head value reads, no circuit motifs, no latency ratio, no energy estimate",
+      "reason": "the first three are the classes that do not fit the conservative budget; the last two are not this run's question (the >=10x threshold has never been re-based on the real donor, and D-MPE12-02 still bars an energy figure)"
+    }
+  },
+  "schema_revision": "v1 was the sealed synthetic calibration. v2 adds the two operation tallies, the source kind, the candidate-pool rule and, on real nodes, the address each figure came from. v1 artifacts are not rewritten: they carry their own version and stay reproducible.",
+  "schema_version": "droso.association_graph.v2",
+  "source_kind": "real",
+  "wall_clock_read_s": 0.001,
+  "what_these_figures_are_NOT": {
+    "MP-E12b": "NOT evidence about MP-E12b, which D-MPE12-04 bars.",
+    "behaviour": "NOT a behavioural claim of any kind: no text generated, no prompt run, the donor was never executed. R17 binds behavioural figures, so it does not bind these, and no fresh-vs-fresh floor is required for them.",
+    "global_reach": "NOT a vocabulary-wide nearest-neighbour result: every neighbour here is nearest among a fixed pool of 63 rows, chosen by an integer formula before any value was read.",
+    "knowledge_localisation": "NOT a localisation of a concept in a layer or head. A cosine between two embedding rows is a property of two vectors.",
+    "latency_or_10x": "NOT a claim about the >=10x threshold. No wall-clock ratio is emitted by this run and none was measured against the real donor."
+  }
+}

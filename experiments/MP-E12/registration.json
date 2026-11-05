@@ -607,6 +607,600 @@
     },
     "counting_rule_for_a_matrix_operation": "ONE matrix operation = one multiply of a probe vector by one donor parameter matrix, of any shape, plus one similarity search against one donor matrix. Element-wise arithmetic (layer-norm rescale, gating masks, top-k selection) is NOT counted, because it touches no donor matrix and its cost is linear in one dimension rather than in the vocabulary. The rule is registered so that the budget is checkable by a reader rather than by the tool that spent it."
   },
+  "first_real_use_of_the_instruments_2026_11_05_B6_item_4": {
+    "authority": "plan :450 (item 4: the three extractions under per-item read budgets, graph emitted to its versioned schema); R11 at plan :146; the C3 abort rule at plan :232.",
+    "blockers_that_still_stand": [
+      "the gather-accounting ruling, now backed by data: 48 / 96 / 1584 for one class-1 run of 24 items and 23 / 295 / 54035 for a single full three-class item",
+      "the 17 deferred curriculum words and the donor's BPE encoder they would need",
+      "the >=10x threshold, never re-based on the real donor; this run emitted no latency figure",
+      "D-MPE12-02: no energy instrument exists, so no energy figure is claimed anywhere",
+      "D-MPE12-04: MP-E12b remains barred and untouched",
+      "classes 2 and 3 are unrun against the real donor: charging reads honestly puts them at 57 and 234 operations against a registered budget of 24, and the budget was not raised to make them fit",
+      "the feature-pool clustering step is unproven at pool scale (one cluster of 10 for every item)"
+    ],
+    "defects_found_and_fixed_in_this_step": {
+      "1_nameerror": "RealDonorSource.donor_meta() called sha256_of_file() with no module-level import. Fixed properly by giving the address space an instance-scoped sha256_of_file() and having the source hash the file it actually opened -- a fixture donor must hash itself, not the module default. The cross-check in build_real_graph now compares the journal records' own donor_sha256 fields instead of re-hashing 548 MB a second time.",
+      "2_float64_widening": "the rewire's first cut cast the synthetic donor to float64, which changed the rounding of every dot product, changed argsort tie-breaks, and silently produced a DIFFERENT graph from the same donor and seed. Caught by the regression check; fixed by preserving float32.",
+      "3_config_key_assumption": "real_config() assumed the LLaMA-style name hidden_size and raised KeyError on GPT-2's own config; mlp_inner is now taken from the c_fc tensor's shape rather than from a 4x convention.",
+      "4_dtype_lookup": "address_of() indexed DTYPE_CODE backwards (KeyError 'f'); dtype now comes from the tensor spec and the struct code is recorded alongside it.",
+      "5_schema_was_not_json": "the v2 schema file used Python's implicit string concatenation inside a JSON string. Rewritten; the driver parses it before any read.",
+      "6_pool_rule_hardcoded_vocab": "pool_for() hardcoded 50257, so the rule could not be tested against any other donor. Now parameterised by the donor's own wte row count; the committed run is unaffected because 50257 IS the real donor's count, and that equality is asserted.",
+      "7_two_prose_token_false_positives": "tests that scanned source text for forbidden tokens failed on the word 'construction' and on a comment mentioning read_rows. Replaced with structural AST checks: prose is not a capability.",
+      "8_named_view_moved_into_the_instrument": "the named-word block with both endpoints' addresses was produced by the run script rather than the tested path; it now comes from build_real_graph and the driver asserts it is there."
+    },
+    "determinism_measured_twice": {
+      "re_run_after_the_import_fix": {
+        "field_by_field": "every field of the artifact identical except the journal path, the run timestamps and the wall clock",
+        "headline_figures": "48 / 96 / 1584 / 48 calls / 1536 rows / 1179648 values / 1536 records / 240 edges / 264 nodes / 0 aborted / 0 mask records -- all identical",
+        "tool": "tools/mp_e12_verify_rerun.py",
+        "what": "class 1 was re-run end to end against the donor and compared to the committed artifact"
+      },
+      "the_orphan_journal": {
+        "lesson_recorded_in_the_code": "the driver now parses the schema before issuing any read",
+        "measured": "its 1,536 records are identical to the committed journal's except for timestamp_utc (16:40:22Z versus 16:41:14Z) -- the failed attempt and the successful one read the same bytes in the same order",
+        "residue_kept": "experiments/MP-E12/results/ORPHAN_access_journal_attempt1_no_artifact.jsonl",
+        "what": "the first attempt at the run died on a JSON syntax error in the schema file AFTER 1,536 donor reads had been journaled, because the script validated after the run rather than before it",
+        "why_not_deleted": "it is evidence about the instrument's determinism and about a real failure mode; deleting it would leave only the story"
+      }
+    },
+    "machine_time_spent": {
+      "bench_runs": 0,
+      "floor_pairs": 0,
+      "journal_records_still_on_disk": {
+        "committed_extraction_journal": 1536,
+        "orphan_from_the_failed_first_attempt": 1536,
+        "preflight_journal": 0,
+        "selftest_journal_unchanged_from_the_previous_step": 7
+      },
+      "latency_benchmarks": 0,
+      "note": "no forward pass, no sampling, no donor runtime import, nothing that reaches an answer path. The wall clock the artifact carries (0.3685 s for the class-1 battery) is plumbing, not a benchmark: it is not compared to anything and no threshold is scored against it.",
+      "reads_issued_in_total": "3 x 1,536 plus a 129-record three-item dry run: the committed run, the attempt that died on the schema syntax error, and the determinism re-run whose scratch journal was deleted after the comparison",
+      "step_5": 0
+    },
+    "pointer_rule_applied": "cited at its decision_id line: the amendment that cites this decision also carries a key of the same name in its own self_pointers block, so a search for the key text now finds the citation before it finds the decision. Shadowing of one's own pointers is a new failure mode this ledger has not shown before, and it is a reason to cite unique content rather than a key name. The file stands at 3925 lines; this patch changes values only and is asserted below to add none, so every coordinate recorded in this amendment is true against the file as it stands. The writing script's own stability check was wrong once and is on record: it compared a cached pre-amendment line count against a fresh post-patch count and reported 594 phantom lines.",
+    "pre_registration_under_count_as_measured": {
+      "as_implemented_total": 295,
+      "difference": 16,
+      "direction": "UNDER-charging: the registration's arithmetic omitted the 12 per-layer c_fc bias vectors and did not charge the probe row and pool read when classes 2 or 3 ran alone",
+      "no_budget_touched": true,
+      "no_cap_raised": true,
+      "outcome_changed": false,
+      "registered_total_for_a_three_class_item": 279,
+      "why_it_still_matters": "the registered document is the one the PI rules against. An under-count in the strict direction is harmless to this run's own results -- the implementation charged MORE, not less -- but it would have understated the loophole by 16 operations per item had the artifact been the only record. It is stated here rather than corrected silently, and the implementation's numbers are the ones in the graph artifacts."
+    },
+    "registered_at_utc": "2026-11-05T16:55:15Z",
+    "self_pointers": {
+      "D-MPE12-02": {
+        "line_reads": "cited at its decision_id line: the amendment that cites this decision also carries a key of the same name in its own self_pointers block, so a search for the key text now finds the citation before it finds the decision. ",
+        "post_write_line": 3676,
+        "pre_write_line": 3010,
+        "shifted": true
+      },
+      "D-MPE12-04": {
+        "line_reads": "cited at its decision_id line: the amendment that cites this decision also carries a key of the same name in its own self_pointers block, so a search for the key text now finds the citation before it finds the decision. ",
+        "post_write_line": 3693,
+        "pre_write_line": 3036,
+        "shifted": true
+      },
+      "the_B6_items_2_3_registration": {
+        "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
+        "post_write_line": 3208,
+        "pre_write_line": 2614,
+        "shifted": true
+      },
+      "this_amendment": {
+        "line_reads": "\"first_real_use_of_the_instruments_2026_11_05_B6_item_4\": {",
+        "post_write_line": 610,
+        "pre_write_line": 3332,
+        "shifted": true
+      }
+    },
+    "step": "v1.2 B.6 item 4: the three compile reads against the real donor, under conservative accounting. This is the instruments' first real use: before this step they had performed seven self-test reads and no extraction.",
+    "tests_as_measured": {
+      "cluster_before_this_amendment": "68 passed in 7.26 s (real source, probes, address space, access journal, stale-status guard)",
+      "sealed_calibration_still_reproduces": "test_the_synthetic_path_still_reproduces_the_sealed_calibration_field_by_field passes: every v1 field of every item, plus the operation and MAC totals, are identical",
+      "tests/test_mp_e12_real_source.py": "18 passed",
+      "the_failing_three_before_the_fix": "15 passed / 3 failed on the NameError and the two checks beside it"
+    },
+    "the_ordering_is_provable_not_asserted": {
+      "earlier": true,
+      "first_extraction_journal_record": "2026-11-05T16:41:14Z",
+      "note": "the accounting choice, the pool rule and the class subset were written to experiments/MP-E12/results/real_run_preregistration.json before any value was read, and the journal's own first timestamp proves it. A test enforces the comparison (test_the_registration_is_earlier_than_the_first_read).",
+      "preregistration_registered_at_utc": "2026-11-05T16:27:13Z"
+    },
+    "the_two_tallies_side_by_side": {
+      "meaning": "the difference is the loophole's price tag. Under the registered rule a gather of already-read rows costs nothing, so the same work looks 12.8x cheaper for one item and 33x cheaper for the battery. The ruling should be made on these numbers rather than on argument, which is why all three are emitted by every run.",
+      "one_class_1_run_of_24_items": {
+        "conservative_reading": 96,
+        "per_row_reading": 1584,
+        "registered_rule": 48
+      },
+      "one_full_three_class_item": {
+        "arithmetic": "per_row = registered + rows = 23 + 54,012; the rows are the sum of the three classes' planned rows (64 + 4,672 + 49,276), read out of the pre-flight artifact rather than typed from memory",
+        "conservative_reading": 295,
+        "per_row_reading": 54035,
+        "read_calls": 272,
+        "registered_rule": 23,
+        "rows_touched": 54012
+      },
+      "registered_rule_is_not_changed_by_this_step": true,
+      "this_run_did_not_exploit_it": "the conservative reading was chosen before the first read and is stricter than the rule; see the pre-registration artifact"
+    },
+    "verified_pointers": {
+      "as_address_of": {
+        "as_claimed": "addresses without reading",
+        "file": "tools/mp_e12_address_space.py",
+        "line": 181,
+        "line_reads": "def address_of(self, tensor: str, row: int, col: int = 0) -> dict:",
+        "pointer": "tools/mp_e12_address_space.py:181"
+      },
+      "as_sha_method": {
+        "as_claimed": "the instance-scoped hash that fixed the NameError",
+        "file": "tools/mp_e12_address_space.py",
+        "line": 108,
+        "line_reads": "def sha256_of_file(self) -> str:",
+        "pointer": "tools/mp_e12_address_space.py:108"
+      },
+      "g1_bench_absent": {
+        "as_claimed": "the latency side was not run",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 106,
+        "line_reads": "\"benchmark_vs_reference_inference\": [],",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:106"
+      },
+      "g1_conservative_ops": {
+        "as_claimed": "conservative operations for the whole run",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 81,
+        "line_reads": "\"operations\": 96,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:81"
+      },
+      "g1_first_record": {
+        "as_claimed": "the ordering proof's second half",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15906,
+        "line_reads": "\"first_extraction_record_utc\": \"2026-11-05T16:41:14Z\",",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15906"
+      },
+      "g1_journal_records": {
+        "as_claimed": "journal records",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 5,
+        "line_reads": "\"n_records\": 1536,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:5"
+      },
+      "g1_mask_empty": {
+        "as_claimed": "mask buffers absent from the run's journal",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 4,
+        "line_reads": "\"mask_buffer_records\": [],",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:4"
+      },
+      "g1_not_10x": {
+        "as_claimed": "item 5: not a latency claim, in the artifact",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15920,
+        "line_reads": "\"latency_or_10x\": \"NOT a claim about the >=10x threshold. No wall-clock ratio is emitted by this run and none was measured against the real donor.\"",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15920"
+      },
+      "g1_not_behaviour": {
+        "as_claimed": "item 5: not behavioural, so R17 binds nothing",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15917,
+        "line_reads": "\"behaviour\": \"NOT a behavioural claim of any kind: no text generated, no prompt run, the donor was never executed. R17 binds behavioural figures, so it does not bind these, and no fresh-vs-fresh floor is required for the",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15917"
+      },
+      "g1_not_e12b": {
+        "as_claimed": "item 5: not MP-E12b evidence",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15916,
+        "line_reads": "\"MP-E12b\": \"NOT evidence about MP-E12b, which D-MPE12-04 bars.\",",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15916"
+      },
+      "g1_not_global": {
+        "as_claimed": "item 5: not vocabulary-wide",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15918,
+        "line_reads": "\"global_reach\": \"NOT a vocabulary-wide nearest-neighbour result: every neighbour here is nearest among a fixed pool of 63 rows, chosen by an integer formula before any value was read.\",",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15918"
+      },
+      "g1_not_localisation": {
+        "as_claimed": "item 5: not a localisation of knowledge",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15919,
+        "line_reads": "\"knowledge_localisation\": \"NOT a localisation of a concept in a layer or head. A cosine between two embedding rows is a property of two vectors.\",",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15919"
+      },
+      "g1_per_row_ops": {
+        "as_claimed": "the per-row reading, reported and not run under",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 95,
+        "line_reads": "\"operations\": 1584,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:95"
+      },
+      "g1_prereg_ts": {
+        "as_claimed": "the ordering proof's first half",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15908,
+        "line_reads": "\"preregistered_at_utc\": \"2026-11-05T16:27:13Z\",",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15908"
+      },
+      "g1_reads": {
+        "as_claimed": "read calls",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 82,
+        "line_reads": "\"read_calls\": 48",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:82"
+      },
+      "g1_registered_ops": {
+        "as_claimed": "registered operations for the whole run",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 100,
+        "line_reads": "\"operations\": 48,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:100"
+      },
+      "g1_tensors": {
+        "as_claimed": "the only tensor touched",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 33,
+        "line_reads": "\"tensors_touched\": [",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:33"
+      },
+      "g1_top_edge": {
+        "as_claimed": "the top pair: belong -> belongs",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 11047,
+        "line_reads": "\"cosine\": 0.85032,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:11047"
+      },
+      "g1_values": {
+        "as_claimed": "values returned",
+        "file": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "line": 15884,
+        "line_reads": "\"values_returned\": 1179648",
+        "pointer": "experiments/MP-E12/results/association_graph_real_class1.json:15884"
+      },
+      "gp_class2": {
+        "as_claimed": "class 2's planned cost against the budget of 24",
+        "file": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json",
+        "line": 102,
+        "line_reads": "\"conservative_ops\": 57,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json:102"
+      },
+      "gp_class3": {
+        "as_claimed": "class 3's planned cost against the budget of 24",
+        "file": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json",
+        "line": 108,
+        "line_reads": "\"conservative_ops\": 234,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json:108"
+      },
+      "gp_planned_ops": {
+        "as_claimed": "the three-class item's planned conservative cost",
+        "file": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json",
+        "line": 114,
+        "line_reads": "\"planned_ops\": 295,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json:114"
+      },
+      "gp_zero_reads": {
+        "as_claimed": "the pre-flight abort issued no reads at all",
+        "file": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json",
+        "line": 5,
+        "line_reads": "\"n_records\": 0,",
+        "pointer": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json:5"
+      },
+      "ledger_dmpe12_02": {
+        "as_claimed": "the open decision cited as a standing blocker",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 3676,
+        "line_reads": "\"decision_id\": \"D-MPE12-02\",",
+        "pointer": "experiments/MP-E12/registration.json:3676"
+      },
+      "ledger_dmpe12_04": {
+        "as_claimed": "the open decision cited as a standing blocker",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 3693,
+        "line_reads": "\"decision_id\": \"D-MPE12-04\",",
+        "pointer": "experiments/MP-E12/registration.json:3693"
+      },
+      "ledger_instruments_key": {
+        "as_claimed": "the B.6 items 2-3 registration this amendment follows",
+        "file": "experiments/MP-E12/registration.json",
+        "line": 3208,
+        "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
+        "pointer": "experiments/MP-E12/registration.json:3208"
+      },
+      "pb_conservative_prop": {
+        "as_claimed": "the tally that charges a gather",
+        "file": "tools/mp_e12_probes.py",
+        "line": 130,
+        "line_reads": "def conservative_ops(self):",
+        "pointer": "tools/mp_e12_probes.py:130"
+      },
+      "pb_float32_note": {
+        "as_claimed": "the regression bug and its fix, in the file",
+        "file": "tools/mp_e12_probes.py",
+        "line": 170,
+        "line_reads": "# NO dtype widening here, on purpose. The sealed calibration was built on the donor's own float32 arrays,",
+        "pointer": "tools/mp_e12_probes.py:170"
+      },
+      "pb_named_view_in_instrument": {
+        "as_claimed": "the move of the named-word block into the tested path",
+        "file": "tools/mp_e12_probes.py",
+        "line": 967,
+        "line_reads": "# The named-word view lives in the instrument, not in the script that happened to run it. It was first",
+        "pointer": "tools/mp_e12_probes.py:967"
+      },
+      "pb_per_row_prop": {
+        "as_claimed": "the third tally",
+        "file": "tools/mp_e12_probes.py",
+        "line": 135,
+        "line_reads": "def per_row_ops(self):",
+        "pointer": "tools/mp_e12_probes.py:135"
+      },
+      "pb_plan_method": {
+        "as_claimed": "the pre-flight planner",
+        "file": "tools/mp_e12_probes.py",
+        "line": 220,
+        "line_reads": "def plan(self, classes, token_id):",
+        "pointer": "tools/mp_e12_probes.py:220"
+      },
+      "pb_pool_rule": {
+        "as_claimed": "the value-blind pool, parameterised by the donor's own row count",
+        "file": "tools/mp_e12_pool_rule.py",
+        "line": 21,
+        "line_reads": "def pool_for(token_id, other_ids, n_vocab=N_VOCAB):",
+        "pointer": "tools/mp_e12_pool_rule.py:21"
+      },
+      "pb_probe_item": {
+        "as_claimed": "the item runner, with the accounting named as a parameter",
+        "file": "tools/mp_e12_probes.py",
+        "line": 579,
+        "line_reads": "def probe_item(donor, token_id, budget=READ_BUDGET_OPS, classes=None, accounting=\"conservative\"):",
+        "pointer": "tools/mp_e12_probes.py:579"
+      },
+      "pb_real_source_class": {
+        "as_claimed": "the journaled source",
+        "file": "tools/mp_e12_probes.py",
+        "line": 228,
+        "line_reads": "class RealDonorSource:",
+        "pointer": "tools/mp_e12_probes.py:228"
+      },
+      "pb_validator": {
+        "as_claimed": "the schema validator",
+        "file": "tools/mp_e12_validate_graph.py",
+        "line": 24,
+        "line_reads": "def validate(graph: dict, schema: dict) -> list[str]:",
+        "pointer": "tools/mp_e12_validate_graph.py:24"
+      },
+      "plan_access_classes": {
+        "as_claimed": "compile reads are one of the three classes, and this run is a compile read",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 365,
+        "line_reads": "Three access classes, and only three (R11): **compile reads** (offline, budgeted, sealed \u2014 the extractions of \u00a76.5), **live address reads** (deployment, journaled, latency-budgeted), and **the control's one offline execu",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:365"
+      },
+      "plan_c3_budget": {
+        "as_claimed": "the per-item budget and its abort rule",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 232,
+        "line_reads": "**C-conditions.** C1: any guarded row answered post-transplant \u2014 abort. C2: library-sourced knowledge silently promoted to curriculum class \u2014 abort. C3: read budget exceeded on any logged item \u2014 abort the extraction. **C",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:232"
+      },
+      "plan_item_4_compile_reads": {
+        "as_claimed": "B.6 item 4: the three extractions under per-item budgets, graph to schema",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 450,
+        "line_reads": "4. **Compile reads**: the three extractions (embedding geometry, association edges, circuit motifs) under per-item read budgets; operation counts logged and sealed; emit the typed association graph to a versioned schema.",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:450"
+      },
+      "plan_r11": {
+        "as_claimed": "R11 as written",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 146,
+        "line_reads": "- **R11 \u2014 The library is addressed, never executed.** *(New in v1.2.)* A frozen donor's weights are used in exactly two ways: as a read-only address space (compile reads offline; live address reads at deployment), and ne",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:146"
+      },
+      "prereg_choice_conservative": {
+        "as_claimed": "the reading registered",
+        "file": "experiments/MP-E12/results/real_run_preregistration.json",
+        "line": 36,
+        "line_reads": "\"choice\": \"CONSERVATIVE\",",
+        "pointer": "experiments/MP-E12/results/real_run_preregistration.json:36"
+      },
+      "prereg_classes_run": {
+        "as_claimed": "class 1 only, chosen before the read",
+        "file": "experiments/MP-E12/results/real_run_preregistration.json",
+        "line": 26,
+        "line_reads": "\"classes_run_against_the_real_donor\": [",
+        "pointer": "experiments/MP-E12/results/real_run_preregistration.json:26"
+      },
+      "prereg_not_exploiting": {
+        "as_claimed": "the refusal to use the loophole while the ruling is open",
+        "file": "experiments/MP-E12/results/real_run_preregistration.json",
+        "line": 38,
+        "line_reads": "\"not_exploiting_it\": \"No extraction in this run earns its result by the free-gather reading. Where the two readings differ in outcome, the conservative one decides, and both tallies are emitted side by side so the ruling",
+        "pointer": "experiments/MP-E12/results/real_run_preregistration.json:38"
+      },
+      "prereg_r17_free": {
+        "as_claimed": "item 5's non-behavioural statement, registered before the data",
+        "file": "experiments/MP-E12/results/real_run_preregistration.json",
+        "line": 45,
+        "line_reads": "\"behaviour\": \"NOT a behavioural claim of any kind: no text was generated, no prompt was run, the donor was never executed. R17 binds behavioural figures, so it does not bind these, and no fresh-vs-fresh floor is needed f",
+        "pointer": "experiments/MP-E12/results/real_run_preregistration.json:45"
+      },
+      "prereg_registered_at": {
+        "as_claimed": "the timestamp that puts the accounting choice before the first read",
+        "file": "experiments/MP-E12/results/real_run_preregistration.json",
+        "line": 33,
+        "line_reads": "\"registered_at_utc\": \"2026-11-05T16:27:13Z\",",
+        "pointer": "experiments/MP-E12/results/real_run_preregistration.json:33"
+      },
+      "prereg_stricter": {
+        "as_claimed": "the plain statement that this is stricter than the rule",
+        "file": "experiments/MP-E12/results/real_run_preregistration.json",
+        "line": 39,
+        "line_reads": "\"relation_to_the_registered_rule\": \"STRICTER than the registered rule. The registered rule treats a gather of already-read rows as free; this run does not. The PI has not ruled on the loophole, and while it is open the p",
+        "pointer": "experiments/MP-E12/results/real_run_preregistration.json:39"
+      },
+      "schema_v1_survives": {
+        "as_claimed": "v1 was not rewritten",
+        "file": "experiments/MP-E12/association_graph.schema.json",
+        "line": 4,
+        "line_reads": "\"supersedes\": \"droso.association_graph.v1\",",
+        "pointer": "experiments/MP-E12/association_graph.schema.json:4"
+      },
+      "schema_version": {
+        "as_claimed": "the versioned schema the graph was emitted to",
+        "file": "experiments/MP-E12/association_graph.schema.json",
+        "line": 3,
+        "line_reads": "\"schema_version\": \"droso.association_graph.v2\",",
+        "pointer": "experiments/MP-E12/association_graph.schema.json:3"
+      },
+      "t_determinism_home": {
+        "as_claimed": "the ordering proof, as a test",
+        "file": "tests/test_mp_e12_real_source.py",
+        "line": 305,
+        "line_reads": "def test_the_registration_is_earlier_than_the_first_read():",
+        "pointer": "tests/test_mp_e12_real_source.py:305"
+      },
+      "t_nameerror_guard": {
+        "as_claimed": "the test that was failing on the NameError",
+        "file": "tests/test_mp_e12_real_source.py",
+        "line": 153,
+        "line_reads": "def test_conservative_tally_is_registered_plus_read_calls(real_src):",
+        "pointer": "tests/test_mp_e12_real_source.py:153"
+      },
+      "t_not_claims": {
+        "as_claimed": "item 5's statements, enforced by a test",
+        "file": "tests/test_mp_e12_real_source.py",
+        "line": 295,
+        "line_reads": "def test_the_real_graph_states_what_its_figures_are_not():",
+        "pointer": "tests/test_mp_e12_real_source.py:295"
+      },
+      "t_preflight_zero": {
+        "as_claimed": "the abort-costs-nothing claim, tested",
+        "file": "tests/test_mp_e12_real_source.py",
+        "line": 285,
+        "line_reads": "def test_the_preflight_artifact_records_24_events_and_zero_reads():",
+        "pointer": "tests/test_mp_e12_real_source.py:285"
+      },
+      "t_prose_lesson": {
+        "as_claimed": "the two prose false positives and the structural check that replaced them",
+        "file": "tests/test_mp_e12_real_source.py",
+        "line": 117,
+        "line_reads": "# A token scan over the source failed twice now: first on the probe-list script's docstring, and here on a",
+        "pointer": "tests/test_mp_e12_real_source.py:117"
+      },
+      "t_regression": {
+        "as_claimed": "the sealed calibration's fields, reproduced",
+        "file": "tests/test_mp_e12_real_source.py",
+        "line": 312,
+        "line_reads": "def test_the_synthetic_path_still_reproduces_the_sealed_calibration_field_by_field():",
+        "pointer": "tests/test_mp_e12_real_source.py:312"
+      }
+    },
+    "what_ran": {
+      "class_1_embedding_geometry": {
+        "aborted": 0,
+        "artifact": "experiments/MP-E12/results/association_graph_real_class1.json",
+        "conservative_operations": 96,
+        "distinct_probe_ids": 24,
+        "items": 24,
+        "journal": "experiments/MP-E12/results/access_journal_extraction_e12a_class1.jsonl",
+        "journal_records": 1536,
+        "journal_values_policy": "0 records inline, 1,536 hashed -- every row is 768 values, above the 32-value inline threshold, so the journal proves which bytes came back without holding a second copy of the donor",
+        "journal_verify_problems": 0,
+        "mask_buffer_records_in_journal": 0,
+        "per_row_operations_reported_not_run_under": 1584,
+        "read_calls": 48,
+        "registered_operations": 48,
+        "rows_touched": 1536,
+        "tensors_touched": [
+          "wte.weight"
+        ],
+        "values_returned": 1179648
+      },
+      "class_2_and_3_pre_flight": {
+        "artifact": "experiments/MP-E12/results/association_graph_real_three_class_preflight.json",
+        "budget": 24,
+        "items": 24,
+        "items_written": 0,
+        "journal": "experiments/MP-E12/results/access_journal_extraction_e12a_three_class_preflight.jsonl",
+        "journal_records": 0,
+        "outcome": "class 1 fits under either reading; classes 2 and 3 do not fit when reads are charged. The budget was not raised and no cap was touched.",
+        "planned_conservative_ops_per_item": {
+          "1_embedding_geometry": 4,
+          "2_association_edges": 57,
+          "3_circuit_motifs": 234,
+          "whole_item": 295
+        },
+        "planned_registered_ops_per_item": 23
+      }
+    },
+    "what_the_real_graph_shows_that_the_synthetic_could_not": {
+      "distribution": {
+        "cosine_max": 0.85032,
+        "cosine_mean": 0.34859,
+        "cosine_min": 0.258512,
+        "edges": 240,
+        "neighbours_that_are_other_probe_words": 119,
+        "neighbours_that_are_sampled_pool_rows": 121,
+        "nodes": 264
+      },
+      "instrument_finding_not_donor_finding": "the mutual-nearest-neighbour clustering returned ONE cluster of exactly 10 for every one of the 24 items. At k=10 out of a 63-row pool the feature-pool step separates nothing, so the pool-classification claim in the design is unproven at this scale. That is a property of the instrument, and it is recorded as a finding rather than smoothed.",
+      "other_named_edges": [
+        {
+          "cosine": 0.501593,
+          "edge": "carries -> binds"
+        },
+        {
+          "cosine": 0.47042,
+          "edge": "door -> latch"
+        },
+        {
+          "cosine": 0.460938,
+          "edge": "carries -> belongs"
+        }
+      ],
+      "top_pair": {
+        "addresses": {
+          "dst": "wte.weight row 14448, byte 331608019",
+          "src": "wte.weight row 5594, byte 304408531"
+        },
+        "cosine": 0.85032,
+        "edge": "belong -> belongs",
+        "mutual_reverse": {
+          "cosine": 0.821294,
+          "edge": "belongs -> belong"
+        }
+      },
+      "why_the_synthetic_could_not_produce_this": "the sealed calibration's donor is random matrices from a registered seed. It could and did prove operation counts, shapes, MAC totals and the budget's behaviour -- those are properties of the code path -- but a neighbour list from random weights is noise wearing the instrument. A 0.85 mutual pair between an inflected verb and its lemma is the first structure this program has read out of a real library at a stated address."
+    },
+    "what_these_figures_are_NOT": {
+      "MP_E12b": "NOT evidence about MP-E12b. D-MPE12-04 still bars it and this step did not touch it.",
+      "behaviour": "NOT a behavioural claim of any kind. No prompt was run, no text was generated, the donor was never executed, no forward pass occurred. R17 governs behavioural figures and their run-to-run variance, so R17 binds nothing here and NO fresh-vs-fresh floor is required for these numbers. A reader who wants a behavioural reading from a cosine between two embedding rows is making a claim this artifact does not make.",
+      "knowledge_localisation": "NOT a localisation of a concept in a layer, head or neuron. A cosine between two rows of wte is a property of two vectors.",
+      "latency_or_10x": "NOT a claim about the >=10x threshold and not a latency measurement. reference_inference was never run against the real donor; the graph's benchmark_vs_reference_inference is an empty list by construction and the artifact says why. Re-basing the threshold is a separate item.",
+      "not_yet_a_g1_or_g2_result": "these are measurements of a file. They do not close G1, G2 or G3 and they change no verdict in this ledger.",
+      "purpose": "written into the ledger, not only into the artifacts, so a later reader cannot upgrade them by quoting an artifact that no longer sits beside its caveat",
+      "vocabulary_wide": "NOT vocabulary-wide nearest neighbours. Every neighbour is nearest among a fixed candidate pool of 63 rows (23 other probe words plus 40 rows chosen by an integer formula), so a null result here does not mean 'no nearer token exists' and a hit does not mean 'the closest token in the donor'."
+    },
+    "what_this_step_did_not_do": {
+      "no_answer_path_edit": true,
+      "no_bench_run": true,
+      "no_budget_changed": true,
+      "no_cap_raised": true,
+      "no_extraction_beyond_class_1": true,
+      "no_floor_pair": true,
+      "no_latency_claim": true,
+      "no_mp_e11": true,
+      "no_mp_e12b": true,
+      "no_sealed_artifact_overwritten": true,
+      "no_status_field_moved": true,
+      "no_step5": true,
+      "no_verdict_changed": true
+    }
+  },
   "gate": "G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)",
   "hard_per_item_read_budget": {
     "arithmetic": "extraction 1 = 2 (one search against wte, one gram over the neighbour rows it returned), extraction 2 = 5 (one tied-unembedding read, one W_V read per registered head), extraction 3 = 16 (one W_O read per registered head, one c_fc read per layer, twelve layers). Total 23 spent by design against a budget of 24: headroom 1. The number is not a margin picked after the fact; it is the design's cost plus one, and the unit test that pins the per-item count at 23 is what stops the plus-one from quietly becoming a plus-six.",

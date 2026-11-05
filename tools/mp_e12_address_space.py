@@ -105,6 +105,18 @@ class DonorAddressSpace:
                      "offsets": list(v["data_offsets"])} for k, v in hdr.items()}
         return n, table, meta
 
+    def sha256_of_file(self) -> str:
+        """Hash the file THIS instance has open, not the module default. The distinction matters: a fixture
+        donor built in tmp_path must hash itself, and an artifact that cites a donor hash has to mean the bytes
+        it actually read. Cached, because hashing 548 MB twice in one run buys nothing."""
+        if not hasattr(self, "_sha"):
+            h = hashlib.sha256()
+            with self.abs_path.open("rb") as f:
+                for chunk in iter(lambda: f.read(1 << 20), b""):
+                    h.update(chunk)
+            self._sha = h.hexdigest()
+        return self._sha
+
     def tensor_names(self):
         return sorted(self.table)
 
@@ -166,6 +178,22 @@ class DonorAddressSpace:
         return spec, shape, code, size, base
 
     # ------------------------------------------------------------------ reads
+    def address_of(self, tensor: str, row: int, col: int = 0) -> dict:
+        """Where a value lives, WITHOUT reading it. Header arithmetic only: no mmap slice is taken, so this
+        writes no journal record. It exists because an artifact must be able to say which address produced a
+        figure, and the reader should not have to re-derive the offset by hand and trust the derivation."""
+        spec, shape, code, size, base = self._resolve(tensor, row, col)
+        if len(shape) == 1:
+            if col != 0:
+                raise IndexOutOfRange(f"{tensor} is 1-dimensional; column {col} does not exist")
+            off = base + row * size
+        else:
+            off = base + (row * shape[1] + col) * size
+        return {"tensor": tensor, "row": int(row), "col": int(col) if len(shape) > 1 else None,
+                "byte_offset": off, "bytes_of_one_value": size, "dtype": spec["dtype"],
+                "struct_code": code,
+                "tensor_base_offset": base, "shape": list(shape)}
+
     def read_scalar(self, tensor: str, row: int, col: int, probe_id: str = "unattributed") -> float:
         spec, shape, code, size, base = self._resolve(tensor, row, col)
         if len(shape) != 2:

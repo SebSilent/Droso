@@ -1,0 +1,76 @@
+{
+  "budget": {
+    "enforcement": "pre-flight on the plan for the real source; post-hoc per extraction for the synthetic source (unchanged)",
+    "if_exceeded": "STOP that item, report the count, write nothing. Raising a registered budget after seeing the need is an R2 act and is not available to this run.",
+    "registered_ops_per_item": 24
+  },
+  "candidate_pool_rule": {
+    "formula": "pool(T) = [other 23 probe ids, ascending] ++ [(T*7919 + j*104729 + 1) mod 50257 for j in 0..39], deduplicated in that order, T excluded, capped at 63",
+    "pool_sizes_measured": {
+      "max": 63,
+      "min": 63,
+      "n_items": 24
+    },
+    "value_blind": "the formula consumes INTEGER token ids only. No weight value is consulted in choosing a candidate, so the pool cannot have been picked to produce a neighbour.",
+    "what_it_costs_in_claim_strength": "a neighbour found here is nearest AMONG THESE 63, not nearest among 50,257. The synthetic graph could make the global claim because it held the whole matrix in RAM and the rule charged that as zero operations. The real graph trades that reach for provenance, and the trade is stated in the artifact rather than left for a reader to discover.",
+    "why_a_pool_at_all": "the registered budget does not admit a global search against the real donor: wte.weight has 50257 rows, which at MAX_ROWS_PER_READ=64 is 786 read calls for one item. A pool of 63 rows is one call."
+  },
+  "caps_inherited_from_the_instrument": {
+    "MAX_ROWS_PER_READ": 64,
+    "address_space_version": "droso.donor_address_space.v1"
+  },
+  "classes_recorded_as_pre_flight_budget_events": [
+    "2_association_edges",
+    "3_circuit_motifs"
+  ],
+  "classes_run_against_the_real_donor": [
+    "1_embedding_geometry"
+  ],
+  "consequence_measured_before_any_read": "a full three-class item costs 23 operations under the registered rule and 279 under this one (256 separate donor reads). The registered budget is 24. So under conservative accounting the three-class item ABORTS as a budget event and writes nothing, and only class 1 -- embedding geometry over a bounded candidate pool -- fits. That is not a choice made after seeing the data: it is arithmetic on tensor shapes, performed here, before the first value was read.",
+  "mask_buffers": "excluded by the address space before byte arithmetic; no class in this run names an h.<N>.attn.bias tensor, and the run's journal is checked for it afterwards rather than trusted.",
+  "provenance_of_this_file": "written by tools/mp_e12_preregister_real_run.py; the shape query that produced the arithmetic opened the address space with a scratch journal and read no value, so this artifact was registered at zero donor reads.",
+  "purpose": "B.6 item 4: the three compile reads against the real donor. This file is the accounting registration, written before the first real read so that the choice cannot have been made after seeing what the reads return.",
+  "registered_at_utc": "2026-11-05T16:27:13Z",
+  "schema_version": "droso.real_run_preregistration.v1",
+  "the_reading_this_run_uses": {
+    "choice": "CONSERVATIVE",
+    "definition": "conservative_ops = registered_ops + one charged operation for EVERY journaled read call, however many values that call returns. A gather is charged, not free.",
+    "not_exploiting_it": "No extraction in this run earns its result by the free-gather reading. Where the two readings differ in outcome, the conservative one decides, and both tallies are emitted side by side so the ruling can be made with data.",
+    "relation_to_the_registered_rule": "STRICTER than the registered rule. The registered rule treats a gather of already-read rows as free; this run does not. The PI has not ruled on the loophole, and while it is open the person holding the reader is the one who should pay for it, not the one who has to argue about it afterwards.",
+    "third_tally_also_emitted": "rows_touched: the count if a gather were charged per ROW rather than per call. It is reported, not run under, because it is a stricter reading still and the PI has not chosen it either."
+  },
+  "the_registered_rule_as_written": "one operation = one vector-by-donor-matrix multiply, or one similarity search against one donor matrix. A gather of already-read rows is NOT an operation, and element-wise work is not an operation. Per item, the budget is 24 operations (plan C3).",
+  "what_the_coming_figures_are_NOT": {
+    "MP-E12b": "NOT evidence about MP-E12b, which D-MPE12-04 bars.",
+    "behaviour": "NOT a behavioural claim of any kind: no text was generated, no prompt was run, the donor was never executed. R17 binds behavioural figures, so it does not bind these, and no fresh-vs-fresh floor is needed for them. A later reader who wants to use a neighbour cosine as evidence about model BEHAVIOUR is making a claim this artifact does not make.",
+    "knowledge_localisation": "NOT a localisation of knowledge in a layer or head; a cosine between two embedding rows is a property of two vectors, not a place where a concept lives.",
+    "latency_or_10x": "NOT a claim about the >=10x threshold. The threshold has never been re-based on the real donor: reference_inference exists against the synthetic shapes only, and that re-basing is a separate item. No wall-clock ratio is emitted by this run."
+  },
+  "what_the_conservative_reading_does_to_the_battery": {
+    "1_embedding_geometry": {
+      "conservative_ops": 4,
+      "fits_the_registered_budget": true,
+      "read_calls": 2,
+      "registered_ops": 2,
+      "rows_touched": 64,
+      "values_floats_max": 49152
+    },
+    "2_association_edges": {
+      "conservative_ops": 55,
+      "fits_the_registered_budget": false,
+      "read_calls": 50,
+      "registered_ops": 5,
+      "rows_touched": 4608,
+      "values_floats_max": 7077888
+    },
+    "3_circuit_motifs": {
+      "conservative_ops": 220,
+      "fits_the_registered_budget": false,
+      "read_calls": 204,
+      "registered_ops": 16,
+      "rows_touched": 12348,
+      "values_floats_max": 30670848
+    }
+  },
+  "why_a_pre_flight_event_rather_than_a_run_then_abort": "C3 says an over-budget item writes nothing. Performing 254 reads and then discarding the row would still have put 254 records in the access journal and spent the bytes; the check is therefore made on the PLAN, from shapes, so an aborted class touches no value at all. The registered post-hoc check stays in place for the synthetic path, where it is the check that has always been there."
+}
