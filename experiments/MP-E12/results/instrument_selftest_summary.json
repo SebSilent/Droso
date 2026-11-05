@@ -1,0 +1,186 @@
+{
+  "byte_accounting": {
+    "closes": true,
+    "data_base": 14291,
+    "data_end": 548090880,
+    "file_bytes": 548105171,
+    "gaps_between_tensors": [],
+    "header_json_bytes": 14283,
+    "length_prefix_bytes": 8,
+    "n_tensors": 160,
+    "sum_of_parts": 548105171,
+    "tensor_data_bytes": 548090880
+  },
+  "checks": [
+    {
+      "check": "donor_sha256_matches_provenance",
+      "passed": true,
+      "result": "248dfc3911869ec4"
+    },
+    {
+      "check": "byte_accounting_closes",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "file_bytes_are_548105171",
+      "passed": true,
+      "result": "548105171"
+    },
+    {
+      "check": "no_gaps_in_the_data_region",
+      "passed": true,
+      "result": "[]"
+    },
+    {
+      "check": "n_tensors_is_160",
+      "passed": true,
+      "result": "160"
+    },
+    {
+      "check": "scalar_agreement wte.weight[0][0]",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "scalar_agreement wte.weight[451][707]",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "scalar_agreement h.0.attn.c_attn.weight[12][1900]",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "scalar_agreement h.11.mlp.c_proj.weight[2000][300]",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "row_beyond_shape_refused",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "col_beyond_shape_refused",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "negative_row_refused",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "negative_col_refused",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "unknown_tensor_refused",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "excluded_mask_buffer_refused",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "gather_over_budget_refused",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "wte_row_has_768_values",
+      "passed": true,
+      "result": "768"
+    },
+    {
+      "check": "read_vector_returns_the_whole_1d_tensor",
+      "passed": true,
+      "result": "768"
+    },
+    {
+      "check": "read_vector_refuses_a_2d_tensor",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "read_row_on_a_1d_tensor_is_one_value_not_the_vector",
+      "passed": true,
+      "result": "1"
+    },
+    {
+      "check": "journal_verifies_clean",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "journal_seq_monotonic",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "every_record_is_probe_attributed",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "no_record_touches_a_mask_buffer",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "values_policy_split_recorded",
+      "passed": true,
+      "result": "True"
+    },
+    {
+      "check": "committed_journal_verifies_after_close",
+      "passed": true,
+      "result": "True"
+    }
+  ],
+  "donor_file": "experiments/MP-E12/donor/gpt2/model.safetensors",
+  "donor_sha256": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707",
+  "failures": [],
+  "instruments": {
+    "address_space": "tools/mp_e12_address_space.py",
+    "journal": "tools/mp_e12_access_journal.py"
+  },
+  "journal_artifact": "experiments/MP-E12/results/access_journal_selftest.jsonl",
+  "journal_records": 7,
+  "journal_totals": {
+    "probes_seen": [
+      "instrument_selftest"
+    ],
+    "tensors_touched": [
+      "h.0.attn.c_attn.weight",
+      "h.11.mlp.c_proj.weight",
+      "ln_f.weight",
+      "wte.weight"
+    ],
+    "total_bytes_read": 6164,
+    "total_charged_ops": 0,
+    "total_values_read": 1541
+  },
+  "n_checks": 26,
+  "ran_at_utc": "2026-11-05T16:03:10Z",
+  "reads_by_this_run": {
+    "bytes_read": 6164,
+    "hashed_records": 2,
+    "inline_records": 5,
+    "n_reads": 7,
+    "row_reads": 7
+  },
+  "schema": "droso.instrument_selftest_summary.v1",
+  "what_was_NOT_done": {
+    "donor_runtime_imported": false,
+    "extraction_run": false,
+    "forward_pass": false,
+    "probe_list_used": false
+  },
+  "what_was_read": "raw float32 values at header-resolved addresses, to prove the arithmetic and the refusals. No neighbour search, no association, no motif, no interpretation."
+}

@@ -2530,6 +2530,375 @@
       "why": "git_head is the commit the seal claims to describe. If the sealed bytes are still uncommitted when the stamp is taken, git_head names a commit that does not contain them, and there is no checkout you can verify the seal against."
     }
   },
+  "instruments_registered_2026_11_05_B6_items_2_3": {
+    "a_label_the_plan_uses_twice": "the plan attaches C4 to two different things: the risk register says \"C4 audits the deployment path for donor runtime imports\" (plan :323) and MP-E13's step 4 says \"including C4: residency or VRAM breach pauses the window\" (plan :463). This registration answers the first, and the test is named after it. Flagged rather than resolved: which meaning is canonical is the plan author's call, and a test named for an ambiguous label is a test nobody can check.",
+    "authority": "B.6 item 2 (plan :448) builds the address space; item 3 (plan :449) builds the access journal; R10 requires both to be committed instruments; D-MPE12-03 as ruled in part by B.R item 11 requires the probe list fixed in the same registration, before any extraction.",
+    "instrument_1_address_space": {
+      "a_gap_the_tests_found": "the first cut had no way to read a whole 1-D tensor: read_row on `ln_f.weight` returned ONE float, and the self-test asserted that as correct -- a test pinning the bug it was written beside. read_vector now exists, refuses 2-D tensors rather than guessing, and the self-test asserts 768 values for ln_f.weight and 2304 for h.0.attn.c_attn.bias.",
+      "api": [
+        "read_scalar(tensor, row, col)",
+        "read_row(tensor, row)",
+        "read_rows(tensor, rows)",
+        "read_vector(tensor)  # 1-D tensors: biases and layernorm scales",
+        "tensor_names() / shape() / dtype() / is_excluded() / excluded_tensors()",
+        "byte_accounting()",
+        "sha256_of_file()"
+      ],
+      "byte_accounting_measured": {
+        "closes": true,
+        "file_bytes": 548105171,
+        "gaps_in_the_data_region": 0,
+        "header_json_bytes": 14283,
+        "length_prefix": 8,
+        "n_tensors": 160,
+        "tensor_data_bytes": 548090880
+      },
+      "import_surface": "standard library only -- json, mmap, re, struct, hashlib, array, pathlib. No torch, no transformers, no numpy. Asserted by tests/test_mp_e12_address_space.py::test_no_donor_runtime_on_the_address_path, which is NAMED for C4: the plan audits the deployment path for donor runtime, and the check exists before the temptation does.",
+      "path": "tools/mp_e12_address_space.py",
+      "refusals": {
+        "ExcludedTensor": "a registered non-weight buffer",
+        "GatherBudgetExceeded": "more rows than MAX_ROWS_PER_READ=64, or a vector longer than MAX_VECTOR_VALUES=4096",
+        "GatherNotPermitted": "construction without a journal -- there is no un-journaled read path to fall back on",
+        "IndexOutOfRange": "row or column beyond the recorded shape, negative indices (refused rather than wrapped: an address must be a position in the file), and (row, col) against a 1-D tensor",
+        "UnknownTensor": "a name the index does not contain, including the PyTorch module path `transformer.wte.weight` -- the exact confusion the landing tool fell into first"
+      },
+      "version": "droso.donor_address_space.v1",
+      "what_it_is": "a memory-mapped, read-only view over experiments/MP-E12/donor/gpt2/model.safetensors with per-tensor index resolution taken from the file's own header, addressable by (tensor, row, column) and returning raw float32 values."
+    },
+    "instrument_2_access_journal": {
+      "durability": "flush per record. The first self-test run reported 0 records while the address space had counted 6 reads -- a buffering artifact that looked exactly like a sequence bug, and it is now tested (test_records_are_flushed_per_write)",
+      "fields_per_record": [
+        "seq",
+        "timestamp_utc",
+        "run_label",
+        "probe_id",
+        "tensor",
+        "indices",
+        "shape",
+        "dtype",
+        "n_values",
+        "raw_bytes",
+        "values_repr",
+        "values_bytes_sha256",
+        "charged_ops",
+        "address_space_version",
+        "donor_sha256",
+        "schema_version"
+      ],
+      "form": "append-only JSONL, one record per read, committed as an artifact",
+      "path": "tools/mp_e12_access_journal.py",
+      "probe_attribution": "probe_id must come from a registered prefix (instrument_selftest, extraction_, unattributed); verify() rejects anything else, so a read cannot be laundered into the journal without an owner",
+      "schema_version": "droso.access_journal.v1",
+      "values_policy": "inline when a read returns at most 32 values, otherwise sha256 over the packed little-endian bytes plus the value count. Stated because the choice is a trade: inlining every row of wte would put a second 548 MB copy of the donor beside the first, while recording only a count would not prove WHICH floats came back. The hash keeps the proof and drops the payload, and anyone holding the donor file can recompute it and see what the probe saw.",
+      "verify": "re-derives every hash from the bytes the record claims to have returned, checks sequence monotonicity, schema agreement, field presence and the prefix rule; returns problems rather than raising, so an audit can read them",
+      "what_it_cannot_say": "it records that a read happened and what came back. Interpretation lives in extraction artifacts citing sequence numbers; the journal never becomes a place where a result can be quietly restated."
+    },
+    "mask_buffer_exclusion": {
+      "count": 12,
+      "enforced_in": "tools/mp_e12_address_space.py:MASK_BUFFER_PATTERN, checked before the byte range is computed, so an excluded tensor cannot be read even by arithmetic",
+      "floats_total": 12582912,
+      "index_total_floats": 137022720,
+      "pattern": "^h\\.\\d+\\.attn\\.bias$",
+      "registered_before_anything_reads": true,
+      "shape_each": [
+        1,
+        1,
+        1024,
+        1024
+      ],
+      "share_of_index_percent": 9.18,
+      "tensors": [
+        "h.0.attn.bias through h.11.attn.bias"
+      ],
+      "tested_in": "tests/test_mp_e12_address_space.py::test_the_twelve_causal_mask_buffers_are_excluded_by_name -- asserts the count, the floats, the 9.18% share, the weights-only total, that every one of the 12 refuses both read paths, and that the exclusion does NOT swallow h.0.attn.c_attn.bias, which shares the suffix and is trainable",
+      "the_synthetic_difference": "the sealed synthetic calibration donor enumerated 12 per-layer tensors; the real donor has 13. This is the ONE structural difference between them, and it was found by reading the index rather than the card -- the card says 124M and the file says 137,022,720.",
+      "weights_only_param_count": 124439808,
+      "why_excluded": "they are causal masks: constant by construction, identical in every layer, learned by nothing. A feature pool that mined them would learn a triangle and report it as donor structure; an operation budget that counted them would be spending against bytes that carry no information."
+    },
+    "pointer_rule_applied": "every pointer was resolved by grep in the same step and its line quoted here; the script aborts if a line does not hold what the citation claims. Pointers into this ledger are re-resolved after the write and the file's line count is asserted unchanged by the value patch, so the numbers cannot be stale on arrival.",
+    "probe_list": {
+      "a_rule_change_recorded_not_hidden": "the first cut required a UNIQUE candidate form and deferred 88 of 121 words, including `dog`. That was the rule's artifact, not the donor's; the precedence rule now in the tool decides by position (a content word in these frames follows a space). The change is recorded in the artifact's revision_note.",
+      "budgets_registered": {
+        "abort": "an item that would spend more than 24 operations aborts the extraction before its row is written (plan C3)",
+        "max_reads_per_probe": 256,
+        "max_rows_per_read": 64,
+        "max_vector_values": 4096,
+        "read_budget_ops_per_item": 24,
+        "worst_case_reads_for_the_whole_list": 18432
+      },
+      "chosen_against": "the pinned spec, the index inventory and the curriculum. NOT against anything observed in the weights' values, and that is checkable: tests/test_mp_e12_address_space.py::test_the_probe_list_was_fixed_without_the_address_space fails if the probe-list script ever imports the address space, mmap or struct, or names model.safetensors.",
+      "counts": {
+        "curriculum_content_words": 121,
+        "deferred": 17,
+        "probes_fixed": 24,
+        "resolved_to_one_token": 104
+      },
+      "deferred_and_why_it_is_a_deferral": "17 curriculum words have no single-token id and would need the donor's BPE encoder to probe as a sub-token. That is a different probe object, so they are listed by name and deferred to a registered follow-on rather than dropped. Choosing them in or out after seeing what their rows look like would be an R2 event, so it was not done.",
+      "fixed_before_any_extraction": true,
+      "path": "experiments/MP-E12/results/probe_list_v1.json",
+      "schema": "droso.probe_list.v1",
+      "source_of_the_words": "this program's own sealed tier-120 curriculum (experiments/MP-E8/curriculum_tier120.json, curriculum_sha256 bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b), in first-appearance order. The donor supplied only the id lookup, from vocab.json -- a tokenizer table, not a weight value.",
+      "the_loophole_this_registers": "under the registered counting rule, one operation = one vector-by-donor-matrix multiply or one similarity search, and a gather of rows is NOT an operation. So reading the entire embedding matrix as raw rows would spend zero operations. The rule is the plan's and this step does not change it; what it does is name the hole and refuse to exploit it, by enforcing the row and read caps above. If the PI wants the op rule amended to charge gathers, that is a ruling, not a silent fix by whoever wrote the reader."
+    },
+    "reads_performed_so_far": {
+      "bytes_read": 6164,
+      "charged_ops": 0,
+      "extraction_run": false,
+      "journal": "experiments/MP-E12/results/access_journal_selftest.jsonl",
+      "n_reads": 7,
+      "probe_id": "instrument_selftest",
+      "summary": "experiments/MP-E12/results/instrument_selftest_summary.json",
+      "values_read": 1541,
+      "what_those_reads_were": "raw floats at header-resolved addresses, each cross-checked against an independent struct.unpack of the same four bytes, plus the refusals. No neighbour search, no association, no motif, no interpretation. The instruments have touched the donor exactly seven times and every one of them is in the journal."
+    },
+    "registered_at_utc": "2026-11-05T16:06:37Z",
+    "self_pointers": {
+      "the_donor_arrival_block": {
+        "line_reads": "\"donor_arrived_2026_11_05_B6_step1\": {",
+        "post_write_line": 74,
+        "pre_write_line": 74,
+        "shifted": false
+      },
+      "the_old_blocker": {
+        "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
+        "post_write_line": 3138,
+        "pre_write_line": 2751,
+        "shifted": true
+      }
+    },
+    "step": "v1.2 B.6 items 2 and 3, executed as registration work at zero machine time. Stopped BEFORE the first extraction, as ordered.",
+    "verified_pointers": {
+      "as_api_class": {
+        "as_claimed": "the instrument's entry point",
+        "file": "tools/mp_e12_address_space.py",
+        "line": 74,
+        "line_reads": "class DonorAddressSpace:",
+        "pointer": "tools/mp_e12_address_space.py:74"
+      },
+      "as_exclusion_pattern": {
+        "as_claimed": "the named exclusion, enforced before byte arithmetic",
+        "file": "tools/mp_e12_address_space.py",
+        "line": 42,
+        "line_reads": "MASK_BUFFER_PATTERN = re.compile(r\"^h\\.\\d+\\.attn\\.bias$\")",
+        "pointer": "tools/mp_e12_address_space.py:42"
+      },
+      "as_gather_caps": {
+        "as_claimed": "the gather caps",
+        "file": "tools/mp_e12_address_space.py",
+        "line": 43,
+        "line_reads": "MAX_ROWS_PER_READ = 64            # registered; a row of wte is 768 floats, so 64 rows is 49,152 floats",
+        "pointer": "tools/mp_e12_address_space.py:43"
+      },
+      "as_no_journal_no_read": {
+        "as_claimed": "there is no un-journaled read path",
+        "file": "tools/mp_e12_address_space.py",
+        "line": 86,
+        "line_reads": "\"the address space requires a journal: R11 says every access is journaled, so there is no \"",
+        "pointer": "tools/mp_e12_address_space.py:86"
+      },
+      "as_read_vector": {
+        "as_claimed": "the 1-D read path added after the self-test found the gap",
+        "file": "tools/mp_e12_address_space.py",
+        "line": 190,
+        "line_reads": "def read_vector(self, tensor: str, probe_id: str = \"unattributed\"):",
+        "pointer": "tools/mp_e12_address_space.py:190"
+      },
+      "jr_flush_per_record": {
+        "as_claimed": "durability per record",
+        "file": "tools/mp_e12_access_journal.py",
+        "line": 96,
+        "line_reads": "self._fh.flush()",
+        "pointer": "tools/mp_e12_access_journal.py:96"
+      },
+      "jr_inline_max": {
+        "as_claimed": "the values policy threshold",
+        "file": "tools/mp_e12_access_journal.py",
+        "line": 31,
+        "line_reads": "INLINE_MAX_VALUES = 32",
+        "pointer": "tools/mp_e12_access_journal.py:31"
+      },
+      "jr_schema_version": {
+        "as_claimed": "the versioned schema",
+        "file": "tools/mp_e12_access_journal.py",
+        "line": 30,
+        "line_reads": "JOURNAL_SCHEMA_VERSION = \"droso.access_journal.v1\"",
+        "pointer": "tools/mp_e12_access_journal.py:30"
+      },
+      "jr_verify": {
+        "as_claimed": "the verifier that re-derives every hash",
+        "file": "tools/mp_e12_access_journal.py",
+        "line": 119,
+        "line_reads": "def verify(self) -> dict:",
+        "pointer": "tools/mp_e12_access_journal.py:119"
+      },
+      "list_deferred": {
+        "as_claimed": "the words deferred, named",
+        "file": "experiments/MP-E12/results/probe_list_v1.json",
+        "line": 18,
+        "line_reads": "\"deferred_words\": [",
+        "pointer": "experiments/MP-E12/results/probe_list_v1.json:18"
+      },
+      "list_probes": {
+        "as_claimed": "the fixed probe count",
+        "file": "experiments/MP-E12/results/probe_list_v1.json",
+        "line": 15,
+        "line_reads": "\"probes_fixed\": 24,",
+        "pointer": "experiments/MP-E12/results/probe_list_v1.json:15"
+      },
+      "pl_nprobes": {
+        "as_claimed": "the registered probe count",
+        "file": "tools/mp_e12_fix_probe_list.py",
+        "line": 34,
+        "line_reads": "N_PROBES = 24                                  # registered: one probe per curriculum session-block of 8 items",
+        "pointer": "tools/mp_e12_fix_probe_list.py:34"
+      },
+      "pl_rule": {
+        "as_claimed": "the documented precedence, decided by position not by looking",
+        "file": "tools/mp_e12_fix_probe_list.py",
+        "line": 62,
+        "line_reads": "def resolve(word: str, vocab: dict):",
+        "pointer": "tools/mp_e12_fix_probe_list.py:62"
+      },
+      "plan_c3_budget": {
+        "as_claimed": "the per-item read budget and its abort rule",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 232,
+        "line_reads": "**C-conditions.** C1: any guarded row answered post-transplant \u2014 abort. C2: library-sourced knowledge silently promoted to curriculum class \u2014 abort. C3: read budget exceeded on any logged item \u2014 abort",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:232"
+      },
+      "plan_c4_residency": {
+        "as_claimed": "the OTHER use of the label C4 in the same plan -- see the naming note",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 463,
+        "line_reads": "4. Freeze protocol, thresholds and C-conditions (including C4: residency or VRAM breach pauses the window) before the window opens.",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:463"
+      },
+      "plan_c4_runtime_audit": {
+        "as_claimed": "the C4 that this step's named test answers",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 323,
+        "line_reads": "| **Donor-execution leak** (R11 violation): a convenience call to a donor runtime reaches the answer path | Low | Critical | C4 audits the deployment path for donor runtime imports; the control arm's ",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:323"
+      },
+      "plan_item_2_address_space": {
+        "as_claimed": "B.6 item 2: read-only mmap, per-tensor index resolution, zero donor runtime, unit tests for address arithmetic and out-of-range refusal",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 448,
+        "line_reads": "2. **Build the address space**: read-only mmap over safetensors; per-tensor index resolution; zero donor runtime on the deployment path; unit tests for address arithmetic and out-of-range refusal.",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:448"
+      },
+      "plan_item_3_access_journal": {
+        "as_claimed": "B.6 item 3: every read logged, schema versioned and committed (R10)",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 449,
+        "line_reads": "3. **Build the access journal**: every read logged (address, tensor, indices, values, requesting probe, timestamp); journal schema versioned and committed (R10).",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:449"
+      },
+      "plan_r11": {
+        "as_claimed": "R11: journaled access, no forward pass, no sampling on any path that reaches an answer",
+        "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
+        "line": 146,
+        "line_reads": "- **R11 \u2014 The library is addressed, never executed.** *(New in v1.2.)* A frozen donor's weights are used in exactly two ways: as a read-only address space (compile reads offline; live address reads at",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:146"
+      },
+      "prov_masks": {
+        "as_claimed": "the mask-buffer count",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 300,
+        "line_reads": "\"n_attn_bias_tensors\": 12,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:300"
+      },
+      "prov_weights_only": {
+        "as_claimed": "the weights-only count from the index",
+        "file": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+        "line": 321,
+        "line_reads": "\"weights_and_biases_only\": 124439808,",
+        "pointer": "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json:321"
+      },
+      "st_checks": {
+        "as_claimed": "the self-test that exercises both instruments",
+        "file": "tools/mp_e12_instrument_selftest.py",
+        "line": 61,
+        "line_reads": "def main() -> int:",
+        "pointer": "tools/mp_e12_instrument_selftest.py:61"
+      },
+      "sum_failures": {
+        "as_claimed": "the self-test's failure list",
+        "file": "experiments/MP-E12/results/instrument_selftest_summary.json",
+        "line": 148,
+        "line_reads": "\"failures\": [],",
+        "pointer": "experiments/MP-E12/results/instrument_selftest_summary.json:148"
+      },
+      "sum_records": {
+        "as_claimed": "how many reads the instruments have performed in total",
+        "file": "experiments/MP-E12/results/instrument_selftest_summary.json",
+        "line": 154,
+        "line_reads": "\"journal_records\": 7,",
+        "pointer": "experiments/MP-E12/results/instrument_selftest_summary.json:154"
+      },
+      "t_c4": {
+        "as_claimed": "the NAMED C4 assertion",
+        "file": "tests/test_mp_e12_address_space.py",
+        "line": 49,
+        "line_reads": "def test_no_donor_runtime_on_the_address_path():",
+        "pointer": "tests/test_mp_e12_address_space.py:49"
+      },
+      "t_exclusion": {
+        "as_claimed": "the exclusion test, with the counts in its assertions",
+        "file": "tests/test_mp_e12_address_space.py",
+        "line": 167,
+        "line_reads": "def test_the_twelve_causal_mask_buffers_are_excluded_by_name(tmp_path):",
+        "pointer": "tests/test_mp_e12_address_space.py:167"
+      },
+      "t_gather": {
+        "as_claimed": "the loophole made unexploitable",
+        "file": "tests/test_mp_e12_address_space.py",
+        "line": 205,
+        "line_reads": "def test_gather_budget_stops_a_free_bulk_read(tmp_path):",
+        "pointer": "tests/test_mp_e12_address_space.py:205"
+      },
+      "t_jr_tamper": {
+        "as_claimed": "the journal's own integrity test",
+        "file": "tests/test_mp_e12_access_journal.py",
+        "line": 79,
+        "line_reads": "def test_verify_catches_a_tampered_inline_value(tmp_path):",
+        "pointer": "tests/test_mp_e12_access_journal.py:79"
+      },
+      "t_negative": {
+        "as_claimed": "negative addresses refused",
+        "file": "tests/test_mp_e12_address_space.py",
+        "line": 142,
+        "line_reads": "def test_negative_index_is_refused_not_wrapped(tmp_path):",
+        "pointer": "tests/test_mp_e12_address_space.py:142"
+      },
+      "t_valueblind": {
+        "as_claimed": "the value-blind claim, checked against imports",
+        "file": "tests/test_mp_e12_address_space.py",
+        "line": 70,
+        "line_reads": "def test_the_probe_list_was_fixed_without_the_address_space():",
+        "pointer": "tests/test_mp_e12_address_space.py:70"
+      }
+    },
+    "what_stands_between_here_and_the_first_extraction": [
+      "1. the three extractions have to be pointed at the real address space. tools/mp_e12_probes.py currently takes a dict of numpy arrays (the synthetic donor); wiring it to journaled reads is code work, not a run.",
+      "2. the op-counting rule and the gather loophole need a PI ruling if the program wants the loophole closed by rule rather than by the caps registered here.",
+      "3. the BPE encoder for the 17 deferred words, if they are to be probed at all.",
+      "4. the >=10x threshold needs the inference side counted under the same rule on the same machine -- reference_inference exists for the synthetic donor and has not been re-based on the real one.",
+      "5. R4: one experiment in flight. MP-E12a is the sanctioned parallel track and touches only the donor library, which is why this step is allowed to run at all while G2 and G3 stay open."
+    ],
+    "what_this_step_did_not_do": {
+      "no_answer_path_edit": true,
+      "no_bench_run": true,
+      "no_extraction": true,
+      "no_floor_pair": true,
+      "no_forward_pass": true,
+      "no_mp_e11": true,
+      "no_status_field_moved": true,
+      "no_step5": true,
+      "no_verdict_changed": true
+    },
+    "where_the_13_vs_12_difference_is_recorded": "it is in this ledger, not in the donor provenance: the comparison against the sealed synthetic donor sits in the donor_arrived block, whose post-write line is given in self_pointers.the_donor_arrival_block. The provenance carries the counts it was built from -- 12 mask buffers at PROVENANCE_gpt2.json:300 and the weights-only total at :321 -- and the interpretation lives here."
+  },
   "mp_e12b_design_step": {
     "added": "2026-08-10",
     "document": "docs/mp_e12b_compiler_design_step.md",

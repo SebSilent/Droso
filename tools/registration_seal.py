@@ -560,6 +560,21 @@ DEFAULT_MANIFEST = [
 # still holds now that real bytes exist.
     "tools/mp_e12_land_donor.py",
     "experiments/MP-E12/donor/gpt2/PROVENANCE_gpt2.json",
+# B.6 items 2 and 3: the two instruments, their tests, and the two artifacts they produced. Sealed because R10
+# says a registered instrument is committed or re-derivable, and because the claim "every donor read is
+# journaled" is worth nothing if the journal's schema can be edited afterwards. The self-test journal is sealed
+# too -- seven records, all attributed to probe_id instrument_selftest, charged_ops 0 -- so the number of times
+# these instruments have touched the donor is a checked fact rather than a recollection, and the first
+# extraction can be seen as the eighth read and not the ninth-and-a-half.
+    "tools/mp_e12_address_space.py",
+    "tools/mp_e12_access_journal.py",
+    "tools/mp_e12_fix_probe_list.py",
+    "tools/mp_e12_instrument_selftest.py",
+    "tests/test_mp_e12_address_space.py",
+    "tests/test_mp_e12_access_journal.py",
+    "experiments/MP-E12/results/probe_list_v1.json",
+    "experiments/MP-E12/results/access_journal_selftest.jsonl",
+    "experiments/MP-E12/results/instrument_selftest_summary.json",
 # THE COVERING RUN, produced only after the tree was clean and the stamp was in it. 1370 collected, 1370
 # executed, 0 failures, 0 errors, 6 skipped, rc 0, 879.19 s at git_head 39a0e3241, git_dirty []. The +6 tests
 # against the previous baseline of 1364 are the A10 unit tests from STEP 3, so the count moved because the

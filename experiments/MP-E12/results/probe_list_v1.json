@@ -1,0 +1,375 @@
+{
+  "authority": "D-MPE12-03, ruled in part 2026-11-05 by B.R item 11: the probe list must be fixed in the registration of the instruments, before the first extraction",
+  "budgets": {
+    "abort_condition": "an item that would spend more than 24 operations aborts the extraction (plan C3); the exception fires before the row is written",
+    "gather_loophole_named": "under the registered op rule a gather of rows costs zero operations, so the two caps above are what bound bulk reads; the loophole itself is registered in MP-E12's ledger",
+    "max_reads_per_probe": 256,
+    "max_rows_per_read": 64,
+    "read_budget_ops_per_item": 24,
+    "worst_case_reads_for_the_whole_list": 18432
+  },
+  "counts": {
+    "deferred": 17,
+    "distinct_content_words_in_curriculum": 121,
+    "n_probes_registered": 24,
+    "probes_fixed": 24,
+    "resolved_to_one_token": 104
+  },
+  "deferred_words": [
+    {
+      "resolution": "unresolved",
+      "word": "mira"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "keg"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "shackle"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "cools"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "gardener"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "smooths"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "vase"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "cranks"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "loom"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "warms"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "faucet"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "pulley"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "girdle"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "spool"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "tolls"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "unveils"
+    },
+    {
+      "resolution": "unresolved",
+      "word": "saws"
+    }
+  ],
+  "experiment": "MP-E12",
+  "fixed_at_utc": "2026-11-05T15:59:32Z",
+  "fixed_before_any_extraction": true,
+  "probes": [
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p00",
+      "token_id": 26081,
+      "vocab_form": "\u0120bites",
+      "word": "bites"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p01",
+      "token_id": 43140,
+      "vocab_form": "\u0120latch",
+      "word": "latch"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p02",
+      "token_id": 3290,
+      "vocab_form": "\u0120dog",
+      "word": "dog"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p03",
+      "token_id": 10732,
+      "vocab_form": "\u0120carries",
+      "word": "carries"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p04",
+      "token_id": 41207,
+      "vocab_form": "\u0120lantern",
+      "word": "lantern"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p05",
+      "token_id": 32561,
+      "vocab_form": "\u0120Nora",
+      "word": "nora"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p06",
+      "token_id": 13917,
+      "vocab_form": "\u0120rings",
+      "word": "rings"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p07",
+      "token_id": 10580,
+      "vocab_form": "\u0120tower",
+      "word": "tower"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p08",
+      "token_id": 15317,
+      "vocab_form": "\u0120copper",
+      "word": "copper"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p09",
+      "token_id": 8966,
+      "vocab_form": "\u0120bell",
+      "word": "bell"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p10",
+      "token_id": 5594,
+      "vocab_form": "\u0120belong",
+      "word": "belong"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p11",
+      "token_id": 14448,
+      "vocab_form": "\u0120belongs",
+      "word": "belongs"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p12",
+      "token_id": 9808,
+      "vocab_form": "\u0120opens",
+      "word": "opens"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p13",
+      "token_id": 3420,
+      "vocab_form": "\u0120door",
+      "word": "door"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p14",
+      "token_id": 1994,
+      "vocab_form": "\u0120key",
+      "word": "key"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p15",
+      "token_id": 37354,
+      "vocab_form": "\u0120binds",
+      "word": "binds"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p16",
+      "token_id": 17379,
+      "vocab_form": "\u0120jar",
+      "word": "jar"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p17",
+      "token_id": 14088,
+      "vocab_form": "\u0120rolls",
+      "word": "rolls"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p18",
+      "token_id": 41066,
+      "vocab_form": "\u0120axle",
+      "word": "axle"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p19",
+      "token_id": 1051,
+      "vocab_form": "\u0120sign",
+      "word": "sign"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p20",
+      "token_id": 8849,
+      "vocab_form": "\u0120marks",
+      "word": "marks"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p21",
+      "token_id": 5046,
+      "vocab_form": "\u0120scale",
+      "word": "scale"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p22",
+      "token_id": 15299,
+      "vocab_form": "\u0120rod",
+      "word": "rod"
+    },
+    {
+      "extractions": [
+        "1_embedding_geometry",
+        "2_association_edges",
+        "3_circuit_motifs"
+      ],
+      "probe_id": "extraction_1_p23",
+      "token_id": 23016,
+      "vocab_form": "\u0120strap",
+      "word": "strap"
+    }
+  ],
+  "revision_note": "this is v1 of the list, but the SECOND cut of the rule. The first cut required a unique candidate form and deferred 88 of 121 curriculum words, including `dog`; that was the rule's artifact, not the donor's, and deferring three quarters of the curriculum to avoid making a documented choice would have left the program probing a list it could not describe. The precedence rule above is the fix, and the change is recorded here rather than left as a silent re-cut.",
+  "schema": "droso.probe_list.v1",
+  "selection_rule": [
+    "1. words come from the sealed tier-120 curriculum, in first-appearance order across its qa_pairs",
+    "2. the registered function-word stop list is removed",
+    "3. a word is kept if any candidate form exists in vocab.json; where several do, the documented precedence picks one (space-prefixed first, then bare, then capitalised forms), because a content word in these frames follows a space",
+    "4. the first N_PROBES survivors are taken; N_PROBES is registered here, not chosen after",
+    "5. nothing in this rule consults a weight value; the only donor artifact read is vocab.json"
+  ],
+  "sources": {
+    "curriculum": "experiments/MP-E8/curriculum_tier120.json",
+    "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+    "vocab": "experiments/MP-E12/donor/gpt2/vocab.json",
+    "vocab_size": 50257
+  },
+  "stage": "MP-E12a",
+  "what_this_artifact_is_not": "it is not a result. It fixes what will be asked. No tensor byte was read to produce it, and the test named in this file's docstring checks that no address-space import exists here.",
+  "why_deferred": "these words have no unique single-token id in the donor's vocabulary; probing them means encoding them with the donor's BPE and taking a sub-token, which is a different probe object. The BPE encoder is not implemented in this step and is a named follow-on. They are not silently dropped, and they were not selected for or against on anything seen in the weight bytes."
+}
