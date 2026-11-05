@@ -687,9 +687,18 @@ def seal(reg_path: pathlib.Path) -> dict:
     # registration seals instruments and artifacts, never another registration. A ledger pinned by a
     # second ledger proves nothing about the world -- it only proves the two agree with each other.
     # Each registration is still pinned by git history and by the tests that read it.
-    regs = [t for t in targets if t.endswith("registration.json")]
+    # MATCH THE FILENAME, NOT THE SUFFIX. `endswith("registration.json")` also matches
+    # `real_run_preregistration.json`, which is an EVIDENCE artifact -- the accounting registered before the
+    # first donor read, and the file the ordering proof cites. The suffix rule dropped it from the seal in
+    # silence: the stamp reported 229 files while the manifest held 235 unique paths and the commit message
+    # said 230. A rule that excludes by substring is a rule that will eventually exclude the wrong thing, so
+    # the comparison is now against the last path segment.
+    def _is_ledger(t):
+        return t.replace("\\", "/").rsplit("/", 1)[-1] == "registration.json"
+
+    regs = [t for t in targets if _is_ledger(t)]
     if regs:
-        targets = [t for t in targets if not t.endswith("registration.json")]
+        targets = [t for t in targets if not _is_ledger(t)]
     hh["registrations_excluded"] = {
         "paths": sorted(regs),
         "why": ("registrations are ledgers, not evidence. Two registrations that seal each other form a "
