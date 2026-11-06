@@ -244,13 +244,13 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4196,
         "line_reads": "\"D-MPE12-05_as_registered_before_the_ruling\": \"How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibra",
-        "pointer": "experiments/MP-E12/registration.json:4814"
+        "pointer": "experiments/MP-E12/registration.json:4806"
       },
       "ledger_d06": {
         "file": "experiments/MP-E12/registration.json",
         "line": 4133,
         "line_reads": "\"D-MPE12-06\": \"The confidence threshold that gates an edge into grow_plastic/wire_pool. Must be fixed before the first real graph is compiled; cannot be derived from the synthetic donor, whose confide",
-        "pointer": "experiments/MP-E12/registration.json:4751"
+        "pointer": "experiments/MP-E12/registration.json:4743"
       },
       "ledger_first_real_use": {
         "file": "experiments/MP-E12/registration.json",
@@ -262,7 +262,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4209,
         "line_reads": "\"ruled_at\": \"2026-08-10\",",
-        "pointer": "experiments/MP-E12/registration.json:4827"
+        "pointer": "experiments/MP-E12/registration.json:4819"
       },
       "ledger_seal_head": {
         "file": "experiments/MP-E12/registration.json",
@@ -274,7 +274,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4477,
         "line_reads": "\"tokenizer_landed_and_two_rules_registered_2026_11_05\": {",
-        "pointer": "experiments/MP-E12/registration.json:5298"
+        "pointer": "experiments/MP-E12/registration.json:5290"
       },
       "plan_C_conditions": {
         "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
@@ -1172,7 +1172,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4398,
         "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
-        "pointer": "experiments/MP-E12/registration.json:5016",
+        "pointer": "experiments/MP-E12/registration.json:5008",
         "post_write_line": 2751,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1203,7 +1203,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4402,
         "line_reads": "\"what_must_arrive\": \"GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to ",
-        "pointer": "experiments/MP-E12/registration.json:5020",
+        "pointer": "experiments/MP-E12/registration.json:5012",
         "post_write_line": 2755,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1213,7 +1213,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4403,
         "line_reads": "\"where_it_must_be\": \"experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.\"",
-        "pointer": "experiments/MP-E12/registration.json:5021",
+        "pointer": "experiments/MP-E12/registration.json:5013",
         "post_write_line": 2756,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1560,21 +1560,21 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:4846"
+        "pointer": "experiments/MP-E12/registration.json:4838"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the open decision cited as a standing blocker | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3693, now 3819",
         "file": "experiments/MP-E12/registration.json",
         "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:4863"
+        "pointer": "experiments/MP-E12/registration.json:4855"
       },
       "ledger_instruments_key": {
         "as_claimed": "the B.6 items 2-3 registration this amendment follows | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3208, now 3334",
         "file": "experiments/MP-E12/registration.json",
         "line": 3760,
         "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
-        "pointer": "experiments/MP-E12/registration.json:4378"
+        "pointer": "experiments/MP-E12/registration.json:4370"
       },
       "pb_conservative_prop": {
         "as_claimed": "the tally that charges a gather",
@@ -4321,12 +4321,8 @@
       }
     },
     "git_dirty": true,
-    "git_dirty_sealed": [
-      "docs/pi_decision_sheet_2026_11_06.md",
-      "experiments/MP-E10/results/suite_manifest_head_e554987.json",
-      "tools/registration_seal.py"
-    ],
-    "git_head": "e5549876e28e96f9091164e5ab20df96912c0256",
+    "git_dirty_sealed": [],
+    "git_head": "46f2accb307bb30ba057bdd8334a2cf522adeac2",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -4352,7 +4348,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-06T22:50:31Z",
+    "sealed_at_utc": "2026-11-06T23:01:56Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -4367,11 +4363,7 @@
         "4. registration_seal.py <registration.json> --check   # must be clean at that HEAD"
       ],
       "rule": "COMMIT FIRST, THEN STAMP, THEN COMMIT THE STAMP. Never stamp while a file this seal hashes is uncommitted -- that is what git_dirty_sealed reports, not mere tree dirt.",
-      "this_stamp_found_uncommitted_bytes_among_sealed_files": [
-        "docs/pi_decision_sheet_2026_11_06.md",
-        "experiments/MP-E10/results/suite_manifest_head_e554987.json",
-        "tools/registration_seal.py"
-      ],
+      "this_stamp_found_uncommitted_bytes_among_sealed_files": [],
       "why": "git_head is the commit the seal claims to describe. If the sealed bytes are still uncommitted when the stamp is taken, git_head names a commit that does not contain them, and there is no checkout you can verify the seal against."
     }
   },
@@ -5256,7 +5248,7 @@
       "collision_check": "none of 10, 11, 12 appears as a key or an id-value in any ledger, measured by walking the parsed JSON rather than by grepping a string",
       "governing_rule": {
         "line_reads": "\"governing_rule\": \"AMD-MPE10-11 -- a proposed identifier is checked against the live key set BEFORE it is written down\",",
-        "pointer": "experiments/G0-prime/registration.json:2978"
+        "pointer": "experiments/G0-prime/registration.json:2970"
       },
       "live_key_set_read_first": {
         "D-MPE12_numbers_occupied": [
@@ -5272,7 +5264,7 @@
         ],
         "evidence_06_to_08": {
           "line_reads": "\"D-MPE12-08\": \"Whether stage b may be exercised on a scratch organ before the live one, and what would make a scratch result admissible.\",",
-          "pointer": "experiments/MP-E12/registration.json:4753"
+          "pointer": "experiments/MP-E12/registration.json:4745"
         },
         "evidence_09_is_occupied": {
           "line_reads": "\"question_id\": \"D-MPE12-09\",",
@@ -5280,7 +5272,7 @@
         },
         "evidence_low_end": {
           "line_reads": "\"decision_id\": \"D-MPE12-01\",",
-          "pointer": "experiments/MP-E12/registration.json:4838"
+          "pointer": "experiments/MP-E12/registration.json:4830"
         },
         "highest_occupied": 9
       },
@@ -5525,14 +5517,14 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:4846"
+        "pointer": "experiments/MP-E12/registration.json:4838"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the decision that still bars MP-E12b",
         "file": "experiments/MP-E12/registration.json",
         "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:4863"
+        "pointer": "experiments/MP-E12/registration.json:4855"
       },
       "ledger_donor_arrival_block": {
         "as_claimed": "the block that recorded the weights arriving, which this amendment follows for the tokenizer",
@@ -5835,7 +5827,7 @@
       },
       "top_level_status_field": {
         "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\",",
-        "pointer": "experiments/MP-E12/registration.json:5148"
+        "pointer": "experiments/MP-E12/registration.json:5140"
       }
     },
     "what_the_plan_still_records": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164",
