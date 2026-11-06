@@ -688,6 +688,17 @@ DEFAULT_MANIFEST = [
 # the floor checkable without spending bench time -- and it is sealed so the number behind D-MPE10-14
 # has a home a reader can verify. EXACTLY 1 path added; nothing else touched.
     "experiments/MP-E10/results/h2_fluency_floor_from_sealed_runs.json",
+# ---- two RED covering runs and the consolidated PI sheet, 2026-11-06 -------------------------------
+# BOTH manifests exited 1. They are sealed as EVIDENCE, NOT as covering: the first records the stale
+# substring predicate that has since been repaired, the second records the licensed-absence flip reaching
+# a full suite run (D-MPE10-16). Sealing a red run is what stops it being quietly re-quoted as a green
+# one later -- the same logic that sealed the void STEP 5 attempt. STATE.md's badge reads amber because of
+# these two, and no green covering run exists at HEAD.
+# The PI sheet is sealed so its 34 citations are pinned to bytes that were checked, 34/34 with 0 defects.
+# EXACTLY 3 paths are new; none replaces an existing entry.
+    "experiments/MP-E10/results/suite_manifest_head_7d14580.json",
+    "experiments/MP-E10/results/suite_manifest_head_e554987.json",
+    "docs/pi_decision_sheet_2026_11_06.md",
 ]
 
 

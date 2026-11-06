@@ -180,15 +180,15 @@
         },
         {
           "line_reads": "\"gate_order\": \"Does stage b wait for G4 (MP-E11) to close as the plan's order implies, or is the parallel track extended? This is the decision that unblocks the work and it is not a technical one.\"",
-          "pointer": "experiments/MP-E12/registration.json:4719"
+          "pointer": "experiments/MP-E12/registration.json:4754"
         },
         {
           "line_reads": "\"line_reads\": \"\\\"gate\\\": \\\"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\\\",\",",
-          "pointer": "experiments/MP-E12/registration.json:5798"
+          "pointer": "experiments/MP-E12/registration.json:5833"
         },
         {
           "line_reads": "\"what_this_note_does_not_do\": \"It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.\",",
-          "pointer": "experiments/MP-E12/registration.json:5807"
+          "pointer": "experiments/MP-E12/registration.json:5842"
         }
       ]
     },
@@ -201,13 +201,13 @@
         "also_the_plans_source_line_for_this_gate_does_not_hold_the_verdict": {
           "is_the_verdict": false,
           "line_reads": "\"populations\": {",
-          "pointer": "experiments/MP-E8/registration.json:4595"
+          "pointer": "experiments/MP-E8/registration.json:4630"
         },
         "delta": "The plan records a FAIL on H1; the ledger's own status field does not carry the word FAIL, it reads OPEN, MEASURED PARTLY. Both may be true of the same measurement -- one is a verdict on a hypothesis, the other a state of the gate -- but a reader who takes the ledger's word for the gate will not meet the falsification the plan leads with.",
         "gate": "G2 / MP-E8",
         "ledger_says": {
           "line_reads": "\"status\": \"OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed. UPDATED 2026-11-04: arm A has now been run TWICE at tier 300 (published and armA_tier300_rerun.json). C3's two rows split -- 3/tell0.26/object reproduces and is a real restart loss, which falsifies H1's arm A clause at tier 300 as measured; 3/tell0.38/object did not reproduce and is instrument instability (AMD-MPE8-13). Arm C's graded quantities were re-registered before its first run: gate and near-miss measures carry its claims, its correct rate does not (AMD-MPE8-12). Arm C has still produced no sealed artifact; arm B has still never run at tier 300. UPDATED again at 2026-11-04T05:13:47Z: arm C has now produced sealed artifacts at tiers 40, 120 and 300 and arm B has run its three registered seeds at tier 300. H1's arm B clause fails at BOTH required tiers, at tier 300 with the drop's sign reversed; H2's clause 2 is recorded PASS at 120 and 300 with its blanket-refusal limitation on its face. G2 is still not closable. UPDATED again at 2026-11-04T05:25:10Z: D-MPE8-09 is RULED, not hanging. C3's registered action abort is executed against the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN; both artifacts stay published and MP-E8 continues under the plan's own gate text and G2's re-run-the-flawed-arm fallback.\",",
-          "pointer": "experiments/MP-E8/registration.json:5176"
+          "pointer": "experiments/MP-E8/registration.json:5211"
         },
         "plan_says": {
           "line_reads": "| **G2 / MP-E8** | sealed artifacts for arms A/B/C at 40/120/300 plus teach-arm control and noise floor; forgetting/interference/exposure/cost valid | **FAIL (H1) / PARTIAL** \u2014 arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only | T & N at 120/300 (~3.85 h); tier-300 fresh-vs-fresh (~44 min); H2 specificity floor by dated amendment; then G2 closes on the re-aimed claim (Amendment B) |",
@@ -225,7 +225,7 @@
         },
         "ledger_says": {
           "line_reads": "\"status\": \"RECONCILED 2026-08-10 by the stale-status guard (tests/test_stale_status_guard.py): D-MPE10-02 are RULED in this file's ruling blocks, so this field's claim that they were OPEN is no longer true -- the superseded wording is preserved at status_as_written_before_the_reconciliation. What the field still correctly records is the thing that has not changed: no MP-E10 figure has been scored on the current tree, so no number may be quoted as a hypothesis verdict. The guard's FORCE is intact; its stated REASON was stale.\",",
-          "pointer": "experiments/MP-E10/registration.json:6674"
+          "pointer": "experiments/MP-E10/registration.json:6778"
         },
         "plan_says": {
           "line_reads": "| **G3 / MP-E10** | mouth stages improve-or-hold, working memory live at seconds scale, replay at tier 300 within the registered interference margin, invariants hold | **UNMEASURABLE as registered** \u2014 H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree | One ruling (D-MPE10-12) \u2192 re-register H3 primary at tier 120; tier 300 becomes the capacity curve (Amendment D); ~2 h of re-registered runs |",
@@ -243,7 +243,7 @@
         },
         "ledger_says": {
           "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\",",
-          "pointer": "experiments/MP-E12/registration.json:5113"
+          "pointer": "experiments/MP-E12/registration.json:5148"
         },
         "plan_says_section_5": {
           "line_reads": "| **G5 / MP-E12** | H1\u2013H3 hold or a pre-registered partial with the text-distillation control done; guarded rows and source dimension verified post-transplant | **BLOCKED on an external input** \u2014 \"The weights are not on this machine\"; four open decisions (D-MPE12-01\u202604) | Download GPT-2 124M (~500 MB, \u00a77.2 step 2) \u2192 E12a opens; rule the four decisions in the batch; E12c registration pins Qwen3.8-27B |",
@@ -261,7 +261,7 @@
         "gate": "G1 / MP-E9",
         "ledger_says": {
           "line_reads": "\"status\": \"OPEN (B.2), treatment arms RUN and sealed. P1 (ELECTRIC_ARBITER_HEAD_BOUND) met its registered prediction: H1 and H2 pass, 16 rows moved, every protected population intact. P2 (ELECTRIC_QA_MORPH_NORMALIZE) moved 0 of 3,672 rows and its registered premise is falsified: H3 fails. H4 holds, measured. The flag-OFF arm reproduced the pre-treatment artifact row for row (0 differences), so both statements are controlled rather than observational. Registered fallback F1 (per-entry morphological aliases, the plan's own G1 fallback) is the next and last registered attempt at the morphology defect; a second failure documents the residual and the duel proceeds with it measured and named. Registered before any run (R2); every post-registration change is listed in registration_amendments with the result it followed, and no threshold or prediction value has been altered by any of them.\",",
-          "pointer": "experiments/MP-E9/registration.json:3437"
+          "pointer": "experiments/MP-E9/registration.json:3472"
         },
         "plan_says": {
           "line_reads": "| **G1 / MP-E9** | zero untraceable words, three routing rows back to refused, morphology class answered, invariants hold | **PARTIAL / FAIL on P2** \u2014 H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time | The named residual travels with the duel, measured (`residual_for_the_duel`); three rulings (\u00a77.2 items 8\u201310) |",
@@ -306,18 +306,18 @@
       "MP_E10_4255_cited_line_holds": {
         "is_the_verdict": false,
         "line_reads": "\"line_reads\": \"{\",",
-        "pointer": "experiments/MP-E10/registration.json:5153",
+        "pointer": "experiments/MP-E10/registration.json:5257",
         "why_it_was_missed_first_time": "the citation parser only matched '<ledger>/registration.json:<n>' and the plan writes this one as a bare 'registration.json:4255' inside a compound cell, so it was skipped silently and the tally was stated short"
       },
       "MP_E12_cited_line_holds": {
         "is_the_verdict": false,
         "line_reads": "\"sha256_lf\": \"899a624ca0933312aeae2fc79bcf659ea7e2cc66927f3d2fc510b003eb9ec663\",",
-        "pointer": "experiments/MP-E12/registration.json:2069"
+        "pointer": "experiments/MP-E12/registration.json:2078"
       },
       "MP_E8_cited_line_holds": {
         "is_the_verdict": false,
         "line_reads": "\"populations\": {",
-        "pointer": "experiments/MP-E8/registration.json:4595"
+        "pointer": "experiments/MP-E8/registration.json:4630"
       },
       "MP_E9_cited_line_holds": {
         "is_the_verdict": false,
@@ -3129,6 +3129,73 @@
     "what_the_sweep_actually_costs": "0.237s for the entire registered grid at tier 40. Calibration was never the expensive part of G3: the curriculum runs are. So the cost of running this sweep again after any organ decision is settled is negligible, and there is no reason to run 120/300 on an organ whose k semantics are still unresolved.",
     "what_was_not_done": "The sealed module was not edited. tools/mp_e10_working_memory.py is hashed in all four registrations' harness_hashes, and each finding changes what a registered quantity MEANS -- which is the class of change this repository has consistently routed to the PI rather than absorbing quietly (the sim_floor cells, the nearness bug, the H2 clause-2 basis)."
   },
+  "licensed_absence_flip_in_the_covering_suite_2026_11_06": {
+    "D-MPE10-16_the_flip_now_reaches_the_covering_suite": {
+      "agent_chose_no_option": true,
+      "asked_at": "2026-11-06T22:46:33Z",
+      "asked_by": "agent",
+      "measured_state": {
+        "NEW_consequence_this_turn": "the flip has now surfaced in a full covering suite run. experiments/MP-E10/results/suite_manifest_head_e554987.json exited 1 on exactly this test -- 1 failure, 0 errors, and that failure was the flip. The sealed plan's words were 'a green covering suite that does not close it'; on this tree the suite is not green, and it is not green because of a defect the ledger classifies as NOT gating H3.",
+        "evidence": {
+          "hunt_artifact": "experiments/MP-E10/results/licensed_absence_flip_hunt.json",
+          "ledger_status_of_the_defect": {
+            "line_reads": "\"status\": \"OPEN -- NAMED, NOT CLOSED. Does not gate H3 (the flip is in `reason`, which R13 tolerates; the graded fields and the safety property are unaffected). Still a live defect on the answer path and not permitted to be quoted as closed.\",",
+            "pointer": "experiments/MP-E10/registration.json:3209"
+          },
+          "red_covering_manifest": "experiments/MP-E10/results/suite_manifest_head_e554987.json"
+        },
+        "failures_that_are_NOT_the_flip": 0,
+        "flip_rate": "10 of n=200 = 5.0%",
+        "harness_errors": 0,
+        "not_seed_determined": "per-seed flips: {'0': 2, '1': 3, '2': 0, '3': 1, '4': 2, '5': 0, '6': 2, '7': 0} -- five of eight seeds flip, three never do. Intermittent, not seed-determined.",
+        "passes": 190,
+        "safety_property": "intact in 200 of 200 contexts. The artifact's own note: `spoken is False` and `source != 'arbiter head'` are asserted at lines 87-88, BEFORE the reason assertion at line 89 -- so a flip cannot hide a safety break.",
+        "the_two_licensed_forms": "the asserted form contains 'asking'; the alternative names the absence as 'nothing he remembers has that shape'. Both are licensed absences; the difference is which absence is named.",
+        "wilson_95_percent": [
+          2.7382,
+          8.9579
+        ]
+      },
+      "options": {
+        "A_make_the_test_tolerant_of_both_licensed_forms": {
+          "argument_against": "a test that accepts both forms no longer pins either. It must still assert spoken is False and source != 'arbiter head' -- lines 87-88, the safety assertions -- and only the reason substring would loosen. The risk is laundering: a future regression that changes `reason` to a THIRD, unlicensed form would pass a test written to accept 'either licensed form' only if the set of licensed forms is enumerated, not if it is 'anything but the fragment'.",
+          "argument_for": "R13 already tolerates the flip in `reason`, and the ledger at the status line above says the flip does not gate H3. A test that asserts one of two licensed forms is asserting a property the record has already declared not to hold.",
+          "cost": "one test edit plus ONE covering run to re-establish the claim, at the measured 1,009.25 s (the two runs this session: 1,017.25 s and 1,009.25 s).",
+          "nature": "a test edit, and therefore a ruling, not a repair"
+        },
+        "B_leave_the_test_and_change_the_standing_rule": {
+          "argument_against": "any re-run-on-failure protocol collides with the governing rule that a suite is run ONCE and never re-run to chase a total. An exception keyed to this one test is a rule that has been weakened at its most convenient seam.",
+          "argument_for": "the test is telling the truth -- the organism does alternate forms, and that is exactly what the hunt measured",
+          "cost": "no machine time for the ruling itself; but every future covering run carries a ~5 % chance of a red that is not a regression, and each red that must not be chased costs a 1,009 s run to distinguish from a real fault.",
+          "nature": "no edit at all; the rule gains an exception or a re-run protocol"
+        }
+      },
+      "status": "OPEN, UNRULED 2026-11-06",
+      "the_dilemma": "a standing rule says: do not run tier 120 on a tree whose covering suite has a failure. With the flip live in the suite, that rule can fire on the organism's known intermittence rather than on a regression -- roughly once in twenty runs at a 5.00 % rate, with no code change at all. The rule and the defect are both correct; they are now mutually unusable.",
+      "what_stays_blocked_either_way": "the licensed-absence defect itself is not closed by either option -- the plan's Amendment G targeted fix is still scheduled last, with one re-baseline priced at 852.01 s, and it is downstream of the rulings already open. A green covering run at HEAD is blocked until one option is taken, and the badge stays amber meanwhile. Neither option touches H3, the graded fields, or the safety property, which are unaffected as measured."
+    },
+    "citation_corrections_recorded_here": {
+      "supplied_MP_E10_1829": "the coordinate supplied for the claim that the flip does not gate H3 did not resolve: at that line number the ledger holds a git_blob_sha1 field, not the claim. The claim is the status of the licensed_absence_intermittence block, and its live coordinate is recorded under supplied_plan_reference_registration_2120 -> live_coordinate below, re-resolved by needle.",
+      "supplied_plan_reference_registration_2120": {
+        "drift": "the plan extract quotes a bare registration.json coordinate for the OPEN status; in the CURRENT MP-E10 ledger that same line number holds a sha256_of_git_blob field, because the file has grown by hundreds of lines since the plan was sealed. The plan is sealed and is NOT edited. The live coordinate for the status claim is given below, re-resolved by needle within its owning block.",
+        "live_coordinate": {
+          "line_reads": "\"line_reads\": \"\\\"status\\\": \\\"OPEN -- NAMED, NOT CLOSED. Does not gate H3 (the flip is in `reason`, which R13 tolerates; the graded fields and the safety property are unaffected). Still a live defect on the answer path and not permitted to be quoted as closed.\\\",\",",
+          "pointer": "experiments/MP-E10/registration.json:3142"
+        },
+        "plan_coordinate_as_written": {
+          "line_reads": "- **(d) The licensed-absence defect has an n.** 10 flips in 200 contexts = 5.00%, Wilson 95% [2.7382%, 8.9579%], intermittent, not seed-determined, the same single alternative in 10/10 flips, safety p",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:27"
+        }
+      },
+      "test_line_89": {
+        "line_reads": "assert \"asking\" in str(out.get(\"reason\")), out.get(\"reason\")",
+        "note": "CONFIRMED as supplied: this is the assertion that the licensed-absence flip can fail.",
+        "pointer": "tests/test_electric_fragment_guard.py:89"
+      }
+    },
+    "created_at_utc": "2026-11-06T22:46:33Z",
+    "numbering_basis": "D-MPE10-16, assigned after reading the live key set per AMD-MPE10-11: D-MPE10-01..15 are occupied (-14 and -15 were opened this session), and git grep finds no D-MPE10-16 anywhere in tracked files. Checked before writing."
+  },
   "licensed_absence_intermittence": {
     "blast_radius": [
       "any sealed evidence that quotes a `reason` string from the answer path",
@@ -3573,7 +3640,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 1. Option 1 as specified in v1.2:200: a new dated non-saturating replay configuration registered before any run; H3's primary tier is 120; tier 300 is reported as a capacity finding only and never as an interference measurement; the 2.0 pp margin and the 0.0000 pp reading are preserved under R5 as history.\",",
-              "pointer": "experiments/MP-E10/registration.json:3505"
+              "pointer": "experiments/MP-E10/registration.json:3572"
             }
           ]
         },
@@ -3589,7 +3656,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 2: tier-300 figures are admissible as capacity and instrument findings only, until the fresh-vs-fresh floor pair at tier 300 exists (R17, v1.2:147).\",",
-              "pointer": "experiments/MP-E10/registration.json:3413"
+              "pointer": "experiments/MP-E10/registration.json:3480"
             }
           ]
         },
@@ -3605,11 +3672,11 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1.\"",
-              "pointer": "experiments/MP-E10/registration.json:2943"
+              "pointer": "experiments/MP-E10/registration.json:3304"
             },
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1.\"",
-              "pointer": "experiments/MP-E10/registration.json:3558"
+              "pointer": "experiments/MP-E10/registration.json:3919"
             }
           ]
         },
@@ -3625,7 +3692,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 4: route 2 is ruled out because it breaks `curriculum_sha256`; the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve.\",",
-              "pointer": "experiments/MP-E10/registration.json:3258"
+              "pointer": "experiments/MP-E10/registration.json:3325"
             }
           ]
         },
@@ -3641,7 +3708,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 5: the phase basis is fixed in the new registration before the first re-run.\",",
-              "pointer": "experiments/MP-E10/registration.json:3281"
+              "pointer": "experiments/MP-E10/registration.json:3348"
             }
           ]
         },
@@ -3657,7 +3724,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 6: per R16, no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.\",",
-              "pointer": "experiments/MP-E8/registration.json:3278"
+              "pointer": "experiments/MP-E8/registration.json:3313"
             }
           ]
         },
@@ -3673,7 +3740,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED IN PART 2026-11-05 by B.R item 7, which shares item 6's line: the R16 mechanism is ruled (no tolerance widening; newly gated cells enter the dated observed-wall-clock block naming their artifact; replicates priced 53.6 min each).\",",
-              "pointer": "experiments/MP-E8/registration.json:3299"
+              "pointer": "experiments/MP-E8/registration.json:3334"
             }
           ]
         },
@@ -3689,7 +3756,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 8: the tier legs are merged into the duel's remaining machine work only where the duel needs them (T & N); no separate MP-E9 tier campaign while P2 stands falsified.\"",
-              "pointer": "experiments/MP-E9/registration.json:2843"
+              "pointer": "experiments/MP-E9/registration.json:2878"
             }
           ]
         },
@@ -3705,7 +3772,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 9: yes -- it is hygiene, cheap, and protects every future seal (R15 interplay).\"",
-              "pointer": "experiments/MP-E9/registration.json:2856"
+              "pointer": "experiments/MP-E9/registration.json:2891"
             }
           ]
         },
@@ -3721,7 +3788,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 10: promote only after the inertness proof exists; until then it stays flag-gated (the R2 prohibition is standing law).\",",
-              "pointer": "experiments/MP-E9/registration.json:2877"
+              "pointer": "experiments/MP-E9/registration.json:2912"
             }
           ]
         },
@@ -3737,7 +3804,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED IN PART 2026-11-05 by B.R item 11: E12a proceeds on GPT-2 124M now, and the address space and access journal are registered as instruments (R10) before the first extraction.\"",
-              "pointer": "experiments/MP-E12/registration.json:4737"
+              "pointer": "experiments/MP-E12/registration.json:4772"
             }
           ]
         }
@@ -3767,7 +3834,7 @@
         "item": "the gather-accounting ruling",
         "status_read_from": {
           "line_reads": "\"the_single_decision_that_unblocks_classes_2_and_3\": \"the gather-accounting ruling. Under the registered rule both classes fit at 5 and 16 operations; under honest charging they cost 57 and 234 and cannot run at all. Nothing else stands between them and a measurement.\"",
-          "pointer": "experiments/MP-E12/registration.json:5322"
+          "pointer": "experiments/MP-E12/registration.json:5357"
         },
         "why_B.R_does_not_reach_it": "B.R has eleven items and none of them is this ruling. It is not an option the batch recommends; it is a decision about how operations are charged, and no B.R line names it. Classes 2 and 3 stay unrun for want of it, not for want of machine time."
       },
@@ -3783,7 +3850,7 @@
         "item": "D-MPE12-10",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\",",
-          "pointer": "experiments/MP-E12/registration.json:5154"
+          "pointer": "experiments/MP-E12/registration.json:5189"
         },
         "why_B.R_does_not_reach_it": "Numbered on 2026-11-05, after the batch was written. B.R predates the process audit, so it cannot reach it."
       },
@@ -3791,7 +3858,7 @@
         "item": "D-MPE12-11",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\",",
-          "pointer": "experiments/MP-E12/registration.json:5186"
+          "pointer": "experiments/MP-E12/registration.json:5221"
         },
         "why_B.R_does_not_reach_it": "Same: numbered after the batch. Nothing in B.R addresses whether the organ's own generate() is an act."
       },
@@ -3799,7 +3866,7 @@
         "item": "D-MPE12-12",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\",",
-          "pointer": "experiments/MP-E12/registration.json:5211"
+          "pointer": "experiments/MP-E12/registration.json:5246"
         },
         "why_B.R_does_not_reach_it": "Same: numbered after the batch. Whose registry the audit's entry list is, is unruled."
       },
@@ -3807,7 +3874,7 @@
         "item": "D-MPE12-02",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN -- not reached by B.R item 11. The ruling text at v1.2:409 does not address how the energy estimate is produced, and v1.2:224's registration pins name residency ceiling, disk budget, access-class latency budgets and the license record, but no energy instrument.\"",
-          "pointer": "experiments/MP-E12/registration.json:4750"
+          "pointer": "experiments/MP-E12/registration.json:4785"
         },
         "why_B.R_does_not_reach_it": "Already recorded as not reached. Item 11 names residency ceiling, latency budgets, disk feasibility and licence record for E12c, and never mentions an energy instrument."
       },
@@ -3815,7 +3882,7 @@
         "item": "D-MPE12-04",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN -- not reached by B.R item 11. Nothing in v1.2:409 rules whether MP-E12b may be built against the synthetic graph before the real graph exists; v1.2:222 describes stage b but does not decide this question.\"",
-          "pointer": "experiments/MP-E12/registration.json:4776"
+          "pointer": "experiments/MP-E12/registration.json:4811"
         },
         "why_B.R_does_not_reach_it": "Already recorded as not reached. Item 11 says E12a proceeds; it does not say whether stage b may be built against the synthetic graph before the real graph exists."
       },
@@ -3823,7 +3890,7 @@
         "item": "the canonical referent for the queue counts",
         "status_read_from": {
           "line_reads": "\"why_it_was_not_written\": \"it cannot be written until ONE referent is declared canonical, because a test that accepts either number asserts nothing. Declaring the canonical referent is a ruling on what the queue IS, which is not this agent's to make. Priced and left, per instruction.\"",
-          "pointer": "experiments/MP-E10/registration.json:4119"
+          "pointer": "experiments/MP-E10/registration.json:4186"
         },
         "why_B.R_does_not_reach_it": "Not in B.R at all. It is a ruling about what the queue IS, and the recomputation test cannot be written until it is made. Priced, not built."
       }
@@ -4139,6 +4206,20 @@
       "measured_at_utc": "2026-11-06T21:41:38Z",
       "why_beside_and_not_over": "the counts snapshot of 2026-11-05 is quoted by sealed artifacts; R5 keeps history, so the new measurement sits next to it and the old one is left exactly as written"
     },
+    "counts_re_measured_2026_11_06b": {
+      "counts_field_still_indexes_only_one_list": {
+        "answer": true,
+        "excluded": "9 items_added entries across 4 blocks, plus 4 also_waiting",
+        "what_counts_names": "open_decision_entries, 34 items"
+      },
+      "delta_caused_by_this_turns_one_addition": {
+        "items": 1,
+        "total_indexed_items_excluding_markers": "42 -> 43",
+        "with_a_status_field": "the new entry carries one"
+      },
+      "measured_at_utc": "2026-11-06T22:46:33Z",
+      "why_a_second_dated_field_and_not_an_update": "R5 keeps history. The 2026-11-06 snapshot is quoted by the PI sheet that is now committed, so it is left exactly as written."
+    },
     "how_to_read_it": "`has_status_field` false means the ledger entry is a bare string or a field-set that never declared a status. That is a property of the record worth knowing: a stale-status guard can only correct entries that declare one, so an entry without a status cannot be caught going stale. It is reported, not invented.",
     "items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry": {
       "added_at_utc": "2026-11-05T00:00:00Z",
@@ -4440,7 +4521,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\",",
-            "pointer": "experiments/MP-E12/registration.json:5154"
+            "pointer": "experiments/MP-E12/registration.json:5189"
           },
           "title": "Where the process audit runs: house entry path, answer path enumerated from the tree, or report-only."
         },
@@ -4456,7 +4537,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\",",
-            "pointer": "experiments/MP-E12/registration.json:5186"
+            "pointer": "experiments/MP-E12/registration.json:5221"
           },
           "title": "Whether Droso's own generate() counts as an act under R11."
         },
@@ -4472,7 +4553,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\",",
-            "pointer": "experiments/MP-E12/registration.json:5211"
+            "pointer": "experiments/MP-E12/registration.json:5246"
           },
           "title": "Whose registry the audit's entry list is: evidence, configuration, or no list at all."
         }
@@ -4488,11 +4569,34 @@
         "the_audit_is_sealed_but_never_invoked": {
           "claim": "tools/registration_seal.py:1000 calls _pca_gate and nothing calls the process audit",
           "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
-          "pointer": "tools/registration_seal.py:1040"
+          "pointer": "tools/registration_seal.py:1051"
         }
       },
       "n_items": 3,
       "what_this_addition_does_not_do": "It rules nothing, closes nothing, repairs no seam, adds no capability, raises no cap and runs nothing. It does not rewrite the counts block."
+    },
+    "items_added_2026_11_06_the_flip_reaching_the_suite": {
+      "added_at_utc": "2026-11-06T22:46:33Z",
+      "authority": "the PI's order of 2026-11-06: put the new consequence to the PI as a numbered decision checked against the live key set, and do not choose",
+      "entries": [
+        {
+          "agent_chose_no_option": true,
+          "block": "licensed_absence_flip_in_the_covering_suite_2026_11_06.D-MPE10-16_the_flip_now_reaches_the_covering_suite",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates the flip reaching the suite",
+          "form": "dict (a decision block with measured state, two options, costs, and what stays blocked)",
+          "has_status_field": true,
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE10-01..15 occupied, git grep finds no D-MPE10-16 anywhere in tracked files",
+          "key": "D-MPE10-16",
+          "ledger": "MP-E10",
+          "status_as_measured": "OPEN, UNRULED 2026-11-06",
+          "status_read_from": {
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-06\",",
+            "pointer": "experiments/MP-E10/registration.json:3173"
+          },
+          "title": "The licensed-absence flip now reaches a covering suite run: tolerate both licensed forms in the test, or change the standing rule that a failing covering suite blocks tier 120."
+        }
+      ],
+      "n_items": 1
     },
     "items_added_2026_11_06_two_decisions_from_the_h2_byte_set_confound": {
       "added_at_utc": "2026-11-06T21:41:38Z",
@@ -5145,7 +5249,7 @@
         "corrected_at_utc": "2026-11-05T15:14:46Z",
         "resolved_pointers_below": [
           {
-            "line_reads": "\"it re-echoes in the attribution table's own floor copy at experiments/MP-E10/results/floor_tier300.json:1\",",
+            "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 4: route 2 is ruled out because it breaks `curriculum_sha256`; the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve.\",",
             "pointer": "experiments/MP-E10/registration.json:3325",
             "why_cited": "the wrong pointer, as it stands in the ledger"
           },
@@ -6764,7 +6868,7 @@
       "floor": "pair 5 -- 6 rows of 3,744 = 0.1603% on harness 47f05c9c20ddeb75...",
       "floor_registration": {
         "line_reads": "\"tier120_floor_on_current_bytes_2026_11_06\": {",
-        "pointer": "experiments/MP-E10/registration.json:6850"
+        "pointer": "experiments/MP-E10/registration.json:6954"
       },
       "why_pair_5_not_pair_3": "executed path, not the cheaper number: pair 3 ran without the A10 sampler and a scored run must execute with it"
     },

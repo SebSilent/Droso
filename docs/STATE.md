@@ -1,6 +1,6 @@
 # Repository state
 
-[![Tests: 1,364 collected · 0 failures · 6 skipped · rc 0](https://img.shields.io/badge/Tests-1%2C364%20collected%20%C2%B7%200%20failures%20%C2%B7%206%20skipped%20%C2%B7%20rc%200-44cc11?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
+[![Tests: NO green covering run at HEAD](https://img.shields.io/badge/Tests-no%20green%20covering%20run%20at%20HEAD-e8912d?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Held-out 24: 19/24 organ only](https://img.shields.io/badge/Held--out%2024-19%2F24%20organ%20only-0a3069?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Guards: 8/8 · 1.00 warm / cold](https://img.shields.io/badge/Guards-8%2F8%20%C2%B7%201.00%20warm%20%2F%20cold-5b2d8e?style=flat-square&labelColor=0d1117)](#last-recorded-numbers)
 [![Core Dataset: BANC v888](https://img.shields.io/badge/Core%20Dataset-BANC%20v888-7d4e00?style=flat-square&labelColor=0d1117)](https://doi.org/10.7910/DVN/7WTH1N)
@@ -75,7 +75,7 @@ The sentence "there is no suite run at HEAD" was removed because it became false
 awkward: `cb61fc0` is now a run on a tree that contains the promoted drivers, the closure tool and the two
 new test files. 1,333 remains true of `8b1e8d0`.
 
-**Suite run at `4e12b91` -- the covering run for the row-key work, and the counters the badge above reads.**
+**Suite run at `4e12b91` -- HISTORY, the covering run for the row-key work. It was the counters the badge above read until 2026-11-06, and the badge no longer reads them: two later covering runs both exited 1.**
 **1,364 collected, 1,364 executed, 0 missing, 0 failures, 0 errors, 6 skipped**, exit code **0**,
 **843.47 s** wall (`junit_counters.time` 841.181 s), Python 3.12.10, pytest 9.1.1, recorded in
 `experiments/MP-E10/results/suite_manifest_uniquekey.json` with `git_head`
@@ -111,6 +111,19 @@ re-measured away. The stamp at `5adc3c5` records anchor `ac3d42b16b16`, **183 se
 five ledgers, `git_dirty_sealed` `[]` read back from the committed bytes rather than from the tool's summary,
 and the anchor proven an ancestor of HEAD. `docs/STATE.md` is not a sealed path, so recording this result after
 the stamp cannot put the seal out of step with the tree.
+
+
+## No green covering run at HEAD
+
+**The badge above is deliberately amber.** The newest covering suite run is at `e554987` -- **1,485 collected, 1,485 executed, 0 missing, 1 failure, 0 errors, 6 skipped**, exit code **1**, **1009.25 s**, recorded in `experiments/MP-E10/results/suite_manifest_head_e554987.json` with `git_head` `e5549876e28e96f9091164e5ab20df96912c0256` and `git_dirty` `[]`. **It is NOT covering in the sense this file has used the word: it exited 1.** Its single failure is `tests/test_electric_fragment_guard.py::test_the_guard_returns_the_licensed_absence_instead_of_the_fragment`, and it is the licensed-absence flip, characterised at 10 of 200 contexts (5.00 %, Wilson 95 % [2.7382 %, 8.9579 %]) in `experiments/MP-E10/results/licensed_absence_flip_hunt.json` -- see D-MPE10-16.
+
+**The run before it, at `7d14580` -- also NOT covering.** **1,484 collected, 1,484 executed, 0 missing, 1 failure, 0 errors, 6 skipped**, exit code **1**, **1017.25 s**, recorded in `experiments/MP-E10/results/suite_manifest_head_7d14580.json` with `git_head` `7d14580a116ca65ebe1b2a57fa63aaf3453af323` and `git_dirty` `[]`. Its one failure was the stale substring predicate in `test_no_registration_seals_another_registration`, since repaired; the invariant it guards was measured intact (zero true cross-registration entries in all five ledgers).
+
+**What the `e554987` run does establish, because it is on the record and not invented here:** all four seal tests passed inside it -- `test_registration_seal_verifies_against_the_registration` 53.08 s, `test_index_cross_check_is_not_vacuous` 52.96 s, `test_registration_head_contains_its_sealed_files` 0.07 s, `test_every_registration_seal_verifies` 133.65 s -- as did the repaired predicate test and the new `test_the_ledger_predicate_distinguishes_a_suffix_from_a_path_segment`. The repair is certified; the suite as a whole is not green.
+
+**History, with its trees named, unaltered.** The green covering run remains `4e12b91` (`suite_manifest_uniquekey.json`: 1,364 collected, 0 failures, 6 skipped, rc 0, 843.47 s) and the earlier deliberately-amber covering run remains `cb61fc0` (`suite_manifest_post_tier300_closure.json`: 1,348 collected, 4 failures, rc 1, 802.51 s). Both stay above with their own words intact. Neither is the state of HEAD, and the chip no longer implies one.
+
+**Why no greener number was bought.** The suite ran once per tree and was not re-run after the flip; no test was edited to pass on both licensed forms, because that is a ruling and not a repair (D-MPE10-16 puts it to the PI). A badge that reads green when the suite exited 1 would be the misleading artefact, so the badge reads the truth instead of the total.
 
 Held-out and guard numbers in the tables below are still the **`f2e1748`** measurements and have not been
 re-run; the badge's other three chips point at them.
