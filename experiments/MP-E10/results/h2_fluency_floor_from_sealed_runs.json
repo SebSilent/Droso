@@ -1,0 +1,98 @@
+{
+  "computed_at_utc": "2026-11-06T21:42:58Z",
+  "counter": "word_provenance.content_words -- the registered function MP-E8's descriptive figure uses",
+  "experiment": "MP-E10",
+  "fresh_vs_fresh_floor": {
+    "byte_set": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+    "caveat": "pair 3's two runs executed without the A10 sampler and pair 5's with it; the spread is reported across all four rather than split, because the conservative choice is the wider number",
+    "max_minus_min": 0.0051,
+    "runs_used": [
+      "fresh120_pair3_a",
+      "fresh120_pair3_b",
+      "fresh120_pair5_a",
+      "fresh120_pair5_b"
+    ],
+    "values": [
+      2.9713,
+      2.9764,
+      2.9739,
+      2.9739
+    ],
+    "why_these_four": "all unreplayed, all tier 120, all on identical instrument bytes -- a fresh-vs-fresh set is exactly what a floor needs and every one of them was made for a different purpose"
+  },
+  "per_run": {
+    "MPE8_armA_tier120_sealed": {
+      "emitted_answers": 751,
+      "git_head": "8ee1c8f3eae258e5577b1afd19232e744e3632d2",
+      "graded_rows_live": 1248,
+      "harness_sha256": "6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7",
+      "path": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+      "refused": 497,
+      "scalar": 3.0107
+    },
+    "fresh120_pair3_a": {
+      "emitted_answers": 766,
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "graded_rows_live": 1248,
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "path": "experiments/MP-E10/results/fresh120_pair3_a_fresh_vs_fresh_armA.json",
+      "refused": 482,
+      "scalar": 2.9713
+    },
+    "fresh120_pair3_b": {
+      "emitted_answers": 764,
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "graded_rows_live": 1248,
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "path": "experiments/MP-E10/results/fresh120_pair3_b_fresh_vs_fresh_armA.json",
+      "refused": 484,
+      "scalar": 2.9764
+    },
+    "fresh120_pair5_a": {
+      "emitted_answers": 765,
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "graded_rows_live": 1248,
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "path": "experiments/MP-E10/results/fresh120_pair5_a_fresh_vs_fresh_armA.json",
+      "refused": 483,
+      "scalar": 2.9739
+    },
+    "fresh120_pair5_b": {
+      "emitted_answers": 765,
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "graded_rows_live": 1248,
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "path": "experiments/MP-E10/results/fresh120_pair5_b_fresh_vs_fresh_armA.json",
+      "refused": 483,
+      "scalar": 2.9739
+    },
+    "step5b_control": {
+      "emitted_answers": 765,
+      "git_head": "406a29bf246a6f041da42febb7091a54f366324c",
+      "graded_rows_live": 1248,
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "path": "experiments/MP-E10/results/step5b_tier120_control_armA.json",
+      "refused": 483,
+      "scalar": 2.9739
+    },
+    "step5b_replay": {
+      "emitted_answers": 764,
+      "git_head": "406a29bf246a6f041da42febb7091a54f366324c",
+      "graded_rows_live": 1248,
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "path": "experiments/MP-E10/results/step5b_tier120_replay_armA.json",
+      "refused": 484,
+      "scalar": 2.9764
+    }
+  },
+  "quantity": "mean content words per emitted answer over the live phase, at tier 120",
+  "the_deltas_it_bounds": {
+    "control_minus_sealed_baseline_cross_bytes": -0.0368,
+    "cross_bytes_delta_resolvable_as_a_difference": true,
+    "replay_minus_control_same_bytes": 0.0025,
+    "replay_minus_sealed_baseline_cross_bytes": -0.0343,
+    "same_bytes_delta_inside_the_floor": true
+  },
+  "what_this_does_NOT_do": "it does not rule which baseline H2 names -- that is D-MPE10-14. It does not make H2 pass: the same-bytes delta is inside the floor, so it is not an improvement either. And it is NOT pre-registered: it was computed after the scored run existed, so adopting it as a tolerance is a dated amendment the PI must make before any further H2 scoring, or it is a tolerance set after seeing the data.",
+  "what_this_is": "the first fluency floor this program has ever had, obtained from artifacts already on disk. No run was made to produce it and none is needed."
+}

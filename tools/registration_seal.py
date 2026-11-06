@@ -683,6 +683,11 @@ DEFAULT_MANIFEST = [
     "experiments/MP-E10/results/step5b_tier120_replay_vs_control_row_migration.json",
     "experiments/MP-E10/results/step5b_scored_tier120_preflight_crash1.json",
     "experiments/MP-E10/decision_step5b_2026_11_06.md",
+# ---- the H2 byte-set confound and the fluency floor derived from sealed runs, 2026-11-06 ----------
+# No run produced this file. It is read-only analysis over artifacts already sealed, which is what makes
+# the floor checkable without spending bench time -- and it is sealed so the number behind D-MPE10-14
+# has a home a reader can verify. EXACTLY 1 path added; nothing else touched.
+    "experiments/MP-E10/results/h2_fluency_floor_from_sealed_runs.json",
 ]
 
 

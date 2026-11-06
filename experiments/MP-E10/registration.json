@@ -180,15 +180,15 @@
         },
         {
           "line_reads": "\"gate_order\": \"Does stage b wait for G4 (MP-E11) to close as the plan's order implies, or is the parallel track extended? This is the decision that unblocks the work and it is not a technical one.\"",
-          "pointer": "experiments/MP-E12/registration.json:4611"
+          "pointer": "experiments/MP-E12/registration.json:4710"
         },
         {
           "line_reads": "\"line_reads\": \"\\\"gate\\\": \\\"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\\\",\",",
-          "pointer": "experiments/MP-E12/registration.json:5690"
+          "pointer": "experiments/MP-E12/registration.json:5789"
         },
         {
           "line_reads": "\"what_this_note_does_not_do\": \"It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.\",",
-          "pointer": "experiments/MP-E12/registration.json:5699"
+          "pointer": "experiments/MP-E12/registration.json:5798"
         }
       ]
     },
@@ -201,13 +201,13 @@
         "also_the_plans_source_line_for_this_gate_does_not_hold_the_verdict": {
           "is_the_verdict": false,
           "line_reads": "\"populations\": {",
-          "pointer": "experiments/MP-E8/registration.json:4487"
+          "pointer": "experiments/MP-E8/registration.json:4586"
         },
         "delta": "The plan records a FAIL on H1; the ledger's own status field does not carry the word FAIL, it reads OPEN, MEASURED PARTLY. Both may be true of the same measurement -- one is a verdict on a hypothesis, the other a state of the gate -- but a reader who takes the ledger's word for the gate will not meet the falsification the plan leads with.",
         "gate": "G2 / MP-E8",
         "ledger_says": {
           "line_reads": "\"status\": \"OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed. UPDATED 2026-11-04: arm A has now been run TWICE at tier 300 (published and armA_tier300_rerun.json). C3's two rows split -- 3/tell0.26/object reproduces and is a real restart loss, which falsifies H1's arm A clause at tier 300 as measured; 3/tell0.38/object did not reproduce and is instrument instability (AMD-MPE8-13). Arm C's graded quantities were re-registered before its first run: gate and near-miss measures carry its claims, its correct rate does not (AMD-MPE8-12). Arm C has still produced no sealed artifact; arm B has still never run at tier 300. UPDATED again at 2026-11-04T05:13:47Z: arm C has now produced sealed artifacts at tiers 40, 120 and 300 and arm B has run its three registered seeds at tier 300. H1's arm B clause fails at BOTH required tiers, at tier 300 with the drop's sign reversed; H2's clause 2 is recorded PASS at 120 and 300 with its blanket-refusal limitation on its face. G2 is still not closable. UPDATED again at 2026-11-04T05:25:10Z: D-MPE8-09 is RULED, not hanging. C3's registered action abort is executed against the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN; both artifacts stay published and MP-E8 continues under the plan's own gate text and G2's re-run-the-flawed-arm fallback.\",",
-          "pointer": "experiments/MP-E8/registration.json:5068"
+          "pointer": "experiments/MP-E8/registration.json:5167"
         },
         "plan_says": {
           "line_reads": "| **G2 / MP-E8** | sealed artifacts for arms A/B/C at 40/120/300 plus teach-arm control and noise floor; forgetting/interference/exposure/cost valid | **FAIL (H1) / PARTIAL** \u2014 arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only | T & N at 120/300 (~3.85 h); tier-300 fresh-vs-fresh (~44 min); H2 specificity floor by dated amendment; then G2 closes on the re-aimed claim (Amendment B) |",
@@ -225,7 +225,7 @@
         },
         "ledger_says": {
           "line_reads": "\"status\": \"RECONCILED 2026-08-10 by the stale-status guard (tests/test_stale_status_guard.py): D-MPE10-02 are RULED in this file's ruling blocks, so this field's claim that they were OPEN is no longer true -- the superseded wording is preserved at status_as_written_before_the_reconciliation. What the field still correctly records is the thing that has not changed: no MP-E10 figure has been scored on the current tree, so no number may be quoted as a hypothesis verdict. The guard's FORCE is intact; its stated REASON was stale.\",",
-          "pointer": "experiments/MP-E10/registration.json:6421"
+          "pointer": "experiments/MP-E10/registration.json:6665"
         },
         "plan_says": {
           "line_reads": "| **G3 / MP-E10** | mouth stages improve-or-hold, working memory live at seconds scale, replay at tier 300 within the registered interference margin, invariants hold | **UNMEASURABLE as registered** \u2014 H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree | One ruling (D-MPE10-12) \u2192 re-register H3 primary at tier 120; tier 300 becomes the capacity curve (Amendment D); ~2 h of re-registered runs |",
@@ -243,7 +243,7 @@
         },
         "ledger_says": {
           "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\",",
-          "pointer": "experiments/MP-E12/registration.json:5005"
+          "pointer": "experiments/MP-E12/registration.json:5104"
         },
         "plan_says_section_5": {
           "line_reads": "| **G5 / MP-E12** | H1\u2013H3 hold or a pre-registered partial with the text-distillation control done; guarded rows and source dimension verified post-transplant | **BLOCKED on an external input** \u2014 \"The weights are not on this machine\"; four open decisions (D-MPE12-01\u202604) | Download GPT-2 124M (~500 MB, \u00a77.2 step 2) \u2192 E12a opens; rule the four decisions in the batch; E12c registration pins Qwen3.8-27B |",
@@ -261,7 +261,7 @@
         "gate": "G1 / MP-E9",
         "ledger_says": {
           "line_reads": "\"status\": \"OPEN (B.2), treatment arms RUN and sealed. P1 (ELECTRIC_ARBITER_HEAD_BOUND) met its registered prediction: H1 and H2 pass, 16 rows moved, every protected population intact. P2 (ELECTRIC_QA_MORPH_NORMALIZE) moved 0 of 3,672 rows and its registered premise is falsified: H3 fails. H4 holds, measured. The flag-OFF arm reproduced the pre-treatment artifact row for row (0 differences), so both statements are controlled rather than observational. Registered fallback F1 (per-entry morphological aliases, the plan's own G1 fallback) is the next and last registered attempt at the morphology defect; a second failure documents the residual and the duel proceeds with it measured and named. Registered before any run (R2); every post-registration change is listed in registration_amendments with the result it followed, and no threshold or prediction value has been altered by any of them.\",",
-          "pointer": "experiments/MP-E9/registration.json:3329"
+          "pointer": "experiments/MP-E9/registration.json:3428"
         },
         "plan_says": {
           "line_reads": "| **G1 / MP-E9** | zero untraceable words, three routing rows back to refused, morphology class answered, invariants hold | **PARTIAL / FAIL on P2** \u2014 H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time | The named residual travels with the duel, measured (`residual_for_the_duel`); three rulings (\u00a77.2 items 8\u201310) |",
@@ -301,23 +301,23 @@
         "is_the_verdict": false,
         "line_reads": "\"stamp_ordering\": {",
         "note": "the plan cites this line for D-MPE10-12; it holds stamp_ordering, a field of the seal itself",
-        "pointer": "experiments/MP-E10/registration.json:2727"
+        "pointer": "experiments/MP-E10/registration.json:2913"
       },
       "MP_E10_4255_cited_line_holds": {
         "is_the_verdict": false,
         "line_reads": "\"line_reads\": \"{\",",
-        "pointer": "experiments/MP-E10/registration.json:4900",
+        "pointer": "experiments/MP-E10/registration.json:5144",
         "why_it_was_missed_first_time": "the citation parser only matched '<ledger>/registration.json:<n>' and the plan writes this one as a bare 'registration.json:4255' inside a compound cell, so it was skipped silently and the tally was stated short"
       },
       "MP_E12_cited_line_holds": {
         "is_the_verdict": false,
         "line_reads": "\"sha256_lf\": \"899a624ca0933312aeae2fc79bcf659ea7e2cc66927f3d2fc510b003eb9ec663\",",
-        "pointer": "experiments/MP-E12/registration.json:2060"
+        "pointer": "experiments/MP-E12/registration.json:2069"
       },
       "MP_E8_cited_line_holds": {
         "is_the_verdict": false,
         "line_reads": "\"populations\": {",
-        "pointer": "experiments/MP-E8/registration.json:4487"
+        "pointer": "experiments/MP-E8/registration.json:4586"
       },
       "MP_E9_cited_line_holds": {
         "is_the_verdict": false,
@@ -355,6 +355,93 @@
       "why_these_are_prose_not_pointers": "each of these seven is already a backed {pointer, line_reads} entry above, read from the file. Writing them again here in path:line form would create seven more coordinates with one needle each trying to cover a list, so they are named in words and resolved by the entries that carry them."
     },
     "what_this_block_does_not_do": "It starts nothing, rules nothing, closes nothing, opens nothing, marks neither G4 nor G6 started, invents no go-criteria, edits no sealed plan line, and repairs no seam. It makes the gate ledger complete for G4 and G6 by recording what the plan says and that no ledger says anything."
+  },
+  "h2_baseline_and_instrument_edit_decisions_2026_11_06": {
+    "D-MPE10-14_which_baseline_does_H2_get_scored_against": {
+      "agent_chose_no_option": true,
+      "asked_at": "2026-11-06T21:41:38Z",
+      "asked_by": "agent",
+      "if_left_open": "H2 stays recorded as a FAIL on the literal clause and undecidable on the same-bytes reading, and G3 cannot close on it either way. The record already states both numbers, so nothing is lost by leaving it -- but no future run can resolve it without this ruling.",
+      "measured_state": {
+        "cross_bytes_delta": -0.0343,
+        "fluency_floor_measured_from_sealed_artifacts": 0.0051,
+        "replay": 2.9764,
+        "same_bytes_delta": 0.0025,
+        "sealed_MPE8_armA_baseline_cross_bytes": 3.0107,
+        "the_clause_as_written": "v1.2:204 -- fluency improves over the MP-E8 arm-A baseline at the same tier",
+        "unreplayed_control_same_bytes": 2.9739
+      },
+      "options": {
+        "A_keep_the_clause_literal_score_against_the_sealed_cross_bytes_artifact": {
+          "consequence": "H2 FAILS, and the failure carries a byte-set confound the record now names. Honest but not decidable: the comparison spans an instrument change that cannot be re-run.",
+          "cost": "no machine time"
+        },
+        "B_re_baseline_on_the_same_bytes_score_against_an_unreplayed_control": {
+          "already_required_and_now_available": "a registered fluency floor -- the clause cannot be scored as an improvement without one. It is computed above at 0.0051 from four sealed unreplayed runs, so no run is needed to obtain it either. What it is NOT is pre-registered: it was derived after the scored run existed, which makes it a tolerance set after seeing the data unless the PI adopts it BEFORE the next scored run.",
+          "consequence": "H2 becomes decidable within the tree, but +0.0025 against a 0.0051 floor means the expected verdict is NOT ESTABLISHED rather than PASS.",
+          "cost": "ZERO new bench time for the baseline itself -- STEP 5b's control arm IS a same-bytes unreplayed tier-120 baseline and is already sealed (scalar 2.9739). If the PI wants a dedicated re-baseline rather than reusing a run made for another purpose, it is one learn-only tier-120 run at the measured unit cost: 488.30 s and 488.90 s observed on the two STEP 5b arms, 474.12 s and 413.42 s on the sealed pair 5, against the PI's ~475 s estimate and the pre-A10 480.91 s / 462.37 s.",
+          "the_R2_caution": "if the PI adopts option B, the floor should be registered as a dated amendment before any further H2 scoring, exactly as D-MPE10-04 did for the interference margin. Adopting it after seeing +0.0025 would be setting the tolerance to fit the reading."
+        }
+      },
+      "status": "OPEN, UNRULED 2026-11-06"
+    },
+    "D-MPE10-15_may_the_two_published_instruments_be_edited_to_reach_a_bench_house": {
+      "agent_chose_no_option": true,
+      "asked_at": "2026-11-06T21:41:38Z",
+      "asked_by": "agent",
+      "if_left_open": "H1 remains uninstrumented-for-this-path and R6 remains unmeasured, and every future tier-120 scored run reproduces the same nine-cells-of-recall_untraced table.",
+      "measured_state": {
+        "H1": "every failing row in all nine depth/phase cells of STEP 5b classified recall_untraced, because the bench records reason as an empty string per row and the registered classifier returns recall_untraced for an empty reason. The five-stage denominator cannot discriminate on bench rows at all. Mass in `other` is 0 rows, so the denominator does cover the run's output -- it just cannot resolve it.",
+        "R6": "the four named guarded probes (P-numeral-final, R-count-moon, R-disj-reversed, R-order-ofthe) are scored by tools/mp_e9_battery.py over a generation journal written by tools/run_generation.py. The bench produces no such journal.",
+        "routes_named_not_taken": "heldout_eval.py has no --state-root, so it cannot be pointed at a bench workdir; run_generation.py DOES accept --state-root (its line 1907), so R6's route exists and was simply not run."
+      },
+      "options": {
+        "A_edit_heldout_eval_to_accept_a_state_root": {
+          "cost": "a tool edit, no bench time for the edit itself; scoring H1 on a bench house afterwards is a held-out run per configuration",
+          "what_it_touches": "an instrument that sealed evidence quotes -- heldout_eval's stage table is cited by published artifacts, which is why D-MPE10-09's route 2 was ruled out on comparable grounds: it broke curriculum_sha256"
+        },
+        "B_run_the_generation_pipeline_against_the_bench_house": {
+          "cost": "no instrument edit at all -- run_generation.py --state-root <house> then mp_e9_battery.py --journal/--rows. Machine time for the generation pass, which is a separate pipeline from the bench",
+          "what_it_touches": "nothing sealed; this is the route the tools already provide"
+        },
+        "C_leave_both_as_they_are": {
+          "consequence": "H1 stays UNSCORED forever on bench configurations and R6 stays unmeasured at tier 120 on registered runs; G3's H1 cell cannot be filled by any MP-E10 run",
+          "cost": "none"
+        }
+      },
+      "status": "OPEN, UNRULED 2026-11-06",
+      "why_this_is_a_PI_decision_and_not_an_agents": "both routes edit or drive instruments that sealed evidence quotes. The standing rule in this program is that an instrument published evidence depends on needs a ruling and a re-baseline, not a unilateral edit -- the same logic that made the licensed-absence fix a PI decision."
+    },
+    "created_at_utc": "2026-11-06T21:41:38Z",
+    "numbering_basis": "D-MPE10-14 and D-MPE10-15, assigned after reading the LIVE key set per AMD-MPE10-11: D-MPE10-01 through -13 are occupied across the five ledgers, and git grep finds no D-MPE10-14 or D-MPE10-15 anywhere in tracked files. Checked before writing, not after."
+  },
+  "h2_byte_set_confound_2026_11_06": {
+    "recorded_at_utc": "2026-11-06T21:41:38Z",
+    "stated_plainly": "H2's clause compares across instrument bytes. The sealed baseline was produced on 5cf038c2..., which exists in no commit and cannot be re-run; today's arms run on 47f05c9c.... On this evidence the baseline gap is a property of the tree change, not of the treatment.",
+    "the_three_numbers_side_by_side": {
+      "all_three_computed_by": "word_provenance.content_words, the same registered counter MP-E8's own descriptive figure uses, so the scalars are commensurable as numbers even where the runs are not",
+      "replay_2_9764": "experiments/MP-E10/results/step5b_tier120_replay_armA.json, live phase, 764 emitted answers of 1,248 graded rows",
+      "sealed_MPE8_armA_baseline_3_0107": "experiments/MP-E8/results/armA_tier120_curriculum.json, live phase, 751 of 1,248 -- produced on harness 5cf038c211d6..., a byte-set that exists in no commit",
+      "unreplayed_control_2_9739": "experiments/MP-E10/results/step5b_tier120_control_armA.json, live phase, 765 of 1,248 -- IDENTICAL instrument bytes to the replay arm"
+    },
+    "the_two_readings_they_support": {
+      "replay_minus_control_same_bytes": {
+        "as_a_percentage": "about +0.08 %",
+        "floor_for_this_quantity": 0.0051,
+        "how_that_floor_was_obtained": "NO new run. It is the fresh-vs-fresh spread of the scalar itself across four unreplayed tier-120 runs already on disk and sealed: pair 3 A/B (2.9713, 2.9764) and pair 5 A/B (2.9739, 2.9739), all on harness 47f05c9c20dd.... max minus min = 0.0051.",
+        "reading": "+0.0025 is INSIDE the 0.0051 spread. So the same-bytes comparison does not show an improvement either -- the instrument cannot resolve a difference this small in either direction. Before this computation, no fluency floor had ever been measured at all; now one exists, derived from sealed artifacts at zero bench cost.",
+        "value": 0.0025
+      },
+      "replay_minus_sealed_baseline_cross_bytes": {
+        "control_minus_the_same_baseline": -0.0368,
+        "reading": "a FAIL exactly as the clause is written: H2 says fluency improves over the MP-E8 arm-A baseline at the same tier, and it is below it",
+        "value": -0.0343,
+        "why_that_matters": "the UNREPLAYED control is below the sealed baseline too, by MORE than the replay arm is (-0.0368 vs -0.0343). A treatment cannot be blamed for a gap that its own untreated control reproduces, larger. The cross-bytes gap is about 6.7x the fresh-vs-fresh spread, so it is a real difference -- between tree states, not between arms."
+      }
+    },
+    "this_is_NOT_a_rescue": "It does not make H2 pass. It says the question H2 asks has two different answers depending on which baseline is named: against the sealed cross-bytes artifact H2 FAILS by 0.0343; against a same-bytes unreplayed control it is +0.0025, which the measured fluency floor cannot resolve as an improvement either. Choosing the baseline is a change to what the hypothesis means, and that is the PI's call, not an agent's convenience. Both readings are recorded; neither is adopted.",
+    "what_was_NOT_touched": "no run, no instrument edit, no answer-path edit, no cap raised, no re-scoring of H2, no verdict moved",
+    "why_this_exists": "STEP 5b scored H2 as a FAIL. Reading the three numbers side by side shows the clause compares across instrument bytes, and that changes what the failure means -- without making it pass."
   },
   "h3_two_quantities": {
     "control_finding": {
@@ -3477,7 +3564,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 1. Option 1 as specified in v1.2:200: a new dated non-saturating replay configuration registered before any run; H3's primary tier is 120; tier 300 is reported as a capacity finding only and never as an interference measurement; the 2.0 pp margin and the 0.0000 pp reading are preserved under R5 as history.\",",
-              "pointer": "experiments/MP-E10/registration.json:3310"
+              "pointer": "experiments/MP-E10/registration.json:3496"
             }
           ]
         },
@@ -3493,7 +3580,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 2: tier-300 figures are admissible as capacity and instrument findings only, until the fresh-vs-fresh floor pair at tier 300 exists (R17, v1.2:147).\",",
-              "pointer": "experiments/MP-E10/registration.json:3218"
+              "pointer": "experiments/MP-E10/registration.json:3404"
             }
           ]
         },
@@ -3529,7 +3616,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 4: route 2 is ruled out because it breaks `curriculum_sha256`; the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve.\",",
-              "pointer": "experiments/MP-E10/registration.json:3063"
+              "pointer": "experiments/MP-E10/registration.json:3249"
             }
           ]
         },
@@ -3545,7 +3632,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 5: the phase basis is fixed in the new registration before the first re-run.\",",
-              "pointer": "experiments/MP-E10/registration.json:3086"
+              "pointer": "experiments/MP-E10/registration.json:3272"
             }
           ]
         },
@@ -3561,7 +3648,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 6: per R16, no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.\",",
-              "pointer": "experiments/MP-E8/registration.json:3170"
+              "pointer": "experiments/MP-E8/registration.json:3269"
             }
           ]
         },
@@ -3577,7 +3664,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED IN PART 2026-11-05 by B.R item 7, which shares item 6's line: the R16 mechanism is ruled (no tolerance widening; newly gated cells enter the dated observed-wall-clock block naming their artifact; replicates priced 53.6 min each).\",",
-              "pointer": "experiments/MP-E8/registration.json:3191"
+              "pointer": "experiments/MP-E8/registration.json:3290"
             }
           ]
         },
@@ -3593,7 +3680,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 8: the tier legs are merged into the duel's remaining machine work only where the duel needs them (T & N); no separate MP-E9 tier campaign while P2 stands falsified.\"",
-              "pointer": "experiments/MP-E9/registration.json:2735"
+              "pointer": "experiments/MP-E9/registration.json:2834"
             }
           ]
         },
@@ -3609,7 +3696,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 9: yes -- it is hygiene, cheap, and protects every future seal (R15 interplay).\"",
-              "pointer": "experiments/MP-E9/registration.json:2748"
+              "pointer": "experiments/MP-E9/registration.json:2847"
             }
           ]
         },
@@ -3625,7 +3712,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 10: promote only after the inertness proof exists; until then it stays flag-gated (the R2 prohibition is standing law).\",",
-              "pointer": "experiments/MP-E9/registration.json:2769"
+              "pointer": "experiments/MP-E9/registration.json:2868"
             }
           ]
         },
@@ -3641,7 +3728,7 @@
           "status_set_at": [
             {
               "line_reads": "\"status\": \"RULED IN PART 2026-11-05 by B.R item 11: E12a proceeds on GPT-2 124M now, and the address space and access journal are registered as instruments (R10) before the first extraction.\"",
-              "pointer": "experiments/MP-E12/registration.json:4629"
+              "pointer": "experiments/MP-E12/registration.json:4728"
             }
           ]
         }
@@ -3671,7 +3758,7 @@
         "item": "the gather-accounting ruling",
         "status_read_from": {
           "line_reads": "\"the_single_decision_that_unblocks_classes_2_and_3\": \"the gather-accounting ruling. Under the registered rule both classes fit at 5 and 16 operations; under honest charging they cost 57 and 234 and cannot run at all. Nothing else stands between them and a measurement.\"",
-          "pointer": "experiments/MP-E12/registration.json:5214"
+          "pointer": "experiments/MP-E12/registration.json:5313"
         },
         "why_B.R_does_not_reach_it": "B.R has eleven items and none of them is this ruling. It is not an option the batch recommends; it is a decision about how operations are charged, and no B.R line names it. Classes 2 and 3 stay unrun for want of it, not for want of machine time."
       },
@@ -3687,7 +3774,7 @@
         "item": "D-MPE12-10",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\",",
-          "pointer": "experiments/MP-E12/registration.json:5046"
+          "pointer": "experiments/MP-E12/registration.json:5145"
         },
         "why_B.R_does_not_reach_it": "Numbered on 2026-11-05, after the batch was written. B.R predates the process audit, so it cannot reach it."
       },
@@ -3695,7 +3782,7 @@
         "item": "D-MPE12-11",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\",",
-          "pointer": "experiments/MP-E12/registration.json:5078"
+          "pointer": "experiments/MP-E12/registration.json:5177"
         },
         "why_B.R_does_not_reach_it": "Same: numbered after the batch. Nothing in B.R addresses whether the organ's own generate() is an act."
       },
@@ -3703,7 +3790,7 @@
         "item": "D-MPE12-12",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\",",
-          "pointer": "experiments/MP-E12/registration.json:5103"
+          "pointer": "experiments/MP-E12/registration.json:5202"
         },
         "why_B.R_does_not_reach_it": "Same: numbered after the batch. Whose registry the audit's entry list is, is unruled."
       },
@@ -3711,7 +3798,7 @@
         "item": "D-MPE12-02",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN -- not reached by B.R item 11. The ruling text at v1.2:409 does not address how the energy estimate is produced, and v1.2:224's registration pins name residency ceiling, disk budget, access-class latency budgets and the license record, but no energy instrument.\"",
-          "pointer": "experiments/MP-E12/registration.json:4642"
+          "pointer": "experiments/MP-E12/registration.json:4741"
         },
         "why_B.R_does_not_reach_it": "Already recorded as not reached. Item 11 names residency ceiling, latency budgets, disk feasibility and licence record for E12c, and never mentions an energy instrument."
       },
@@ -3719,7 +3806,7 @@
         "item": "D-MPE12-04",
         "status_read_from": {
           "line_reads": "\"status\": \"OPEN -- not reached by B.R item 11. Nothing in v1.2:409 rules whether MP-E12b may be built against the synthetic graph before the real graph exists; v1.2:222 describes stage b but does not decide this question.\"",
-          "pointer": "experiments/MP-E12/registration.json:4668"
+          "pointer": "experiments/MP-E12/registration.json:4767"
         },
         "why_B.R_does_not_reach_it": "Already recorded as not reached. Item 11 says E12a proceeds; it does not say whether stage b may be built against the synthetic graph before the real graph exists."
       },
@@ -3727,7 +3814,7 @@
         "item": "the canonical referent for the queue counts",
         "status_read_from": {
           "line_reads": "\"why_it_was_not_written\": \"it cannot be written until ONE referent is declared canonical, because a test that accepts either number asserts nothing. Declaring the canonical referent is a ruling on what the queue IS, which is not this agent's to make. Priced and left, per instruction.\"",
-          "pointer": "experiments/MP-E10/registration.json:3924"
+          "pointer": "experiments/MP-E10/registration.json:4110"
         },
         "why_B.R_does_not_reach_it": "Not in B.R at all. It is a ruling about what the queue IS, and the recomputation test cannot be written until it is made. Priced, not built."
       }
@@ -4025,6 +4112,23 @@
       },
       "what_this_note_does_not_do": "It rules nothing, repairs no seam, overwrites no snapshot, adds no capability, raises no cap and runs nothing. It does not correct the four earlier dated notes that quote the old figures; they are history and are left as written.",
       "why_this_exists": "the counts field above is a 2026-11-04 snapshot and three entries have since been indexed into the queue. It was left exactly as it was and these numbers are written beside it, because overwriting a dated snapshot destroys the only evidence of what the index claimed at the time."
+    },
+    "counts_re_measured_2026_11_06": {
+      "counts_field_still_indexes_only_one_list": {
+        "answer": true,
+        "measured_this_turn": "live open_decisions_for_PI entries in MP-E10: 13; queue index open_decision_entries: 34; items_added entries across blocks: 8; also_waiting: 4; markers excluded: 3",
+        "what_counts_names": "open_decision_entries, which holds 34 items",
+        "what_it_does_not_include": "the 8 entries carried by the 3 items_added_* blocks, and the 4 in also_waiting. So `counts` understates the queue by 12 items and has done since 2026-11-05 -- it is a count of one list, not of the queue."
+      },
+      "delta_caused_by_this_turns_two_additions": {
+        "distinct_ledgers": "unchanged at 5",
+        "entries_in_open_decision_blocks": "34 unchanged -- the two new items live in items_added blocks, not in open_decision_entries",
+        "items": 2,
+        "total_indexed_items_excluding_markers": "40 -> 42",
+        "with_a_status_field": "both new entries carry one"
+      },
+      "measured_at_utc": "2026-11-06T21:41:38Z",
+      "why_beside_and_not_over": "the counts snapshot of 2026-11-05 is quoted by sealed artifacts; R5 keeps history, so the new measurement sits next to it and the old one is left exactly as written"
     },
     "how_to_read_it": "`has_status_field` false means the ledger entry is a bare string or a field-set that never declared a status. That is a property of the record worth knowing: a stale-status guard can only correct entries that declare one, so an entry without a status cannot be caught going stale. It is reported, not invented.",
     "items_added_2026_11_05_three_MP_E12_questions_the_index_did_not_carry": {
@@ -4327,7 +4431,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\",",
-            "pointer": "experiments/MP-E12/registration.json:5046"
+            "pointer": "experiments/MP-E12/registration.json:5145"
           },
           "title": "Where the process audit runs: house entry path, answer path enumerated from the tree, or report-only."
         },
@@ -4343,7 +4447,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\",",
-            "pointer": "experiments/MP-E12/registration.json:5078"
+            "pointer": "experiments/MP-E12/registration.json:5177"
           },
           "title": "Whether Droso's own generate() counts as an act under R11."
         },
@@ -4359,7 +4463,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\",",
-            "pointer": "experiments/MP-E12/registration.json:5103"
+            "pointer": "experiments/MP-E12/registration.json:5202"
           },
           "title": "Whose registry the audit's entry list is: evidence, configuration, or no list at all."
         }
@@ -4375,11 +4479,52 @@
         "the_audit_is_sealed_but_never_invoked": {
           "claim": "tools/registration_seal.py:1000 calls _pca_gate and nothing calls the process audit",
           "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
-          "pointer": "tools/registration_seal.py:1019"
+          "pointer": "tools/registration_seal.py:1035"
         }
       },
       "n_items": 3,
       "what_this_addition_does_not_do": "It rules nothing, closes nothing, repairs no seam, adds no capability, raises no cap and runs nothing. It does not rewrite the counts block."
+    },
+    "items_added_2026_11_06_two_decisions_from_the_h2_byte_set_confound": {
+      "added_at_utc": "2026-11-06T21:41:38Z",
+      "authority": "the PI's order of 2026-11-06: register the byte-set confound in H2 and put the two decisions it implies to the PI. No new runs, no instrument edits, no answer-path edit, no T and N, no MP-E11, no MP-E12b/c, no cap raised.",
+      "counting_rule_for_the_two": "each entry is a dict carrying a status field, so both count toward with_a_status_field; neither is a marker, so markers_excluded does not move",
+      "entries": [
+        {
+          "agent_chose_no_option": true,
+          "block": "h2_baseline_and_instrument_edit_decisions_2026_11_06.D-MPE10-14_which_baseline_does_H2_get_scored_against",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates STEP 5b",
+          "form": "dict (a decision block with measured state, options, costs, and consequence if unruled)",
+          "has_status_field": true,
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE10-01..13 occupied, git grep finds no D-MPE10-14 anywhere in tracked files",
+          "key": "D-MPE10-14",
+          "ledger": "MP-E10",
+          "status_as_measured": "OPEN, UNRULED 2026-11-06",
+          "status_read_from": {
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-06\"",
+            "pointer": "experiments/MP-E10/registration.json:386"
+          },
+          "title": "Which baseline H2 is scored against: the sealed cross-bytes MP-E8 arm-A artifact as the clause literally says, or a same-bytes unreplayed control."
+        },
+        {
+          "agent_chose_no_option": true,
+          "block": "h2_baseline_and_instrument_edit_decisions_2026_11_06.D-MPE10-15_may_the_two_published_instruments_be_edited_to_reach_a_bench_house",
+          "brief_section": "NOT IN THE BRIEF -- docs/mp_e10_pi_decision_brief_consolidated.md is sealed and predates STEP 5b",
+          "form": "dict (a decision block with measured state, options, costs, and consequence if unruled)",
+          "has_status_field": true,
+          "identifier_basis": "assigned after reading the live key set, per AMD-MPE10-11: D-MPE10-01..13 occupied, git grep finds no D-MPE10-15 anywhere in tracked files",
+          "key": "D-MPE10-15",
+          "ledger": "MP-E10",
+          "status_as_measured": "OPEN, UNRULED 2026-11-06",
+          "status_read_from": {
+            "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-06\",",
+            "pointer": "experiments/MP-E10/registration.json:412"
+          },
+          "title": "Whether the two published instruments may be edited to reach a bench house: --state-root on heldout_eval for H1, and a generation journal for R6's four probes."
+        }
+      ],
+      "n_items": 2,
+      "what_this_addition_does_not_do": "no ruling implied, no option recommended, no H2 re-scored, no instrument touched, no run made"
     },
     "non_item_markers_in_decision_blocks": [
       {
@@ -6610,7 +6755,7 @@
       "floor": "pair 5 -- 6 rows of 3,744 = 0.1603% on harness 47f05c9c20ddeb75...",
       "floor_registration": {
         "line_reads": "\"tier120_floor_on_current_bytes_2026_11_06\": {",
-        "pointer": "experiments/MP-E10/registration.json:6597"
+        "pointer": "experiments/MP-E10/registration.json:6841"
       },
       "why_pair_5_not_pair_3": "executed path, not the cheaper number: pair 3 ran without the A10 sampler and a scored run must execute with it"
     },
