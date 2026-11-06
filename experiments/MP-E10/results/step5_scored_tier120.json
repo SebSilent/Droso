@@ -1,0 +1,1002 @@
+{
+  "VOID_NOT_A_SCORED_REPLAY_RUN": {
+    "declared_at_utc": "2026-11-06T20:33:24Z",
+    "not_done_because_of_this": "no decision.md for this run, no G3 position, no H3 verdict, nothing sealed from it.",
+    "status": "VOID for H3. This is not a measurement of replay. Do not score it, quote it, or seal it as STEP 5.",
+    "what_STEP_5_needs_to_be_run_for_real": "launch the replay arm as a SUBPROCESS, the way the sealed replay_tier120_armA.json was produced, so the __main__ guard parses --replay; then require the artifact to carry a replay report at every depth and refuse the run if it does not. The same-process constraint belongs to the floor pair, which is already sealed, not to the treated and untreated runs.",
+    "what_is_still_valid_here": {
+      "A10_resource_ledger": "measured and available on both runs -- sampler active, 2,392 samples, VRAM asserted zero. This is the first A10 ledger on a tier-120 run in this program, and it stands as an instrument measurement, not as a score.",
+      "mouth_stage_attribution_limitation": "every failing row classified as recall_untraced because the bench does not record a `reason` per row (rows carry reason: \"\"), and the registered classifier returns recall_untraced for an empty reason. So the five-stage denominator cannot discriminate on bench rows: that is a property of the instrument, not a finding about the organism. H1's instrument is heldout_eval over the held-out script set, which has no --state-root and cannot be pointed at a bench workdir.",
+      "preflight": "the configuration, phase basis and gain were quoted from the ledger before the first scored minute and resolved to single lines, including the two spans needed because a one-line needle for the ceiling and the margin matched three and two lines respectively",
+      "same_process_proof": {
+        "all_agree": true,
+        "samples": [
+          14404,
+          14404,
+          14404,
+          14404
+        ],
+        "statement": "four pid samples taken around both runs. If they do not agree the pair cannot prove same-process and this run does not score."
+      },
+      "wall_clock": {
+        "control_run_seconds": 443.36,
+        "replay_labelled_run_seconds": 493.89
+      }
+    },
+    "what_the_argv_claims": [
+      "--arms",
+      "learn",
+      "--curriculum",
+      "experiments/MP-E8/curriculum_tier120.json",
+      "--out",
+      "experiments/MP-E10/results/step5_tier120_replay_armA.json",
+      "--workdir",
+      "_tmp/wd_step5_replay",
+      "--replay"
+    ],
+    "what_the_artifact_actually_contains": {
+      "reading": "the house records no replay at any depth, so no replay executed. The argv still names --replay, which is why the file is self-contradictory and why this block exists.",
+      "replay_report_present_in_any_run": false,
+      "runs_in_the_replay_house": 3
+    },
+    "what_the_two_runs_really_were": "two unreplayed tier-120 runs in one process -- a third fresh-vs-fresh pair, not a treatment comparison. Its 6 rows of 3,744 exactly equals the pair-5 floor of 6 rows, which is a consistency check on the floor and nothing more. It says nothing about replay, in either direction.",
+    "why": "the driver invoked bench.main() in-process. The bench sets REPLAY_REQUESTED from REPLAY_REQUESTED_AT_MAIN, and that is assigned only inside the `if __name__ == \"__main__\":` guard (tools/electric_learn_bench.py:423-426), which does not run for an importing process. So REPLAY_REQUESTED stayed False, the replay branch at :751 was skipped without error, and the run produced an unreplayed house under a filename that says replay."
+  },
+  "emissions": {
+    "A10_resource_ledger": {
+      "control": {
+        "available": true,
+        "definition_of_cost_per_retained_item": "peak RSS of the phase window divided by taught rows the organ answered `correct` in that phase; null where no sample landed in the window or no item was retained -- never interpolated",
+        "n_samples": 2392,
+        "os_peak": {
+          "bytes": 3007410176,
+          "field": "peak_wset",
+          "note": "per-process lifetime peak, recorded beside the sampled per-phase peaks, never substituted for them"
+        },
+        "per_phase": [
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 503291904,
+            "phase": "learn-d1:teach",
+            "retained_items": null,
+            "samples": 30,
+            "window_seconds": 6.172
+          },
+          {
+            "cost_per_retained_item_bytes": 6820276.5,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 832073728,
+            "phase": "learn-d1:live",
+            "retained_items": 122,
+            "samples": 149,
+            "window_seconds": 30.828
+          },
+          {
+            "cost_per_retained_item_bytes": 7834036.5,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 955752448,
+            "phase": "learn-d1:restarted",
+            "retained_items": 122,
+            "samples": 267,
+            "window_seconds": 55.016
+          },
+          {
+            "cost_per_retained_item_bytes": 7863178.5,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 959307776,
+            "phase": "learn-d1:reasked",
+            "retained_items": 122,
+            "samples": 283,
+            "window_seconds": 58.343
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1325412352,
+            "phase": "learn-d2:teach",
+            "retained_items": null,
+            "samples": 43,
+            "window_seconds": 8.969
+          },
+          {
+            "cost_per_retained_item_bytes": 5611297.2,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1341100032,
+            "phase": "learn-d2:live",
+            "retained_items": 239,
+            "samples": 135,
+            "window_seconds": 27.906
+          },
+          {
+            "cost_per_retained_item_bytes": 5834949.1,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1394552832,
+            "phase": "learn-d2:restarted",
+            "retained_items": 239,
+            "samples": 289,
+            "window_seconds": 59.532
+          },
+          {
+            "cost_per_retained_item_bytes": 5898326.4,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1397903360,
+            "phase": "learn-d2:reasked",
+            "retained_items": 237,
+            "samples": 300,
+            "window_seconds": 61.984
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1785614336,
+            "phase": "learn-d3:teach",
+            "retained_items": null,
+            "samples": 61,
+            "window_seconds": 12.641
+          },
+          {
+            "cost_per_retained_item_bytes": 6156370.6,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 2136260608,
+            "phase": "learn-d3:live",
+            "retained_items": 347,
+            "samples": 145,
+            "window_seconds": 29.796
+          },
+          {
+            "cost_per_retained_item_bytes": 6484133.3,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 2249994240,
+            "phase": "learn-d3:restarted",
+            "retained_items": 347,
+            "samples": 337,
+            "window_seconds": 69.719
+          },
+          {
+            "cost_per_retained_item_bytes": 6665894.7,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 2293067776,
+            "phase": "learn-d3:reasked",
+            "retained_items": 344,
+            "samples": 353,
+            "window_seconds": 72.969
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d1:teach",
+            "retained_items": null,
+            "samples": 0,
+            "window_seconds": 4.859
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d1:live",
+            "retained_items": 122,
+            "samples": 0,
+            "window_seconds": 27.969
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d1:restarted",
+            "retained_items": 122,
+            "samples": 0,
+            "window_seconds": 55.281
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d1:reasked",
+            "retained_items": 122,
+            "samples": 0,
+            "window_seconds": 58.61
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d2:teach",
+            "retained_items": null,
+            "samples": 0,
+            "window_seconds": 8.984
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d2:live",
+            "retained_items": 239,
+            "samples": 0,
+            "window_seconds": 27.938
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d2:restarted",
+            "retained_items": 239,
+            "samples": 0,
+            "window_seconds": 59.578
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d2:reasked",
+            "retained_items": 237,
+            "samples": 0,
+            "window_seconds": 61.765
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d3:teach",
+            "retained_items": null,
+            "samples": 0,
+            "window_seconds": 12.938
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d3:live",
+            "retained_items": 347,
+            "samples": 0,
+            "window_seconds": 31.0
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d3:restarted",
+            "retained_items": 347,
+            "samples": 0,
+            "window_seconds": 56.344
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": true,
+            "peak_rss_bytes": null,
+            "phase": "learn-d3:reasked",
+            "retained_items": 344,
+            "samples": 0,
+            "window_seconds": 38.031
+          }
+        ],
+        "reason": null,
+        "retained_items_by_phase": {
+          "learn-1-live": 122,
+          "learn-1-reasked": 122,
+          "learn-1-restarted": 122,
+          "learn-2-live": 239,
+          "learn-2-reasked": 237,
+          "learn-2-restarted": 239,
+          "learn-3-live": 347,
+          "learn-3-reasked": 344,
+          "learn-3-restarted": 347,
+          "learn-d1-live": 122,
+          "learn-d1-reasked": 122,
+          "learn-d1-restarted": 122,
+          "learn-d2-live": 239,
+          "learn-d2-reasked": 237,
+          "learn-d2-restarted": 239,
+          "learn-d3-live": 347,
+          "learn-d3-reasked": 344,
+          "learn-d3-restarted": 347
+        },
+        "vram": {
+          "asserted_zero": true,
+          "bytes_visible": 0,
+          "cuda_initialised": false,
+          "method": "torch imported; torch.cuda.is_initialized() is False, so no CUDA context exists to hold a byte",
+          "torch_importable": true
+        },
+        "whole_run_peak_rss_bytes": 2293067776
+      },
+      "replay": {
+        "available": true,
+        "definition_of_cost_per_retained_item": "peak RSS of the phase window divided by taught rows the organ answered `correct` in that phase; null where no sample landed in the window or no item was retained -- never interpolated",
+        "n_samples": 2392,
+        "os_peak": {
+          "bytes": 2408087552,
+          "field": "peak_wset",
+          "note": "per-process lifetime peak, recorded beside the sampled per-phase peaks, never substituted for them"
+        },
+        "per_phase": [
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 503291904,
+            "phase": "learn-d1:teach",
+            "retained_items": null,
+            "samples": 30,
+            "window_seconds": 6.172
+          },
+          {
+            "cost_per_retained_item_bytes": 6820276.5,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 832073728,
+            "phase": "learn-d1:live",
+            "retained_items": 122,
+            "samples": 149,
+            "window_seconds": 30.828
+          },
+          {
+            "cost_per_retained_item_bytes": 7834036.5,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 955752448,
+            "phase": "learn-d1:restarted",
+            "retained_items": 122,
+            "samples": 267,
+            "window_seconds": 55.016
+          },
+          {
+            "cost_per_retained_item_bytes": 7863178.5,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 959307776,
+            "phase": "learn-d1:reasked",
+            "retained_items": 122,
+            "samples": 283,
+            "window_seconds": 58.343
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1325412352,
+            "phase": "learn-d2:teach",
+            "retained_items": null,
+            "samples": 43,
+            "window_seconds": 8.969
+          },
+          {
+            "cost_per_retained_item_bytes": 5611297.2,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1341100032,
+            "phase": "learn-d2:live",
+            "retained_items": 239,
+            "samples": 135,
+            "window_seconds": 27.906
+          },
+          {
+            "cost_per_retained_item_bytes": 5834949.1,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1394552832,
+            "phase": "learn-d2:restarted",
+            "retained_items": 239,
+            "samples": 289,
+            "window_seconds": 59.532
+          },
+          {
+            "cost_per_retained_item_bytes": 5898326.4,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1397903360,
+            "phase": "learn-d2:reasked",
+            "retained_items": 237,
+            "samples": 300,
+            "window_seconds": 61.984
+          },
+          {
+            "cost_per_retained_item_bytes": null,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 1785614336,
+            "phase": "learn-d3:teach",
+            "retained_items": null,
+            "samples": 61,
+            "window_seconds": 12.641
+          },
+          {
+            "cost_per_retained_item_bytes": 6156370.6,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 2136260608,
+            "phase": "learn-d3:live",
+            "retained_items": 347,
+            "samples": 145,
+            "window_seconds": 29.796
+          },
+          {
+            "cost_per_retained_item_bytes": 6484133.3,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 2249994240,
+            "phase": "learn-d3:restarted",
+            "retained_items": 347,
+            "samples": 337,
+            "window_seconds": 69.719
+          },
+          {
+            "cost_per_retained_item_bytes": 6665894.7,
+            "no_sample_landed_in_this_window": false,
+            "peak_rss_bytes": 2293067776,
+            "phase": "learn-d3:reasked",
+            "retained_items": 344,
+            "samples": 353,
+            "window_seconds": 72.906
+          }
+        ],
+        "reason": null,
+        "retained_items_by_phase": {
+          "learn-1-live": 122,
+          "learn-1-reasked": 122,
+          "learn-1-restarted": 122,
+          "learn-2-live": 239,
+          "learn-2-reasked": 237,
+          "learn-2-restarted": 239,
+          "learn-3-live": 347,
+          "learn-3-reasked": 344,
+          "learn-3-restarted": 347,
+          "learn-d1-live": 122,
+          "learn-d1-reasked": 122,
+          "learn-d1-restarted": 122,
+          "learn-d2-live": 239,
+          "learn-d2-reasked": 237,
+          "learn-d2-restarted": 239,
+          "learn-d3-live": 347,
+          "learn-d3-reasked": 344,
+          "learn-d3-restarted": 347
+        },
+        "vram": {
+          "asserted_zero": true,
+          "bytes_visible": 0,
+          "cuda_initialised": false,
+          "method": "torch imported; torch.cuda.is_initialized() is False, so no CUDA context exists to hold a byte",
+          "torch_importable": true
+        },
+        "whole_run_peak_rss_bytes": 2293067776
+      }
+    },
+    "H2_fluency_as_ruled": {
+      "MP_E8_armA_baseline_same_tier": {
+        "coverage_percent": 60.1763,
+        "emitted_answers": 751,
+        "graded_rows_live": 1248,
+        "mean_content_words_per_emitted_answer": 3.0107,
+        "refusal_rate_percent": 39.8237
+      },
+      "baseline_artifact": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+      "control": {
+        "coverage_percent": 61.2981,
+        "emitted_answers": 765,
+        "graded_rows_live": 1248,
+        "mean_content_words_per_emitted_answer": 2.9739,
+        "refusal_rate_percent": 38.7019
+      },
+      "guardrails_beside_it": "refusal rate and coverage, per the ruling",
+      "replay": {
+        "coverage_percent": 61.2981,
+        "emitted_answers": 765,
+        "graded_rows_live": 1248,
+        "mean_content_words_per_emitted_answer": 2.9739,
+        "refusal_rate_percent": 38.7019
+      }
+    },
+    "H3_interference_interval_with_floor": {
+      "floor_in_this_currency_pp_of_graded_asks": 0.1603,
+      "interval_rule": "each delta is reported as [delta - floor, delta + floor] in pp of graded asks. A half-width smaller than the floor is not attributable to the treatment.",
+      "intervals": {
+        "1/live": [
+          -0.1603,
+          0.1603
+        ],
+        "1/reasked": [
+          -0.1603,
+          0.1603
+        ],
+        "1/restarted": [
+          -0.1603,
+          0.1603
+        ],
+        "2/live": [
+          -0.1603,
+          0.1603
+        ],
+        "2/reasked": [
+          -0.1603,
+          0.1603
+        ],
+        "2/restarted": [
+          -0.1603,
+          0.1603
+        ],
+        "3/live": [
+          -0.1603,
+          0.1603
+        ],
+        "3/reasked": [
+          -0.1603,
+          0.1603
+        ],
+        "3/restarted": [
+          -0.1603,
+          0.1603
+        ]
+      },
+      "margin_pp_registered": 2.0,
+      "per_depth_phase": {
+        "1/live": {
+          "correct_control": 122,
+          "correct_replay": 122,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "1/reasked": {
+          "correct_control": 122,
+          "correct_replay": 122,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "1/restarted": {
+          "correct_control": 122,
+          "correct_replay": 122,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "2/live": {
+          "correct_control": 239,
+          "correct_replay": 239,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "2/reasked": {
+          "correct_control": 237,
+          "correct_replay": 237,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "2/restarted": {
+          "correct_control": 239,
+          "correct_replay": 239,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "3/live": {
+          "correct_control": 347,
+          "correct_replay": 347,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "3/reasked": {
+          "correct_control": 344,
+          "correct_replay": 344,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        },
+        "3/restarted": {
+          "correct_control": 347,
+          "correct_replay": 347,
+          "retention_delta_pp_replay_minus_control": 0.0,
+          "rows": 416
+        }
+      },
+      "what_an_interval_inside_the_floor_does_not_mean": "it does not mean replay strengthens anything. H3 is an interference claim: an interval inside the floor says the instrument cannot resolve a difference at this size, in either direction."
+    },
+    "R6_four_named_guarded_probes": {
+      "probes": [
+        "P-numeral-final",
+        "R-count-moon",
+        "R-disj-reversed",
+        "R-order-ofthe"
+      ],
+      "status": "NOT MEASURED ON THIS RUN, and the reason is a missing precondition, not an omission",
+      "what_would_be_needed": "run_generation.py --state-root <the replayed house> then mp_e9_battery.py --journal <it> --rows <it>",
+      "why": "the four probes are scored by tools/mp_e9_battery.py over a generation journal written by tools/run_generation.py. The bench run does not produce that journal, and heldout_eval has no --state-root, so no registered instrument reads a bench workdir's house. Running the generation pipeline against this house is a separate authorised step, not a flag."
+    },
+    "ceiling_guard_per_pass_control": {},
+    "ceiling_guard_per_pass_replay": {},
+    "mouth_stages_control": {
+      "denominator": "five stages per D-MPE10-01 (gating, mouth, recall, recall_untraced, shape_arbiter); `other` is not one of the five and is listed by row when it carries mass",
+      "mass_in_other_named_not_divided_away": [],
+      "per_depth_phase": {
+        "1/live": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 280,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 280,
+          "graded_rows": 416
+        },
+        "1/reasked": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 265,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 265,
+          "graded_rows": 416
+        },
+        "1/restarted": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 280,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 280,
+          "graded_rows": 416
+        },
+        "2/live": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 157,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 157,
+          "graded_rows": 416
+        },
+        "2/reasked": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 154,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 154,
+          "graded_rows": 416
+        },
+        "2/restarted": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 153,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 153,
+          "graded_rows": 416
+        },
+        "3/live": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 46,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 46,
+          "graded_rows": 416
+        },
+        "3/reasked": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 38,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 38,
+          "graded_rows": 416
+        },
+        "3/restarted": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 38,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 38,
+          "graded_rows": 416
+        }
+      },
+      "recall_untraced_is_a_default_attribution_not_a_measurement": true
+    },
+    "mouth_stages_replay": {
+      "denominator": "five stages per D-MPE10-01 (gating, mouth, recall, recall_untraced, shape_arbiter); `other` is not one of the five and is listed by row when it carries mass",
+      "mass_in_other_named_not_divided_away": [],
+      "per_depth_phase": {
+        "1/live": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 280,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 280,
+          "graded_rows": 416
+        },
+        "1/reasked": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 265,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 265,
+          "graded_rows": 416
+        },
+        "1/restarted": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 280,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 280,
+          "graded_rows": 416
+        },
+        "2/live": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 157,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 157,
+          "graded_rows": 416
+        },
+        "2/reasked": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 154,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 154,
+          "graded_rows": 416
+        },
+        "2/restarted": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 153,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 153,
+          "graded_rows": 416
+        },
+        "3/live": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 46,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 46,
+          "graded_rows": 416
+        },
+        "3/reasked": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 38,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 38,
+          "graded_rows": 416
+        },
+        "3/restarted": {
+          "by_stage": {
+            "gating": 0,
+            "mouth": 0,
+            "other": 0,
+            "recall": 0,
+            "recall_untraced": 38,
+            "shape_arbiter": 0
+          },
+          "failing_rows": 38,
+          "graded_rows": 416
+        }
+      },
+      "recall_untraced_is_a_default_attribution_not_a_measurement": true
+    },
+    "row_migration_replay_vs_control": {
+      "attributable_at_best": 0,
+      "floor_rows_on_these_bytes": 6,
+      "graded_asks": 3744,
+      "n_rows_moved": 6,
+      "reading": "if the treatment moves no more rows than two identical runs do, the migration is not attributable to replay"
+    }
+  },
+  "experiment": "MP-E10",
+  "generated_at_utc": "2026-11-06T20:13:06Z",
+  "preflight": {
+    "before_the_first_scored_minute": true,
+    "instrument_bytes_at_preflight": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+    "measured_unit_costs_it_is_judged_by": {
+      "pre_A10_pair_seconds": [
+        {
+          "it_is": "pre-A10 run A",
+          "line_reads": "\"tier120_pair_run_A_seconds\": 480.91,",
+          "pointer": "experiments/MP-E10/registration.json:6448"
+        },
+        {
+          "it_is": "pre-A10 run B",
+          "line_reads": "\"tier120_pair_run_B_seconds\": 462.37,",
+          "pointer": "experiments/MP-E10/registration.json:6449"
+        }
+      ]
+    },
+    "recorded_at_utc": "2026-11-06T20:13:06Z",
+    "registered_configuration": {
+      "ceiling": {
+        "it_is": "the registered ceiling",
+        "line_reads": "\"ceiling\": 4.0, | \"h3_primary_tier\": 120,",
+        "pointer": "experiments/MP-E10/registration.json:5020-5021"
+      },
+      "gain_registered_where_non_saturating": {
+        "it_is": "where this gain does not saturate",
+        "line_reads": "\"where_it_is_non_saturating\": \"tier 120, the tier B.R item 1 makes H3's primary tier\",",
+        "pointer": "experiments/MP-E10/registration.json:5097"
+      },
+      "h3_primary_tier": {
+        "it_is": "H3's primary tier",
+        "line_reads": "\"h3_primary_tier\": 120,",
+        "pointer": "experiments/MP-E10/registration.json:5021"
+      },
+      "margin_pp": {
+        "it_is": "the pre-registered interference margin",
+        "line_reads": "\"basis\": \"D-MPE10-04 derived value, unchanged by this registration\", | \"value_pp\": 2.0",
+        "pointer": "experiments/MP-E10/registration.json:5027-5028"
+      },
+      "phase_basis_primary": {
+        "it_is": "the H3 phase basis",
+        "line_reads": "\"primary\": \"reasked\",",
+        "pointer": "experiments/MP-E10/registration.json:5034"
+      },
+      "replay_gain": {
+        "it_is": "the registered gain",
+        "line_reads": "\"replay_gain\": 0.35,",
+        "pointer": "experiments/MP-E10/registration.json:5042"
+      },
+      "replay_passes_per_tier": {
+        "it_is": "the registered passes",
+        "line_reads": "\"replay_passes_per_tier\": 2,",
+        "pointer": "experiments/MP-E10/registration.json:5043"
+      },
+      "tier_300_role": {
+        "it_is": "what tier 300 may be reported as",
+        "line_reads": "\"tier_300_role\": \"capacity finding only -- the saturation curve. Never an interference measurement (v1.2:200, B.R item 1).\"",
+        "pointer": "experiments/MP-E10/registration.json:5044"
+      }
+    },
+    "the_floor_it_scores_against": {
+      "artifact": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json",
+      "floor_diff_artifact": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json",
+      "graded_asks": {
+        "it_is": "the denominator",
+        "line_reads": "\"graded_asks_replayed\": 3744,",
+        "pointer": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json:11"
+      },
+      "harness_sha256_it_bounds": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "movement_rate_percent": {
+        "it_is": "the floor's rate",
+        "line_reads": "\"movement_rate_percent\": 0.1603,",
+        "pointer": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json:322"
+      },
+      "n_rows_moved": {
+        "it_is": "the floor's row count",
+        "line_reads": "\"n_rows_moved\": 6,",
+        "pointer": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json:381"
+      },
+      "same_process_observed": {
+        "it_is": "the floor's own same-process proof",
+        "line_reads": "\"same_pid_observed_at_run_time\": true,",
+        "pointer": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json:558"
+      }
+    },
+    "what_this_confirms": "the configuration, the phase basis and the gain are the registered ones, quoted from the ledger rather than restated, and the floor is the one measured on the bytes this run executes on"
+  },
+  "preflight_at_utc": "2026-11-06T20:13:06Z",
+  "row_migration_replay_vs_control": {
+    "artifact": "experiments/MP-E10/results/step5_tier120_replay_vs_control_row_migration.json",
+    "class_split": {
+      "taught item": 6
+    },
+    "denominator": {
+      "graded_asks_baseline": 3744,
+      "graded_asks_replayed": 3744,
+      "note": "rows_compared counts keys the key could address; the graded asks the run contains are the denominator field. Under 'probe' they are equal. Under 'legacy' the difference is rows the instrument never compared.",
+      "rows_compared_is_keys_not_asks": false
+    },
+    "fields_moved_split": {
+      "answered": 6,
+      "cls": 6,
+      "mech": 6,
+      "said": 6,
+      "src": 6
+    },
+    "n_rows_moved": 6,
+    "rows_compared": 3744,
+    "transitions_by_axis": {
+      "3/reasked": {
+        "partial -> refused [taught item]": 1,
+        "refused -> partial [taught item]": 1
+      },
+      "3/restarted": {
+        "partial -> refused [taught item]": 2,
+        "refused -> partial [taught item]": 2
+      }
+    }
+  },
+  "row_migration_replay_vs_control_at_utc": "2026-11-06T20:28:43Z",
+  "run_control": {
+    "argv": [
+      "--arms",
+      "learn",
+      "--curriculum",
+      "experiments/MP-E8/curriculum_tier120.json",
+      "--out",
+      "experiments/MP-E10/results/step5_tier120_control_armA.json",
+      "--workdir",
+      "_tmp/wd_step5_control"
+    ],
+    "pid_after": 14404,
+    "pid_before": 14404,
+    "rc": 1,
+    "replay": false,
+    "started_utc": "2026-11-06T20:28:43Z",
+    "wall_seconds": 443.36
+  },
+  "run_replay": {
+    "argv": [
+      "--arms",
+      "learn",
+      "--curriculum",
+      "experiments/MP-E8/curriculum_tier120.json",
+      "--out",
+      "experiments/MP-E10/results/step5_tier120_replay_armA.json",
+      "--workdir",
+      "_tmp/wd_step5_replay",
+      "--replay"
+    ],
+    "pid_after": 14404,
+    "pid_before": 14404,
+    "rc": 1,
+    "replay": true,
+    "started_utc": "2026-11-06T20:21:20Z",
+    "wall_seconds": 493.89
+  },
+  "run_replay_at_utc": "2026-11-06T20:21:20Z",
+  "same_process_proof": {
+    "all_agree": true,
+    "samples": [
+      14404,
+      14404,
+      14404,
+      14404
+    ],
+    "statement": "four pid samples taken around both runs. If they do not agree the pair cannot prove same-process and this run does not score."
+  },
+  "same_process_proof_at_utc": "2026-11-06T20:28:43Z",
+  "step": "STEP 5 scored tier-120 replay run"
+}

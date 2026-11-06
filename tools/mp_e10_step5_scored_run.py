@@ -67,6 +67,20 @@ def quote(rel: str, needle: str, why: str) -> dict:
     return {"pointer": f"{rel}:{hits[0]}", "line_reads": ls[hits[0] - 1].strip(), "it_is": why}
 
 
+def quote_span(rel: str, n1: str, n2: str, why: str) -> dict:
+    """Quote two consecutive lines. `"ceiling": 4.0,` appears three times in the ledger and `"value_pp": 2.0`
+    twice, so a one-line needle is not a citation -- but neither of those values appears twice IN A ROW with the
+    same neighbour, which makes the pair unique. The pointer is written as a range because that is what it names."""
+    ls = (ROOT / rel).read_text(encoding="utf-8", errors="replace").splitlines()
+    want = norm(f"{n1} {n2}")
+    hits = [i for i in range(len(ls) - 1) if want == norm(f"{ls[i]} {ls[i + 1]}")]
+    if len(hits) != 1:
+        raise SystemExit(f"PREFLIGHT REFUSED: {rel} holds {len(hits)} consecutive pairs matching this span "
+                         f"(needed exactly 1) -- cannot quote the registered {why}")
+    return {"pointer": f"{rel}:{hits[0] + 1}-{hits[0] + 2}",
+            "line_reads": " | ".join(x.strip() for x in ls[hits[0]:hits[0] + 2]), "it_is": why}
+
+
 def save(artifact: dict) -> None:
     """Write the artifact after every stage, so a later crash cannot erase an earlier proof."""
     OUT.parent.mkdir(parents=True, exist_ok=True)
@@ -99,6 +113,11 @@ def main() -> int:
         raise SystemExit(f"PREFLIGHT REFUSED: no floor artifact at {a.floor}. STEP 5 does not run without a "
                          f"tier-120 floor measured on the bytes it is about to execute on.")
     fl = json.loads(floor_path.read_text(encoding="utf-8"))
+    floor_diff_rel = fl["fresh_vs_fresh_result"]["diff_artifact"]
+    floor_rows = fl["fresh_vs_fresh_result"]["n_rows_moved"]
+    floor_rate = fl["fresh_vs_fresh_result"]["movement_rate_percent"]
+    fdl = json.loads((ROOT / floor_diff_rel).read_text(encoding="utf-8"))
+    floor_graded = fdl["denominator"]["graded_asks_replayed"]
 
     # ---- STAGE 1: the preflight, on disk before the first scored minute -------------------------------
     bench_sha = fl["the_two_runs"]["run_A"]["harness_sha256"]
@@ -118,9 +137,10 @@ def main() -> int:
         "registered_configuration": {
             "replay_gain": quote(REG, '"replay_gain": 0.35,', "the registered gain"),
             "replay_passes_per_tier": quote(REG, '"replay_passes_per_tier": 2,', "the registered passes"),
-            "ceiling": quote(REG, '"ceiling": 4.0,', "the registered ceiling"),
+            "ceiling": quote_span(REG, '"ceiling": 4.0,', '"h3_primary_tier": 120,', "the registered ceiling"),
             "h3_primary_tier": quote(REG, '"h3_primary_tier": 120,', "H3's primary tier"),
-            "margin_pp": quote(REG, '"value_pp": 2.0', "the pre-registered interference margin"),
+            "margin_pp": quote_span(REG, '"basis": "D-MPE10-04 derived value, unchanged by this registration",',
+                                    '"value_pp": 2.0', "the pre-registered interference margin"),
             "phase_basis_primary": quote(REG, '"primary": "reasked",', "the H3 phase basis"),
             "tier_300_role": quote(REG, '"tier_300_role"', "what tier 300 may be reported as"),
             "gain_registered_where_non_saturating": quote(REG, '"where_it_is_non_saturating"',
@@ -128,9 +148,13 @@ def main() -> int:
         },
         "the_floor_it_scores_against": {
             "artifact": a.floor,
-            "n_rows_moved": quote(a.floor, '"n_rows_moved":', "the floor's row count"),
-            "movement_rate_percent": quote(a.floor, '"movement_rate_percent":', "the floor's rate"),
-            "graded_asks": quote(a.floor, '"graded_asks_replayed": 3744', "the denominator"),
+            # The counts live in the DIFF artifact and the rate in the pair SUMMARY, so each is quoted from the
+            # file that actually holds it, with the value included in the needle to make it unique. Quoting a bare
+            # key name would match several lines and a quote that resolves to more than one line is not a citation.
+            "floor_diff_artifact": floor_diff_rel,
+            "n_rows_moved": quote(floor_diff_rel, f'"n_rows_moved": {floor_rows},', "the floor's row count"),
+            "graded_asks": quote(floor_diff_rel, f'"graded_asks_replayed": {floor_graded}', "the denominator"),
+            "movement_rate_percent": quote(a.floor, f'"movement_rate_percent": {floor_rate}', "the floor's rate"),
             "harness_sha256_it_bounds": bench_sha,
             "same_process_observed": quote(a.floor, '"same_pid_observed_at_run_time": true',
                                            "the floor's own same-process proof"),
@@ -168,6 +192,24 @@ def main() -> int:
     print("[step5] RUN 1/2 -- replay ON, tier 120", flush=True)
     r_rep = one(RUN_REPLAY, WD_R, True)
     print(f"[step5] replay run rc={r_rep['rc']} in {r_rep['wall_seconds']} s", flush=True)
+    # PROVE THE TREATMENT RAN, from the artifact, before anything else is spent on it. The bench parses --replay
+    # only inside its __main__ guard (tools/electric_learn_bench.py:423-426), which does NOT execute for an
+    # importing process, so an in-process call silently produces an unreplayed house under a replay filename.
+    # That is the first thing this driver now refuses to write.
+    rep_art = json.loads((ROOT / RUN_REPLAY).read_text(encoding="utf-8"))
+    runs = (rep_art.get("arms", {}).get("learn", {}).get("runs") or [])
+    with_report = [str(r.get("depth")) for r in runs if r.get("replay")]
+    if len(runs) != 3 or len(with_report) != 3:
+        artifact["VOID_NOT_A_SCORED_REPLAY_RUN"] = {
+            "why": (f"the replay-labelled run carries a replay report at depths {with_report}, not at all three; "
+                    f"--replay did not take effect in this process"),
+            "argv_recorded": rep_art.get("provenance", {}).get("argv"),
+        }
+        stage("VOID_NOT_A_SCORED_REPLAY_RUN", artifact, artifact["VOID_NOT_A_SCORED_REPLAY_RUN"])
+        raise SystemExit(f"REFUSED: no scored run. --replay did not reach the organ (report present at "
+                         f"{with_report} of 3 depths). Run the replay arm as a subprocess so its __main__ guard "
+                         f"parses the flag, or set bench.REPLAY_REQUESTED explicitly and prove it here.")
+    r_rep["replay_report_depths"] = with_report
     stage("run_replay", artifact, r_rep)
 
     print("[step5] RUN 2/2 -- control, SAME process", flush=True)
