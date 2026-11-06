@@ -2196,12 +2196,12 @@
       },
       "tests/test_g0_prime_instruments.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 24418,
-        "bytes_worktree": 24876,
-        "git_blob_sha1": "b2f77d2345dff65a4daa50f8c109b43a6244801b",
+        "bytes_blob": 27966,
+        "bytes_worktree": 28478,
+        "git_blob_sha1": "357a1cb7875344a361b01ae964c3d4eac3c73da5",
         "line_endings": "CRLF",
-        "sha256_lf": "347522547215e81695f2e9748e408667b74fe90e7b4a059c438495103fe0233e",
-        "sha256_of_git_blob": "347522547215e81695f2e9748e408667b74fe90e7b4a059c438495103fe0233e"
+        "sha256_lf": "e62121b4a9df7ddbd59ef4ce884e81f2b2897d5bccbbb8740ca636803dd4c96d",
+        "sha256_of_git_blob": "e62121b4a9df7ddbd59ef4ce884e81f2b2897d5bccbbb8740ca636803dd4c96d"
       },
       "tests/test_mp_e10_ksweep_promotion.py": {
         "blob_equals_lf_normalised": true,
@@ -2827,7 +2827,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "949751bde7c8ffb3b526b061bf2dff4aad26bbef",
+    "git_head": "4e7aa813d881c912cb4eb0c5236760200f23b4f8",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -2853,7 +2853,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-06T21:44:14Z",
+    "sealed_at_utc": "2026-11-06T22:17:59Z",
     "self_excluded": {
       "path": "experiments/MP-E8/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
