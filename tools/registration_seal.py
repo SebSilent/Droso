@@ -648,6 +648,25 @@ DEFAULT_MANIFEST = [
     "tools/mp_e12_process_audit.py",
     "tests/test_mp_e12_process_audit.py",
     "experiments/MP-E12/results/c4_process_audit_v1.json",
+# ---- tier-120 identical-code floors on the CURRENT instrument bytes, 2026-11-06 -----------------
+# pair 3 (sampler absent) and pair 5 (sampler active) are both sealed because the ledger registers a floor
+# per byte-set AND per executed path; pair 4's lone run A is sealed as a measurement that bounds nothing,
+# kept so the record shows a run whose partner never executed rather than a tidy history.
+# The two STEP 5 drivers are sealed because a floor that bounds a run must be bounded by code a reader
+# can check: they are the instruments that produced and will score these numbers.
+# EXACTLY 10 of these 11 paths are new here; none replaces an existing entry, and no sealed artifact was
+    "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair3.json",
+    "experiments/MP-E10/results/fresh120_pair3_a_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair3_b_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair3_a_vs_b_row_migration.json",
+    "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json",
+    "experiments/MP-E10/results/fresh120_pair5_a_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair5_b_fresh_vs_fresh_armA.json",
+    "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json",
+    "experiments/MP-E10/results/fresh120_pair4_a_fresh_vs_fresh_armA.json",
+    "tools/mp_e10_step5_scored_run.py",
+    "tools/mp_e10_step5_emit.py",
+# touched to add them.
 ]
 
 

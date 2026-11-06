@@ -1,0 +1,618 @@
+{
+  "authorised_by": "PI release of the hold, 2026-11-05, with a 5-hour working window and named items",
+  "experiment": "MP-E10",
+  "finding": {
+    "answer_as_measured": true,
+    "consequence_if_both_pairs_move_rows": "the 58-row difference between a fresh unreplayed run and the sealed baseline is NOT a property of that baseline. It is what this instrument does every time it runs, so the run-to-run variation of a single tier-120 run is the floor under every arm-vs-baseline number in the program, and a treatment effect smaller than it is not detectable by one run.",
+    "pair_1_rows_moved": 17,
+    "pair_2_rows_moved": 6,
+    "question": "does a fresh run differ from another fresh run of identical code in one process?",
+    "what_this_does_not_settle": "it does not separate WHICH cause -- hash order, wall-clock-dependent timing knobs, or store state -- because both pairs ran on one machine in one session; and it does not re-measure the fresh-vs-SEALED-baseline difference, which additionally spans a harness change (see the_sealed_baseline_and_its_instrument.same_harness_as_the_fresh_runs)."
+  },
+  "fresh_vs_fresh_result": {
+    "breaks_the_comparison": [],
+    "class_split": {
+      "taught item": 6
+    },
+    "diff_artifact": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json",
+    "fields_moved_split": {
+      "answered": 6,
+      "cls": 6,
+      "mech": 6,
+      "said": 6,
+      "src": 6
+    },
+    "graded_asks": {
+      "run_A": 3744,
+      "run_B": 3744
+    },
+    "matched_pair_reading": "the two runs differ ONLY by the treatment",
+    "moved_keys": [
+      [
+        "2",
+        "live",
+        "what the spool crank",
+        "tell0.12",
+        "object_fold"
+      ],
+      [
+        "3",
+        "live",
+        "what the shackle clamp",
+        "tell2.18",
+        "object_fold"
+      ],
+      [
+        "3",
+        "reasked",
+        "what the bridge cross",
+        "tell2.1",
+        "object_fold"
+      ],
+      [
+        "3",
+        "reasked",
+        "what the faucet fold",
+        "tell2.22",
+        "object_fold"
+      ],
+      [
+        "3",
+        "restarted",
+        "what the bridge cross",
+        "tell2.1",
+        "object_fold"
+      ],
+      [
+        "3",
+        "restarted",
+        "what the net catch",
+        "tell2.3",
+        "object_fold"
+      ]
+    ],
+    "moved_rows": [
+      {
+        "ask": "what the spool crank",
+        "class": "taught item",
+        "cls_from": "refused",
+        "cls_to": "partial",
+        "depth": "2",
+        "detail": {
+          "answered": {
+            "baseline": false,
+            "replayed": true
+          },
+          "cls": {
+            "baseline": "refused",
+            "replayed": "partial"
+          },
+          "mech": {
+            "baseline": "ask_not_recognized",
+            "replayed": "fallback_fragment"
+          },
+          "said": {
+            "baseline": "",
+            "replayed": "says"
+          },
+          "src": {
+            "baseline": "",
+            "replayed": "arbiter head"
+          }
+        },
+        "fields_moved": [
+          "answered",
+          "cls",
+          "mech",
+          "said",
+          "src"
+        ],
+        "item": "tell0.12",
+        "item_baseline": "tell0.12",
+        "item_replayed": "tell0.12",
+        "phase": "live",
+        "shape": "object_fold"
+      },
+      {
+        "ask": "what the shackle clamp",
+        "class": "taught item",
+        "cls_from": "partial",
+        "cls_to": "refused",
+        "depth": "3",
+        "detail": {
+          "answered": {
+            "baseline": true,
+            "replayed": false
+          },
+          "cls": {
+            "baseline": "partial",
+            "replayed": "refused"
+          },
+          "mech": {
+            "baseline": "fallback_fragment",
+            "replayed": "ask_not_recognized"
+          },
+          "said": {
+            "baseline": "says",
+            "replayed": ""
+          },
+          "src": {
+            "baseline": "arbiter head",
+            "replayed": ""
+          }
+        },
+        "fields_moved": [
+          "answered",
+          "cls",
+          "mech",
+          "said",
+          "src"
+        ],
+        "item": "tell2.18",
+        "item_baseline": "tell2.18",
+        "item_replayed": "tell2.18",
+        "phase": "live",
+        "shape": "object_fold"
+      },
+      {
+        "ask": "what the bridge cross",
+        "class": "taught item",
+        "cls_from": "partial",
+        "cls_to": "refused",
+        "depth": "3",
+        "detail": {
+          "answered": {
+            "baseline": true,
+            "replayed": false
+          },
+          "cls": {
+            "baseline": "partial",
+            "replayed": "refused"
+          },
+          "mech": {
+            "baseline": "fallback_fragment",
+            "replayed": "ask_not_recognized"
+          },
+          "said": {
+            "baseline": "says",
+            "replayed": ""
+          },
+          "src": {
+            "baseline": "arbiter head",
+            "replayed": ""
+          }
+        },
+        "fields_moved": [
+          "answered",
+          "cls",
+          "mech",
+          "said",
+          "src"
+        ],
+        "item": "tell2.1",
+        "item_baseline": "tell2.1",
+        "item_replayed": "tell2.1",
+        "phase": "reasked",
+        "shape": "object_fold"
+      },
+      {
+        "ask": "what the faucet fold",
+        "class": "taught item",
+        "cls_from": "partial",
+        "cls_to": "refused",
+        "depth": "3",
+        "detail": {
+          "answered": {
+            "baseline": true,
+            "replayed": false
+          },
+          "cls": {
+            "baseline": "partial",
+            "replayed": "refused"
+          },
+          "mech": {
+            "baseline": "fallback_fragment",
+            "replayed": "ask_not_recognized"
+          },
+          "said": {
+            "baseline": "says",
+            "replayed": ""
+          },
+          "src": {
+            "baseline": "arbiter head",
+            "replayed": ""
+          }
+        },
+        "fields_moved": [
+          "answered",
+          "cls",
+          "mech",
+          "said",
+          "src"
+        ],
+        "item": "tell2.22",
+        "item_baseline": "tell2.22",
+        "item_replayed": "tell2.22",
+        "phase": "reasked",
+        "shape": "object_fold"
+      },
+      {
+        "ask": "what the bridge cross",
+        "class": "taught item",
+        "cls_from": "partial",
+        "cls_to": "refused",
+        "depth": "3",
+        "detail": {
+          "answered": {
+            "baseline": true,
+            "replayed": false
+          },
+          "cls": {
+            "baseline": "partial",
+            "replayed": "refused"
+          },
+          "mech": {
+            "baseline": "fallback_fragment",
+            "replayed": "ask_not_recognized"
+          },
+          "said": {
+            "baseline": "says",
+            "replayed": ""
+          },
+          "src": {
+            "baseline": "arbiter head",
+            "replayed": ""
+          }
+        },
+        "fields_moved": [
+          "answered",
+          "cls",
+          "mech",
+          "said",
+          "src"
+        ],
+        "item": "tell2.1",
+        "item_baseline": "tell2.1",
+        "item_replayed": "tell2.1",
+        "phase": "restarted",
+        "shape": "object_fold"
+      },
+      {
+        "ask": "what the net catch",
+        "class": "taught item",
+        "cls_from": "refused",
+        "cls_to": "partial",
+        "depth": "3",
+        "detail": {
+          "answered": {
+            "baseline": false,
+            "replayed": true
+          },
+          "cls": {
+            "baseline": "refused",
+            "replayed": "partial"
+          },
+          "mech": {
+            "baseline": "ask_not_recognized",
+            "replayed": "fallback_fragment"
+          },
+          "said": {
+            "baseline": "",
+            "replayed": "says"
+          },
+          "src": {
+            "baseline": "",
+            "replayed": "arbiter head"
+          }
+        },
+        "fields_moved": [
+          "answered",
+          "cls",
+          "mech",
+          "said",
+          "src"
+        ],
+        "item": "tell2.3",
+        "item_baseline": "tell2.3",
+        "item_replayed": "tell2.3",
+        "phase": "restarted",
+        "shape": "object_fold"
+      }
+    ],
+    "movement_rate_percent": 0.1603,
+    "n_rows_moved": 6,
+    "refused_by_phase": {
+      "1/live": {
+        "baseline": 280,
+        "delta": 0,
+        "replayed": 280
+      },
+      "1/reasked": {
+        "baseline": 265,
+        "delta": 0,
+        "replayed": 265
+      },
+      "1/restarted": {
+        "baseline": 280,
+        "delta": 0,
+        "replayed": 280
+      },
+      "2/live": {
+        "baseline": 157,
+        "delta": -1,
+        "replayed": 156
+      },
+      "2/reasked": {
+        "baseline": 154,
+        "delta": 0,
+        "replayed": 154
+      },
+      "2/restarted": {
+        "baseline": 153,
+        "delta": 0,
+        "replayed": 153
+      },
+      "3/live": {
+        "baseline": 46,
+        "delta": 1,
+        "replayed": 47
+      },
+      "3/reasked": {
+        "baseline": 38,
+        "delta": 2,
+        "replayed": 40
+      },
+      "3/restarted": {
+        "baseline": 38,
+        "delta": 0,
+        "replayed": 38
+      }
+    },
+    "rows_compared": 3744,
+    "rows_only_in_one_set": 0,
+    "transitions_by_axis": {
+      "2/live": {
+        "refused -> partial [taught item]": 1
+      },
+      "3/live": {
+        "partial -> refused [taught item]": 1
+      },
+      "3/reasked": {
+        "partial -> refused [taught item]": 2
+      },
+      "3/restarted": {
+        "partial -> refused [taught item]": 1,
+        "refused -> partial [taught item]": 1
+      }
+    }
+  },
+  "generated_at_utc": "2026-11-06T20:04:20Z",
+  "item": "ITEM 1 -- the fresh-vs-fresh separation behind sealed_baseline_reproducibility",
+  "method": {
+    "driver": "tools/mp_e10_fresh_vs_fresh.py",
+    "instrument": "tools/mp_e10_row_migration.py -- the registered row diff on the nine R13 identity fields, key (depth, phase, ask, item, shape). No new comparison code path.",
+    "runs": "the UNREPLAYED tier-120 learn arm, twice, in one Python process, each into its own --workdir",
+    "why_same_process": "the ledger's own discriminator: if the movement is nondeterminism it will appear between two runs that share a process; if it is drift against a sealed artifact it will not."
+  },
+  "note_on_units": "the fresh-vs-fresh and fresh-vs-baseline numbers are a PROPORTION OF ROWS that change class; H1's 1.6827 pp and H3's 2.0 pp are percentage points of a SCORE. They are not the same quantity and are not subtracted from one another here. What is comparable is magnitude and direction of the noise floor against the size of the effect being claimed.",
+  "pair_1_from_the_aborted_invocation": {
+    "artifacts": {
+      "experiments/MP-E10/results/fresh120_pair1_a_fresh_vs_fresh_armA.json": "f4dd8825fbf0e2fed146883aa2de07cc65c49a373dc65292a3a6cd49a13f2ad6",
+      "experiments/MP-E10/results/fresh120_pair1_a_vs_b_row_migration.json": "354624428ed7a65cd4f9b981dfcf9fc2c54206d730603b3c546a277307b641ad",
+      "experiments/MP-E10/results/fresh120_pair1_b_fresh_vs_fresh_armA.json": "0d20d4bbef4e1ef23becd8aadde5dde989db64874d8626973bbe184911ec1df8"
+    },
+    "breaks_the_comparison": [],
+    "class_split": {
+      "distractor/unanswerable": 2,
+      "taught item": 15
+    },
+    "git_head": "5aa1ca1d76e2718db18ec8ed34c897fd998bf638",
+    "harness_sha256": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+    "learn_arm_seconds": {
+      "a": 411.4,
+      "b": 482.2
+    },
+    "matched_pair_reading": "the two runs differ ONLY by the treatment",
+    "movement_rate_percent": 0.4541,
+    "n_rows_moved": 17,
+    "pid": "NOT RECORDED. That invocation sampled no pid at run time, so pair 1's same-process claim rests on sequential started_utc plus the driver log and is labelled weaker for it. Pair 2 carries the observation.",
+    "refused_by_phase": {
+      "1/live": {
+        "baseline": 280,
+        "delta": 0,
+        "replayed": 280
+      },
+      "1/reasked": {
+        "baseline": 265,
+        "delta": 0,
+        "replayed": 265
+      },
+      "1/restarted": {
+        "baseline": 280,
+        "delta": 0,
+        "replayed": 280
+      },
+      "2/live": {
+        "baseline": 157,
+        "delta": 0,
+        "replayed": 157
+      },
+      "2/reasked": {
+        "baseline": 154,
+        "delta": 0,
+        "replayed": 154
+      },
+      "2/restarted": {
+        "baseline": 153,
+        "delta": 0,
+        "replayed": 153
+      },
+      "3/live": {
+        "baseline": 47,
+        "delta": 0,
+        "replayed": 47
+      },
+      "3/reasked": {
+        "baseline": 40,
+        "delta": 1,
+        "replayed": 41
+      },
+      "3/restarted": {
+        "baseline": 38,
+        "delta": 6,
+        "replayed": 44
+      }
+    },
+    "rows_compared": 3744,
+    "started_utc": {
+      "a": "2026-11-05T05:55:50Z",
+      "b": "2026-11-05T06:03:53Z"
+    },
+    "transitions_by_axis": {
+      "3/reasked": {
+        "invented -> refused [distractor/unanswerable]": 1,
+        "partial -> refused [taught item]": 3,
+        "refused -> partial [taught item]": 3
+      },
+      "3/restarted": {
+        "invented -> refused [distractor/unanswerable]": 1,
+        "partial -> refused [taught item]": 7,
+        "refused -> partial [taught item]": 2
+      }
+    },
+    "what_it_is": "the same experiment, run ~25 minutes earlier by the first invocation of this driver, which completed both bench runs and the registered diff and then died in assembly on a hand-indexed key. Kept, renamed pair1, and reported beside pair 2."
+  },
+  "provenance": {
+    "driver": "tools/mp_e10_fresh_vs_fresh.py",
+    "git_head_at_write": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+    "python": "3.12.10"
+  },
+  "question_as_the_ledger_words_it": {
+    "key": "sealed_baseline_reproducibility.what_would_separate_them",
+    "line": 6320,
+    "not_done_this_turn_before_this_run": "budget",
+    "path": "experiments/MP-E10/registration.json",
+    "status_before_this_run": "OPEN -- MEASURED, NOT YET PRICED",
+    "status_line": 6319
+  },
+  "same_process_context": {
+    "PYTHONHASHSEED_in_environ": null,
+    "curriculum_applied_by": "this driver, explicitly, as an importing process must (tools/electric_learn_bench.py:411-416)",
+    "cwd": "C:\\Projects\\HybridLLM",
+    "interpreter": "3.12.10",
+    "pid": 19308,
+    "platform": "win32",
+    "process_started_utc": "2026-11-06T19:49:33Z",
+    "python_executable": "C:\\Projects\\HybridLLM\\.venv\\Scripts\\python.exe",
+    "replay_requested_in_this_process": false
+  },
+  "the_comparators_read_from_their_files": {
+    "fresh_vs_sealed_baseline_as_recorded_in_the_ledger": {
+      "denominator_status": "SUPERSEDED. 3,222 is the count of KEYS the collapsing (depth, phase, ask) key could address, out of 3,744 graded asks (AMD-MPE10-08). Quoted here as the ledger's recorded wording, not as the governing denominator.",
+      "line": 6313,
+      "path": "experiments/MP-E10/registration.json",
+      "text": "58 of 3,222 rows (1.8%) differ between a fresh unreplayed tier-120 run and the sealed tier-120 baseline"
+    },
+    "fresh_vs_sealed_baseline_governing": {
+      "graded_asks": {
+        "graded_asks_baseline": 3744,
+        "graded_asks_replayed": 3744,
+        "note": "rows_compared counts keys the key could address; the graded asks the run contains are the denominator field. Under 'probe' they are equal. Under 'legacy' the difference is rows the instrument never compared.",
+        "rows_compared_is_keys_not_asks": false
+      },
+      "label": "tier 120 CONTROL -- replay OFF, same tree, same curriculum",
+      "movement_rate_percent": 1.5491,
+      "n_rows_moved": 58,
+      "note": "the governing control figure: the same 58 rows, on the corrected denominator. The count did not move with the key fix; the denominator did.",
+      "path": "experiments/MP-E10/results/120ctl_row_migration_keyfix.json",
+      "rows_compared": 3744
+    },
+    "the_sealed_baseline_and_its_instrument": {
+      "git_head": "8ee1c8f3eae258e5577b1afd19232e744e3632d2",
+      "harness_sha256": "6e09171a309f49b16393a73189b412497fb4bb77a0cbfae82072df9f31515ad7",
+      "note": "if this is False, the fresh-vs-baseline 58 spans a code change as well as run variation -- the comparison the ledger's consequence at registration.json:96 does NOT currently name.",
+      "path": "experiments/MP-E8/results/armA_tier120_curriculum.json",
+      "same_harness_as_the_fresh_runs": false,
+      "started_utc": "2026-11-03T12:44:25Z"
+    },
+    "the_sealed_control_it_was_measured_against": {
+      "git_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
+      "harness_sha256": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+      "learn_arm_seconds": 475.5,
+      "path": "experiments/MP-E10/results/control_tier120_no_replay_armA.json",
+      "started_utc": "2026-11-04T12:49:11Z"
+    }
+  },
+  "the_two_runs": {
+    "identical_between_the_two": {
+      "curriculum_sha256": true,
+      "differ_only_by": [
+        "--out",
+        "--workdir",
+        "wall-clock",
+        "the process start times"
+      ],
+      "git_head": true,
+      "harness_sha256": true,
+      "replay_off_in_both": true,
+      "same_pid_observed_at_run_time": true,
+      "seed": true
+    },
+    "run_A": {
+      "artifact": "experiments/MP-E10/results/fresh120_pair5_a_fresh_vs_fresh_armA.json",
+      "driver_seen_start_utc": "2026-11-06T19:49:33Z",
+      "driver_wall_seconds": 474.12,
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "inventions_recorded": 13,
+      "learn_arm_seconds": 471.3,
+      "pid_observed_after_call": 19308,
+      "pid_observed_before_call": 19308,
+      "rc": 1,
+      "sha256": "c05ce43f6f9c9a607dc16a757965f9c47d5b8c71f0ee27e51024fb174ece6b17",
+      "started_utc": "2026-11-06T19:57:27Z"
+    },
+    "run_B": {
+      "artifact": "experiments/MP-E10/results/fresh120_pair5_b_fresh_vs_fresh_armA.json",
+      "driver_seen_start_utc": "2026-11-06T19:57:27Z",
+      "driver_wall_seconds": 413.42,
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "inventions_recorded": 13,
+      "learn_arm_seconds": 412.7,
+      "pid_observed_after_call": 19308,
+      "pid_observed_before_call": 19308,
+      "rc": 1,
+      "sha256": "f7c513d9463e754b17241460b92d05dc428c8c94419f40ba8f50492b41d43801",
+      "started_utc": "2026-11-06T20:04:20Z"
+    },
+    "same_process_observed": true
+  },
+  "verdicts_changed_by_this_run": [],
+  "wall_clock": {
+    "run_A_seconds": 474.12,
+    "run_B_seconds": 413.42,
+    "total_seconds_this_driver": 887.93
+  },
+  "what_the_two_figures_that_rest_on_single_run_baselines_are": {
+    "G2_H1_tier120_least_favourable_seed_drop_pp": {
+      "line": 4,
+      "path": "experiments/MP-E8/results/armB_tier120_seeds_verdict.json",
+      "path_in_document": "h1_tier_120.least_favourable_seed_drop_pp",
+      "registered_minimum_pp_source": {
+        "line": 22,
+        "path": "experiments/MP-E8/decision.md",
+        "quoted": "arm B drops below its own session-1 by >= 5.0 pp, tiers 120 and 300"
+      },
+      "unit": "percentage points of the taught-set retention score",
+      "value": 1.6827
+    },
+    "MP_E10_H3_interference_margin_pp": {
+      "line": 22,
+      "path": "experiments/MP-E10/results/replay_tier300_summary.json",
+      "path_in_document": "margin_applied_pp",
+      "unit": "percentage points of the interference tally",
+      "value": 2.0
+    }
+  }
+}

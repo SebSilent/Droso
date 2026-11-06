@@ -1,0 +1,673 @@
+{
+  "artifacts": {
+    "baseline": "experiments/MP-E10/results/fresh120_pair3_b_fresh_vs_fresh_armA.json",
+    "replayed": "experiments/MP-E10/results/fresh120_pair3_a_fresh_vs_fresh_armA.json"
+  },
+  "class_split": {
+    "taught item": 5
+  },
+  "denominator": {
+    "graded_asks_baseline": 3744,
+    "graded_asks_replayed": 3744,
+    "note": "rows_compared counts keys the key could address; the graded asks the run contains are the denominator field. Under 'probe' they are equal. Under 'legacy' the difference is rows the instrument never compared.",
+    "rows_compared_is_keys_not_asks": false
+  },
+  "duplicate_keys_within_either_index": {
+    "baseline": [],
+    "baseline_n": 0,
+    "replayed": [],
+    "replayed_n": 0
+  },
+  "experiment": "MP-E10",
+  "fields_moved_split": {
+    "answered": 5,
+    "cls": 5,
+    "mech": 5,
+    "said": 5,
+    "src": 5
+  },
+  "generated_at_utc": "2026-11-06T19:35:18Z",
+  "is_control": false,
+  "label": "TIER-120 FRESH vs FRESH -- two unreplayed runs of identical code in ONE process (pid 16268), same curriculum, same seed; the experiment the ledger calls unpurchased at sealed_baseline_reproducibility",
+  "matched_pair": {
+    "baseline": {
+      "argv": [
+        "--arms",
+        "learn",
+        "--curriculum",
+        "experiments/MP-E8/curriculum_tier120.json",
+        "--out",
+        "experiments/MP-E10/results/fresh120_pair3_b_fresh_vs_fresh_armA.json",
+        "--workdir",
+        "_tmp/wd_ff120_pair3_b"
+      ],
+      "artifact": "baseline",
+      "curriculum_path": "C:/Projects/HybridLLM/experiments/MP-E8/curriculum_tier120.json",
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "harness": "tools/electric_learn_bench.py",
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "replay_requested_in_argv": false,
+      "seed": 20261103,
+      "started_utc": "2026-11-06T19:35:18Z",
+      "tier": 120
+    },
+    "differences_that_break_the_comparison": [],
+    "reading": "the two runs differ ONLY by the treatment",
+    "replayed": {
+      "argv": [
+        "--arms",
+        "learn",
+        "--curriculum",
+        "experiments/MP-E8/curriculum_tier120.json",
+        "--out",
+        "experiments/MP-E10/results/fresh120_pair3_a_fresh_vs_fresh_armA.json",
+        "--workdir",
+        "_tmp/wd_ff120_pair3_a"
+      ],
+      "artifact": "replayed",
+      "curriculum_path": "C:/Projects/HybridLLM/experiments/MP-E8/curriculum_tier120.json",
+      "curriculum_sha256": "bfa225ad905a574b470773c0d7e6590de9a5fce54662eabc3c0cbcb7754b377b",
+      "git_head": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+      "harness": "tools/electric_learn_bench.py",
+      "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "replay_requested_in_argv": false,
+      "seed": 20261103,
+      "started_utc": "2026-11-06T19:27:33Z",
+      "tier": 120
+    },
+    "same_git_head": true
+  },
+  "method": "row-level diff on the nine R13 identity fields, keyed ('depth', 'phase', 'ask', 'item', 'shape'); the same code path runs for every tier and for the control -- tools/mp_e10_row_migration.py",
+  "moved_keys": [
+    [
+      "2",
+      "live",
+      "what the spool crank",
+      "tell0.12",
+      "object_fold"
+    ],
+    [
+      "3",
+      "live",
+      "what the shackle clamp",
+      "tell2.18",
+      "object_fold"
+    ],
+    [
+      "3",
+      "reasked",
+      "what the faucet fold",
+      "tell2.22",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the cradle stack",
+      "tell2.21",
+      "object_fold"
+    ],
+    [
+      "3",
+      "restarted",
+      "what the faucet fold",
+      "tell2.22",
+      "object_fold"
+    ]
+  ],
+  "moved_keys_fields": [
+    "depth",
+    "phase",
+    "ask",
+    "item",
+    "shape"
+  ],
+  "moved_rows": [
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.12",
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the shackle clamp",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.18",
+      "item_baseline": "tell2.18",
+      "item_replayed": "tell2.18",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the faucet fold",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.22",
+      "item_baseline": "tell2.22",
+      "item_replayed": "tell2.22",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the cradle stack",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.21",
+      "item_baseline": "tell2.21",
+      "item_replayed": "tell2.21",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the faucet fold",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.22",
+      "item_baseline": "tell2.22",
+      "item_replayed": "tell2.22",
+      "phase": "restarted",
+      "shape": "object_fold"
+    }
+  ],
+  "n_rows_moved": 5,
+  "n_rows_only_in_one_set": 0,
+  "provenance": {
+    "driver": "tools/mp_e10_row_migration.py",
+    "git_head_at_write": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+    "promoted_from": "_tmp/row_migration.py",
+    "promotion_reason": "R10: three sealed MP-E10 artifacts were produced by a scratch file. A swept driver cannot reproduce a sealed number.",
+    "python": "3.12.10"
+  },
+  "reading": "a tally of `correct` can be unchanged while refusals become answers: the interval measures retention of taught items, the migration measures the refusal axis. Both are reported.",
+  "refused_by_phase": {
+    "1/live": {
+      "baseline": 280,
+      "delta": 0,
+      "replayed": 280
+    },
+    "1/reasked": {
+      "baseline": 265,
+      "delta": 0,
+      "replayed": 265
+    },
+    "1/restarted": {
+      "baseline": 280,
+      "delta": 0,
+      "replayed": 280
+    },
+    "2/live": {
+      "baseline": 157,
+      "delta": -1,
+      "replayed": 156
+    },
+    "2/reasked": {
+      "baseline": 154,
+      "delta": 0,
+      "replayed": 154
+    },
+    "2/restarted": {
+      "baseline": 153,
+      "delta": 0,
+      "replayed": 153
+    },
+    "3/live": {
+      "baseline": 47,
+      "delta": -1,
+      "replayed": 46
+    },
+    "3/reasked": {
+      "baseline": 39,
+      "delta": -1,
+      "replayed": 38
+    },
+    "3/restarted": {
+      "baseline": 38,
+      "delta": 0,
+      "replayed": 38
+    }
+  },
+  "row_key": {
+    "collapses_any_row": false,
+    "fields": [
+      "depth",
+      "phase",
+      "ask",
+      "item",
+      "shape"
+    ],
+    "mode": "probe",
+    "modes_available": {
+      "legacy": [
+        "depth",
+        "phase",
+        "ask"
+      ],
+      "probe": [
+        "depth",
+        "phase",
+        "ask",
+        "item",
+        "shape"
+      ]
+    },
+    "note": "'probe' is the corrected key, unique at every tier measured. 'legacy' is the key that produced the superseded figures and is kept so they can be reproduced; it silently drops rows wherever an ask repeats across items.",
+    "uniqueness": {
+      "baseline": {
+        "distinct_keys": 3744,
+        "duplicate_keys": 0,
+        "is_unique": true,
+        "key_fields": [
+          "depth",
+          "phase",
+          "ask",
+          "item",
+          "shape"
+        ],
+        "mode": "probe",
+        "rows_collapsed_by_this_key": 0,
+        "rows_total": 3744
+      },
+      "collapses_any_row": false,
+      "replayed": {
+        "distinct_keys": 3744,
+        "duplicate_keys": 0,
+        "is_unique": true,
+        "key_fields": [
+          "depth",
+          "phase",
+          "ask",
+          "item",
+          "shape"
+        ],
+        "mode": "probe",
+        "rows_collapsed_by_this_key": 0,
+        "rows_total": 3744
+      }
+    }
+  },
+  "rows_compared": 3744,
+  "rows_only_in_one_set": [],
+  "taught_rows_moved": [
+    {
+      "ask": "what the spool crank",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "2",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell0.12",
+      "item_baseline": "tell0.12",
+      "item_replayed": "tell0.12",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the shackle clamp",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.18",
+      "item_baseline": "tell2.18",
+      "item_replayed": "tell2.18",
+      "phase": "live",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the faucet fold",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.22",
+      "item_baseline": "tell2.22",
+      "item_replayed": "tell2.22",
+      "phase": "reasked",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the cradle stack",
+      "class": "taught item",
+      "cls_from": "partial",
+      "cls_to": "refused",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": true,
+          "replayed": false
+        },
+        "cls": {
+          "baseline": "partial",
+          "replayed": "refused"
+        },
+        "mech": {
+          "baseline": "fallback_fragment",
+          "replayed": "ask_not_recognized"
+        },
+        "said": {
+          "baseline": "says",
+          "replayed": ""
+        },
+        "src": {
+          "baseline": "arbiter head",
+          "replayed": ""
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.21",
+      "item_baseline": "tell2.21",
+      "item_replayed": "tell2.21",
+      "phase": "restarted",
+      "shape": "object_fold"
+    },
+    {
+      "ask": "what the faucet fold",
+      "class": "taught item",
+      "cls_from": "refused",
+      "cls_to": "partial",
+      "depth": "3",
+      "detail": {
+        "answered": {
+          "baseline": false,
+          "replayed": true
+        },
+        "cls": {
+          "baseline": "refused",
+          "replayed": "partial"
+        },
+        "mech": {
+          "baseline": "ask_not_recognized",
+          "replayed": "fallback_fragment"
+        },
+        "said": {
+          "baseline": "",
+          "replayed": "says"
+        },
+        "src": {
+          "baseline": "",
+          "replayed": "arbiter head"
+        }
+      },
+      "fields_moved": [
+        "answered",
+        "cls",
+        "mech",
+        "said",
+        "src"
+      ],
+      "item": "tell2.22",
+      "item_baseline": "tell2.22",
+      "item_replayed": "tell2.22",
+      "phase": "restarted",
+      "shape": "object_fold"
+    }
+  ],
+  "transitions_by_axis": {
+    "2/live": {
+      "refused -> partial [taught item]": 1
+    },
+    "3/live": {
+      "refused -> partial [taught item]": 1
+    },
+    "3/reasked": {
+      "refused -> partial [taught item]": 1
+    },
+    "3/restarted": {
+      "partial -> refused [taught item]": 1,
+      "refused -> partial [taught item]": 1
+    }
+  }
+}

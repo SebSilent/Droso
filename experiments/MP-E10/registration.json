@@ -6356,10 +6356,237 @@
     "the_prerequisite_nobody_asked_for": "STEP 5 scores tier-120 replay runs on the CURRENT bytes (47f05c9c20dd..., A10 wired). The tier-120 floor that exists -- 4 rows and 17 rows of 3,744 across two pairs -- was measured on 5cf038c211d6..., the pre-A10 bench. Under R17's re-measurement clause that floor does not transfer, so STEP 5 would be making tier-120 treatment claims at a tier whose floor is unmeasured on its own instrument: capacity and instrument findings only.",
     "what_this_entry_does_not_do": "no verdict moved, no status field changed, no T and N, no answer-path edit, no MP-E11, no MP-E12b/c."
   },
+  "step_2a_tier300_floor_on_sealed_bytes_cannot_be_bought_2026_11_06": {
+    "evidence_that_the_bytes_were_never_committed": {
+      "a_sealed_artifact_and_its_own_recorded_head": {
+        "artifact": "experiments/MP-E10/results/replay_tier300_armA.json",
+        "bench_file_at_that_head_hashes_to": "f7e56ee293c309aca5e8bacf39c15b901a1dee6de1f35a0feb6910caa5138d1f",
+        "reading": "the artifact says it ran at head 3e7b24ce4d with harness 5cf038c211d6, but the bench at that head hashes f7e56ee293c3. The two disagree, which is only possible if the worktree was dirty when the run happened.",
+        "records_git_head": "3e7b24ce4d119c2b54638ee1f81c2945691d751a",
+        "records_harness_sha256": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e"
+      },
+      "commits_scanned": 346,
+      "commits_whose_bench_file_hashes_to_the_sealed_bytes": [],
+      "method": "git rev-list --all, then git show <sha>:tools/electric_learn_bench.py, then sha256 of each"
+    },
+    "recorded_at_utc": "2026-11-06T19:17:06Z",
+    "the_consequence_for_the_figures_named_in_the_order": "R17 requires a fresh-vs-fresh pair on IDENTICAL instrument bytes at the tier of the claim. For the 111-row replay effect, the 251/302 migration counts and the 91/92/100 invention tallies, the identical bytes are 5cf038c2, and they cannot be re-run because they were never committed. The condition is unsatisfiable, not unmet for want of time. Those figures therefore stay capacity and instrument findings permanently. Nothing here downgrades or deletes them; it states the class of claim they support, which is what the sealed record already says in r17_floor_scope_2026_11_05.the_consequence_under_r17_itself.",
+    "what_already_exists_instead": {
+      "artifact": "experiments/MP-E10/results/floor_tier300.json",
+      "floor_measured": {
+        "line_reads": "\"rows_moved\": 44,",
+        "note": "2 lines hold this needle",
+        "pointer": "experiments/MP-E10/results/floor_tier300.json:42"
+      },
+      "movement_rate": {
+        "line_reads": "\"movement_rate_percent\": 0.4674,",
+        "pointer": "experiments/MP-E10/results/floor_tier300.json:38"
+      },
+      "note": "STEP 4 already bought a tier-300 pair, proved same-process by four agreeing pid samples, and recorded in its own artifact that the bytes are not the sealed ones. That pair is valid for tier-300 claims made on the current bytes. It does not and cannot bound the sealed figures, and the driver says so rather than being asked to. || TWO OF THE CITATIONS ABOVE ARE AMBIGUOUS IN TEXT AND DISAMBIGUATED BY STRUCTURE: floor_measured: 2 occurrences at lines [42, 167]; same_process_proof: 3 occurrences at lines [43, 86, 168]. Each names the floor_registered copy, established by walking the parsed object ($.floor_registered.rows_moved == 44, $.floor_registered.same_process_observed == true), not by picking between identical lines. The later copies sit in tier300_attribution_table_with_floor.floor and are the same numbers restated.",
+      "same_process_proof": {
+        "line_reads": "\"same_process_observed\": true,",
+        "note": "3 lines hold this needle",
+        "pointer": "experiments/MP-E10/results/floor_tier300.json:43"
+      },
+      "the_pair_ran_on_the_bytes_the_bench_hashes_now": {
+        "harness_of_the_sealed_figures": {
+          "line_reads": "\"harness_sha256_of_the_sealed_tier300_figures\": \"5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e\",",
+          "pointer": "experiments/MP-E10/results/floor_tier300.json:47"
+        },
+        "harness_of_this_pair": {
+          "line_reads": "\"harness_sha256_of_this_pair\": \"47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af\",",
+          "pointer": "experiments/MP-E10/results/floor_tier300.json:48"
+        },
+        "present_bench_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+        "same_bytes_as_the_sealed_figures": {
+          "line_reads": "\"same_bytes_as_the_sealed_figures\": false,",
+          "pointer": "experiments/MP-E10/results/floor_tier300.json:85"
+        }
+      }
+    },
+    "what_this_block_does_not_do": "It runs nothing, buys nothing, moves no status field, and does not substitute a floor measured on different bytes for the one ordered. Substituting silently would be the exact failure R17's byte condition exists to prevent.",
+    "what_was_ordered": "tier-300 fresh-vs-fresh pair on the SEALED bytes 5cf038c2, ~44 min, 2 x learn-only, the purchase that would make the 111-row replay effect, the 251/302 migration counts and the 91/92/100 invention tallies admissible as treatment effects",
+    "what_would_be_needed_to_change_that": "the original instrument bytes, which exist only as a hash. A reconstruction that happens to produce the same hash is not available; a hash is not a specification.",
+    "why_it_cannot_be_performed": "5cf038c2 is the sha256 of tools/electric_learn_bench.py at the moment the sealed tier-300 figures were produced. The instrument identity is derived, not asserted -- tools/electric_learn_bench.py hashes __file__ into harness_sha256 -- so re-running requires that exact content."
+  },
   "stopping_rules": [
     "any C-condition fires: stop, report, do not re-run the same configuration and call the second run independent",
     "a threshold is found to be unscoreable after a run: record it as a defect, do not move it"
   ],
+  "tier120_floor_on_current_bytes_2026_11_06": {
+    "bench_hashes_now": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+    "earlier_tier120_floors_are_history_and_bound_nothing_today": {
+      "a_label_collision_in_the_new_file_that_is_stated_not_hidden": "pair 3's summary was produced by the registered driver with its output constants re-pointed, and the driver's own prose still labels the run it performs `pair 2`. So a reader of fresh_vs_fresh_tier120_pair3.json will find a field pair_2_rows_moved whose value is THIS run, not the historical pair 2 that moved 4 rows. Pair 5's launcher re-points the driver's historical constants as well, and this entry records the collision rather than leaving the artifact to mislead.",
+      "byte_set_they_were_measured_on": "5cf038c211d6f0cfed19aead1b9e7419d07e8a0a1e7e4a5577ef314fca83059e",
+      "consequence": "they bounded 5cf038c2 and bound nothing on today's bytes. Kept as history with their byte-set named beside them; not overwritten, not deleted, not quietly reinterpreted.",
+      "pair_1_rows_moved": 17,
+      "pair_2_rows_moved": 4,
+      "status_of_that_byte_set": "exists in no commit -- see step_2a_tier300_floor_on_sealed_bytes_cannot_be_bought_2026_11_06, which hashed all 346 commits",
+      "where_they_live": "experiments/MP-E10/results/fresh_vs_fresh_tier120.json and the fresh120_pair1_* and fresh120_pair2_* artifacts"
+    },
+    "harness_sha256_this_floor_bounds": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+    "pair_4_a_lone_run_that_bounds_nothing": {
+      "artifact": "experiments/MP-E10/results/fresh120_pair4_a_fresh_vs_fresh_armA.json",
+      "run_A_wall_seconds_as_measured": 463.62,
+      "why_it_bounds_nothing": "R17's condition is a fresh-vs-fresh PAIR in one process context, proved by pid samples around both runs. Pair 4's process died after run A, before run B produced anything. A lone run has no partner to diff and no pid proof; completing it with a second run in a later process would be a different process, which is the very thing the pair exists to exclude. Kept, not deleted, and not counted."
+    },
+    "registered_at_utc": "2026-11-06T20:06:36Z",
+    "the_two_floor_pairs": {
+      "pair_3_no_A10_sampler": {
+        "a10_reason_if_absent": "ModuleNotFoundError: No module named 'mp_e10_resource_ledger'",
+        "a10_sampler_active_in_these_runs": false,
+        "class_split": {
+          "taught item": 5
+        },
+        "diff_artifact": "experiments/MP-E10/results/fresh120_pair3_a_vs_b_row_migration.json",
+        "fields_moved": {
+          "answered": 5,
+          "cls": 5,
+          "mech": 5,
+          "said": 5,
+          "src": 5
+        },
+        "git_head_at_run": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+        "graded_asks": 3744,
+        "graded_asks_quoted": {
+          "line_reads": "\"graded_asks_replayed\": 3744,",
+          "pointer": "experiments/MP-E10/results/fresh120_pair3_a_vs_b_row_migration.json:11"
+        },
+        "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+        "movement_rate_percent": 0.1335,
+        "n_rows_moved_quoted": {
+          "line_reads": "\"n_rows_moved\": 5,",
+          "pointer": "experiments/MP-E10/results/fresh120_pair3_a_vs_b_row_migration.json:333"
+        },
+        "pid_samples_before_and_after_each_run": [
+          16268,
+          16268,
+          16268,
+          16268
+        ],
+        "rate_quoted": {
+          "line_reads": "\"movement_rate_percent\": 0.1335,",
+          "pointer": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair3.json:274"
+        },
+        "rate_recomputed_from_the_two": 0.1335,
+        "rc": [
+          1,
+          1
+        ],
+        "rows_moved_on_the_nine_R13_identity_fields": 5,
+        "same_process_proved": true,
+        "summary_artifact": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair3.json",
+        "transitions_by_axis": {
+          "2/live": {
+            "refused -> partial [taught item]": 1
+          },
+          "3/live": {
+            "refused -> partial [taught item]": 1
+          },
+          "3/reasked": {
+            "refused -> partial [taught item]": 1
+          },
+          "3/restarted": {
+            "partial -> refused [taught item]": 1,
+            "refused -> partial [taught item]": 1
+          }
+        },
+        "wall_clock_seconds": {
+          "run_A": 437.95,
+          "run_B": 465.05,
+          "total": 903.38
+        }
+      },
+      "pair_5_A10_sampler_active": {
+        "a10_reason_if_absent": null,
+        "a10_sampler_active_in_these_runs": true,
+        "class_split": {
+          "taught item": 6
+        },
+        "diff_artifact": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json",
+        "fields_moved": {
+          "answered": 6,
+          "cls": 6,
+          "mech": 6,
+          "said": 6,
+          "src": 6
+        },
+        "git_head_at_run": "4342ccf7ba31572883c4b43c712001ea824a3cdd",
+        "graded_asks": 3744,
+        "graded_asks_quoted": {
+          "line_reads": "\"graded_asks_replayed\": 3744,",
+          "pointer": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json:11"
+        },
+        "harness_sha256": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+        "movement_rate_percent": 0.1603,
+        "n_rows_moved_quoted": {
+          "line_reads": "\"n_rows_moved\": 6,",
+          "pointer": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json:381"
+        },
+        "pid_samples_before_and_after_each_run": [
+          19308,
+          19308,
+          19308,
+          19308
+        ],
+        "rate_quoted": {
+          "line_reads": "\"movement_rate_percent\": 0.1603,",
+          "pointer": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json:322"
+        },
+        "rate_recomputed_from_the_two": 0.1603,
+        "rc": [
+          1,
+          1
+        ],
+        "rows_moved_on_the_nine_R13_identity_fields": 6,
+        "same_process_proved": true,
+        "summary_artifact": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json",
+        "transitions_by_axis": {
+          "2/live": {
+            "refused -> partial [taught item]": 1
+          },
+          "3/live": {
+            "partial -> refused [taught item]": 1
+          },
+          "3/reasked": {
+            "partial -> refused [taught item]": 2
+          },
+          "3/restarted": {
+            "partial -> refused [taught item]": 1,
+            "refused -> partial [taught item]": 1
+          }
+        },
+        "wall_clock_seconds": {
+          "run_A": 474.12,
+          "run_B": 413.42,
+          "total": 887.93
+        }
+      }
+    },
+    "wall_clock_against_the_priced_unit": {
+      "PI_estimate_seconds_per_run": 475,
+      "measured_this_session": {
+        "pair_3_no_A10_sampler": {
+          "run_A": 437.95,
+          "run_B": 465.05,
+          "total": 903.38
+        },
+        "pair_5_A10_sampler_active": {
+          "run_A": 474.12,
+          "run_B": 413.42,
+          "total": 887.93
+        }
+      },
+      "pre_A10_measured_seconds": [
+        480.91,
+        462.37
+      ],
+      "reading": "every tier-120 learn-only run measured here lands within a few tens of seconds of the ~475 s unit, with and without the sampler. The 16-minute estimate for a pair held."
+    },
+    "what_this_entry_does_not_do": "no verdict moved, no status field changed beyond registering floors, no STEP 5 result, no T and N, no cap raised, nothing downloaded.",
+    "what_this_registers": "the tier-120 fresh-vs-fresh floor on the CURRENT instrument bytes. Registered per tier AND per byte-set, as R17 requires: a floor is a property of a byte-set, not of a tier.",
+    "which_governs_a_scored_run_and_why": "The pair whose executed path matches the scored run's. STEP 5 must execute with the A10 resource sampler active -- v1.2:390 fails the gate on a missing A10 dataset, and the PI's item 5 asks for the ledger -- so the governing floor is the pair measured with the sampler importable. Where the two disagree materially, the governing one is chosen by the executed path, NOT by which number is smaller or more convenient. A floor measured on runs that skipped a subsystem cannot bound a run that executes it."
+  },
   "tiers": {
     "consolidation_replay": [
       120,
