@@ -244,13 +244,13 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4196,
         "line_reads": "\"D-MPE12-05_as_registered_before_the_ruling\": \"How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibra",
-        "pointer": "experiments/MP-E12/registration.json:4572"
+        "pointer": "experiments/MP-E12/registration.json:4671"
       },
       "ledger_d06": {
         "file": "experiments/MP-E12/registration.json",
         "line": 4133,
         "line_reads": "\"D-MPE12-06\": \"The confidence threshold that gates an edge into grow_plastic/wire_pool. Must be fixed before the first real graph is compiled; cannot be derived from the synthetic donor, whose confide",
-        "pointer": "experiments/MP-E12/registration.json:4509"
+        "pointer": "experiments/MP-E12/registration.json:4608"
       },
       "ledger_first_real_use": {
         "file": "experiments/MP-E12/registration.json",
@@ -262,7 +262,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4209,
         "line_reads": "\"ruled_at\": \"2026-08-10\",",
-        "pointer": "experiments/MP-E12/registration.json:4585"
+        "pointer": "experiments/MP-E12/registration.json:4684"
       },
       "ledger_seal_head": {
         "file": "experiments/MP-E12/registration.json",
@@ -274,7 +274,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4477,
         "line_reads": "\"tokenizer_landed_and_two_rules_registered_2026_11_05\": {",
-        "pointer": "experiments/MP-E12/registration.json:5056"
+        "pointer": "experiments/MP-E12/registration.json:5155"
       },
       "plan_C_conditions": {
         "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
@@ -612,7 +612,7 @@
       "the_agent_is_not_choosing": "None of the three is decided here. Each changes what a future PASS would mean, and that is the PI's call, not the agent's.",
       "the_only_gate_call": {
         "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
-        "pointer": "tools/registration_seal.py:1000"
+        "pointer": "tools/registration_seal.py:1019"
       },
       "what_the_PI_would_have_to_decide_for_it_to_become_a_gate": [
         "WHERE IT RUNS. (a) On the house entry path only -- cheap, and the only reading of 'deployment loop' that names a single real file. (b) On the answer path as a whole -- which requires enumerating entries FROM THE TREE instead of accepting a typed list, since today's enumeration misses 62 of 66 organ-importers. (c) As a report, which is what it is now: honest, but it stops nothing.",
@@ -1172,7 +1172,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4398,
         "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
-        "pointer": "experiments/MP-E12/registration.json:4774",
+        "pointer": "experiments/MP-E12/registration.json:4873",
         "post_write_line": 2751,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1203,7 +1203,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4402,
         "line_reads": "\"what_must_arrive\": \"GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to ",
-        "pointer": "experiments/MP-E12/registration.json:4778",
+        "pointer": "experiments/MP-E12/registration.json:4877",
         "post_write_line": 2755,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1213,7 +1213,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4403,
         "line_reads": "\"where_it_must_be\": \"experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.\"",
-        "pointer": "experiments/MP-E12/registration.json:4779",
+        "pointer": "experiments/MP-E12/registration.json:4878",
         "post_write_line": 2756,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1560,21 +1560,21 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:4604"
+        "pointer": "experiments/MP-E12/registration.json:4703"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the open decision cited as a standing blocker | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3693, now 3819",
         "file": "experiments/MP-E12/registration.json",
         "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:4621"
+        "pointer": "experiments/MP-E12/registration.json:4720"
       },
       "ledger_instruments_key": {
         "as_claimed": "the B.6 items 2-3 registration this amendment follows | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3208, now 3334",
         "file": "experiments/MP-E12/registration.json",
         "line": 3760,
         "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
-        "pointer": "experiments/MP-E12/registration.json:4136"
+        "pointer": "experiments/MP-E12/registration.json:4235"
       },
       "pb_conservative_prop": {
         "as_claimed": "the tally that charges a gather",
@@ -2204,6 +2204,69 @@
         "sha256_lf": "af5a43c580bc8fb53be2847ccbc92a1fe1e80e38181c41a9a5bff5eb51f1bdbe",
         "sha256_of_git_blob": "af5a43c580bc8fb53be2847ccbc92a1fe1e80e38181c41a9a5bff5eb51f1bdbe"
       },
+      "experiments/MP-E10/results/fresh120_pair3_a_fresh_vs_fresh_armA.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1423159,
+        "bytes_worktree": 1473662,
+        "git_blob_sha1": "756dc4d1d71aba1f1fdf372c1fa2b336a10438bd",
+        "line_endings": "CRLF",
+        "sha256_lf": "9222a5793045336f8592c8a870b0e6c1eef73c1fbc30bfa2a3d8fa0e85058e2f",
+        "sha256_of_git_blob": "9222a5793045336f8592c8a870b0e6c1eef73c1fbc30bfa2a3d8fa0e85058e2f"
+      },
+      "experiments/MP-E10/results/fresh120_pair3_a_vs_b_row_migration.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 16308,
+        "bytes_worktree": 16981,
+        "git_blob_sha1": "3c9a8c249f4121d16e32d7d4e8de208bd6a803ee",
+        "line_endings": "CRLF",
+        "sha256_lf": "32e0b2ab1638b54e4430b641282db01feaf519fb08ad3c545c6471ab5ec1e902",
+        "sha256_of_git_blob": "32e0b2ab1638b54e4430b641282db01feaf519fb08ad3c545c6471ab5ec1e902"
+      },
+      "experiments/MP-E10/results/fresh120_pair3_b_fresh_vs_fresh_armA.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1423222,
+        "bytes_worktree": 1473725,
+        "git_blob_sha1": "16200ce9b9ae2d5b1860b516bbaaf7e5823be204",
+        "line_endings": "CRLF",
+        "sha256_lf": "6223200553e2cf2e6ff84e7f736acc73f61af1bd2015b99defd02898ed645e8e",
+        "sha256_of_git_blob": "6223200553e2cf2e6ff84e7f736acc73f61af1bd2015b99defd02898ed645e8e"
+      },
+      "experiments/MP-E10/results/fresh120_pair4_a_fresh_vs_fresh_armA.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1427566,
+        "bytes_worktree": 1478217,
+        "git_blob_sha1": "9ee283c4547784e65075ec0b1a78054110e76572",
+        "line_endings": "CRLF",
+        "sha256_lf": "219b912c30646f2497f47802d914a0b0ef9be4ff0434a71831f2632b684009d7",
+        "sha256_of_git_blob": "219b912c30646f2497f47802d914a0b0ef9be4ff0434a71831f2632b684009d7"
+      },
+      "experiments/MP-E10/results/fresh120_pair5_a_fresh_vs_fresh_armA.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1427590,
+        "bytes_worktree": 1478241,
+        "git_blob_sha1": "54cd3dcdb98fd7adda57862076b2e10cdd605ccb",
+        "line_endings": "CRLF",
+        "sha256_lf": "45f65dfd2ddc7b3fe5295ccff8fbbdbd2ef30ec63356e909a767170618991560",
+        "sha256_of_git_blob": "45f65dfd2ddc7b3fe5295ccff8fbbdbd2ef30ec63356e909a767170618991560"
+      },
+      "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 18229,
+        "bytes_worktree": 18991,
+        "git_blob_sha1": "a856ddabda1174618c33f5b652b4df648a359fe7",
+        "line_endings": "CRLF",
+        "sha256_lf": "219c8998b211307e6f80178d19a2520a66efea078ac684f18fb3e049dac9f494",
+        "sha256_of_git_blob": "219c8998b211307e6f80178d19a2520a66efea078ac684f18fb3e049dac9f494"
+      },
+      "experiments/MP-E10/results/fresh120_pair5_b_fresh_vs_fresh_armA.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 1430333,
+        "bytes_worktree": 1481092,
+        "git_blob_sha1": "f42a6e1f2210da67fba38b62333a5c4ed11d0c12",
+        "line_endings": "CRLF",
+        "sha256_lf": "f914e9c31abffdb99c464e098def302c50fc42d0d2a7e9b12d71e0a6327cfe7a",
+        "sha256_of_git_blob": "f914e9c31abffdb99c464e098def302c50fc42d0d2a7e9b12d71e0a6327cfe7a"
+      },
       "experiments/MP-E10/results/fresh_vs_fresh_tier120.json": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 24993,
@@ -2212,6 +2275,24 @@
         "line_endings": "CRLF",
         "sha256_lf": "42eff99afa204b929b24bacd95dd487d7f0526e493738515bc164f053bd40ace",
         "sha256_of_git_blob": "42eff99afa204b929b24bacd95dd487d7f0526e493738515bc164f053bd40ace"
+      },
+      "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair3.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 18676,
+        "bytes_worktree": 19246,
+        "git_blob_sha1": "7d53a5542972157d36012428e787da024b3ea693",
+        "line_endings": "CRLF",
+        "sha256_lf": "3df9c6ba1760084cb945a8e0e200381e366f4c9a18ace22cd704efc8bb5e211f",
+        "sha256_of_git_blob": "3df9c6ba1760084cb945a8e0e200381e366f4c9a18ace22cd704efc8bb5e211f"
+      },
+      "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 19784,
+        "bytes_worktree": 20402,
+        "git_blob_sha1": "483613bab4cda2cfafc8ec52943d9f49c9ecaa0a",
+        "line_endings": "CRLF",
+        "sha256_lf": "550e89b3615df336ab45d54f45fdb48e3eec831786fba5c3205eca94864865c2",
+        "sha256_of_git_blob": "550e89b3615df336ab45d54f45fdb48e3eec831786fba5c3205eca94864865c2"
       },
       "experiments/MP-E10/results/ksweep_tier120_organ_characterisation.json": {
         "blob_equals_lf_normalised": true,
@@ -3788,6 +3869,24 @@
         "sha256_lf": "4e88a9f989f311eae084ab9610e92fe282023ef0e4b1b8f4b5723e6fbfb8d6dc",
         "sha256_of_git_blob": "4e88a9f989f311eae084ab9610e92fe282023ef0e4b1b8f4b5723e6fbfb8d6dc"
       },
+      "tools/mp_e10_step5_emit.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 11676,
+        "bytes_worktree": 11873,
+        "git_blob_sha1": "eb2be1e16be982757dd88204352934706fcdba28",
+        "line_endings": "CRLF",
+        "sha256_lf": "79cec62d751ae12a3a0c4229930878966c375055a73c1b17b5af078d8ca0d4fc",
+        "sha256_of_git_blob": "79cec62d751ae12a3a0c4229930878966c375055a73c1b17b5af078d8ca0d4fc"
+      },
+      "tools/mp_e10_step5_scored_run.py": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 11190,
+        "bytes_worktree": 11397,
+        "git_blob_sha1": "157145b45ea9d97b4cd0c92d53c7b91027f04472",
+        "line_endings": "CRLF",
+        "sha256_lf": "253a1a2858e7b0ee3759a32945930623884c3497b72a21445b49cc2c2173f6d9",
+        "sha256_of_git_blob": "253a1a2858e7b0ee3759a32945930623884c3497b72a21445b49cc2c2173f6d9"
+      },
       "tools/mp_e10_tier300_closure.py": {
         "blob_equals_lf_normalised": true,
         "bytes_blob": 42424,
@@ -4060,12 +4159,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 72978,
-        "bytes_worktree": 74001,
-        "git_blob_sha1": "99f76eec93d067247b71091d971f20ab8f05fae8",
+        "bytes_blob": 74434,
+        "bytes_worktree": 75476,
+        "git_blob_sha1": "497bbf65890181f190a3167c0aaf76bb469f60bd",
         "line_endings": "CRLF",
-        "sha256_lf": "75122ef32d656d83075595fdf7099faedcb08c120efa0d8a2f30296725038ed5",
-        "sha256_of_git_blob": "75122ef32d656d83075595fdf7099faedcb08c120efa0d8a2f30296725038ed5"
+        "sha256_lf": "87434a1148cb5b2bc5a4668fce1f853292bfdf68071f752d71df806005964b95",
+        "sha256_of_git_blob": "87434a1148cb5b2bc5a4668fce1f853292bfdf68071f752d71df806005964b95"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -4088,7 +4187,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "75bb260f123429e46c264839c9b40a1fabc04533",
+    "git_head": "62b92dc08f008f39639dab2d275d68e44977f3b2",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -4114,7 +4213,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-06T19:09:16Z",
+    "sealed_at_utc": "2026-11-06T20:10:25Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -4859,36 +4958,36 @@
         "06ac3a20d9609fb71e8c900b35682f92018aee5f"
       ],
       "sealed_file_count_both_times": 245,
-      "the_anchor_immediately_before_this_one": "06ac3a20d9609fb71e8c900b35682f92018aee5f",
-      "value_after_this_steps_own_re_stamp": "75bb260f123429e46c264839c9b40a1fabc04533",
+      "the_anchor_immediately_before_this_one": "75bb260f123429e46c264839c9b40a1fabc04533",
+      "value_after_this_steps_own_re_stamp": "62b92dc08f008f39639dab2d275d68e44977f3b2",
       "value_at_the_time": "07119c9d6b5066d3a099f509b1c188c018090af7",
       "why_a_chain_and_not_a_single_replacement": "three anchors moved in one session, each by a stamp this agent ran. A note that only shows the last substitution hides that the value has moved twice since the landing report, which is the fact a reader needs in order to trust any anchor citation older than today.",
       "why_the_citations_above_quote_the_second": "chain of anchors across this session: 07119c9d6b50 -> a582ba8f7e4e -> 06ac3a20d960 -> 75bb260f1234, three of the four moved by this agent's own stamps. The five read_from entries quote the last one because that is what their lines now hold; the earlier values are kept here so no reading is lost when a live citation is refreshed."
     },
     "the_recorded_values_as_read_back": {
       "anchor_read_now": "06ac3a20d9609fb71e8c900b35682f92018aee5f",
-      "count_field": "harness_hashes.files, one entry per sealed path: 245 keys in each of the five ledgers || THESE FIVE ARE DATED SNAPSHOTS, NOT DURABLE CITATIONS: git_head is the field a stamp rewrites, so a line citation into it is true only until the next stamp. This is the fourth re-pointing in this session and every one was forced by this agent's own stamp, not by another step's edit. The durable claim is the chain in the_anchor_the_landing_report_read_is_now_superseded; these five are perishable by construction and are labelled here rather than quietly refreshed a fifth time.",
+      "count_field": "harness_hashes.files, one entry per sealed path: 245 keys in each of the five ledgers || THESE FIVE ARE DATED SNAPSHOTS, NOT DURABLE CITATIONS: git_head is the field a stamp rewrites, so a line citation into it is true only until the next stamp. This is the fourth re-pointing in this session and every one was forced by this agent's own stamp, not by another step's edit. The durable claim is the chain in the_anchor_the_landing_report_read_is_now_superseded; these five are perishable by construction and are labelled here rather than quietly refreshed a fifth time. || THESE FIVE ARE DATED SNAPSHOTS, NOT DURABLE CITATIONS: git_head is the field a stamp rewrites, so a line citation into it is true only until the next stamp. This is the fourth re-pointing in this session and every one was forced by this agent's own stamp, not by another step's edit. The durable claim is the chain in the_anchor_the_landing_report_read_is_now_superseded; these five are perishable by construction and are labelled here rather than quietly refreshed a fifth time.",
       "line_reads": "\"bytes_worktree\": 74001,",
       "read_from": [
         {
-          "line_reads": "\"git_head\": \"75bb260f123429e46c264839c9b40a1fabc04533\",",
-          "pointer": "experiments/G0-prime/registration.json:2330"
+          "line_reads": "\"git_head\": \"62b92dc08f008f39639dab2d275d68e44977f3b2\",",
+          "pointer": "experiments/G0-prime/registration.json:2429"
         },
         {
-          "line_reads": "\"git_head\": \"75bb260f123429e46c264839c9b40a1fabc04533\",",
-          "pointer": "experiments/MP-E8/registration.json:2623"
+          "line_reads": "\"git_head\": \"62b92dc08f008f39639dab2d275d68e44977f3b2\",",
+          "pointer": "experiments/MP-E8/registration.json:2722"
         },
         {
-          "line_reads": "\"git_head\": \"75bb260f123429e46c264839c9b40a1fabc04533\",",
-          "pointer": "experiments/MP-E9/registration.json:2263"
+          "line_reads": "\"git_head\": \"62b92dc08f008f39639dab2d275d68e44977f3b2\",",
+          "pointer": "experiments/MP-E9/registration.json:2362"
         },
         {
-          "line_reads": "\"git_head\": \"75bb260f123429e46c264839c9b40a1fabc04533\",",
-          "pointer": "experiments/MP-E10/registration.json:2596"
+          "line_reads": "\"git_head\": \"62b92dc08f008f39639dab2d275d68e44977f3b2\",",
+          "pointer": "experiments/MP-E10/registration.json:2695"
         },
         {
-          "line_reads": "\"git_head\": \"75bb260f123429e46c264839c9b40a1fabc04533\",",
-          "pointer": "experiments/MP-E12/registration.json:4091"
+          "line_reads": "\"git_head\": \"62b92dc08f008f39639dab2d275d68e44977f3b2\",",
+          "pointer": "experiments/MP-E12/registration.json:4190"
         }
       ],
       "sealed_file_count": 245,
@@ -4927,7 +5026,7 @@
         "organ_importers_reachable_from_no_audited_process": 62,
         "the_audit_is_not_wired_into_any_write_path": {
           "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
-          "pointer": "tools/registration_seal.py:1000"
+          "pointer": "tools/registration_seal.py:1019"
         },
         "the_entry_list_is_hand_typed": {
           "line_reads": "default_entries = {",
@@ -5014,7 +5113,7 @@
       "collision_check": "none of 10, 11, 12 appears as a key or an id-value in any ledger, measured by walking the parsed JSON rather than by grepping a string",
       "governing_rule": {
         "line_reads": "\"governing_rule\": \"AMD-MPE10-11 -- a proposed identifier is checked against the live key set BEFORE it is written down\",",
-        "pointer": "experiments/G0-prime/registration.json:2736"
+        "pointer": "experiments/G0-prime/registration.json:2835"
       },
       "live_key_set_read_first": {
         "D-MPE12_numbers_occupied": [
@@ -5030,7 +5129,7 @@
         ],
         "evidence_06_to_08": {
           "line_reads": "\"D-MPE12-08\": \"Whether stage b may be exercised on a scratch organ before the live one, and what would make a scratch result admissible.\",",
-          "pointer": "experiments/MP-E12/registration.json:4511"
+          "pointer": "experiments/MP-E12/registration.json:4610"
         },
         "evidence_09_is_occupied": {
           "line_reads": "\"question_id\": \"D-MPE12-09\",",
@@ -5038,7 +5137,7 @@
         },
         "evidence_low_end": {
           "line_reads": "\"decision_id\": \"D-MPE12-01\",",
-          "pointer": "experiments/MP-E12/registration.json:4596"
+          "pointer": "experiments/MP-E12/registration.json:4695"
         },
         "highest_occupied": 9
       },
@@ -5283,14 +5382,14 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:4604"
+        "pointer": "experiments/MP-E12/registration.json:4703"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the decision that still bars MP-E12b",
         "file": "experiments/MP-E12/registration.json",
         "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:4621"
+        "pointer": "experiments/MP-E12/registration.json:4720"
       },
       "ledger_donor_arrival_block": {
         "as_claimed": "the block that recorded the weights arriving, which this amendment follows for the tokenizer",
@@ -5311,7 +5410,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 2263,
         "line_reads": "\"experiments/MP-E12/results/probe_list_v1.json\": {",
-        "pointer": "experiments/MP-E12/registration.json:2585"
+        "pointer": "experiments/MP-E12/registration.json:2666"
       },
       "lt_no_runtime": {
         "as_claimed": "the rule that tokenizer files are data",
@@ -5555,19 +5654,19 @@
       "what_those_lines_actually_hold": [
         {
           "line_reads": "\"git_blob_sha1\": \"f1157fc62435375eb61c3a2b4375a8fe3299db24\",",
-          "pointer": "experiments/MP-E12/registration.json:2364"
+          "pointer": "experiments/MP-E12/registration.json:2445"
         },
         {
           "line_reads": "\"sha256_lf\": \"0f8593dada6690d78ae2c5f39016ac4b0d9d80c5fcb4b9152b1ab0437842fc91\",",
-          "pointer": "experiments/MP-E12/registration.json:2294"
+          "pointer": "experiments/MP-E12/registration.json:2375"
         },
         {
           "line_reads": "\"sha256_lf\": \"bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876\",",
-          "pointer": "experiments/MP-E12/registration.json:2240"
+          "pointer": "experiments/MP-E12/registration.json:2321"
         },
         {
           "line_reads": "\"sha256_of_git_blob\": \"bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876\"",
-          "pointer": "experiments/MP-E12/registration.json:2241"
+          "pointer": "experiments/MP-E12/registration.json:2322"
         },
         {
           "line_reads": "},",
@@ -5575,7 +5674,7 @@
         },
         {
           "line_reads": "\"experiments/MP-E10/results/ksweep_tier40_calibration_post_rulings.json\": {",
-          "pointer": "experiments/MP-E12/registration.json:2243"
+          "pointer": "experiments/MP-E12/registration.json:2324"
         }
       ]
     },
@@ -5593,7 +5692,7 @@
       },
       "top_level_status_field": {
         "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\",",
-        "pointer": "experiments/MP-E12/registration.json:4906"
+        "pointer": "experiments/MP-E12/registration.json:5005"
       }
     },
     "what_the_plan_still_records": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164",
