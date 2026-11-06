@@ -87,6 +87,275 @@
     "go_if": "H1-H4 hold",
     "on_failure": "the bigram-era organ stays as the fallback arm, and the routing ablation data decides the next attempt"
   },
+  "gate_ledger_entries_G4_G6_2026_11_05": {
+    "G4": {
+      "delta_between_plan_and_ledger": "Two deltas, neither resolved. (1) ABSENT versus STATED: the plan carries a verdict for G4 and no ledger does, so the gate ledger in the record is incomplete by two gates. (2) The plan's verdict is NOT STARTED -- no registration, no run, which the directory listing corroborates -- while MP-E10's own row for the same step says it waits on 'the PI's go, which has been withheld since it was opened'. 'Since it was opened' and 'NOT STARTED, no registration' describe different histories for MP-E11. Recorded as a wording conflict between the sealed plan and a live ledger, not settled.",
+      "gate_id": "G4",
+      "go_criteria_verbatim_from_the_plan_only": {
+        "closes_when": "Wiring-matters curve at \u22653 tiers with seed CIs; branch decision (functional or null) recorded.",
+        "note": "Quoted, not authored. Nothing here is a criterion this agent added.",
+        "on_fail": "The 50k tier stands alone; 200k deferred with cause."
+      },
+      "ledger_owner": "NONE, measured. No experiments/MP-E11 directory and no MP-E11 registration.json exists; the strings 'G4' and 'G6' occur in none of the five ledgers except inside MP-E12's own G5 gate sentence, which says that gate does not open them.",
+      "not_done_here": "Not marked started, opened or closed. No go-criteria invented. No MP-E11 registration created.",
+      "owning_experiment": "MP-E11",
+      "plan_words": {
+        "and_the_other_thing_the_plan_cites": "directory listing -- measured above, and it agrees with the plan",
+        "section_5_gate_ledger_row": {
+          "line_reads": "| **G4 / MP-E11** | wiring-matters curve at \u22653 tiers with seed CIs, branch decision recorded | **NOT STARTED** \u2014 no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12 | Registration after G2/G3 close; unchanged spec | plan `:912-918`; directory listing |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:163"
+        },
+        "section_7_1_gate_criteria_row": {
+          "line_reads": "| **G4** | Wiring-matters curve at \u22653 tiers with seed CIs; branch decision (functional or null) recorded. | The 50k tier stands alone; 200k deferred with cause. |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:259"
+        },
+        "the_source_the_plan_itself_cites": {
+          "line_reads": "G4 MP-E11 Wiring-matters curve at three or more",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:912",
+          "span_text": "G4 MP-E11 Wiring-matters curve at three or more tiers with seed confidence intervals; branch decision (functional or null) recorded The 50k tier stands alone; the 200k tier is deferred with cause",
+          "the_citation_the_plan_gives_is_a_span": "912-918",
+          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
+        }
+      },
+      "status_as_any_ledger_states_it": "NO LEDGER STATES A VERDICT for G4. The nearest statement in the record is MP-E10's execution-order row for the MP-E11 step, which records what the step waits on and is not a gate status field.",
+      "status_as_the_plan_states_it": "**NOT STARTED** \u2014 no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12"
+    },
+    "G6": {
+      "delta_between_plan_and_ledger": "Two deltas, neither resolved. (1) ABSENT versus STATED, as for G4. (2) The plan says G6 REQUIRES G2-G5 and carries the A10 resource ledger; MP-E10's row for the same step says could_start_on_one_word_from_the_cleared_queue is true and the single thing it waits on is a 24-hour window -- no dependency on G2 through G5 is recorded there. The ledger treats MP-E13 as calendar time the PI controls; the plan treats it as gated behind four other gates.",
+      "gate_id": "G6",
+      "go_criteria_verbatim_from_the_plan_only": {
+        "closes_when": "All four live axes **and A10** beaten against both baselines over the 24-hour window; artifacts public, including the access journal and the resource ledger.",
+        "note": "Quoted, not authored.",
+        "on_fail": "One re-registered extension; then claims are re-scoped."
+      },
+      "ledger_owner": "NONE, measured. No experiments/MP-E13 directory and no MP-E13 registration.json exists.",
+      "not_done_here": "Not marked started, opened or closed. No go-criteria invented. No MP-E13 registration created.",
+      "owning_experiment": "MP-E13",
+      "plan_words": {
+        "section_5_gate_ledger_row": {
+          "line_reads": "| **G6 / MP-E13** | all four live axes beaten against both baselines over a 24-hour window, artifacts public | **NOT STARTED** \u2014 no registration exists; \"MP-E13 requires everything\" | Requires G2\u2013G5; now also carries the A10 resource ledger | plan `:926-931`, `:942` |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:165"
+        },
+        "section_7_1_gate_criteria_row": {
+          "line_reads": "| **G6** | All four live axes **and A10** beaten against both baselines over the 24-hour window; artifacts public, including the access journal and the resource ledger. | One re-registered extension; then claims are re-scoped. |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:261"
+        },
+        "the_other_plan_line_it_cites": {
+          "line_reads": "G6 MP-E13 All four live axes beaten against both",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:926",
+          "span_text": "G6 MP-E13 All four live axes beaten against both baselines over the 24-hour window; artifacts public: stream logs, synapse snapshots, replay tapes One re-registered extension; then claims are re-scoped",
+          "the_citation_the_plan_gives_is_a_span": "926-931",
+          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
+        },
+        "the_source_the_plan_itself_cites": {
+          "line_reads": "G6 MP-E13 All four live axes beaten against both",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:926",
+          "span_text": "G6 MP-E13 All four live axes beaten against both baselines over the 24-hour window; artifacts public: stream logs, synapse snapshots, replay tapes One re-registered extension; then claims are re-scoped",
+          "the_citation_the_plan_gives_is_a_span": "926-931",
+          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
+        }
+      },
+      "status_as_any_ledger_states_it": "NO LEDGER STATES A VERDICT for G6. The nearest statement is MP-E10's execution-order row for the MP-E13 step.",
+      "status_as_the_plan_states_it": "**NOT STARTED** \u2014 no registration exists; \"MP-E13 requires everything\""
+    },
+    "no_ledger_owns_either_experiment_as_measured": {
+      "MP_E11_registration_exists": false,
+      "MP_E13_registration_exists": false,
+      "experiments_directory_contains": [
+        "G0-prime",
+        "MP-E10",
+        "MP-E12",
+        "MP-E8",
+        "MP-E9"
+      ],
+      "how_those_were_found": "git grep over the tracked ledgers for the strings G4 and G6, then each hit re-read from the file at the line it names so the mention carries its own text. Every one of them is a passing reference inside another experiment's prose; none is a gate field for G4 or G6.",
+      "the_plan_says_the_same": {
+        "line_reads": "| **G4 / MP-E11** | wiring-matters curve at \u22653 tiers with seed CIs, branch decision recorded | **NOT STARTED** \u2014 no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12 | Registration after G2/G3 close; unchanged spec |",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:163"
+      },
+      "where_G4_and_G6_do_appear": [
+        {
+          "line_reads": "\"gate\": \"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\",",
+          "pointer": "experiments/MP-E12/registration.json:1871"
+        },
+        {
+          "line_reads": "\"gate_order\": \"Does stage b wait for G4 (MP-E11) to close as the plan's order implies, or is the parallel track extended? This is the decision that unblocks the work and it is not a technical one.\"",
+          "pointer": "experiments/MP-E12/registration.json:4512"
+        },
+        {
+          "line_reads": "\"line_reads\": \"\\\"gate\\\": \\\"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\\\",\",",
+          "pointer": "experiments/MP-E12/registration.json:5591"
+        },
+        {
+          "line_reads": "\"what_this_note_does_not_do\": \"It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.\",",
+          "pointer": "experiments/MP-E12/registration.json:5600"
+        }
+      ]
+    },
+    "registered_at_utc": "2026-11-05T22:29:05Z",
+    "why_these_two": "the gate ledger in the record carried verdicts for G0-prime, G1, G2, G3 and G5 only. G4 and G6 existed as plan lines and as a passing denial inside MP-E12's G5 gate sentence, and had no entry anywhere. This completes the ledger without starting either experiment."
+  },
+  "gate_status_disagreements_plan_versus_ledgers_2026_11_05": {
+    "disagreements": [
+      {
+        "also_the_plans_source_line_for_this_gate_does_not_hold_the_verdict": {
+          "is_the_verdict": false,
+          "line_reads": "\"populations\": {",
+          "pointer": "experiments/MP-E8/registration.json:4388"
+        },
+        "delta": "The plan records a FAIL on H1; the ledger's own status field does not carry the word FAIL, it reads OPEN, MEASURED PARTLY. Both may be true of the same measurement -- one is a verdict on a hypothesis, the other a state of the gate -- but a reader who takes the ledger's word for the gate will not meet the falsification the plan leads with.",
+        "gate": "G2 / MP-E8",
+        "ledger_says": {
+          "line_reads": "\"status\": \"OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed. UPDATED 2026-11-04: arm A has now been run TWICE at tier 300 (published and armA_tier300_rerun.json). C3's two rows split -- 3/tell0.26/object reproduces and is a real restart loss, which falsifies H1's arm A clause at tier 300 as measured; 3/tell0.38/object did not reproduce and is instrument instability (AMD-MPE8-13). Arm C's graded quantities were re-registered before its first run: gate and near-miss measures carry its claims, its correct rate does not (AMD-MPE8-12). Arm C has still produced no sealed artifact; arm B has still never run at tier 300. UPDATED again at 2026-11-04T05:13:47Z: arm C has now produced sealed artifacts at tiers 40, 120 and 300 and arm B has run its three registered seeds at tier 300. H1's arm B clause fails at BOTH required tiers, at tier 300 with the drop's sign reversed; H2's clause 2 is recorded PASS at 120 and 300 with its blanket-refusal limitation on its face. G2 is still not closable. UPDATED again at 2026-11-04T05:25:10Z: D-MPE8-09 is RULED, not hanging. C3's registered action abort is executed against the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN; both artifacts stay published and MP-E8 continues under the plan's own gate text and G2's re-run-the-flawed-arm fallback.\",",
+          "pointer": "experiments/MP-E8/registration.json:4969"
+        },
+        "plan_says": {
+          "line_reads": "| **G2 / MP-E8** | sealed artifacts for arms A/B/C at 40/120/300 plus teach-arm control and noise floor; forgetting/interference/exposure/cost valid | **FAIL (H1) / PARTIAL** \u2014 arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only | T & N at 120/300 (~3.85 h); tier-300 fresh-vs-fresh (~44 min); H2 specificity floor by dated amendment; then G2 closes on the re-aimed claim (Amendment B) |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:161",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_verdict_clause": "**FAIL (H1) / PARTIAL** \u2014 arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only"
+      },
+      {
+        "delta": "The plan's verdict is UNMEASURABLE as registered -- H3 void at depths 2/3 under the pre-registered saturation guard, 0.0000 pp not quotable as a pass. The ledger's status field reads RECONCILED, which is a bookkeeping state reached by the stale-status guard, not a measurement verdict. And the ledger's own go_if still says 'H1-H4 hold' while the plan says H3 cannot hold as registered. Three different things are being called the gate's status.",
+        "gate": "G3 / MP-E10",
+        "ledger_go_if": {
+          "line_reads": "\"gate_G3\": {",
+          "pointer": "experiments/MP-E10/registration.json:86"
+        },
+        "ledger_says": {
+          "line_reads": "\"status\": \"RECONCILED 2026-08-10 by the stale-status guard (tests/test_stale_status_guard.py): D-MPE10-02 are RULED in this file's ruling blocks, so this field's claim that they were OPEN is no longer true -- the superseded wording is preserved at status_as_written_before_the_reconciliation. What the field still correctly records is the thing that has not changed: no MP-E10 figure has been scored on the current tree, so no number may be quoted as a hypothesis verdict. The guard's FORCE is intact; its stated REASON was stale.\",",
+          "pointer": "experiments/MP-E10/registration.json:6322"
+        },
+        "plan_says": {
+          "line_reads": "| **G3 / MP-E10** | mouth stages improve-or-hold, working memory live at seconds scale, replay at tier 300 within the registered interference margin, invariants hold | **UNMEASURABLE as registered** \u2014 H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree | One ruling (D-MPE10-12) \u2192 re-register H3 primary at tier 120; tier 300 becomes the capacity curve (Amendment D); ~2 h of re-registered runs |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:162",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_verdict_clause": "**UNMEASURABLE as registered** \u2014 H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree"
+      },
+      {
+        "delta": "(a) The plan calls G5 BLOCKED on an external input; the ledger's gate line says G5 'opens now as a PARALLEL track' while the same ledger's status field says the weights are not on this machine -- opening and blocked, in one file. (b) The plan disagrees with itself: section 5 requires 'H1-H3 hold or a pre-registered partial', section 7.1 requires 'H1-H4 hold on both donors'. Four hypotheses on two donors is not three on one. (c) The four open decisions the plan names are D-MPE12-01...04; the live queue has since moved on, and D-MPE12-01 is resolved.",
+        "gate": "G5 / MP-E12",
+        "ledger_gate_line": {
+          "line_reads": "\"gate\": \"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\",",
+          "pointer": "experiments/MP-E12/registration.json:1871"
+        },
+        "ledger_says": {
+          "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\",",
+          "pointer": "experiments/MP-E12/registration.json:4906"
+        },
+        "plan_says_section_5": {
+          "line_reads": "| **G5 / MP-E12** | H1\u2013H3 hold or a pre-registered partial with the text-distillation control done; guarded rows and source dimension verified post-transplant | **BLOCKED on an external input** \u2014 \"The weights are not on this machine\"; four open decisions (D-MPE12-01\u202604) | Download GPT-2 124M (~500 MB, \u00a77.2 step 2) \u2192 E12a opens; rule the four decisions in the batch; E12c registration pins Qwen3.8-27B |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_says_section_7_1": {
+          "line_reads": "| **G5** | H1\u2013H4 hold on both donors; text-distillation control completed; guarded rows and the source dimension verified post-transplant; access journal published. |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:260",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        }
+      },
+      {
+        "delta": "Label only, substantively aligned: the plan leads with PARTIAL / FAIL on P2, the ledger leads with OPEN. Both record H1 and H2 passing, H3 failing and H4 holding.",
+        "gate": "G1 / MP-E9",
+        "ledger_says": {
+          "line_reads": "\"status\": \"OPEN (B.2), treatment arms RUN and sealed. P1 (ELECTRIC_ARBITER_HEAD_BOUND) met its registered prediction: H1 and H2 pass, 16 rows moved, every protected population intact. P2 (ELECTRIC_QA_MORPH_NORMALIZE) moved 0 of 3,672 rows and its registered premise is falsified: H3 fails. H4 holds, measured. The flag-OFF arm reproduced the pre-treatment artifact row for row (0 differences), so both statements are controlled rather than observational. Registered fallback F1 (per-entry morphological aliases, the plan's own G1 fallback) is the next and last registered attempt at the morphology defect; a second failure documents the residual and the duel proceeds with it measured and named. Registered before any run (R2); every post-registration change is listed in registration_amendments with the result it followed, and no threshold or prediction value has been altered by any of them.\",",
+          "pointer": "experiments/MP-E9/registration.json:3230"
+        },
+        "plan_says": {
+          "line_reads": "| **G1 / MP-E9** | zero untraceable words, three routing rows back to refused, morphology class answered, invariants hold | **PARTIAL / FAIL on P2** \u2014 H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time | The named residual travels with the duel, measured (`residual_for_the_duel`); three rulings (\u00a77.2 items 8\u201310) |",
+          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:160",
+          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
+        },
+        "plan_verdict_clause": "**PARTIAL / FAIL on P2** \u2014 H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time"
+      },
+      {
+        "delta": "The larger disagreement is an absence: the plan states a verdict for both and no ledger owns either experiment. Covered by the entries above rather than duplicated here.",
+        "gate": "G4 / MP-E11 and G6 / MP-E13"
+      }
+    ],
+    "gates_with_a_ledger_owner_versus_without": {
+      "as_measured": "5 of 7 gates have a gate field in a ledger; 2 have only a plan line",
+      "with_an_owner": [
+        "G0-prime",
+        "G1",
+        "G2",
+        "G3",
+        "G5"
+      ],
+      "without_an_owner": [
+        "G4",
+        "G6"
+      ]
+    },
+    "handling": "The plan extract is sealed and stays unedited. Each disagreement is recorded here as a dated note pointing at the plan line, the way v1.2:126, v1.2:25 and the 802.51 s figure were handled. Nothing below fixes a status field or a verdict.",
+    "registered_at_utc": "2026-11-05T22:29:05Z",
+    "the_plans_source_column_does_not_resolve_as_written": {
+      "G0_prime_cited_line_holds": {
+        "is_the_verdict": true,
+        "line_reads": "\"status\": \"CLOSED under R13(a) as ruled by the PI (D-G0P-02), with learn/1/reasked and learn/1/restarted EXCLUDED from the noise-floor claim. It is NOT closed as 'identical row for row': that wording remains falsified by measurement and both artifacts still record noise_floor_verdict = NOT REPRODUCIBLE beside the ruled verdict. Suite blocker closed by measurement, not inference: 1167 collected / 1167 reached / 0 collected-but-not-executed / returncode 0. Both registrations stamped and --check clean, every sealed blob sha256 confirmed against the object database.\"",
+        "pointer": "experiments/G0-prime/registration.json:118"
+      },
+      "MP_E10_2359_cited_line_holds": {
+        "is_the_verdict": false,
+        "line_reads": "\"stamp_ordering\": {",
+        "note": "the plan cites this line for D-MPE10-12; it holds stamp_ordering, a field of the seal itself",
+        "pointer": "experiments/MP-E10/registration.json:2628"
+      },
+      "MP_E10_4255_cited_line_holds": {
+        "is_the_verdict": false,
+        "line_reads": "\"line_reads\": \"{\",",
+        "pointer": "experiments/MP-E10/registration.json:4801",
+        "why_it_was_missed_first_time": "the citation parser only matched '<ledger>/registration.json:<n>' and the plan writes this one as a bare 'registration.json:4255' inside a compound cell, so it was skipped silently and the tally was stated short"
+      },
+      "MP_E12_cited_line_holds": {
+        "is_the_verdict": false,
+        "line_reads": "\"sha256_lf\": \"899a624ca0933312aeae2fc79bcf659ea7e2cc66927f3d2fc510b003eb9ec663\",",
+        "pointer": "experiments/MP-E12/registration.json:2060"
+      },
+      "MP_E8_cited_line_holds": {
+        "is_the_verdict": false,
+        "line_reads": "\"populations\": {",
+        "pointer": "experiments/MP-E8/registration.json:4388"
+      },
+      "MP_E9_cited_line_holds": {
+        "is_the_verdict": false,
+        "line_reads": "\"plan_sha256_lf\": \"b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711\",",
+        "pointer": "experiments/MP-E9/registration.json:2631"
+      },
+      "and_the_plan_line_citations_for_G4_and_G6": "section 5 cites plan :912-918 and :926-931, which do not exist in the v1.2 extract -- it has 466 lines. They resolve in v1.1, which has 1366. The version is not named in the citation; both readings were tested and v1.1 is where those lines are.",
+      "correction_to_this_steps_own_earlier_wording": "A draft of this block said three of the FIVE ledger citations failed to resolve. That count came from a parser that silently skipped the G3 row because its citation format did not match the pattern -- a tool that drops what it cannot parse and still reports a total. The tally above is from the full seven-citation test, and the two missed rows are recorded individually with what they hold.",
+      "finding": "Five of the seven citations in the plan's own status-of-record column point at hash, payload or nested-echo lines rather than at the verdict they are cited for. The verdicts are real and reachable -- each was read for this note at its current line -- but they sit elsewhere now, because every stamp re-sorts the top-level keys and moves whole blocks, and the plan was sealed against a tree that has since been stamped again. The plan stays unedited; the tally is recorded here.",
+      "replay_summary_208_209_cited_line_holds": {
+        "is_the_verdict": true,
+        "line_reads": "\"verdict\": \"NOT ESTABLISHED AT TIER 300. Interference measured 0.0000-0.0000 pp against the operative 2.0 pp margin -- inside it, and also inside the stale 5.0 pp, so the margin ambiguity changed nothing here. But the saturation guard voided depths 2 and 3, the R6 invariant cell is empty at this tier, the read direction and ||w||_F required by D-MPE10-08 and D-MPE10-06 are absent from the artifact, and no tier-300 replay-OFF control exists to attribute the 251 moved rows. H3's tier is 300 by registration; the clause is unmet, and it is unmet on named missing measurements rather than on an adverse number.\",",
+        "note": "this one resolves: it is the NOT ESTABLISHED AT TIER 300 verdict, and it is an artifact, not a ledger",
+        "pointer": "experiments/MP-E10/results/replay_tier300_summary.json:208",
+        "span_text": "\"verdict\": \"NOT ESTABLISHED AT TIER 300. Interference measured 0.0000-0.0000 pp against the operative 2.0 pp margin -- inside it, and also inside the stale 5.0 pp, so the margin ambiguity changed nothing here. But the saturation guard voided depths 2 and 3, the R6 invariant cell is empty at this tier, the read direction and ||w||_F required by D-MPE10-08 and D-MPE10-06 are absent from the artifact, and no tier-300 replay-OFF control exists to attribute the 251 moved rows. H3's tier is 300 by registration; the clause is unmet, and it is unmet on named missing measurements rather than on an adverse number.\", | \"void_for_H3_by_depth\": {",
+        "the_citation_the_plan_gives_is_a_span": "208-209"
+      },
+      "tally": {
+        "citations_tested": 7,
+        "do_not": 5,
+        "hold_the_verdict_they_are_cited_for": 2
+      },
+      "the_five_that_do_not": [
+        "MP-E9 line 2631 holds plan_sha256_lf",
+        "MP-E8 line 4388 holds a populations object opening",
+        "MP-E12 line 2060 holds sha256_lf",
+        "MP-E10 line 4255 holds a line_reads whose entire content is the single character open-brace, which is an echo of a previous citation rather than a verdict",
+        "MP-E10 line 2359 holds stamp_ordering"
+      ],
+      "the_two_that_hold": [
+        "G0-prime registration.json line 118 -- the CLOSED under R13(a) status",
+        "MP-E10 results/replay_tier300_summary.json line 208 -- the NOT ESTABLISHED AT TIER 300 verdict, an artifact rather than a ledger"
+      ],
+      "what_was_tested": "every file:line the plan's section 5 source column cites, read against the ledgers as they stand after this step's stamp",
+      "why_these_are_prose_not_pointers": "each of these seven is already a backed {pointer, line_reads} entry above, read from the file. Writing them again here in path:line form would create seven more coordinates with one needle each trying to cover a list, so they are named in words and resolved by the entries that carry them."
+    },
+    "what_this_block_does_not_do": "It starts nothing, rules nothing, closes nothing, opens nothing, marks neither G4 nor G6 started, invents no go-criteria, edits no sealed plan line, and repairs no seam. It makes the gate ledger complete for G4 and G6 by recording what the plan says and that no ledger says anything."
+  },
   "h3_two_quantities": {
     "control_finding": {
       "registered_as": "sealed_baseline_reproducibility",
@@ -2324,7 +2593,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "06ac3a20d9609fb71e8c900b35682f92018aee5f",
+    "git_head": "75bb260f123429e46c264839c9b40a1fabc04533",
     "git_head_at_registration_update": "8200abb74c7cc8ff0bece88440e8a298ff44ee5c",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
@@ -2351,7 +2620,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-05T22:27:28Z",
+    "sealed_at_utc": "2026-11-06T19:11:04Z",
     "self_excluded": {
       "path": "experiments/MP-E10/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -2990,6 +3259,283 @@
     "what_it_does_not_establish": "Nothing about MP-E10 is scored by this run. The tests it adds are about seal coverage, not working memory. It is not evidence for H1 or H2.",
     "what_it_establishes": "The tree MP-E10's k-sweep runs on is a tree the whole suite passes on: 1272 collected, 1272 executed, 0 failures, 0 errors, clean at 7d2a84d9b."
   },
+  "pi_answer_2026_11_06_as_BR": {
+    "given_alongside_it": [
+      "machine time is authorised",
+      "no new model is to be downloaded -- GPT-2 124M is already on disk and is the donor of record until something is demonstrated working"
+    ],
+    "how_this_agent_read_it": "as B.R means each item is ruled as the text B.R recommends for it, and no further. The recommendation is the ruling. Where one B.R line shares a sentence between two decisions, the second is RULED IN PART and names which part. Where B.R is silent the item stays OPEN, and this block says so: silence in a batch of eleven is not a twelfth ruling.",
+    "ingestion_audit_as_measured": {
+      "items_reached": [
+        {
+          "br_item": 1,
+          "br_text_verbatim": {
+            "line_reads": "1. **D-MPE10-12** (H3 void at its own tier). Rule option 1 as specified in \u00a76.3: new dated non-saturating replay configuration; H3 primary at tier 120; tier 300 = capacity finding; 2.0 pp margin and 0.0000 pp reading preserved under R5.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:400"
+          },
+          "decision": "D-MPE10-12",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 1. Option 1 as specified in v1.2:200: a new dated non-saturating replay configuration registered before any run; H3's primary tier is 120; tier 300 is reported as a capacity finding only and never as an interference measurement; the 2.0 pp margin and the 0.0000 pp reading are preserved under R5 as history.\",",
+              "pointer": "experiments/MP-E10/registration.json:3211"
+            }
+          ]
+        },
+        {
+          "br_item": 2,
+          "br_text_verbatim": {
+            "line_reads": "2. **D-MPE10-11** (tier-300 admissibility). Rule tier-300 figures admissible *as capacity and instrument findings only* until the fresh-vs-fresh pair exists (R17).",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:401"
+          },
+          "decision": "D-MPE10-11",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 2: tier-300 figures are admissible as capacity and instrument findings only, until the fresh-vs-fresh floor pair at tier 300 exists (R17, v1.2:147).\",",
+              "pointer": "experiments/MP-E10/registration.json:3119"
+            }
+          ]
+        },
+        {
+          "br_item": 3,
+          "br_text_verbatim": {
+            "line_reads": "3. **D-MPE10-05_G2_is_not_closed** (whether MP-E10 may run again). Rule yes, under the re-registration of item 1.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:402"
+          },
+          "decision": "D-MPE10-05_G2_is_not_closed",
+          "n_status_fields_carrying_this_ruling": 2,
+          "note_if_more_than_one": "this status text occurs 2 times in MP-E10, at lines [2943, 3558] -- once in open_decisions_for_PI and once mirrored under pi_decisions.decisions_left_open. Both occurrences are listed and paired with the hits in document order, so each entry names which copy it cites rather than one being picked and the other silently dropped.",
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1.\"",
+              "pointer": "experiments/MP-E10/registration.json:2943"
+            },
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 3: yes -- MP-E10 may run again, under the re-registration of item 1.\"",
+              "pointer": "experiments/MP-E10/registration.json:3558"
+            }
+          ]
+        },
+        {
+          "br_item": 4,
+          "br_text_verbatim": {
+            "line_reads": "4. **D-MPE10-09** (R6 at tier 300). Rule route 2 out (it breaks `curriculum_sha256`); the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:403"
+          },
+          "decision": "D-MPE10-09",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 4: route 2 is ruled out because it breaks `curriculum_sha256`; the R6 invariant cell is measured at tier 120 and the tier-300 R6 question joins the capacity curve.\",",
+              "pointer": "experiments/MP-E10/registration.json:2964"
+            }
+          ]
+        },
+        {
+          "br_item": 5,
+          "br_text_verbatim": {
+            "line_reads": "5. **D-MPE10-10** (H3 phase basis). Rule the phase basis fixed in the new registration before the first re-run.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:404"
+          },
+          "decision": "D-MPE10-10",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 5: the phase basis is fixed in the new registration before the first re-run.\",",
+              "pointer": "experiments/MP-E10/registration.json:2987"
+            }
+          ]
+        },
+        {
+          "br_item": 6,
+          "br_text_verbatim": {
+            "line_reads": "6. **D-MPE8-10** / 7. **D-MPE8-11**. Rule per R16: no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:405"
+          },
+          "decision": "D-MPE8-10",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 6: per R16, no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.\",",
+              "pointer": "experiments/MP-E8/registration.json:3071"
+            }
+          ]
+        },
+        {
+          "br_item": 7,
+          "br_text_verbatim": {
+            "line_reads": "6. **D-MPE8-10** / 7. **D-MPE8-11**. Rule per R16: no tolerance widening; any newly gated cell enters the dated observed-wall-clock block naming its artifact; replicates, if bought, are priced 53.6 min each.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:405"
+          },
+          "decision": "D-MPE8-11",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED IN PART 2026-11-05 by B.R item 7, which shares item 6's line: the R16 mechanism is ruled (no tolerance widening; newly gated cells enter the dated observed-wall-clock block naming their artifact; replicates priced 53.6 min each).\",",
+              "pointer": "experiments/MP-E8/registration.json:3092"
+            }
+          ]
+        },
+        {
+          "br_item": 8,
+          "br_text_verbatim": {
+            "line_reads": "8. **MP-E9 `3_tier_120_and_300`**. Rule the tier legs merged into the duel's remaining machine work only where the duel needs them (T & N); no separate MP-E9 tier campaign while P2 stands falsified.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:406"
+          },
+          "decision": "MP-E9 3_tier_120_and_300",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 8: the tier legs are merged into the duel's remaining machine work only where the duel needs them (T & N); no separate MP-E9 tier campaign while P2 stands falsified.\"",
+              "pointer": "experiments/MP-E9/registration.json:2636"
+            }
+          ]
+        },
+        {
+          "br_item": 9,
+          "br_text_verbatim": {
+            "line_reads": "9. **MP-E9 `4_requirements_txt_pinning`**. Rule yes; it is hygiene, cheap, and protects every future seal (R15 interplay).",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:407"
+          },
+          "decision": "MP-E9 4_requirements_txt_pinning",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 9: yes -- it is hygiene, cheap, and protects every future seal (R15 interplay).\"",
+              "pointer": "experiments/MP-E9/registration.json:2649"
+            }
+          ]
+        },
+        {
+          "br_item": 10,
+          "br_text_verbatim": {
+            "line_reads": "10. **D-MPE9-05** (arbiter head bound to BASE). Rule: promote only after the inertness proof exists; until then it stays flag-gated (the R2 prohibition is standing law).",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:408"
+          },
+          "decision": "D-MPE9-05",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED 2026-11-05 by B.R item 10: promote only after the inertness proof exists; until then it stays flag-gated (the R2 prohibition is standing law).\",",
+              "pointer": "experiments/MP-E9/registration.json:2670"
+            }
+          ]
+        },
+        {
+          "br_item": 11,
+          "br_text_verbatim": {
+            "line_reads": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5.",
+            "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:409"
+          },
+          "decision": "D-MPE12-01 and D-MPE12-03",
+          "n_status_fields_carrying_this_ruling": 1,
+          "note_if_more_than_one": null,
+          "status_set_at": [
+            {
+              "line_reads": "\"status\": \"RULED IN PART 2026-11-05 by B.R item 11: E12a proceeds on GPT-2 124M now, and the address space and access journal are registered as instruments (R10) before the first extraction.\"",
+              "pointer": "experiments/MP-E12/registration.json:4530"
+            }
+          ]
+        }
+      ],
+      "note": "the eleven items were ingested by an earlier step. This step audited that ingestion rather than repeating it: every stored ruling_verbatim_from_plan string was tested for presence in the sealed extract and all matched, so what the ledgers call verbatim is verbatim.",
+      "one_glyph_that_looked_like_corruption_is_not": "item 11 renders as D-MPE12-01<U+2026>04. The bytes are e2 80 a6, a correct UTF-8 horizontal ellipsis; the file decodes strictly as UTF-8 with zero replacement characters. Checked because a mangled quote would stop being verbatim, and it is not mangled."
+    },
+    "recorded_at_utc": "2026-11-06T19:07:31Z",
+    "the_answer_as_given": "as B.R",
+    "the_ruling_this_agent_refuses_to_take_from_the_batch": {
+      "clause": "B.R item 11's third clause",
+      "how_this_is_recorded": "The PI's accompanying words narrow the clause. This is not an inference from silence -- it is an explicit instruction delivered with the ruling, and it is the later and more specific statement. E12c is therefore NOT registered, no Qwen3.8-27B byte is fetched, and no feasibility work is added.",
+      "standing_note_on_that_artifact": "a disk-feasibility line was measured in an earlier step and reads SPACE EXISTS. It stands as that step's measurement. The instruction now is neither to re-derive it nor to act on it.",
+      "what_already_exists_and_is_not_extended": {
+        "line_reads": "\"disk_feasibility_for_the_scale_donor\": {",
+        "pointer": "experiments/MP-E12/registration.json:751"
+      },
+      "what_remains_open_because_of_this": "the Qwen3.8-27B decision, D-MPE12-04, and E12c itself.",
+      "what_the_PI_said_with_the_answer": "no new model is to be downloaded; do not register E12c; do not check disk feasibility for it",
+      "what_the_batch_says": {
+        "line_reads": "11. **D-MPE12-01\u202604**. Rule: E12a proceeds on GPT-2 124M now; the address space and access journal are registered as instruments (R10) before the first extraction; E12c registration pins Qwen3.8-27B with the residency ceiling, latency budgets, disk-feasibility check and license record of \u00a76.5.",
+        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:409"
+      }
+    },
+    "what_as_BR_does_NOT_rule": [
+      {
+        "item": "the gather-accounting ruling",
+        "status_read_from": {
+          "line_reads": "\"the_single_decision_that_unblocks_classes_2_and_3\": \"the gather-accounting ruling. Under the registered rule both classes fit at 5 and 16 operations; under honest charging they cost 57 and 234 and cannot run at all. Nothing else stands between them and a measurement.\"",
+          "pointer": "experiments/MP-E12/registration.json:5115"
+        },
+        "why_B.R_does_not_reach_it": "B.R has eleven items and none of them is this ruling. It is not an option the batch recommends; it is a decision about how operations are charged, and no B.R line names it. Classes 2 and 3 stay unrun for want of it, not for want of machine time."
+      },
+      {
+        "item": "D-MPE12-09",
+        "status_read_from": {
+          "line_reads": "\"question_id\": \"D-MPE12-09\",",
+          "pointer": "experiments/MP-E12/registration.json:98"
+        },
+        "why_B.R_does_not_reach_it": "B.R item 11 reaches D-MPE12-01 through -04 only. Item 09 is a PROPOSED identifier on an amendment field, not a decision block in any open_decisions list, and no B.R line addresses whether a timing run of the donor sits inside R11's sanction. The latency benchmark stays unrun for want of it."
+      },
+      {
+        "item": "D-MPE12-10",
+        "status_read_from": {
+          "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\",",
+          "pointer": "experiments/MP-E12/registration.json:4947"
+        },
+        "why_B.R_does_not_reach_it": "Numbered on 2026-11-05, after the batch was written. B.R predates the process audit, so it cannot reach it."
+      },
+      {
+        "item": "D-MPE12-11",
+        "status_read_from": {
+          "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\",",
+          "pointer": "experiments/MP-E12/registration.json:4979"
+        },
+        "why_B.R_does_not_reach_it": "Same: numbered after the batch. Nothing in B.R addresses whether the organ's own generate() is an act."
+      },
+      {
+        "item": "D-MPE12-12",
+        "status_read_from": {
+          "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\",",
+          "pointer": "experiments/MP-E12/registration.json:5004"
+        },
+        "why_B.R_does_not_reach_it": "Same: numbered after the batch. Whose registry the audit's entry list is, is unruled."
+      },
+      {
+        "item": "D-MPE12-02",
+        "status_read_from": {
+          "line_reads": "\"status\": \"OPEN -- not reached by B.R item 11. The ruling text at v1.2:409 does not address how the energy estimate is produced, and v1.2:224's registration pins name residency ceiling, disk budget, access-class latency budgets and the license record, but no energy instrument.\"",
+          "pointer": "experiments/MP-E12/registration.json:4543"
+        },
+        "why_B.R_does_not_reach_it": "Already recorded as not reached. Item 11 names residency ceiling, latency budgets, disk feasibility and licence record for E12c, and never mentions an energy instrument."
+      },
+      {
+        "item": "D-MPE12-04",
+        "status_read_from": {
+          "line_reads": "\"status\": \"OPEN -- not reached by B.R item 11. Nothing in v1.2:409 rules whether MP-E12b may be built against the synthetic graph before the real graph exists; v1.2:222 describes stage b but does not decide this question.\"",
+          "pointer": "experiments/MP-E12/registration.json:4569"
+        },
+        "why_B.R_does_not_reach_it": "Already recorded as not reached. Item 11 says E12a proceeds; it does not say whether stage b may be built against the synthetic graph before the real graph exists."
+      },
+      {
+        "item": "the canonical referent for the queue counts",
+        "status_read_from": {
+          "line_reads": "\"why_it_was_not_written\": \"it cannot be written until ONE referent is declared canonical, because a test that accepts either number asserts nothing. Declaring the canonical referent is a ruling on what the queue IS, which is not this agent's to make. Priced and left, per instruction.\"",
+          "pointer": "experiments/MP-E10/registration.json:3825"
+        },
+        "why_B.R_does_not_reach_it": "Not in B.R at all. It is a ruling about what the queue IS, and the recomputation test cannot be written until it is made. Priced, not built."
+      }
+    ],
+    "what_this_block_does_not_do": "It rules nothing that B.R did not reach, moves no status field beyond a quoted ruling, registers no experiment, downloads nothing and starts nothing. It records an answer and the edges of that answer."
+  },
   "pi_decisions": {
     "decided_at": "2026-11-04T07:41:19Z",
     "decided_by": "PI",
@@ -3583,7 +4129,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-10: where the process audit runs)\",",
-            "pointer": "experiments/MP-E12/registration.json:4943"
+            "pointer": "experiments/MP-E12/registration.json:4947"
           },
           "title": "Where the process audit runs: house entry path, answer path enumerated from the tree, or report-only."
         },
@@ -3599,7 +4145,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-11: whether the organ's own generate counts)\",",
-            "pointer": "experiments/MP-E12/registration.json:4975"
+            "pointer": "experiments/MP-E12/registration.json:4979"
           },
           "title": "Whether Droso's own generate() counts as an act under R11."
         },
@@ -3615,7 +4161,7 @@
           "status_as_measured": "OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)",
           "status_read_from": {
             "line_reads": "\"status\": \"OPEN, UNRULED 2026-11-05 (D-MPE12-12: evidence, configuration, or no list at all)\",",
-            "pointer": "experiments/MP-E12/registration.json:5000"
+            "pointer": "experiments/MP-E12/registration.json:5004"
           },
           "title": "Whose registry the audit's entry list is: evidence, configuration, or no list at all."
         }
@@ -5938,274 +6484,5 @@
     "the_tool": "tools/prose_coordinate_audit.py",
     "three_bugs_found_in_the_tool_by_running_it": "(1) a coordinate was allowed to supply its own needle -- quoted AS EXAMPLES: `MP-E10:3163` yielded `E10=3163` and was scored content_false by a fragment of itself. (2) spacing was treated as a claim, so `LEARN_LR=0.35` against a line reading `LEARN_LR = 0.35` counted as a citation defect. (3) a double `.parent` moved the relative-resolution root one directory up and reported 8 resolvable basename citations as 'ambiguous_basename'. All three inflated or inverted verdicts, and all three were caught by disbelieving the output rather than by reading the code.",
     "what_it_is": "A Tier B prose-coordinate checker running as a REPORTER. It requires a recorded content needle for every prose coordinate and asserts the needle sits at the cited line. It rewrites nothing, and it refuses a coordinate that carries no claim instead of guessing a referent."
-  },
-  "gate_ledger_entries_G4_G6_2026_11_05": {
-    "registered_at_utc": "2026-11-05T22:29:05Z",
-    "why_these_two": "the gate ledger in the record carried verdicts for G0-prime, G1, G2, G3 and G5 only. G4 and G6 existed as plan lines and as a passing denial inside MP-E12's G5 gate sentence, and had no entry anywhere. This completes the ledger without starting either experiment.",
-    "no_ledger_owns_either_experiment_as_measured": {
-      "experiments_directory_contains": [
-        "G0-prime",
-        "MP-E10",
-        "MP-E12",
-        "MP-E8",
-        "MP-E9"
-      ],
-      "MP_E11_registration_exists": false,
-      "MP_E13_registration_exists": false,
-      "where_G4_and_G6_do_appear": [
-        {
-          "pointer": "experiments/MP-E12/registration.json:1871",
-          "line_reads": "\"gate\": \"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\","
-        },
-        {
-          "pointer": "experiments/MP-E12/registration.json:4512",
-          "line_reads": "\"gate_order\": \"Does stage b wait for G4 (MP-E11) to close as the plan's order implies, or is the parallel track extended? This is the decision that unblocks the work and it is not a technical one.\""
-        },
-        {
-          "pointer": "experiments/MP-E12/registration.json:5587",
-          "line_reads": "\"line_reads\": \"\\\"gate\\\": \\\"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\\\",\","
-        },
-        {
-          "pointer": "experiments/MP-E12/registration.json:5596",
-          "line_reads": "\"what_this_note_does_not_do\": \"It does not close G5, does not open G4/G5/G6, does not move the gate from BLOCKED to anything greener, and does not read a donor byte. The four open decisions (D-MPE12-01..04), the gather-accounting ruling and D-MPE12-09 are still the binding constraint, and the R11 single-execution question is still unanswered. Only the physical blocker moved.\","
-        }
-      ],
-      "the_plan_says_the_same": {
-        "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:163",
-        "line_reads": "| **G4 / MP-E11** | wiring-matters curve at ≥3 tiers with seed CIs, branch decision recorded | **NOT STARTED** — no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12 | Registration after G2/G3 close; unchanged spec |"
-      },
-      "how_those_were_found": "git grep over the tracked ledgers for the strings G4 and G6, then each hit re-read from the file at the line it names so the mention carries its own text. Every one of them is a passing reference inside another experiment's prose; none is a gate field for G4 or G6."
-    },
-    "G4": {
-      "gate_id": "G4",
-      "owning_experiment": "MP-E11",
-      "ledger_owner": "NONE, measured. No experiments/MP-E11 directory and no MP-E11 registration.json exists; the strings 'G4' and 'G6' occur in none of the five ledgers except inside MP-E12's own G5 gate sentence, which says that gate does not open them.",
-      "status_as_the_plan_states_it": "**NOT STARTED** — no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12",
-      "status_as_any_ledger_states_it": "NO LEDGER STATES A VERDICT for G4. The nearest statement in the record is MP-E10's execution-order row for the MP-E11 step, which records what the step waits on and is not a gate status field.",
-      "plan_words": {
-        "section_5_gate_ledger_row": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:163",
-          "line_reads": "| **G4 / MP-E11** | wiring-matters curve at ≥3 tiers with seed CIs, branch decision recorded | **NOT STARTED** — no registration, no run; `experiments/` contains only G0-prime, MP-E8, MP-E9, MP-E10, MP-E12 | Registration after G2/G3 close; unchanged spec | plan `:912-918`; directory listing |"
-        },
-        "section_7_1_gate_criteria_row": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:259",
-          "line_reads": "| **G4** | Wiring-matters curve at ≥3 tiers with seed CIs; branch decision (functional or null) recorded. | The 50k tier stands alone; 200k deferred with cause. |"
-        },
-        "the_source_the_plan_itself_cites": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:912",
-          "line_reads": "G4 MP-E11 Wiring-matters curve at three or more",
-          "the_citation_the_plan_gives_is_a_span": "912-918",
-          "span_text": "G4 MP-E11 Wiring-matters curve at three or more tiers with seed confidence intervals; branch decision (functional or null) recorded The 50k tier stands alone; the 200k tier is deferred with cause",
-          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
-        },
-        "and_the_other_thing_the_plan_cites": "directory listing -- measured above, and it agrees with the plan"
-      },
-      "go_criteria_verbatim_from_the_plan_only": {
-        "closes_when": "Wiring-matters curve at ≥3 tiers with seed CIs; branch decision (functional or null) recorded.",
-        "on_fail": "The 50k tier stands alone; 200k deferred with cause.",
-        "note": "Quoted, not authored. Nothing here is a criterion this agent added."
-      },
-      "delta_between_plan_and_ledger": "Two deltas, neither resolved. (1) ABSENT versus STATED: the plan carries a verdict for G4 and no ledger does, so the gate ledger in the record is incomplete by two gates. (2) The plan's verdict is NOT STARTED -- no registration, no run, which the directory listing corroborates -- while MP-E10's own row for the same step says it waits on 'the PI's go, which has been withheld since it was opened'. 'Since it was opened' and 'NOT STARTED, no registration' describe different histories for MP-E11. Recorded as a wording conflict between the sealed plan and a live ledger, not settled.",
-      "not_done_here": "Not marked started, opened or closed. No go-criteria invented. No MP-E11 registration created."
-    },
-    "G6": {
-      "gate_id": "G6",
-      "owning_experiment": "MP-E13",
-      "ledger_owner": "NONE, measured. No experiments/MP-E13 directory and no MP-E13 registration.json exists.",
-      "status_as_the_plan_states_it": "**NOT STARTED** — no registration exists; \"MP-E13 requires everything\"",
-      "status_as_any_ledger_states_it": "NO LEDGER STATES A VERDICT for G6. The nearest statement is MP-E10's execution-order row for the MP-E13 step.",
-      "plan_words": {
-        "section_5_gate_ledger_row": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:165",
-          "line_reads": "| **G6 / MP-E13** | all four live axes beaten against both baselines over a 24-hour window, artifacts public | **NOT STARTED** — no registration exists; \"MP-E13 requires everything\" | Requires G2–G5; now also carries the A10 resource ledger | plan `:926-931`, `:942` |"
-        },
-        "section_7_1_gate_criteria_row": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:261",
-          "line_reads": "| **G6** | All four live axes **and A10** beaten against both baselines over the 24-hour window; artifacts public, including the access journal and the resource ledger. | One re-registered extension; then claims are re-scoped. |"
-        },
-        "the_source_the_plan_itself_cites": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:926",
-          "line_reads": "G6 MP-E13 All four live axes beaten against both",
-          "the_citation_the_plan_gives_is_a_span": "926-931",
-          "span_text": "G6 MP-E13 All four live axes beaten against both baselines over the 24-hour window; artifacts public: stream logs, synapse snapshots, replay tapes One re-registered extension; then claims are re-scoped",
-          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
-        },
-        "the_other_plan_line_it_cites": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_1.txt:926",
-          "line_reads": "G6 MP-E13 All four live axes beaten against both",
-          "the_citation_the_plan_gives_is_a_span": "926-931",
-          "span_text": "G6 MP-E13 All four live axes beaten against both baselines over the 24-hour window; artifacts public: stream logs, synapse snapshots, replay tapes One re-registered extension; then claims are re-scoped",
-          "why_cited_as_one_line": "a multi-line needle cannot be matched against the single line a pointer resolves to, so the first line carries the citation and the whole span is reproduced beside it as text"
-        }
-      },
-      "go_criteria_verbatim_from_the_plan_only": {
-        "closes_when": "All four live axes **and A10** beaten against both baselines over the 24-hour window; artifacts public, including the access journal and the resource ledger.",
-        "on_fail": "One re-registered extension; then claims are re-scoped.",
-        "note": "Quoted, not authored."
-      },
-      "delta_between_plan_and_ledger": "Two deltas, neither resolved. (1) ABSENT versus STATED, as for G4. (2) The plan says G6 REQUIRES G2-G5 and carries the A10 resource ledger; MP-E10's row for the same step says could_start_on_one_word_from_the_cleared_queue is true and the single thing it waits on is a 24-hour window -- no dependency on G2 through G5 is recorded there. The ledger treats MP-E13 as calendar time the PI controls; the plan treats it as gated behind four other gates.",
-      "not_done_here": "Not marked started, opened or closed. No go-criteria invented. No MP-E13 registration created."
-    }
-  },
-  "gate_status_disagreements_plan_versus_ledgers_2026_11_05": {
-    "registered_at_utc": "2026-11-05T22:29:05Z",
-    "handling": "The plan extract is sealed and stays unedited. Each disagreement is recorded here as a dated note pointing at the plan line, the way v1.2:126, v1.2:25 and the 802.51 s figure were handled. Nothing below fixes a status field or a verdict.",
-    "disagreements": [
-      {
-        "gate": "G2 / MP-E8",
-        "plan_says": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:161",
-          "line_reads": "| **G2 / MP-E8** | sealed artifacts for arms A/B/C at 40/120/300 plus teach-arm control and noise floor; forgetting/interference/exposure/cost valid | **FAIL (H1) / PARTIAL** — arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only | T & N at 120/300 (~3.85 h); tier-300 fresh-vs-fresh (~44 min); H2 specificity floor by dated amendment; then G2 closes on the re-aimed claim (Amendment B) |",
-          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
-        },
-        "plan_verdict_clause": "**FAIL (H1) / PARTIAL** — arm B clause fails at both required tiers; tier-300 sign reversed; H2 clause 1 fails 3/5, clause 2 passes but is satisfiable by blanket refusal; H3 has no instrument; T and N exist at tier 40 only",
-        "ledger_says": {
-          "pointer": "experiments/MP-E8/registration.json:4969",
-          "line_reads": "\"status\": \"OPEN, MEASURED PARTLY. Registered before any run (R2); this field was rewritten on 2026-11-03 because it still read 'no arm has been scored / arms B and C are not built', which the artifacts in this same file contradict. Measured reality: ARM A ran at all three tiers -- tier 40 (40 items / 136 probes), tier 120 (120 / 416, 13 bench failures) and tier 300 (300 / 1046, 101 bench failures) via --curriculum, so the authored tiers ARE runnable by arm A. ARM B is built and measured at tier 120 on the corrected 416-ask battery, three seeds: per-seed drops {'20261103': 3.8462, '20261104': 2.1634, '20261105': 1.6827} pp, least favourable 1.6827 pp against the registered 5.0 pp margin, seed spread 2.1635 pp -- verdict 'FAIL at this tier'. It has NEVER run at tier 300. ARM C is built and tested but has never produced a sealed artifact at any tier; its only execution is a 3-epoch smoke run in scratch, unsealed on purpose. C1 is NOT EVALUABLE for arm A as registered (D-MPE8-07 ruled); C3 FIRED at tier 300 with 2 named rows and is UNEXECUTED, the PI's call (D-MPE8-09). C2 fires under the default ELECTRIC-learn configuration -- see open_decisions_for_pi.D-MPE8-01. G2 IS NOT CLOSABLE: see status_facts.g2 for what is missing, named rather than glossed. UPDATED 2026-11-04: arm A has now been run TWICE at tier 300 (published and armA_tier300_rerun.json). C3's two rows split -- 3/tell0.26/object reproduces and is a real restart loss, which falsifies H1's arm A clause at tier 300 as measured; 3/tell0.38/object did not reproduce and is instrument instability (AMD-MPE8-13). Arm C's graded quantities were re-registered before its first run: gate and near-miss measures carry its claims, its correct rate does not (AMD-MPE8-12). Arm C has still produced no sealed artifact; arm B has still never run at tier 300. UPDATED again at 2026-11-04T05:13:47Z: arm C has now produced sealed artifacts at tiers 40, 120 and 300 and arm B has run its three registered seeds at tier 300. H1's arm B clause fails at BOTH required tiers, at tier 300 with the drop's sign reversed; H2's clause 2 is recorded PASS at 120 and 300 with its blanket-refusal limitation on its face. G2 is still not closable. UPDATED again at 2026-11-04T05:25:10Z: D-MPE8-09 is RULED, not hanging. C3's registered action abort is executed against the tier-300 arm-A taught-set-holds claim, which is WITHDRAWN; both artifacts stay published and MP-E8 continues under the plan's own gate text and G2's re-run-the-flawed-arm fallback.\","
-        },
-        "delta": "The plan records a FAIL on H1; the ledger's own status field does not carry the word FAIL, it reads OPEN, MEASURED PARTLY. Both may be true of the same measurement -- one is a verdict on a hypothesis, the other a state of the gate -- but a reader who takes the ledger's word for the gate will not meet the falsification the plan leads with.",
-        "also_the_plans_source_line_for_this_gate_does_not_hold_the_verdict": {
-          "pointer": "experiments/MP-E8/registration.json:4388",
-          "line_reads": "\"populations\": {",
-          "is_the_verdict": false
-        }
-      },
-      {
-        "gate": "G3 / MP-E10",
-        "plan_says": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:162",
-          "line_reads": "| **G3 / MP-E10** | mouth stages improve-or-hold, working memory live at seconds scale, replay at tier 300 within the registered interference margin, invariants hold | **UNMEASURABLE as registered** — H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree | One ruling (D-MPE10-12) → re-register H3 primary at tier 120; tier 300 becomes the capacity curve (Amendment D); ~2 h of re-registered runs |",
-          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
-        },
-        "plan_verdict_clause": "**UNMEASURABLE as registered** — H3 void at depths 2/3 under the pre-registered saturation guard; 0.0000 pp not quotable as a pass; R6 invariant cell has no tier-300 instrument; no MP-E10 figure scored on the current tree",
-        "ledger_says": {
-          "pointer": "experiments/MP-E10/registration.json:5776",
-          "line_reads": "\"status\": \"RECONCILED 2026-08-10 by the stale-status guard (tests/test_stale_status_guard.py): D-MPE10-02 are RULED in this file's ruling blocks, so this field's claim that they were OPEN is no longer true -- the superseded wording is preserved at status_as_written_before_the_reconciliation. What the field still correctly records is the thing that has not changed: no MP-E10 figure has been scored on the current tree, so no number may be quoted as a hypothesis verdict. The guard's FORCE is intact; its stated REASON was stale.\","
-        },
-        "ledger_go_if": {
-          "pointer": "experiments/MP-E10/registration.json:86",
-          "line_reads": "\"gate_G3\": {"
-        },
-        "delta": "The plan's verdict is UNMEASURABLE as registered -- H3 void at depths 2/3 under the pre-registered saturation guard, 0.0000 pp not quotable as a pass. The ledger's status field reads RECONCILED, which is a bookkeeping state reached by the stale-status guard, not a measurement verdict. And the ledger's own go_if still says 'H1-H4 hold' while the plan says H3 cannot hold as registered. Three different things are being called the gate's status."
-      },
-      {
-        "gate": "G5 / MP-E12",
-        "plan_says_section_5": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164",
-          "line_reads": "| **G5 / MP-E12** | H1–H3 hold or a pre-registered partial with the text-distillation control done; guarded rows and source dimension verified post-transplant | **BLOCKED on an external input** — \"The weights are not on this machine\"; four open decisions (D-MPE12-01…04) | Download GPT-2 124M (~500 MB, §7.2 step 2) → E12a opens; rule the four decisions in the batch; E12c registration pins Qwen3.8-27B |",
-          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
-        },
-        "plan_says_section_7_1": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:260",
-          "line_reads": "| **G5** | H1–H4 hold on both donors; text-distillation control completed; guarded rows and the source dimension verified post-transplant; access journal published. |",
-          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
-        },
-        "ledger_says": {
-          "pointer": "experiments/MP-E12/registration.json:4902",
-          "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\","
-        },
-        "ledger_gate_line": {
-          "pointer": "experiments/MP-E12/registration.json:1871",
-          "line_reads": "\"gate\": \"G5 (opens now as a PARALLEL track; it does not open G4, G5 or G6 and it does not close G2)\","
-        },
-        "delta": "(a) The plan calls G5 BLOCKED on an external input; the ledger's gate line says G5 'opens now as a PARALLEL track' while the same ledger's status field says the weights are not on this machine -- opening and blocked, in one file. (b) The plan disagrees with itself: section 5 requires 'H1-H3 hold or a pre-registered partial', section 7.1 requires 'H1-H4 hold on both donors'. Four hypotheses on two donors is not three on one. (c) The four open decisions the plan names are D-MPE12-01...04; the live queue has since moved on, and D-MPE12-01 is resolved."
-      },
-      {
-        "gate": "G1 / MP-E9",
-        "plan_says": {
-          "pointer": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:160",
-          "line_reads": "| **G1 / MP-E9** | zero untraceable words, three routing rows back to refused, morphology class answered, invariants hold | **PARTIAL / FAIL on P2** — H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time | The named residual travels with the duel, measured (`residual_for_the_duel`); three rulings (§7.2 items 8–10) |",
-          "source_column_removed_from_the_quote": "the row's final column lists file:line citations belonging to the plan. Quoted inline they become unbackable coordinates; they are tested one by one in the_plans_source_column_does_not_resolve_as_written instead. The plan itself is unedited."
-        },
-        "plan_verdict_clause": "**PARTIAL / FAIL on P2** — H1, H2 pass (16 rows moved, protections intact); P2 falsified (`ELECTRIC_QA_MORPH_NORMALIZE` moved 0 of 3,672 rows); H3 fails; H4 holds; residual named, not fixed, not attempted a third time",
-        "ledger_says": {
-          "pointer": "experiments/MP-E9/registration.json:3230",
-          "line_reads": "\"status\": \"OPEN (B.2), treatment arms RUN and sealed. P1 (ELECTRIC_ARBITER_HEAD_BOUND) met its registered prediction: H1 and H2 pass, 16 rows moved, every protected population intact. P2 (ELECTRIC_QA_MORPH_NORMALIZE) moved 0 of 3,672 rows and its registered premise is falsified: H3 fails. H4 holds, measured. The flag-OFF arm reproduced the pre-treatment artifact row for row (0 differences), so both statements are controlled rather than observational. Registered fallback F1 (per-entry morphological aliases, the plan's own G1 fallback) is the next and last registered attempt at the morphology defect; a second failure documents the residual and the duel proceeds with it measured and named. Registered before any run (R2); every post-registration change is listed in registration_amendments with the result it followed, and no threshold or prediction value has been altered by any of them.\","
-        },
-        "delta": "Label only, substantively aligned: the plan leads with PARTIAL / FAIL on P2, the ledger leads with OPEN. Both record H1 and H2 passing, H3 failing and H4 holding."
-      },
-      {
-        "gate": "G4 / MP-E11 and G6 / MP-E13",
-        "delta": "The larger disagreement is an absence: the plan states a verdict for both and no ledger owns either experiment. Covered by the entries above rather than duplicated here."
-      }
-    ],
-    "the_plans_source_column_does_not_resolve_as_written": {
-      "what_was_tested": "every file:line the plan's section 5 source column cites, read against the ledgers as they stand after this step's stamp",
-      "G0_prime_cited_line_holds": {
-        "pointer": "experiments/G0-prime/registration.json:118",
-        "line_reads": "\"status\": \"CLOSED under R13(a) as ruled by the PI (D-G0P-02), with learn/1/reasked and learn/1/restarted EXCLUDED from the noise-floor claim. It is NOT closed as 'identical row for row': that wording remains falsified by measurement and both artifacts still record noise_floor_verdict = NOT REPRODUCIBLE beside the ruled verdict. Suite blocker closed by measurement, not inference: 1167 collected / 1167 reached / 0 collected-but-not-executed / returncode 0. Both registrations stamped and --check clean, every sealed blob sha256 confirmed against the object database.\"",
-        "is_the_verdict": true
-      },
-      "MP_E9_cited_line_holds": {
-        "pointer": "experiments/MP-E9/registration.json:2631",
-        "line_reads": "\"plan_sha256_lf\": \"b6b91159302b6c4ae904f7e86cc1d28327f6a0babc19020c03f623d0488b7711\",",
-        "is_the_verdict": false
-      },
-      "MP_E8_cited_line_holds": {
-        "pointer": "experiments/MP-E8/registration.json:4388",
-        "line_reads": "\"populations\": {",
-        "is_the_verdict": false
-      },
-      "MP_E12_cited_line_holds": {
-        "pointer": "experiments/MP-E12/registration.json:2060",
-        "line_reads": "\"sha256_lf\": \"899a624ca0933312aeae2fc79bcf659ea7e2cc66927f3d2fc510b003eb9ec663\",",
-        "is_the_verdict": false
-      },
-      "finding": "Five of the seven citations in the plan's own status-of-record column point at hash, payload or nested-echo lines rather than at the verdict they are cited for. The verdicts are real and reachable -- each was read for this note at its current line -- but they sit elsewhere now, because every stamp re-sorts the top-level keys and moves whole blocks, and the plan was sealed against a tree that has since been stamped again. The plan stays unedited; the tally is recorded here.",
-      "and_the_plan_line_citations_for_G4_and_G6": "section 5 cites plan :912-918 and :926-931, which do not exist in the v1.2 extract -- it has 466 lines. They resolve in v1.1, which has 1366. The version is not named in the citation; both readings were tested and v1.1 is where those lines are.",
-      "MP_E10_4255_cited_line_holds": {
-        "pointer": "experiments/MP-E10/registration.json:4255",
-        "line_reads": "\"line_reads\": \"{\",",
-        "is_the_verdict": false,
-        "why_it_was_missed_first_time": "the citation parser only matched '<ledger>/registration.json:<n>' and the plan writes this one as a bare 'registration.json:4255' inside a compound cell, so it was skipped silently and the tally was stated short"
-      },
-      "MP_E10_2359_cited_line_holds": {
-        "pointer": "experiments/MP-E10/registration.json:2359",
-        "line_reads": "\"stamp_ordering\": {",
-        "is_the_verdict": false,
-        "note": "the plan cites this line for D-MPE10-12; it holds stamp_ordering, a field of the seal itself"
-      },
-      "replay_summary_208_209_cited_line_holds": {
-        "pointer": "experiments/MP-E10/results/replay_tier300_summary.json:208",
-        "line_reads": "\"verdict\": \"NOT ESTABLISHED AT TIER 300. Interference measured 0.0000-0.0000 pp against the operative 2.0 pp margin -- inside it, and also inside the stale 5.0 pp, so the margin ambiguity changed nothing here. But the saturation guard voided depths 2 and 3, the R6 invariant cell is empty at this tier, the read direction and ||w||_F required by D-MPE10-08 and D-MPE10-06 are absent from the artifact, and no tier-300 replay-OFF control exists to attribute the 251 moved rows. H3's tier is 300 by registration; the clause is unmet, and it is unmet on named missing measurements rather than on an adverse number.\",",
-        "is_the_verdict": true,
-        "note": "this one resolves: it is the NOT ESTABLISHED AT TIER 300 verdict, and it is an artifact, not a ledger",
-        "the_citation_the_plan_gives_is_a_span": "208-209",
-        "span_text": "\"verdict\": \"NOT ESTABLISHED AT TIER 300. Interference measured 0.0000-0.0000 pp against the operative 2.0 pp margin -- inside it, and also inside the stale 5.0 pp, so the margin ambiguity changed nothing here. But the saturation guard voided depths 2 and 3, the R6 invariant cell is empty at this tier, the read direction and ||w||_F required by D-MPE10-08 and D-MPE10-06 are absent from the artifact, and no tier-300 replay-OFF control exists to attribute the 251 moved rows. H3's tier is 300 by registration; the clause is unmet, and it is unmet on named missing measurements rather than on an adverse number.\", | \"void_for_H3_by_depth\": {"
-      },
-      "tally": {
-        "citations_tested": 7,
-        "hold_the_verdict_they_are_cited_for": 2,
-        "do_not": 5
-      },
-      "the_two_that_hold": [
-        "G0-prime registration.json line 118 -- the CLOSED under R13(a) status",
-        "MP-E10 results/replay_tier300_summary.json line 208 -- the NOT ESTABLISHED AT TIER 300 verdict, an artifact rather than a ledger"
-      ],
-      "the_five_that_do_not": [
-        "MP-E9 line 2631 holds plan_sha256_lf",
-        "MP-E8 line 4388 holds a populations object opening",
-        "MP-E12 line 2060 holds sha256_lf",
-        "MP-E10 line 4255 holds a line_reads whose entire content is the single character open-brace, which is an echo of a previous citation rather than a verdict",
-        "MP-E10 line 2359 holds stamp_ordering"
-      ],
-      "correction_to_this_steps_own_earlier_wording": "A draft of this block said three of the FIVE ledger citations failed to resolve. That count came from a parser that silently skipped the G3 row because its citation format did not match the pattern -- a tool that drops what it cannot parse and still reports a total. The tally above is from the full seven-citation test, and the two missed rows are recorded individually with what they hold.",
-      "why_these_are_prose_not_pointers": "each of these seven is already a backed {pointer, line_reads} entry above, read from the file. Writing them again here in path:line form would create seven more coordinates with one needle each trying to cover a list, so they are named in words and resolved by the entries that carry them."
-    },
-    "gates_with_a_ledger_owner_versus_without": {
-      "with_an_owner": [
-        "G0-prime",
-        "G1",
-        "G2",
-        "G3",
-        "G5"
-      ],
-      "without_an_owner": [
-        "G4",
-        "G6"
-      ],
-      "as_measured": "5 of 7 gates have a gate field in a ledger; 2 have only a plan line"
-    },
-    "what_this_block_does_not_do": "It starts nothing, rules nothing, closes nothing, opens nothing, marks neither G4 nor G6 started, invents no go-criteria, edits no sealed plan line, and repairs no seam. It makes the gate ledger complete for G4 and G6 by recording what the plan says and that no ledger says anything."
   }
 }
