@@ -186,6 +186,30 @@ def test_no_registration_seals_its_own_bytes():
             f"{rel} does not record the exclusion, so the omission looks accidental"
 
 
+def _registration_entries(files):
+    """Entries whose FINAL PATH SEGMENT is registration.json -- not entries whose name merely ends with it.
+
+    This mirrors the rule the seal itself enforces, quoted so the two cannot drift apart again.
+    tools/registration_seal.py:776-779:
+
+        # MATCH THE FILENAME, NOT THE SUFFIX. `endswith("registration.json")` also matches
+        # `real_run_preregistration.json`, which is an EVIDENCE artifact -- the accounting registered before the
+        # first donor read, and the file the ordering proof cites. The suffix rule dropped it from the seal in
+        # silence: the stamp reported 229 files while the manifest held 235 unique paths and the commit message
+        # said 230. A rule that excludes by substring is a rule that will eventually exclude the wrong thing, so
+        # the comparison is now against the last path segment.
+
+    and tools/registration_seal.py:783, the implementation it describes:
+
+        return t.replace("\\\\", "/").rsplit("/", 1)[-1] == "registration.json"
+
+    The test kept the substring predicate after the tool was fixed, and at 7d14580 it failed on
+    real_run_preregistration.json while the invariant it guards was intact.
+    """
+    return [f for f in files
+            if str(f).replace("\\", "/").rsplit("/", 1)[-1] == "registration.json"]
+
+
 def test_no_registration_seals_another_registration():
     """G0-prime's manifest listed MP-E9/registration.json and MP-E9's listed G0-prime's. Two ledgers
     sealing each other is a cycle that no stamp sequence can satisfy -- re-stamping one invalidates the
@@ -197,10 +221,40 @@ def test_no_registration_seals_another_registration():
             pytest.skip("registration not written")
         d = json.loads(reg.read_text(encoding="utf-8"))
         files = d.get("harness_hashes", {}).get("files", {})
-        cross = [f for f in files if f.endswith("registration.json")]
+        cross = _registration_entries(files)
         assert not cross, f"{reg.relative_to(ROOT)} seals another registration: {cross}"
         rec = d.get("harness_hashes", {}).get("registrations_excluded")
         assert rec, f"{reg.relative_to(ROOT)} drops registrations silently; the exclusion must be recorded"
+
+
+def test_the_ledger_predicate_distinguishes_a_suffix_from_a_path_segment():
+    """Pin the distinction the seal already draws, in both directions, so neither can silently revert.
+
+    A file whose NAME ends with registration.json is not necessarily a ledger:
+    experiments/MP-E12/results/real_run_preregistration.json is an evidence artifact -- the accounting registered
+    before the first donor read -- and the substring predicate both flagged it in this test and DROPPED it from the
+    seal, which is how a stamp reported 229 files against a manifest of 235. A path whose FINAL SEGMENT is
+    registration.json IS a ledger, and the predicate must still catch it: an assertion that was weakened to kill a
+    false positive would be worthless unless it still fires on the real thing, so the real thing is synthesised
+    here rather than trusted to history.
+    """
+    ledger = "experiments/MP-E9/registration.json"
+    evidence = "experiments/MP-E12/results/real_run_preregistration.json"
+    windows = "experiments\\MP-E9\\registration.json"
+    assert _registration_entries([ledger]) == [ledger], "a true ledger must be caught"
+    assert _registration_entries([windows]) == [windows], "backslashes are path separators too"
+    assert _registration_entries([evidence]) == [], "an evidence artifact must NOT be caught"
+    # and the old predicate is recorded as wrong here, not merely removed: if it ever comes back, this fails
+    assert evidence.endswith("registration.json"), "the substring match really does fire on the evidence file"
+    assert _registration_entries([ledger, evidence, windows]) == [ledger, windows]
+    # the fix must not blind the test to a real violation: a manifest holding a ledger path is caught
+    synthetic = {"experiments/MP-E10/registration.json": {"sha256": "x"},
+                 evidence: {"sha256": "y"}}
+    assert _registration_entries(synthetic) == ["experiments/MP-E10/registration.json"], (
+        "the corrected predicate went quiet on a genuine cross-registration entry")
+    # every ledger in the repo really is caught by name, so the rule is not accidentally narrower than the set
+    for reg in REGS:
+        assert _registration_entries([reg.relative_to(ROOT).as_posix()]) != []
 
 
 def test_index_cross_check_is_not_vacuous():
