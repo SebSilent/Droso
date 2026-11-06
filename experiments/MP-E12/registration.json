@@ -244,13 +244,13 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4196,
         "line_reads": "\"D-MPE12-05_as_registered_before_the_ruling\": \"How many generated tokens an 'equivalent association query' is, for H2. THE BINDING ONE, and it was not visible from the plan text: the synthetic calibra",
-        "pointer": "experiments/MP-E12/registration.json:4671"
+        "pointer": "experiments/MP-E12/registration.json:4779"
       },
       "ledger_d06": {
         "file": "experiments/MP-E12/registration.json",
         "line": 4133,
         "line_reads": "\"D-MPE12-06\": \"The confidence threshold that gates an edge into grow_plastic/wire_pool. Must be fixed before the first real graph is compiled; cannot be derived from the synthetic donor, whose confide",
-        "pointer": "experiments/MP-E12/registration.json:4608"
+        "pointer": "experiments/MP-E12/registration.json:4716"
       },
       "ledger_first_real_use": {
         "file": "experiments/MP-E12/registration.json",
@@ -262,7 +262,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4209,
         "line_reads": "\"ruled_at\": \"2026-08-10\",",
-        "pointer": "experiments/MP-E12/registration.json:4684"
+        "pointer": "experiments/MP-E12/registration.json:4792"
       },
       "ledger_seal_head": {
         "file": "experiments/MP-E12/registration.json",
@@ -274,7 +274,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4477,
         "line_reads": "\"tokenizer_landed_and_two_rules_registered_2026_11_05\": {",
-        "pointer": "experiments/MP-E12/registration.json:5155"
+        "pointer": "experiments/MP-E12/registration.json:5263"
       },
       "plan_C_conditions": {
         "file": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md",
@@ -612,7 +612,7 @@
       "the_agent_is_not_choosing": "None of the three is decided here. Each changes what a future PASS would mean, and that is the PI's call, not the agent's.",
       "the_only_gate_call": {
         "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
-        "pointer": "tools/registration_seal.py:1019"
+        "pointer": "tools/registration_seal.py:1040"
       },
       "what_the_PI_would_have_to_decide_for_it_to_become_a_gate": [
         "WHERE IT RUNS. (a) On the house entry path only -- cheap, and the only reading of 'deployment loop' that names a single real file. (b) On the answer path as a whole -- which requires enumerating entries FROM THE TREE instead of accepting a typed list, since today's enumeration misses 62 of 66 organ-importers. (c) As a report, which is what it is now: honest, but it stops nothing.",
@@ -623,24 +623,24 @@
     "premise_1_anchor_split_not_confirmed": {
       "as_read_from": [
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/G0-prime/registration.json:2528"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/G0-prime/registration.json:2537"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E8/registration.json:2821"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E8/registration.json:2830"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E9/registration.json:2461"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E9/registration.json:2470"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E10/registration.json:2794"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E10/registration.json:2890"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E12/registration.json:4289"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E12/registration.json:4298"
         }
       ],
       "claim_put_to_me": "MP-E8:2623, MP-E12:3957 and G0-prime:2330 read 07119c9d6b50 while MP-E10:2300 reads 10732cd0e296, so the five ledgers may sit on different anchors.",
@@ -1172,7 +1172,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4398,
         "line_reads": "\"machine_state_measured_2026_08_10\": \"no GPT-2 weights on this machine (checked by filesystem search for gpt2 model files; none present).\",",
-        "pointer": "experiments/MP-E12/registration.json:4873",
+        "pointer": "experiments/MP-E12/registration.json:4981",
         "post_write_line": 2751,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1203,7 +1203,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4402,
         "line_reads": "\"what_must_arrive\": \"GPT-2 124M public weights: the HuggingFace `gpt2` model (124M parameters; n_embd 768, n_layer 12, n_head 12, d_head 64, n_positions 1024, vocab 50257, MLP inner 3072, wte tied to ",
-        "pointer": "experiments/MP-E12/registration.json:4877",
+        "pointer": "experiments/MP-E12/registration.json:4985",
         "post_write_line": 2755,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1213,7 +1213,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4403,
         "line_reads": "\"where_it_must_be\": \"experiments/MP-E12/donor/gpt2/ on this machine, or a path recorded in the run's environment block.\"",
-        "pointer": "experiments/MP-E12/registration.json:4878",
+        "pointer": "experiments/MP-E12/registration.json:4986",
         "post_write_line": 2756,
         "resolution_note": "correct when checked pre-write; inserting this amendment above it moved it. post_write_line is what a reader will find.",
         "shifted_by_this_insertion": true
@@ -1560,21 +1560,21 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:4703"
+        "pointer": "experiments/MP-E12/registration.json:4811"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the open decision cited as a standing blocker | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3693, now 3819",
         "file": "experiments/MP-E12/registration.json",
         "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:4720"
+        "pointer": "experiments/MP-E12/registration.json:4828"
       },
       "ledger_instruments_key": {
         "as_claimed": "the B.6 items 2-3 registration this amendment follows | post-stamp coordinate, re-resolved: the seal's files block sits above this key in sorted order and grew by 126 lines when the pre-registration entered the seal, so every line number below it moved. Citations into other files were unaffected and are unchanged here.  recorded 3208, now 3334",
         "file": "experiments/MP-E12/registration.json",
         "line": 3760,
         "line_reads": "\"instruments_registered_2026_11_05_B6_items_2_3\": {",
-        "pointer": "experiments/MP-E12/registration.json:4235"
+        "pointer": "experiments/MP-E12/registration.json:4343"
       },
       "pb_conservative_prop": {
         "as_claimed": "the tally that charges a gather",
@@ -2302,6 +2302,15 @@
         "line_endings": "CRLF",
         "sha256_lf": "550e89b3615df336ab45d54f45fdb48e3eec831786fba5c3205eca94864865c2",
         "sha256_of_git_blob": "550e89b3615df336ab45d54f45fdb48e3eec831786fba5c3205eca94864865c2"
+      },
+      "experiments/MP-E10/results/h2_fluency_floor_from_sealed_runs.json": {
+        "blob_equals_lf_normalised": true,
+        "bytes_blob": 4549,
+        "bytes_worktree": 4647,
+        "git_blob_sha1": "ba5cf5ad5353de4e1202fc9f299e1479db7a27c6",
+        "line_endings": "CRLF",
+        "sha256_lf": "6b22a9ac12877e86ba03f84d2ef81e8dbfd084efa4d01040d362ee7d8856c141",
+        "sha256_of_git_blob": "6b22a9ac12877e86ba03f84d2ef81e8dbfd084efa4d01040d362ee7d8856c141"
       },
       "experiments/MP-E10/results/ksweep_tier120_organ_characterisation.json": {
         "blob_equals_lf_normalised": true,
@@ -4258,12 +4267,12 @@
       },
       "tools/registration_seal.py": {
         "blob_equals_lf_normalised": true,
-        "bytes_blob": 75709,
-        "bytes_worktree": 76767,
-        "git_blob_sha1": "855aaffc9d54eded4e5d62050b45c1070da7266e",
+        "bytes_blob": 76169,
+        "bytes_worktree": 77232,
+        "git_blob_sha1": "4211f29761d300be1a8f4634ae16204770a1eb8b",
         "line_endings": "CRLF",
-        "sha256_lf": "e4b728f878ac5425aecd99bd1a579b4aa5d46f4edcb403c0477c57e1b87aa394",
-        "sha256_of_git_blob": "e4b728f878ac5425aecd99bd1a579b4aa5d46f4edcb403c0477c57e1b87aa394"
+        "sha256_lf": "ebafffc26c9be28597e96bdd608a6b78c12882ddd8c9afd8fb5332438b108869",
+        "sha256_of_git_blob": "ebafffc26c9be28597e96bdd608a6b78c12882ddd8c9afd8fb5332438b108869"
       },
       "tools/suite_manifest.py": {
         "blob_equals_lf_normalised": true,
@@ -4286,7 +4295,7 @@
     },
     "git_dirty": true,
     "git_dirty_sealed": [],
-    "git_head": "4409a7424ea5bdde474e86831740193c73a9b0dc",
+    "git_head": "949751bde7c8ffb3b526b061bf2dff4aad26bbef",
     "note": "Hashes are checkout-stable by construction. See seal_basis and the module docstring for the measurement behind it. reseal_history records every superseded value.",
     "registrations_excluded": {
       "paths": [
@@ -4312,7 +4321,7 @@
       "verification": "tools/registration_seal.py --check recomputes both and asserts they agree",
       "why": "core.autocrlf=true with no .gitattributes means worktree bytes != blob bytes, so a worktree-byte seal cannot verify after commit+clone. Verified on the tracked 1.4 MB evidence file: worktree 1,473,837 CRLF bytes, blob 1,421,862 LF bytes, and `git hash-object` returns the index blob, so the conversion is applied."
     },
-    "sealed_at_utc": "2026-11-06T21:37:29Z",
+    "sealed_at_utc": "2026-11-06T21:45:57Z",
     "self_excluded": {
       "path": "experiments/MP-E12/registration.json",
       "why": "a file listing its own hash is stale the moment the hash is written; --check can never be clean otherwise. Its content is still pinned transitively by the artifacts that cite it, and by git history."
@@ -5069,24 +5078,24 @@
       "line_reads": "\"bytes_worktree\": 74001,",
       "read_from": [
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/G0-prime/registration.json:2528"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/G0-prime/registration.json:2537"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E8/registration.json:2821"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E8/registration.json:2830"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E9/registration.json:2461"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E9/registration.json:2470"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E10/registration.json:2794"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E10/registration.json:2890"
         },
         {
-          "line_reads": "\"git_head\": \"4409a7424ea5bdde474e86831740193c73a9b0dc\",",
-          "pointer": "experiments/MP-E12/registration.json:4289"
+          "line_reads": "\"git_head\": \"949751bde7c8ffb3b526b061bf2dff4aad26bbef\",",
+          "pointer": "experiments/MP-E12/registration.json:4298"
         }
       ],
       "sealed_file_count": 245,
@@ -5125,7 +5134,7 @@
         "organ_importers_reachable_from_no_audited_process": 62,
         "the_audit_is_not_wired_into_any_write_path": {
           "line_reads": "n_bad, bad = _pca_gate(_pca, p)",
-          "pointer": "tools/registration_seal.py:1019"
+          "pointer": "tools/registration_seal.py:1040"
         },
         "the_entry_list_is_hand_typed": {
           "line_reads": "default_entries = {",
@@ -5212,7 +5221,7 @@
       "collision_check": "none of 10, 11, 12 appears as a key or an id-value in any ledger, measured by walking the parsed JSON rather than by grepping a string",
       "governing_rule": {
         "line_reads": "\"governing_rule\": \"AMD-MPE10-11 -- a proposed identifier is checked against the live key set BEFORE it is written down\",",
-        "pointer": "experiments/G0-prime/registration.json:2835"
+        "pointer": "experiments/G0-prime/registration.json:2943"
       },
       "live_key_set_read_first": {
         "D-MPE12_numbers_occupied": [
@@ -5228,7 +5237,7 @@
         ],
         "evidence_06_to_08": {
           "line_reads": "\"D-MPE12-08\": \"Whether stage b may be exercised on a scratch organ before the live one, and what would make a scratch result admissible.\",",
-          "pointer": "experiments/MP-E12/registration.json:4610"
+          "pointer": "experiments/MP-E12/registration.json:4718"
         },
         "evidence_09_is_occupied": {
           "line_reads": "\"question_id\": \"D-MPE12-09\",",
@@ -5236,7 +5245,7 @@
         },
         "evidence_low_end": {
           "line_reads": "\"decision_id\": \"D-MPE12-01\",",
-          "pointer": "experiments/MP-E12/registration.json:4695"
+          "pointer": "experiments/MP-E12/registration.json:4803"
         },
         "highest_occupied": 9
       },
@@ -5481,14 +5490,14 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 4228,
         "line_reads": "\"decision_id\": \"D-MPE12-02\",",
-        "pointer": "experiments/MP-E12/registration.json:4703"
+        "pointer": "experiments/MP-E12/registration.json:4811"
       },
       "ledger_dmpe12_04": {
         "as_claimed": "the decision that still bars MP-E12b",
         "file": "experiments/MP-E12/registration.json",
         "line": 4245,
         "line_reads": "\"decision_id\": \"D-MPE12-04\",",
-        "pointer": "experiments/MP-E12/registration.json:4720"
+        "pointer": "experiments/MP-E12/registration.json:4828"
       },
       "ledger_donor_arrival_block": {
         "as_claimed": "the block that recorded the weights arriving, which this amendment follows for the tokenizer",
@@ -5509,7 +5518,7 @@
         "file": "experiments/MP-E12/registration.json",
         "line": 2263,
         "line_reads": "\"experiments/MP-E12/results/probe_list_v1.json\": {",
-        "pointer": "experiments/MP-E12/registration.json:2666"
+        "pointer": "experiments/MP-E12/registration.json:2774"
       },
       "lt_no_runtime": {
         "as_claimed": "the rule that tokenizer files are data",
@@ -5753,19 +5762,19 @@
       "what_those_lines_actually_hold": [
         {
           "line_reads": "\"git_blob_sha1\": \"f1157fc62435375eb61c3a2b4375a8fe3299db24\",",
-          "pointer": "experiments/MP-E12/registration.json:2445"
+          "pointer": "experiments/MP-E12/registration.json:2553"
         },
         {
           "line_reads": "\"sha256_lf\": \"0f8593dada6690d78ae2c5f39016ac4b0d9d80c5fcb4b9152b1ab0437842fc91\",",
-          "pointer": "experiments/MP-E12/registration.json:2375"
+          "pointer": "experiments/MP-E12/registration.json:2393"
         },
         {
           "line_reads": "\"sha256_lf\": \"bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876\",",
-          "pointer": "experiments/MP-E12/registration.json:2321"
+          "pointer": "experiments/MP-E12/registration.json:2339"
         },
         {
           "line_reads": "\"sha256_of_git_blob\": \"bc9e922185aa68c20a8ac894fdcb62041d9e07b215263e602dd6e72f215cb876\"",
-          "pointer": "experiments/MP-E12/registration.json:2322"
+          "pointer": "experiments/MP-E12/registration.json:2340"
         },
         {
           "line_reads": "},",
@@ -5773,7 +5782,7 @@
         },
         {
           "line_reads": "\"experiments/MP-E10/results/ksweep_tier40_calibration_post_rulings.json\": {",
-          "pointer": "experiments/MP-E12/registration.json:2324"
+          "pointer": "experiments/MP-E12/registration.json:2342"
         }
       ]
     },
@@ -5791,7 +5800,7 @@
       },
       "top_level_status_field": {
         "line_reads": "\"status\": \"REGISTERED BEFORE ANY RUN, per rule R2. No donor has been read. The weights are not on this machine.\",",
-        "pointer": "experiments/MP-E12/registration.json:5005"
+        "pointer": "experiments/MP-E12/registration.json:5113"
       }
     },
     "what_the_plan_still_records": "experiments/MP-E9/plan_extract/DROSO_Master_Plan_v1_2.md:164",
