@@ -1,0 +1,85 @@
+{
+  "all_depths_have_a_report": true,
+  "argv_is_not_the_proof": "the artifact's recorded argv is checked but not trusted: the void run carried --replay in its argv and no replay report anywhere. The report is the proof.",
+  "bench_stdout_lines_mentioning_replay": [
+    "[bench] --replay: recorded at the __main__ guard; the replay entry is decided where REPLAY_REQUESTED is defined, below this block",
+    "[bench] evidence -> experiments\\MP-E10\\results\\step5_replay_branch_proof_tier40.json"
+  ],
+  "command": [
+    "-B",
+    "-X",
+    "utf8",
+    "C:\\Projects\\HybridLLM\\tools\\electric_learn_bench.py",
+    "--arms",
+    "learn",
+    "--curriculum",
+    "experiments/MP-E8/curriculum_tier40.json",
+    "--replay",
+    "--out",
+    "experiments/MP-E10/results/step5_replay_branch_proof_tier40.json",
+    "--workdir",
+    "_tmp/wd_step5_proof_tier40"
+  ],
+  "declared_at_utc": "2026-11-06T20:42:03Z",
+  "depths_produced": [
+    "1",
+    "2",
+    "3"
+  ],
+  "evidence_from_the_reports": {
+    "1": {
+      "ceiling_limited": false,
+      "entries_pushed_to_ceiling_this_pass": [
+        0,
+        0
+      ],
+      "gain": 0.35,
+      "pairs_advanced": [
+        1656,
+        1656
+      ],
+      "passes_registered": 2,
+      "passes_run": 2,
+      "void_for_H3_any_pass": false
+    },
+    "2": {
+      "ceiling_limited": false,
+      "entries_pushed_to_ceiling_this_pass": [
+        0,
+        0
+      ],
+      "gain": 0.35,
+      "pairs_advanced": [
+        3204,
+        3204
+      ],
+      "passes_registered": 2,
+      "passes_run": 2,
+      "void_for_H3_any_pass": false
+    },
+    "3": {
+      "ceiling_limited": false,
+      "entries_pushed_to_ceiling_this_pass": [
+        0,
+        0
+      ],
+      "gain": 0.35,
+      "pairs_advanced": [
+        5040,
+        5040
+      ],
+      "passes_registered": 2,
+      "passes_run": 2,
+      "void_for_H3_any_pass": false
+    }
+  },
+  "question": "does a SUBPROCESS launch make --replay reach the organ, where an in-process call did not?",
+  "rc": 0,
+  "replay_report_present_per_depth": {
+    "1": true,
+    "2": true,
+    "3": true
+  },
+  "verdict": "PROVEN: the replay branch executed at every depth of a subprocess launch",
+  "wall_seconds": 160.42
+}

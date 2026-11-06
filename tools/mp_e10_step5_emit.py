@@ -28,10 +28,11 @@ for p in (str(ROOT), str(ROOT / "tools")):
     if p not in sys.path:
         sys.path.insert(0, p)
 
-OUT = ROOT / "experiments/MP-E10/results/step5_scored_tier120.json"
-RUN_R = ROOT / "experiments/MP-E10/results/step5_tier120_replay_armA.json"
-RUN_C = ROOT / "experiments/MP-E10/results/step5_tier120_control_armA.json"
-DIFF = ROOT / "experiments/MP-E10/results/step5_tier120_replay_vs_control_row_migration.json"
+# The second attempt's paths. The first attempt's artifacts remain on disk, marked VOID in-file, unread here.
+OUT = ROOT / "experiments/MP-E10/results/step5b_scored_tier120.json"
+RUN_R = ROOT / "experiments/MP-E10/results/step5b_tier120_replay_armA.json"
+RUN_C = ROOT / "experiments/MP-E10/results/step5b_tier120_control_armA.json"
+DIFF = ROOT / "experiments/MP-E10/results/step5b_tier120_replay_vs_control_row_migration.json"
 BASE = ROOT / "experiments/MP-E8/results/armA_tier120_curriculum.json"
 STAGES = ["gating", "mouth", "recall", "recall_untraced", "shape_arbiter", "other"]
 

@@ -6455,6 +6455,88 @@
     "the_prerequisite_nobody_asked_for": "STEP 5 scores tier-120 replay runs on the CURRENT bytes (47f05c9c20dd..., A10 wired). The tier-120 floor that exists -- 4 rows and 17 rows of 3,744 across two pairs -- was measured on 5cf038c211d6..., the pre-A10 bench. Under R17's re-measurement clause that floor does not transfer, so STEP 5 would be making tier-120 treatment claims at a tier whose floor is unmeasured on its own instrument: capacity and instrument findings only.",
     "what_this_entry_does_not_do": "no verdict moved, no status field changed, no T and N, no answer-path edit, no MP-E11, no MP-E12b/c."
   },
+  "step5b_scored_tier120_run_2026_11_06": {
+    "a10_as_measured": {
+      "control_samples": 2382,
+      "gap_named_not_interpolated": "no sample landed in any of the three replay-phase windows (0 samples each) -- the phase that is H3's entire subject is the one phase with no resource measurement. Cost per retained item is null there and is not filled from a neighbouring window.",
+      "replay_samples": 2380,
+      "vram_asserted_zero": true
+    },
+    "decision_document": "experiments/MP-E10/decision_step5b_2026_11_06.md",
+    "g3_position": {
+      "closes": false,
+      "load_bearing_unsatisfied": "H2 -- it has a ruled scalar, a same-tier baseline and a measurement, and the measurement is in the wrong direction",
+      "others": "H1 and H4 are not instrumented enough to fail; H3 is measured but unresolvable at the floor's width; R6 unmeasured"
+    },
+    "h1_as_measured": {
+      "limitation": "the bench records reason as an empty string per row, and the registered classifier returns recall_untraced for an empty reason, so the five-stage denominator cannot discriminate on bench rows at all. H1 remains UNSCORED and this table is not its answer.",
+      "table": "nine cells of 416 graded rows; every failing row classified recall_untraced; mass in `other` is 0 rows"
+    },
+    "h2_as_measured": {
+      "baseline_mpe8_armA_tier120": 3.0107,
+      "caveat": "the unreplayed control is lower still, so this is a property of the current tree at tier 120, not damage attributable to replay; attributing it would need a floor on the fluency quantity, which does not exist",
+      "clause": "FAILS on its own scalar: replay is 0.0343 content words BELOW the same-tier baseline. Coverage and refusal moved favourably and are guardrails named beside the scalar, not the scalar.",
+      "control": 2.9739,
+      "replay": 2.9764,
+      "scalar": "mean content words per emitted answer over the live phase, via word_provenance.content_words"
+    },
+    "h3_as_measured": {
+      "ceiling_guard": "did NOT fire at tier 120: at all three depths and both passes, entries pushed to ceiling 0 and void_for_H3 false. So this is no longer the void-at-its-own-tier problem; it is bounded by the floor instead. The two limitations are different and must not be conflated.",
+      "floor_rows": 6,
+      "interval_half_width_pp_from_the_floor": 0.1603,
+      "migration_replay_vs_control_rows": {
+        "line_reads": "\"n_rows_moved\": 1,",
+        "pointer": "experiments/MP-E10/results/step5b_tier120_replay_vs_control_row_migration.json:142"
+      },
+      "reading": "every interval contains zero and the migration is BELOW the floor, so the instrument cannot resolve a difference at this size in either direction. That is not satisfaction of the clause and it is not evidence that replay strengthens anything -- H3 is an interference claim.",
+      "retention_delta_pp_all_nine_cells": 0.0,
+      "tier_300": "not run here; capacity datum under C6 only"
+    },
+    "not_done": "no cap raised, nothing downloaded, no MP-E11, no MP-E12b/c, no answer-path edit, no T and N (declined by the PI for cost -- G2's evidence stays incomplete)",
+    "proof_before_scoring": {
+      "artifact": "experiments/MP-E10/results/step5_replay_branch_proof_tier40.json",
+      "verdict": {
+        "line_reads": "\"all_depths_have_a_report\": true,",
+        "pointer": "experiments/MP-E10/results/step5_replay_branch_proof_tier40.json:2"
+      },
+      "why_a_proof_ran_first": "the cheapest registered tier was used to show the replay branch actually executes, before any tier-120 scored minute was spent. The evidence demanded was a replay report in the artifact at every depth -- not the argv, which the void run proved can lie by omission."
+    },
+    "r6": "NOT MEASURED -- precondition missing: the probes are scored by mp_e9_battery over a run_generation journal, and the bench produces none",
+    "recorded_at_utc": "2026-11-06T21:34:09Z",
+    "scored_against": {
+      "arms_share_the_floors_byte_set": {
+        "line_reads": "\"harness_sha256\": \"47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af\",",
+        "pointer": "experiments/MP-E10/results/step5b_tier120_replay_armA.json:49154"
+      },
+      "floor": "pair 5 -- 6 rows of 3,744 = 0.1603% on harness 47f05c9c20ddeb75...",
+      "floor_registration": {
+        "line_reads": "\"tier120_floor_on_current_bytes_2026_11_06\": {",
+        "pointer": "experiments/MP-E10/registration.json:6597"
+      },
+      "why_pair_5_not_pair_3": "executed path, not the cheaper number: pair 3 ran without the A10 sampler and a scored run must execute with it"
+    },
+    "supersedes_by_reference": "experiments/MP-E10/decision.md, left sealed and unmodified",
+    "the_void_predecessor": {
+      "artifact": "experiments/MP-E10/results/step5_scored_tier120.json",
+      "status": "VOID. Stays on disk as measured and is never quoted as a score. Its replay arm never replayed: the bench parses --replay only inside its __main__ guard (tools/electric_learn_bench.py:422-426), which does not run for an importing process."
+    },
+    "wall_clock_beside_unit_costs": {
+      "PI_estimate_seconds": 475,
+      "control_driver_wall_seconds": 492.27,
+      "control_learn_arm_seconds": 488.9,
+      "pair_5_measured": [
+        474.12,
+        413.42
+      ],
+      "pre_A10_measured": [
+        480.91,
+        462.37
+      ],
+      "replay_arm_wall_note": "the replay artifact was produced by the preceding launch of this driver, which finished the bench subprocess and then died building its own record. The driver verifies such an artifact before reuse -- a report at all three depths on the floor's bytes -- and records the reuse. Its own arms.learn.seconds is quoted.",
+      "replay_learn_arm_seconds": 488.3
+    },
+    "what_this_is": "STEP 5b -- the scored tier-120 replay run, executed as the sealed floor prescribes: each arm as its own subprocess so the bench's __main__ guard parses --replay"
+  },
   "step_2a_tier300_floor_on_sealed_bytes_cannot_be_bought_2026_11_06": {
     "evidence_that_the_bytes_were_never_committed": {
       "a_sealed_artifact_and_its_own_recorded_head": {

@@ -667,6 +667,22 @@ DEFAULT_MANIFEST = [
     "tools/mp_e10_step5_scored_run.py",
     "tools/mp_e10_step5_emit.py",
 # touched to add them.
+# ---- STEP 5: the void first attempt, the subprocess proof, and the scored second attempt, 2026-11-06 --
+# The void run is sealed ON PURPOSE. A discarded measurement that is discarded only in prose can be
+# quietly re-quoted later; sealed and marked inside its own file, it cannot. The preflight crash artifact
+# is sealed for the same reason -- it is the evidence that the driver died before spending a scored minute.
+# EXACTLY 11 paths are new; none replaces an existing entry; no sealed artifact was touched.
+    "experiments/MP-E10/results/step5_replay_branch_proof_tier40.json",
+    "experiments/MP-E10/results/step5_scored_tier120.json",
+    "experiments/MP-E10/results/step5_tier120_replay_armA.json",
+    "experiments/MP-E10/results/step5_tier120_control_armA.json",
+    "experiments/MP-E10/results/step5_tier120_replay_vs_control_row_migration.json",
+    "experiments/MP-E10/results/step5b_scored_tier120.json",
+    "experiments/MP-E10/results/step5b_tier120_replay_armA.json",
+    "experiments/MP-E10/results/step5b_tier120_control_armA.json",
+    "experiments/MP-E10/results/step5b_tier120_replay_vs_control_row_migration.json",
+    "experiments/MP-E10/results/step5b_scored_tier120_preflight_crash1.json",
+    "experiments/MP-E10/decision_step5b_2026_11_06.md",
 ]
 
 

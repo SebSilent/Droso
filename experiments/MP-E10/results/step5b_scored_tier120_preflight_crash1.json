@@ -1,0 +1,93 @@
+{
+  "experiment": "MP-E10",
+  "generated_at_utc": "2026-11-06T20:42:56Z",
+  "preflight": {
+    "before_the_first_scored_minute": true,
+    "instrument_bytes_at_preflight": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+    "measured_unit_costs_it_is_judged_by": {
+      "pre_A10_pair_seconds": [
+        {
+          "it_is": "pre-A10 run A",
+          "line_reads": "\"tier120_pair_run_A_seconds\": 480.91,",
+          "pointer": "experiments/MP-E10/registration.json:6448"
+        },
+        {
+          "it_is": "pre-A10 run B",
+          "line_reads": "\"tier120_pair_run_B_seconds\": 462.37,",
+          "pointer": "experiments/MP-E10/registration.json:6449"
+        }
+      ]
+    },
+    "recorded_at_utc": "2026-11-06T20:42:56Z",
+    "registered_configuration": {
+      "ceiling": {
+        "it_is": "the registered ceiling",
+        "line_reads": "\"ceiling\": 4.0, | \"h3_primary_tier\": 120,",
+        "pointer": "experiments/MP-E10/registration.json:5020-5021"
+      },
+      "gain_registered_where_non_saturating": {
+        "it_is": "where this gain does not saturate",
+        "line_reads": "\"where_it_is_non_saturating\": \"tier 120, the tier B.R item 1 makes H3's primary tier\",",
+        "pointer": "experiments/MP-E10/registration.json:5097"
+      },
+      "h3_primary_tier": {
+        "it_is": "H3's primary tier",
+        "line_reads": "\"h3_primary_tier\": 120,",
+        "pointer": "experiments/MP-E10/registration.json:5021"
+      },
+      "margin_pp": {
+        "it_is": "the pre-registered interference margin",
+        "line_reads": "\"basis\": \"D-MPE10-04 derived value, unchanged by this registration\", | \"value_pp\": 2.0",
+        "pointer": "experiments/MP-E10/registration.json:5027-5028"
+      },
+      "phase_basis_primary": {
+        "it_is": "the H3 phase basis",
+        "line_reads": "\"primary\": \"reasked\",",
+        "pointer": "experiments/MP-E10/registration.json:5034"
+      },
+      "replay_gain": {
+        "it_is": "the registered gain",
+        "line_reads": "\"replay_gain\": 0.35,",
+        "pointer": "experiments/MP-E10/registration.json:5042"
+      },
+      "replay_passes_per_tier": {
+        "it_is": "the registered passes",
+        "line_reads": "\"replay_passes_per_tier\": 2,",
+        "pointer": "experiments/MP-E10/registration.json:5043"
+      },
+      "tier_300_role": {
+        "it_is": "what tier 300 may be reported as",
+        "line_reads": "\"tier_300_role\": \"capacity finding only -- the saturation curve. Never an interference measurement (v1.2:200, B.R item 1).\"",
+        "pointer": "experiments/MP-E10/registration.json:5044"
+      }
+    },
+    "the_floor_it_scores_against": {
+      "artifact": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json",
+      "floor_diff_artifact": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json",
+      "graded_asks": {
+        "it_is": "the denominator",
+        "line_reads": "\"graded_asks_replayed\": 3744,",
+        "pointer": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json:11"
+      },
+      "harness_sha256_it_bounds": "47f05c9c20ddeb75cfb54537960da30653cbc7d66f984192b1449c1963a4b8af",
+      "movement_rate_percent": {
+        "it_is": "the floor's rate",
+        "line_reads": "\"movement_rate_percent\": 0.1603,",
+        "pointer": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json:322"
+      },
+      "n_rows_moved": {
+        "it_is": "the floor's row count",
+        "line_reads": "\"n_rows_moved\": 6,",
+        "pointer": "experiments/MP-E10/results/fresh120_pair5_a_vs_b_row_migration.json:381"
+      },
+      "same_process_observed": {
+        "it_is": "the floor's own same-process proof",
+        "line_reads": "\"same_pid_observed_at_run_time\": true,",
+        "pointer": "experiments/MP-E10/results/fresh_vs_fresh_tier120_pair5.json:558"
+      }
+    },
+    "what_this_confirms": "the configuration, the phase basis and the gain are the registered ones, quoted from the ledger rather than restated, and the floor is the one measured on the bytes this run executes on"
+  },
+  "preflight_at_utc": "2026-11-06T20:42:56Z",
+  "step": "STEP 5 scored tier-120 replay run"
+}
